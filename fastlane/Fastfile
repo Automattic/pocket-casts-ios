@@ -24,6 +24,30 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
+# URL of the GlotPress project containing the strings used in the app
+GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
+# URL of the GlotPress project containing App Store Connect metadata
+GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
+
+# Mapping of all locales which can be used for AppStore metadata
+# (Glotpress code => AppStore Connect code)
+#
+# TODO: Replace with `LocaleHelper` once provided by release toolkit
+# (https://github.com/wordpress-mobile/release-toolkit/pull/296)
+GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
+  'de' => 'de-DE',
+  'es' => 'es-ES',
+  'fr' => 'fr-FR',
+  'it' => 'it',
+  'ja' => 'ja',
+  'nl' => 'nl-NL',
+  'pt-br' => 'pt-BR',
+  'ru' => 'ru',
+  'sv' => 'sv',
+  'zh-cn' => 'zh-Hans',
+  'zh-tw' => 'zh-Hant'
+}.freeze
+
 platform :ios do
   # Unfortunately, release toolkit still relies on certain settings being set in the environment
   ENV['PROJECT_NAME'] = 'podcasts'
@@ -173,6 +197,61 @@ platform :ios do
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
   lane :download_localized_strings_and_metadata do |options|
     ios_update_metadata(options)
+  end
+
+  desc 'Downloads localized metadata for App Store Connect from GlotPress'
+  lane :download_localized_metadata_from_glotpress do
+    # FIXME: Replace this with a call to the future replacement of
+    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
+    # paaHJt-31O-p2).
+    target_files = {
+      "v#{ios_get_app_version}-whats-new": {
+        desc: 'release_notes.txt',
+        max_size: 4000
+      },
+      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
+      app_store_desc: { desc: 'description.txt', max_size: 4000 },
+      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
+    }
+
+    gp_downloadmetadata(
+      project_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      target_files: target_files,
+      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
+      download_path: APP_STORE_METADATA_FOLDER
+    )
+    files_to_commit = [File.join(APP_STORE_METADATA_FOLDER, '**', '*.txt')]
+
+    # Ensure that none of the `.txt` files in `en-US` would accidentally
+    # override our originals in `default`
+    target_files.values.map { |h| h[:desc] }.each do |file|
+      en_file_path = File.join(APP_STORE_METADATA_FOLDER, 'en-US', file)
+      next unless File.exist?(en_file_path)
+
+      UI.user_error!("File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default
+`, but `default/` is the source of truth. " \
++ "Delete the `#{en_file_path}` file, ensure the `default/` one has the expected orig
+inal copy, and try again.")
+    end
+
+    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
+    # we don't have any translation at all ready for some locales)
+    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
+      gitkeep = File.join(APP_STORE_METADATA_FOLDER, locale, '.gitkeep')
+      next if File.exist?(gitkeep)
+
+      FileUtils.mkdir_p(File.dirname(gitkeep))
+      FileUtils.touch(gitkeep)
+      files_to_commit.append(gitkeep)
+    end
+
+    # Commit
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: 'Update App Store metadata translations',
+      allow_nothing_to_commit: true
+    )
   end
 
   #####################################################################################
