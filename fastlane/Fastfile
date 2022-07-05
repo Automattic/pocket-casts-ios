@@ -9,6 +9,7 @@ PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 APP_STORE_METADATA_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
+VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -23,12 +24,12 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
-# Unfortunately, release toolkit still relies on certain settings being set in the environment
-ENV['PUBLIC_CONFIG_FILE'] = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
-
 platform :ios do
+  # Unfortunately, release toolkit still relies on certain settings being set in the environment
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
+  ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
+
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
   desc 'Submit a new Beta Build to Apple TestFlight'
@@ -117,13 +118,12 @@ platform :ios do
     fastlane_require 'Xcodeproj'
 
     # Get the current build version, and update it if needed
-    version_config_path = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
-    versions = Xcodeproj::Config.new(File.new(version_config_path)).to_hash
+    versions = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
     build_number = versions['VERSION_LONG'].to_i + 1
     UI.message("Updating build version to #{build_number}")
     versions['VERSION_LONG'] = build_number
     new_config = Xcodeproj::Config.new(versions)
-    new_config.save_as(Pathname.new(version_config_path))
+    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
   end
 
   #####################################################################################
