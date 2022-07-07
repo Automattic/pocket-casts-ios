@@ -34,15 +34,52 @@ MAIN_BUNDLE_IDENTIFIERS = [
 
 # The folder where all the `.lproj` folders are located
 LPROJ_ROOT_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts')
+
 EN_LPROJ_FOLDER = File.join(LPROJ_ROOT_FOLDER, 'en.lproj')
+
+# List of `.strings` files manually maintained by developers (as opposed to
+# being automatically extracted from code and generated) which we will merge
+# into the main `Localizable.strings` file imported by GlotPress, then extract
+# back once we download the translations.
+#
+# Each `.strings` file to be merged/extracted is associated with a prefix to
+# add to the keys, used to avoid conflicts and differentiate the source of the
+# copies.
+#
+# See calls to `ios_merge_strings_files` and
+# `ios_extract_keys_from_strings_files` for usage.
+MANUALLY_MAINTAINED_STRINGS_FILES = {
+  File.join(EN_LPROJ_FOLDER, 'InfoPlist.strings') => 'infoplist',
+  File.join(EN_LPROJ_FOLDER, 'Intents.strings') => 'siri_intent_definition_key'
+}.freeze
 
 # URL of the GlotPress project containing the strings used in the app
 GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
 # URL of the GlotPress project containing App Store Connect metadata
 GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
 
+# List of locales used for the app strings (GlotPress code => `*.lproj` folder name`).
+# Sorted like Xcode sorts them in the File Inspector for easier comparison.
+#
+# TODO: Replace with `LocaleHelper` once provided by release toolkit (https://github.com/wordpress-mobile/release-toolkit/pull/296)
+GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES = {
+  'zh-cn' => 'zh-Hans', # Chinese (China, Simplified)
+  'zh-tw' => 'zh-Hant', # Chinese (Taiwan, Traditional)
+  'nl' => 'nl',         # Dutch
+  'fr' => 'fr',         # French
+  'fr-ca' => 'fr-CA',   # French (Canadian)
+  'de' => 'de',         # German
+  'it' => 'it',         # Italian
+  'ja' => 'ja',         # Japanese
+  'pt-br' => 'pt-BR',   # Portuguese (Brazil)
+  'ru' => 'ru',         # Russian
+  'es' => 'es',         # Spanish
+  'es-mx' => 'es-MX',   # Spanish (Mexico)
+  'sv' => 'sv'          # Swedish
+}.freeze
+
 # Mapping of all locales which can be used for AppStore metadata
-# (Glotpress code => AppStore Connect code)
+# (GlotPress code => AppStore Connect code)
 #
 # TODO: Replace with `LocaleHelper` once provided by release toolkit
 # (https://github.com/wordpress-mobile/release-toolkit/pull/296)
@@ -207,8 +244,7 @@ platform :ios do
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
-    # For Pocket Casts the strings are grab on a weekly basis from `trunk`
-    # generate_strings_file_for_glotpress
+    generate_strings_file_for_glotpress
 
     after_confirming_push do
       push_to_git_remote(tags: false)
@@ -358,9 +394,47 @@ platform :ios do
     end
   end
 
+  # Generates the `.strings` file to be imported by GlotPress, by parsing source
+  # code.
+  #
+  # @note Uses `genstrings` under the hood.
+  # @called_by `complete_code_freeze`.
+  #
+  lane :generate_strings_file_for_glotpress do
+    # For reference: Other apps run `cocoapods` here (equivalent to `bundle
+    # exec pod install`) because they have internal libraries that bring in
+    # their own strings. Pocket Casts does not have dependencies with strings
+    # fetched via CocoaPods, so we don't need to waste time on that.
+
+    # Other apps call `ios_generate_strings_file_from_code` as the first step
+    # of this process, but Pocket Casts iOS uses the convention of defining all
+    # localized strings in the `en.lproj/Localizable.strings` file and then use
+    # SwiftGen to generate reference to them for the code. With this approach,
+    # there are no `NSLocalizedStrings` in the codebase and that action would
+    # be useless.
+
+    # Merge various manually-maintained `.strings` files into the previously
+    # generated `Localizable.strings` so their extra keys are also imported in
+    # GlotPress.
+    #
+    # Note: We will re-extract the translations back during
+    # `download_localized_strings_from_glotpress` (via a call to
+    # `ios_extract_keys_from_strings_files`)
+    ios_merge_strings_files(
+      paths_to_merge: MANUALLY_MAINTAINED_STRINGS_FILES,
+      destination: File.join(EN_LPROJ_FOLDER, 'Localizable.strings')
+    )
+
+    git_commit(
+      path: [EN_LPROJ_FOLDER],
+      message: 'Update strings for localization',
+      allow_nothing_to_commit: true
+    )
+  end
+
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_and_metadata
+    download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
   end
 
@@ -369,12 +443,12 @@ platform :ios do
     ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
   end
 
-  # Updates the AppStoreStrings.po files for the Pocket Casts app with
-  # the latest content from the release_notes.txt file and the other text
-  # sources
+  # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
+  # with the latest content from the `release_notes.txt` file and the other
+  # text sources
   #
-  desc 'Updates the AppStoreStrings.po file for the Pocket Casts app with the latest data'
-  lane :update_appstore_strings do
+  desc 'Updates the `AppStoreStrings.po` file for the Pocket Casts app with the latest data'
+  lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
     version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
 
@@ -392,19 +466,29 @@ platform :ios do
     )
   end
 
-  # Downloads the localized app strings and App Store Connect metadata from GlotPress.
-  #
-  desc 'Downloads localized metadata for App Store Connect from GlotPress'
-  lane :download_localized_strings_and_metadata do
-    # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
-    # We'll soon replace this with the new `ios_download_strings_files_from_glotpress`-based workflow.
-    sh("cd #{PROJECT_ROOT_FOLDER} && ./scripts/update-translations.rb")
-
-    files_to_commit = Dir.glob(File.join(PROJECT_ROOT_FOLDER, 'podcasts', '**', '*.strings'))
-    git_add(path: files_to_commit, shell_escape: false)
+  desc 'Downloads localized `.strings` from GlotPress'
+  lane :download_localized_strings_from_glotpress do
+    ios_download_strings_files_from_glotpress(
+      project_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      locales: GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES,
+      download_dir: LPROJ_ROOT_FOLDER
+    )
     git_commit(
-      path: files_to_commit,
-      message: 'Update translations',
+      path: File.join(LPROJ_ROOT_FOLDER, '*.lproj', 'Localizable.strings'),
+      message: 'Update app translations – `Localizable.strings`',
+      allow_nothing_to_commit: true
+    )
+
+    # Redispatch the appropriate subset of translations back to the
+    # manually-maintained `.strings` files that we merged at the
+    # `complete_code_freeze` time via `ios_merge_strings_files`.
+    modified_files = ios_extract_keys_from_strings_files(
+      source_parent_dir: LPROJ_ROOT_FOLDER,
+      target_original_files: MANUALLY_MAINTAINED_STRINGS_FILES
+    )
+    git_commit(
+      path: modified_files,
+      message: 'Update app translations – Other `.strings`',
       allow_nothing_to_commit: true
     )
   end
