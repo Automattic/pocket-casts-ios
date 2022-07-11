@@ -71,6 +71,8 @@ class PlusLockedInfoView: ThemeableView {
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
             return
         }
-        NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: displayingVC])
+
+        let source: PlusUpgradeViewSource = delegate?.displaySource() ?? .unknown
+        NavigationManager.sharedManager.showUpsellView(from: displayingVC, source: source)
     }
 }
