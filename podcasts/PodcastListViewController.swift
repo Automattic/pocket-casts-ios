@@ -204,7 +204,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: self])
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
         }
         

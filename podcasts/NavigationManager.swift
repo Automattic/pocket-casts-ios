@@ -29,7 +29,6 @@ class NavigationManager {
     static let subscriptionCancelledAcknowledgePageKey = "subscrptionCancelledAcknowledgePage"
     
     static let subscriptionUpgradeVCKey = "subscrptionUpgradeVC"
-    
     static let subscriptionRequiredPageKey = "subscrptionRequiredPage"
     
     static let showPlusMarketingPageKey = "showPlusMarketingPage"
