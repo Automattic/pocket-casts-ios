@@ -1,7 +1,7 @@
 import PocketCastsServer
 import UIKit
 
-class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, PlusLockedInfoDelegate {
+class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private let switchCellId = "SwitchCell"
     private let lockInfoCellId = "LockCell"
     private let disclosureCellId = "DisclosureCell"
@@ -237,7 +237,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     }
     
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: self])
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .watch)
     }
     
     // MARK: - Switch Actions
@@ -253,15 +253,20 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         settingsTable.reloadData()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
     }
-    
-    // MARK: - PLusLockedInfoDelegate
-    
+}
+
+// MARK: - PLusLockedInfoDelegate
+extension WatchSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnWatch(true)
         settingsTable.reloadData()
     }
-    
+
     func displayingViewController() -> UIViewController {
         self
+    }
+
+    func displaySource() -> PlusUpgradeViewSource {
+        return .watch
     }
 }
