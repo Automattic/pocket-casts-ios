@@ -229,3 +229,30 @@ struct Constants {
         static let customStorageLimitGBDefault: Int = 10
     }
 }
+
+enum PlusUpgradeViewSource: String {
+    case profile
+    case files
+    case folders
+    case themes
+    case icons
+    case unknown
+
+    /// Converts the enum into a Firebase promotionId, this matches the values set on Android
+    func promotionId() -> String {
+        return self.rawValue.uppercased()
+    }
+
+    /// Converts the enum into a Firebase promotion name, this matches the values set on Android
+    func promotionName() -> String {
+        if self == .unknown {
+            return "Unknown"
+        }
+
+        if self == .profile {
+            return "Upgrade to Plus from \(self.rawValue)"
+        }
+
+        return "Upgrade to Plus for \(self.rawValue)"
+    }
+}
