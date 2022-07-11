@@ -45,6 +45,7 @@ class HomeGridDataHelper {
                 for gridItem in gridItems {
                     if let podcast = gridItem.podcast {
                         podcast.cachedUnreadCount = Int(podcastCounts[podcast.uuid] ?? 0)
+                        gridItem.frozenBadgeCount = podcast.cachedUnreadCount
                     }
                     else if let folder = gridItem.folder {
                         // for a folder, it's badge count is a sum of all the ones for all the podcasts inside it
@@ -53,6 +54,7 @@ class HomeGridDataHelper {
                         for podcast in allPodcastsInFolder {
                             folder.cachedUnreadCount += Int(podcastCounts[podcast.uuid] ?? 0)
                         }
+                        gridItem.frozenBadgeCount = folder.cachedUnreadCount
                     }
                 }
             }
@@ -65,6 +67,7 @@ class HomeGridDataHelper {
                         else {
                             podcast.cachedUnreadCount = 0
                         }
+                        gridItem.frozenBadgeCount = podcast.cachedUnreadCount
                     }
                     else if let folder = gridItem.folder {
                         // for a folder, we show a latest episode badge if any of the podcasts inside it should have one
@@ -77,6 +80,7 @@ class HomeGridDataHelper {
                             }
                         }
                         folder.cachedUnreadCount = shouldShowUnplayedBadge ? 1 : 0
+                        gridItem.frozenBadgeCount = folder.cachedUnreadCount
                     }
                 }
             }
