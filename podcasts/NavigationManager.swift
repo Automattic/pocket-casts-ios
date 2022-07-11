@@ -149,7 +149,8 @@ class NavigationManager {
         }
         else if place == NavigationManager.subscriptionRequiredPageKey {
             if let data = data, let rootVC = data[NavigationManager.subscriptionUpgradeVCKey] as? UIViewController {
-                mainController?.showSubscriptionRequired(rootVC)
+                let source = (data["source"] as? PlusUpgradeViewSource) ?? .unknown
+                mainController?.showSubscriptionRequired(rootVC, source: source)
             }
         }
         else if place == NavigationManager.showPlusMarketingPageKey {
