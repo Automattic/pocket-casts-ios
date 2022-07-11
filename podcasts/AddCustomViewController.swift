@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class AddCustomViewController: PCViewController, UITextFieldDelegate, PlusLockedInfoDelegate {
+class AddCustomViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var backgroundView: ThemeableView! {
         didSet {
             backgroundView.style = .primaryUi04
@@ -474,18 +474,22 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate, PlusLocked
     }
     
     @objc func showSubscriptionRequired() {
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: self)
-        present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
     }
-    
-    // MARK: Plus Locked Info Delegate
-    
+}
+
+// MARK: Plus Locked Info Delegate
+extension AddCustomViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         lockView.isHidden = true
         Settings.setPlusInfoDismissedOnFilesAdd(true)
     }
-    
+
     func displayingViewController() -> UIViewController {
         self
+    }
+
+    func displaySource() -> PlusUpgradeViewSource {
+        return .files
     }
 }
