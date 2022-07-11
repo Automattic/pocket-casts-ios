@@ -62,7 +62,7 @@ class UploadedStorageHeaderView: UIView {
     
     @objc private func headerTapped() {
         if let controllerForPresenting = controllerForPresenting {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: controllerForPresenting])
+            NavigationManager.sharedManager.showUpsellView(from: controllerForPresenting, source: .files)
         }
     }
     
