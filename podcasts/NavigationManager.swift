@@ -210,3 +210,11 @@ class NavigationManager {
         }
     }
 }
+
+
+// MARK: - Helpers
+extension NavigationManager {
+    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource) {
+        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source])
+    }
+}
