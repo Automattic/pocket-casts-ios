@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlaylistViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="filterCollectionView" destination="dYS-Oc-2LG" id="4UL-WY-dMm"/>
+                <outlet property="multiSelectFooter" destination="NL4-Lj-Iuq" id="22A-Sa-NrM"/>
+                <outlet property="multiSelectFooterBottomConstraint" destination="cle-0f-RsX" id="1PZ-ab-fbx"/>
+                <outlet property="noEpisodesDescription" destination="VEn-Bq-qEY" id="kfX-87-YLE"/>
+                <outlet property="noEpisodesIcon" destination="UHN-nt-4dj" id="7Vz-IB-vfT"/>
+                <outlet property="noEpisodesScrollView" destination="DbX-25-MDy" id="a1D-lX-41N"/>
+                <outlet property="noEpisodesTitle" destination="K1u-4D-VdP" id="Ytg-rd-DeQ"/>
+                <outlet property="noEpisodesView" destination="Pa4-8X-F4Y" id="HuI-Yj-CBv"/>
+                <outlet property="tableView" destination="9" id="29"/>
+                <outlet property="themeDividerTop" destination="QPN-Ce-xjH" id="rk0-Xd-ewR"/>
+                <outlet property="themeDividerTopAnchor" destination="gbZ-UU-H1d" id="bHi-wl-Xqu"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DbX-25-MDy">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pa4-8X-F4Y" userLabel="No Episodes View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-nt-4dj" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="125.5" y="100" width="124" height="124"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="124" id="E32-TV-aZs"/>
+                                        <constraint firstAttribute="height" constant="124" id="h2I-b3-muz"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Episodes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1u-4D-VdP" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="137" y="290" width="101" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Either it's time to celebrate completing this list, or editing your filter settings to get some more." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEn-Bq-qEY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="30" y="327" width="315" height="33.5"/>
+                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.98823529409999999" green="0.98823529409999999" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="UHN-nt-4dj" firstAttribute="centerX" secondItem="Pa4-8X-F4Y" secondAttribute="centerX" id="0ll-w5-SRc"/>
+                                <constraint firstItem="VEn-Bq-qEY" firstAttribute="centerX" secondItem="Pa4-8X-F4Y" secondAttribute="centerX" id="Hfv-Ak-3b1"/>
+                                <constraint firstItem="VEn-Bq-qEY" firstAttribute="leading" secondItem="Pa4-8X-F4Y" secondAttribute="leading" constant="30" id="IvA-qU-e6j"/>
+                                <constraint firstAttribute="trailing" secondItem="VEn-Bq-qEY" secondAttribute="trailing" constant="30" id="OqP-fm-x8m"/>
+                                <constraint firstItem="K1u-4D-VdP" firstAttribute="top" secondItem="UHN-nt-4dj" secondAttribute="bottom" constant="66" id="Pfm-mN-apw">
+                                    <variation key="heightClass=compact" constant="30"/>
+                                </constraint>
+                                <constraint firstItem="UHN-nt-4dj" firstAttribute="top" secondItem="Pa4-8X-F4Y" secondAttribute="top" constant="100" id="Yml-zx-D9L"/>
+                                <constraint firstItem="VEn-Bq-qEY" firstAttribute="top" secondItem="K1u-4D-VdP" secondAttribute="bottom" constant="15" id="mfN-0g-gdo"/>
+                                <constraint firstItem="K1u-4D-VdP" firstAttribute="centerX" secondItem="Pa4-8X-F4Y" secondAttribute="centerX" id="ubu-SP-kuU"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Pa4-8X-F4Y" firstAttribute="top" secondItem="DbX-25-MDy" secondAttribute="top" id="413-7Q-aev"/>
+                        <constraint firstItem="Pa4-8X-F4Y" firstAttribute="centerY" secondItem="DbX-25-MDy" secondAttribute="centerY" id="8D8-Sw-1Zp"/>
+                        <constraint firstAttribute="bottom" secondItem="Pa4-8X-F4Y" secondAttribute="bottom" id="Ho5-Ge-AQI"/>
+                        <constraint firstAttribute="trailing" secondItem="Pa4-8X-F4Y" secondAttribute="trailing" id="lVG-b6-bdw"/>
+                        <constraint firstItem="Pa4-8X-F4Y" firstAttribute="centerX" secondItem="DbX-25-MDy" secondAttribute="centerX" id="rhP-xz-yt4"/>
+                        <constraint firstItem="Pa4-8X-F4Y" firstAttribute="leading" secondItem="DbX-25-MDy" secondAttribute="leading" id="zCP-o8-xCs"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="L9e-aN-wwc"/>
+                    </connections>
+                </scrollView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="dYS-Oc-2LG" customClass="FilterChipCollectionView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="-18" width="375" height="62"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="62" id="5dX-6Q-1pg"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="8" id="9yC-7J-Qih">
+                        <size key="itemSize" width="100" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="80" estimatedRowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="45" width="375" height="622"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="separatorColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="15"/>
+                        <outlet property="delegate" destination="-1" id="16"/>
+                    </connections>
+                </tableView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NL4-Lj-Iuq" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="8" y="603" width="359" height="64"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="Sa1-Iy-Sxy"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPN-Ce-xjH">
+                    <rect key="frame" x="0.0" y="44" width="375" height="1"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="K7u-lv-RHI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="Pf3-hA-xcz"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="dYS-Oc-2LG" secondAttribute="trailing" id="0RB-vM-hcP"/>
+                <constraint firstItem="DbX-25-MDy" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="2se-Eg-fBk"/>
+                <constraint firstItem="DbX-25-MDy" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="7ra-Ba-0cl"/>
+                <constraint firstItem="DbX-25-MDy" firstAttribute="top" secondItem="1" secondAttribute="top" id="LqY-Ep-xww"/>
+                <constraint firstItem="9" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Thn-KK-a5t"/>
+                <constraint firstItem="dYS-Oc-2LG" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="VZo-Dc-C9e"/>
+                <constraint firstItem="QPN-Ce-xjH" firstAttribute="leading" secondItem="dYS-Oc-2LG" secondAttribute="leading" id="XgW-qG-Dxh"/>
+                <constraint firstAttribute="bottom" secondItem="DbX-25-MDy" secondAttribute="bottom" id="a1q-2s-Mof"/>
+                <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" id="cUu-dE-2s8"/>
+                <constraint firstItem="Pf3-hA-xcz" firstAttribute="bottom" secondItem="NL4-Lj-Iuq" secondAttribute="bottom" id="cle-0f-RsX"/>
+                <constraint firstItem="QPN-Ce-xjH" firstAttribute="top" secondItem="dYS-Oc-2LG" secondAttribute="bottom" id="cni-g1-lHD"/>
+                <constraint firstItem="QPN-Ce-xjH" firstAttribute="top" secondItem="1" secondAttribute="topMargin" id="gbZ-UU-H1d"/>
+                <constraint firstAttribute="trailing" secondItem="DbX-25-MDy" secondAttribute="trailing" id="jqW-b8-4zr"/>
+                <constraint firstAttribute="trailing" secondItem="NL4-Lj-Iuq" secondAttribute="trailing" constant="8" id="klQ-wa-wmZ"/>
+                <constraint firstItem="QPN-Ce-xjH" firstAttribute="trailing" secondItem="dYS-Oc-2LG" secondAttribute="trailing" id="noH-3c-Zjf"/>
+                <constraint firstItem="9" firstAttribute="top" secondItem="QPN-Ce-xjH" secondAttribute="bottom" id="qMc-TI-9ex"/>
+                <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" id="rRC-gZ-M66"/>
+                <constraint firstItem="DbX-25-MDy" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="s7l-HX-rNR"/>
+                <constraint firstItem="NL4-Lj-Iuq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="uM7-IK-2Dg"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <point key="canvasLocation" x="-284" y="9"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

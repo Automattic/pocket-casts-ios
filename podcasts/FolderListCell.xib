@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gTV-IL-0wX" customClass="FolderListCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CfF-Bw-mGz" customClass="FolderPreviewView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="4.5" width="56" height="56"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="56" id="Tw1-dH-QjU"/>
+                            <constraint firstAttribute="height" constant="56" id="o9u-cO-9RY"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zNL-AO-s9Z">
+                        <rect key="frame" x="86" y="0.0" width="218" height="65"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NW5-Bm-0Hu">
+                                <rect key="frame" x="0.0" y="0.0" width="180" height="65"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="Really really long name for a podcast isn't it, I know it's kinda weird" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUK-31-pbr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="13" width="180" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                        <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="21 Podcasts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Kb-x3A" userLabel="Podcast Info" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="37.5" width="180" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="QUK-31-pbr" secondAttribute="trailing" id="NzL-dC-G7U"/>
+                                    <constraint firstItem="b9M-Kb-x3A" firstAttribute="top" secondItem="QUK-31-pbr" secondAttribute="bottom" constant="5" id="X3y-j8-4ax"/>
+                                    <constraint firstItem="QUK-31-pbr" firstAttribute="centerY" secondItem="NW5-Bm-0Hu" secondAttribute="centerY" constant="-10" id="ko0-nw-3yf"/>
+                                    <constraint firstItem="QUK-31-pbr" firstAttribute="leading" secondItem="NW5-Bm-0Hu" secondAttribute="leading" id="qyd-w6-ihi"/>
+                                    <constraint firstItem="b9M-Kb-x3A" firstAttribute="leading" secondItem="NW5-Bm-0Hu" secondAttribute="leading" id="vDx-eh-VI6"/>
+                                    <constraint firstAttribute="trailing" secondItem="b9M-Kb-x3A" secondAttribute="trailing" id="zPh-ea-hMJ"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHq-kJ-mtr" customClass="UnplayedBadge" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="190" y="18.5" width="28" height="28"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="sHq-kJ-mtr" secondAttribute="height" multiplier="1:1" id="F2j-XR-FJi"/>
+                                    <constraint firstAttribute="height" constant="28" id="HKy-jG-iGT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="65" id="AQ4-Wl-oUY"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="CfF-Bw-mGz" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Frs-7o-lRH"/>
+                <constraint firstAttribute="bottom" secondItem="zNL-AO-s9Z" secondAttribute="bottom" id="HRW-0d-6ib"/>
+                <constraint firstAttribute="trailing" secondItem="zNL-AO-s9Z" secondAttribute="trailing" constant="16" id="KyS-up-3m1"/>
+                <constraint firstItem="zNL-AO-s9Z" firstAttribute="leading" secondItem="CfF-Bw-mGz" secondAttribute="trailing" constant="14" id="Un5-gA-TdQ"/>
+                <constraint firstItem="zNL-AO-s9Z" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Yqz-Di-PQo"/>
+                <constraint firstItem="CfF-Bw-mGz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="aV8-Jj-WtL"/>
+            </constraints>
+            <size key="customSize" width="251" height="63"/>
+            <connections>
+                <outlet property="folderInfo" destination="b9M-Kb-x3A" id="GK7-Oq-e3S"/>
+                <outlet property="folderName" destination="QUK-31-pbr" id="N1U-UQ-kDc"/>
+                <outlet property="folderPreview" destination="CfF-Bw-mGz" id="uYG-yw-mnc"/>
+                <outlet property="unplayedBadge" destination="sHq-kJ-mtr" id="1fT-1R-ZUD"/>
+                <outlet property="unplayedHeight" destination="HKy-jG-iGT" id="3ok-iv-TDe"/>
+            </connections>
+            <point key="canvasLocation" x="-38" y="-184"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="DiscoverPodcastTableCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l3O-C3-pI5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="8" y="11" width="28" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="28" id="Ygy-Lt-1yl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                        <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.64313725490196083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ds-zk-cf6">
+                        <rect key="frame" x="35" y="6.5" width="52" height="52"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OJ3-BB-GTf" customClass="SmartInvertImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="35" y="6.5" width="52" height="52"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="52" id="Xeh-eR-C8I"/>
+                            <constraint firstAttribute="width" constant="52" id="iD1-E7-0zc"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" text="Podcast Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhF-0P-gW1" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="97" y="16" width="173" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <color key="textColor" red="0.30196078431372547" green="0.33725490196078434" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFP-ej-ygw" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="97" y="39" width="173" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCC-oJ-G9x" userLabel="Subscribe Button" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="280" y="20.5" width="24" height="24"/>
+                        <accessibility key="accessibilityConfiguration" label="Subscribe"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="WJu-Tm-ZCQ"/>
+                            <constraint firstAttribute="width" constant="24" id="rOb-L6-U8N"/>
+                        </constraints>
+                        <state key="normal" image="discover_add"/>
+                        <connections>
+                            <action selector="subscribeTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ymG-rg-W4Z"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="fFP-ej-ygw" secondAttribute="trailing" constant="10" id="2rw-F4-VZe"/>
+                    <constraint firstItem="0Ds-zk-cf6" firstAttribute="width" secondItem="OJ3-BB-GTf" secondAttribute="width" id="4mJ-db-vSx"/>
+                    <constraint firstAttribute="topMargin" secondItem="l3O-C3-pI5" secondAttribute="top" id="C9H-e6-6Er"/>
+                    <constraint firstAttribute="trailing" secondItem="SCC-oJ-G9x" secondAttribute="trailing" constant="16" id="Rh9-28-RbQ"/>
+                    <constraint firstItem="0Ds-zk-cf6" firstAttribute="top" secondItem="OJ3-BB-GTf" secondAttribute="top" id="UdP-Mo-Dog"/>
+                    <constraint firstItem="0Ds-zk-cf6" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="leading" id="bxa-G3-HTt"/>
+                    <constraint firstItem="PhF-0P-gW1" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="trailing" constant="10" id="d7a-H0-ysE"/>
+                    <constraint firstItem="OJ3-BB-GTf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dR4-yn-WIm"/>
+                    <constraint firstItem="0Ds-zk-cf6" firstAttribute="height" secondItem="OJ3-BB-GTf" secondAttribute="height" id="dr5-Ij-NUB"/>
+                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jJC-qI-VFh"/>
+                    <constraint firstItem="fFP-ej-ygw" firstAttribute="top" secondItem="PhF-0P-gW1" secondAttribute="bottom" constant="5" id="o4c-ao-B9H"/>
+                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="PhF-0P-gW1" secondAttribute="trailing" constant="10" id="pgv-VK-r6F"/>
+                    <constraint firstItem="fFP-ej-ygw" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="trailing" constant="10" id="rXa-3q-PpW"/>
+                    <constraint firstItem="OJ3-BB-GTf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="35" id="tgE-Fj-xcP"/>
+                    <constraint firstItem="PhF-0P-gW1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="yav-wC-cMb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="l3O-C3-pI5" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" constant="8" id="PCM-tM-TcM"/>
+            </constraints>
+            <connections>
+                <outlet property="itemNumber" destination="l3O-C3-pI5" id="QWm-FW-HbV"/>
+                <outlet property="numberWidth" destination="Ygy-Lt-1yl" id="7ec-yl-MBR"/>
+                <outlet property="podcastAuthor" destination="fFP-ej-ygw" id="TrV-VE-Yo5"/>
+                <outlet property="podcastImage" destination="OJ3-BB-GTf" id="plK-hA-hT8"/>
+                <outlet property="podcastImageLeadingConstraint" destination="tgE-Fj-xcP" id="i6e-gO-UpR"/>
+                <outlet property="podcastTitle" destination="PhF-0P-gW1" id="hSS-MU-t3k"/>
+                <outlet property="shadowView" destination="0Ds-zk-cf6" id="t0A-uk-t6V"/>
+                <outlet property="subscribeButton" destination="SCC-oJ-G9x" id="GVR-gi-VJc"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="53.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="discover_add" width="24" height="24"/>
+    </resources>
+</document>

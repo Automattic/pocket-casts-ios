@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="ShelfCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tBF-GN-d95" customClass="TintableImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="20" y="24" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="Xi8-ES-IPc"/>
+                            <constraint firstAttribute="height" constant="24" id="zyQ-o0-mAI"/>
+                        </constraints>
+                    </imageView>
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="axe-Ft-r60">
+                        <rect key="frame" x="20" y="24" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="Fq0-tP-OHy"/>
+                            <constraint firstAttribute="width" constant="24" id="Ykx-cz-L4B"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="znd-JN-I90">
+                        <rect key="frame" x="64" y="15.5" width="108" height="41.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpN-5k-WMC" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="108" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qm-rO-Pm9" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="24.5" width="108" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="znd-JN-I90" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1hJ-XS-Kqx"/>
+                    <constraint firstItem="znd-JN-I90" firstAttribute="leading" secondItem="tBF-GN-d95" secondAttribute="trailing" constant="20" id="80a-N7-fGu"/>
+                    <constraint firstItem="axe-Ft-r60" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="8hZ-Uj-17A"/>
+                    <constraint firstItem="tBF-GN-d95" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Yyf-9G-7QO"/>
+                    <constraint firstItem="tBF-GN-d95" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Z8Q-KB-mQI"/>
+                    <constraint firstItem="axe-Ft-r60" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pV0-0k-y7w"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="actionIcon" destination="tBF-GN-d95" id="fgd-P6-XDn"/>
+                <outlet property="actionName" destination="HpN-5k-WMC" id="lTn-mI-ZRa"/>
+                <outlet property="actionSubtitle" destination="9qm-rO-Pm9" id="fNu-li-s6G"/>
+                <outlet property="customViewContainer" destination="axe-Ft-r60" id="LCH-xr-Cbs"/>
+            </connections>
+            <point key="canvasLocation" x="-333" y="10"/>
+        </tableViewCell>
+    </objects>
+</document>

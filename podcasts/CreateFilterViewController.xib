@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateFilterViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="saveButton" destination="Xq7-pO-GTa" id="3Rs-Nl-nUc"/>
+                <outlet property="tableView" destination="rnw-SR-gXJ" id="ZuQ-US-Bvo"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rnw-SR-gXJ">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="579"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="rtd-pQ-473"/>
+                        <outlet property="delegate" destination="-1" id="UKk-3P-iZ5"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9w-ZV-EKe" customClass="TopShadowView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="579" width="375" height="88"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xq7-pO-GTa" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="16" width="343" height="56"/>
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="6Ps-XD-79W"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <state key="normal" title="Save Filter">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="saveTapped:" destination="-1" eventType="touchUpInside" id="cEk-rD-m0I"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Xq7-pO-GTa" firstAttribute="leading" secondItem="v9w-ZV-EKe" secondAttribute="leading" constant="16" id="3tT-d0-LfS"/>
+                        <constraint firstAttribute="height" constant="88" id="C4x-Dq-shw"/>
+                        <constraint firstItem="Xq7-pO-GTa" firstAttribute="top" secondItem="v9w-ZV-EKe" secondAttribute="top" constant="16" id="ZBP-fg-siU"/>
+                        <constraint firstAttribute="trailing" secondItem="Xq7-pO-GTa" secondAttribute="trailing" constant="16" id="eNG-Wh-gYM"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="88" id="fEZ-jU-Qzc"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <constraints>
+                <constraint firstItem="v9w-ZV-EKe" firstAttribute="top" secondItem="rnw-SR-gXJ" secondAttribute="bottom" id="2Wr-SV-x8F"/>
+                <constraint firstItem="v9w-ZV-EKe" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="3SV-gU-vmT"/>
+                <constraint firstAttribute="trailing" secondItem="rnw-SR-gXJ" secondAttribute="trailing" id="GYx-M3-Ncs"/>
+                <constraint firstItem="v9w-ZV-EKe" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Ms5-4Q-EgW"/>
+                <constraint firstItem="rnw-SR-gXJ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="oPf-x5-CRa"/>
+                <constraint firstItem="rnw-SR-gXJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vdq-IM-5Xi"/>
+                <constraint firstItem="v9w-ZV-EKe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="w2E-BW-yyq"/>
+            </constraints>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+</document>

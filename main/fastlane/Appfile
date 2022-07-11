@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+app_identifier 'au.com.shiftyjelly.podcasts' # The bundle identifier of your app
+
+team_id 'PZYM8XX95Q' # Developer Portal Team ID
+
+# you can even provide different app identifiers, Apple IDs and team names per lane:
+# More information: https://github.com/fastlane/fastlane/blob/master/docs/Appfile.md

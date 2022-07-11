@@ -1,0 +1,53 @@
+{
+  "versionNo": "7.20",
+  "versionCode": 3290,
+  "minOSVersion" : 14,
+  "pages": [
+    {
+      "items": [
+        {
+          "type": "image",
+          "resource": "whatsnew_folder"
+        },
+        {
+          "type": "secondary_image",
+          "resource": "whatsnew_plus"
+        },
+        {
+          "type": "title",
+          "text": "whats_new_page_one_title_7_20"
+        },
+        {
+          "type": "body",
+          "text": "whats_new_page_one_7_20"
+        },
+        {
+          "type": "link",
+          "text": "whats_new_blog_more_link_text",
+          "url": "https://blog.pocketcasts.com/7-20-changes/"
+        }
+      ]
+    },
+    {
+      "items": [
+        {
+          "type": "image",
+          "resource": "whatsnew_homegrid"
+        },
+        {
+          "type": "title",
+          "text": "whats_new_page_two_title_7_20"
+        },
+        {
+          "type": "body",
+          "text": "whats_new_page_two_7_20"
+        },
+        {
+          "type": "link",
+          "text": "whats_new_blog_more_link_text",
+          "url": "https://blog.pocketcasts.com/7-20-changes/"
+        }
+      ]
+    }
+  ]
+}

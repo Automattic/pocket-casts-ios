@@ -1,0 +1,338 @@
+# frozen_string_literal: true
+
+fastlane_version '2.0'
+
+default_platform :ios
+
+# Paths that are re-used across multiple lanes
+PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+APP_STORE_METADATA_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata')
+SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
+ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
+
+TEAM_ID = 'PZYM8XX95Q'
+
+MAIN_BUNDLE_IDENTIFIERS = [
+  'au.com.shiftyjelly.podcasts',
+  'au.com.shiftyjelly.podcasts.NotificationExtension',
+  'au.com.shiftyjelly.podcasts.NotificationContent',
+  'au.com.shiftyjelly.podcasts.watchkitapp',
+  'au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension',
+  'au.com.shiftyjelly.podcasts.PodcastsIntents',
+  'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
+  'au.com.shiftyjelly.podcasts.WidgetExtension'
+].freeze
+
+# Unfortunately, release toolkit still relies on certain settings being set in the environment
+ENV['PUBLIC_CONFIG_FILE'] = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
+
+platform :ios do
+  ENV['PROJECT_NAME'] = 'podcasts'
+  ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
+  ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
+
+  desc 'Submit a new Beta Build to Apple TestFlight'
+  lane :beta do
+    ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t Aspera'
+
+    configure_code_signing
+
+    gym(scheme: 'pocketcasts',
+        include_bitcode: false,
+        include_symbols: true,
+        clean: true)
+
+    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
+    pilot(skip_submission: true,
+          api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
+          skip_waiting_for_build_processing: true)
+
+    sh 'cd .. && ./upload_dsyms.sh'
+    clean_build_artifacts
+    increment_build_number
+  end
+
+  def ci_spm_cache_key
+    UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
+
+    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
+    "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
+  end
+
+  desc 'Build the project only'
+  lane :build do
+    # CI has its own mechanism to setup the Ruby gems and CocoaPods
+    unless is_ci
+      bundle_install
+      cocoapods
+    end
+
+    # Handling SPM caching for CI here for now to avoid having two sources of
+    # truth for what the cache key is. The alternative would be to call the
+    # save and restore cache commands in the CI pipeline and then duplicate the
+    # logic to get the key here.
+    spm_cache_folder = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
+    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
+
+    configure_code_signing
+
+    gym(
+      scheme: 'pocketcasts',
+      include_bitcode: false,
+      cloned_source_packages_path: spm_cache_folder,
+      clean: true
+    )
+    clean_build_artifacts
+    sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
+
+    sh(command: %(save_cache #{spm_cache_folder} "#{ci_spm_cache_key}")) if is_ci
+  end
+
+  desc 'This lane downloads and configures the code signing certificates and profiles.'
+  lane :configure_code_signing do
+    # Decrypt the secrets
+    configure_apply
+    # This is necessary for `match` to work correctly in CI. When running
+    # locally, it has no effect.
+    setup_ci
+    match(
+      type: 'appstore',
+      team_id: TEAM_ID,
+      api_key_path: ASC_KEY_PATH,
+      app_identifier: MAIN_BUNDLE_IDENTIFIERS,
+      # This might turn out to be useful in the future
+      # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
+
+      storage_mode: 'google_cloud',
+      google_cloud_bucket_name: 'a8c-fastlane-match',
+      google_cloud_keys_file: File.join(SECRETS_FOLDER, 'google_cloud_keys.json'),
+
+      readonly: true
+    )
+  end
+
+  #####################################################################################
+  # Release Lanes
+  #####################################################################################
+
+  #####################################################################################
+  # update_appstore_strings
+  # -----------------------------------------------------------------------------------
+  # This lane updates the AppStoreStrings.po files for the Pocket Casts app with
+  # the latest content from the release_notes.txt file and the other text
+  # sources
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane update_appstore_strings
+  #
+  # Example:
+  # bundle exec fastlane update_appstore_strings
+  #####################################################################################
+  desc 'Updates the AppStoreStrings.po file for the Pocket Casts app with the latest data'
+  lane :update_appstore_strings do
+    source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
+    version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
+
+    files = {
+      whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
+      app_store_subtitle: File.join(source_metadata_folder, 'subtitle.txt'),
+      app_store_desc: File.join(source_metadata_folder, 'description.txt'),
+      app_store_keywords: File.join(source_metadata_folder, 'keywords.txt')
+    }
+
+    ios_update_metadata_source(
+      po_file_path: File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'AppStoreStrings.po'),
+      source_files: files,
+      release_version: version
+    )
+  end
+
+  #####################################################################################
+  # download_localized_strings_and_metadata
+  # -----------------------------------------------------------------------------------
+  # Downloads localized app strings and App Store Connect metadata from GlotPress.
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane download_localized_strings_and_metadata
+  #####################################################################################
+  desc 'Downloads localized metadata for App Store Connect from GlotPress'
+  lane :download_localized_strings_and_metadata do |options|
+    ios_update_metadata(options)
+  end
+
+  #####################################################################################
+  # screenshots
+  # -----------------------------------------------------------------------------------
+  # Generates localized screenshots for the iPhone, and iPad.
+  # Tests run in the simulator so be sure to make any necessary Podfile changes such as
+  # converting to use google-cast-sdk-no-bluetooth-mock
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane screenshots
+  #####################################################################################
+  desc 'Generates localized screenshots for the AppStore'
+  lane :screenshots do
+    iphone_devices = ['iPhone 12']
+    ipad_devices = ['iPad (9th generation)']
+
+    # Build once to speed up the other runs
+    scan(
+      workspace: 'podcasts.xcworkspace',
+      scheme: 'Screenshot Automation',
+      build_for_testing: true,
+      clean: true,
+      devices: iphone_devices + ipad_devices,
+      reset_simulator: true
+    )
+
+    # iPhone Light Intertace Screens
+    snapshot(
+      derived_data_path: lane_context[SharedValues::SCAN_DERIVED_DATA_PATH],
+      devices: iphone_devices,
+      dark_mode: false,
+      erase_simulator: true,
+      testplan: 'ScreenshotAutomation_iPhone_Light_Interface'
+    )
+
+    # iPhone Dark Intertace Screens
+    snapshot(
+      derived_data_path: lane_context[SharedValues::SCAN_DERIVED_DATA_PATH],
+      devices: iphone_devices,
+      dark_mode: true,
+      testplan: 'ScreenshotAutomation_iPhone_Dark_Interface'
+    )
+
+    # iPad Light Intertace Screens
+    snapshot(
+      derived_data_path: lane_context[SharedValues::SCAN_DERIVED_DATA_PATH],
+      devices: ipad_devices,
+      dark_mode: false,
+      erase_simulator: true,
+      testplan: 'ScreenshotAutomation_iPad_Light_Interface'
+    )
+
+    # iPhone Dark Intertace Screens
+    snapshot(
+      derived_data_path: lane_context[SharedValues::SCAN_DERIVED_DATA_PATH],
+      devices: ipad_devices,
+      dark_mode: true,
+      testplan: 'ScreenshotAutomation_iPad_Dark_Interface'
+    )
+  end
+
+  #####################################################################################
+  # watch_screenshots
+  # -----------------------------------------------------------------------------------
+  # Generates localized screenshots for the Apple Watch.
+  # Tests run in the simulator so be sure to make any necessary Podfile changes such as
+  # converting to use google-cast-sdk-no-bluetooth-mock
+  #
+  # Setup:
+  # - Log into an account with Plus. Run the test iPhone_GenerateScreenshots.test_watchSetup
+  # on a device that is connected to the watch mentioned in the test.
+  # - Ensure the data syncs to the simulated watch. Mocking out the ApplicationContext from
+  # the device can help ensure a consistent response.
+  #
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane watch_screenshots
+  #####################################################################################
+
+  desc 'Generates localized Watch screenshots for the AppStore'
+  lane :watch_screenshots do
+    watch_devices = ['Apple Watch Series 7 - 45mm']
+
+    snapshot(
+      scheme: 'Screenshot Automation Watch',
+      devices: watch_devices,
+      test_without_building: false
+    )
+  end
+
+  desc 'Registers a device to the Apple Developer Portal and adds it to the appropriate provisioning profiles'
+  lane :register_new_device do |options|
+    device_name = UI.input('Device name (leave empty if already added in portal): ') if options[:device_name].nil?
+    unless device_name.empty?
+      device_id = UI.input('Device ID: ') if options[:device_id].nil?
+      UI.message "Adding #{device_name} with ID #{device_id} to the Developer Portal"
+      UI.message 'Also registering it with any provisioning profiles associated with the following bundle identifiers:'
+      MAIN_BUNDLE_IDENTIFIERS.each do |identifier|
+        puts "\t#{identifier}"
+      end
+
+      # Register the user's device
+      register_device(
+        name: device_name,
+        udid: device_id,
+        team_id: TEAM_ID,
+        api_key_path: ASC_KEY_PATH
+      )
+    end
+
+    # Add all development certificates to the provisioning profiles (just in case – this is an easy step to miss)
+    add_development_certificates_to_provisioning_profiles(
+      team_id: TEAM_ID,
+      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+    )
+
+    # Add all devices to the provisioning profiles
+    add_all_devices_to_provisioning_profiles(
+      team_id: TEAM_ID,
+      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+    )
+  end
+
+  #####################################################################################
+  # acknowledgments
+  # -----------------------------------------------------------------------------------
+  # Generates a HTML containing the libraries acknowledgments.
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane acknowledgments
+  #####################################################################################
+  desc 'Generates a HTML with the list of used libraries and their licenses'
+  lane :acknowledgments do
+    require 'commonmarker'
+
+    acknowledgements = 'Acknowledgments'
+    markdown = File.read("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.md")
+    rendered_html = CommonMarker.render_html(markdown, :DEFAULT)
+    styled_html = "<head>
+                       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+                       <style>
+                         body {
+                           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                           Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                           font-size: 16px;
+                           color: #1a1a1a;
+                           margin: 20px;
+                         }
+                        @media (prefers-color-scheme: dark) {
+                         body {
+                          background: #1a1a1a;
+                          color: white;
+                         }
+                        }
+                         pre {
+                          white-space: pre-wrap;
+                         }
+                       </style>
+                       <title>
+                         #{acknowledgements}
+                       </title>
+                     </head>
+                     <body>
+                       #{rendered_html}
+                     </body>"
+
+    ## Remove the <h1>, since we've promoted it to <title>
+    styled_html = styled_html.sub('<h1>Acknowledgements</h1>', '')
+
+    ## The glog library's license contains a URL that does not wrap in the web view,
+    ## leading to a large right-hand whitespace gutter.  Work around this by explicitly
+    ## inserting a <br> in the HTML.  Use gsub juuust in case another one sneaks in later.
+    styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
+
+    File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  end
+end

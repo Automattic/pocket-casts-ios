@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PromotionViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="X56-JL-O3u" id="XSl-R5-V03"/>
+                <outlet property="buttonContainerView" destination="Hoa-Fb-dXV" id="6Cw-9P-4TR"/>
+                <outlet property="centreImageView" destination="1m6-g0-z8G" id="bg5-44-MNr"/>
+                <outlet property="createAccountWithPromoButton" destination="Jfi-Sw-QiT" id="5oo-eY-IBu"/>
+                <outlet property="descriptionLabel" destination="q0q-Bs-h0q" id="gXT-v4-ibL"/>
+                <outlet property="doneButton" destination="z56-9C-L6j" id="dt8-qU-NCE"/>
+                <outlet property="secondDescriptionLabel" destination="iNb-UT-fdf" id="XWc-r0-niH"/>
+                <outlet property="signInWithPromoButton" destination="F5p-bX-GMQ" id="GF1-FU-Awy"/>
+                <outlet property="signUpNoPromoButton" destination="rqa-gc-CcT" id="yXT-48-Rnn"/>
+                <outlet property="titleLabel" destination="UaO-eg-OIp" id="7Re-ZZ-IfV"/>
+                <outlet property="upgradeToPlusButton" destination="qyt-fU-tpL" id="38b-gT-00z"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5s5-YH-uzh">
+                    <rect key="frame" x="0.0" y="44" width="414" height="722"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1m6-g0-z8G" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="117" y="60" width="180" height="180"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="180" id="RtL-0L-3mA"/>
+                                <constraint firstAttribute="width" constant="180" id="TJG-JF-KvA"/>
+                            </constraints>
+                        </imageView>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-eg-OIp" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="256" width="374" height="26.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0q-Bs-h0q" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="290.5" width="374" height="21.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="more details" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNb-UT-fdf" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="320" width="374" height="21.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="q0q-Bs-h0q" firstAttribute="centerX" secondItem="5s5-YH-uzh" secondAttribute="centerX" id="0e1-i5-xZv"/>
+                        <constraint firstItem="UaO-eg-OIp" firstAttribute="centerX" secondItem="5s5-YH-uzh" secondAttribute="centerX" id="3oH-XA-qhM"/>
+                        <constraint firstItem="iNb-UT-fdf" firstAttribute="centerX" secondItem="5s5-YH-uzh" secondAttribute="centerX" id="ARQ-II-KYC"/>
+                        <constraint firstAttribute="trailing" secondItem="q0q-Bs-h0q" secondAttribute="trailing" constant="-20" id="ERL-Zp-U93"/>
+                        <constraint firstAttribute="bottom" secondItem="iNb-UT-fdf" secondAttribute="bottom" constant="20" id="L7X-XN-KcY"/>
+                        <constraint firstItem="q0q-Bs-h0q" firstAttribute="leading" secondItem="5s5-YH-uzh" secondAttribute="leading" constant="20" id="Q8g-04-bRw"/>
+                        <constraint firstItem="q0q-Bs-h0q" firstAttribute="bottom" secondItem="iNb-UT-fdf" secondAttribute="top" constant="-8" id="VeJ-6p-CMt"/>
+                        <constraint firstItem="1m6-g0-z8G" firstAttribute="centerX" secondItem="5s5-YH-uzh" secondAttribute="centerX" id="bet-Uk-PXL"/>
+                        <constraint firstItem="1m6-g0-z8G" firstAttribute="top" secondItem="5s5-YH-uzh" secondAttribute="top" constant="60" id="fzA-aS-v8i"/>
+                        <constraint firstItem="iNb-UT-fdf" firstAttribute="leading" secondItem="5s5-YH-uzh" secondAttribute="leading" constant="20" id="gSb-as-ELc"/>
+                        <constraint firstAttribute="trailing" secondItem="iNb-UT-fdf" secondAttribute="trailing" constant="-20" id="l8z-A7-xDB"/>
+                        <constraint firstItem="UaO-eg-OIp" firstAttribute="bottom" secondItem="q0q-Bs-h0q" secondAttribute="top" constant="-8" id="lCE-uZ-XAR"/>
+                        <constraint firstItem="UaO-eg-OIp" firstAttribute="leading" secondItem="5s5-YH-uzh" secondAttribute="leading" constant="20" id="lsn-K4-Xow"/>
+                        <constraint firstItem="UaO-eg-OIp" firstAttribute="top" secondItem="1m6-g0-z8G" secondAttribute="bottom" constant="16" id="oAZ-az-xne"/>
+                        <constraint firstAttribute="trailing" secondItem="UaO-eg-OIp" secondAttribute="trailing" constant="-20" id="v4T-eK-vFw"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="fcV-cQ-mMj"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="sa0-dc-TlL"/>
+                </scrollView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="X56-JL-O3u" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="188.5" y="434.5" width="37" height="37"/>
+                </activityIndicatorView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hoa-Fb-dXV" customClass="TopShadowView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="766" width="414" height="96"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZSD-uT-B4m">
+                            <rect key="frame" x="20" y="20" width="374" height="56"/>
+                            <subviews>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jfi-Sw-QiT" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="56" id="vlS-uw-9rD"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                    <state key="normal" title="Create Account"/>
+                                    <connections>
+                                        <action selector="createAccountTapped:" destination="-1" eventType="touchUpInside" id="7tp-pg-A7D"/>
+                                    </connections>
+                                </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5p-bX-GMQ" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="56" id="J7x-MB-7WO"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                    <state key="normal" title="Sign In"/>
+                                    <connections>
+                                        <action selector="signInWithValidPromoTapped:" destination="-1" eventType="touchUpInside" id="MbV-tf-nqf"/>
+                                    </connections>
+                                </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyt-fU-tpL" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="56" id="BaM-1K-pHz"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                    <state key="normal" title="Sign Up To Pocket Casts Plus"/>
+                                    <connections>
+                                        <action selector="upgradeToPlusTapped:" destination="-1" eventType="touchUpInside" id="dft-DD-bFp"/>
+                                    </connections>
+                                </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqa-gc-CcT" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="56" id="Nmd-W2-WfE"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                    <state key="normal" title="Create a Pocket Casts Account"/>
+                                    <connections>
+                                        <action selector="signUpNoPromoTapped:" destination="-1" eventType="touchUpInside" id="T54-po-zcK"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z56-9C-L6j" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="56" id="4YX-kG-jJk"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                    <state key="normal" title="Done"/>
+                                    <connections>
+                                        <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="ac5-lz-Ybu"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="ZSD-uT-B4m" firstAttribute="top" secondItem="Hoa-Fb-dXV" secondAttribute="top" constant="20" id="GmV-l8-bEJ"/>
+                        <constraint firstItem="ZSD-uT-B4m" firstAttribute="leading" secondItem="Hoa-Fb-dXV" secondAttribute="leading" constant="20" id="eVq-wp-GP8"/>
+                        <constraint firstAttribute="trailing" secondItem="ZSD-uT-B4m" secondAttribute="trailing" constant="20" id="kI7-wE-hQa"/>
+                        <constraint firstAttribute="bottom" secondItem="ZSD-uT-B4m" secondAttribute="bottom" constant="20" id="sah-fa-ZIV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Hoa-Fb-dXV" firstAttribute="top" secondItem="5s5-YH-uzh" secondAttribute="bottom" id="3wB-if-QkL"/>
+                <constraint firstItem="5s5-YH-uzh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Fj4-BS-VPN"/>
+                <constraint firstItem="5s5-YH-uzh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="HIX-AF-yQy"/>
+                <constraint firstItem="Hoa-Fb-dXV" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="OJN-4f-poM"/>
+                <constraint firstItem="Hoa-Fb-dXV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="X2j-Wl-kXc"/>
+                <constraint firstItem="5s5-YH-uzh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ZYP-1w-Olc"/>
+                <constraint firstItem="5s5-YH-uzh" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="eUa-Kt-8lA"/>
+                <constraint firstItem="Hoa-Fb-dXV" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="mf0-6A-7EQ"/>
+                <constraint firstItem="X56-JL-O3u" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="qed-1p-Hrw"/>
+                <constraint firstItem="X56-JL-O3u" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="v59-mp-kOU"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="140.625"/>
+        </view>
+    </objects>
+</document>

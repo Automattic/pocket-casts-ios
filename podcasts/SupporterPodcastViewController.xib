@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SupporterPodcastViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="authorLabel" destination="QBg-CW-Zxv" id="7Y4-Dw-Jy1"/>
+                <outlet property="bundleArtwork" destination="Afg-iG-5ca" id="2IL-fY-e3b"/>
+                <outlet property="bundleLabel" destination="OrW-3J-wam" id="hH7-ZD-XbL"/>
+                <outlet property="bundleTitleLabel" destination="fmg-M2-KFV" id="qhJ-de-Ozz"/>
+                <outlet property="cancelDetailsLabel" destination="ceX-mR-N2b" id="IwQ-Jl-sku"/>
+                <outlet property="cancelledLabel" destination="QC6-9U-SvU" id="MGQ-1n-TXl"/>
+                <outlet property="cancelledOverlay" destination="p8p-xI-20o" id="MsP-3Z-1KK"/>
+                <outlet property="expiryLabel" destination="mvW-od-jj4" id="jdG-SD-giZ"/>
+                <outlet property="footerBorderView" destination="kuh-1l-YMF" id="WvS-xh-vYW"/>
+                <outlet property="footerHeartImage" destination="lwq-dA-rIc" id="6NK-aC-dPp"/>
+                <outlet property="footerView" destination="9tk-1S-HBx" id="tr0-EF-C2h"/>
+                <outlet property="frequencyLabel" destination="W3T-AB-nOj" id="W9I-91-DNF"/>
+                <outlet property="headerView" destination="PQN-Qx-k85" id="aLd-g8-p2V"/>
+                <outlet property="nextPaymentLabel" destination="snG-7V-S4b" id="ZfJ-wr-pRJ"/>
+                <outlet property="supportHeartView" destination="yks-WI-qub" id="tBV-8T-yKf"/>
+                <outlet property="tableView" destination="8Nr-wR-Lkv" id="RSj-yy-jk8"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-wR-Lkv" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="G2Q-HF-DKZ"/>
+                        <outlet property="delegate" destination="-1" id="ZXA-XU-RAd"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LST-Cw-8TU"/>
+                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="MBz-QW-bgN"/>
+                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="UlL-WF-0S0"/>
+                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="nI1-Ju-RyD"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="145"/>
+        </view>
+        <view contentMode="scaleToFill" id="PQN-Qx-k85">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="266"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8p-xI-20o">
+                    <rect key="frame" x="0.0" y="210" width="414" height="56"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="0hx-Uu-jR5"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="aei-Vb-aea">
+                    <rect key="frame" x="16" y="144" width="382" height="62"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUNDLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OrW-3J-wam" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="168.5" y="0.0" width="45.5" height="13.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmg-M2-KFV" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="172.5" y="19.5" width="37" height="21.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBg-CW-Zxv">
+                            <rect key="frame" x="168.5" y="45" width="45" height="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snG-7V-S4b" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="233" width="92.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancelled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QC6-9U-SvU" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="233" width="66" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monthly" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3T-AB-nOj" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="344" y="233" width="54" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Access End 20 Sep 2020" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvW-od-jj4" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="232.5" y="233" width="165.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Afg-iG-5ca" customClass="BundleImageView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="159" y="32" width="96" height="96"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="96" id="o81-Je-gcq"/>
+                        <constraint firstAttribute="height" constant="96" id="wAr-vg-n5K"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yks-WI-qub" customClass="PodcastHeartView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="231" y="104" width="28" height="28"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="1bp-4w-WB7"/>
+                        <constraint firstAttribute="width" constant="28" id="M80-fC-oHK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="1al-cL-EBA"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="p8p-xI-20o" firstAttribute="leading" secondItem="PQN-Qx-k85" secondAttribute="leading" id="2T2-Bd-jRg"/>
+                <constraint firstItem="snG-7V-S4b" firstAttribute="leading" secondItem="QC6-9U-SvU" secondAttribute="leading" id="2UO-VX-5la"/>
+                <constraint firstAttribute="bottom" secondItem="p8p-xI-20o" secondAttribute="bottom" id="5kw-5V-Oo3"/>
+                <constraint firstItem="Afg-iG-5ca" firstAttribute="centerX" secondItem="PQN-Qx-k85" secondAttribute="centerX" id="7Ws-Ep-iRq"/>
+                <constraint firstItem="p8p-xI-20o" firstAttribute="centerX" secondItem="PQN-Qx-k85" secondAttribute="centerX" id="91t-u6-xT7"/>
+                <constraint firstItem="snG-7V-S4b" firstAttribute="leading" secondItem="PQN-Qx-k85" secondAttribute="leading" constant="16" id="C3x-7L-lWm"/>
+                <constraint firstAttribute="trailing" secondItem="W3T-AB-nOj" secondAttribute="trailing" constant="16" id="LAD-cP-NbY"/>
+                <constraint firstItem="aei-Vb-aea" firstAttribute="top" secondItem="Afg-iG-5ca" secondAttribute="bottom" constant="16" id="cMP-7k-wnh"/>
+                <constraint firstItem="W3T-AB-nOj" firstAttribute="top" secondItem="mvW-od-jj4" secondAttribute="top" id="egF-Ym-O75"/>
+                <constraint firstItem="yks-WI-qub" firstAttribute="trailing" secondItem="Afg-iG-5ca" secondAttribute="trailing" constant="4" id="gJ0-0c-B2P"/>
+                <constraint firstItem="1al-cL-EBA" firstAttribute="trailing" secondItem="aei-Vb-aea" secondAttribute="trailing" constant="16" id="jgU-Pp-NG9"/>
+                <constraint firstItem="snG-7V-S4b" firstAttribute="top" secondItem="QC6-9U-SvU" secondAttribute="top" id="lxs-kE-t5h"/>
+                <constraint firstItem="Afg-iG-5ca" firstAttribute="top" secondItem="PQN-Qx-k85" secondAttribute="top" constant="32" id="nnn-DZ-Euh"/>
+                <constraint firstItem="aei-Vb-aea" firstAttribute="leading" secondItem="1al-cL-EBA" secondAttribute="leading" constant="16" id="oAB-03-BjY"/>
+                <constraint firstAttribute="trailing" secondItem="p8p-xI-20o" secondAttribute="trailing" id="qjk-WY-hHD"/>
+                <constraint firstAttribute="bottom" secondItem="W3T-AB-nOj" secondAttribute="bottom" constant="16" id="ruh-Yf-nlB"/>
+                <constraint firstItem="W3T-AB-nOj" firstAttribute="trailing" secondItem="mvW-od-jj4" secondAttribute="trailing" id="sVk-7V-x8i"/>
+                <constraint firstAttribute="bottom" secondItem="snG-7V-S4b" secondAttribute="bottom" constant="16" id="tZR-Fr-780"/>
+                <constraint firstItem="yks-WI-qub" firstAttribute="bottom" secondItem="Afg-iG-5ca" secondAttribute="bottom" constant="4" id="zZk-Hk-LW3"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="72" y="11"/>
+        </view>
+        <view contentMode="scaleToFill" id="9tk-1S-HBx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kuh-1l-YMF" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="0.0" width="382" height="100"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need to update your subscription?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0N-Y2-e3r" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="48" y="11" width="256.5" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="f6D-Np-5M3"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="To change your payment plan or card info, please use the web player or desktop app." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceX-mR-N2b" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="48" y="43" width="318" height="41"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-cycle" translatesAutoresizingMaskIntoConstraints="NO" id="lwq-dA-rIc">
+                            <rect key="frame" x="13" y="13" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="24" id="np4-qU-ar1"/>
+                                <constraint firstAttribute="width" constant="24" id="pxt-lD-SQq"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="C0N-Y2-e3r" firstAttribute="leading" secondItem="lwq-dA-rIc" secondAttribute="trailing" constant="11" id="119-UP-Slc"/>
+                        <constraint firstItem="C0N-Y2-e3r" firstAttribute="centerY" secondItem="lwq-dA-rIc" secondAttribute="centerY" id="2Mf-xq-hxZ"/>
+                        <constraint firstItem="lwq-dA-rIc" firstAttribute="top" secondItem="kuh-1l-YMF" secondAttribute="top" constant="13" id="7cD-oT-6sz"/>
+                        <constraint firstItem="lwq-dA-rIc" firstAttribute="leading" secondItem="kuh-1l-YMF" secondAttribute="leading" constant="13" id="FMa-y1-U8x"/>
+                        <constraint firstAttribute="trailing" secondItem="ceX-mR-N2b" secondAttribute="trailing" constant="16" id="IsE-uj-NPr"/>
+                        <constraint firstItem="ceX-mR-N2b" firstAttribute="leading" secondItem="C0N-Y2-e3r" secondAttribute="leading" id="XhQ-ZQ-RuW"/>
+                        <constraint firstAttribute="bottom" secondItem="ceX-mR-N2b" secondAttribute="bottom" constant="16" id="nNk-fq-aQw"/>
+                        <constraint firstItem="ceX-mR-N2b" firstAttribute="top" secondItem="C0N-Y2-e3r" secondAttribute="bottom" constant="4" id="veF-B1-rUb"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="U2f-0c-iAY"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="kuh-1l-YMF" secondAttribute="bottom" id="0Zr-tY-Lhf"/>
+                <constraint firstAttribute="trailing" secondItem="kuh-1l-YMF" secondAttribute="trailing" constant="16" id="7FH-7q-CCR"/>
+                <constraint firstItem="U2f-0c-iAY" firstAttribute="trailing" secondItem="kuh-1l-YMF" secondAttribute="trailing" constant="16" id="aQX-WA-c6I"/>
+                <constraint firstItem="kuh-1l-YMF" firstAttribute="top" secondItem="9tk-1S-HBx" secondAttribute="top" id="fwD-Ez-oxm"/>
+                <constraint firstItem="kuh-1l-YMF" firstAttribute="leading" secondItem="9tk-1S-HBx" secondAttribute="leading" constant="16" id="qAp-t1-03S"/>
+                <constraint firstItem="kuh-1l-YMF" firstAttribute="leading" secondItem="U2f-0c-iAY" secondAttribute="leading" constant="16" id="z5a-LC-IbI"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="70" y="658"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="heart-cycle" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

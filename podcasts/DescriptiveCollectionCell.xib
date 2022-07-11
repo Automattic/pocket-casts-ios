@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DescriptiveCollectionCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="338" height="286"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="338" height="286"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9k8-NV-ax2" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="16" width="80" height="80"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="1YE-os-Vfj"/>
+                            <constraint firstAttribute="width" constant="80" id="zR0-nM-DhR"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2Z-PZ-ZmA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="96" y="16" width="210" height="23"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Author" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxR-Ff-B5p" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="96" y="47" width="210" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyY-ot-Usg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="112" width="338" height="21.5"/>
+                        <attributedString key="attributedText">
+                            <fragment content="Podcast description. .......">
+                                <attributes>
+                                    <font key="NSFont" metaFont="system" size="15"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8G-1A-AFd" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="314" y="16" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="IwQ-sC-3js"/>
+                            <constraint firstAttribute="height" constant="24" id="eWv-pS-pFC"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <connections>
+                            <action selector="subscribeTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="oAX-4X-Qlg"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T65-aL-e2h" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="285" width="338" height="1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Lhh-ZS-44n"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="o8G-1A-AFd" firstAttribute="leading" secondItem="s2Z-PZ-ZmA" secondAttribute="trailing" constant="8" id="1Rf-ZU-Auc"/>
+                <constraint firstItem="T65-aL-e2h" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3Ea-HB-c4M"/>
+                <constraint firstAttribute="bottom" secondItem="T65-aL-e2h" secondAttribute="bottom" id="5HM-bk-CRM"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="top" secondItem="s2Z-PZ-ZmA" secondAttribute="top" id="5dm-EA-lHV"/>
+                <constraint firstAttribute="trailing" secondItem="o8G-1A-AFd" secondAttribute="trailing" id="9CM-PT-mO3"/>
+                <constraint firstItem="o8G-1A-AFd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="E1I-OI-8c4"/>
+                <constraint firstItem="s2Z-PZ-ZmA" firstAttribute="leading" secondItem="uxR-Ff-B5p" secondAttribute="leading" id="FxJ-0g-LYR"/>
+                <constraint firstItem="o8G-1A-AFd" firstAttribute="trailing" secondItem="uxR-Ff-B5p" secondAttribute="trailing" constant="32" id="Jxi-bu-Zm2"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dWv-Dg-w3P"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="trailing" secondItem="s2Z-PZ-ZmA" secondAttribute="leading" constant="-16" id="qmq-oQ-pQY"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="leading" secondItem="ZyY-ot-Usg" secondAttribute="leading" id="sWr-EZ-bim"/>
+                <constraint firstAttribute="trailing" secondItem="T65-aL-e2h" secondAttribute="trailing" id="shP-ve-U6R"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="tqE-YS-UeZ"/>
+                <constraint firstItem="9k8-NV-ax2" firstAttribute="bottom" secondItem="ZyY-ot-Usg" secondAttribute="top" constant="-16" id="vD1-0E-k9a"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZyY-ot-Usg" secondAttribute="bottom" priority="750" constant="16" id="vpH-6i-rfD"/>
+                <constraint firstItem="s2Z-PZ-ZmA" firstAttribute="bottom" secondItem="uxR-Ff-B5p" secondAttribute="top" constant="-8" id="xPd-Ld-tih"/>
+                <constraint firstAttribute="trailing" secondItem="ZyY-ot-Usg" secondAttribute="trailing" id="xqJ-1X-VN2"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="338" height="286"/>
+            <connections>
+                <outlet property="podcastAuthor" destination="uxR-Ff-B5p" id="uLM-lt-HvZ"/>
+                <outlet property="podcastDescription" destination="ZyY-ot-Usg" id="1xe-eo-uhu"/>
+                <outlet property="podcastImage" destination="9k8-NV-ax2" id="PuE-me-P2x"/>
+                <outlet property="podcastTitle" destination="s2Z-PZ-ZmA" id="yrL-4E-dX6"/>
+                <outlet property="subscribeButton" destination="o8G-1A-AFd" id="e8s-m0-Ahq"/>
+            </connections>
+            <point key="canvasLocation" x="346.37681159420293" y="229.6875"/>
+        </collectionViewCell>
+    </objects>
+</document>

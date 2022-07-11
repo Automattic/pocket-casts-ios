@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="AccountActionCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E94-Wl-ATh">
+                        <rect key="frame" x="16" y="10" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="RSA-2z-2kv"/>
+                            <constraint firstAttribute="height" constant="24" id="Sck-T2-Wxk"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFT-Bo-lkY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="56" y="13" width="264" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9u-5d-5Rt" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="280" y="6" width="32" height="32"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-Jg-3M5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="12.5" y="7.5" width="7" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="EhW-Jg-3M5" firstAttribute="centerY" secondItem="I9u-5d-5Rt" secondAttribute="centerY" id="5Gt-Y7-57N"/>
+                            <constraint firstAttribute="width" constant="32" id="BC0-Iu-jqz"/>
+                            <constraint firstAttribute="height" constant="32" id="NXY-T9-O0X"/>
+                            <constraint firstItem="EhW-Jg-3M5" firstAttribute="centerX" secondItem="I9u-5d-5Rt" secondAttribute="centerX" id="ywj-O2-faH"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="E94-Wl-ATh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2kD-6s-qbQ"/>
+                    <constraint firstAttribute="trailing" secondItem="zFT-Bo-lkY" secondAttribute="trailing" id="315-gf-cs9"/>
+                    <constraint firstItem="E94-Wl-ATh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6St-0I-qNN"/>
+                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="leading" secondItem="E94-Wl-ATh" secondAttribute="trailing" constant="16" id="M8C-SA-EAb"/>
+                    <constraint firstItem="I9u-5d-5Rt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QGP-tK-sIG"/>
+                    <constraint firstAttribute="trailing" secondItem="I9u-5d-5Rt" secondAttribute="trailing" constant="8" id="ZFH-IG-pys"/>
+                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aU2-Wr-X8c"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cellImage" destination="E94-Wl-ATh" id="VsZ-UI-lcZ"/>
+                <outlet property="cellLabel" destination="zFT-Bo-lkY" id="EFU-Wm-7SZ"/>
+                <outlet property="counterLabel" destination="EhW-Jg-3M5" id="6Ay-fp-Fed"/>
+                <outlet property="counterView" destination="I9u-5d-5Rt" id="Onc-Ho-hII"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="92"/>
+        </tableViewCell>
+    </objects>
+</document>

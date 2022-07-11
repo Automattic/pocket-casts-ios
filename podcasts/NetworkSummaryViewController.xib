@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NetworkSummaryViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="q0e-XQ-7JB" id="CzC-k9-fFh"/>
+                <outlet property="networkCollectionViewHeight" destination="vEy-v9-Sau" id="uNB-jB-Nxq"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="329"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Networks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HmP-QT-t8r" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="30" width="99.5" height="36"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                    <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="q0e-XQ-7JB" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="86" width="350" height="203"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="203" id="vEy-v9-Sau"/>
+                    </constraints>
+                    <inset key="scrollIndicatorInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                    <collectionViewLayout key="collectionViewLayout" id="wQq-U6-Ksg" customClass="GridLayout" customModule="podcasts" customModuleProvider="target"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="5qW-D0-wLI"/>
+                        <outlet property="delegate" destination="-1" id="FmI-Ib-Gom"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="q0e-XQ-7JB" secondAttribute="bottom" constant="40" id="3oE-lY-Vhh"/>
+                <constraint firstAttribute="trailing" secondItem="q0e-XQ-7JB" secondAttribute="trailing" constant="4" id="GGy-Wt-xQ1"/>
+                <constraint firstItem="q0e-XQ-7JB" firstAttribute="top" secondItem="HmP-QT-t8r" secondAttribute="bottom" constant="20" id="Oft-of-RvD"/>
+                <constraint firstItem="HmP-QT-t8r" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="SzG-y2-iRc"/>
+                <constraint firstItem="HmP-QT-t8r" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="mBS-PW-YRL"/>
+                <constraint firstItem="q0e-XQ-7JB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="taq-Me-h2R"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="106" y="-54"/>
+        </view>
+    </objects>
+</document>

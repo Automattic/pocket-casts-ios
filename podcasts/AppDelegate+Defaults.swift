@@ -1,0 +1,106 @@
+import Foundation
+import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
+
+extension AppDelegate {
+    func checkDefaults() {
+        let defaults = UserDefaults.standard
+        let dataManager = DataManager.sharedManager
+        
+        performUpdateIfRequired(updateKey: "v5Run") {
+            // these are considered defaults for a new app install
+            SyncManager.clearTokensFromKeyChain()
+            ServerSettings.setSkipBackTime(10, syncChange: false)
+            ServerSettings.setSkipForwardTime(45, syncChange: false)
+            
+            Settings.setShouldDeleteWhenPlayed(true)
+            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            Settings.setMobileDataAllowed(true)
+            setWhatsNewAcknowledgeToLatest()
+        }
+        
+        performUpdateIfRequired(updateKey: "v6Run") {
+            let query = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE autoDownloadSetting == 1 AND subscribed == 1"
+            let podcastsWithAutoDownloadOn = dataManager.count(query: query, values: nil)
+            let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0
+            Settings.setAutoDownloadEnabled(autoDownloadEnabled)
+        }
+        
+        performUpdateIfRequired(updateKey: "v6_5Run") {
+            defaults.set(false, forKey: Constants.UserDefaults.cleanupUnplayed)
+            defaults.set(false, forKey: Constants.UserDefaults.cleanupStarred)
+            defaults.set(true, forKey: Constants.UserDefaults.cleanupInProgress)
+            defaults.set(true, forKey: Constants.UserDefaults.cleanupPlayed)
+        }
+        
+        performUpdateIfRequired(updateKey: "v7Run") {
+            defaults.set(2, forKey: Constants.UserDefaults.lastTabOpened)
+        }
+        
+        performUpdateIfRequired(updateKey: "v7bRun") {
+            Settings.setAutoDownloadMobileDataAllowed(false)
+        }
+        
+        performUpdateIfRequired(updateKey: "v7cRun") {
+            Settings.setAutoArchivePlayedAfter(0)
+            Settings.setAutoArchiveInactiveAfter(-1)
+            Settings.setArchiveStarredEpisodes(false)
+        }
+        
+        performUpdateIfRequired(updateKey: "v7_3Run") {
+            ImageManager.sharedManager.upgradeV2ToV3ArtworkFolder()
+            ServerSettings.setLastRefreshSucceeded(true)
+            ServerSettings.setLastSyncSucceeded(true)
+        }
+        
+        performUpdateIfRequired(updateKey: "TTFRunFinal") {
+            ServerSettings.setUserEpisodeOnlyOnWifi(true)
+        }
+        
+        performUpdateIfRequired(updateKey: "v7_11Run") {
+            if let email = ServerSettings.syncingEmailLegacy() {
+                FileLog.shared.addMessage("Migrating email address from preferences to Keychain")
+                ServerSettings.setSyncingEmail(email: email)
+                ServerSettings.removeLegacySyncingEmail()
+            }
+        }
+        performUpdateIfRequired(updateKey: "v7_12Run") {
+            Settings.setMultiSelectGestureEnabled(true)
+        }
+        performUpdateIfRequired(updateKey: "v7_15Run") {
+            defaults.setValue(true, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+        }
+        performUpdateIfRequired(updateKey: "v7_16Run") {
+            ServerSettings.setAutoAddToUpNextLimit(100)
+        }
+        performUpdateIfRequired(updateKey: "v7_19_1Run") {
+            // we didn't previously need a default value for this key, but due to changes in this release we do, otherwise it will default to the first item in the ThemeType enum
+            let preferredDarkTheme = Theme.preferredDarkTheme()
+            if preferredDarkTheme.rawValue == 0 {
+                Theme.setPreferredDarkTheme(.dark, systemIsDark: false)
+            }
+        }
+        performUpdateIfRequired(updateKey: "FoldersInitialRun") {
+            // here we are upgrading to folders, since it's possible we've already been syncing with the server and ignoring folder information, we'll need to re-request it
+            if SyncManager.isUserLoggedIn() {
+                ApiServerHandler.shared.reloadFoldersFromServer()
+            }
+        }
+        
+        defaults.synchronize()
+    }
+    
+    private func performUpdateIfRequired(updateKey: String, update: () -> Void) {
+        if UserDefaults.standard.bool(forKey: updateKey) { return } // already performed this update
+        
+        update()
+        UserDefaults.standard.set(true, forKey: updateKey)
+    }
+    
+    private func setWhatsNewAcknowledgeToLatest() {
+        if let whatsNewInfo = WhatsNewHelper.extractWhatsNewInfo() {
+            Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
+        }
+    }
+}

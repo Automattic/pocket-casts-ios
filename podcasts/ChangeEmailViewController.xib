@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChangeEmailViewController" customModule="podcasts">
+            <connections>
+                <outlet property="activityIndicatorView" destination="0pw-oQ-wwR" id="QSy-mh-8zN"/>
+                <outlet property="contentView" destination="dnb-WH-e3J" id="4Q0-aE-02J"/>
+                <outlet property="currentEmailLabel" destination="69q-CH-5t7" id="5M7-kg-MOE"/>
+                <outlet property="emailBorderView" destination="UcH-Ow-RcW" id="gkP-g4-e3f"/>
+                <outlet property="emailField" destination="54I-ed-4md" id="Lbd-MO-Wht"/>
+                <outlet property="emailInfoLabel" destination="7m9-7Z-Of9" id="wFT-SR-JWh"/>
+                <outlet property="errorLabel" destination="kuA-TD-Kfu" id="5Ed-Fg-Pzu"/>
+                <outlet property="errorView" destination="vNa-l1-Lrn" id="Fq7-wO-icR"/>
+                <outlet property="keyImage" destination="mTI-ZU-65k" id="Ynp-1F-OU5"/>
+                <outlet property="mailImage" destination="cBc-Wk-kWo" id="iXI-VX-nza"/>
+                <outlet property="mainButton" destination="vDF-bz-Ars" id="YaF-QN-23e"/>
+                <outlet property="mainButtonBottomConstraint" destination="2iW-Dc-QE7" id="8DL-cd-ned"/>
+                <outlet property="passwordBorderView" destination="I52-gV-mvl" id="ssQ-lw-18d"/>
+                <outlet property="passwordField" destination="xjw-Z1-agx" id="sa1-fy-goQ"/>
+                <outlet property="showPasswordBtn" destination="ceN-Oh-lGe" id="9Dd-qC-v1C"/>
+                <outlet property="statusImage" destination="Tml-KH-0Ue" id="BfQ-fW-pSe"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="PaQ-67-l6J"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnb-WH-e3J" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69q-CH-5t7" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="108" y="29.5" width="290" height="18"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <color key="textColor" red="0.16078431372549018" green="0.16862745098039217" blue="0.1803921568627451" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7m9-7Z-Of9" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="30" width="92" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="92" id="cvI-zq-97u"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                            <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.64313725490196072" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UcH-Ow-RcW" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="67" width="382" height="56"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="cBc-Wk-kWo">
+                                    <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="QWE-e8-Oj2"/>
+                                        <constraint firstAttribute="width" constant="24" id="mdD-jR-kHP"/>
+                                    </constraints>
+                                </imageView>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="54I-ed-4md" userLabel="Email Field" customClass="ThemeableTextField" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="46" y="19" width="291" height="18"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="4Zd-bn-96T"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="6sD-Yf-dr2"/>
+                                    </connections>
+                                </textField>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tick-circle" translatesAutoresizingMaskIntoConstraints="NO" id="Tml-KH-0Ue">
+                                    <rect key="frame" x="342" y="16" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="Gy4-YO-kHd"/>
+                                        <constraint firstAttribute="height" constant="24" id="Ynq-CO-hKa"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="Tml-KH-0Ue" firstAttribute="leading" secondItem="54I-ed-4md" secondAttribute="trailing" constant="5" id="0Xy-Gb-cpP"/>
+                                <constraint firstAttribute="trailing" secondItem="Tml-KH-0Ue" secondAttribute="trailing" constant="16" id="Ihe-d6-zIj"/>
+                                <constraint firstItem="cBc-Wk-kWo" firstAttribute="centerY" secondItem="UcH-Ow-RcW" secondAttribute="centerY" id="L36-Ju-6qP"/>
+                                <constraint firstItem="54I-ed-4md" firstAttribute="leading" secondItem="cBc-Wk-kWo" secondAttribute="trailing" constant="6" id="PRQ-DV-Su3"/>
+                                <constraint firstItem="Tml-KH-0Ue" firstAttribute="centerY" secondItem="UcH-Ow-RcW" secondAttribute="centerY" id="UUe-Hu-pB8"/>
+                                <constraint firstAttribute="height" constant="56" id="YWs-eU-1CE"/>
+                                <constraint firstItem="cBc-Wk-kWo" firstAttribute="leading" secondItem="UcH-Ow-RcW" secondAttribute="leading" constant="16" id="bEE-60-clF"/>
+                                <constraint firstItem="54I-ed-4md" firstAttribute="centerY" secondItem="UcH-Ow-RcW" secondAttribute="centerY" id="nTj-CA-gFp"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <real key="value" value="6"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vDF-bz-Ars" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="746" width="382" height="56"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" button="YES"/>
+                                <bool key="isElement" value="YES"/>
+                            </accessibility>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="lgA-n5-G2q"/>
+                            </constraints>
+                            <connections>
+                                <action selector="changeTapped:" destination="-1" eventType="touchUpInside" id="MnL-Pk-VE1"/>
+                            </connections>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I52-gV-mvl" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="139" width="382" height="56"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key" translatesAutoresizingMaskIntoConstraints="NO" id="mTI-ZU-65k">
+                                    <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="7k8-CT-UhQ"/>
+                                        <constraint firstAttribute="width" constant="24" id="vrk-EO-ije"/>
+                                    </constraints>
+                                </imageView>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xjw-Z1-agx" userLabel="Password Field" customClass="ThemeableTextField" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="46" y="19" width="336" height="18"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="18" id="jKr-gc-6ge"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="Pzm-hZ-YHT"/>
+                                    </connections>
+                                </textField>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceN-Oh-lGe">
+                                    <rect key="frame" x="342" y="16" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="Coa-Ta-Il9"/>
+                                        <constraint firstAttribute="height" constant="24" id="GiH-Vl-Q4r"/>
+                                    </constraints>
+                                    <state key="normal" title="Button" image="eye-crossed"/>
+                                    <connections>
+                                        <action selector="toggleHidePassword:" destination="-1" eventType="touchUpInside" id="rvH-AS-8UW"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="mTI-ZU-65k" firstAttribute="centerY" secondItem="I52-gV-mvl" secondAttribute="centerY" id="BeC-Er-Nwj"/>
+                                <constraint firstAttribute="height" constant="56" id="Foh-yB-e2v"/>
+                                <constraint firstAttribute="trailing" secondItem="ceN-Oh-lGe" secondAttribute="trailing" constant="16" id="OwZ-gf-2SX"/>
+                                <constraint firstItem="xjw-Z1-agx" firstAttribute="centerY" secondItem="I52-gV-mvl" secondAttribute="centerY" id="a7T-le-e9B"/>
+                                <constraint firstItem="mTI-ZU-65k" firstAttribute="leading" secondItem="I52-gV-mvl" secondAttribute="leading" constant="16" id="fTj-G2-VXi"/>
+                                <constraint firstItem="ceN-Oh-lGe" firstAttribute="centerY" secondItem="I52-gV-mvl" secondAttribute="centerY" id="sEr-K9-tLy"/>
+                                <constraint firstItem="ceN-Oh-lGe" firstAttribute="trailing" secondItem="xjw-Z1-agx" secondAttribute="trailing" constant="-16" id="tb1-tD-o3W"/>
+                                <constraint firstItem="xjw-Z1-agx" firstAttribute="leading" secondItem="mTI-ZU-65k" secondAttribute="trailing" constant="6" id="zir-aY-X5B"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="6"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="0pw-oQ-wwR">
+                            <rect key="frame" x="197" y="764" width="20" height="20"/>
+                        </activityIndicatorView>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vNa-l1-Lrn">
+                            <rect key="frame" x="16" y="211" width="382" height="18"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to change email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kuA-TD-Kfu" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="372" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.95686274510000002" green="0.26274509800000001" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="kuA-TD-Kfu" firstAttribute="centerY" secondItem="vNa-l1-Lrn" secondAttribute="centerY" id="8WG-Mv-Bfh"/>
+                                <constraint firstAttribute="trailing" secondItem="kuA-TD-Kfu" secondAttribute="trailing" constant="10" id="LxH-ML-Lcs"/>
+                                <constraint firstAttribute="height" constant="18" id="ldi-Dc-1TM"/>
+                                <constraint firstItem="kuA-TD-Kfu" firstAttribute="leading" secondItem="vNa-l1-Lrn" secondAttribute="leading" id="ngh-KN-B5s"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="69q-CH-5t7" firstAttribute="leading" secondItem="7m9-7Z-Of9" secondAttribute="trailing" id="12T-Q8-9ec"/>
+                        <constraint firstItem="vDF-bz-Ars" firstAttribute="centerY" secondItem="0pw-oQ-wwR" secondAttribute="centerY" id="2DE-vr-Edd"/>
+                        <constraint firstAttribute="bottom" secondItem="vDF-bz-Ars" secondAttribute="bottom" constant="16" id="2iW-Dc-QE7"/>
+                        <constraint firstItem="vDF-bz-Ars" firstAttribute="centerX" secondItem="0pw-oQ-wwR" secondAttribute="centerX" id="70M-5f-1of"/>
+                        <constraint firstItem="vDF-bz-Ars" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="BxD-FA-WQO"/>
+                        <constraint firstAttribute="trailing" secondItem="I52-gV-mvl" secondAttribute="trailing" constant="16" id="DCk-OE-ojZ"/>
+                        <constraint firstItem="7m9-7Z-Of9" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="HsO-00-PBX"/>
+                        <constraint firstItem="I52-gV-mvl" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="NsX-wP-yqj"/>
+                        <constraint firstItem="vNa-l1-Lrn" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="Ot8-oN-xhA"/>
+                        <constraint firstItem="vNa-l1-Lrn" firstAttribute="top" secondItem="I52-gV-mvl" secondAttribute="bottom" constant="16" id="Tn4-ui-Jqf"/>
+                        <constraint firstAttribute="trailing" secondItem="UcH-Ow-RcW" secondAttribute="trailing" constant="16" id="UFx-d7-82U"/>
+                        <constraint firstAttribute="trailing" secondItem="69q-CH-5t7" secondAttribute="trailing" constant="16" id="Uwl-Rf-COq"/>
+                        <constraint firstItem="UcH-Ow-RcW" firstAttribute="bottom" secondItem="I52-gV-mvl" secondAttribute="top" constant="-16" id="l6v-Kx-xaX"/>
+                        <constraint firstItem="7m9-7Z-Of9" firstAttribute="top" secondItem="dnb-WH-e3J" secondAttribute="top" constant="30" id="mHR-EB-Dg0"/>
+                        <constraint firstItem="UcH-Ow-RcW" firstAttribute="top" secondItem="7m9-7Z-Of9" secondAttribute="bottom" constant="20" id="nA4-C3-rjC"/>
+                        <constraint firstItem="69q-CH-5t7" firstAttribute="centerY" secondItem="7m9-7Z-Of9" secondAttribute="centerY" id="pCZ-aO-IWl"/>
+                        <constraint firstAttribute="trailing" secondItem="vNa-l1-Lrn" secondAttribute="trailing" constant="16" id="rA4-vZ-Qpp"/>
+                        <constraint firstAttribute="trailing" secondItem="vDF-bz-Ars" secondAttribute="trailing" constant="16" id="sG0-Xb-To0"/>
+                        <constraint firstItem="UcH-Ow-RcW" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="zdh-Tv-fVK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="dnb-WH-e3J" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="8n3-9v-PfQ"/>
+                <constraint firstItem="dnb-WH-e3J" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="O2J-ll-Vjl"/>
+                <constraint firstItem="dnb-WH-e3J" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="U1a-Lw-cLc"/>
+                <constraint firstItem="dnb-WH-e3J" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="fK5-x0-AWV"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="145"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="eye-crossed" width="24" height="24"/>
+        <image name="key" width="24" height="24"/>
+        <image name="mail" width="24" height="24"/>
+        <image name="tick-circle" width="24" height="24"/>
+    </resources>
+</document>

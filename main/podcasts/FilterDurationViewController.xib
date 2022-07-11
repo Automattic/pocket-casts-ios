@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterDurationViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="durationConfigView" destination="e89-rD-l86" id="feg-cP-tu6"/>
+                <outlet property="filterDurationLabel" destination="ZaL-Yo-lbb" id="f8I-N1-zEx"/>
+                <outlet property="filterSwitch" destination="Rrc-db-3fy" id="jVl-GT-FyI"/>
+                <outlet property="longerThanDescription" destination="8XS-u3-vvZ" id="7gX-pw-Wj7"/>
+                <outlet property="longerThanLabel" destination="ZUI-Nj-eNz" id="BC3-hK-RD6"/>
+                <outlet property="longerThanStepper" destination="vBK-gb-mUn" id="1gG-Vs-1na"/>
+                <outlet property="saveBtn" destination="Qpn-kM-EXb" id="DoE-F3-BYN"/>
+                <outlet property="shorterThanDescription" destination="3gv-4P-y7p" id="jqZ-Zt-3fP"/>
+                <outlet property="shorterThanLabel" destination="CTM-qF-WZF" id="fHL-eM-EXj"/>
+                <outlet property="shorterThanStepper" destination="cuO-fW-Vwb" id="y24-fc-fDQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLe-tB-Z1Z" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="18" y="72" width="135.5" height="22"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rrc-db-3fy" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="347" y="67.5" width="51" height="31"/>
+                            <connections>
+                                <action selector="filterSwitchChanged:" destination="-1" eventType="valueChanged" id="vGZ-YO-bDs"/>
+                            </connections>
+                        </switch>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qmv-fg-ZEx" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="114" width="414" height="1"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="jdl-nw-jjC"/>
+                            </constraints>
+                        </view>
+                        <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e89-rD-l86">
+                            <rect key="frame" x="0.0" y="125" width="414" height="128"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longer than" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-u3-vvZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="18" y="20" width="92" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUI-Nj-eNz" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="223" y="20" width="83" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vBK-gb-mUn" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="312" y="8.5" width="90" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="90" id="AD6-Yr-MK4"/>
+                                        <constraint firstAttribute="height" constant="44" id="deg-0j-VFo"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="longerThanChanged:" destination="-1" eventType="valueChanged" id="QXE-mE-IQT"/>
+                                    </connections>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shorter than" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gv-4P-y7p" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="18" y="76.5" width="95" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTM-qF-WZF" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="223" y="76.5" width="83" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuO-fW-Vwb" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="312" y="65" width="90" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="j0b-lQ-RAL"/>
+                                        <constraint firstAttribute="width" constant="90" id="lYX-SW-y14"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="shorterThanChanged:" destination="-1" eventType="valueChanged" id="4I2-nd-lbP"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="ZUI-Nj-eNz" firstAttribute="centerY" secondItem="8XS-u3-vvZ" secondAttribute="centerY" id="4tI-aC-0at"/>
+                                <constraint firstAttribute="height" constant="128" id="5t7-nl-guX"/>
+                                <constraint firstItem="cuO-fW-Vwb" firstAttribute="leading" secondItem="CTM-qF-WZF" secondAttribute="trailing" constant="6" id="9hR-Fd-9A6"/>
+                                <constraint firstItem="cuO-fW-Vwb" firstAttribute="centerY" secondItem="3gv-4P-y7p" secondAttribute="centerY" id="ApP-o3-Q9x"/>
+                                <constraint firstItem="3gv-4P-y7p" firstAttribute="top" secondItem="8XS-u3-vvZ" secondAttribute="bottom" constant="36" id="IyF-fn-FAq"/>
+                                <constraint firstItem="vBK-gb-mUn" firstAttribute="leading" secondItem="ZUI-Nj-eNz" secondAttribute="trailing" constant="6" id="MwX-s2-1Tc"/>
+                                <constraint firstItem="CTM-qF-WZF" firstAttribute="centerY" secondItem="3gv-4P-y7p" secondAttribute="centerY" id="Nl7-O8-CAa"/>
+                                <constraint firstItem="vBK-gb-mUn" firstAttribute="centerY" secondItem="8XS-u3-vvZ" secondAttribute="centerY" id="OFE-dL-3A1"/>
+                                <constraint firstItem="8XS-u3-vvZ" firstAttribute="top" secondItem="e89-rD-l86" secondAttribute="top" constant="20" id="Q96-QQ-X6m"/>
+                                <constraint firstAttribute="trailing" secondItem="cuO-fW-Vwb" secondAttribute="trailing" constant="12" id="eGM-0a-Jos"/>
+                                <constraint firstAttribute="trailing" secondItem="vBK-gb-mUn" secondAttribute="trailing" constant="12" id="j8R-Sn-xvD"/>
+                                <constraint firstItem="3gv-4P-y7p" firstAttribute="leading" secondItem="8XS-u3-vvZ" secondAttribute="leading" id="qXS-RE-C2Z"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Rrc-db-3fy" secondAttribute="trailing" constant="18" id="8UB-wB-n83"/>
+                        <constraint firstItem="qmv-fg-ZEx" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" id="Em3-F4-gXn"/>
+                        <constraint firstItem="8XS-u3-vvZ" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="leading" id="HHB-ac-xDP"/>
+                        <constraint firstItem="Rrc-db-3fy" firstAttribute="centerY" secondItem="ZaL-Yo-lbb" secondAttribute="centerY" id="Q7T-Ou-tj5"/>
+                        <constraint firstItem="e89-rD-l86" firstAttribute="top" secondItem="qmv-fg-ZEx" secondAttribute="bottom" constant="10" id="UqR-VB-Yi4"/>
+                        <constraint firstItem="e89-rD-l86" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" id="gWU-19-FQi"/>
+                        <constraint firstAttribute="trailing" secondItem="e89-rD-l86" secondAttribute="trailing" id="iqE-IW-F52"/>
+                        <constraint firstItem="ZaL-Yo-lbb" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" constant="18" id="oZn-SA-na9"/>
+                        <constraint firstAttribute="trailing" secondItem="qmv-fg-ZEx" secondAttribute="trailing" id="sZ5-SJ-hGm"/>
+                        <constraint firstItem="qmv-fg-ZEx" firstAttribute="top" secondItem="ZaL-Yo-lbb" secondAttribute="bottom" constant="20" id="wyC-Yi-UN6"/>
+                        <constraint firstItem="ZaL-Yo-lbb" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="topMargin" constant="20" id="zaU-xW-y4b"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9i-cH-zil" customClass="TopShadowView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="791" width="414" height="105"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qpn-kM-EXb" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="15" y="15" width="384" height="56"/>
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="gV8-Bm-2Ks"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <state key="normal" title="Update Filter">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="saveTapped" destination="-1" eventType="touchUpInside" id="QMQ-7d-KWZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Qpn-kM-EXb" secondAttribute="bottom" constant="34" id="8wN-hL-KqB"/>
+                        <constraint firstAttribute="trailing" secondItem="Qpn-kM-EXb" secondAttribute="trailing" constant="15" id="Ra9-I7-igH"/>
+                        <constraint firstItem="Qpn-kM-EXb" firstAttribute="top" secondItem="g9i-cH-zil" secondAttribute="top" constant="15" id="bNM-pB-guF"/>
+                        <constraint firstItem="Qpn-kM-EXb" firstAttribute="leading" secondItem="g9i-cH-zil" secondAttribute="leading" constant="15" id="uQc-Su-Wym"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="g9i-cH-zil" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="2a7-hj-cwM"/>
+                <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="AHu-3t-bil"/>
+                <constraint firstItem="g9i-cH-zil" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="bottom" id="ZOu-Zy-7Ci"/>
+                <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="mMM-QC-Ohx"/>
+                <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="uMf-pA-lLQ"/>
+                <constraint firstItem="g9i-cH-zil" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="wwo-dz-gJc"/>
+                <constraint firstAttribute="bottom" secondItem="g9i-cH-zil" secondAttribute="bottom" id="z1N-Pm-dwB"/>
+            </constraints>
+            <point key="canvasLocation" x="-291" y="13"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

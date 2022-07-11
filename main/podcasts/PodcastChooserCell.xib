@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="72" id="KGk-i7-Jjw" customClass="PodcastChooserCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4v7-ir-rc1" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="8" width="56" height="56"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="Fjp-YO-kg5"/>
+                            <constraint firstAttribute="width" constant="56" id="MDK-wp-KSR"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Name Is Very Long Isn't It?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI1-hI-3Bc" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="82" y="17" width="186" height="38.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkbox-selected" translatesAutoresizingMaskIntoConstraints="NO" id="adL-Rt-KMT">
+                        <rect key="frame" x="280" y="24" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="H22-sE-90Q"/>
+                            <constraint firstAttribute="width" constant="24" id="d9W-g9-GWP"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tick" translatesAutoresizingMaskIntoConstraints="NO" id="hlm-b8-EZu">
+                        <rect key="frame" x="280" y="24" width="24" height="24"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="adL-Rt-KMT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8s2-J0-hn0"/>
+                    <constraint firstItem="4v7-ir-rc1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="A7o-8j-t3T"/>
+                    <constraint firstItem="iI1-hI-3Bc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BbY-ZO-M5J"/>
+                    <constraint firstItem="adL-Rt-KMT" firstAttribute="leading" secondItem="iI1-hI-3Bc" secondAttribute="trailing" constant="12" id="MBB-38-AUU"/>
+                    <constraint firstItem="4v7-ir-rc1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RoP-CG-Ruo"/>
+                    <constraint firstItem="hlm-b8-EZu" firstAttribute="centerY" secondItem="adL-Rt-KMT" secondAttribute="centerY" id="mga-aY-E46"/>
+                    <constraint firstItem="iI1-hI-3Bc" firstAttribute="leading" secondItem="4v7-ir-rc1" secondAttribute="trailing" constant="10" id="mwc-Mi-f2q"/>
+                    <constraint firstAttribute="trailing" secondItem="adL-Rt-KMT" secondAttribute="trailing" constant="16" id="npN-bh-MCX"/>
+                    <constraint firstItem="hlm-b8-EZu" firstAttribute="centerX" secondItem="adL-Rt-KMT" secondAttribute="centerX" id="s5g-yF-dXy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="podcastImage" destination="4v7-ir-rc1" id="ia0-9X-7gD"/>
+                <outlet property="podcastName" destination="iI1-hI-3Bc" id="pi4-R1-A9c"/>
+                <outlet property="podcastSelectBg" destination="adL-Rt-KMT" id="5L9-Vr-hO6"/>
+                <outlet property="podcastSelectTick" destination="hlm-b8-EZu" id="2hf-Tf-g5J"/>
+            </connections>
+            <point key="canvasLocation" x="24" y="51.27436281859071"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="checkbox-selected" width="24" height="24"/>
+        <image name="tick" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
