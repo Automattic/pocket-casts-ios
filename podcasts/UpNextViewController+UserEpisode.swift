@@ -13,8 +13,7 @@ extension UpNextViewController: UserEpisodeDetailProtocol {
     }
     
     func showUpgradeRequired() {
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: self)
-        present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .unknown)
     }
     
     func userEpisodeDetailClosed() {
