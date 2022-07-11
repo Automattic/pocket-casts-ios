@@ -49,6 +49,7 @@ class HomeGridListItem: ListItem {
         }
         else if let otherFolder = rhs.folder, let folder = folder {
             return differenceIdentifier == rhs.differenceIdentifier &&
+                folder.cachedUnreadCount == otherFolder.cachedUnreadCount &&
                 badgeType == rhs.badgeType &&
                 folder.name == otherFolder.name &&
                 folder.color == otherFolder.color &&
