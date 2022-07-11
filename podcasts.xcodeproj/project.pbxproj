@@ -1190,7 +1190,6 @@
 		BDE48A342410D49000ECA6CA /* PodcastChapterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */; };
 		BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE48A352410D4BB00ECA6CA /* WatchNowPlayingHelper.swift */; };
 		BDE48A392410D5BD00ECA6CA /* PodcastManager+Cleanup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5E8D3C2061E0FB00C84B43 /* PodcastManager+Cleanup.swift */; };
-		BDE48A3C2410D81500ECA6CA /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		BDE48A3D2410D83100ECA6CA /* SJCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2A49E51701A6AE00C2F192 /* SJCommonUtils.m */; };
 		BDE48A412410D90D00ECA6CA /* MNAVChapterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF0D4B323EBF1190034129E /* MNAVChapterReader.m */; };
 		BDE48A422410D92A00ECA6CA /* EpisodeFilter+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD542C1F240382A100F35D26 /* EpisodeFilter+Formatting.swift */; };
@@ -1264,6 +1263,7 @@
 		BDFF77301C9929660086282A /* NavigationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFF772F1C9929660086282A /* NavigationProtocol.swift */; };
 		BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */; };
 		BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */; };
+		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -7321,6 +7321,7 @@
 				BDCB87271F01349900120EA0 /* Restorable.swift in Sources */,
 				468A0FC327D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift in Sources */,
 				BDCB872B1F013EBA00120EA0 /* PCInterfaceController.swift in Sources */,
+				C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */,
 				BDADFF9B2431AA48006497B9 /* EpisodeDateHelper.swift in Sources */,
 				BDE48A242410D0D400ECA6CA /* UserEpisodeManager.swift in Sources */,
 				461C46CE274D9E400003D3A9 /* LocalizationHelpers.swift in Sources */,
@@ -7353,7 +7354,6 @@
 				BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */,
 				46703E1427BEF79C00DD7998 /* PreviewHelpers.swift in Sources */,
 				BD38F252253FB0670016713B /* PlaybackCatchUpHelper.swift in Sources */,
-				BDE48A3C2410D81500ECA6CA /* AnalyticsHelper.swift in Sources */,
 				4670303D27D7B90900844CED /* Podcast+Display.swift in Sources */,
 				BDE48A222410D0AD00ECA6CA /* Settings.swift in Sources */,
 				BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */,
