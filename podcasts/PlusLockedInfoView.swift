@@ -3,6 +3,7 @@ import UIKit
 protocol PlusLockedInfoDelegate: AnyObject {
     func closeInfoTapped()
     func displayingViewController() -> UIViewController
+    func displaySource() -> PlusUpgradeViewSource
 }
 
 class PlusLockedInfoView: ThemeableView {
