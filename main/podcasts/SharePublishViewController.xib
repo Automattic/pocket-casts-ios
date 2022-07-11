@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SharePublishViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="creatingListLabel" destination="Wcc-Bo-cUh" id="93w-Kp-Imf"/>
+                <outlet property="creatingListProgress" destination="8Yu-Rz-jmi" id="GVj-wG-gar"/>
+                <outlet property="creatingListProgressLabel" destination="oMg-31-vRN" id="mgU-1o-7kE"/>
+                <outlet property="creatingView" destination="8g0-dl-xLP" id="h2m-pr-mVG"/>
+                <outlet property="descriptionDivider" destination="P2O-7Z-mgT" id="Rph-co-WGe"/>
+                <outlet property="descriptionDividerHeight" destination="Iqk-Yt-Bg1" id="gJw-hs-cTA"/>
+                <outlet property="descriptionPlaceholder" destination="ydQ-mP-UJC" id="FIO-S1-Teg"/>
+                <outlet property="listDescription" destination="Dy4-27-Cee" id="BZD-VX-kkk"/>
+                <outlet property="listName" destination="kEv-lk-kiz" id="afz-B2-s81"/>
+                <outlet property="nameDivider" destination="2Pi-Ip-Ne9" id="i7o-YV-XbK"/>
+                <outlet property="nameDividerHeight" destination="UYa-ca-LKT" id="BL6-nL-GZ9"/>
+                <outlet property="podcastCollectionView" destination="u2P-Hp-FT9" id="1Qb-IV-JRm"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="List Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kEv-lk-kiz" customClass="ThemeableTextField" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="20" y="10" width="335" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="nameDidChange:" destination="-1" eventType="editingChanged" id="X6B-ib-JMo"/>
+                        <outlet property="delegate" destination="-1" id="78D-me-Gld"/>
+                    </connections>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Dy4-27-Cee" customClass="ThemeableTextView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="15" y="46" width="345" height="34"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="KdP-w5-KDI"/>
+                    </connections>
+                </textView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Pi-Ip-Ne9" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="20" y="39" width="355" height="1"/>
+                    <color key="backgroundColor" red="0.20392156859999999" green="0.2274509804" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="UYa-ca-LKT"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P2O-7Z-mgT" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="20" y="89" width="355" height="1"/>
+                    <color key="backgroundColor" red="0.20392156859999999" green="0.2274509804" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Iqk-Yt-Bg1"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydQ-mP-UJC">
+                    <rect key="frame" x="20" y="55" width="148.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="u2P-Hp-FT9" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="uya-JS-rmg">
+                        <size key="itemSize" width="80" height="80"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="16" minY="8" maxX="16" maxY="60"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="8oB-Ij-qWA"/>
+                        <outlet property="delegate" destination="-1" id="nJc-Jz-MmS"/>
+                    </connections>
+                </collectionView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8g0-dl-xLP" userLabel="Creating VIew">
+                    <rect key="frame" x="67.5" y="143.5" width="240" height="220"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcc-Bo-cUh" userLabel="List Name" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="71" y="8" width="98" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Yu-Rz-jmi">
+                            <rect key="frame" x="10" y="187.5" width="220" height="4"/>
+                        </progressView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creating list..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMg-31-vRN">
+                            <rect key="frame" x="67.5" y="199.5" width="105" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="oMg-31-vRN" secondAttribute="bottom" id="IQR-1J-fuU"/>
+                        <constraint firstAttribute="height" constant="220" id="ROC-ZK-eql"/>
+                        <constraint firstItem="8Yu-Rz-jmi" firstAttribute="leading" secondItem="8g0-dl-xLP" secondAttribute="leading" constant="10" id="YIi-nR-99u"/>
+                        <constraint firstItem="Wcc-Bo-cUh" firstAttribute="top" secondItem="8g0-dl-xLP" secondAttribute="top" constant="8" id="gq4-St-YJr"/>
+                        <constraint firstItem="oMg-31-vRN" firstAttribute="top" secondItem="8Yu-Rz-jmi" secondAttribute="bottom" constant="8" id="q7o-E9-Q0K"/>
+                        <constraint firstItem="Wcc-Bo-cUh" firstAttribute="centerX" secondItem="8g0-dl-xLP" secondAttribute="centerX" id="toX-9f-1jb"/>
+                        <constraint firstAttribute="trailing" secondItem="8Yu-Rz-jmi" secondAttribute="trailing" constant="10" id="vTf-2F-U4h"/>
+                        <constraint firstItem="oMg-31-vRN" firstAttribute="centerX" secondItem="8g0-dl-xLP" secondAttribute="centerX" id="w4Y-aO-hcm"/>
+                        <constraint firstAttribute="width" constant="240" id="zCn-pZ-Fet"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="GWb-cK-m6L"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="u2P-Hp-FT9" firstAttribute="top" secondItem="Dy4-27-Cee" secondAttribute="bottom" constant="20" id="2kT-pa-Yzh"/>
+                <constraint firstItem="P2O-7Z-mgT" firstAttribute="top" secondItem="Dy4-27-Cee" secondAttribute="bottom" constant="9" id="5Y7-wd-30D"/>
+                <constraint firstItem="8g0-dl-xLP" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="6V6-H9-XKt"/>
+                <constraint firstItem="kEv-lk-kiz" firstAttribute="top" secondItem="GWb-cK-m6L" secondAttribute="top" constant="10" id="A2Q-Oi-hIC"/>
+                <constraint firstItem="ydQ-mP-UJC" firstAttribute="leading" secondItem="kEv-lk-kiz" secondAttribute="leading" id="K5C-IK-Ld5"/>
+                <constraint firstItem="ydQ-mP-UJC" firstAttribute="top" secondItem="kEv-lk-kiz" secondAttribute="bottom" constant="24" id="KoB-7L-xaO"/>
+                <constraint firstItem="Dy4-27-Cee" firstAttribute="trailing" secondItem="kEv-lk-kiz" secondAttribute="trailing" constant="5" id="M7g-RB-G7c"/>
+                <constraint firstAttribute="bottom" secondItem="u2P-Hp-FT9" secondAttribute="bottom" id="Ojn-JV-yf0"/>
+                <constraint firstAttribute="trailing" secondItem="u2P-Hp-FT9" secondAttribute="trailing" id="Ox9-1t-y3R"/>
+                <constraint firstAttribute="trailing" secondItem="2Pi-Ip-Ne9" secondAttribute="trailing" id="WOF-r4-LHY"/>
+                <constraint firstItem="u2P-Hp-FT9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="amx-bb-cbi"/>
+                <constraint firstAttribute="trailing" secondItem="kEv-lk-kiz" secondAttribute="trailing" constant="20" id="aqm-sT-HBa"/>
+                <constraint firstItem="P2O-7Z-mgT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="atv-IP-5CD"/>
+                <constraint firstItem="2Pi-Ip-Ne9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="bHV-Sd-8B3"/>
+                <constraint firstItem="2Pi-Ip-Ne9" firstAttribute="top" secondItem="kEv-lk-kiz" secondAttribute="bottom" constant="8" id="dDG-Tz-yTt"/>
+                <constraint firstItem="kEv-lk-kiz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="fd5-DT-gKd"/>
+                <constraint firstAttribute="trailing" secondItem="P2O-7Z-mgT" secondAttribute="trailing" id="hs0-4a-525"/>
+                <constraint firstItem="8g0-dl-xLP" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-80" id="rdB-jd-VIu"/>
+                <constraint firstItem="Dy4-27-Cee" firstAttribute="leading" secondItem="kEv-lk-kiz" secondAttribute="leading" constant="-5" id="x01-bP-brG"/>
+                <constraint firstItem="Dy4-27-Cee" firstAttribute="top" secondItem="kEv-lk-kiz" secondAttribute="bottom" constant="15" id="zJt-OI-raw"/>
+            </constraints>
+            <point key="canvasLocation" x="-156" y="54"/>
+        </view>
+    </objects>
+</document>

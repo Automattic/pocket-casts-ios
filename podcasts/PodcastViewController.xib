@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PodcastViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="episodesTable" destination="vOg-9D-tbz" id="Ukt-9k-CXv"/>
+                <outlet property="loadingBgView" destination="Z6r-n2-drA" id="KSb-Gy-IIA"/>
+                <outlet property="loadingImageBg" destination="iLx-g1-Ro1" id="0sn-Hu-Ekg"/>
+                <outlet property="loadingIndicator" destination="AZp-uk-Ky7" id="ohZ-Kv-fdg"/>
+                <outlet property="multiSelectAllBtn" destination="w24-UV-dAv" id="bI8-n2-JCY"/>
+                <outlet property="multiSelectCancelBtn" destination="gVg-vB-nD5" id="NJ0-u6-zf1"/>
+                <outlet property="multiSelectFooter" destination="Lj6-2A-raj" id="j7o-SG-hvb"/>
+                <outlet property="multiSelectFooterBottomConstraint" destination="XlV-rU-xYe" id="rVt-aG-6Wh"/>
+                <outlet property="multiSelectHeaderView" destination="rCn-kh-SHx" id="zCj-c1-wQJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A5O-Jp-ZY7" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z6r-n2-drA">
+                            <rect key="frame" x="0.0" y="-70" width="375" height="250"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="250" id="hdg-yB-CeB"/>
+                            </constraints>
+                        </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iLx-g1-Ro1">
+                            <rect key="frame" x="16" y="62" width="181" height="181"/>
+                            <color key="backgroundColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="181" id="9Ly-xd-pA6"/>
+                                <constraint firstAttribute="width" secondItem="iLx-g1-Ro1" secondAttribute="height" multiplier="1:1" id="n8r-d8-8aM"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NiC-SX-rde">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.45803546909999998" green="0.83982247109999997" blue="0.28705134989999997" alpha="0.97139084509999996" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="Z6r-n2-drA" firstAttribute="leading" secondItem="A5O-Jp-ZY7" secondAttribute="leading" id="4pB-CJ-hSh"/>
+                        <constraint firstItem="Z6r-n2-drA" firstAttribute="top" secondItem="NiC-SX-rde" secondAttribute="bottom" constant="-70" id="5gC-As-IDL"/>
+                        <constraint firstAttribute="trailing" secondItem="NiC-SX-rde" secondAttribute="trailing" id="9HI-xj-66w"/>
+                        <constraint firstItem="NiC-SX-rde" firstAttribute="leading" secondItem="A5O-Jp-ZY7" secondAttribute="leading" id="HY6-UU-8GR"/>
+                        <constraint firstAttribute="trailing" secondItem="Z6r-n2-drA" secondAttribute="trailing" id="VZX-hI-kYk"/>
+                        <constraint firstItem="iLx-g1-Ro1" firstAttribute="leading" secondItem="A5O-Jp-ZY7" secondAttribute="leading" constant="16" id="bBx-fD-650"/>
+                        <constraint firstItem="iLx-g1-Ro1" firstAttribute="top" secondItem="NiC-SX-rde" secondAttribute="bottom" constant="62" id="cBX-Dd-xJB"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-9D-tbz" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="d9D-Ge-hXK"/>
+                        <outlet property="delegate" destination="-1" id="hYD-Ig-phX"/>
+                    </connections>
+                </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="AZp-uk-Ky7" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                </activityIndicatorView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rCn-kh-SHx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w24-UV-dAv">
+                            <rect key="frame" x="16" y="46" width="74" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="xtn-4c-tFJ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <state key="normal" title="Select All"/>
+                            <connections>
+                                <action selector="selectAllTapped" destination="-1" eventType="touchUpInside" id="Xno-wB-iQX"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-vB-nD5">
+                            <rect key="frame" x="305" y="46" width="54" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="FPZ-Vv-F5t"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <state key="normal" title="Cancel"/>
+                            <connections>
+                                <action selector="cancelTapped" destination="-1" eventType="touchUpInside" id="Vxk-xq-gz4"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="gVg-vB-nD5" secondAttribute="trailing" constant="16" id="aTJ-Zl-Q6k"/>
+                        <constraint firstItem="w24-UV-dAv" firstAttribute="leading" secondItem="rCn-kh-SHx" secondAttribute="leading" constant="16" id="hsU-ID-8ex"/>
+                        <constraint firstAttribute="bottom" secondItem="gVg-vB-nD5" secondAttribute="bottom" id="l6u-IZ-408"/>
+                        <constraint firstAttribute="bottom" secondItem="w24-UV-dAv" secondAttribute="bottom" id="neu-aF-ePa"/>
+                        <constraint firstAttribute="height" constant="90" id="weF-fk-AC7"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lj6-2A-raj" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="8" y="603" width="359" height="64"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="G0W-33-ngx"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="rCn-kh-SHx" secondAttribute="trailing" id="1oY-el-j1A"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="2Q2-7I-YM4"/>
+                <constraint firstItem="A5O-Jp-ZY7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9ck-5W-tuG"/>
+                <constraint firstAttribute="bottomMargin" secondItem="A5O-Jp-ZY7" secondAttribute="bottom" id="9qb-Ae-Bih"/>
+                <constraint firstItem="rCn-kh-SHx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AiL-19-Ix1"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="HIb-Ka-db3"/>
+                <constraint firstItem="rCn-kh-SHx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hqo-uM-afL"/>
+                <constraint firstItem="A5O-Jp-ZY7" firstAttribute="top" secondItem="NiC-SX-rde" secondAttribute="top" id="Kfq-4L-KMO"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="QmA-n5-aN8"/>
+                <constraint firstItem="AZp-uk-Ky7" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="VcH-B8-uIB"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="bottom" secondItem="Lj6-2A-raj" secondAttribute="bottom" id="XlV-rU-xYe"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="YIb-Ui-04J"/>
+                <constraint firstItem="Lj6-2A-raj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="YgU-IM-76c"/>
+                <constraint firstItem="A5O-Jp-ZY7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="bHb-h2-dtt"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Lj6-2A-raj" secondAttribute="trailing" constant="8" id="ewK-vS-GXj"/>
+                <constraint firstItem="A5O-Jp-ZY7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hAU-Eg-Hjy"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="NiC-SX-rde" secondAttribute="bottom" id="hY0-eI-TJM"/>
+                <constraint firstItem="AZp-uk-Ky7" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ydq-vK-s3H"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-1242.4000000000001" y="-182.15892053973016"/>
+        </view>
+    </objects>
+</document>

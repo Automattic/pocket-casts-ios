@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FolderViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="emptyFolderDescription" destination="0qP-lD-fjc" id="1jU-uy-758"/>
+                <outlet property="emptyFolderImage" destination="Bch-GE-a7s" id="vuj-zu-niv"/>
+                <outlet property="emptyFolderTitle" destination="HBF-An-d58" id="6Jz-MM-EHW"/>
+                <outlet property="emptyFolderView" destination="hy3-ku-I03" id="RFd-d3-x3R"/>
+                <outlet property="mainGrid" destination="47A-43-GRI" id="h9A-Gw-ZY7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="47A-43-GRI" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SKr-CT-xsa" customClass="ReorderableFlowLayout" customModule="podcasts" customModuleProvider="target">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="JEK-cm-Z2Q"/>
+                        <outlet property="delegate" destination="-1" id="mnI-h5-aVN"/>
+                    </connections>
+                </collectionView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hy3-ku-I03" userLabel="Empty Folder View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty-folder" translatesAutoresizingMaskIntoConstraints="NO" id="Bch-GE-a7s" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="127" y="216" width="160" height="160"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your folder is empty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBF-An-d58" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="108" y="396" width="198.5" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add podcasts to your folder and they’ll appear here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qP-lD-fjc" customClass="SecondaryLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="60" y="442.5" width="294" height="41"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWd-ub-Y2P" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="150" y="518" width="114" height="31"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Add Podcasts"/>
+                            <connections>
+                                <action selector="addPodcastsTapped:" destination="-1" eventType="touchUpInside" id="R8t-y7-z95"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Bch-GE-a7s" firstAttribute="centerX" secondItem="hy3-ku-I03" secondAttribute="centerX" id="24W-l5-9ra"/>
+                        <constraint firstItem="HBF-An-d58" firstAttribute="top" secondItem="Bch-GE-a7s" secondAttribute="bottom" constant="20" id="7eL-oJ-jjj"/>
+                        <constraint firstItem="HBF-An-d58" firstAttribute="centerX" secondItem="hy3-ku-I03" secondAttribute="centerX" id="BXr-pN-gbD"/>
+                        <constraint firstItem="0qP-lD-fjc" firstAttribute="top" secondItem="HBF-An-d58" secondAttribute="bottom" constant="20" id="LxK-iB-Ba7"/>
+                        <constraint firstItem="oWd-ub-Y2P" firstAttribute="centerX" secondItem="hy3-ku-I03" secondAttribute="centerX" id="f6x-yu-ewL"/>
+                        <constraint firstItem="0qP-lD-fjc" firstAttribute="leading" secondItem="hy3-ku-I03" secondAttribute="leading" constant="60" id="nJr-am-P3p"/>
+                        <constraint firstAttribute="trailing" secondItem="0qP-lD-fjc" secondAttribute="trailing" constant="60" id="v1y-fw-tN9"/>
+                        <constraint firstItem="HBF-An-d58" firstAttribute="centerY" secondItem="hy3-ku-I03" secondAttribute="centerY" id="wNh-Um-pB7"/>
+                        <constraint firstItem="oWd-ub-Y2P" firstAttribute="top" secondItem="0qP-lD-fjc" secondAttribute="bottom" constant="34.5" id="xQQ-Cf-xDO"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="47A-43-GRI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3Vn-s7-RuP"/>
+                <constraint firstItem="hy3-ku-I03" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="PCs-Go-MbW"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="47A-43-GRI" secondAttribute="trailing" id="QQL-a4-Mvq"/>
+                <constraint firstItem="hy3-ku-I03" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ThP-AH-vBO"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="47A-43-GRI" secondAttribute="bottom" id="ZO9-S6-sVk"/>
+                <constraint firstItem="hy3-ku-I03" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ks2-Gf-Ye5"/>
+                <constraint firstItem="hy3-ku-I03" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="oeW-Xb-cRE"/>
+                <constraint firstItem="47A-43-GRI" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="pDg-Yl-YRq"/>
+            </constraints>
+            <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="empty-folder" width="160" height="160"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

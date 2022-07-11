@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WhatsNewPageView" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="0YJ-XR-Kax"/>
+                <outlet property="scrollView" destination="m1A-JE-4w0" id="YxM-FW-JYx"/>
+                <outlet property="stackView" destination="BPm-Cw-7hy" id="iCf-xA-ZjG"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1A-JE-4w0">
+                    <rect key="frame" x="16" y="44" width="382" height="818"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BPm-Cw-7hy">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mXh-6j-VK3">
+                                    <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="GaG-44-hdB"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="BPm-Cw-7hy" firstAttribute="width" secondItem="m1A-JE-4w0" secondAttribute="width" id="1CA-8K-tdq"/>
+                        <constraint firstItem="BPm-Cw-7hy" firstAttribute="top" secondItem="m1A-JE-4w0" secondAttribute="top" id="F2V-Q2-Lc5"/>
+                        <constraint firstAttribute="trailing" secondItem="BPm-Cw-7hy" secondAttribute="trailing" id="MRe-A1-faz"/>
+                        <constraint firstItem="BPm-Cw-7hy" firstAttribute="centerX" secondItem="m1A-JE-4w0" secondAttribute="centerX" id="fqa-hk-tk2"/>
+                        <constraint firstAttribute="bottom" secondItem="BPm-Cw-7hy" secondAttribute="bottom" id="ftb-oP-Mmj"/>
+                        <constraint firstItem="BPm-Cw-7hy" firstAttribute="leading" secondItem="m1A-JE-4w0" secondAttribute="leading" id="o3g-wH-73O"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="m1A-JE-4w0" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="9DM-3A-3mK"/>
+                <constraint firstItem="m1A-JE-4w0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="B8F-ls-2lJ"/>
+                <constraint firstItem="m1A-JE-4w0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="gsU-k2-TX4"/>
+                <constraint firstItem="m1A-JE-4w0" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-16" id="xbR-U0-XXr"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="47.826086956521742" y="86.383928571428569"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,3363 @@
+/* Translation-Revision-Date: 2022-05-17 09:54:03+0000 */
+/* Plural-Forms: nplurals=1; plural=0; */
+/* Generator: GlotPress/2.4.0-alpha */
+/* Language: zh_CN */
+
+/* Subtitle for the toggle to auto add new files to the Up Next Queue. */
+"Settings_files_add_up_next_subtitle" = "自动将新文件添加到“接下来播放”";
+
+/* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
+"about_a8c_family" = "Automattic 家族";
+
+/* Secondary text on our come with with us call out */
+"about_join_from_anywhere" = "随时随地加入";
+
+/* About page text to ask the user to rate our app in the App Store */
+"about_rate_us" = "给我们评分";
+
+/* About page text to ask the user to share a link to our app with friends */
+"about_share_friends" = "分享给朋友";
+
+/* Button that takes people to our website */
+"about_website" = "网站";
+
+/* Main callout to come get a job with Automattic */
+"about_work_with_us" = "加入我们";
+
+/* No comment provided by engineer. */
+"accessibility_cancel_multiselect" = "取消多选";
+
+/* A common string used throughout the app. Accessibility hint to inform that the control closes the current dialog window. */
+"accessibility_close_dialog" = "关闭对话框";
+
+/* A common string used throughout the app. Accessibility hint to inform the user that this control will deselect the episode. */
+"accessibility_deselect_episode" = "取消选择剧集";
+
+/* A common string used throughout the app. Accessibility hint to inform that the control is disabled. */
+"accessibility_disabled" = "已禁用";
+
+/* A common string used throughout the app. Accessibility hint to inform that the control dismisses the current window. */
+"accessibility_dismiss" = "忽略";
+
+/* An accessibility label to direct the user tap to get access to filter details. */
+"accessibility_hide_filter_details" = "轻点以隐藏过滤器详情";
+
+/* Accessibility hint to inform the user how to star (favorite) for an episode. */
+"accessibility_hint_star" = "轻点两次以为剧集加星标";
+
+/* Accessibility hint to inform the user how to un-star (remove favorite) for an episode. */
+"accessibility_hint_unstar" = "轻点两次以删除剧集的星标";
+
+/* A common string used throughout the app. Accessibility hint to inform that the control opens a menu for more options. */
+"accessibility_more_actions" = "更多操作";
+
+/* A common string used throughout the app. An accessibility label to inform the user the completed percentage of a given task. '%1$@' is a placeholder for the localized spelled out number for Voice Over */
+"accessibility_percent_complete_format" = "完成了百分之 %1$@";
+
+/* Accessibility text listing the current value for the playback speed. '%1$@' is a placeholder for the playback speed. */
+"accessibility_player_effects_playback_speed" = "播放速度 %1$@ 倍";
+
+/* Accessibility hint to inform the user which filter color flag is being used. '%1$@' is a placeholder for the filter color number. */
+"accessibility_playlist_color" = "播放列表颜色 %1$@";
+
+/* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription. */
+"accessibility_plus_only" = "已锁定， Plus 功能";
+
+/* Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. */
+"accessibility_profile_settings" = "Pocket Casts 设置";
+
+/* A common string used throughout the app. Accessibility hint to inform the user that this control will select the episode. */
+"accessibility_select_episode" = "选择剧集";
+
+/* An accessibility label to direct the user tap to get access to filter details. */
+"accessibility_show_filter_details" = "轻点以显示过滤器详情";
+
+/* An accessibility hint to prompt the user to tap to open their account details or sign in. */
+"accessibility_sign_in" = "轻点以查看或设置账户";
+
+/* A common string used throughout the app. An accessibility label to direct the user to sort and option menus. */
+"accessibility_sort_and_options" = "排序和选项";
+
+/* Prompt to allow the user to update the email associated to their account. */
+"account_change_email" = "更改电子邮件地址";
+
+/* Nudge to inform the user that they are nearly done with the account set up steps. */
+"account_completion_nudge" = "即将完成！";
+
+/* Message portion of the nudge to inform the user that they are nearly done with the account set up steps. */
+"account_completion_nudge_msg" = "完成付款以完成账户升级。";
+
+/* Title informing the user that their account has been successfully created */
+"account_created" = "账户已创建";
+
+/* Title for the final screen in the account creation flow. */
+"account_creation_complete" = "完成账户";
+
+/* Prompt to allow the user to delete their account. */
+"account_delete_account" = "删除账户";
+
+/* Confirmation option for deleting the user account. */
+"account_delete_account_conf" = "是，删除";
+
+/* Error title for when the delete account process has failed. */
+"account_delete_account_error" = "删除账户失败";
+
+/* Error message for when the delete account process has failed. */
+"account_delete_account_error_msg" = "无法删除账户。";
+
+/* The final alert message for the confirmation dialog asking the user to confirm they want to delete their account. */
+"account_delete_account_final_alert_msg" = "最后一个机会，您是否确定要删除您的账户？ 您将永久丢失所有订阅和播放历史记录！";
+
+/* The first message for the confirmation dialog asking the user to confirm they want to delete their account. */
+"account_delete_account_first_alert_msg" = "是否确定要删除您的账户，此操作无法撤消！";
+
+/* Title for the confirmation dialog asking the user to confirm they want to delete their account. */
+"account_delete_account_title" = "删除账户?";
+
+/* Informs the user that their purchase will be automatically renewed monthly */
+"account_payment_renews_monthly" = "每月自动续订";
+
+/* Informs the user that their purchase will be automatically renewed yearly */
+"account_payment_renews_yearly" = "每年自动续订";
+
+/* Allows the user to ope a screen to review the Privacy Policy */
+"account_privacy_policy" = "隐私政策";
+
+/* Error message for when the account registration request has failed. */
+"account_registration_failed" = "注册失败，请稍后重试";
+
+/* Prompt to allow the user to choose their account time when setting up their account. */
+"account_select_type" = "选择账户类型";
+
+/* Prompt to allow the user to sign out of their account. */
+"account_sign_out" = "注销";
+
+/* Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. '%1$@' is a placeholder for the number of supported podcasts. */
+"account_sign_out_supporter_prompt" = "注销将从此设备中删除 %1$@ 个受支持的播客。 是否确定？";
+
+/* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
+"account_sign_out_supporter_subtitle" = "您可以再次登录以重新获得访问权限。";
+
+/* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
+"account_title" = "Pocket Casts 账户";
+
+/* Title informing the user that their account has been successfully upgraded to Pocket Casts Plus */
+"account_upgraded" = "账户已升级";
+
+/* Welcome message presented after a user has signed up for Pocket Casts */
+"account_welcome" = "欢迎使用 Pocket Casts！";
+
+/* Welcome message presented after a user has signed up for Pocket Casts Plus */
+"account_welcome_plus" = "欢迎使用 Pocket Casts Plus！";
+
+/* A common string used throughout the app. Title for the prompt to add an episode to the up next queue. */
+"add_to_up_next" = "添加到“接下来播放”";
+
+/* A common string used throughout the app. Option that determines the behavior of the app after playing an item. */
+"after_playing" = "播放后";
+
+/* A common string used throughout the app. References to Badge settings for the app. */
+"app_badge" = "应用程序徽章";
+
+/* The name for the Classic App Icon */
+"app_icon_classic" = "Classic";
+
+/* The name for the Dark App Icon */
+"app_icon_dark" = "Dark";
+
+/* The name for the Default App Icon */
+"app_icon_default" = "Default";
+
+/* The name for the Electric Blue App Icon */
+"app_icon_electric_blue" = "Electric Blue";
+
+/* The name for the Electric Pink App Icon */
+"app_icon_electric_pink" = "Electric Pink";
+
+/* The name for the Indigo App Icon */
+"app_icon_indigo" = "Indigo";
+
+/* The name for the Pocket Casts Plus App Icon */
+"app_icon_plus" = "Plus";
+
+/* The name for the Pocket Cats App Icon. The name for this one is meant to be a play on the App name Pocket Casts and the icon includes a cat image. */
+"app_icon_pocket_cats" = "Pocket Cats";
+
+/* The name for the Radioactivity App Icon */
+"app_icon_radioactivity" = "Radioactivity";
+
+/* The name for the Red Velvet App Icon */
+"app_icon_red_velvet" = "Red Velvet";
+
+/* The name for the Rosé App Icon */
+"app_icon_rose" = "Rosé";
+
+/* The name for the Round Dark App Icon */
+"app_icon_round_dark" = "Round Dark";
+
+/* The name for the Round Light App Icon */
+"app_icon_round_light" = "Round Light";
+
+/* Text sent when sharing a link to our app with other people */
+"app_share_text" = "嘿！ 这是下载 Pocket Casts 应用的链接。我非常喜欢这个应用，希望您也喜欢。";
+
+/* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
+"app_version" = "版本 %1$@ (%2$@)";
+
+/* Section header for the appearance settings related to app icons. */
+"appearance_app_icon_header" = "App 图标";
+
+/* Section header for the appearance settings related to artwork. */
+"appearance_artwork_header" = "播客插图";
+
+/* Label for letting the user choose a theme for iOS dark mode. */
+"appearance_dark_theme" = "深色主题";
+
+/* Prompt to toggle on the use of artwork that's embedded in the episode download files. */
+"appearance_embedded_artwork" = "使用嵌入式插图";
+
+/* Subtitle explaining embedded artwork in the episode download files. */
+"appearance_embedded_artwork_subtitle" = "在播放器中显示下载文件（如果存在）中的插图，而不是使用节目的插图。";
+
+/* Label for letting the user choose a theme for iOS light mode. */
+"appearance_light_theme" = "浅色主题";
+
+/* Prompt to toggle whether the theme will match the device theme or not. */
+"appearance_match_device_theme" = "使用 iOS 浅\/深模式";
+
+/* Prompt to refresh the artwork for all podcasts. */
+"appearance_refresh_all_artwork" = "刷新所有播客插图";
+
+/* Confirmation message used to inform the user that the refresh has been successfully triggered. */
+"appearance_refresh_all_artwork_conf_msg" = "立即刷新您的插图";
+
+/* Confirmation title used to inform the user that the refresh has been successfully triggered. */
+"appearance_refresh_all_artwork_conf_title" = "Aye Aye Captain";
+
+/* Section header for the appearance settings related to themes. */
+"appearance_theme_header" = "主题";
+
+/* Header for asking the user to select a theme. */
+"appearance_theme_select" = "选择主题";
+
+/* A common string used throughout the app. Prompt to archive the selected item(s). */
+"archive" = "存档";
+
+/* A common string used throughout the app. Confirmation prompt before moving forward. */
+"are_you_sure" = "是否确定？";
+
+/* A common string used throughout the app. Prompt to configure the auto add options for a podcast. */
+"auto_add" = "自动添加到";
+
+/* Option in the auto add dialog to add the items to the bottom of the queue. */
+"auto_add_to_bottom" = "至底部";
+
+/* Option in the auto add dialog to add the items to the top of the queue. */
+"auto_add_to_top" = "至顶部";
+
+/* Option in the auto add settings to stop adding options once the limit is reached. This option won't add new episodes. */
+"auto_add_to_up_next_stop" = "停止添加新剧集";
+
+/* Option in the auto add settings to stop adding options once the limit is reached. This option won't add new episodes. To conserve space this should be a more concise version of 'Stop Adding New Episodes' */
+"auto_add_to_up_next_stop_short" = "停止添加";
+
+/* Option in the auto add settings to stop adding options once the limit is reached. This option will add the podcast to the top top the queue and drop the bottom. */
+"auto_add_to_up_next_top_only" = "仅添加到顶部";
+
+/* Option in the auto add settings to stop adding options once the limit is reached. This option will add the podcast to the top top the queue and drop the bottom. To conserve space this shouldn't be longer than the English string. If needed "Add To Top" or "To Top" can be translated instead */
+"auto_add_to_up_next_top_only_short" = "仅添加到顶部";
+
+/* Title for the dialog box that presents the available options for how many episodes for auto download from a filter. */
+"auto_download_first" = "自动下载前";
+
+/* Subtitle for the auto download setting. This is displayed when the option is turned off. */
+"auto_download_off_subtitle" = "启用可自动下载此过滤器中的剧集";
+
+/* Subtitle for the auto download setting. This is displayed when the option is turned on. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
+"auto_download_on_plural_format" = "此过滤器中的前 %1$@ 集将自动下载";
+
+/* Provides hint text to auto download the a the first of a configurable amount of episodes. Accompanied by a label indicating how many episodes will be auto downloaded. */
+"auto_download_prompt_first" = "首先";
+
+/* A common string used throughout the app. Title for the back button. Used with the accessibility settings. */
+"back" = "返回";
+
+/* This is for an iOS permission prompt for bluetooth access */
+"bluetooth_plist_description" = "Pocket Casts 需要访问您的蓝牙，才能检测附近的 Google Cast 设备。";
+
+/* A common string used throughout the app. Title option to place the item at the bottom of the queue. */
+"bottom" = "底部";
+
+/* A common string used throughout the app. Informs the user of the maximum amount of bulk downloads. '%1$@' is a placeholder for maximum amount of bulk downloads. */
+"bulk_download_max_format" = "批量下载限制为 %1$@。";
+
+/* This is for an iOS permission prompt for adding custom images to a file */
+"camera_plist_description" = "它允许您将自定义图像添加到文件中";
+
+/* A common string used throughout the app. Prompt to cancel the current flow. */
+"cancel" = "取消";
+
+/* A common string used throughout the app. Prompt to cancel the download for the selected item(s). */
+"cancel_download" = "取消下载";
+
+/* Message title indicating that the cancel process has failed. */
+"cancel_failed" = "无法取消";
+
+/* Prompt to allow the user to cancel their Pocket Casts Plus subscription. */
+"cancel_subscription" = "取消订阅";
+
+/* An activity message indicating that the process to cancel is running. */
+"canceling" = "正在取消...";
+
+/* CarPlay subtitle information label that includes the current chapter and total chapter count and the current chapter length. '%1$@' is a placeholder for the current chapter. '%2$@' is a placeholder for the total chapters. '%3$@' is a placeholder for the length of the current chapter. */
+"carplay_chapter_count" = "%1$@\/%2$@。%3$@";
+
+/* Provides a link to the menu to present more options. */
+"carplay_more" = "更多";
+
+/* CarPlay option to modify the playback speed. */
+"carplay_playback_speed" = "播放速度";
+
+/* CarPlay prompt to navigate to the up next Queue. */
+"carplay_up_next_queue" = "“接下来播放”队列";
+
+/* Prompt to allow the user to update their email address. */
+"change_email" = "更改电子邮件地址";
+
+/* Confirmation message title informing the user that their email has been successfully updated. */
+"change_email_conf" = "电子邮件地址已更改";
+
+/* Prompt to allow the user to Update their password. */
+"change_password" = "修改密码";
+
+/* Confirmation message title informing the user that their password has been successfully updated. */
+"change_password_conf" = "密码已更改";
+
+/* Error message informing the user that the change password process failed. */
+"change_password_error" = "无法更改密码。 密码无效。";
+
+/* Error message informing the user that the change password process failed because they failed to enter matching passwords. */
+"change_password_error_mismatch" = "密码不匹配";
+
+/* Error message informing the user that they need to choose a longer password. */
+"change_password_length_error" = "必须至少为 6 个字符";
+
+/* A common string used throughout the app. Often refers to the Chapters list or Chapters tab in the player. */
+"chapters" = "章节";
+
+/* A common string used throughout the app. Informs the user how many podcasts have been chosen. '%1$@' is a placeholder for the number of podcasts, this will be more than one. */
+"chosen_podcasts_plural_format" = "已选择 %1$@ 个播客";
+
+/* A common string used throughout the app. Informs the user how many podcasts have been chosen. This is the singular format for an accompanying plural option. */
+"chosen_podcasts_singular" = "已选择 1 个播客";
+
+/* Title for the screen that provides the list of available ChromeCast devices. */
+"chromecast_cast_to" = "投射至";
+
+/* Informs the user that ChromeCast has connected. */
+"chromecast_connected" = "已连接";
+
+/* Informs the user that ChromeCast has connected to the device. Used as a title when no episode is playing. */
+"chromecast_connected_to_device" = "已连接到设备";
+
+/* Error message informing the user that the app is unable to Cast local files in ChromeCast. */
+"chromecast_error" = "无法投射本地文件";
+
+/* Informs the user that ChromeCast has connected to the device but no episode is playing. */
+"chromecast_nothing_playing" = "没有播放任何内容";
+
+/* Placeholder name for when ChromeCast doesn't have a device name. */
+"chromecast_unnamed_device" = "未命名的设备";
+
+/* A common string used throughout the app. Prompt to perform a clean up operation on the selected items. */
+"clean_up" = "清理";
+
+/* A common string used throughout the app. Prompt to clear the up next queue. */
+"clear" = "清除";
+
+/* A common string used throughout the app. Prompt to clear the up next queue. */
+"clear_up_next" = "清除“接下来播放”";
+
+/* A common string used throughout the app. Message to clear the up next queue. */
+"clear_up_next_message" = "是否确定要清除您的“接下来播放”队列？";
+
+/* A common string used throughout the app. Prompt to close the current screen. */
+"close" = "关闭";
+
+/* Common word, the color of something */
+"color" = "颜色";
+
+/* A common string used throughout the app. Generic confirmation */
+"confirm" = "确认";
+
+/* Password change form confirm new password field prompt */
+"confirm_new_password_prompt" = "确认新密码";
+
+/* A common string used throughout the app. A prompt to move to the next step of a flow. */
+"continue" = "继续";
+
+/* Prompt to open the create account options. */
+"create_account" = "创建账户";
+
+/* Error message shown when Pocket Casts can't connect to the App Store to retrieve in app purchase details */
+"create_account_app_store_error_message" = "Pocket Casts 在连接到 App Store 时遇到问题。 请检查您的连接，然后重试。";
+
+/* Error title shown when Pocket Casts can't connect to the App Store to retrieve in app purchase details */
+"create_account_app_store_error_title" = "无法联系 App Store";
+
+/* Button title to find out more about Pocket Casts Plus. Note that "Pocket Casts Plus" shouldn't be translated as it's a product name */
+"create_account_find_out_more_plus" = "了解有关 Pocket Casts Plus 的更多信息";
+
+/* Account type shown on the select account page. Regular as in the normal or default option */
+"create_account_free_account_type" = "普通";
+
+/* Shown under the create account type to indicate what you get with a free Pocket Casts account */
+"create_account_free_details" = "几乎所有内容";
+
+/* Price shown for the free tier. "Free" in this case meaning the cost is free */
+"create_account_free_price" = "免费";
+
+/* Shown under the create account type to indicate what you get in Pocket Casts Plus */
+"create_account_plus_details" = "已全部解锁";
+
+/* Title for the screen where a user starts creating a filter */
+"create_filter" = "创建过滤器";
+
+/* Email change form current email label */
+"current_email_prompt" = "当前电子邮件";
+
+/* Password change form current password field prompt */
+"current_password_prompt" = "当前密码";
+
+/* An indicator that the current episode is a user generated episode */
+"custom_episode" = "自定义剧集";
+
+/* Prompt to cancel an active upload of a file. */
+"custom_episode_cancel_upload" = "取消上传";
+
+/* Prompt to delete an uploaded file from the cloud. */
+"custom_episode_remove_upload" = "从云中删除";
+
+/* Prompt to upload a file to the cloud. */
+"custom_episode_upload" = "上传至云";
+
+/* Label shown for days listened when it's singular, eg: 1 day listened. */
+"day_listened" = "已收听的天数";
+
+/* Label shown for days saved when it's singular, eg: 1 day saved. */
+"day_saved" = "已节省的天数";
+
+/* Label shown for days listened when it's singular, eg: 2 days listened. */
+"days_listened" = "已收听的天数";
+
+/* Label shown for days saved when it's singular, eg: 2 days saved. */
+"days_saved" = "已节省的天数";
+
+/* A common string used throughout the app. Prompt to delete the selected item(s). */
+"delete" = "删除";
+
+/* A prompt to delete the downloaded file */
+"delete_download" = "删除下载";
+
+/* Prompt to delete the selected item(s) from the device storage and the cloud. */
+"delete_everywhere" = "从所有位置删除";
+
+/* Prompt to delete the selected item(s) from the device storage and the cloud. */
+"delete_everywhere_short" = "删除所有位置";
+
+/* A common string used throughout the app. Title portion of the prompt to delete the selected file. */
+"delete_file" = "删除文件";
+
+/* A common string used throughout the app. Message portion of the prompt to delete the selected file. */
+"delete_file_message" = "是否确定要删除此文件？";
+
+/* A common string used throughout the app. Prompt to delete the selected item(s) from the cloud storage. */
+"delete_from_cloud" = "从云中删除";
+
+/* A common string used throughout the app. Prompt to delete the selected item(s) from the device storage. */
+"delete_from_device" = "从设备中删除";
+
+/* A common string used throughout the app. Prompt to delete the selected item(s) from the device storage. 'Only' is used to emphasize that the item is also stored in the cloud and that file won't be deleted. */
+"delete_from_device_only" = "仅从设备中删除";
+
+/* A common string used throughout the app. Prompt to deselect all items in the presented list. */
+"deselect_all" = "取消全选";
+
+/* A common string used throughout the app. Refers to the Discover tab. */
+"discover" = "发现";
+
+/* Title for the section that allows the user to explore different podcast categories. */
+"discover_browse_by_category" = "按类型浏览";
+
+/* Title for the podcast category Arts */
+"discover_browse_by_category_art" = "艺术";
+
+/* Title for the podcast category Business */
+"discover_browse_by_category_business" = "商业与财经";
+
+/* Title for the podcast category Comedy */
+"discover_browse_by_category_comedy" = "喜剧";
+
+/* Title for the podcast category Education */
+"discover_browse_by_category_education" = "教育";
+
+/* Title for the podcast category Fiction */
+"discover_browse_by_category_fiction" = "小说";
+
+/* Title for the podcast category Games & Hobbies */
+"discover_browse_by_category_games_and_hobbies" = "游戏和爱好";
+
+/* Title for the podcast category Government */
+"discover_browse_by_category_government" = "政府";
+
+/* Title for the podcast category Government & Organizations */
+"discover_browse_by_category_government_and_organizations" = "政府和组织";
+
+/* Title for the podcast category Health */
+"discover_browse_by_category_health" = "健康";
+
+/* Title for the podcast category Health & Fitness */
+"discover_browse_by_category_health_and_fitness" = "健康与健身";
+
+/* Title for the podcast category History */
+"discover_browse_by_category_history" = "历史";
+
+/* Title for the podcast category Kids & Family */
+"discover_browse_by_category_kids_and_family" = "儿童和家庭";
+
+/* Title for the podcast category Leisure */
+"discover_browse_by_category_leisure" = "休闲";
+
+/* Title for the podcast category Music */
+"discover_browse_by_category_music" = "音乐";
+
+/* Title for the podcast category News */
+"discover_browse_by_category_news" = "新闻";
+
+/* Title for the podcast category News & Politics */
+"discover_browse_by_category_news_and_politics" = "新闻和政治";
+
+/* Title for the podcast category Religion & Spirituality */
+"discover_browse_by_category_religion_and_spirituality" = "宗教与精神生活";
+
+/* Title for the podcast category Science */
+"discover_browse_by_category_science" = "科学";
+
+/* Title for the podcast category Science & Medicine */
+"discover_browse_by_category_science_and_medicine" = "科学和医学";
+
+/* Title for the podcast category Society */
+"discover_browse_by_category_society" = "社会";
+
+/* Title for the podcast category Society & Culture */
+"discover_browse_by_category_society_and_culture" = "社会与文化";
+
+/* Title for the podcast category Sports */
+"discover_browse_by_category_sports" = "体育";
+
+/* Title for the podcast category Sports & Recreation */
+"discover_browse_by_category_sports_and_recreation" = "体育和娱乐";
+
+/* Title for the podcast category Technology */
+"discover_browse_by_category_technology" = "科技";
+
+/* Title for the podcast category True Crime */
+"discover_browse_by_category_true_crime" = "真实犯罪";
+
+/* Title for the podcast category TV & Film */
+"discover_browse_by_category_tv_and_film" = "电视和电影";
+
+/* Prompt to allow the user to manually change the regional information for the Discover tab. '%1$@' is a placeholder for the current region. */
+"discover_change_region" = "更改区域，当前为 %1$@";
+
+/* Badge used to mark featured podcasts. */
+"discover_featured" = "特色";
+
+/* Informative label letting the users know that the displayed episode is a featured episode. */
+"discover_featured_episode" = "精选剧集";
+
+/* Informative label letting the users know that the displayed podcast is a featured new podcast. */
+"discover_fresh_pick" = "新鲜精选";
+
+/* Informational title when the search succeeds but returns no results. */
+"discover_no_podcasts_found" = "未找到播客";
+
+/* Informational title when the search succeeds but returns no results. */
+"discover_no_podcasts_found_msg" = "尝试更多常规或不同的关键字。";
+
+/* Button prompt on the discover page to play the featured episode. */
+"discover_play_episode" = "播放剧集";
+
+/* Button prompt on the discover page to play the trailer of a featured episode. */
+"discover_play_trailer" = "播放预告片";
+
+/* Display title for calling out a podcast network on the discover tab. '%1$@' is a placeholder for the podcast's network title. */
+"discover_podcast_network" = "%1$@ 网络";
+
+/* Title used for promotional purposes to highlight podcasts that are popular worldwide. */
+"discover_popular" = "热门播客";
+
+/* Title used for promotional purposes to highlight podcasts that are popular in a specific region. '%1$@' is a placeholder for the region's name. */
+"discover_popular_in" = "%1$@ 的热门播客";
+
+/* Region name for Australia used in the Discover Section */
+"discover_region_australia" = "澳大利亚";
+
+/* Region name for Austria used in the Discover Section */
+"discover_region_austria" = "奥地利";
+
+/* Region name for Belgium used in the Discover Section */
+"discover_region_belgium" = "比利时";
+
+/* Region name for Brazil used in the Discover Section */
+"discover_region_brazil" = "巴西";
+
+/* Region name for Canada used in the Discover Section */
+"discover_region_canada" = "加拿大";
+
+/* Region name for China used in the Discover Section */
+"discover_region_china" = "中国";
+
+/* Region name for Czechia used in the Discover Section */
+"discover_region_czechia" = "捷克";
+
+/* Region name for Denmark used in the Discover Section */
+"discover_region_denmark" = "丹麦";
+
+/* Region name for Finland used in the Discover Section */
+"discover_region_finland" = "芬兰";
+
+/* Region name for France used in the Discover Section */
+"discover_region_france" = "法国";
+
+/* Region name for Germany used in the Discover Section */
+"discover_region_germany" = "德国";
+
+/* Region name for Hong Kong used in the Discover Section */
+"discover_region_hong_kong" = "香港特别行政区，中国";
+
+/* Region name for India used in the Discover Section */
+"discover_region_india" = "印度";
+
+/* Region name for Ireland used in the Discover Section */
+"discover_region_ireland" = "爱尔兰";
+
+/* Region name for Israel used in the Discover Section */
+"discover_region_israel" = "以色列";
+
+/* Region name for Italy used in the Discover Section */
+"discover_region_italy" = "意大利";
+
+/* Region name for Japan used in the Discover Section */
+"discover_region_japan" = "日本";
+
+/* Region name for Mexico used in the Discover Section */
+"discover_region_mexico" = "墨西哥";
+
+/* Region name for Netherlands used in the Discover Section */
+"discover_region_netherlands" = "荷兰";
+
+/* Region name for New Zealand used in the Discover Section */
+"discover_region_new_zealand" = "新西兰";
+
+/* Region name for Norway used in the Discover Section */
+"discover_region_norway" = "挪威";
+
+/* Region name for Philippines used in the Discover Section */
+"discover_region_philippines" = "菲律宾";
+
+/* Region name for Poland used in the Discover Section */
+"discover_region_poland" = "波兰";
+
+/* Region name for Portugal used in the Discover Section */
+"discover_region_portugal" = "葡萄牙";
+
+/* Region name for Russia used in the Discover Section */
+"discover_region_russia" = "俄罗斯";
+
+/* Region name for Saudi Arabia used in the Discover Section */
+"discover_region_saudi_arabia" = "沙特阿拉伯";
+
+/* Region name for Singapore used in the Discover Section */
+"discover_region_singapore" = "新加坡";
+
+/* Region name for South Africa used in the Discover Section */
+"discover_region_south_africa" = "南非";
+
+/* Region name for South Korea used in the Discover Section */
+"discover_region_south_korea" = "韩国";
+
+/* Region name for Spain used in the Discover Section */
+"discover_region_spain" = "西班牙";
+
+/* Region name for Sweden used in the Discover Section */
+"discover_region_sweden" = "瑞典";
+
+/* Region name for Switzerland used in the Discover Section */
+"discover_region_switzerland" = "瑞士";
+
+/* Region name for Taiwan used in the Discover Section */
+"discover_region_taiwan" = "中国台湾";
+
+/* Region name for Turkey used in the Discover Section */
+"discover_region_turkey" = "土耳其";
+
+/* Region name for Ukraine used in the Discover Section */
+"discover_region_ukraine" = "乌克兰";
+
+/* Region name for United Kingdom used in the Discover Section */
+"discover_region_united_kingdom" = "英国";
+
+/* Region name for United States used in the Discover Section */
+"discover_region_united_states" = "美国";
+
+/* Region name used in the Discover Section for a genreic global setting instead of a specific region. */
+"discover_region_worldwide" = "全球";
+
+/* Error message when a user performs a search using a search term that's too short. */
+"discover_search_error_msg" = "请输入至少 2 个字符。";
+
+/* Error title when a user performs a search using a search term that's too short. */
+"discover_search_error_title" = "长度有问题";
+
+/* Informational title informing the users that the search has failed. */
+"discover_search_failed" = "搜索失败";
+
+/* Informational message suggesting that the user checks their internet connection when an error occurs. */
+"discover_search_failed_msg" = "检查您的互联网连接。";
+
+/* Screen title to allow the user to manually change the regional information for the Discover tab. This screen shows the available options. */
+"discover_select_region" = "选择“内容区域”";
+
+/* Button prompt used on the Discover Tab. Opens the linked list to show all podcasts in the section. */
+"discover_show_all" = "显示所有";
+
+/* Informative label letting the users know that the displayed podcast is a paid placement ad. */
+"discover_sponsored" = "赞助";
+
+/* Title used for promotional purposes to highlight trending podcasts. */
+"discover_trending" = "趋势";
+
+/* A common string used throughout the app. Confirmation text. */
+"done" = "完成";
+
+/* A common string used throughout the app. Prompt to download the selected item(s). */
+"download" = "下载";
+
+/* A common string used throughout the app. Prompt to download all of the selected item(s). */
+"download_all" = "下载全部";
+
+/* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. */
+"download_data_warning" = "下载将使用数据。";
+
+/* A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one. */
+"download_episode_plural_format" = "下载 %1$@ 集";
+
+/* A common string used throughout the app. Prompts the user that they have selected one episode to download. */
+"download_episode_singular" = "下载 1 集";
+
+/* The episode failed to download due to an issue with the feed. Suggesting the user reaches out to the Podcast Author. */
+"download_error_contact_author" = "由于播客源出错，剧集不可用。 联系播客作者。";
+
+/* The episode failed to download due to an issue with the feed. Suggesting the user reaches out to the Podcast Author. */
+"download_error_contact_author_version_2" = "此剧集可能已移动或删除。 联系播客作者。";
+
+/* The episode failed to download due to the user running out of storage space. */
+"download_error_not_enough_space" = "无法保存剧集，空间是否已用完？";
+
+/* The episode failed to download because the file wasn't available on the server */
+"download_error_not_uploaded" = "文件未上传，无法播放";
+
+/* The episode failed to download due to an issue with the feed. Suggesting the user reaches out to the Podcast Author. '%1$@' is a placeholder for the status code that the app received. */
+"download_error_status_code" = "下载失败，错误代码 %1$@。 联系播客作者。";
+
+/* The episode failed to download but the app wasn't able to determine why. Suggesting to try again after waiting for a bit. */
+"download_error_try_again" = "无法下载剧集。 请稍后重试。";
+
+/* A common string used throughout the app. Informs the user the download has failed. */
+"download_failed" = "下载失败";
+
+/* A common string used throughout the app. Title for screens and prompts related to storage and downloaded files. */
+"downloaded_files" = "下载的文件";
+
+/* Confirmation message when you choose to delete a set of downloaded files */
+"downloaded_files_cleanup_confirmation" = "是否确定要删除这些下载的文件？";
+
+/* Message for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. */
+"downloaded_files_conf_message" = "取消订阅将删除此播客中下载的所有文件，是否确定？";
+
+/* Title for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. Informs the user how many files have been downloaded. '%1$@' is a placeholder for the number of downloaded files, will be more than one. */
+"downloaded_files_conf_plural_format" = "%1$@ 个已下载的文件";
+
+/* Title for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. Informs the user one file has been downloaded. Singular version of an accompanying plural message. */
+"downloaded_files_conf_singular" = "1 个已下载的文件";
+
+/* A common string used throughout the app. Often refers to the Downloads screen. */
+"downloads" = "下载";
+
+/* Prompt to navigate the user to the Auto Downloads settings menu. */
+"downloads_auto_download" = "自动下载设置";
+
+/* The description for the empty state when there are no downloads available */
+"downloads_no_downloads_desc" = "糟糕！ 下载文件没有了。 下载更多文件，这些文件将显示在此处。";
+
+/* Title for the empty state when there are no downloads available */
+"downloads_no_downloads_title" = "没有已下载剧集";
+
+/* Prompt to allow the user to retry failed downloads. */
+"downloads_retry_failed_downloads" = "重试失败的下载";
+
+/* Prompt to allow the user to stop active downloads. */
+"downloads_stop_all_downloads" = "停止所有下载";
+
+/* Common word used to denote editting something */
+"edit" = "编辑";
+
+/* Refers to an Episode in the singular form. */
+"episode" = "剧集";
+
+/* A common string used throughout the app. Display configurable options related to a number of episodes. '%1$@' is a placeholder for the number of episodes, the value will be more than one. */
+"episode_count_plural_format" = "%1$@ 集";
+
+/* Label for adding duration filtering to an episode filter, eg: filter by the duration of an episode */
+"episode_filter_by_duration_label" = "按持续时间筛选";
+
+/* Message shown when you have no episodes in an episode filter */
+"episode_filter_no_episodes_msg" = "是时候庆祝完成此列表了，或是编辑过滤器设置以获得更多信息。";
+
+/* Title shown when you have no episodes in an episode filter */
+"episode_filter_no_episodes_title" = "无剧集";
+
+/* Episode indicator that the current episode is a bonus episode. */
+"episode_indicator_bonus" = "附赠服务";
+
+/* Episode indicator that the current episode is a trailer for an upcoming season of the podcast. '%1$@' is a placeholder for the season number. */
+"episode_indicator_season_trailer" = "第 %1$@ 季预告片";
+
+/* Episode indicator that the current episode is a trailer. */
+"episode_indicator_trailer" = "预告片";
+
+/* Shorthand format used to show the Episode number of a podcast. '%1$@' is a placeholder for the episode number. */
+"episode_shorthand_format" = "第 %1$@ 集";
+
+/* Shorthand format used to show the Episode number of a podcast. 'EP' is short for Episode. '%1$@' is a placeholder for the episode number. */
+"episode_shorthand_format_short" = "第 %1$@ 集";
+
+/* A common string used throughout the app. Generic title informing the user of an Error. Accompanied with an error message. */
+"error" = "错误";
+
+/* A common string used throughout the app. Generic title informing the user of an Error. General error message used when the app is unable to locate the podcast that was selected. This usually comes from a sharing or import feature. */
+"error_general_podcast_not_found" = "无法找到播客。 请联系播客作者。";
+
+/* Describes how the process to export podcasts from Pocket Casts works. */
+"export_podcasts_description" = "将所有播客导出为 OPML 文件，您可以将其导入到其他播客应用程序中。";
+
+/* Title for the button that allows the user to export podcasts from Pocket Casts */
+"export_podcasts_option" = "导出播客";
+
+/* Title for the section that provides information on how to export podcasts from Pocket Casts */
+"export_podcasts_title" = "导出";
+
+/* Indicator during the new feature tour serves as a prompt to end the tour. */
+"feature_tour_end_tour" = "结束浏览";
+
+/* Indicator during the new feature tour. Used as a navigation indicator when the tour is on the first step. This is replaced with 'position of total' as the user progresses. */
+"feature_tour_new" = "新建";
+
+/* Indicator during the new feature tour. Used as a navigation indicator as the user progresses through the tour. '%1$@' is a placeholder for the current position. '%2$@' is a placeholder for the total number of steps. */
+"feature_tour_step_format" = "%1$@\/%2$@";
+
+/* Option to continue with a Third-Party Mail app when the default Apple mail app isn't available. */
+"feedback_continue_with_mail" = "打开默认邮件应用程序";
+
+/* Error message for when the user has a mail app configured that's not the default mail app. */
+"feedback_mail_not_configured_msg" = "要发送调试附件，必须在手机上配置 Apple Mail 应用程序。 您打算做什么？";
+
+/* Error title for when the user has a mail app configured that's not the default mail app. */
+"feedback_mail_not_configured_title" = "未配置邮件";
+
+/* Title for the file upload settings screen. This is used when a user is uploading a new file. */
+"file_upload_add_file" = "添加文件";
+
+/* Prompt to add a custom image to the uploaded file. */
+"file_upload_add_image" = "添加自定义图片";
+
+/* Title for the dialog that allows the user to pick the image source for selecting a custom image. either Camera or Photo Library. */
+"file_upload_choose_image" = "选择图片";
+
+/* Option for selecting the image source for an uploaded image. */
+"file_upload_choose_image_camera" = "照相机";
+
+/* Option for selecting the image source for an uploaded image. */
+"file_upload_choose_image_photo_Library" = "照片库";
+
+/* Title for the file upload settings screen. This is used when a user is editing an uploaded file. */
+"file_upload_edit_file" = "编辑文件";
+
+/* Error message displayed when the user has used all of their storage space. */
+"file_upload_error" = "空间不足，无法上传此文件。";
+
+/* Subtitle for the error message displayed when the user has used all of their storage space. Instructs the user to try freeing up space. */
+"file_upload_error_subtitle" = "删除一些文件并重试。";
+
+/* Prompt indicating that the user needs to name the file in order to upload it. */
+"file_upload_name_required" = "必须填写名称";
+
+/* The description for the screen when there are no files currently uploaded. '
+' is a line break format to allow a clean wrapping of text */
+"file_upload_no_files_description" = "想要收听您自己的文件？\n与 Pocket Casts 共享这些文件，它们将显示在这里";
+
+/* The helper link describing how to add files to Pocket Casts. */
+"file_upload_no_files_helper" = "我该怎么做？";
+
+/* Title for the screen when there are no files currently uploaded */
+"file_upload_no_files_title" = "无文件";
+
+/* Prompt to remove the image from the uploaded file. */
+"file_upload_remove_image" = "删除图片";
+
+/* Prompt to save the changes to an edited file. */
+"file_upload_save" = "保存";
+
+/* Error message displayed when the user has attempted to upload an unsupported file type. */
+"file_upload_support_error" = "不支持此文件类型";
+
+/* A common string used throughout the app. Refers to the Files settings menu */
+"files" = "文件";
+
+/* Title for the screen that details how to add a file to Pocket Casts. */
+"files_how_to_title" = "如何保存文件";
+
+/* Prompt to open a menu to allow sorting of manually added files. */
+"files_sort" = "排列文件";
+
+/* Subtitle informing the user that new podcasts will be automatically added to this filter. */
+"filter_auto_add_subtitle" = "您订阅的新播客不会自动添加";
+
+/* Title for the filter option that indicates all podcasts will be included. */
+"filter_chips_all_podcasts" = "您的所有播客";
+
+/* Title for the filter option that that opens the episode duration options. */
+"filter_chips_duration" = "持续周期";
+
+/* Filter option to select podcasts that will be included in the filter. */
+"filter_choose_podcasts" = "选择播客";
+
+/* Used on the screen to create a new filter. Provides a prompt to continue refining the filter selections. */
+"filter_create_add_more" = "添加更多条件来细化过滤器。";
+
+/* Used on the screen to create a new filter. The section header for the list of options to use with the filter. */
+"filter_create_filter_by" = "过滤依据";
+
+/* Used on the screen to create a new filter. Provides instructions on how to set up a new filter. */
+"filter_create_instructions" = "使用这些按钮选择过滤条件，从而创建最新的智能剧集播放列表。";
+
+/* Used on the screen to create a new filter. Title for the state where their selection doesn't include any content. */
+"filter_create_no_episodes" = "无匹配的剧集";
+
+/* Used on the screen to create a new filter. The description about why the list of filtered episodes is empty. */
+"filter_create_no_episodes_description_explanation" = "您选择的条件与您订阅中的任何当前剧集都不匹配。";
+
+/* Used on the screen to create a new filter. The prompt about what they can do in order to make sure their filter returns results. */
+"filter_create_no_episodes_description_prompt" = "请选择其他条件，或者如果您认为它将匹配将来的剧集，请保存此过滤器。";
+
+/* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
+"filter_create_podcasts_all_podcasts" = "所有播客";
+
+/* Used on the screen to create a new filter. The section that shows a preview of waht podcast episodes will be included in the filter. */
+"filter_create_preview" = "预览";
+
+/* Used on the screen to create a new filter. Title for the button to save the filter. */
+"filter_create_save" = "保存过滤器";
+
+/* Title for the screen where a user can set the initial details for a new filter. */
+"filter_details" = "过滤器详情";
+
+/* Hint text above the sections for the user to select the filter color and icon. */
+"filter_details_color_icon" = "颜色和图标";
+
+/* Accessibility hint text for color selection on filters. */
+"filter_details_color_selection" = "颜色选择器";
+
+/* Accessibility hint text for icon selection on filters. */
+"filter_details_icon_selection" = "图标选择器";
+
+/* Hint text above the dialog box to enter the filter's name. */
+"filter_details_name" = "名称";
+
+/* Title for filter options related to Download Status. */
+"filter_download_status" = "下载状态";
+
+/* Title for filter sections that relate to episode status. */
+"filter_episode_status" = "剧集状态";
+
+/* Label for the longer than duration filter time */
+"filter_longer_than_label" = "长于";
+
+/* Subtitle informing the user that new podcasts will not be automatically added to this filter. */
+"filter_manual_add_subtitle" = "您订阅的新播客不会自动添加";
+
+/* Title for filter options related to media type settings. */
+"filter_media_type" = "媒体类型";
+
+/* Media Type filter option for audio media types. */
+"filter_media_type_audio" = "音频";
+
+/* Media Type filter option for video media types. */
+"filter_media_type_video" = "视频";
+
+/* Screen title for the filter options for configuring filter settings related to episode duration. */
+"filter_option_episode_duration" = "剧集时长";
+
+/* Error message for when the user attempts to set a filter where the minimal duration is higher than the max duration. Meant to be a fun/funny message. '%1$@' and '%2$@' are placeholders for the configured minimum and maximum times, respectively. */
+"filter_option_episode_duration_error_msg_format" = "筛选长于 %1$@ 但短于 %2$@ 的剧集会导致空间时间连续出现裂痕。 抱歉。";
+
+/* Error title for when the user attempts to set a filter where the minimal duration is higher than the max duration. Meant to be a fun/funny message. */
+"filter_option_episode_duration_error_title" = "是，但又不是";
+
+/* Menu prompt to open the Filter options. Also used for the title of the filter options screen. */
+"filter_options" = "过滤器选项";
+
+/* Title for filter options related to release date settings. */
+"filter_release_date" = "发布日期";
+
+/* Release Date filter option for any release date. */
+"filter_release_date_anytime" = "随时";
+
+/* Release Date filter option for episodes with a release date with in the last day. */
+"filter_release_date_last_24_hours" = "过去 24 小时";
+
+/* Release Date filter option for episodes with a release date with in the last 2 weeks. */
+"filter_release_date_last_2_weeks" = "最近 2 周";
+
+/* Release Date filter option for episodes with a release date with in the last three day. */
+"filter_release_date_last_3_days" = "最近 3 天";
+
+/* Release Date filter option for episodes with a release date with in the last month. */
+"filter_release_date_last_month" = "上月";
+
+/* Release Date filter option for episodes with a release date with in the last week. */
+"filter_release_date_last_week" = "上星期";
+
+/* Label for the shorter than duration filter time */
+"filter_shorter_than_label" = "短于";
+
+/* Prompt to save the changes to an existing filter. */
+"filter_update" = "更新过滤器";
+
+/* A common string used throughout the app. Filter option for the default setting on multiple filters. */
+"filter_value_all" = "全部";
+
+/* A common string used throughout the app. Often refers to the Filters screen. */
+"filters" = "过滤器";
+
+/* A placeholder title for a newly created filter. */
+"filters_default_new_filter" = "新过滤器";
+
+/* The title for the auto generated 'New Release' filter. */
+"filters_default_new_releases" = "新发布";
+
+/* Button title for adding a new filter. */
+"filters_new_filter_button" = "+ 新建过滤器";
+
+/* Common word used as in the app to denote a folder of items */
+"folder" = "文件夹";
+
+/* A common string used throughout the app. Informs the user how many podcasts are being added. '%1$@' is a placeholder for the number of podcasts, this will be more than one. */
+"folder_add_podcasts_plural_format" = "添加 %1$@ 个播客";
+
+/* A common string used throughout the app. Informs the user how many podcasts have been chosen. This is the singular format for an accompanying plural option. */
+"folder_add_podcasts_singular" = "添加 1 个播客";
+
+/* Label for the option to add and remove podcasts from a folder */
+"folder_add_remove_podcasts" = "添加或移除播客";
+
+/* Text shown on button to change the folder a podcast is in */
+"folder_change" = "更改文件夹";
+
+/* Prompt to choose a folder color */
+"folder_choose_color" = "选择一种颜色";
+
+/* Title for the page where you select which podcasts are in a folder */
+"folder_choose_podcasts" = "选择播客";
+
+/* Reason shown below a color picker for folders */
+"folder_color_detail" = "更易于找到文件夹";
+
+/* Title for the create folder page */
+"folder_create" = "创建文件夹";
+
+/* Voiceover label for creating a new folder */
+"folder_create_new" = "创建新文件夹";
+
+/* Label for the delete folder button */
+"folder_delete" = "删除文件夹";
+
+/* Confirmation prompt message after you try to delete a folder */
+"folder_delete_prompt_msg" = "此文件夹将被删除，其内容将移回“播客”屏幕。";
+
+/* Confirmation prompt title after you try to delete a folder */
+"folder_delete_prompt_title" = "是否确定？";
+
+/* Label for the option that lets you edit a folder */
+"folder_edit" = "编辑文件夹";
+
+/* Description shown under the title of an empty folder */
+"folder_empty_description" = "播客添加到您的文件夹后，会显示在此处";
+
+/* Title shown in an empty folder */
+"folder_empty_title" = "您的文件夹为空";
+
+/* Text shown on button to go to the folder a podcast is in */
+"folder_go_to" = "前往文件夹";
+
+/* Placeholder text in the field asking you to name a folder */
+"folder_name" = "文件夹名称";
+
+/* Title for the folder name page */
+"folder_name_title" = "为您的文件夹命名";
+
+/* Label for the button to create a new folder */
+"folder_new" = "新建文件夹";
+
+/* Title shown for podcasts that aren't in a folder */
+"folder_no_folder" = "无文件夹";
+
+/* Title for the page where you select which folder a podcast is in */
+"folder_podcast_choose_folder" = "选择文件夹";
+
+/* Text shown on button to remove a podcast from a folder */
+"folder_remove_from" = "从文件夹中移除";
+
+/* Shown on a button to save the folder */
+"folder_save_folder" = "保存文件夹";
+
+/* Name shown for folders that don't have names */
+"folder_unnamed" = "未命名文件夹";
+
+/* Common word used as in the app to denote the folders feature */
+"folders" = "文件夹";
+
+/* Funny confirmation message accompanying several descriptive dialogs */
+"funny_conf_msg" = "它真的很配您的双眼 ✨";
+
+/* The default value when the user has listened for under one minute. */
+"funny_time_not_enough" = "您真的听不了太多，是吗？";
+
+/* A funny time unit used in stats comparing the listening time to the number of times an airplane has taken off. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_airplane_takeoffs" = "在该期间，%1$@ 架飞机起飞。 请系好安全带。 🛫";
+
+/* A funny time unit used in stats comparing the listening time to the number of times an astronaut has sneezed. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_astronaut_sneezes" = "在此期间，宇航员打喷嚏 %1$@ 次。 啊嚏！ 😤";
+
+/* A funny time unit used in stats comparing the listening time to the number of times you could have traveled around the world. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_balloon_travel" = "在此期间，您可以乘坐空气气球在环游世界 %1$@ 次。 🌏";
+
+/* A funny time unit used in stats comparing the listening time to the number of births that have happened. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_births" = "在此期间，有 %1$@ 名婴儿出生。 哇哦！ 🍼";
+
+/* A funny time unit used in stats comparing the listening time to the number of times you've blinked. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_blinks" = "在此期间，您眨了 %1$@ 次眼。 嘿！ 👀";
+
+/* A funny time unit used in stats comparing the listening time to the number of emails that have been sent. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_emails" = "在此期间，发送了 %1$@ 封电子邮件。 💌";
+
+/* A funny time unit used in stats comparing the listening time to the number of times you farted. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_farts" = "在此期间，您放了 %1$@ 盎司的屁。 很糟糕！ 💨";
+
+/* A funny time unit used in stats comparing the listening time to the number of times a Google search was performed. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_google" = "在此期间，执行了 %1$@ 次 Google 搜索。 太惊人了。 🔎";
+
+/* A funny time unit used in stats comparing the listening time to the number of times lightning has struck. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_lightning" = "在此期间，闪电击中了 %1$@ 次。 嘣。⚡";
+
+/* A funny time unit used in stats comparing the listening time to the number of phones that have been produced. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_phone_production" = "在此期间，某水果供应商制作了 $%1$@ 🍏";
+
+/* A funny time unit used in stats comparing the listening time to the amount of skin cells you've shed. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_shed_skin" = "在此期间，您蜕下了 %1$@ 个皮肤细胞。 呕？ 😅";
+
+/* A funny time unit used in stats comparing the listening time to the number of times you tied your shoes. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_tied_shoes" = "在此期间，您应可以绑定 %1$@ 根鞋带。 也许。 👟";
+
+/* A funny time unit used in stats comparing the listening time to the number of tweets that have been sent. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
+"funny_time_unit_tweets" = "在此期间，发送了 %1$@ 篇推文。 太棒了！ 太棒了！ 🐣";
+
+/* A common string used throughout the app. Title for the prompt to navigate the user to the podcast associated to the selected item. */
+"go_to_podcast" = "转至播客";
+
+/* A common string used throughout the app. Title accompanying the group option setting. */
+"group_episodes" = "对剧集进行分组";
+
+/* Prompt to clear the full listening history for the user. */
+"history_clear_all" = "全部清除";
+
+/* Title for the details prompt to confirm the user wants to clear their listening history. */
+"history_clear_all_details" = "清除收听历史记录";
+
+/* Message for the details prompt to confirm the user wants to clear their listening history. */
+"history_clear_all_details_msg" = "此操作无法撤消。";
+
+/* Label shown for hours listened when it's singular, eg: 1 hour listened. */
+"hour_listened" = "已收听的小时数";
+
+/* Label shown for hours saved when it's singular, eg: 1 hour saved. */
+"hour_saved" = "已保存的小时数";
+
+/* Label shown for hours listened when it's plural, eg: 1 hours listened. */
+"hours_listened" = "已收听的小时数";
+
+/* Time format to display a set number of hours. '%1$@' is a placeholder for a number of hours, this value will be more than one. */
+"hours_plural_format" = "%1$@ 小时";
+
+/* Label shown for hours saved when it's plural, eg: 1 hours saved. */
+"hours_saved" = "已保存的小时数";
+
+/* The initial informational text explaining how to upload a file */
+"how_to_upload_explanation" = "首先，打开一个包含您要保存的音频文件的应用程序";
+
+/* The title for the first instructional image that explains how to upload a file */
+"how_to_upload_first_instruction" = "选择以共享该文件";
+
+/* The title for the second instructional image that explains how to upload a file */
+"how_to_upload_second_instruction" = "在菜单中，点击“复制到 Pocket Casts”";
+
+/* The summary text at the end of the screen explaining how to upload a file */
+"how_to_upload_summary" = "就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！";
+
+/* Describes the process about how to import podcasts to Pocket Casts. '\
+\
+' Is a line break format to separate the description from the following note. */
+"import_podcasts_description" = "您可以使用广受支持的 OPML 格式将播客订阅导入到 Pocket casts。 从另一个应用程序导出文件并选择在 Pocket casts 中打开。\n\n注意：您可能需要通过电子邮件将 OPML 文件发送给自己，请长按附件并选择 Pocket Casts。";
+
+/* Title for the section that provides information on how to import podcasts to Pocket Casts */
+"import_podcasts_title" = "导入到 POCKET CASTS";
+
+/* A common string used throughout the app. Status message informing the user that the episode has been started but not finished. */
+"in_progress" = "正在进行";
+
+/* Title for the hardware keyboard command that closes the player. */
+"keycommand_close_player" = "关闭播放器";
+
+/* Title for the hardware keyboard command that decreases the playback speed. */
+"keycommand_decrease_speed" = "降低速度";
+
+/* Title for the hardware keyboard command that increases the playback speed. */
+"keycommand_increase_speed" = "提高速度";
+
+/* Title for the hardware keyboard command that opens the player. */
+"keycommand_open_player" = "打开播放器";
+
+/* Title for the hardware keyboard command that toggles play and pause of playback. */
+"keycommand_play_pause" = "播放\/暂停";
+
+/* Text for a button where you learn more about a feature */
+"learn_more" = "了解更多";
+
+/* A common string used throughout the app. Often refers to the Listening History screen. */
+"listening_history" = "历史记录";
+
+/* Progress indicator informing the user that the selected item is still loading. */
+"loading" = "正在加载...";
+
+/* A common string used throughout the app. Prompt to mark the selected item(s) as played. */
+"mark_played" = "标记为已播放";
+
+/* A common string used throughout the app. Prompt to mark the selected item(s) as played. Similar to 'Mark as Played' but more concise. */
+"mark_played_short" = "标记为已播放";
+
+/* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
+"mark_unplayed_short" = "标记为未播放";
+
+/* This is for an iOS permission prompt for microphone access. Please note that "Google Cast" should not be translated and is a product name */
+"microphone_plist_description" = "Pocket Casts 需要访问您的麦克风，才能检测附近的 Google Cast 设备。";
+
+/* Prompt to close the mini player and clear the queue. */
+"mini_player_close" = "关闭并清除“接下来播放”";
+
+/* Label shown for minutes listened when it's singular, eg: 1 minute listened. */
+"minute_listened" = "已收听的分钟数";
+
+/* Label shown for minutes saved when it's singular, eg: 1 minute saved. */
+"minute_saved" = "已保存的分钟数";
+
+/* Label shown for minutes listened when it's plural, eg: 2 minutes listened. */
+"minutes_listened" = "已收听的分钟数";
+
+/* Label shown for minutes saved when it's plural, eg: 2 minutes saved. */
+"minutes_saved" = "已保存的分钟数";
+
+/* Basic string used in formats like 'price / month' */
+"month" = "月";
+
+/* Basic string used to callout payment intervals like yearly vs monthly */
+"monthly" = "每月";
+
+/* A common string used throughout the app. Prompt to move the selected item(s) to the end of the up next queue. */
+"move_to_bottom" = "移到底部";
+
+/* A common string used throughout the app. Prompt to move the selected item(s) to the top of the up next queue. */
+"move_to_top" = "移到顶部";
+
+/* Multi-select status message for adding multiple episodes. Notifies that the selected list exceeds the bulk limit so only the first set up to the limit will be added. '%1$@' is a placeholder for the max amount of episodes to add. */
+"multi_select_add_episodes_max_format" = "正在添加最多 %1$@ 集。";
+
+/* Multi-select status message for adding multiple episodes. '%1$@' is a placeholder for the amount of episodes to add. */
+"multi_select_adding_episodes_plural_format" = "正在添加 %1$@ 集。";
+
+/* Multi-select status message for adding an episode. '%1$@' is a placeholder for the amount of episodes to add. */
+"multi_select_adding_episodes_singular" = "正在添加 1 集。";
+
+/* Multi-select status message for archiving multiple episodes. '%1$@' is a placeholder for the count of files to be archived (the number will be more than one). */
+"multi_select_archiving_episodes_plural_format" = "正在存档 %1$@ 集";
+
+/* Multi-select status message for archiving one episode. */
+"multi_select_archiving_episodes_singular" = "正在存档 1 集";
+
+/* Message portion of the prompt to delete the selected files on the multi select UI. '%1$@' is a placeholder for the count of files to be deleted (the number will be more than one). */
+"multi_select_delete_file_message_plural" = "是否确定要删除 %1$@ 个文件？";
+
+/* Message portion of the prompt to delete a selected file on the multi select UI. */
+"multi_select_delete_file_message_singular" = "是否确定要删除 1 个文件？";
+
+/* Multi-select status message informing the user that downloads have begun. '%1$@' is a placeholder for the count of the selected items being downloaded. */
+"multi_select_downloading_episodes_format" = "正在下载 %1$@";
+
+/* Multi-select status message for marking multiple episodes as played. '%1$@' is a placeholder for the count of episodes to be marked played (the number will be more than one). */
+"multi_select_mark_episodes_played_plural_format" = "正在将 %1$@ 集标记为已播放。";
+
+/* Multi-select status message for marking one episode as played. */
+"multi_select_mark_episodes_played_singular" = "正在将 1 集标记为已播放。";
+
+/* Multi-select status message for marking multiple episodes as not played. '%1$@' is a placeholder for the count of episodes to be marked not played (the number will be more than one). */
+"multi_select_mark_episodes_unplayed_plural_format" = "正在将 %1$@ 集标记为未播放。";
+
+/* Multi-select status message for marking one episode as not played. */
+"multi_select_mark_episodes_unplayed_singular" = "正在将 1 集标记为未播放。";
+
+/* Multi-select status message informing the user how many episodes have been queued for download. '%1$@' is a placeholder for the count of the selected items be queued for download. */
+"multi_select_queuing_episodes_format" = "正在将 %1$@ 项加入队列";
+
+/* Multi-select status message informing the user one episode download is being removed. */
+"multi_select_remove_download_singular" = "正在删除 1 个下载。";
+
+/* Multi-select status message informing the user how many episodes downloads are being removed. '%1$@' is a placeholder for the count of the selected items be removed for download. */
+"multi_select_remove_downloads_plural_format" = "正在删除 %1$@ 个下载。";
+
+/* Title for the prompt to mark the selected items as not having been played. */
+"multi_select_remove_mark_unplayed" = "标记为未播放";
+
+/* Multi-select label indicating the number of selected items. '%1$@' is a placeholder for the number of selected items, this will be more than one. */
+"multi_select_selected_count_plural" = "%1$@ 个选定的剧集";
+
+/* Multi-select label indicating that there is one item selected. */
+"multi_select_selected_count_singular" = "1 个选定的剧集";
+
+/* Multi-select menu section header. Indicates that the options in this section will appear in the action bar. */
+"multi_select_shortcut_in_action_bar" = "操作栏中的快捷方式";
+
+/* Title for the prompt to mark the selected items as stared (favorited). */
+"multi_select_star" = "为剧集加星标";
+
+/* Multi-select status message for marking multiple episodes as favorited (starred). '%1$@' is a placeholder for the count of episodes to be starred (the number will be more than one). */
+"multi_select_starring_episodes_plural_format" = "为 %1$@ 集加星标。";
+
+/* Multi-select status message for marking one episode as favorited (starred). */
+"multi_select_starring_episodes_singular" = "为 1 集加星标。";
+
+/* Multi-select status message for unarchiving multiple episodes. '%1$@' is a placeholder for the count of files to be unarchived (the number will be more than one). */
+"multi_select_unarchiving_episodes_plural_format" = "正在取消存档 %1$@ 集。";
+
+/* Multi-select status message for unarchiving one episode. */
+"multi_select_unarchiving_episodes_singular" = "正在取消存档 1 集";
+
+/* Title for the prompt to remove the selected items from being stared (favorited). */
+"multi_select_unstar" = "取消剧集的星标";
+
+/* Multi-select status message for marking multiple episodes as not favorited (un-starred). '%1$@' is a placeholder for the count of episodes to be un-starred (the number will be more than one). */
+"multi_select_unstarring_episodes_plural_format" = "取消 %1$@ 集的星标。";
+
+/* Multi-select status message for marking one episode as not favorited (un-starred). */
+"multi_select_unstarring_episodes_singular" = "取消 1 集的星标";
+
+/* Common word used as a title when asking the user to name something */
+"name" = "名称";
+
+/* This is for an iOS permission prompt for network access. Please note that "Google Cast" should not be translated and is a product name */
+"network_plist_description" = "Pocket Casts 使用它来查找您网络上的 Google Cast 设备。 如果您不使用此功能，请随时关闭。";
+
+/* Email change form new email address field prompt */
+"new_email_address_prompt" = "新电子邮箱地址";
+
+/* A common string used throughout the app. References to new episodes. */
+"new_episodes" = "新剧集";
+
+/* Password change form new password field prompt */
+"new_password_prompt" = "新密码";
+
+/* A common string used throughout the app. Prompt to move forward in the flow. */
+"next" = "下一步";
+
+/* A common string used throughout the app. Prompt to move to the next episode. */
+"next_episode" = "下一集";
+
+/* A common string used throughout the app. Format used to call out when the associated subscription will be renewed. '%1$@' is a placeholder for a localized date indicating when the renewal will process. */
+"next_payment_format" = "下次付款日期：%1$@";
+
+/* A common string used throughout the app. Default 'not set' option mostly used with group settings. */
+"none" = "无";
+
+/* A common string used throughout the app. Informs the user that they are not on WiFi and the action they're about to take will use data. Used for downloads and uploads. */
+"not_on_wifi" = "您没有使用 WiFi";
+
+/* Prompt to play the selected item now. */
+"notifications_play_now" = "立即播放";
+
+/* A common string used throughout the app. Refers to the Now Playing tab in the player. */
+"now_playing" = "正在播放";
+
+/* A common string used throughout the app. Specifically calls out the item that is currently being played. '%1$@' is a placeholder for the item'r name that is being played. */
+"now_playing_item" = "正在播放 %1$@";
+
+/* A common string used throughout the app. Refers to the Now Playing tab in the player. Removes 'Now' to conserve space. */
+"now_playing_short_title" = "正在播放";
+
+/* A common string used throughout the app. Indicates that the feature is not enabled. */
+"off" = "关闭";
+
+/* A common string used throughout the app. Used as a confirmation or acceptance. */
+"ok" = "确定";
+
+/* A common string used throughout the app. Often used as a toggle to enable a feature only when the user is on Wifi. */
+"only_on_wifi" = "仅在 WiFi 上";
+
+/* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
+"opml_import_failed_message" = "无法从您指定的 OPML 文件导入播客。 请检查它是否有效";
+
+/* Title for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
+"opml_import_failed_title" = "OPML 导入失败";
+
+/* Progress message indicating the total number of podcasts imported from an OPML file. '%1$@' serves as a placeholder for the current number of imported podcasts. '%2$@' serves as a placeholder for the total number of podcasts to import. */
+"opml_import_progress_format" = "正在导入 %1$@ 个，共 2$@ 个";
+
+/* Progress message indicating that the import process of an OPML file is running. */
+"opml_importing" = "正在导入播客...";
+
+/* Format used to indicate the current page and total in a custom page control. '%1$@' is a placeholder for the current page. '%2$@' is a placeholder for the total pages. */
+"page_control_page_progress_format" = "第 %1$@ 页，共 %2$@ 页";
+
+/* A label indicating the number of podcasts the user has subscribed to compared to the total number of podcasts in the bundle. '%1$@' is a placeholder for the number of subscribed podcasts. '%2$@' is a placeholder for the number of podcasts in the bundle. */
+"paid_podcast_bundled_subscriptions" = "%1$@\/%2$@ 已订阅";
+
+/* Option to allow the user to cancel their subscription to a paid podcast feed. */
+"paid_podcast_cancel" = "取消贡献";
+
+/* Message displayed when the user selects to cancel their paid podcast subscription. This message is used when the user is canceling multiple subscriptions. '%1$@' is a placeholder for the last date that the current subscriptions will remain active. */
+"paid_podcast_cancel_msg_plural" = "%1$@之前，支持者状态将保持活动状态。 之后，您将无法再播放这些播客。";
+
+/* Message displayed when the user selects to cancel their paid podcast subscription. This message is used when the podcast allows the user to access episodes that were available to them during their subscription window. '%1$@' is a placeholder for the last date that the current subscription will remain active. */
+"paid_podcast_cancel_msg_retain_access" = "%1$@之前，支持者状态将保持活动状态。 您将只能收听在此日期之前发布的剧集。";
+
+/* Message displayed when the user selects to cancel their paid podcast subscription. This message is used when the user is only canceling a singular subscription. '%1$@' is a placeholder for the last date that the current subscription will remain active. */
+"paid_podcast_cancel_msg_singular" = "%1$@之前，支持者状态将保持活动状态。 之后，您将无法再播放此播客。";
+
+/* A generic error indicating that the app failed to load information about the paid feed. */
+"paid_podcast_generic_error" = "无法加载信息";
+
+/* Prompt to open settings to adjust settings for a paid feed. */
+"paid_podcast_manage" = "管理";
+
+/* Informational label informing the user when to expect the next episode. '%1$@' is a placeholder for the next upcoming release date. */
+"paid_podcast_next_episode_format" = "下一集发布日期：%1$@";
+
+/* Informational label informing the user when the latest episode was released. '%1$@' is a placeholder for the latest release date. */
+"paid_podcast_release_frequency_format" = "发布日期：%1$@";
+
+/* Prompt to get the user to sign in to see updates. This acts as the details message for a section. '
+' is the new line character to cause a line wrap. */
+"paid_podcast_signin_prompt_msg" = "登录以查看\n更新";
+
+/* Prompt to get the user to sign in to see updates. This acts as the title for a section. */
+"paid_podcast_signin_prompt_title" = "登录以查看新剧集";
+
+/* Format used to indicate the subscription for the paid podcast has ended. '%1$@' is a placeholder for the date that the subscription ended on. */
+"paid_podcast_subscription_ended" = "已结束：%1$@";
+
+/* Format used to indicate the subscription for the paid podcast will end on the specified date. '%1$@' is a placeholder for the date that the subscription will end. */
+"paid_podcast_subscription_ends" = "结束：%1$@";
+
+/* A label used to inform the user that the selected podcast feed is for paid supporters only. */
+"paid_podcast_supporter_only_msg" = "仅支持者源";
+
+/* A confirmation message for when a user has selected too unsubscribe and has downloaded files. */
+"paid_podcast_unsubscribe_msg" = "取消订阅所有这些播客将删除其所有的下载文件，是否确定？";
+
+/* A common string used throughout the app. Prompt to pause the playback. */
+"pause" = "暂停";
+
+/* A common string used throughout the app. Used to reference the Phone as the playing source with in the Apple Watch App (Watch is the other option for this use case) */
+"phone" = "电话";
+
+/* This is for an iOS permission prompt for photo saving access */
+"photo_plist_description" = "Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。";
+
+/* A common string used throughout the app. Prompt to start playback. */
+"play" = "播放";
+
+/* A common string used throughout the app. Prompt to start playback and add the remaining selected items to the queue. */
+"play_all" = "全部播放";
+
+/* A common string used throughout the app. Prompt to add the selected item(s) to the end of the queue. */
+"play_last" = "播放最后一个";
+
+/* A common string used throughout the app. Prompt to add the selected item(s) to the top of the queue. */
+"play_next" = "播放下一个";
+
+/* One of the options for how aggressive to be in trimming silence. Sets it to max the highest setting. */
+"playback_effect_trim_silence_max" = "高度";
+
+/* One of the options for how aggressive to be in trimming silence. Sets it to medium the middle setting. */
+"playback_effect_trim_silence_medium" = "中度";
+
+/* One of the options for how aggressive to be in trimming silence. Sets it to mild the lowest setting. */
+"playback_effect_trim_silence_mild" = "轻度";
+
+/* Used in the player to describe effects you can use to change audio playback. Things like speed, volume, etc. */
+"playback_effects" = "播放效果";
+
+/* A common string used throughout the app. Generic message informing the user that playback failed. */
+"playback_failed" = "播放失败";
+
+/* Label indicating the current value for the playback speed. '%1$@' is a placeholder for the playback speed and 'x' is meant to read as 'times' as in '1.1 times' for '1.1x' */
+"playback_speed" = "%1$@x";
+
+/* Accessibility hint text informing the user that the Sleep timer is enabled. */
+"player_accessibility_sleep_timer_on" = "睡眠计时器开启";
+
+/* Subtitle for settings indicating this item operates as delete for files. */
+"player_action_subtitle_delete" = "对自定义剧集显示为删除";
+
+/* Subtitle for settings indicating this item is hidden for files. */
+"player_action_subtitle_hidden" = "对自定义剧集隐藏";
+
+/* Header for the available playback effect options. */
+"player_action_title_effects" = "播放效果";
+
+/* Title for the prompt to navigate the user to the files section of the app. */
+"player_action_title_go_to_file" = "转至文件";
+
+/* Title for the available output device options. */
+"player_action_title_output_options" = "输出设备";
+
+/* Header for the available timer options for auto-pausing playback. */
+"player_action_title_sleep_timer" = "睡眠计时器";
+
+/* Title for the prompt to remove an episode from the favorites. */
+"player_action_title_unstar_episode" = "取消剧集的星标";
+
+/* Title for a page where you can rearrange common actions (eg sort/reorder and move the ones you like more to the top) */
+"player_actions_rearrange_title" = "重新排列操作";
+
+/* Confirmation prompt for archiving an episode. */
+"player_archived_confirmation" = "存档此剧集?";
+
+/* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
+"player_artwork" = "%1$@ 插图";
+
+/* Information label that includes the current chapter and total chapter count example '1 of 3'. '%1$@' is a placeholder for the current chapter. '%2$@' is a placeholder for the total chapters. */
+"player_chapter_count" = "%1$@\/%2$@";
+
+/* Accessibility label for the player control that rewinds the current playback position by a customizable time. */
+"player_decrement_time" = "减量时间";
+
+/* Detail text explaining that trim silence feature. */
+"player_effects_trim_silence_details" = "通过剪裁对话中的静音来缩短剧集的长度。";
+
+/* Detail text celebrating how much time has been saved using the trim silence feature. '%1$@' is a placeholder for the amount of time saved using the feature. */
+"player_effects_trim_silence_progress" = "您总共使用此功能节省了 %1$@。";
+
+/* Generic error used when playback fails but the episode has a downloaded file. Warns the user that playback is failing because the associated file likely has been corrupted. */
+"player_error_corrupted_file" = "剧集可能已损坏，但您可以尝试再次播放。";
+
+/* Generic error used when playback fails while streaming. Asks the user to verify their internet connection. */
+"player_error_internet_connection" = "检查互联网连接并重试。";
+
+/* Accessibility label for the player control that fast-forwards the current playback position by a customizable time. */
+"player_increment_time" = "增量时间";
+
+/* Confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation" = "将此剧集标记为已播放？";
+
+/* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
+"player_options_play_all_message" = "这将清除您当前的“接下来播放”队列。";
+
+/* Prompt to play a single episode from a multi-select screen. */
+"player_options_play_episode_singular" = "播放 1 集";
+
+/* Prompt to play a multiple episodes from a multi-select screen. '%1$@' is a placeholder for the number of episodes; the value will be more than one. */
+"player_options_play_episodes_plural" = "播放 %1$@ 集";
+
+/* Section header for organizing which options will show in the player vs in the menu. */
+"player_options_shortcut_on_player" = "播放器上的快捷方式";
+
+/* Accessibility label for the Route selector control. Opens the Apple menu for selecting the playback device such as headphones or a Bluetooth speaker. */
+"player_route_selection" = "路线选择器";
+
+/* Header for the share menu where the user selects to share the podcast, episode, or episode at the current position */
+"player_share_header" = "将链接分享至";
+
+/* Error title when there is a download error. */
+"player_user_episode_download_error" = "下载错误";
+
+/* Error title when there is a playback error. */
+"player_user_episode_playback_error" = "播放错误";
+
+/* Error title when there is an upload error. */
+"player_user_episode_upload_error" = "上传错误";
+
+/* A common string used throughout the app. Catch all prompt to suggest to the user to try the task again. */
+"please_try_again" = "请重试";
+
+/* A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later. */
+"please_try_again_later" = "请稍后重试。";
+
+/* Prompt informing the user that an account is required in order to sign up for Pocket Casts Plus */
+"plus_account_required_prompt" = "Pocket Casts Plus 需要一个 Pocket Casts 账户。 这可确保在您的所有设备上无缝收听。";
+
+/* Details prompt informing the user that an account is required in order to sign up for Pocket Casts Plus */
+"plus_account_required_prompt_details" = "创建账户或登录以兑换您的 Pocket Casts Plus 使用权限。";
+
+/* Details message informing the user that they'll return to a free account at the end of their trial */
+"plus_account_trial_details" = "试用结束后，您仍可享受常规账户的所有好处。 尽享播客的快乐！";
+
+/* The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage. */
+"plus_cloud_storage_limit_format" = "%1$@ GB 云存储";
+
+/* Error message informing the user that they have already signed up for plus with this account. */
+"plus_error_already_registered" = "您已有一个 Pocket Casts Plus 账户";
+
+/* Error message details informing the user that they have already signed up for plus with this account so they can't take advantage of the entered promotion. */
+"plus_error_already_registered_details" = "感谢您的支持，但遗憾的是，您无法参加本次促销活动。";
+
+/* Account detail message informing the user when their Plus account will expire. '%1$@' is a placeholder for when the account will expire. */
+"plus_expiration_format" = "到期日期：%1$@";
+
+/* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
+"plus_feature_cloud_storage" = "云存储";
+
+/* Feature of Pocket Casts plus, Themes and icons. Themes for changing the way the app looks, icons to change the icon shown on your home screen */
+"plus_feature_themes_icons" = "其他主题和应用程序图标";
+
+/* Feature of Pocket Casts plus, Apple Watch app. Standalone meaning it can run with your iPhone */
+"plus_feature_watch_app" = "独立观看播放";
+
+/* Feature of Pocket Casts plus, Web Player. As in our web based version capable of playing podcasts */
+"plus_feature_web_player" = "Web 播放器";
+
+/* A common string used throughout the app. often used as a section header to divide settings related to Pocket Casts Plus vs free features. 'PLUS' refers to Pocket Casts Plus. */
+"plus_features" = "PLUS 功能";
+
+/* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
+"plus_free_membership_format" = "%1$@ 免费";
+
+/* Account detail message informing the user that they have been granted a lifetime membership. */
+"plus_lifetime_membership" = "终身会员";
+
+/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
+"plus_marketing_cloud_storage_description" = "加快您的讲座速度。 刻录其他内容。 成为您自己的播客 DJ。";
+
+/* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
+"plus_marketing_cloud_storage_title" = "云存储";
+
+/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
+"plus_marketing_desktop_apps_description" = "借助我们的 Windows、macOS 和 Web 应用程序，将播客传播到更多位置。";
+
+/* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
+"plus_marketing_desktop_apps_title" = "桌面应用程序";
+
+/* Pocket Casts Plus marketing page, the final call to action to get people to upgrade */
+"plus_marketing_final_call_to_action" = "是时候开始玩播客游戏了？\n获取桌面应用程序，自带文件，并通过全新的主题加快内容，这是 Plus 会员专享福利。";
+
+/* Pocket Casts Plus marketing page, description of the Folders feature */
+"plus_marketing_folders_description" = "创建文件夹以整理您的播客集。";
+
+/* Pocket Casts Plus marketing page, learn more button. Note that Pocket Casts is a proper noun and shouldn't be translated */
+"plus_marketing_learn_more_button" = "了解有关 Pocket Casts Plus 的更多信息";
+
+/* Pocket Casts Plus marketing page, the main description of Pocket Casts Plus */
+"plus_marketing_main_description" = "同时进行个性化设计并分发。 将您的个人音频文件上传到我们的云服务器，通过我们的 Web 播放器访问您的账户，并将应用程序设置为您的应用程序。";
+
+/* Pocket Casts Plus marketing page, the main title */
+"plus_marketing_main_title" = "高级侦听器的增强功能";
+
+/* Pocket Casts Plus marketing page, description of the Themes & Icons feature */
+"plus_marketing_themes_icons_description" = "选择您的真实颜色。 仅面向 Plus 俱乐部的专属图标和主题。";
+
+/* Pocket Casts Plus marketing page, title of the Themes & Icons feature */
+"plus_marketing_themes_icons_title" = "主题和图标";
+
+/* Pocket Casts Plus marketing page, the text on the upgrade button */
+"plus_marketing_upgrade_button" = "升级到 Plus";
+
+/* Pocket Casts Plus marketing page, description of the Watch Playback feature */
+"plus_marketing_watch_playback_description" = "丢下手机，开始跑步 – 不会错过任何一个节拍。 唯独 Apple Watch。";
+
+/* Pocket Casts Plus marketing page, title of the Watch Playback feature */
+"plus_marketing_watch_playback_title" = "观看播放";
+
+/* Informational message informing the user that their recurring payments for Plus have been canceled. */
+"plus_payment_canceled" = "付款已取消";
+
+/* Label that goes along with the yearly subscription used to indicate that the yearly plan is the best overall value. */
+"plus_payment_frequency_best_value" = "最佳值";
+
+/* Informational label that's below the monthly price of Pocket Casts Plus. This label sits below a localized price. */
+"plus_per_month" = "每个月";
+
+/* The price of Pocket Casts Plus per month. '%1$@' is a localized monthly price. */
+"plus_price_per_month" = "%1$@\/月";
+
+/* Promotional information for Pocket Casts Plus. Please note that "Pocket Casts Plus" should not be translated because it's a product name */
+"plus_promo_paragraph" = "获取 Pocket Casts Plus 以解锁此功能及更多功能！";
+
+/* Error message informing the user the promotion code has expired */
+"plus_promotion_expired" = "促销已过期或无效";
+
+/* A nudge to ask the user to continue the sign up process even though they encountered an error. */
+"plus_promotion_expired_nudge" = "欢迎您注册 Pocket Casts Plus，创建普通账户或直接进入。";
+
+/* Error message informing the user the promotion code has already been used */
+"plus_promotion_used" = "代码已使用";
+
+/* Heading for things that require Pocket Casts Plus to work. Please note that "Pocket Casts Plus" should not be translated because it's a product name */
+"plus_required_feature" = "此功能需要使用 Pocket Casts Plus";
+
+/* Title for the screen to allow the user to choose between a monthly or yearly subscription. */
+"plus_select_payment_frequency" = "选择付款频率";
+
+/* Message informing the user that their Pocket Casts Plus subscription is managed by Apple's system and needs to be managed there. */
+"plus_subscription_apple" = "您的订阅由 Apple App Store 管理";
+
+/* Message informing the user where to manage their Pocket Casts Plus subscription managed by Apple. */
+"plus_subscription_apple_details" = "要取消订阅，您需要通过“设置”取消。";
+
+/* Message informing the user when their Pocket Casts Plus subscription will expire. %1$@ is a placeholder for the expiration date. */
+"plus_subscription_expiration" = "PLUS 将于 %1$@到期";
+
+/* Message informing the user that their Pocket Casts Plus subscription is managed by Google's system and needs to be managed there. */
+"plus_subscription_google" = "您似乎从 Android 设备订阅了 Pocket Casts Plus";
+
+/* Message informing the user where to manage their Pocket Casts Plus subscription managed by Google. */
+"plus_subscription_google_details" = "要取消订阅，您需要通过“设置”取消。";
+
+/* Message informing the user that their Pocket Casts Plus subscription is managed by Web's system and needs to be managed there. */
+"plus_subscription_web" = "您似乎从 Web 订阅了 Pocket Casts Plus";
+
+/* Message informing the user where to manage their Pocket Casts Plus subscription managed by Web. */
+"plus_subscription_web_details" = "要取消订阅，您将需要通过 Pocketcasts.com 取消。";
+
+/* The heading shown for the Pocket Casts Newsletter */
+"pocket_casts_newsletter" = "Pocket Casts 简报";
+
+/* The description for the Pocket Casts Newsletter */
+"pocket_casts_newsletter_description" = "接收新闻、应用程序更新、主题播放列表、访谈等。";
+
+/* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
+"pocket_casts_plus" = "Pocket Casts Plus";
+
+/* Indicates that the access to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the access expired. */
+"podcast_access_ended" = "访问已结束：%1$@";
+
+/* Indicates that the access to the podcast will end on the specified date. '%1$@' is a placeholder for date that the access will end. */
+"podcast_access_ends" = "访问结束：%1$@";
+
+/* Prompt to archive all of the selected items. */
+"podcast_archive_all" = "全部存档";
+
+/* Prompt to archive all played episodes of the current podcast. */
+"podcast_archive_all_played" = "存档所有已播放内容";
+
+/* Confirmation to archive a certain number of podcast episodes. This is the singular form of an accompanying plural form. */
+"podcast_archive_episode_count_singular" = "存档 1 集";
+
+/* Confirmation to archive a certain number of podcast episodes. '%1$@' is a placeholder for the number of episodes. */
+"podcast_archive_episodes_count_plural_format" = "存档 %1$@ 集";
+
+/* Confirmation message that appears alongside the various bulk archive prompts. */
+"podcast_archive_prompt_msg" = "仅当您不想再看到它们时才应执行此操作。";
+
+/* Indicates that the episode has been archived. */
+"podcast_archived" = "已存档";
+
+/* Label used to display the number or archived episodes in a podcast. '%1$@' is a placeholder for the archived episode number. */
+"podcast_archived_count_format" = "%1$@ 集已存档";
+
+/* Informational message informing the user that no episodes are being displayed because they're all archived. '%1$@' is a placeholder for the number of episodes. */
+"podcast_archived_msg" = "此播客的所有 %1$@ 集均已存档";
+
+/* A common string used throughout the app. Displays the count of selected podcasts. '%1$@' is a placeholder for the number of podcasts, the value will be more than one. */
+"podcast_count_plural_format" = "%1$@ 个播客";
+
+/* A common string used throughout the app. Displays the count of selected podcasts. This is the singular version of an accompanying plural format. */
+"podcast_count_singular" = "1 个播客";
+
+/* Error message informing the user that the episode encountered a download error. */
+"podcast_details_download_error" = "剧集下载失败";
+
+/* Message informing the user that the episode will download once the device restores a WiFi connection. */
+"podcast_details_download_wifi_queue" = "当您下次使用 WiFi 时，此剧集将自动下载";
+
+/* Message details informing the user that the episode has been unarchived manually and won't be archived when the episode limit is reached. '%1$@' is a placeholder for the episode limit. */
+"podcast_details_manual_unarchive_msg" = "它不会被您新的剧集限制 (%1$@) 自动存档";
+
+/* Message informing the user that the episode has been unarchived manually. Used with episode limits. */
+"podcast_details_manual_unarchive_title" = "剧集已手动取消存档";
+
+/* Error message informing the user that the episode encountered a playback error. */
+"podcast_details_playback_error" = "无法播放剧集";
+
+/* Indicates that the episode is queued for download. */
+"podcast_details_queued" = "在排队";
+
+/* Confirmation prompt to remove the episode file for the selected podcast episode. */
+"podcast_details_remove_download" = "是否删除下载的文件？";
+
+/* Prompt to download the selected podcast now. */
+"podcast_download_now" = "立即下载";
+
+/* Indicates that a file is being downloaded and includes the completed percentage. '%1$@' is a placeholder for percentage that has been downloaded so far. */
+"podcast_downloading" = "正在下载... %1$@";
+
+/* Label used to display the number of episodes in a podcast. '%1$@' is a placeholder for the number of episodes. */
+"podcast_episode_count_plural_format" = "%1$@ 集";
+
+/* Label used to display the number of episodes in a podcast. This is the singular form of an accompanying plural form. */
+"podcast_episode_count_singular" = "1 集";
+
+/* Label used to display the episode limit for a podcast. '%1$@' is a placeholder for the episode limit. */
+"podcast_episode_limit_count_format" = "限制为 %1$@";
+
+/* Message for a generic error used when a podcast fails to load without a more detailed reason why. ':(' is meant to be ASCII art for a sad face. */
+"podcast_error_message" = "无法加载播客详情 :(";
+
+/* Title for a generic error used when a podcast fails to load without a more detailed reason why. Meant to be a fun cultural reference. */
+"podcast_error_title" = "失败了";
+
+/* Indicates that a file has failed to download. */
+"podcast_failed_download" = "剧集下载失败。";
+
+/* Indicates that a file has failed to upload. */
+"podcast_failed_upload" = "上传失败";
+
+/* Button text shown on the podcast grid when you have no podcasts, takes you to the Discover section of the app */
+"podcast_grid_discover_podcasts" = "了解播客";
+
+/* Description shown when you have no podcasts on the podcast grid */
+"podcast_grid_no_podcasts_msg" = "来自其他应用程序？ 通过“配置文件 > 设置 > 导入和导出”导入您的播客。\n\n\n如果您正在寻找灵感，请尝试“发现”选项卡。";
+
+/* Title of the message on the podcast grid when you have no podcasts */
+"podcast_grid_no_podcasts_title" = "是时候添加一些播客了！";
+
+/* Title for the options box that allows the user to pick from the various grouping options. */
+"podcast_group_options_title" = "分组依据";
+
+/* Prompt to hide archived episodes from the episode list. */
+"podcast_hide_archived" = "隐藏已存档";
+
+/* Longer form informational label informing users that this podcast is limited to a configured set of episodes. '%1$@' is a placeholder for the number of episodes. */
+"podcast_limit_plural_format" = "仅限最近 %1$@ 集";
+
+/* Longer form informational label informing users that this podcast is limited to one episode. Singular version of an accompanying plural format. */
+"podcast_limit_singular" = "仅限最近 1 集";
+
+/* Progress indicator informing the user that the podcasts that have been shared or imported are currently loading. */
+"podcast_loading" = "正在加载播客...";
+
+/* Used to indicate no date was provided. */
+"podcast_no_date" = "未设置日期";
+
+/* Label used to indicate that the podcast episode isn't grouped into a season. */
+"podcast_no_season" = "无剧季";
+
+/* Accessibility label to prompt to pause an active download. */
+"podcast_pause_download" = "暂停下载";
+
+/* Accessibility label to prompt to pause a playback. */
+"podcast_pause_playback" = "暂停播放";
+
+/* Indicates that a file is queued for download and includes the estimated size. */
+"podcast_queued" = "在排队";
+
+/* Indicates that the episode is queued for download. */
+"podcast_queuing" = "在排队...";
+
+/* Prompt to trigger an artwork refresh on the podcast. */
+"podcast_refresh_artwork" = "刷新插图";
+
+/* Format used to show the Season number of a podcast. '%1$@' is a placeholder for the Season number. */
+"podcast_season_format" = "第 %1$@ 季";
+
+/* Prompt to allow the user to share the currently selected episode. */
+"podcast_share_episode" = "分享剧集链接";
+
+/* Error message used when there are no available apps that can accept the podcast file. */
+"podcast_share_episode_error_msg" = "您没有安装任何接受此文件的应用程序";
+
+/* Error message for when a podcast can't be found after it has been shared. */
+"podcast_share_error_msg" = "播客作者可能已将其删除，因为此链接已共享。";
+
+/* Error title for when a podcast can't be found after it has been shared. */
+"podcast_share_error_title" = "无法找到剧集";
+
+/* Progress message shown while the users curated list is being synced to the server. */
+"podcast_share_list_creating" = "正在创建列表…";
+
+/* Placeholder for the description of the podcast list. Used when users create a curated list of podcasts. This item is optional. */
+"podcast_share_list_description" = "描述（可选）";
+
+/* Placeholder for the name of the podcast list. Used when users create a curated list of podcasts. */
+"podcast_share_list_name" = "列表名称";
+
+/* Option to share the episode file to other apps. */
+"podcast_share_open_file" = "文件打开方式...";
+
+/* Prompt to Show archived episodes in the episode list. */
+"podcast_show_archived" = "显示已存档";
+
+/* A common string used throughout the app. Refers to Podcasts in the singular form. */
+"podcast_singular" = "播客";
+
+/* Used to reference that a new podcast episode will be available in the near future. */
+"podcast_soon" = "随时";
+
+/* Title for the options box that allows the user to pick from the various sort options. */
+"podcast_sort_order_title" = "排序";
+
+/* Confirmation option to stream the selected episode. Used in tandem with a notice that the user is not on WiFi. */
+"podcast_stream_confirmation" = "仍然流式传输";
+
+/* Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi. */
+"podcast_stream_data_warning" = "流式传输此剧集将使用数据";
+
+/* Used to reference the episode was published this month. */
+"podcast_this_month" = "本月";
+
+/* Indicates the remaining amount of time left in the episode. '%1$@' is a placeholder for the remaining time. */
+"podcast_time_left" = "剩余 %1$@";
+
+/* Used to reference tomorrow in terms of when the next episode will be available. */
+"podcast_tomorrow" = "明天";
+
+/* Prompt to unarchive all of the selected items. */
+"podcast_unarchive_all" = "全部取消存档";
+
+/* Indicates that the updates to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the updates ended. */
+"podcast_updates_ended" = "更新已结束：%1$@";
+
+/* Indicates that the updates to the podcast will end on the specified date. '%1$@' is a placeholder for date that the updates will end. */
+"podcast_updates_ends" = "更新结束：%1$@";
+
+/* Confirmation option to upload the selected file. Used in tandem with a notice that the user is not on WiFi. */
+"podcast_upload_confirmation" = "立即上传";
+
+/* Indicates that a file is being uploaded and includes the completed percentage. '%1$@' is a placeholder for a localized percentage that has been uploaded so far. */
+"podcast_uploading" = "正在上传... %1$@";
+
+/* Indicates that a file is queued to be uploaded but hasn't started yet. */
+"podcast_waiting_upload" = "正在等待上传";
+
+/* Used to reference yesterday. */
+"podcast_yesterday" = "昨天";
+
+/* The badge feature is set to show the number of unplayed episodes. */
+"podcasts_badge_all_unplayed" = "未完成的剧集";
+
+/* The badge feature is set to show an indicator if an unplayed episode exists. */
+"podcasts_badge_latest_episode" = "仅最新剧集";
+
+/* Title for the options to configure badge display options. */
+"podcasts_badges" = "徽章";
+
+/* Episodes will be displayed in order from the longest to the shortest. */
+"podcasts_episode_sort_longest_to_shortest" = "最长到最短";
+
+/* Episodes will be displayed in order from the most resent to the oldest. */
+"podcasts_episode_sort_newest_to_oldest" = "最新到最旧";
+
+/* Episodes will be displayed in order from the oldest to the most resent. */
+"podcasts_episode_sort_oldest_to_newest" = "最旧到最新";
+
+/* Episodes will be displayed in order from the shortest to the longest. */
+"podcasts_episode_sort_shortest_to_longest" = "最短到最长";
+
+/* Presents the podcasts with large podcast artwork tiles. */
+"podcasts_large_grid" = "大网格";
+
+/* Title for the set of options for the presentation styles like grid sizes vs list view. */
+"podcasts_layout" = "布局";
+
+/* Grid Items will be sorted sorted based on the users custom ordering. This is performed by dragging and dropping a podcast to the desired order. */
+"podcasts_library_sort_custom" = "拖放";
+
+/* Grid Items will be sorted based on the date the user subscribed to them. Newest to oldest. */
+"podcasts_library_sort_date_added" = "添加日期";
+
+/* Grid Items will be sorted based on the date of their newest episode. Newest to oldest. */
+"podcasts_library_sort_episode_release_date" = "剧集发布日期";
+
+/* Grid Items will be sorted alphabetically based on name. */
+"podcasts_library_sort_title" = "名称";
+
+/* Presents the podcasts in a list view. */
+"podcasts_list" = "列表";
+
+/* A common string used throughout the app. Refers to Podcasts in the plural form as well as the Podcasts screen. */
+"podcasts_plural" = "播客";
+
+/* Prompt to open the menu to share your podcasts list. */
+"podcasts_share" = "分享播客";
+
+/* Presents the podcasts with small podcast artwork tiles. */
+"podcasts_small_grid" = "小网格";
+
+/* Prompt to open the menu to allow the user to sort their podcasts. */
+"podcasts_sort" = "排列播客";
+
+/* Common word to denote a preview of something is being shown */
+"preview" = "预览";
+
+/* A common string used throughout the app. Refers to the Profile tab. */
+"profile" = "个人资料";
+
+/* Informational label indicating the last time the app was refreshed. '%1$@' is a placeholder for a date string indicating when the last refresh occurred. */
+"profile_last_app_refresh" = "应用程序上次刷新时间：%1$@";
+
+/* Displays the number of files for when there are multiple files. '%1$@' is a placeholder for the number of files. */
+"profile_number_of_files" = "%1$@ 个文件";
+
+/* The percentage of file storage space that is currently being used. '%1$@' is a placeholder for a localized percentage. */
+"profile_percent_full" = "%1$@ 已满";
+
+/* Prompt to allow the user to reset their account password. */
+"profile_reset_password" = "重置密码";
+
+/* Notice informing the user that the email to reset their password is being prepared to be sent. */
+"profile_sending_reset_email" = "正在发送重置电子邮件";
+
+/* Notice informing the user that the email to reset their password has been successfully sent. This serves as the message body for an alert accompanied with a title. ':)' is meant to be ASCII art for a happy face. */
+"profile_sending_reset_email_conf_msg" = "请查看电子邮件 :)";
+
+/* Notice informing the user that the email to reset their password has been successfully sent. This serves as the title for an alert. */
+"profile_sending_reset_email_conf_title" = "密码重置链接已发送";
+
+/* Notice informing the user that the attempt to send the password reset email has failed. */
+"profile_sending_reset_email_failed" = "无法发送重置电子邮件，请稍后重试。";
+
+/* Displays the number of files for when there is a single file. */
+"profile_single_file" = "1 个文件";
+
+/* Description for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+"profile_starred_no_episodes_desc" = "您尚未对任何剧集进行评分。";
+
+/* Title for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+"profile_starred_no_episodes_title" = "未对任何内容进行评分";
+
+/* Confirmation message to clear the give number of episodes from the queue. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
+"queue_clear_episode_queue_plural" = "清除 %1$@ 集";
+
+/* Prompt to allow the user to clear their queue. */
+"queue_clear_queue" = "清除队列";
+
+/* A common string used throughout the app. Provides an option to add the selected item(s) to a queue instead of performing the action now. Used for downloads and uploads. */
+"queue_for_later" = "稍后加入队列";
+
+/* Accessibility label indicating the current podcast is playing and it's episode date. '%1$@' is a placeholder for the episode date. */
+"queue_now_playing_accessibility" = "正在播放。%1$@";
+
+/* Label indicating the amount of time remains on an episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
+"queue_time_remaining" = "剩余 %1$@";
+
+/* Information label indication the total time remaining in the queue. This is a total across all episodes in the up next queue. '%1$@' is a placeholder for the total time remaining in the queue. */
+"queue_total_time_remaining" = "总剩余时间为 %1$@";
+
+/* Hint text in the pull to refresh custom control. Provides a notice that new Podcast episodes are being fetched. */
+"refresh_control_fetching_episodes" = "查找新的播客剧集";
+
+/* Hint text in the pull to refresh custom control. */
+"refresh_control_pull_to_refresh" = "拉动以刷新";
+
+/* Hint text in the pull to refresh custom control. Informs the user that the refresh has finished successfully. */
+"refresh_control_refresh_complete" = "刷新完成";
+
+/* Hint text in the pull to refresh custom control. Informs the user that the refresh has failed. ':(' is meant as sad face ASCII art. */
+"refresh_control_refresh_failed" = "刷新失败 :(";
+
+/* Hint text in the pull to refresh custom control. Provides a notice that files are being synced with the server. */
+"refresh_control_refreshing_files" = "正在刷新文件";
+
+/* Hint text in the pull to refresh custom control. Provides a prompt to release the control to trigger the refresh. */
+"refresh_control_release_to_refresh" = "松开以刷新";
+
+/* Hint text in the pull to refresh custom control. Informs the user that the sync has failed. ':(' is meant as sad face ASCII art. */
+"refresh_control_sync_failed" = "同步失败 :(";
+
+/* Hint text in the pull to refresh custom control. Provides a notice that Podcasts are being synced with the server. */
+"refresh_control_syncing_podcasts" = "正在同步播客和进度";
+
+/* A common string used throughout the app. Error title indicating that the refresh process has failed. */
+"refresh_failed" = "刷新失败";
+
+/* A common string used throughout the app. Prompt to perform a manual refresh of the displayed data. */
+"refresh_now" = "立即刷新";
+
+/* A common string used throughout the app. Informational label indicating the last time the refresh occurred. '%1$@' is a placeholder for a localized string indicating when the refresh happened. */
+"refresh_previous_run" = "上次刷新时间：%1$@";
+
+/* Activity indicator letting the user know that the process to refresh the current content is running. */
+"refreshing" = "正在刷新...";
+
+/* Label used when a podcast releases daily episodes */
+"release_frequency_daily" = "每日";
+
+/* Label used when a podcast releases episodes every two weeks */
+"release_frequency_fortnightly" = "每两周";
+
+/* Label used when a podcast releases hourly episodes */
+"release_frequency_hourly" = "每小时";
+
+/* Label used when a podcast releases episodes every month */
+"release_frequency_monthly" = "每月";
+
+/* Label used when a podcast releases episodes every week */
+"release_frequency_weekly" = "每周";
+
+/* A common string used throughout the app. Prompt to remove the selected item(s). */
+"remove" = "删除";
+
+/* A common string used throughout the app. Prompt to remove all of the selected item(s). */
+"remove_all" = "全部删除";
+
+/* A common string used throughout the app. Prompt to delete the selected item(s) local file download. */
+"remove_download" = "删除下载";
+
+/* A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue. */
+"remove_from_up_next" = "从“接下来播放”中删除";
+
+/* A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue. Shorter form of 'Remove From Up Next' to conserve space on the Apple Watch. */
+"remove_up_next" = "删除“接下来播放”";
+
+/* A common string used throughout the app. Prompt to retry the recent request. */
+"retry" = "重试";
+
+/* A common string used throughout the app. Placeholder text used in search boxes. */
+"search" = "搜索";
+
+/* A common string used throughout the app when searching podcasts. Placeholder text used in search boxes. */
+"search_podcasts" = "搜索播客";
+
+/* A common string used throughout the app. Refers to the season a podcast episode is in. */
+"season" = "季";
+
+/* Shorthand format used to show the Season and the Episode number of a podcast. 'S' is short for Season. '%1$@' is a placeholder for the season number. 'E' is short for Episode. '%2$@' is a placeholder for the episode number. */
+"season_episode_shorthand_format" = "第 %1$@ 季第 %2$@ 集";
+
+/* Shorthand format used to show the Season number of a podcast. 'S' is short for Season. '%1$@' is a placeholder for the season number. */
+"season_only_shorthand_format" = "第 %1$@ 季";
+
+/* Label shown for seconds listened when it's plural, eg: 15 seconds listened. */
+"seconds_listened" = "已收听的秒数";
+
+/* Label shown for seconds saved when it's plural, eg: 15 seconds saved. */
+"seconds_saved" = "已保存的秒数";
+
+/* A common string used throughout the app. Prompt to select items. */
+"select" = "选择";
+
+/* A common string used throughout the app. Prompt to select all items in the presented list. */
+"select_all" = "全选";
+
+/* A common string used throughout the app. Prompt to select all items above the currently selected item. */
+"select_all_above" = "选择以上全部";
+
+/* A common string used throughout the app. Prompt to select all items below the currently selected item. */
+"select_all_below" = "选择以下全部";
+
+/* A common string used throughout the app. Prompt to select episodes in the presented list. */
+"select_episodes" = "选择剧集";
+
+/* A common string used throughout the app. Indicates the number of selected items. '%1$@' is a placeholder for the selected items. */
+"selected_count_format" = "已选择 %1$@ 项";
+
+/* Server error message for when the user tries to upload a file that is too large. */
+"server_error_files_file_too_large" = "此文件太大，无法上传。";
+
+/* Server error message for when the user tries to upload a file with an invalid file type. */
+"server_error_files_invalid_content_type" = "无法上传，因为我们无法确定此文件的内容类型。";
+
+/* Server error message for when the user tries to upload a file while not logged in. */
+"server_error_files_invalid_user" = "用户未登录。";
+
+/* Server error message for when the user tries to upload a file but doesn't have sufficient space remaining. */
+"server_error_files_storage_limit_exceeded" = "您已超出您账户的存储限制。";
+
+/* Server error message for when the user tries to upload a file without a title. */
+"server_error_files_title_required" = "标题是必填项。";
+
+/* Server error message indicating a generic error for when the file uploads fail. */
+"server_error_files_upload_failed_generic" = "无法上传文件，请稍后重试。";
+
+/* Server error message for when a file upload files because a unique identifier failed wasn't created. */
+"server_error_files_uuid_required" = "文件 uuid 为必填项。";
+
+/* Server error message for when the user account has been locked. */
+"server_error_login_account_locked" = "您的账户因登录尝试次数过多而被锁定，请稍后重试。";
+
+/* Server error message for when the user attempted to login without their email. */
+"server_error_login_email_blank" = "输入电子邮件地址。";
+
+/* Server error message for when the user enters an invalid email. */
+"server_error_login_email_invalid" = "电子邮件无效";
+
+/* Server error message for when the user's email couldn't be identified on the server . */
+"server_error_login_email_not_found" = "未找到电子邮件";
+
+/* Server error message for when the user tries to create an account for an email tied to an existing account. */
+"server_error_login_email_taken" = "已接收电子邮件";
+
+/* Server error message for when the user attempted to login without their password. */
+"server_error_login_password_blank" = "输入密码。";
+
+/* Server error message for when the user enters an invalid password. */
+"server_error_login_password_incorrect" = "密码不正确";
+
+/* Server error message for when the user enters an invalid password. */
+"server_error_login_password_invalid" = "密码无效";
+
+/* Server error message for when the user tries to access a feature they don't have access to. */
+"server_error_login_permission_denied_not_admin" = "没有权限";
+
+/* Server error message for when the server failed to create the account fro the user. */
+"server_error_login_unable_to_create_account" = "抱歉，我们无法设置该账户。";
+
+/* Server error message for when the server failed to create the account fro the user. */
+"server_error_login_user_register_failed" = "无法创建账户，请稍后重试";
+
+/* Server error message for when the user tries to redeem a promo when they are already a plus subscriber. */
+"server_error_promo_already_plus" = "您已经是 Pocket Casts Plus 订阅者，无需兑换任何代码。";
+
+/* Server error message for when the user tries to redeem a promo code that has already been used. */
+"server_error_promo_already_redeemed" = "您已领取此促销代码。 值得一试！";
+
+/* Server error message for when the user attempts to redeem a promo code that is no longer active. */
+"server_error_promo_code_expired_or_invalid" = "此促销代码已过期或无效。";
+
+/* Generic server error message for when an unexpected or unhandled issue occurred. */
+"server_error_unknown" = "出错了";
+
+/* Server message thanking the user for signing up to the service. */
+"server_message_login_thanks_signing_up" = "感谢注册！";
+
+/* A common string used throughout the app. Reference to the settings menus. */
+"settings" = "设置";
+
+/* A common string used throughout the app. Refers to the About settings menu */
+"settings_about" = "关于";
+
+/* A common string used throughout the app. Refers to the Appearance settings menu. */
+"settings_appearance" = "外观";
+
+/* Provides a prompt for the user to configure the settings related to Inactive Episodes. Used in places like configuring Auto Archive settings. */
+"settings_archive_inactive_episodes" = "非活动剧集";
+
+/* Title for the options menu to configure the settings related to archiving Inactive Episodes. */
+"settings_archive_inactive_title" = "存档处于非活动状态";
+
+/* Provides a prompt for the user to configure the settings related to Played Episodes. Used in places like configuring Auto Archive settings. */
+"settings_archive_played_episodes" = "已播放的剧集";
+
+/* Title for the options menu to configure the settings related to archiving Played Episodes. */
+"settings_archive_played_title" = "存档已播放剧集";
+
+/* A common string used throughout the app. Refers to the Auto Add to Up Next settings menu */
+"settings_auto_add" = "自动添加到“接下来播放”";
+
+/* Prompt to select the episode limit for auto adding podcasts to the Up Next Queue. */
+"settings_auto_add_limit" = "自动添加限制";
+
+/* Prompt to select the behavior of the app if the auto add limit has been reached. */
+"settings_auto_add_limit_reached" = "如果达到极限";
+
+/* Subtitle explaining the app's behavior when the episode limit is reached and new episodes are not add to the Up Next Queue. '%1$@' is a placeholder for the auto add limit. */
+"settings_auto_add_limit_subtitle_stop" = "当“接下来播放”达到 %1$@ 集，系统将停止添加新剧集。";
+
+/* Subtitle explaining the app's behavior when the episode limit is reached and new episodes are added to the top of the Up Next Queue. '%1$@' is a placeholder for the auto add limit. */
+"settings_auto_add_limit_subtitle_top" = "当“接下来播放”达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。 底部不会添加新剧集。";
+
+/* Section header that displays all of the Podcasts that will automatically add new episodes to the Up Next Queue. */
+"settings_auto_add_podcasts" = "自动添加播客";
+
+/* A common string used throughout the app. Refers to the Auto Archive settings menu */
+"settings_auto_archive" = "自动存档";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 1 Week has passed. */
+"settings_auto_archive_1_week" = "1 周后";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 24 Hours has passed. */
+"settings_auto_archive_24_hours" = "24 小时后";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 2 Days has passed. */
+"settings_auto_archive_2_days" = "2 天后";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 2 Weeks has passed. */
+"settings_auto_archive_2_weeks" = "2 周后";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 30 Days has passed. */
+"settings_auto_archive_30_days" = "30 天后";
+
+/* Setting to auto archive a podcast episode. This value will auto archive the episode after 3 Months has passed. */
+"settings_auto_archive_3_months" = "3 个月后";
+
+/* Prompt for the toggle to include starred episodes when auto archiving. */
+"settings_auto_archive_include_starred" = "包括已加星标的剧集";
+
+/* Subtitle for the toggle to include starred episodes when auto archiving. This is the text that will be shown when the toggle is on. */
+"settings_auto_archive_include_starred_off_subtitle" = "已加星标剧集不会自动存档";
+
+/* Subtitle for the toggle to include starred episodes when auto archiving. This is the text that will be shown when the toggle is on. */
+"settings_auto_archive_include_starred_on_subtitle" = "已加星标剧集将自动存档";
+
+/* Subtitle for the main section of auto archive settings. This section sets the time limits or event triggers for when episodes are auto archived. */
+"settings_auto_archive_subtitle" = "在设定的时间限制后存档剧集。 系统将在剧集存档后删除下载。";
+
+/* A common string used throughout the app. Refers to the Auto Download settings menu */
+"settings_auto_download" = "自动下载";
+
+/* Label indicating the number of selected filters. '%1$@' is a placeholder for the number of filters selected. */
+"settings_auto_downloads_filters_selected_format" = "已选择 %1$@ 个过滤器";
+
+/* Label indicating the number of selected filters. This is the singular form for an accompanying plural option. */
+"settings_auto_downloads_filters_selected_singular" = "已选择 1 个过滤器";
+
+/* Label indicating no filters have been selected. */
+"settings_auto_downloads_no_filters_selected" = "未选择过滤器";
+
+/* Label indicating no podcasts have been selected. */
+"settings_auto_downloads_no_podcasts_selected" = "未选择播客";
+
+/* Label indicating the number of selected podcasts. '%1$@' is a placeholder for the number of podcasts selected. */
+"settings_auto_downloads_podcasts_selected_format" = "已选择 %1$@ 个播客";
+
+/* Label indicating the number of selected podcasts. This is the singular form for an accompanying plural option. */
+"settings_auto_downloads_podcasts_selected_singular" = "已选择 1 个播客";
+
+/* Subtitle explaining the toggle to auto download the top episodes of a filter. */
+"settings_auto_downloads_subtitle_filters" = "下载过滤器中的顶部剧集。";
+
+/* Subtitle explaining the toggle to auto download New Episodes. */
+"settings_auto_downloads_subtitle_new_episodes" = "在发布新剧集时进行下载。";
+
+/* Subtitle explaining the toggle to auto download items in the Up Next Queue. */
+"settings_auto_downloads_subtitle_up_next" = "下载已添加到“接下来播放”的剧集。";
+
+/* Section Header for selecting the options for setting the app badge based on the user's filters. */
+"settings_badge_filter_header" = "剧集过滤器计数";
+
+/* Option for setting the app badge based on the new episodes since the app opened. */
+"settings_badge_new_since_opened" = "自应用程序打开以来的新剧集";
+
+/* Option for setting the app badge based on the total unplayed episodes. */
+"settings_badge_total_unplayed" = "未播放总数";
+
+/* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
+"settings_create_siri_shortcut" = "创建 Siri 快捷方式";
+
+/* Informational message to accompany a prompt to create a Siri Shortcut. 'Siri' refers to Apple's voice assistant. '%1$@' is a placeholder for the podcasts name. */
+"settings_create_siri_shortcut_msg" = "创建 Siri 快捷方式以播放最新的一集 %1$@";
+
+/* A common string used throughout the app. Indicates an option(s) to customize the settings for this podcast. */
+"settings_custom" = "此播客的自定义设置";
+
+/* A message accompanying the toggle to enable auto archive settings that are specific to the selected podcast. */
+"settings_custom_auto_archive_msg" = "需要更精细的精确控制？ 启用此播客的自动存档设置";
+
+/* A message accompanying the toggle to set custom settings for a particular podcast. */
+"settings_custom_msg" = "Pocket Casts 将记住您的最后一个播放效果，并将其用于所有播客。 如果您只想为此播客创建自定义设置，则可以启用此功能。";
+
+/* Provides a prompt for the user to configure the settings related to episode limits. This controls how many episodes will be preserved before auto archiving them. */
+"settings_episode_limit" = "剧集限制";
+
+/* Informs the user of max episode count for the up next queue. This value is configurable. '%1$@' is a placeholder for the current value as set by the user. */
+"settings_episode_limit_format" = "%1$@ 集限制";
+
+/* A format for values accompanying the setting to auto archive based on a set limit. '%1$@' is a placeholder for the number of episodes that will be saved before auto archiving the oldest ones. */
+"settings_episode_limit_limit_format" = "%1$@ 个最近剧集";
+
+/* A message accompanying the episode limit settings providing a hint towards one use case for this feature. */
+"settings_episode_limit_msg" = "对于按小时或按天发布剧集的节目，设置剧集限制有助于仅保留最近的剧集，同时存档任何较早的剧集。";
+
+/* A value accompanying the setting to auto archive based on a set limit. This value disables the feature. */
+"settings_episode_limit_no_limit" = "无限制";
+
+/* Alert title informing the user that the OPML export has encountered an error. 'OPML' refers to the file type that will be exported. */
+"settings_export_error" = "导出错误";
+
+/* Alert message informing the user that the OPML export has encountered an error. 'OPML' refers to the file type that will be exported. */
+"settings_export_error_msg" = "无法导出 OPML，请稍后重试。";
+
+/* Alert title informing the user that the OPML export is processing. 'OPML' refers to the file type that will be exported. */
+"settings_export_opml" = "正在导出 OPML";
+
+/* Informs the user that Pocket Casts has dedicated an issue with this podcasts feed. */
+"settings_feed_error" = "源错误";
+
+/* Informs the user that Pocket Casts has stopped updating this feed due to too many errors. Provides a prompt to tap the refresh button that is presented above this message box. */
+"settings_feed_error_msg" = "此播客的源由于错误太多而停止更新。 轻点上方以修复此问题。";
+
+/* Title used in a dialog box. Prompt user to try refreshing the feed after encountering an error. */
+"settings_feed_fix_refresh" = "尝试更新它";
+
+/* The message body for a dialog box used to inform the user the request to update the feed has failed. */
+"settings_feed_fix_refresh_failed_msg" = "无法更新此源，请稍后重试。";
+
+/* The title for a dialog box used to inform the user that the request to update the feed has failed. */
+"settings_feed_fix_refresh_failed_title" = "更新失败";
+
+/* The message body for a dialog box used to inform the user that the an update to the feed has been queued. */
+"settings_feed_fix_refresh_success_msg" = "我们已将此播客的更新加入队列。 我们的服务器将重新检查，如果它正常工作，您应该很快会有新的剧集。 请在大约一小时后再次查看。";
+
+/* The title for a dialog box used to inform the user that the an update to the feed has been queued. */
+"settings_feed_fix_refresh_success_title" = "更新已加入队列";
+
+/* Informs the user that Pocket Casts has dedicated an issue with this podcasts feed. */
+"settings_feed_issue" = "源问题";
+
+/* Informs the user that Pocket Casts has stopped updating this feed due to too many errors. */
+"settings_feed_issue_msg" = "此播客的源由于错误太多而停止更新。";
+
+/* Prompt to navigate the user to the files setting screen. */
+"settings_files" = "文件设置";
+
+/* Prompt for the toggle to enable auto downloads for uploaded files. */
+"settings_files_auto_download" = "从云自动下载";
+
+/* Subtitle explaining the app behavior when the toggle to for auto downloads for uploaded files is off. */
+"settings_files_auto_download_subtitle_off" = "从其他设备添加到云的文件将不会自动下载。";
+
+/* Subtitle explaining the app behavior when the toggle to for auto downloads for uploaded files is on. */
+"settings_files_auto_download_subtitle_on" = "从其他设备添加到云的文件将自动下载。";
+
+/* Prompt for the toggle to enable auto uploads for uploaded files. */
+"settings_files_auto_upload" = "自动上传到云";
+
+/* Subtitle explaining the app behavior when the toggle to for auto uploads is off. */
+"settings_files_auto_upload_subtitle_off" = "添加到此设备的文件不会自动上传到云。";
+
+/* Subtitle explaining the app behavior when the toggle to for auto uploads is on. */
+"settings_files_auto_upload_subtitle_on" = "添加到此设备的文件将自动上传到云。";
+
+/* Prompt for the toggle to enable the option to delete the cloud file after playing. */
+"settings_files_delete_cloud_file" = "删除云文件";
+
+/* Prompt for the toggle to enable the option to delete the local file after playing. */
+"settings_files_delete_local_file" = "删除本地文件";
+
+/* A common string used throughout the app. Reference to the General settings menu. */
+"settings_general" = "常规";
+
+/* Confirmation to apply a setting change to all podcasts. */
+"settings_general_apply_all_conf" = "应用到现有内容";
+
+/* Prompt to apply a setting change to all podcasts. */
+"settings_general_apply_all_title" = "应用到现有播客？";
+
+/* Setting option to choose the default display archived episodes. */
+"settings_general_archived_episodes" = "已存档的剧集";
+
+/* Prompt to ask the user if they'd like to show/hide archived episodes for all podcasts. '%1$@' is a placeholder for a localized string 'show' or 'hide' based on the current setting. */
+"settings_general_archived_episodes_prompt_format" = "是否要将所有现有播客更改为%1$@已存档的剧集？";
+
+/* Setting toggle to enable the feature to automatically open the player when playback starts. */
+"settings_general_auto_open_player" = "自动打开播放器";
+
+/* Section header for the general settings that are more general app related. */
+"settings_general_defaults_header" = "默认值";
+
+/* Setting option to choose the primary way in which episodes are grouped. */
+"settings_general_episode_groups" = "播客剧集分组";
+
+/* Setting option to choose to hide archived episodes. */
+"settings_general_hide" = "隐藏";
+
+/* Setting toggle to enable the app to keep your screen awake. */
+"settings_general_keep_screen_awake" = "保持屏幕为唤醒状态";
+
+/* Setting toggle to modify which bluetooth protocol to use. */
+"settings_general_legacy_bluetooth" = "传统蓝牙支持";
+
+/* Subtitle explaining the toggle to modify which bluetooth protocol to use. */
+"settings_general_legacy_bluetooth_subtitle" = "如果您的蓝牙设备或汽车立体声系统似乎暂停了正在播放的 Pocket Casts，或将播放位置重置为 0，请尝试打开此设置以修复。";
+
+/* Setting toggle to enable the gesture for multi-select. */
+"settings_general_multi_select_gesture" = "多选手势";
+
+/* Subtitle explaining the toggle to enable the gesture for multi-select. */
+"settings_general_multi_select_gesture_subtitle" = "通过在任何剧集列表上向下拖动 2 个手指以多选。 如果您发现自己意外触发此功能或它干扰了您使用的辅助功能，请关闭此功能。";
+
+/* Option to not move forward with a prompt to apply to all podcasts. */
+"settings_general_no_thanks" = "不，谢谢";
+
+/* Setting toggle to enable the app to open the links in an external browser. */
+"settings_general_open_in_browser" = "在浏览器中打开链接";
+
+/* Setting toggle to modify what controls are available on the lock screen. */
+"settings_general_play_back_actions" = "额外播放操作";
+
+/* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
+"settings_general_play_back_actions_subtitle" = "在手机锁定屏幕和 CarPlay 中添加“已播放”标记和“星标”选项。 注意：在锁定屏幕上，这将取代后跳按钮。";
+
+/* Section header for the general settings that are more player related. */
+"settings_general_player_header" = "播放器";
+
+/* Setting toggle to enable publishing chapter titles to the device's "Now Playing Info Center" data used by bluetooth and other connected devices. */
+"settings_general_publish_chapter_titles" = "Publish Chapter Titles";
+
+/* Subtitle explaining the toggle to publish chapter titles. */
+"settings_general_publish_chapter_titles_subtitle" = "If on, this will send chapter titles over Bluetooth and other connected devices instead of the episode title.";
+
+/* Setting toggle to change the behavior of the skip button on external devices. */
+"settings_general_remote_skips_chapters" = "远程跳过章节";
+
+/* Subtitle explaining the toggle to change the behavior of the skip button on external devices. */
+"settings_general_remote_skips_chapters_subtitle" = "已启用此项并且剧集有章节时，按下汽车或耳机中的跳过按钮将跳至下一章。";
+
+/* Prompt to ask the user if they'd like to remove the grouping from all podcasts. */
+"settings_general_remove_groups_apply_all" = "是否要将所有现有播客更改为不分组？";
+
+/* Setting option to choose the default action when selecting an episode row. */
+"settings_general_row_action" = "行操作";
+
+/* Prompt to ask the user if they'd like to apply the grouping to all podcasts. '%1$@' is a placeholder for a localized name for the grouping type. */
+"settings_general_selected_group_apply_all" = "是否要将所有现有播客更改为按 %1$@ 分组？";
+
+/* Setting option to choose to show archived episodes. */
+"settings_general_show" = "显示";
+
+/* Setting toggle to enable the feature that adjusts the playback position when resuming. */
+"settings_general_smart_playback" = "智能播放恢复";
+
+/* Subtitle explaining the feature that adjusts the playback position when resuming. */
+"settings_general_smart_playback_subtitle" = "如果打开，Pocket Casts 将在您继续观看的剧集中返回一些内容，以便您更轻松地补看内容。";
+
+/* Setting option to choose how to handle swiping to add something to the queue. */
+"settings_general_up_next_swipe" = "“接下来播放”滑动";
+
+/* Setting toggle to modify how a tap is handled in the up next queue. */
+"settings_general_up_next_tap" = "轻点时播放“接下来播放”";
+
+/* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is off. */
+"settings_general_up_next_tap_off_subtitle" = "轻点“接下来播放”中的剧集后，系统将显示操作页面。 长按可播放剧集。 打开以进行切换。";
+
+/* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is on. */
+"settings_general_up_next_tap_on_subtitle" = "轻点“接下来播放”中的剧集后，系统将播放该剧集。 长按可显示剧集选项。 关闭以进行切换。";
+
+/* Title for the menu that takes you to the global up next queue settings */
+"settings_global_settings" = "全局设置";
+
+/* A common string used throughout the app. Refers to the Help & Feedback settings menu */
+"settings_help" = "帮助和反馈";
+
+/* Title for the screen that manages the importing and exporting of podcasts. */
+"settings_import_export" = "导入\/导出";
+
+/* Informs the user that the current podcast is included in one filter. '%1$@' is a placeholder for the number of filters this podcast is included in. */
+"settings_in_filters_plural_format" = "包含在 %1$@ 个过滤器中";
+
+/* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
+"settings_in_filters_singular" = "包含在 1 个过滤器中";
+
+/* Setting section header. Indicates that the options in this section will appear in the menu vs an action bar. */
+"settings_in_menu" = "在菜单中";
+
+/* A message accompanying the settings for inactive episodes explaining what is considered an inactive episode. */
+"settings_inactive_episodes_msg" = "非活动剧集是指您在上述指定时间内尚未播放或下载的剧集。 系统将在剧集存档后删除下载。";
+
+/* Informs the user that the current podcast isn't included in any filters. */
+"settings_not_in_filters" = "不包括在任何过滤器中";
+
+/* A common string used throughout the app. Refers to the Notifications settings menu. */
+"settings_notifications" = "通知";
+
+/* App badge choice to have the badge reflect the filter count */
+"settings_notifications_filter_count" = "过滤器计数";
+
+/* Subtitle explaining what notifications to expect when you enable notifications. */
+"settings_notifications_subtitle" = "当有新剧集时通知您。 还有助于提高自动下载的可靠性。";
+
+/* A common string used throughout the app. Refers to the Import/Export OPML settings menu */
+"settings_opml" = "导入\/导出 OPML";
+
+/* Provides a prompt for the user to configure the playback speed options. */
+"settings_play_speed" = "播放速度";
+
+/* Informational label breaking down the pricing structure for Pocket Casts Plus. '%1$@' is a placeholder for the localized price if paid per month, '%2$@' is a placeholder for the localized price if paid per year */
+"settings_plus_pricing_format" = "%1$@\/月或 %2$@\/年";
+
+/* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
+"settings_queue_position" = "在队列中的位置";
+
+/* Prompt to select a filter */
+"settings_select_filter_singular" = "选择过滤器";
+
+/* Prompt to select filters */
+"settings_select_filters_plural" = "选择过滤器";
+
+/* Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered. */
+"settings_shortcuts_filter_open_filter" = "打开过滤器";
+
+/* Option for the filter Siri Shortcut. This sets the filter to play all episodes in the filter when the shortcut is triggered. */
+"settings_shortcuts_filter_play_all_episodes" = "播放所有剧集";
+
+/* Option for the filter Siri Shortcut. This sets the filter to play the top episode in the filter when the shortcut is triggered. */
+"settings_shortcuts_filter_play_top_episode" = "播放顶部剧集";
+
+/* Prompt to open the menu to interact with a pre-configured Siri shortcut. 'Siri' refers to Apple's voice assistant. */
+"settings_siri_shortcut" = "Siri 快捷方式";
+
+/* Informational message that accompanies an existing Siri shortcut for a particular podcast. 'Siri' refers to Apple's voice assistant. '%1$@' is a placeholder for the podcasts name. */
+"settings_siri_shortcut_msg" = "一个 Siri 快捷方式，用于播放 %1$@ 中的第一集";
+
+/* A common string used throughout the app. Refers to the Siri Shortcuts settings menu. 'Siri' refers to Apple's voice assistant. */
+"settings_siri_shortcuts" = "Siri 快捷方式";
+
+/* Section header for the available Siri shortcuts (not yet enabled). */
+"settings_siri_shortcuts_available" = "可用快捷方式";
+
+/* Section header for the enabled Siri shortcuts. */
+"settings_siri_shortcuts_enabled" = "已启用的快捷方式";
+
+/* Option to create a Siri Shortcut to a specific filter. */
+"settings_siri_shortcuts_specific_filter" = "特定过滤器的快捷方式";
+
+/* Option to create a Siri Shortcut to a specific podcast. */
+"settings_siri_shortcuts_specific_podcast" = "特定播客的快捷方式";
+
+/* Prompt to open the configurable options to have the podcast skip an initial portion of the selected podcast. */
+"settings_skip_first" = "跳过第一个";
+
+/* Prompt to open the configurable options to have the podcast skip the final portion of the selected podcast. */
+"settings_skip_last" = "跳过最后一个";
+
+/* Fun informational message about the skip options available in the settings. */
+"settings_skip_msg" = "跳过开头音乐和结尾音乐，就像您生来是超级用户一样。";
+
+/* A common string used throughout the app. Refers to the Stats settings menu */
+"settings_stats" = "统计";
+
+/* A common string used throughout the app. Refers to the Storage & Data Use settings menu. */
+"settings_storage" = "存储和数据使用情况";
+
+/* Prompt for the toggle that turns on the dialog that warns the user before using data. */
+"settings_storage_data_warning" = "使用数据前发出警告";
+
+/* Prompt for the toggle that will include starred files in the clean up operation. */
+"settings_storage_downloads_starred" = "包括加星标项";
+
+/* Section header for settings related to data usage. */
+"settings_storage_mobile_data" = "移动数据";
+
+/* Section header for information about storage space used. */
+"settings_storage_usage" = "使用情况";
+
+/* Title for the settings screen */
+"settings_title" = "播客设置";
+
+/* Provides a prompt for the user to configure the sensitivity associated to the auto trimming silence setting. */
+"settings_trim_level" = "剪裁水平";
+
+/* Provides a prompt for the user to configure the trim silence options. */
+"settings_trim_silence" = "剪裁静音";
+
+/* Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit. */
+"settings_up_next_limit" = "自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，系统将停止添加新剧集。";
+
+/* Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit. */
+"settings_up_next_limit_add_to_top" = "自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。";
+
+/* Provides a prompt for the user to toggle on the volume boosting setting. */
+"settings_volume_boost" = "音量增强";
+
+/* Prompt for the toggle that enables auto downloads for the Apple Watch app. */
+"settings_watch_auto_download" = "自动下载“接下来播放”";
+
+/* Subtitle for the toggle that explains the behavior for the auto download feature for the Apple Watch app. */
+"settings_watch_auto_download_off_subtitle" = "设置 Pocket Casts 将下载到观看列表以进行离线播放的“接下来播放”队列中的剧集数。";
+
+/* Prompt for the toggle that enables the feature to delete auto downloads that fall outside episode limit for the Apple Watch app. */
+"settings_watch_delete_downloads" = "删除超出限制的下载";
+
+/* Subtitle explaining the behavior of the app for when the toggle to delete auto downloads is turned off. */
+"settings_watch_delete_downloads_off_subtitle" = "为节省观看存储空间，系统最多会自动下载“接下来播放”队列中的 25 集。 系统将自动删除超出此限制的旧下载文件。";
+
+/* Subtitle explaining the behavior of the app for when the toggle to delete auto downloads is turned on. */
+"settings_watch_delete_downloads_on_subtitle" = "您的“接下来播放”队列中超出此限制的所有下载文件将被自动删除。 手动下载不受这些设置的管理。";
+
+/* Prompt for the option to select the number of episodes to auto downloads for the Apple Watch app. */
+"settings_watch_episode_limit" = "剧集数";
+
+/* Subtitle explaining for the option to select the number of episodes to auto downloads for the Apple Watch app. '%1$@' is a placeholder for the number of items to download. */
+"settings_watch_episode_limit_subtitle" = "Pocket Casts 会将“接下来播放”队列中的前 %1$@ 集下载到您的观看列表中，以便离线播放。";
+
+/* Prompt for the option format to select the number of episodes to auto downloads for the Apple Watch app. '%1$@' is a placeholder for the number of items to download */
+"settings_watch_episode_number_option_format" = "前 %1$@";
+
+/* Title for the options for the user to configure their account. */
+"setup_account" = "设置账户";
+
+/* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
+"share" = "共享";
+
+/* A common string used throughout the app. Option to share the episode at the current playback position. */
+"share_current_position" = "当前位置";
+
+/* Message indicating that the process to subscribe to a podcast list is in progress. */
+"share_list_subscribing" = "正在订阅...";
+
+/* Message indicating that all of the podcasts have been selected. */
+"share_podcasts_all_selected" = "已全选";
+
+/* Title for the screen to finalize options to create a list of podcasts to share. */
+"share_podcasts_create_list" = "创建列表";
+
+/* Message indicating that the process to share a podcast list is in progress. */
+"share_podcasts_sharing" = "正在共享...";
+
+/* Error message for when sharing fails. */
+"share_podcasts_sharing_failed_msg" = "创建共享页面时出错";
+
+/* Title indicating that sharing has failed. */
+"share_podcasts_sharing_failed_title" = "共享失败";
+
+/* A common string used throughout the app. Title for the screen to select multiple podcasts to share. */
+"share_select_podcasts" = "选择播客";
+
+/* Progress indicator informing the user that the item that has been sent to them via share is loading. */
+"shared_item_loading" = "正在加载共享项目...";
+
+/* Title for the screen that shows the podcasts from a shared list of podcasts. */
+"shared_list" = "共享列表";
+
+/* Confirmation option presented when a user selects to subscribe to all podcasts in a list. */
+"shared_list_subscribe_conf_action" = "好的！";
+
+/* Message for a dialog presented when a user selects to subscribe to all podcasts in a list. '%1$@' is a placeholder for the number of podcasts that will be subscribed to. */
+"shared_list_subscribe_conf_msg" = "是否确定要订阅 %1$@ 个播客？";
+
+/* Title for a dialog presented when a user selects to subscribe to all podcasts in a list. */
+"shared_list_subscribe_conf_title" = "播客太多了！";
+
+/* A common string used throughout the app. Refers to the Notes (show notes) tab in the player. */
+"show_notes" = "备注";
+
+/* A common string used throughout the app. Prompt for the user to sign into their account. */
+"sign_in" = "登录";
+
+/* Email address field prompt */
+"sign_in_email_address_prompt" = "电子邮件地址";
+
+/* Button text to go to the forgot password page */
+"sign_in_forgot_password" = "我忘记了密码";
+
+/* Message shown below the sign in prompt to give users more details about what it does */
+"sign_in_message" = "将您的播客订阅保存到云端，并与其他设备同步您的进度。";
+
+/* Password field prompt */
+"sign_in_password_prompt" = "密码";
+
+/* Prompt for the user to sign into their account or create an account */
+"sign_in_prompt" = "登录或创建账户";
+
+/* Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label. */
+"signed_in_as" = "登录身份";
+
+/* Label indicating which account is not signed in. */
+"signed_out" = "未登录";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut. ${filterName} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_0EmR82" = "打开 ${filterName} 筛选器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_0YXvyS" = "上一章";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_1uT6VF" = "媒体搜索";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_3aWmex" = "章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${playbackSpeed} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_5yWeuV" = "以 ${playbackSpeed} 速度播放";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_CXbd65" = "设置睡眠计时器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_E6Nzn4-No0K9w" = "恢复 Pocket Casts";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_E6Nzn4-Pk1Fkx" = "不恢复 Pocket Casts";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_ErAaNp" = "循环模式";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_EwNFJ5" = "延长睡眠计时器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_G0iCil" = "无法跳过章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_G3J6fP" = "播放播客";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
+"siri_intent_definition_key_IyhbAH" = "打开过滤器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_LdrEPN" = "播放媒体的请求";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_MbU5ep" = "随机播放 ${mediaItems}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_No0K9w" = "恢复";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_Ntulol" = "跳过章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_OJvsVr" = "将睡眠计时器延长 5 分钟";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_Pk1Fkx" = "不恢复";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
+"siri_intent_definition_key_QektJm" = "打开过滤器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_QqdHiR" = "随机";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_RvX3Zd" = "播放速度";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_WEjMGd" = "播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_Wj0EAI" = "跳过";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_WktFNa" = "随机";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_YYfsKp" = "播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_bVm1vW" = "设置睡眠计时器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_cV2HLF" = "队列位置";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_cfJexL" = "项目";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_dBTobY" = "跳过章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_emhqzv" = "播客不支持章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_gD0dlx" = "下一章";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_iQo0yQ-0YXvyS" = "上一章";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_iQo0yQ-Wj0EAI" = "跳过章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_iQo0yQ-gD0dlx" = "下一章";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_mCAocc" = "非随机";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_nAv25k" = "随机播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_nNozW1" = "随机播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_nR0neu" = "睡眠计时器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
+"siri_intent_definition_key_ny98Lo" = "延长睡眠计时器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_o6CuZu" = "继续播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} and ${playbackSpeed} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_q8QY8B" = "以 ${playbackSpeed} 速度播放 ${mediaItems}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_rnkZnd" = "跳过章节";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_rvNMpm" = "恢复";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
+"siri_intent_definition_key_sLPQxZ" = "播放 ${mediaContainer}";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
+"siri_intent_definition_key_xdnqvn" = "容器";
+
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
+"siri_intent_definition_key_zvlpk3" = "跳过的章节";
+
+/* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
+"siri_shortcut_extend_sleep_timer" = "将睡眠计时器设置为 %1$@";
+
+/* Siri shortcut phrase for increasing the sleep timer by a specified amount. */
+"siri_shortcut_extend_sleep_timer_five_min" = "将睡眠计时器延长 5 分钟";
+
+/* Siri shortcut title and phrase for having siri skip to the next chapter of a podcast */
+"siri_shortcut_next_chapter" = "下一章";
+
+/* Siri shortcut invocation phrase for opening a specified filter. '%1$@' is the placeholder for the specified filter. */
+"siri_shortcut_open_filter_phrase" = "打开 %1$@";
+
+/* Siri shortcut invocation phrase for pausing the current episode */
+"siri_shortcut_pause_phrase" = "暂停";
+
+/* Siri shortcut title for pausing the current episode */
+"siri_shortcut_pause_title" = "暂停当前剧集";
+
+/* Siri shortcut invocation phrase for playing all episodes of a particular filter. '%1$@' is a placeholder for the name of the filter to play from */
+"siri_shortcut_play_all_phrase" = "播放所有 %1$@";
+
+/* Siri shortcut title for playing all episodes of a particular filter */
+"siri_shortcut_play_all_title" = "正在播放所有剧集";
+
+/* Siri shortcut title for playing the top episode of a particular podcast or filter */
+"siri_shortcut_play_episode_title" = "正在播放热门剧集";
+
+/* Siri shortcut invocation phrase for playing the specified filter. '%1$@' is a placeholder for the name of the filter to play from */
+"siri_shortcut_play_filter_phrase" = "播放热门 %1$@";
+
+/* Siri shortcut invocation phrase for playing the specified podcast. '%1$@' is a placeholder for the name of the podcast */
+"siri_shortcut_play_podcast_phrase" = "播放 %1$@";
+
+/* Siri shortcut phrase title for playing a suggested podcast */
+"siri_shortcut_play_suggested_podcast_phrase" = "播放推荐剧集";
+
+/* Siri shortcut suggested title for playing a suggested podcast */
+"siri_shortcut_play_suggested_podcast_suggested_title" = "来点惊喜！";
+
+/* Siri shortcut title for playing a suggested podcast */
+"siri_shortcut_play_suggested_podcast_title" = "正在播放推荐剧集";
+
+/* Siri shortcut invocation phrase for playing the next episode in the queue. */
+"siri_shortcut_play_up_next_phrase" = "接下来播放";
+
+/* Siri shortcut title for playing the next episode in the queue */
+"siri_shortcut_play_up_next_title" = "播放下一集";
+
+/* Siri shortcut title and phrase for having siri skip to the previous chapter of a podcast */
+"siri_shortcut_previous_chapter" = "上一章";
+
+/* Siri shortcut invocation phrase for resuming the current episode */
+"siri_shortcut_resume_phrase" = "恢复";
+
+/* Siri shortcut title for resuming the current episode */
+"siri_shortcut_resume_title" = "恢复当前剧集播放";
+
+/* Title for the siri shortcuts page to create a shortcut to a podcast */
+"siri_shortcut_to_podcast" = "创建播客快捷方式";
+
+/* A common string used throughout the app. Prompt to rewind the playback by a configurable amount. */
+"skip_back" = "后跳";
+
+/* A common string used throughout the app. Prompt to fast-forward the playback by a configurable amount. */
+"skip_forward" = "前跳";
+
+/* The Sleep Timer feature. */
+"sleep_timer" = "睡眠计时器";
+
+/* Prompt to add five minutes to an active timer. */
+"sleep_timer_add_5_mins" = "+5 分钟";
+
+/* Prompt to cancel the active sleep timer. */
+"sleep_timer_cancel" = "取消计时器";
+
+/* Prompt to change the active sleep timer to be end of episode. */
+"sleep_timer_end_of_episode" = "剧集结束";
+
+/* Accessibility hint that displays the remaining amount of time for the sleep timer. '%1$@' is a placeholder for the remaining time. */
+"sleep_timer_time_remaining" = "睡眠计时器打开，剩余 %1$@";
+
+/* Prompt to confirm when presented with a connection prompt. Used when connecting to a Sonos speaker. */
+"sonos_connect_action" = "连接";
+
+/* Prompt to connect to a Sonos speaker. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connect_prompt" = "连接至 Sonos";
+
+/* Notice indicating that the app is attempting to make a connection to a Sonos device. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connecting" = "正在连接…";
+
+/* Notice indicating that the app failed to make a connection to a Sonos device because the accounts weren't successfully linked. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connection_failed_account_link" = "此时无法关联 Pocket Casts 账户。 请稍后重试。";
+
+/* Notice indicating that the app failed to make a connection to a Sonos device because because it couldn't detect the Sonos App. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connection_failed_app_missing" = "无法打开 Sonos 应用程序以完成关联流程。";
+
+/* Notice indicating that the app failed to make a connection to a Sonos device. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connection_failed_title" = "链接失败";
+
+/* Notice informing the users about what data will be provided to the Sonos speaker upon connection. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connection_privacy_notice" = "连接到 Sonos 后，Sonos 应用程序就可以访问您的剧集信息。\n\n系统绝不会分享您的电子邮件地址、密码和其他敏感信息。";
+
+/* Notice informing the users they need Pocket Casts account and need to sign in before connecting to the Sonos speaker. 'Sonos' refers the the speaker manufacturer. */
+"sonos_connection_sign_in_prompt" = "您需要有一个 Pocket Casts 账户才能与 Sonos 连接。";
+
+/* A common string used throughout the app. Prompt for the sort option menus. */
+"sort_by" = "排序方式";
+
+/* A common string used throughout the app. Title accompanying the sort option setting. */
+"sort_episodes" = "排列剧集";
+
+/* Used next to a setting for how fast audio will play */
+"speed" = "速度";
+
+/* A common string used throughout the app. Prompt to mark an episode(s) as favorited. */
+"star_episode" = "为剧集加星标";
+
+/* A common string used throughout the app. Prompt to mark an episode(s) as favorited. Similar to 'Star Episode' but more concise. */
+"star_episode_short" = "加星标";
+
+/* Accessibility message for the cell displaying the time for how long they've listened to Pocket Casts. '%1$@' is a placeholder for how long they've listened and '%2$@' is a placeholder for a localized funny stat related to their listening history. */
+"stats_accessibility_listen_history_format" = "您已收听 %1$@。%2$@";
+
+/* Row header that displays the amount of time saved from Auto skipping episode parts. */
+"stats_auto_skip" = "自动跳过";
+
+/* Error message for when stats fail to load due to internet connection error. */
+"stats_error" = "无法加载统计信息，请检查您的互联网连接";
+
+/* Message informing the user how long they've been a user. '%1$@' is a placeholder for the date for when they created their account. */
+"stats_listen_history_format" = "自从 %1$@，您已收听";
+
+/* Loading message displayed while stats are being pulled. */
+"stats_listen_history_loading" = "您已收听";
+
+/* Header for the cell displaying the time for how long they've listened to Pocket Casts. */
+"stats_listen_history_no_date" = "您已收听";
+
+/* Row header that displays the amount of time saved from the Skip forward feature. */
+"stats_skipping" = "跳过";
+
+/* Section header that breaks down how much listening time has been saved across a variety of features. */
+"stats_time_saved" = "节省的时间";
+
+/* A placeholder string for when the app fails to generate a time from the given inputs. */
+"stats_time_zero_seconds" = "0 秒";
+
+/* A common string used throughout the app. Status header showing the totals for accumulated stat numbers. */
+"stats_total" = "总共";
+
+/* Row header that displays the amount of time saved from adjusting the Playback speed feature. */
+"stats_variable_speed" = "变速";
+
+/* A common string used throughout the app. Status message informing the user that the episode has been downloaded. */
+"status_downloaded" = "已下载";
+
+/* A common string used throughout the app. Status message informing the user that the episode is downloading. */
+"status_downloading" = "正在下载";
+
+/* A common string used throughout the app. Status message informing the user that the episode has not been downloaded. */
+"status_not_downloaded" = "未下载";
+
+/* A common string used throughout the app. Status message informing the user that the episode is currently not selected. Used with accessibility. */
+"status_not_selected" = "未选择";
+
+/* A common string used throughout the app. Status message informing the user that the episode has not been starred (favorited). */
+"status_not_starred" = "未加星标";
+
+/* A common string used throughout the app. Status message informing the user that the episode has been played. */
+"status_played" = "已播放";
+
+/* A common string used throughout the app. Status message informing the user that the episode is currently selected. Used with accessibility. */
+"status_selected" = "已选择";
+
+/* A common string used throughout the app. Status message informing the user that the episode has been starred (favorited). */
+"status_starred" = "已加星标";
+
+/* A common string used throughout the app. Status message informing the user that the episode has not been played. */
+"status_unplayed" = "未播放";
+
+/* A common string used throughout the app. Status message informing the user that the episode has been uploaded. */
+"status_uploaded" = "已上传";
+
+/* A common string used throughout the app. Prompt to cancel the download for the selected item(s). */
+"stop_download" = "停止下载";
+
+/* Prompt to subscribe to the selected podcast. */
+"subscribe" = "订阅";
+
+/* Prompt to subscribe to all of the selected podcast. */
+"subscribe_all" = "全部订阅";
+
+/* Label indicating that the user is currently subscribed to the selected podcast. */
+"subscribed" = "已订阅";
+
+/* Title for the subscription details page informing the users that the selected subscription has been canceled. */
+"subscription_cancelled" = "已取消订阅";
+
+/* Message on the subscription details page informing the users when the canceled subscription will officially end. '%1$@' is a placeholder for the date in which the subscription expires. */
+"subscription_cancelled_msg" = "订阅取消日期：%1$@  ";
+
+/* A common string used throughout the app. Thanks the user for their support. Used for paid feeds and Pocket Casts Plus. */
+"subscriptions_thank_you" = "感谢您的支持！";
+
+/* A label used to identify that a user is a supporter of the selected podcast. */
+"supporter" = "支持者";
+
+/* Menu option to open details on available podcast supporter contribution options. */
+"supporter_contributions" = "支持者的贡献";
+
+/* Subtitle to prompt the user to review their supports contribution details for more information. */
+"supporter_contributions_subtitle" = "查看贡献详情";
+
+/* Informational message informing the user that their recurring payments for supporter contributions have been canceled. */
+"supporter_payment_canceled" = "支持者：已取消";
+
+/* Notice the sync failed due to an account error. */
+"sync_account_error" = "检查您的用户名和密码。";
+
+/* Sync status update notifying the user that the app is logged in. */
+"sync_account_login" = "已登录...";
+
+/* A common string used throughout the app. Used to indicate that the sync process has failed. */
+"sync_failed" = "同步失败";
+
+/* Notice that the app is syncing the up next and history for the account. */
+"sync_in_progress" = "正在同步“接下来播放”和“历史记录”";
+
+/* Progress message indicating the total number of podcasts being synced. '%1$@' serves as a placeholder for the current number of synced podcasts. '%2$@' serves as a placeholder for the total number of podcasts to sync. */
+"sync_progress" = "播客 %1$@\/%2$@";
+
+/* Progress message indicating the total number of podcasts that have been synced. '%1$@' serves as a placeholder for the current number of synced podcasts, will be more than one. */
+"sync_progress_unknown_count_plural_format" = "已同步 %1$@ 个播客";
+
+/* Progress message indicating the total number of podcasts that have been synced. Used in the singular case. */
+"sync_progress_unknown_count_singular" = "已同步 1 个播客";
+
+/* A common string used throughout the app. Used to indicate that the sync process in running. */
+"syncing" = "正在同步...";
+
+/* Prompt to allow the user to review the Terms of Use. */
+"terms_of_use" = "使用条款";
+
+/* Theme name for the Classic theme. */
+"theme_classic" = "Classic";
+
+/* Theme name for the Dark theme. */
+"theme_dark" = "默认深色";
+
+/* Theme name for the Dark Contrast theme. */
+"theme_dark_contrast" = "Dark Contrast";
+
+/* Theme name for the Electricity theme. */
+"theme_electricity" = "Electricity";
+
+/* Theme name for the Extra Dark theme. */
+"theme_extra_dark" = "Extra Dark";
+
+/* Theme name for the Indigo theme. */
+"theme_indigo" = "Indigo";
+
+/* Theme name for the Light theme. */
+"theme_light" = "默认浅色";
+
+/* Theme name for the Light Contrast theme. */
+"theme_light_contrast" = "Light Contrast";
+
+/* Theme name for the Radioactivity theme. */
+"theme_radioactivity" = "Radioactivity";
+
+/* Theme name for the Rosé theme. */
+"theme_rose" = "Rosé";
+
+/* Open ended time format describing either unknown or truly never */
+"time_format_never" = "从不";
+
+/* A placeholder when time conversions fail. Sets the value to zero seconds */
+"time_placeholder" = "0 秒";
+
+/* A common string used throughout the app. Used to reference today. */
+"today" = "今天";
+
+/* A common string used throughout the app. Title option to place the item at the top of the queue. */
+"top" = "顶部";
+
+/* Label indicating that the trial period for the subscription or promotion has ended. */
+"trial_finished" = "试用完成";
+
+/* The Trim Silence feature, removes silence from podcasts to make them shorter. */
+"trim_silence" = "剪裁静音";
+
+/* A common string used throughout the app. Catch all prompt to suggest to the user to try the the task again. */
+"try_again" = "重试";
+
+/* A common string used throughout the app. Prompt to restore the selected item(s) from an archived state. */
+"unarchive" = "取消存档";
+
+/* A common string used throughout the app. Used to reference an unknown duration '?' is an indicator that the amount of time isn't known and 'm' is a reference for minutes. */
+"unknown_duration" = "? 分钟";
+
+/* A common string used throughout the app. Prompt to un-star the selected item (remove from favorited). */
+"unstar" = "取消星标";
+
+/* A common string used throughout the app. Prompt to unsubscribe from the selected podcast(s). */
+"unsubscribe" = "退订";
+
+/* A common string used throughout the app. Prompt to unsubscribe from all of the selected podcast. */
+"unsubscribe_all" = "全部取消订阅";
+
+/* A common string used throughout the app. Title for the prompt to display the queue of episodes to play next. */
+"up_next" = "接下来播放";
+
+/* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
+"up_next_empty_description" = "您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。";
+
+/* Heading shown when your Up Next list is empty */
+"up_next_empty_title" = "“接下来播放”列表无内容";
+
+/* An alphabetical sort option for uploaded files. */
+"upload_sort_alpha" = "标题 (A-Z)";
+
+/* The Volume Boost feature. Makes voices louder. */
+"volume_boost" = "音量增强";
+
+/* A short description of what the Volume Boost feature does */
+"volume_boost_description" = "声音更大";
+
+/* A common string used throughout the app. Informs the user that the app is waiting for wifi to reconnect. */
+"wait_for_wifi" = "正在等待 WiFi";
+
+/* A common string used throughout the app. Used to reference the Watch as the playing source with in the Apple Watch App (Phone is the other option for this use case) */
+"watch" = "观看";
+
+/* Indicates that the episode is being played is currently buffering to download more content for playback. */
+"watch_buffering" = "正在缓冲...";
+
+/* Prompt in the Apple Watch App for the controls to move to the next chapter of the podcast. */
+"watch_chapter_next" = "下一章";
+
+/* Prompt in the Apple Watch App for the controls to move to the previous chapter of the podcast. */
+"watch_chapter_prev" = "上一章";
+
+/* Title for the playback effects screen on the Apple Watch */
+"watch_effects" = "效果";
+
+/* Prompt in the Apple Watch App to open episode details. */
+"watch_episode_details" = "剧集详情";
+
+/* Prompt in the Apple Watch app to return to the Main Menu */
+"watch_main_menu" = "主菜单";
+
+/* Label in the Apple Watch app informing the user that they don't have any episodes in their selected list. */
+"watch_no_episodes" = "无剧集";
+
+/* Label in the Apple Watch app informing the user that they haven't configured any of their filters. */
+"watch_no_filters" = "无过滤器";
+
+/* Label in the Apple Watch app informing the user that they haven't subscribed to podcasts. */
+"watch_no_podcasts" = "无播客";
+
+/* Subtitle text used on the now playing screen in the Watch App. Indicates there is nothing palying or paused in the app. Please leave the "\
+\
+" part in there, that's a new line indicator. */
+"watch_nothing_playing_subtitle" = "享受片刻安宁或发现好剧。\n\n抓紧行动吧。🙂";
+
+/* Title text used on the now playing screen in the Watch App. Indicates there is nothing palying or paused in the app. */
+"watch_nothing_playing_title" = "未播放任何内容";
+
+/* Message detailing where the audio will play from when selecting the source on the Apple Watch */
+"watch_source_msg" = "所选设备所连接的扬声器将播放播客";
+
+/* Information label providing a brief explanation of Pocket Casts Plus. */
+"watch_source_plus_info" = "直接下载到您的手表，收听无需使用手机。 在您的手机应用程序或在 Web 上查看 Pocket Casts Plus。";
+
+/* Button that allows the user to manually trigger a refresh of their profile from the watch app. */
+"watch_source_refresh_account" = "刷新账户";
+
+/* Information label accompanying the Refresh Account button. */
+"watch_source_refresh_account_info" = "如果您已有 Pocket Casts Plus 账户，请刷新账户，尝试启用它";
+
+/* Button that allows the user to manually trigger a refresh of their data from the watch app. */
+"watch_source_refresh_data" = "刷新数据";
+
+/* Information label informing users if they want to sign in to the Watch app they need to do that from the phone app. */
+"watch_source_sign_in_info" = "在您的手机上登录或创建账户";
+
+/* Apple Watch complication prompt to tap the control to open the watch app. */
+"watch_tap_to_open" = "轻点以打开";
+
+/* Subtitle for the up next screen when a user has no episode queued up to play. */
+"watch_up_next_no_items_subtitle" = "您可以从剧集详情页面对接下来要播放的剧集排队，也可以在手机上添加剧集。";
+
+/* Title for the up next screen when a user has no episode queued up to play. */
+"watch_up_next_no_items_title" = "“接下来播放”列表无内容";
+
+/* Title for the announcement screen that calls out new features. */
+"whats_new" = "新内容";
+
+/* Text for a link that goes to our blog where people can read more about the current update */
+"whats_new_blog_more_link_text" = "阅读我们的博客上，了解有关此更新的更多信息";
+
+/* Text on the about page button to tell people's what's new in this version. %1$@ is placeholder for the version number, for example 7.1. */
+"whats_new_in_version" = "%1$@ 中的新内容";
+
+/* What's new for 7.20 description for page one. Please leave the "\
+\
+" part in there, these are new line indicator. */
+"whats_new_page_one_7_20" = "如果您喜欢播客的程度有我们的一半，那么您可能拥有很多播客。 如果您订阅了 Pocket Casts Plus，则现在可以将它们分类到文件夹中，然后将它们归档到整齐的组中。\n\n感谢您的支持，您的主屏幕看起来如此精美！";
+
+/* Title for page one of the 7.20 what's new dialog. */
+"whats_new_page_one_title_7_20" = "文件夹";
+
+/* What's new for 7.20 description for page two. Please leave the "\
+\
+" part in there, these are new line indicator. */
+"whats_new_page_two_7_20" = "我们现在会在跨备同步您的主屏幕（包括您的排序选项）！ 您现在也可以拖放到 Web Player 中。\n\n如果知道自己为安排播客页面所做的努力都在同步到账户，您便可以更加放心。";
+
+/* Title for page two of the 7.20 what's new dialog. */
+"whats_new_page_two_title_7_20" = "主网格同步";
+
+/* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
+"widgets_discover_prompt_msg" = "查看“发现”选项卡";
+
+/* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
+"widgets_discover_prompt_title" = "渴望收听更多内容？";
+
+/* Widget label informing the user that nothing is currently being played. */
+"widgets_nothing_playing" = "未播放任何内容";
+
+/* Description for the now playing widget. */
+"widgets_now_playing_desc" = "快速访问当前正在播放的剧集。";
+
+/* Basic string used in formats like 'price / year' */
+"year" = "年";
+
+/* Basic string used to callout payment intervals like yearly vs monthly */
+"yearly" = "每年";
+

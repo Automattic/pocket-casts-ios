@@ -1,0 +1,17 @@
+/* A message that tells the user why the app is requesting access to the device’s camera. */
+NSCameraUsageDescription = "This allows you to add custom images to your files";
+
+/* A message that tells the user why the app needs access to Bluetooth. */
+NSBluetoothAlwaysUsageDescription = "Pocket Casts needs to access your bluetooth in order to detect nearby Google Cast devices.";
+
+/* A message that tells the user why the app is requesting access to the local network. */
+NSLocalNetworkUsageDescription = "Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.";
+
+/* A message that tells the user why the app is requesting access to the device’s microphone. */
+NSMicrophoneUsageDescription = "Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.";
+
+/* A message that tells the user why the app is requesting access to the user’s photo library. */
+NSPhotoLibraryUsageDescription = "Pocket Casts needs permission to save this image to your photo library.";
+
+/* A message that tells the user why the app is requesting add-only access to the user’s photo library. */
+NSPhotoLibraryAddUsageDescription = "Pocket Casts needs permission to save this image to your photo library.";

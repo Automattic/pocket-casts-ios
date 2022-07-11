@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShelfActionsViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="actionButton" destination="cKZ-Dw-VOH" id="YNd-SZ-KOu"/>
+                <outlet property="actionsTable" destination="6tw-OJ-5M6" id="hJv-NQ-6cB"/>
+                <outlet property="doneButtonVerticalConstraint" destination="e5y-WK-qoH" id="4on-L0-dot"/>
+                <outlet property="dragHandle" destination="u7u-d7-LCB" id="siQ-EJ-snB"/>
+                <outlet property="editButtonVerticalConstraint" destination="pje-FQ-OGl" id="Ee6-DI-ET2"/>
+                <outlet property="headingLabel" destination="ReJ-sq-mag" id="LRC-D2-cT7"/>
+                <outlet property="headingView" destination="kRe-hz-06d" id="6I3-nx-wuu"/>
+                <outlet property="headingViewHeightConstraint" destination="5Lc-Gk-ogu" id="sj2-kT-LZz"/>
+                <outlet property="rearrangeHeader" destination="pi8-u0-lvv" id="bM2-yP-RyB"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="412" height="470"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kRe-hz-06d" userLabel="Popup Heading">
+                    <rect key="frame" x="0.0" y="0.0" width="412" height="68"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE ACTIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReJ-sq-mag" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="35" width="99.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rearrange Actions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pi8-u0-lvv" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="132" y="23.5" width="148" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7u-d7-LCB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="178" y="8" width="56" height="4"/>
+                            <color key="backgroundColor" red="0.6350919008" green="0.58443516490000003" blue="0.50978493690000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="56" id="AbS-O9-vGV"/>
+                                <constraint firstAttribute="height" constant="4" id="cDJ-4d-eEa"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKZ-Dw-VOH" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="360" y="25.5" width="32" height="33"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <state key="normal" title="Edit">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="doneTapped:" destination="-1" eventType="touchUpInside" id="krK-tW-Gz3"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.27818405629999998" green="0.16882148390000001" blue="0.043081961570000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="pi8-u0-lvv" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="58X-ye-TXQ"/>
+                        <constraint firstAttribute="height" constant="68" id="5Lc-Gk-ogu"/>
+                        <constraint firstAttribute="bottom" secondItem="ReJ-sq-mag" secondAttribute="bottom" constant="17" id="7Cv-ee-gK0"/>
+                        <constraint firstItem="u7u-d7-LCB" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="Rch-bC-tUP"/>
+                        <constraint firstItem="ReJ-sq-mag" firstAttribute="leading" secondItem="kRe-hz-06d" secondAttribute="leading" constant="20" id="c3L-kF-bIk"/>
+                        <constraint firstItem="cKZ-Dw-VOH" firstAttribute="centerY" secondItem="pi8-u0-lvv" secondAttribute="centerY" id="e5y-WK-qoH"/>
+                        <constraint firstItem="u7u-d7-LCB" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="8" id="mMP-BI-Eut"/>
+                        <constraint firstItem="cKZ-Dw-VOH" firstAttribute="firstBaseline" secondItem="ReJ-sq-mag" secondAttribute="firstBaseline" id="pje-FQ-OGl"/>
+                        <constraint firstAttribute="trailing" secondItem="cKZ-Dw-VOH" secondAttribute="trailing" constant="20" id="q1u-Nq-yeJ"/>
+                        <constraint firstItem="pi8-u0-lvv" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="zGs-cC-qdI"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="e5y-WK-qoH"/>
+                        </mask>
+                    </variation>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="default" rowHeight="72" estimatedRowHeight="72" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6tw-OJ-5M6">
+                    <rect key="frame" x="0.0" y="68" width="412" height="402"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="GUP-CC-1l4"/>
+                        <outlet property="delegate" destination="-1" id="dCW-6R-kKw"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="6tw-OJ-5M6" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="bottom" id="CO7-eg-OQ0"/>
+                <constraint firstAttribute="bottom" secondItem="6tw-OJ-5M6" secondAttribute="bottom" id="GMu-6v-ceL"/>
+                <constraint firstAttribute="trailing" secondItem="6tw-OJ-5M6" secondAttribute="trailing" id="Ghp-au-Jsp"/>
+                <constraint firstItem="kRe-hz-06d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Wx7-id-0LB"/>
+                <constraint firstItem="kRe-hz-06d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c3M-nb-W7l"/>
+                <constraint firstItem="6tw-OJ-5M6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n5I-Hd-D5W"/>
+                <constraint firstAttribute="trailing" secondItem="kRe-hz-06d" secondAttribute="trailing" id="qZz-fp-HSC"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-1293" y="-35"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ThemeAbstractCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="124" height="200"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="124" height="200"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xaE-hB-yNN" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="44" width="124" height="98"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hZy-Pq-1HH">
+                        <rect key="frame" x="8" y="148" width="112" height="18"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked-grey" translatesAutoresizingMaskIntoConstraints="NO" id="sft-6f-z0e">
+                                <rect key="frame" x="0.0" y="0.0" width="16" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="gjr-1w-GM7"/>
+                                    <constraint firstAttribute="height" constant="18" id="h5o-he-f4D"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-Al-aIr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="21" y="0.0" width="91" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9eI-39-Guv" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2P-5n-MzY" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                        <color key="backgroundColor" red="0.388265207" green="0.96620899439999997" blue="0.53839670080000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UCZ-Oj-hTD">
+                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d5O-ct-7y9">
+                        <rect key="frame" x="74.5" y="92.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="CZb-10-TLu"/>
+                            <constraint firstAttribute="height" constant="40" id="RaU-Vi-1JZ"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="9eI-39-Guv" firstAttribute="bottom" secondItem="m2P-5n-MzY" secondAttribute="bottom" id="6Id-44-M7n"/>
+                <constraint firstItem="9eI-39-Guv" firstAttribute="leading" secondItem="m2P-5n-MzY" secondAttribute="leading" id="Ayj-os-Ldg"/>
+                <constraint firstItem="xaE-hB-yNN" firstAttribute="trailing" secondItem="ZTg-uK-7eu" secondAttribute="trailing" id="C54-iN-NT7"/>
+                <constraint firstItem="m2P-5n-MzY" firstAttribute="bottom" secondItem="UCZ-Oj-hTD" secondAttribute="bottom" id="E27-DT-Uo8"/>
+                <constraint firstItem="d5O-ct-7y9" firstAttribute="trailing" secondItem="UCZ-Oj-hTD" secondAttribute="trailing" constant="-1.75" id="H7d-wU-vT7"/>
+                <constraint firstItem="UCZ-Oj-hTD" firstAttribute="trailing" secondItem="xaE-hB-yNN" secondAttribute="trailing" constant="-8" id="QCY-cO-RBb"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="top" secondItem="xaE-hB-yNN" secondAttribute="top" id="Qut-GO-vsc"/>
+                <constraint firstItem="xaE-hB-yNN" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="TyI-cF-ecA"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="xaE-hB-yNN" secondAttribute="bottom" constant="24" id="UjT-go-BLH"/>
+                <constraint firstItem="hZy-Pq-1HH" firstAttribute="leading" secondItem="UCZ-Oj-hTD" secondAttribute="leading" id="VhP-Fu-PDF"/>
+                <constraint firstItem="UCZ-Oj-hTD" firstAttribute="leading" secondItem="xaE-hB-yNN" secondAttribute="leading" constant="8" id="c9n-nx-Jmu"/>
+                <constraint firstItem="m2P-5n-MzY" firstAttribute="trailing" secondItem="UCZ-Oj-hTD" secondAttribute="trailing" id="db4-NA-ydK"/>
+                <constraint firstItem="9eI-39-Guv" firstAttribute="trailing" secondItem="m2P-5n-MzY" secondAttribute="trailing" id="fdM-rQ-lRg"/>
+                <constraint firstItem="m2P-5n-MzY" firstAttribute="leading" secondItem="UCZ-Oj-hTD" secondAttribute="leading" id="hPt-Ce-sLT"/>
+                <constraint firstItem="hZy-Pq-1HH" firstAttribute="trailing" secondItem="xaE-hB-yNN" secondAttribute="trailing" constant="-4" id="i6K-fZ-JzY"/>
+                <constraint firstItem="UCZ-Oj-hTD" firstAttribute="bottom" secondItem="xaE-hB-yNN" secondAttribute="bottom" constant="-8" id="kfi-69-ZiM"/>
+                <constraint firstItem="9eI-39-Guv" firstAttribute="top" secondItem="m2P-5n-MzY" secondAttribute="top" id="lrh-fw-bla"/>
+                <constraint firstItem="UCZ-Oj-hTD" firstAttribute="top" secondItem="xaE-hB-yNN" secondAttribute="top" constant="8" id="mSF-Oh-rdr"/>
+                <constraint firstItem="d5O-ct-7y9" firstAttribute="bottom" secondItem="UCZ-Oj-hTD" secondAttribute="bottom" constant="-1.75" id="v4J-9n-GzG"/>
+                <constraint firstItem="hZy-Pq-1HH" firstAttribute="top" secondItem="xaE-hB-yNN" secondAttribute="bottom" constant="6" id="vFZ-au-t79"/>
+                <constraint firstItem="m2P-5n-MzY" firstAttribute="top" secondItem="UCZ-Oj-hTD" secondAttribute="top" id="wfE-3R-2LM"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="162" height="224"/>
+            <connections>
+                <outlet property="cornerImage" destination="d5O-ct-7y9" id="Dw1-O5-xKX"/>
+                <outlet property="greyLockImage" destination="sft-6f-z0e" id="G0d-WZ-gmG"/>
+                <outlet property="imageView" destination="UCZ-Oj-hTD" id="Mtt-pI-0gU"/>
+                <outlet property="nameLabel" destination="PDr-Al-aIr" id="Byr-6q-Rc9"/>
+                <outlet property="selectionView" destination="xaE-hB-yNN" id="z6U-nA-sX0"/>
+                <outlet property="shadowView" destination="m2P-5n-MzY" id="2gX-Z5-gYh"/>
+                <outlet property="underShadowView" destination="9eI-39-Guv" id="T14-Og-X7C"/>
+            </connections>
+            <point key="canvasLocation" x="218.84057971014494" y="178.79464285714286"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="locked-grey" width="16" height="16"/>
+    </resources>
+</document>

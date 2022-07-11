@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+languages([
+            'en-US',
+            'fr-FR',
+            'de-DE',
+            'es-ES',
+            'it',
+            'ja',
+            'nl-NL',
+            'ru',
+            'sv',
+            'zh-Hans',
+            'zh-Hant',
+            %w[pt pt_BR]
+          ])
+
+scheme('Screenshot Automation')
+output_directory('./fastlane/screenshots')
+skip_open_summary(true)
+override_status_bar(true)
+stop_after_first_error(true)
+headless(false)
+erase_simulator(false)
+test_without_building(true)
+disable_slide_to_type(true)

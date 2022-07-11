@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="siriSuggestedCellId" rowHeight="64" id="KGk-i7-Jjw" customClass="SiriShortcutSuggestedCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D78-DL-Hr6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="12" width="264" height="20"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discover_add" translatesAutoresizingMaskIntoConstraints="NO" id="Ckk-Fh-SM3" customClass="TintableImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="280" y="10" width="24" height="24"/>
+                        <color key="tintColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="3Qn-kB-BkV"/>
+                            <constraint firstAttribute="height" constant="24" id="rd7-7V-man"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="D78-DL-Hr6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9N2-A6-uqe"/>
+                    <constraint firstItem="D78-DL-Hr6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="FLD-QU-UDk"/>
+                    <constraint firstAttribute="trailing" secondItem="Ckk-Fh-SM3" secondAttribute="trailing" constant="16" id="MYv-hr-u9d"/>
+                    <constraint firstItem="Ckk-Fh-SM3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="edX-FH-o63"/>
+                    <constraint firstItem="Ckk-Fh-SM3" firstAttribute="leading" secondItem="D78-DL-Hr6" secondAttribute="trailing" id="reZ-dZ-Rd1"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addIcon" destination="Ckk-Fh-SM3" id="mjk-T6-l64"/>
+                <outlet property="titleLabel" destination="D78-DL-Hr6" id="pUI-aR-SW0"/>
+            </connections>
+            <point key="canvasLocation" x="131" y="154"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="discover_add" width="24" height="24"/>
+    </resources>
+</document>

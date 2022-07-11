@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="333" id="KGk-i7-Jjw" customClass="LastSupporterPodcastCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="405" height="233"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="405" height="233"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GGJ-7K-rhq" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="12" y="12" width="381" height="209"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yield" translatesAutoresizingMaskIntoConstraints="NO" id="5UZ-6J-JNf">
+                                <rect key="frame" x="13" y="13" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="5hQ-2H-5dh"/>
+                                    <constraint firstAttribute="height" constant="24" id="UYd-wH-z6L"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts Plus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zs-Aw-nh7" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="48" y="15" width="134" height="20"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is your only supporter contribution. When it ends, your Pocket Casts Plus access will end too." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Krh-Ok-XD9" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="48" y="39" width="329" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Krh-Ok-XD9" secondAttribute="trailing" constant="4" id="4Lz-Hx-aLu"/>
+                            <constraint firstItem="5UZ-6J-JNf" firstAttribute="leading" secondItem="GGJ-7K-rhq" secondAttribute="leading" constant="13" id="CtN-kI-77j"/>
+                            <constraint firstItem="Krh-Ok-XD9" firstAttribute="top" secondItem="1zs-Aw-nh7" secondAttribute="bottom" constant="4" id="E8m-VV-37U"/>
+                            <constraint firstItem="5UZ-6J-JNf" firstAttribute="top" secondItem="GGJ-7K-rhq" secondAttribute="top" constant="13" id="b0S-Hn-S9b"/>
+                            <constraint firstItem="1zs-Aw-nh7" firstAttribute="centerY" secondItem="5UZ-6J-JNf" secondAttribute="centerY" id="oX7-1Q-HgZ"/>
+                            <constraint firstItem="Krh-Ok-XD9" firstAttribute="leading" secondItem="1zs-Aw-nh7" secondAttribute="leading" id="uPW-Gi-F6X"/>
+                            <constraint firstItem="1zs-Aw-nh7" firstAttribute="leading" secondItem="5UZ-6J-JNf" secondAttribute="trailing" constant="11" id="yzP-J8-brB"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="GGJ-7K-rhq" secondAttribute="trailing" constant="12" id="FkV-8i-Hq7"/>
+                    <constraint firstAttribute="bottom" secondItem="GGJ-7K-rhq" secondAttribute="bottom" constant="12" id="dBN-nA-q0r"/>
+                    <constraint firstItem="GGJ-7K-rhq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="hKr-3R-SqN"/>
+                    <constraint firstItem="GGJ-7K-rhq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="uNZ-vk-Cuh"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="borderView" destination="GGJ-7K-rhq" id="KwN-39-Tvd"/>
+                <outlet property="descriptionLabel" destination="Krh-Ok-XD9" id="VIt-KO-xm7"/>
+                <outlet property="yieldImage" destination="5UZ-6J-JNf" id="zTv-gw-OWq"/>
+            </connections>
+            <point key="canvasLocation" x="196.37681159420291" y="153.68303571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="yield" width="24" height="24.5"/>
+    </resources>
+</document>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="FilterDownloadCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z3s-hH-dWp">
+                        <rect key="frame" x="16" y="14" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="XLW-2S-K7u"/>
+                            <constraint firstAttribute="width" constant="32" id="tPC-6b-4H8"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Filter Name Is Really Really Really Long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jbf-kK-Zrz" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="64" y="17.5" width="178" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="Ucs-LY-1On"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MKM-aq-WvY" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="258" y="14.5" width="51" height="31"/>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Jbf-kK-Zrz" firstAttribute="leading" secondItem="z3s-hH-dWp" secondAttribute="trailing" constant="16" id="1nb-lg-e7m"/>
+                    <constraint firstItem="z3s-hH-dWp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cQr-UV-rK1"/>
+                    <constraint firstItem="Jbf-kK-Zrz" firstAttribute="centerY" secondItem="z3s-hH-dWp" secondAttribute="centerY" id="dKb-Qd-pFk"/>
+                    <constraint firstItem="MKM-aq-WvY" firstAttribute="leading" secondItem="Jbf-kK-Zrz" secondAttribute="trailing" constant="16" id="lx4-cL-iVW"/>
+                    <constraint firstItem="MKM-aq-WvY" firstAttribute="centerY" secondItem="Jbf-kK-Zrz" secondAttribute="centerY" id="oZF-5s-fP1"/>
+                    <constraint firstAttribute="trailing" secondItem="MKM-aq-WvY" secondAttribute="trailing" constant="13" id="qdT-NF-WnD"/>
+                    <constraint firstItem="z3s-hH-dWp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="wR4-qD-zfF"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="filterImage" destination="z3s-hH-dWp" id="3L1-Hq-fbj"/>
+                <outlet property="filterName" destination="Jbf-kK-Zrz" id="BBe-aR-ssx"/>
+                <outlet property="filterSwitch" destination="MKM-aq-WvY" id="xbn-Bj-eka"/>
+            </connections>
+            <point key="canvasLocation" x="-397" y="-1"/>
+        </tableViewCell>
+    </objects>
+</document>

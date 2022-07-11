@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextEntryCellId" id="KGk-i7-Jjw" customClass="TextEntryCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owg-O0-32W" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="-6" width="288" height="56"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rename" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w16-S5-cyo">
+                                <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="WA9-1x-JlA"/>
+                                    <constraint firstAttribute="width" constant="24" id="bgh-yK-Sy7"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Filter Name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="blP-8G-xkR" userLabel="Text Field" customClass="ThemeableTextField" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="48" y="6.5" width="232" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="wLs-Yl-4a2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="5F3-j7-jqC"/>
+                            <constraint firstItem="blP-8G-xkR" firstAttribute="centerY" secondItem="Owg-O0-32W" secondAttribute="centerY" id="KxX-Nn-QYf"/>
+                            <constraint firstAttribute="trailing" secondItem="blP-8G-xkR" secondAttribute="trailing" constant="8" id="M7Q-iA-QWw"/>
+                            <constraint firstItem="w16-S5-cyo" firstAttribute="leading" secondItem="Owg-O0-32W" secondAttribute="leading" constant="16" id="Qve-Fg-Dao"/>
+                            <constraint firstItem="blP-8G-xkR" firstAttribute="leading" secondItem="w16-S5-cyo" secondAttribute="trailing" constant="8" id="U2i-Sw-SUj"/>
+                            <constraint firstItem="w16-S5-cyo" firstAttribute="centerY" secondItem="Owg-O0-32W" secondAttribute="centerY" id="aCu-7W-mvX"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Owg-O0-32W" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="UrR-s9-Rnx"/>
+                    <constraint firstAttribute="trailing" secondItem="Owg-O0-32W" secondAttribute="trailing" constant="16" id="Y1s-p3-tJ0"/>
+                    <constraint firstItem="Owg-O0-32W" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eAs-62-Wpd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="borderView" destination="Owg-O0-32W" id="5ko-ru-V4C"/>
+                <outlet property="iconView" destination="w16-S5-cyo" id="Uww-oM-u4o"/>
+                <outlet property="textField" destination="blP-8G-xkR" id="NVG-av-ntT"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="138"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="rename" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

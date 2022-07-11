@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="152" id="KGk-i7-Jjw" customClass="AllArchivedCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="164"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="164"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Episodes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpL-2m-dyL" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="106.5" y="40" width="107" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="kML-hX-7uI"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All 36 episodes of this podcast have been archived" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84D-5D-XiC" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="60" y="61" width="200" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="6sV-R9-Pcv"/>
+                            <constraint firstAttribute="height" constant="42" id="pud-mV-FS8"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="84D-5D-XiC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1pE-qB-45b"/>
+                    <constraint firstAttribute="bottom" secondItem="84D-5D-XiC" secondAttribute="bottom" constant="61" id="HE9-o5-IuG"/>
+                    <constraint firstItem="bpL-2m-dyL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="Qa0-pi-A7U"/>
+                    <constraint firstItem="bpL-2m-dyL" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Zqw-GI-9ir"/>
+                    <constraint firstItem="84D-5D-XiC" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="mGK-gk-AXS"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="episodesArchivedLabel" destination="84D-5D-XiC" id="7AP-oU-XzQ"/>
+            </connections>
+            <point key="canvasLocation" x="52.799999999999997" y="26.986506746626688"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,70 @@
+import Foundation
+import PocketCastsDataModel
+
+class PodcastPickerModel: ObservableObject {
+    @Published var selectedPodcastUuids: [String] = []
+    @Published var allPodcasts: [Podcast] = []
+    @Published var filteredPodcasts: [Podcast] = []
+    @Published var pickingForFolderUuid: String?
+    
+    enum PickerSortingStrategy {
+        case none, foldersAtBottom
+    }
+
+    @Published var sortingStrategy: PickerSortingStrategy = .foldersAtBottom
+    
+    @Published var sortType: LibrarySort = .titleAtoZ {
+        didSet {
+            UserDefaults.standard.set(sortType.rawValue, forKey: Constants.UserDefaults.lastPickerSort)
+            loadPodcasts()
+        }
+    }
+    
+    @Published var searchTerm = "" {
+        didSet {
+            filterPodcasts()
+        }
+    }
+    
+    func setup() {
+        let savedSortTypeInt = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastPickerSort)
+        if savedSortTypeInt != 0 {
+            sortType = LibrarySort(rawValue: savedSortTypeInt) ?? .titleAtoZ
+        }
+        
+        loadPodcasts()
+    }
+    
+    private func loadPodcasts() {
+        var podcasts = PodcastManager.shared.allPodcastsSorted(in: sortType)
+        
+        // filter podcasts in folders to the bottom, but not ones in the picking folder
+        if sortingStrategy == .foldersAtBottom {
+            podcasts.sort { podcast1, podcast2 in
+                podcast2.folderUuid != nil && podcast2.folderUuid != pickingForFolderUuid && (podcast1.folderUuid == nil || podcast1.folderUuid == pickingForFolderUuid)
+            }
+        }
+        
+        allPodcasts = podcasts
+        filteredPodcasts = allPodcasts
+    }
+    
+    func togglePodcastSelected(_ podcast: Podcast) {
+        if let selectedIndex = selectedPodcastUuids.firstIndex(of: podcast.uuid) {
+            selectedPodcastUuids.remove(at: selectedIndex)
+        }
+        else {
+            selectedPodcastUuids.append(podcast.uuid)
+        }
+    }
+    
+    private func filterPodcasts() {
+        if searchTerm.isEmpty {
+            filteredPodcasts = allPodcasts
+            
+            return
+        }
+        
+        filteredPodcasts = allPodcasts.filter { ($0.title?.localizedCaseInsensitiveContains(searchTerm) ?? false) || ($0.author?.localizedCaseInsensitiveContains(searchTerm) ?? false) }
+    }
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoryPodcastsViewController" customModule="podcasts" customModuleProvider="target">
+            <connections>
+                <outlet property="loadingIndicator" destination="2TN-Qi-kba" id="WlB-kR-G1e"/>
+                <outlet property="noNetworkView" destination="Ecb-EP-Q01" id="V1B-nD-IWL"/>
+                <outlet property="podcastsTable" destination="Yvg-p2-keL" id="juy-N9-rMv"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yvg-p2-keL" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="ZFJ-Ps-ozR"/>
+                        <outlet property="delegate" destination="-1" id="3Uz-TT-Yva"/>
+                    </connections>
+                </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="2TN-Qi-kba" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                </activityIndicatorView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecb-EP-Q01" userLabel="No Network View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="233.5" width="375" height="200"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discover_nointernet" translatesAutoresizingMaskIntoConstraints="NO" id="rQX-3Y-Hyf">
+                            <rect key="frame" x="146" y="10" width="83" height="77"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="83" id="9zx-5O-3Ej"/>
+                                <constraint firstAttribute="height" constant="77" id="eny-JM-7RK"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Internets!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukb-I3-tRU" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="137.5" y="107" width="100" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your Internet connection." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr5-qv-9X8" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="61.5" y="138" width="252" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S35-9j-Eau">
+                            <rect key="frame" x="155.5" y="165" width="64" height="30"/>
+                            <state key="normal" title="Try Again"/>
+                            <connections>
+                                <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="Alt-uO-nxA"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="Ukb-I3-tRU" firstAttribute="top" secondItem="rQX-3Y-Hyf" secondAttribute="bottom" constant="20" id="5WF-7s-RbX"/>
+                        <constraint firstItem="rQX-3Y-Hyf" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="Is0-Kx-MTg"/>
+                        <constraint firstItem="S35-9j-Eau" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="aY7-eP-Pwv"/>
+                        <constraint firstItem="Ukb-I3-tRU" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="eMS-lv-R6Y"/>
+                        <constraint firstAttribute="height" constant="200" id="egm-Zs-7dL"/>
+                        <constraint firstItem="Sr5-qv-9X8" firstAttribute="top" secondItem="Ukb-I3-tRU" secondAttribute="bottom" constant="10" id="i4E-UX-0qA"/>
+                        <constraint firstItem="Sr5-qv-9X8" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="sZQ-kz-eFj"/>
+                        <constraint firstItem="rQX-3Y-Hyf" firstAttribute="top" secondItem="Ecb-EP-Q01" secondAttribute="top" constant="10" id="u7a-6a-Dxz"/>
+                        <constraint firstItem="S35-9j-Eau" firstAttribute="top" secondItem="Sr5-qv-9X8" secondAttribute="bottom" constant="10" id="y7C-vr-XlS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Ecb-EP-Q01" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="DDL-2q-35j"/>
+                <constraint firstItem="2TN-Qi-kba" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Dwj-Ix-ZOu"/>
+                <constraint firstItem="Yvg-p2-keL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JfU-Zt-E32"/>
+                <constraint firstItem="2TN-Qi-kba" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Xtc-ff-EU7"/>
+                <constraint firstAttribute="bottom" secondItem="Yvg-p2-keL" secondAttribute="bottom" id="i0R-tU-02e"/>
+                <constraint firstAttribute="trailing" secondItem="Yvg-p2-keL" secondAttribute="trailing" id="kJY-8L-z2b"/>
+                <constraint firstItem="Yvg-p2-keL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oID-Bp-vxl"/>
+                <constraint firstItem="Ecb-EP-Q01" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="unD-jO-4Fc"/>
+                <constraint firstAttribute="trailing" secondItem="Ecb-EP-Q01" secondAttribute="trailing" id="vxK-KE-8dl"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="discover_nointernet" width="83" height="77"/>
+    </resources>
+</document>

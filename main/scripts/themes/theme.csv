@@ -1,0 +1,171 @@
+Token,Role,Light / Hex,Light / Opacity & Details,Dark / Hex,Dark / Opacity & Details,Extra Dark / Hex,Extra Dark / Opacity & Details,Classic Light / Hex,Classic Light / Opacity & Details,Classic Dark / Hex,Classic Dark / Opacity & Details,Electricity / Hex,Electricity / Opacity & Details,Indigo / Hex,Indigo / Opacity & Details,Radioactivity / Hex,Radioactivity / Opacity & Details,Rosé / Hex,Rosé / Opacity & Details,High Contrast Light / Hex,High Contrast Light / Opacity & Details,High Contrast Dark / Hex,High Contrast Dark / Opacity & Details
+,,,,,,,,,,,,,,,,,,,,,,,
+$primary-ui-01,"background of sheets, top layer sheets (episode cards, dialogues)",#FFFFFF,100%,#292B2E,100%,#222427,100%,#FFFFFF,100%,#292B2E,100%,#19232B,100%,#ECEDE6,100%,#162F1E,100%,#fff0eb,100%,#ffffff,100%,#000000,100%
+$primary-ui-01-active,web player menus hover state / option sheet menus tap state,#F7F9FA,100%,#383A3D,100%,#E0E6EA,10%,#F7F9FA,100%,#383A3D,100%,#171C24,100%,#F1F2EF,100%,#193D25,100%,#fff9f7,100%,#f7f9fa,100%,#1b1b1b,100%
+$primary-ui-02,"background of rows, and row-like elements",#FFFFFF,100%,#1A1B1D,100%,#000000,100%,#FFFFFF,100%,#1A1B1D,100%,#161A20,100%,#F4F5F2,100%,#0d1b11,100%,#FFEEED,100%,#ffffff,100%,#000000,100%
+$primary-ui-02-selected,"row select state, multiselect",#E6F6FE,100%,#1E333D,100%,#1F1F1F,100%,#FEECEB,100%,#3C2323,100%,#1A2C34,100%,#E2E4E5,100%,#173119,100%,#f7caca,100%,#e5e5e5,100%,#262626,100%
+$primary-ui-02-active,background of rows when tapped,#F7F9FA,100%,#222427,100%,#161717,100%,#F7F9FA,100%,#222427,100%,#1B212A,100%,#F7F9FA,100%,#0d1b11,100%,#fce2de,100%,#f2f2f2,100%,#1b1b1b,100%
+$primary-ui-03,"big areas, tab bar background",#FAFAFA,100%,#202124,100%,#080808,100%,#FAFAF9,100%,#161718,100%,#171C25,100%,#EFEFEF,100%,#162f1e,100%,#F7E2E2,100%,#ffffff,100%,#000000,100%
+$primary-ui-04,"space between rows, deepest, darkest hell",#F7F9FA,100%,#161718,100%,#000000,100%,#F7F9FA,100%,#161718,100%,#111419,100%,#ECEDE6,100%,#111419,100%,#FCE6E6,100%,#ffffff,100%,#000000,100%
+$primary-ui-05,"divider, stroke of messages, pagination dots",#E0E6EA,100%,#393A3C,100%,#393A3C,50%,#E0E6EA,100%,#393A3C,100%,#1E3C4A,100%,#D8DCDC,100%,#27591a,100%,#f5d1c4,100%,#e4e4e4,100%,#333333,100%
+$primary-ui-05-selected,selected pagination dot,#8F97A4,100%,#8F97A4,100%,#686C74,100%,#8F97A4,100%,#8F97A4,100%,#3FD2E6,100%,#556675,100%,#70e84e,100%,#e53958,100%,#000000,100%,#ffffff,100%
+$primary-ui-06,message / alert panel backgrounds,#F7F9FA,100%,#303337,100%,#2D2F31,100%,#F7F9FA,100%,#303337,100%,#1B2933,100%,#E8E8DF,100%,#1a3e11,100%,#fff8f7,100%,#ffffff,100%,#000000,100%
+$primary-icon-01,"default icon colour for sheets (dialogues, menus)",#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#3D4E70,100%,#74f864,100%,#f05d54,100%,#000000,100%,#ffffff,100%
+$primary-icon-01-active,,#8AE9FF,100%,#64C7F4,100%,#80DAF1,100%,#F49D9A,100%,#F49D9A,100%,#8AE9FF,100%,#586784,100%,#70e84e,100%,#ff6f66,100%,#3f3f3f,100%,#bebebe,100%
+$primary-icon-02,"lighter, incidental icons, or bigger icons (chevrons, tab bar icons)",#B8C3C9,100%,#8F97A4,100%,#686C74,100%,#B8C3C9,100%,#B8C3C9,100%,#16698C,100%,#9DA7B5,100%,#59bc3d,100%,#F58C87,100%,#808080,100%,#b2b2b2,100%
+$primary-icon-02-selected,"selected secondary icons (ie, tab bar)",#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#3F4B6A,100%,#9FF2B1,100%,#f22469,100%,#0225C2,100%,#ffffff,100%
+$primary-icon-02-active,pressed states for some secondary icons (pluses in discover),#8F97A4,100%,#EFF3F5,100%,#EFF3F5,100%,#8F97A4,100%,#EFF3F5,100%,#3FD2E6,100%,#8F97A4,100%,#70e84e,100%,#f55c53,100%,#000000,75%,#000000,75%
+$primary-icon-03,"darker, more demanding icons (in fields, and in message boxes)",#8F97A4,100%,#686C74,100%,#686C74,100%,#8F97A4,100%,#8F97A4,100%,#2A7683,100%,#6D7B87,100%,#70e84e,100%,#e54558,100%,#656565,100%,#656565,100%
+$primary-icon-03-active,active state for some icons (icons in fields),#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#03A9F4,100%,#03A9F4,100%,#8AE9FF,100%,#70ADD1,100%,#70e84e,100%,#ff7373,100%,#000000,100%,#ffffff,100%
+$primary-text-01,primary text,#292B2E,100%,#FFFFFF,100%,#B8C3C9,100%,#292B2E,100%,#FFFFFF,100%,#FFFFFF,100%,#323E5C,100%,#74f864,100%,#990038,100%,#000000,100%,#ffffff,100%
+$primary-text-02,secondary text,#8F97A4,100%,#9C9FA4,100%,#686C74,100%,#8F97A4,100%,#9C9FA4,100%,#21ADDB,100%,#7E8999,100%,#469431,100%,#E52535,100%,#595959,100%,#d9d9d9,100%
+$primary-text-02-selected,"selected secondary text (ie, tab bar)",#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#333D58,100%,#9FF2B1,100%,#d90048,100%,#023087,100%,#ffffff,100%
+$primary-field-01,search box background colour,#EFF3F5,100%,#EFF3F5,10%,#FBFBFC,10%,#EFF3F5,100%,#FFFFFF,10%,#3FD2E6,9%,#E7E8E1,100%,#1a3e11,100%,#fffdfc,100%,#f1f1f1,100%,#272727,100%
+$primary-field-01-active,search box background colour when active,#E0E6EA,100%,#FBFBFC,15%,#FBFBFC,15%,#E0E6EA,100%,#FBFBFC,15%,#3FD2E6,14%,#EBEADA,100%,#27591a,100%,#ffffff,100%,#e4e4e4,100%,#181818,100%
+$primary-field-02,"input box background (username, password, etc)",#FBFBFC,100%,#FBFBFC,11%,#FBFBFC,10%,#FBFBFC,100%,#FBFBFC,11%,#3FD2E6,9%,#FBFBFC,100%,#1a3e11,100%,#fffbfa,100%,#fbfbfc,100%,#1a1a1a,100%
+$primary-field-02-active,background on the input box when active,#FFFFFF,100%,#FBFBFC,15%,#FBFBFC,15%,#FFFFFF,100%,#FBFBFC,15%,#3FD2E6,14%,#FFFFFF,100%,#27591a,100%,#ffffff,100%,#ffffff,100%,#0c0c0c,100%
+$primary-field-03,stroke on $primary-field-02,#B8C3C9,100%,#B8C3C9,50%,#B8C3C9,20%,#B8C3C9,100%,#B8C3C9,20%,#3FD2E6,18%,#B8C3C9,100%,#257111,100%,#f7caca,100%,#7e7e7e,100%,#808080,100%
+$primary-field-03-active,stroke on $primary-field-02 when active,#03A9F4,100%,#33B8F4,100%,#33B8F4,100%,#03A9F4,100%,#33B8F4,100%,#3FD2E6,100%,#70ADD1,100%,#70e84e,100%,#ffaebd,100%,#000000,100%,#ffffff,100%
+$primary-interactive-01,"text links, borders, filled parts of interactive elements on primary bg",#03A9F4,100%,#40C3FF,100%,#50D0F1,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#639ED6,100%,#88FF66,100%,#ff7978,100%,#000000,100%,#ffffff,100%
+$primary-interactive-01-hover,,#50D0F1,100%,#50D0F1,100%,#6EE1FF,100%,#03A9F4,100%,#03A9F4,100%,#64DDF2,100%,#AECBE5,100%,#87ED7F,100%,#ff9f9e,100%,#212121,100%,#212121,100%
+$primary-interactive-01-active,,#8AE9FF,100%,#8AE9FF,100%,#A1ECFF,100%,#F43E37,100%,#FB5146,100%,#3FD2E6,100%,#94B4D1,100%,#9FF2B1,100%,#ffc5c4,100%,#404040,100%,#404040,100%
+$primary-interactive-01-disabled,,#03A9F4,25%,#33B8F4,25%,#50D0F1,25%,#F43E37,25%,#FB5146,25%,#3FD2E6,25%,#8395A7,25%,#59bc3d,100%,#997272,25%,#F43E37,25%,#FB5146,25%
+$primary-interactive-02,text and icons on top of filled interactive elements on primary bg,#FFFFFF,100%,#17181A,100%,#09090A,100%,#FFFFFF,100%,#17181A,100%,#13171C,100%,#F8FAF2,100%,#131711,100%,#fdfaf9,100%,#ffffff,100%,#000000,100%
+$primary-interactive-02-hover,,#03A9F4,5%,#33B8F4,5%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#03A9F4,10%,#59BC3D,10%,#f4032b,10%,#cccccc,100%,#cccccc,100%
+$primary-interactive-02-active,,#03A9F4,10%,#33B8F4,10%,#50D0F1,10%,#F43E37,10%,#FB5146,10%,#9FE8F2,10%,#94A6B4,20%,#9FF2B1,20%,#ffffff,80%,#000000,10%,#000000,10%
+$primary-interactive-03,off state of $primary-interactive-01,#D9D9D9,100%,#595959,100%,#595959,100%,#D9D9D9,100%,#595959,100%,#284D5C,100%,#D1D8DE,100%,#1F5014,100%,#E0CED1,100%,#D9D9D9,100%,#595959,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$secondary-ui-01,header backgrounds,#FFFFFF,100%,#292B2E,100%,#000000,100%,#F43E37,100%,#C62828,100%,#212835,100%,#32364F,100%,#162f1e,100%,#FFC2C0,100%,#ffffff,100%,#000000,100%
+$secondary-ui-02,dividers on headers,#E0E6EA,100%,#383A3C,100%,#1A1C1E,100%,#F43E37,100%,#C62828,100%,#2C384B,100%,#32364F,100%,#162f1e,100%,#FCB3B1,100%,#bfbfbf,100%,#333333,100%
+$secondary-icon-01,icons on headers,#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,#F3F1E4,100%,#70e84e,100%,#d40019,100%,#000000,100%,#ffffff,100%
+$secondary-icon-02,icons in search fields,#8F97A4,100%,#686C74,100%,#686C74,100%,#FFFFFF,100%,#FFFFFF,100%,#16698C,100%,#DEDEDE,100%,#70e84e,100%,#de3e59,100%,#000000,100%,#cdcdcd,100%
+$secondary-text-01,"text on headers, typing in fields",#292B2E,100%,#FFFFFF,100%,#B8C3C9,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,#EAE8DC,100%,#70e84e,100%,#990059,100%,#000000,100%,#ffffff,100%
+$secondary-text-02,placeholders in fields,#8F97A4,100%,#686C74,100%,#686C74,100%,#FFFFFF,100%,#FFFFFF,100%,#16698C,100%,#DEDEDE,100%,#70e84e,100%,#ab494d,100%,#000000,80%,#d9d9d9,100%
+$secondary-field-01,search bar background,#EFF3F5,100%,#FFFFFF,10%,#FBFBFC,10%,#FFFFFF,20%,#FFFFFF,20%,#3FD2E6,9%,#EFF3F5,15%,#1a3e11,100%,#fbf0ef,50%,#f2f2f2,100%,#252525,100%
+$secondary-field-01-active,search bar background on interaction,#E0E6EA,100%,#FBFBFC,15%,#FBFBFC,15%,#FFFFFF,30%,#FFFFFF,30%,#3FD2E6,14%,#FFFFFF,30%,#27591a,100%,#fbf0ef,100%,#f8f8f8,100%,#1a1a1a,100%
+$secondary-interactive-01,links in headers (mostly text),#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,#FFFFFF,100%,#88FF66,100%,#cf1133,100%,#000000,100%,#ffffff,100%
+$secondary-interactive-01-hover,,#50D0F1,100%,#64C7F4,100%,#6EE1FF,100%,#50D0F1,100%,#50D0F1,100%,#64DDF2,100%,#C9CFDA,100%,#70e84e,100%,#c9cfda,100%,#212121,100%,#212121,100%
+$secondary-interactive-01-active,,#8AE9FF,100%,#8AE9FF,100%,#A1ECFF,100%,#F99F9B,100%,#E29393,100%,#9FE8F2,100%,#949FB5,100%,#59bc3d,100%,#e8415f,100%,#404040,100%,#c0c0c0,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$podcast-ui-01,podcast headers,#FFFFFF,100%,#292B2E,100%,#000000,100%,$podcast,100%,$podcast,100%,#212835,100%,$podcast,podcast 35% on #737B80,#162f1e,100%,$podcast,podcast 10% on #FBE2DD,#ffffff,100%,#000000,100%
+$podcast-ui-02,miniplayer background,$podcast,podcast 7% on #FFFFFF,$podcast,podcast 15% on #1a1e1c,$podcast,podcast 10% on #1a1e1c,$podcast,podcast 7% on #FFFFFF,$podcast,podcast 15% on #1a1e1c,#152431,100%,$podcast,podcast 5% on #DBDBD5,#162F1E,100%,#FFD9D9,100%,$podcast,podcast 8% on #FFFFFF,$podcast,podcast 12% on #000000
+$podcast-ui-03,dark sections in discover,$podcast,podcast 35% on #000000,$podcast,podcast 30% on #000000,$podcast,podcast 30% on #000000,$podcast,podcast 30% on #000000,$podcast,podcast 30% on #000000,#212835,100%,$podcast,podcast 20% on #17181F,#112417,100%,$podcast,podcast 40% on #996B72,#000000,100%,#141414,100%
+$podcast-ui-04,dividers on styled backgrounds (this is really just for headers),#E0E6EA,100%,#383A3C,100%,#1A1C1E,100%,$podcast,100%,$podcast,100%,#2E3A4F,100%,$podcast,podcast 35% on #737B80,#27591a,100%,$podcast,podcast 15% on #EBD3CE,#bebebe,100%,#404040,100%
+$podcast-ui-05,brighter contrasted elements / backgrounds on $podcast-ui-03 (supporter),$podcast,podcast 40% on #1A1A1A,$podcast,podcast 40% on #1A1A1A,$podcast,podcast 40% on #1A1A1A,$podcast,podcast 40% on #1A1A1A,$podcast,podcast 40% on #1A1A1A,#2B3547,100%,$podcast,podcast 30% on #272938,#1D3D27,100%,$podcast,podcast 40% on #B27982,$podcast,podcast 40% on #1A1A1A,$podcast,podcast 40% on #1A1A1A
+$podcast-ui-06,even brighter contrasted elements / backgrounds on $podcast-ui-03 (multi-select),$podcast,podcast 50% on #333333,$podcast,podcast 50% on #333333,$podcast,podcast 50% on #333333,$podcast,podcast 50% on #333333,$podcast,podcast 50% on #333333,#36425A,100%,$podcast,podcast 40% on #343852,#254B31,100%,$podcast,podcast 45% on #CC8F98,$podcast,podcast 50% on #333333,$podcast,podcast 50% on #333333
+$podcast-icon-01,icons on podcast headers,$podcast,100%,$podcast,100%,$podcast,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,$podcast,podcast 15% on #F3F1E4,#70e84e,100%,$podcast,podcast 45% on #B2365F,#000000,100%,#ffffff,100%
+$podcast-icon-02,"icons on episode cards, play buttons on podcast pages, icons in podcast page menus",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,#3FD2E6,100%,$podcast,podcast 35% on #919CB2,#74f864,100%,$podcast,podcast 35% on #A66C7F,#000000,100%,#ffffff,100%
+$podcast-icon-03,icons in miniplayer,$podcast,100%,#FFFFFF,100%,#FFFFFF,100%,$podcast,100%,#FFFFFF,100%,#3FD2E6,100%,$podcast,podcast 20% on #45516E,#70e84e,100%,#FF737E,100%,#000000,100%,#ffffff,100%
+$podcast-text-01,"text on podcast headers, typing in fields",$podcast,100%,$podcast,100%,$podcast,100%,#FFFFFF,100%,#FFFFFF,100%,#3FD2E6,100%,#EAE8DD,100%,#74f864,100%,$podcast,podcast 30% on #4D262C,#000000,100%,#ffffff,100%
+$podcast-text-02,podcast tinted text on primary backgrounds,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,#3FD2E6,100%,$podcast,podcast 35% on #919CB2,#59bc3d,100%,$podcast,podcast 35% on #A66C7F,#333333,100%,#cccccc,100%
+$podcast-interactive-01,"text links, borders, filled parts of interactive elements on primary bg",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,#3FD2E6,100%,$podcast,podcast 35% on #919CB2,#74f864,100%,$podcast,podcast 35% on #A66C7F,#000000,100%,#f2f2f2,100%
+$podcast-interactive-01-active,,$podcast,60%,$podcast,podcast 80% on #FFFFFF,$podcast,podcast 80% on #FFFFFF,$podcast,podcast 50% on #FFFFFF,$podcast,podcast 80% on #000000,#A0E8F2,100%,$podcast,podcast 35% on #91A5CC,#9FF2B1,100%,$podcast,podcast 30% on #A66C7F,#3f3f3f,100%,#cbcbcb,100%
+$podcast-interactive-02,text and icons on top of filled interactive elements on primary bg,#FFFFFF,100%,#292B2E,100%,#000000,100%,#FFFFFF,100%,#1A1B1D,100%,#212835,100%,#FFFFFF,100%,#0B0D0F,100%,#F8EDED,100%,#ffffff,100%,#ffffff,100%
+$podcast-interactive-03,"text links, borders, filled parts of interactive elements on dark podcast bg (inside player)",$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,$podcast,podcast 75% on #FFFFFF,#3FD2E6,100%,$podcast,podcast 65% on #807D73,#74f864,100%,$podcast,podcast 65% on #A66C7F,#000000,100%,#ffffff,100%
+$podcast-interactive-03-active,,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,$podcast,podcast 55% on #FFFFFF,#A0E8F2,100%,$podcast,podcast 35% on #807D74,#9FF2B1,100%,$podcast,podcast 35% on #A66C7F,#ffffff,60%,#ffffff,60%
+$podcast-interactive-04,text and icons on top of interactive elements on dark podcast bg (inside player),#000000,100%,#000000,100%,#000000,100%,#000000,100%,#000000,100%,#212835,100%,#000000,100%,#0B0D0F,100%,#000000,100%,#ffffff,100%,#000000,100%
+$podcast-interactive-05,secondary interactive elements on podcast bg,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,$podcast 60% on #FFFFFF,$podcast,podcast 60% on #FFFFFF,#3FD2E6,100%,$podcast,podcast 45% on #807D74,#74f864,100%,$podcast,podcast 30% on #4D262C,#000000,100%,#ffffff,100%
+$podcast-onDark,"mostly intended to hold tintForDarkBg, allows for overriding this in some themes",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,#428C2E,100%,$podcast,100%,$podcast,100%,$podcast,100%
+$podcast-onLight,"mostly intended to hold tintForLightBg, allows for overriding this in some themes",$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,#27591A,100%,$podcast,100%,$podcast,100%,$podcast,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$filter-ui-01,filter headers,#FFFFFF,100%,#292B2E,100%,#000000,100%,$filter,100%,$filter,100%,#212835,100%,$filter,100%,#162f1e,100%,$filter,filter 30% on #FCEEEB,#ffffff,100%,#000000,100%
+$filter-ui-02,miniplayer background,$filter,filter 7% on #FFFFFF,$filter,filter 15% on #1a1e1c,$filter,filter 10% on #1a1e1c,$filter,filter 7% on #FFFFFF,$filter,filter 15% on #1a1e1c,#152431,100%,#F19D38,10%,#162F1E,100%,$filter,filter 20% on #FBEBE8,#ffffff,100%,#000000,100%
+$filter-ui-03,"dark sections in discover, headers on filter (?) pages",$filter,filter 30% on #000000,$filter,filter 30% on #000000,$filter,filter 30% on #000000,$filter,filter 30% on #000000,$filter,filter 30% on #000000,#212835,100%,#F19D38,30%,#112417,100%,$filter,filter 35% on #261316,#000000,100%,#000000,100%
+$filter-ui-04,dividers on styled backgrounds (this is really just for headers),#E0E6EA,100%,#383A3C,100%,#1A1C1E,100%,$filter,100%,$filter,100%,#2E3A4F,100%,$filter,100%,#27591a,100%,$filter,filter 50% on #FCEEEB,#bebebe,100%,#404040,100%
+$filter-icon-01,icons on filter headers,$filter,100%,$filter,100%,#filter,100%,#FFFFFF,100%,#FFFFFF,100%,$filter,100%,#F4F5F2,100%,#3fe664,100%,$filter,filter 60% on #401920,$filter,100%,$filter,100%
+$filter-icon-02,icons on filter rows,$filter,100%,$filter,100%,#filter,100%,$filter,100%,$filter,100%,$filter,100%,$filter,100%,#3fe664,100%,$filter,100%,$filter,100%,$filter,100%
+$filter-text-01,"text on filter headers, typing in fields",$filter,100%,$filter,100%,#filter,100%,#FFFFFF,100%,#FFFFFF,100%,$filter,100%,#E9EAE5,100%,#3fe664,100%,$filter,filter 40% on #591F2A,#000000,100%,#FFFFFF,100%
+$filter-text-02,filter tinted text on primary backgrounds,$filter,100%,$filter,100%,#filter,100%,$filter,100%,$filter,100%,$filter,100%,#FFFFFF,100%,#3fe664,100%,$filter,100%,#000000,100%,#FFFFFF,100%
+$filter-interactive-01,"text links, borders, filled parts of interactive elements on primary bg",$filter,100%,$filter,100%,#filter,100%,$filter,100%,$filter,100%,$filter,100%,$filter,100%,#74f864,100%,$filter,100%,$filter,100%,$filter,100%
+$filter-interactive-01-active,,$filter,filter 60% on #FFFFFF,$filter,filter 80% on #FFFFFF,$filter,filter 80% on #FFFFFF,$filter,filter 50% on #FFFFFF,$filter,filter 80% on #000000,$filter,filter 50% on #FFFFFF,$filter,filter 75% on #FFFFFF,#9FF2B1,100%,$filter,filter 60% on #FBEBE8,$filter,100%,$filter,100%
+$filter-interactive-02,text and icons on top of filled interactive elements on primary bg,#FFFFFF,100%,#292B2E,100%,#000000,100%,#FFFFFF,100%,#1A1B1D,100%,#212835,100%,#FFFFFF,100%,#0B0D0F,100%,$filter,filter 10% on #FCF3F0,#ffffff,100%,#000000,100%
+$filter-interactive-03,"text links, borders, filled parts of interactive elements on filter bg",$filter,100%,$filter,100%,#filter,100%,#FFFFFF,100%,#FFFFFF,100%,$filter,100%,#F3F1E4,100%,#70e84e,100%,$filter,filter 60% on #732836,#000000,100%,#ffffff,100%
+$filter-interactive-03-active,,$filter,filter 60% on #FFFFFF,$filter,filter 80% on #FFFFFF,$filter,filter 80% on #FFFFFF,#FFFFFF,60%,#FFFFFF,60%,$filter,filter 50% on #FFFFFF,#F3F1E4,60%,#9ff2b1,100%,$filter,filter 90% on #401920,$filter,100%,$filter,100%
+$filter-interactive-04,text and icons on top of interactive elements on filter bg,#FFFFFF,100%,#292B2E,100%,#000000,100%,$filter,100%,$filter,100%,#212835,100%,$filter,100%,#0B0D0F,100%,$filter,filter 20% on #FBEBE8,#ffffff,100%,#000000,100%
+$filter-interactive-05,secondary interactive elements on filter bg,#686C74,100%,#686C74,100%,#686C74,100%,#FFFFFF,100%,#FFFFFF,100%,$filter,100%,#ECEDE6,100%,#70e84e,100%,$filter,filter 30% on #401920,#000000,100%,#ffffff,100%
+$filter-interactive-06,secondary interactive elements on primary bg (chips in filter wizard),#686C74,100%,#686C74,100%,#686C75,100%,#686C74,100%,#686C74,100%,$filter,100%,#7C839E,100%,#70e84e,100%,$filter,filter 90% on #401920,#000001,100%,#ffffff,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$support-01,"general accent (selected tab, minor headings, informative text)",#03A9F4,100%,#33B8F4,100%,#50D0F1,100%,#03A9F4,100%,#03A9F4,100%,#3FD2E6,100%,#4BA1D6,100%,#74f864,100%,#D93F99,100%,#03a9f4,100%,#03a9f4,100%
+$support-02,success,#78D549,100%,#78D549,100%,#78D549,100%,#78D549,100%,#78D549,100%,#3FE664,100%,#54C483,100%,#70e84e,100%,#899c12,100%,#78d549,100%,#78d549,100%
+$support-03,up next swipe 1,#03A9F4,100%,#33B8F4,100%,#33B8F4,100%,#03A9F4,100%,#33B8F4,100%,#0B3C50,100%,#3D4363,100%,#27591a,100%,#bf3950,100%,#343434,100%,#333333,100%
+$support-04,up next swipe 2,#187ADC,100%,#4490DC,100%,#4490DC,100%,#187ADC,100%,#4490DC,100%,#093243,100%,#25273E,100%,#162f1e,100%,#991f3d,100%,#000000,100%,#262626,100%
+$support-05,"error, badges",#F43E37,100%,#F43E37,100%,#F43E37,100%,#F43E37,100%,#F43E37,100%,#F84F44,100%,#D44A5A,100%,#489848,100%,#d44a5a,100%,#f43e37,100%,#FF6557,100%
+$support-06,archive swipe,#4C5052,100%,#7C8A94,100%,#7C8A94,100%,#686C74,100%,#7C8A94,100%,#093243,100%,#90A5B8,100%,#162f1e,100%,#ad86a0,100%,#1a1a1a,100%,#262626,100%
+$support-07,icons on support-03 and -04!!!,#FFFFFF,100%,#292B2E,100%,#161718,100%,#FFFFFF,100%,#292B2E,100%,#FFFFFF,100%,#FFFFFF,100%,#70e84e,100%,#ffffff,100%,#ffffff,100%,#ffffff,100%
+$support-08,warnings,#FF9D3B,100%,#EB9D4F,100%,#FF9D3B,100%,#FF9D3B,100%,#FF9D3B,100%,#F6A935,100%,#B26428,100%,#70e84e,100%,#b26428,100%,#ff9d3b,100%,#ff9d3b,100%
+$support-09,headers on podcast pages,#080808,100%,#161718,100%,#1A1C1E,100%,#080808,100%,#161718,100%,#212835,100%,#232637,100%,#111419,100%,#FD4D90,100%,#000000,100%,#000000,100%
+$support-10,gold star 10 points great job you’re a winner what a swell guy you are,#FEB700,100%,#F5CA5B,100%,#F5CA5B,100%,#FEB700,100%,#FEB700,100%,#FEEC4C,100%,#F5C167,100%,#8DFF80,100%,#FF4FE2,100%,#FEB700,100%,#F5CA5B,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$player-background-01,player background,$podcast,podcast 20% on #000000,$podcast,podcast 20% on #000000,#000000,100%,$podcast,podcast 20% on #000000,$podcast,podcast 20% on #000000,#152431,100%,$podcast,podcast 8% on #17181F,#162f1e,100%,$podcast,podcast 15% on #260006,#000000,100%,#000000,100%
+$player-background-02,sheet headers / lighter variation of $player-background-01,$podcast,podcast 30% on #000000,$podcast,podcast 30% on #000000,#1A1A1A,100%,$podcast,podcast 30% on #000000,$podcast,podcast 30% on #000000,#18334A,100%,$podcast,podcast 16% on #17181F,#19451F,100%,$podcast,podcast 22% on #3B060E,#000000,100%,#1B1B1B,100%
+$player-highlight-01,coloured alternates to $player-contrast,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,100%,$podcast,80%,#A5FF8C,100%,$podcast,93%,$podcast,100%,$podcast,100%
+$player-highlight-02,coloured alternates to $player-contrast,$podcast,75%,$podcast,75%,$podcast,75%,$podcast,75%,$podcast,75%,$podcast,75%,$podcast,60%,#9BFF80,75%,$podcast,80%,$podcast,75%,$podcast,75%
+$player-highlight-03,coloured alternates to $player-contrast,$podcast,60%,$podcast,60%,$podcast,60%,$podcast,60%,$podcast,60%,$podcast,60%,$podcast,50%,#91FF73,60%,$podcast,67%,$podcast,60%,$podcast,60%
+$player-highlight-04,coloured alternates to $player-contrast,$podcast,50%,$podcast,50%,$podcast,50%,$podcast,50%,$podcast,50%,$podcast,50%,$podcast,40%,#87FF66,50%,$podcast,54%,$podcast,50%,$podcast,50%
+$player-highlight-05,coloured alternates to $player-contrast,$podcast,40%,$podcast,40%,$podcast,40%,$podcast,40%,$podcast,40%,$podcast,40%,$podcast,30%,#7DFF59,40%,$podcast,41%,$podcast,40%,$podcast,40%
+$player-highlight-06,coloured alternates to $player-contrast,$podcast,30%,$podcast,30%,$podcast,30%,$podcast,30%,$podcast,30%,$podcast,30%,$podcast,20%,#73FF4D,30%,$podcast,28%,$podcast,30%,$podcast,30%
+$player-highlight-07,coloured alternates to $player-contrast,$podcast,20%,$podcast,20%,$podcast,20%,$podcast,20%,$podcast,20%,$podcast,20%,$podcast,10%,#69FF40,20%,$podcast,15%,$podcast,20%,$podcast,20%
+$player-contrast-01,used on $player-background,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#C1C2BC,100%,#70e84e,100%,#ffd9d9,100%,#ffffff,100%,#ffffff,100%
+$player-contrast-02,used on $player-background,#FFFFFF,50%,#FFFFFF,50%,#FFFFFF,40%,#FFFFFF,50%,#FFFFFF,50%,#3FD2E6,70%,#DBDBCE,50%,#70e84e,80%,#FFDCD6,60%,#ffffff,80%,#ffffff,80%
+$player-contrast-03,used on $player-background,#FFFFFF,40%,#FFFFFF,40%,#FFFFFF,32%,#FFFFFF,40%,#FFFFFF,40%,#3FD2E6,55%,#CFCCBE,40%,#70e84e,70%,#ffdcd6,50%,#ffffff,65%,#ffffff,65%
+$player-contrast-04,used on $player-background,#FFFFFF,30%,#FFFFFF,30%,#FFFFFF,24%,#FFFFFF,30%,#FFFFFF,30%,#3FD2E6,30%,#DADBD7,30%,#56E52E,32%,#ffe0db,40%,#ffffff,50%,#ffffff,50%
+$player-contrast-05,used on $player-background,#FFFFFF,20%,#FFFFFF,20%,#FFFFFF,16%,#FFFFFF,20%,#FFFFFF,20%,#3FD2E6,20%,#B1B5AA,20%,#56E52E,24%,#FFDCD6,25%,#ffffff,20%,#ffffff,20%
+$player-contrast-06,used on $player-background,#FFFFFF,10%,#FFFFFF,10%,#FFFFFF,8%,#FFFFFF,10%,#FFFFFF,10%,#3FD2E6,10%,#C2C0B6,10%,#56E52E,18%,#ffdcd6,10%,#ffffff,10%,#ffffff,10%
+,,,,,,,,,,,,,,,,,,,,,,,
+$contrast-01,used for white elements on #000000 sections,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#FFFFFF,100%,#E2E3DC,100%,#70E84E,100%,#ffffff,100%,#ffffff,100%,#ffffff,100%
+$contrast-02,used for white elements on #000000 sections,#FFFFFF,70%,#FFFFFF,70%,#FFFFFF,70%,#FFFFFF,70%,#FFFFFF,70%,#B2F6FF,80%,#DBDBCE,70%,#70e84e,80%,#ffffff,85%,#ffffff,85%,#ffffff,80%
+$contrast-03,used for white elements on #000000 sections,#FFFFFF,50%,#FFFFFF,50%,#FFFFFF,50%,#FFFFFF,50%,#FFFFFF,50%,#B2F6FF,60%,#DBDBCE,50%,#70E84E,70%,#ffffff,70%,#ffffff,70%,#ffffff,60%
+$contrast-04,used for white elements on #000000 sections,#FFFFFF,10%,#FFFFFF,10%,#FFFFFF,10%,#FFFFFF,10%,#FFFFFF,10%,#B2F6FF,20%,#DBDBCE,10%,#70E84E,25%,#ffffff,20%,#ffffff,20%,#ffffff,20%
+,,,,,,,,,,,,,,,,,,,,,,,
+$filter-01,Red,#F43E37,100%,#DF514C,100%,#DF514C,100%,#F43E37,100%,#DF514C,100%,#F84F44,100%,#8E656B,100%,#74f864,100%,#d66e6c,100%,#F43E37,100%,#FF6557,100%
+$filter-02,Orange,#FF9D3B,100%,#EB9D4F,100%,#EB9D4F,100%,#FF9D3B,100%,#EB9D4F,100%,#F6A935,100%,#A08B7B,100%,#74f864,100%,#dfa280,100%,#E87400,100%,#EB8118,100%
+$filter-03,Yellow,#FEC635,100%,#EABD49,100%,#EABD49,100%,#FEC635,100%,#EABD49,100%,#CFE63F,100%,#A59C80,100%,#74f864,100%,#e0b985,100%,#BF8C00,100%,#FFBF1A,100%
+$filter-04,Green,#78D549,100%,#7FBF5F,100%,#7FBF5F,100%,#78D549,100%,#7FBF5F,100%,#3FE664,100%,#7C987D,100%,#74f864,100%,#b1b676,100%,#39A800,100%,#99FF66,100%
+$filter-05,Blue,#03A9F4,100%,#1BA0DC,100%,#1BA0DC,100%,#03A9F4,100%,#1BA0DC,100%,#3FD2E6,100%,#54829D,100%,#74f864,100%,#8196bc,100%,#039DE3,100%,#1AB8FF,100%
+$filter-06,Purple,#5D31C4,100%,#9D79F2,100%,#9D79F2,100%,#5D31C4,100%,#9D79F2,100%,#B65BFD,100%,#5F5885,100%,#74f864,100%,#9b5c9e,100%,#5D31C4,100%,#CC73FF,100%
+$filter-07,Pink,#E93673,100%,#D24D7A,100%,#D24D7A,100%,#E93673,100%,#D24D7A,100%,#FF4BB7,100%,#8B637A,100%,#74f864,100%,#d26c80,100%,#E93673,100%,#FF6680,100%
+$filter-08,Grey,#B8C3C9,100%,#BDC2C4,100%,#BDC2C4,100%,#B8C3C9,100%,#BDC2C4,100%,#BFBFBF,100%,#9299A2,100%,#74f864,100%,#b8b8d8,100%,#8C9499,100%,#B8C3C9,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$veil,Dark screen to draw attention to dialogues,#000000,30%,#000000,50%,#000000,50%,#000000,30%,#000000,50%,#000000,50%,#25273E,30%,#173d17,75%,#f2ccc7,75%,#000000,30%,#000000,60%
+,,,,,,,,,,,,,,,,,,,,,,,
+$gradient-01-a,Pocket Casts Plus gradient first colour,#FED745,100%,#D7B32E,100%,#D7B32E,100%,#FED745,100%,#D7B32E,100%,#D7B32E,100%,#F2D672,100%,#948a00,100%,#ffcb78,100%,#FED745,100%,#D7B32E,100%
+$gradient-01-e,Pocket Casts Plus gradient last colour,#FEB525,100%,#C18000,100%,#C18000,100%,#FEB525,100%,#C18000,100%,#C18000,100%,#F2B03D,100%,#eeff00,100%,#ffaf4d,100%,#FEB525,100%,#C18000,100%
+$gradient-02-a,Main illustration gradient first colour,#03A9F4,100%,#3993AA,100%,#3993AA,100%,#03A9F4,100%,#3993AA,100%,#54B29E,100%,#5C8BCC,100%,#3dbd4c,100%,#f0546e,100%,#03A9F4,100%,#3993AA,100%
+$gradient-02-e,Main illustration gradient last colour,#50D0F1,100%,#008CCB,100%,#008CCB,100%,#50D0F1,100%,#008CCB,100%,#3FB7E6,100%,#95B0E5,100%,#a4f864,100%,#ff938c,100%,#50D0F1,100%,#008CCB,100%
+$gradient-03-a,Alternative illustration gradient first colour,#F43769,100%,#C9522E,100%,#C9522E,100%,#F43769,100%,#C9522E,100%,#DE4010,100%,#D96F8B,100%,#538a11,100%,#c4459a,100%,#F43769,100%,#C9522E,100%
+$gradient-03-e,Alternative illustration gradient last colour,#FB5246,100%,#B82E3C,100%,#B82E3C,100%,#FB5246,100%,#B82E3C,100%,#AB5068,100%,#D94860,100%,#f8e963,100%,#de435c,100%,#FB5246,100%,#B82E3C,100%
+$gradient-04-a,Alternative illustration gradient first colour,#78D549,100%,#7FB74F,100%,#7FB74F,100%,#78D549,100%,#7FB74F,100%,#38CC71,100%,#66CC91,100%,#579986,100%,#c1c917,100%,#78D549,100%,#7FB74F,100%
+$gradient-04-e,Alternative illustration gradient last colour,#9BE45E,100%,#508D32,100%,#508D32,100%,#9BE45E,100%,#508D32,100%,#519948,100%,#90D977,100%,#0ecc77,100%,#bbde47,100%,#9BE45E,100%,#508D32,100%
+$gradient-05-a,Alternative illustration gradient first colour,#E74B8A,100%,#BC4E7B,100%,#BC4E7B,100%,#E74B8A,100%,#BC4E7B,100%,#CC3C92,100%,#CC70A4,100%,#53a26a,100%,#e5679a,100%,#E74B8A,100%,#BC4E7B,100%
+$gradient-05-e,Alternative illustration gradient last colour,#6046E9,100%,#6B59C7,100%,#6B59C7,100%,#6046E9,100%,#6B59C7,100%,#8163B0,100%,#7B73BF,100%,#b0c073,100%,#af73bf,100%,#6046E9,100%,#6B59C7,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+$image-filter-01,Layers for colour tinting podcast artwork (Blend mode spec TBD),#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,100%,#FFFFFF,%,#FFFFFF,100%,#FFFFFF,%,#FFFFFF,%
+$image-filter-02,Layers for colour tinting podcast artwork (Blend mode spec TBD),#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,15%,#FFFFFF,%,#FFFFFF,%,#FFFFFF,%
+$image-filter-03,Layers for colour tinting podcast artwork (Blend mode spec TBD),#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,100%,#70E84E,100%,#FFFFFF,100%,#FFFFFF,%,#FFFFFF,%
+$image-filter-04,Layers for colour tinting podcast artwork (Blend mode spec TBD),#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,0%,#FFFFFF,100%,#70E84E,50%,#FFFFFF,100%,#FFFFFF,%,#FFFFFF,%
+,,,,,,,,,,,,,,,,,,,,,,,
+$category-01,Category Icon Colour: Arts,#F43E37,100%,#F8574D,100%,#F8574D,100%,#F43E37,100%,#F8574D,100%,#3FD2E6,100%,#CE4A4E,100%,#74f864,100%,#CE4A4E,100%,#F43E37,100%,#F8574D,100%
+$category-02,Category Icon Colour: Business,#03A9F4,100%,#09B7DF,100%,#09B7DF,100%,#03A9F4,100%,#09B7DF,100%,#3FD2E6,100%,#2998D0,100%,#74f864,100%,#2998D0,100%,#03A9F4,100%,#09B7DF,100%
+$category-03,Category Icon Colour: Comedy,#FEC635,100%,#FEDD4A,100%,#FEDD4A,100%,#FEC635,100%,#FEDD4A,100%,#3FD2E6,100%,#EEC465,100%,#74f864,100%,#EEC465,100%,#FEC635,100%,#FEDD4A,100%
+$category-04,Category Icon Colour: Education,#187ADC,100%,#22ABEA,100%,#22ABEA,100%,#187ADC,100%,#22ABEA,100%,#3FD2E6,100%,#2C6EBC,100%,#74f864,100%,#2C6EBC,100%,#187ADC,100%,#22ABEA,100%
+$category-05,Category Icon Colour: Fiction,#3B862D,100%,#53B63F,100%,#53B63F,100%,#3B862D,100%,#53B63F,100%,#3FD2E6,100%,#397B39,100%,#74f864,100%,#397B39,100%,#3B862D,100%,#53B63F,100%
+$category-06,Category Icon Colour: Government,#8F97A4,100%,#BCC0C8,100%,#BCC0C8,100%,#8F97A4,100%,#BCC0C8,100%,#3FD2E6,100%,#8091B3,100%,#74f864,100%,#8091B3,100%,#8F97A4,100%,#BCC0C8,100%
+$category-07,Category Icon Colour: History,#B25900,100%,#D17D00,100%,#D17D00,100%,#B25900,100%,#D17D00,100%,#3FD2E6,100%,#96581C,100%,#74f864,100%,#96581C,100%,#B25900,100%,#D17D00,100%
+$category-08,Category Icon Colour: Health & Fitness,#78D549,100%,#A8E666,100%,#A8E666,100%,#78D549,100%,#A8E666,100%,#3FD2E6,100%,#77C868,100%,#74f864,100%,#77C868,100%,#78D549,100%,#A8E666,100%
+$category-09,Category Icon Colour: Kids & Family,#FB8ECE,100%,#FDBBE1,100%,#FDBBE1,100%,#FB8ECE,100%,#FDBBE1,100%,#3FD2E6,100%,#EA90CE,100%,#74f864,100%,#EA90CE,100%,#FB8ECE,100%,#FDBBE1,100%
+$category-10,Category Icon Colour: Leisure,#A866DB,100%,#CB8FE9,100%,#CB8FE9,100%,#A866DB,100%,#CB8FE9,100%,#3FD2E6,100%,#9668CA,100%,#74f864,100%,#9668CA,100%,#A866DB,100%,#CB8FE9,100%
+$category-11,Category Icon Colour: Music,#D61F59,100%,#E62B7D,100%,#E62B7D,100%,#D61F59,100%,#E62B7D,100%,#3FD2E6,100%,#B02F64,100%,#74f864,100%,#B02F64,100%,#D61F59,100%,#E62B7D,100%
+$category-12,Category Icon Colour: News,#686C74,100%,#9297A2,100%,#9297A2,100%,#686C74,100%,#9297A2,100%,#3FD2E6,100%,#5A6689,100%,#74f864,100%,#5A6689,100%,#686C74,100%,#9297A2,100%
+$category-13,Category Icon Colour: Religion & Spirituality,#FF9D3B,100%,#FFC453,100%,#FFC453,100%,#FF9D3B,100%,#FFC453,100%,#3FD2E6,100%,#E79D62,100%,#74f864,100%,#E79D62,100%,#FF9D3B,100%,#FFC453,100%
+$category-14,Category Icon Colour: Science,#50D0F1,100%,#70E3F7,100%,#70E3F7,100%,#50D0F1,100%,#70E3F7,100%,#3FD2E6,100%,#61C3DE,100%,#74f864,100%,#61C3DE,100%,#50D0F1,100%,#70E3F7,100%
+$category-15,Category Icon Colour: Society & Culture,#E93673,100%,#E62B7D,100%,#E62B7D,100%,#E93673,100%,#E62B7D,100%,#3FD2E6,100%,#B02F64,100%,#74f864,100%,#B02F64,100%,#E93673,100%,#E62B7D,100%
+$category-16,Category Icon Colour: Sports,#0059B2,100%,#007DD1,100%,#007DD1,100%,#0059B2,100%,#007DD1,100%,#3FD2E6,100%,#14509C,100%,#74f864,100%,#14509C,100%,#0059B2,100%,#007DD1,100%
+$category-17,Category Icon Colour: Technology,#CC98F0,100%,#E0C1F6,100%,#E0C1F6,100%,#CC98F0,100%,#E0C1F6,100%,#3FD2E6,100%,#C197E5,100%,#74f864,100%,#C197E5,100%,#CC98F0,100%,#E0C1F6,100%
+$category-18,Category Icon Colour: True Crime,#D9201C,100%,#E82D27,100%,#E82D27,100%,#D9201C,100%,#E82D27,100%,#3FD2E6,100%,#B02E2F,100%,#74f864,100%,#B02E2F,100%,#D9201C,100%,#E82D27,100%
+$category-19,Category Icon Colour: TV & Film,#5D31C4,100%,#8245DC,100%,#8245DC,100%,#5D31C4,100%,#8245DC,100%,#3FD2E6,100%,#5036AA,100%,#74f864,100%,#5036AA,100%,#5D31C4,100%,#8245DC,100%
+,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,  ,,,,,,,,,,,,

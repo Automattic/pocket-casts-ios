@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "AppIcon-Round-Pink108x108.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "AppIcon-Round-Pink108x108@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "AppIcon-Round-Pink108x108@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

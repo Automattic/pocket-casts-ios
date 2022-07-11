@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SelectPodcastCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYO-pq-6LH" userLabel="Background Color View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YrM-fT-KeQ" customClass="SmartInvertImageView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" button="YES"/>
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KLn-Yj-6fL" userLabel="Selected Overlay">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="selectcircle" translatesAutoresizingMaskIntoConstraints="NO" id="cir-Xv-TGZ">
+                        <rect key="frame" x="51" y="51" width="26" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="26" id="t2x-ob-b1R"/>
+                            <constraint firstAttribute="height" constant="26" id="vuU-b7-0kr"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="KLn-Yj-6fL" secondAttribute="bottom" id="2cT-Aw-tGm"/>
+                <constraint firstAttribute="bottom" secondItem="cir-Xv-TGZ" secondAttribute="bottom" constant="3" id="3Sq-AE-G7j"/>
+                <constraint firstItem="YYO-pq-6LH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="7o7-UD-GAF"/>
+                <constraint firstItem="YYO-pq-6LH" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9JJ-Py-dNx"/>
+                <constraint firstItem="YrM-fT-KeQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="AEk-9g-de7"/>
+                <constraint firstItem="YrM-fT-KeQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Iks-xT-P8K"/>
+                <constraint firstAttribute="trailing" secondItem="KLn-Yj-6fL" secondAttribute="trailing" id="JWc-Rj-Jla"/>
+                <constraint firstAttribute="trailing" secondItem="YYO-pq-6LH" secondAttribute="trailing" id="a0Z-EK-bWb"/>
+                <constraint firstItem="KLn-Yj-6fL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="bL7-jG-bOX"/>
+                <constraint firstAttribute="trailing" secondItem="cir-Xv-TGZ" secondAttribute="trailing" constant="3" id="d4s-dx-3Gk"/>
+                <constraint firstAttribute="bottom" secondItem="YrM-fT-KeQ" secondAttribute="bottom" id="ff4-VD-OLb"/>
+                <constraint firstItem="KLn-Yj-6fL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="isJ-ea-Auk"/>
+                <constraint firstAttribute="bottom" secondItem="YYO-pq-6LH" secondAttribute="bottom" id="n3X-iV-Zjc"/>
+                <constraint firstAttribute="trailing" secondItem="YrM-fT-KeQ" secondAttribute="trailing" id="v9y-dK-dGq"/>
+            </constraints>
+            <connections>
+                <outlet property="backgroundColorView" destination="YYO-pq-6LH" id="4P9-er-Jqn"/>
+                <outlet property="podcastImage" destination="YrM-fT-KeQ" id="gfI-YF-ke9"/>
+                <outlet property="selectedCircle" destination="cir-Xv-TGZ" id="vVg-IT-cb4"/>
+                <outlet property="selectedOverlay" destination="KLn-Yj-6fL" id="Fvy-dg-7v7"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="154"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="selectcircle" width="26" height="26"/>
+    </resources>
+</document>

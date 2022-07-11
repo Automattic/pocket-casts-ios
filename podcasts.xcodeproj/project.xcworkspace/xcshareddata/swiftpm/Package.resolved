@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "a44caef0550c346e0ab9172f7c9a3852c1833599",
+          "version": "1.3.0"
+        }
+      },
+      {
+        "package": "FMDB",
+        "repositoryURL": "https://github.com/ccgus/fmdb.git",
+        "state": {
+          "branch": "master",
+          "revision": "dcd5bb68b348b51af7c76a51aa9f86f676feb3fc",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "7790acf0a81d08429cb20375bf42a8c7d279c5fe",
+          "version": "1.8.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

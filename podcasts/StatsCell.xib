@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="StatsCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rxL-bl-LLe">
+                        <rect key="frame" x="15" y="10" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="let-aA-zzL"/>
+                            <constraint firstAttribute="height" constant="24" id="pIJ-Tq-cyw"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Variable Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgC-Gc-Ci6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="49" y="12.5" width="109" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 hours 33 mins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc6-2g-Ue0" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="178.5" y="12.5" width="126.5" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="pc6-2g-Ue0" secondAttribute="trailing" constant="15" id="39f-Xy-2HI"/>
+                    <constraint firstItem="VgC-Gc-Ci6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3cb-f4-Fce"/>
+                    <constraint firstItem="pc6-2g-Ue0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Gwo-Kz-jMX"/>
+                    <constraint firstItem="VgC-Gc-Ci6" firstAttribute="leading" secondItem="rxL-bl-LLe" secondAttribute="trailing" constant="10" id="LFj-gf-0Tf"/>
+                    <constraint firstItem="rxL-bl-LLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="fxQ-Rl-ZZy"/>
+                    <constraint firstItem="pc6-2g-Ue0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VgC-Gc-Ci6" secondAttribute="trailing" constant="10" id="ywk-LY-Pa8"/>
+                    <constraint firstItem="rxL-bl-LLe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="z9n-gd-6m6"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="leadingSpaceToIcon" destination="LFj-gf-0Tf" id="wHA-ve-MpB"/>
+                <outlet property="statName" destination="VgC-Gc-Ci6" id="5ED-gw-qti"/>
+                <outlet property="statValue" destination="pc6-2g-Ue0" id="HKZ-0N-FcC"/>
+                <outlet property="statsIcon" destination="rxL-bl-LLe" id="QUM-tY-Hfi"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="153"/>
+        </tableViewCell>
+    </objects>
+</document>

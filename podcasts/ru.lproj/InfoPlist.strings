@@ -1,0 +1,6 @@
+NSCameraUsageDescription = "Это разрешение позволит добавлять пользовательские изображения в ваши файлы";
+NSBluetoothAlwaysUsageDescription = "Pocket Casts требуется доступ к Bluetooth для обнаружения ближайших устройств Google Cast.";
+NSLocalNetworkUsageDescription = "Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отменить соответствующее разрешение.";
+NSMicrophoneUsageDescription = "Pocket Casts требуется доступ к микрофону для обнаружения ближайших устройств Google Cast.";
+NSPhotoLibraryUsageDescription = "Pocket Casts требуется разрешение для сохранения этого изображения в библиотеке фотографий.";
+NSPhotoLibraryAddUsageDescription = "Pocket Casts требуется разрешение для сохранения этого изображения в библиотеке фотографий.";
