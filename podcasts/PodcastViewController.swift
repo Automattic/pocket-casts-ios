@@ -603,7 +603,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     func folderTapped() {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: self])
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
         }
   
