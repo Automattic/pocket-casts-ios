@@ -236,6 +236,7 @@ enum PlusUpgradeViewSource: String {
     case folders
     case themes
     case icons
+    case watch
     case unknown
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
