@@ -40,11 +40,14 @@ class UpgradeRequiredViewController: PCViewController {
             noThanksButton.setTitle(L10n.settingsGeneralNoThanks, for: .normal)
         }
     }
+
+    let source: PlusUpgradeViewSource
+    let upgradeRootViewController: UIViewController
     
-    var upgradeRootViewController: UIViewController
-    
-    init(upgradeRootViewController: UIViewController) {
+    init(upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         self.upgradeRootViewController = upgradeRootViewController
+        self.source = source
+
         super.init(nibName: "UpgradeRequiredViewController", bundle: nil)
     }
     
