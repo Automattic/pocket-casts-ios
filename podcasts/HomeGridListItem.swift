@@ -15,7 +15,7 @@ class HomeGridListItem: ListItem {
     
     let theme: Theme.ThemeType
     let badgeType: BadgeType
-    let frozenBadgeCount: Int // used for comparisons only, never displayed because it doesn't stay in sync with podcast/folder count
+    var frozenBadgeCount: Int // used for comparisons only
     
     init(gridItem: HomeGridItem, badgeType: BadgeType, theme: Theme.ThemeType) {
         self.gridItem = gridItem
@@ -39,7 +39,6 @@ class HomeGridListItem: ListItem {
         
         if let otherPodcast = rhs.podcast, let podcast = podcast {
             return differenceIdentifier == rhs.differenceIdentifier &&
-                podcast.cachedUnreadCount == otherPodcast.cachedUnreadCount &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&
                 podcast.startFrom == otherPodcast.startFrom &&
@@ -52,7 +51,6 @@ class HomeGridListItem: ListItem {
         }
         else if let otherFolder = rhs.folder, let folder = folder {
             return differenceIdentifier == rhs.differenceIdentifier &&
-                folder.cachedUnreadCount == otherFolder.cachedUnreadCount &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&
                 folder.name == otherFolder.name &&
