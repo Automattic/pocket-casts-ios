@@ -92,15 +92,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "46AFC23327AB19CE004B026F"
-            BuildableName = "Screenshot Automation Watch.xctest"
-            BlueprintName = "Screenshot Automation Watch"
-            ReferencedContainer = "container:podcasts.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
