@@ -510,16 +510,16 @@ class Settings: NSObject {
     class func whatsNewLastAcknowledged() -> Int {
         UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
     }
-    
-    // MARK: iOS 13 Theme Support
-       
-    private static let shouldFollowSystemThemeKey = "FollowSystemTheme"
+
     class func setShouldFollowSystemTheme(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: shouldFollowSystemThemeKey)
+        UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
    
     class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: shouldFollowSystemThemeKey)
+        guard let shouldFollowSystemTheme = UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) as? Bool else {
+            return true
+        }
+        return shouldFollowSystemTheme
     }
 
     // MARK: Player Actions
