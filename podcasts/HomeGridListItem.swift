@@ -15,12 +15,11 @@ class HomeGridListItem: ListItem {
     
     let theme: Theme.ThemeType
     let badgeType: BadgeType
-    var frozenBadgeCount: Int // used for comparisons only
+    var frozenBadgeCount = -1 // used for comparisons only
     
     init(gridItem: HomeGridItem, badgeType: BadgeType, theme: Theme.ThemeType) {
         self.gridItem = gridItem
         self.badgeType = badgeType
-        frozenBadgeCount = (gridItem.podcast != nil ? gridItem.podcast?.cachedUnreadCount : gridItem.folder?.cachedUnreadCount) ?? -1
         self.theme = theme
         
         super.init()
