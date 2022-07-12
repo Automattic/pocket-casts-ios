@@ -131,6 +131,8 @@ struct Constants {
         static let supportRemoveDebugInfo = "PCSupportRemoveDebugInfo"
         
         static let lastPickerSort = "PCLastPickerSort"
+        
+        static let shouldFollowSystemThemeKey = "FollowSystemTheme"
     }
     
     enum Values {
