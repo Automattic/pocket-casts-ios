@@ -1,4 +1,25 @@
 GIT
+  remote: git@github.com:wordpress-mobile/release-toolkit
+  revision: 8dea55594474834d7fd38a1d3f3b428381eaf5d6
+  branch: fix/metadata-length
+  specs:
+    fastlane-plugin-wpmreleasetoolkit (4.2.0)
+      activesupport (~> 5)
+      bigdecimal (~> 1.4)
+      buildkit (~> 1.5)
+      chroma (= 0.2.0)
+      diffy (~> 3.3)
+      git (~> 1.3)
+      jsonlint (~> 0.3)
+      nokogiri (~> 1.11)
+      octokit (~> 4.18)
+      parallel (~> 1.14)
+      plist (~> 3.1)
+      progress_bar (~> 1.3)
+      rake (>= 12.3, < 14.0)
+      rake-compiler (~> 1.0)
+
+GIT
   remote: https://github.com/shiftyjelly/danger-ruby-swiftformat.git
   revision: 2a17ff29f281f9baf81c0ab9d476161d8dac9b61
   specs:
@@ -200,20 +221,6 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
-    fastlane-plugin-wpmreleasetoolkit (4.2.0)
-      activesupport (~> 5)
-      bigdecimal (~> 1.4)
-      buildkit (~> 1.5)
-      chroma (= 0.2.0)
-      diffy (~> 3.3)
-      git (~> 1.3)
-      jsonlint (~> 0.3)
-      nokogiri (~> 1.11)
-      octokit (~> 4.18)
-      parallel (~> 1.14)
-      progress_bar (~> 1.3)
-      rake (>= 12.3, < 14.0)
-      rake-compiler (~> 1.0)
     ffi (1.15.5)
     fourflusher (2.3.1)
     fuzzy_match (2.0.4)
@@ -287,13 +294,13 @@ GEM
     naturally (2.2.1)
     netrc (0.11.0)
     no_proxy_fix (0.1.2)
-    nokogiri (1.13.6)
+    nokogiri (1.13.7)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     octokit (4.25.1)
       faraday (>= 1, < 3)
       sawyer (~> 0.9)
-    oj (3.13.15)
+    oj (3.13.16)
     open4 (1.3.4)
     optimist (3.0.1)
     options (2.3.2)
@@ -395,7 +402,7 @@ DEPENDENCIES
   danger-swiftformat!
   danger-swiftlint
   fastlane
-  fastlane-plugin-wpmreleasetoolkit (~> 4.2)
+  fastlane-plugin-wpmreleasetoolkit!
   rake (>= 12.0, < 14.0)
   rubocop (~> 1.30)
   watchbuild
