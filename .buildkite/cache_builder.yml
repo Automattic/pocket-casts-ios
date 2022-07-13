@@ -11,7 +11,7 @@ common_params:
         bucket: a8c-repo-mirrors
         # This is not the name of the repo but the key used in the bucket,
         # which is set based on the Buildkite pipeline slug
-        repo: wordpress-mobile/pocket-casts-ios/
+        repo: automattic/pocket-casts-ios/
 
 steps:
   # Rebuilding the CocoaPods cache prevents the base cache
