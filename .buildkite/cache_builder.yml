@@ -40,7 +40,7 @@ steps:
       queue: mac
       dc_location: mke
     env:
-      IMAGE_ID: xcode-13.4
+      IMAGE_ID: xcode-13.4.1
 
   # Because this repo is large (~2m 20s to checkout), we periodically create a
   # Git Mirror and copy it to S3, from where it can be fetched by agents more
