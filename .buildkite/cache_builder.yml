@@ -19,16 +19,8 @@ steps:
   # every pod we've ever used
   - label: ":cocoapods: Rebuild CocoaPods cache"
     command: |
-      # Make sure we run on the same Bundler as the Gemfile.lock to avoid a CI
-      # failure.
-      #
-      # More details here:
-      # https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
-      #
-      # Also notice that this hardcoded version might get out of date with
-      # what's in the Gemfile.lock, so if you get a new CI error, start by
-      # checking this.
-      gem install bundler:2.2.32
+      # Fix for https://github.com/Automattic/bash-cache-buildkite-plugin/issues/16
+      gem install bundler
 
       echo "--- :rubygems: Setting up Gems"
       install_gems
