@@ -133,6 +133,8 @@ struct Constants {
         static let lastPickerSort = "PCLastPickerSort"
         
         static let shouldFollowSystemThemeKey = "FollowSystemTheme"
+        static let themeKey = "theme"
+        
     }
     
     enum Values {

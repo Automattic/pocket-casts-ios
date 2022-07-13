@@ -517,7 +517,7 @@ class Settings: NSObject {
    
     class func shouldFollowSystemTheme() -> Bool {
         guard let shouldFollowSystemTheme = UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) as? Bool,
-              UserDefaults.standard.string(forKey: Constants.UserDefaults.appId) != nil
+              UserDefaults.standard.object(forKey: Constants.UserDefaults.themeKey) == nil
         else {
             return true
         }
