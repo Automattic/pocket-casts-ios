@@ -15,6 +15,7 @@ class HomeGridListItem: ListItem {
     
     let theme: Theme.ThemeType
     let badgeType: BadgeType
+    var frozenBadgeCount = -1 // used for comparisons only
     
     init(gridItem: HomeGridItem, badgeType: BadgeType, theme: Theme.ThemeType) {
         self.gridItem = gridItem
@@ -37,7 +38,7 @@ class HomeGridListItem: ListItem {
         
         if let otherPodcast = rhs.podcast, let podcast = podcast {
             return differenceIdentifier == rhs.differenceIdentifier &&
-                podcast.cachedUnreadCount == otherPodcast.cachedUnreadCount &&
+                frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&
                 podcast.startFrom == otherPodcast.startFrom &&
                 podcast.autoDownloadSetting == otherPodcast.autoDownloadSetting &&
@@ -49,6 +50,7 @@ class HomeGridListItem: ListItem {
         }
         else if let otherFolder = rhs.folder, let folder = folder {
             return differenceIdentifier == rhs.differenceIdentifier &&
+                frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&
                 folder.name == otherFolder.name &&
                 folder.color == otherFolder.color &&
