@@ -134,7 +134,6 @@ struct Constants {
         
         static let shouldFollowSystemThemeKey = "FollowSystemTheme"
         static let themeKey = "theme"
-        
     }
     
     enum Values {
