@@ -7,7 +7,7 @@
 common_params:
   - &common_plugins
     - automattic/bash-cache#2.6.0
-    - automattic/git-s3-cache#v1.1.2:
+    - automattic/git-s3-cache#fix-cache-key-comparison:
         bucket: a8c-repo-mirrors
         # This is not the name of the repo but the key used in the bucket,
         # which is set based on the Buildkite pipeline slug
