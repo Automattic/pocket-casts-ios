@@ -19,11 +19,7 @@ struct NameFolderView: View {
             Text(L10n.name.localizedUppercase)
                 .textStyle(SecondaryText())
                 .font(.subheadline)
-                .onChange(of: model.name, perform: { value in
-                    if value.count > model.maximumAllowedCharactersForName {
-                        model.name = String(value.prefix(model.maximumAllowedCharactersForName))
-                      }
-                  })
+                .onChange(of: model.name, perform: model.validateFolderName)
             if #available(iOS 15.0, *) {
                 TextField(L10n.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
