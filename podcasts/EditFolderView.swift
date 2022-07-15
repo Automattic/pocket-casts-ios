@@ -17,11 +17,7 @@ struct EditFolderView: View {
                         .font(.subheadline)
                         .padding(.bottom, -8)
                     TextField("", text: $model.name)
-                        .onChange(of: model.name, perform: { value in
-                            if value.count > model.maximumAllowedCharactersForName {
-                                model.name = String(value.prefix(model.maximumAllowedCharactersForName))
-                              }
-                          })
+                        .onChange(of: model.name, perform: model.validateFolderName)
                         .themedTextField()
                 }
                 .padding(.bottom, 10)
