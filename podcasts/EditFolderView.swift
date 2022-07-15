@@ -38,6 +38,7 @@ struct EditFolderView: View {
                         Group {
                             Image("delete")
                             Text(L10n.folderDelete)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .foregroundColor(ThemeColor.support05(for: theme.activeTheme).color)
                         .padding(.leading, 6)
