@@ -11,5 +11,15 @@ class FolderModelTests: XCTestCase {
         XCTAssertEqual(model.name.count, 100)
         XCTAssertEqual(model.name, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et sapien nunc. In et ultrices dui. Ae")
     }
+
+    func testDoNotChangeNamesWithLessThan100Chars() {
+        let model = FolderModel()
+        model.name = "Smaller name"
+
+        model.validateFolderName("Smaller name")
+
+        XCTAssertEqual(model.name.count, 12)
+        XCTAssertEqual(model.name, "Smaller name")
+    }
 }
 
