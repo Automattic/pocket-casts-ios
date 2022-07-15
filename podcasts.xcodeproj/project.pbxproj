@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
+		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */; };
 		4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */; };
 		40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */; };
@@ -1440,6 +1441,7 @@
 		0BBFE5661A3753E0A27A3E24 /* Pods-Pocket Casts Watch App Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.release.xcconfig"; sourceTree = "<group>"; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		28DC441F0290179068AA8DBD /* libPods-Today Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Today Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		30571BE0029B9924A139FBEE /* Pods-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.release.xcconfig"; sourceTree = "<group>"; };
 		3A427DC232F89CC0DB362F96 /* Pods-PocketCasts-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.staging.xcconfig; sourceTree = "<group>"; };
@@ -3165,6 +3167,7 @@
 		45ECEF7C27E910E300C65030 /* PocketCastsTests */ = {
 			isa = PBXGroup;
 			children = (
+				2F63CE9428809E5A00A34B51 /* ThemeTests.swift */,
 				45ECEF7D27E910E300C65030 /* PocketCastsTests.swift */,
 				45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */,
 			);
@@ -6682,6 +6685,7 @@
 			files = (
 				45ECEF7E27E910E300C65030 /* PocketCastsTests.swift in Sources */,
 				45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */,
+				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
