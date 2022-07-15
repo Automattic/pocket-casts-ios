@@ -109,8 +109,8 @@ class Theme: ObservableObject {
     init() {
         let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
         if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
-                    Settings.setShouldFollowSystemTheme(true)
-                }
+            Settings.setShouldFollowSystemTheme(true)
+        }
 
         activeTheme = ThemeType(rawValue: savedTheme) ?? .light
         

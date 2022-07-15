@@ -2,12 +2,12 @@ import Foundation
 @testable import podcasts
 import XCTest
 
-
 class ThemeTests: XCTestCase {
     override func setUp() {
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.themeKey)
     }
+
     // If the user never changed the theme neither toggled light/dark option
     // Follow the system
     func testFollowSystemIfNoThemeWasSelected() {
@@ -23,6 +23,7 @@ class ThemeTests: XCTestCase {
         _ = Theme()
         XCTAssertFalse(Settings.shouldFollowSystemTheme())
     }
+
     // If the user previously opted-out for following the system
     // Don't follow the system light/dark mode
     func testDontFollowSystemIfOptionWasSetBefore() {
@@ -30,6 +31,7 @@ class ThemeTests: XCTestCase {
         _ = Theme()
         XCTAssertFalse(Settings.shouldFollowSystemTheme())
     }
+
     // If the user previously opted-in for following the system
     // But never choose a theme, follow the system
     func testFollowSystemIfOptionWasSetBeforeButThemeWasntChosen() {
