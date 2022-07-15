@@ -22,4 +22,3 @@ class FolderModelTests: XCTestCase {
         XCTAssertEqual(model.name, "Smaller name")
     }
 }
-
