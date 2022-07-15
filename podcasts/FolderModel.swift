@@ -42,6 +42,8 @@ class FolderModel: ObservableObject {
     }
 
     @Published var color: Color = .red
+
+    let maximumAllowedCharactersForName = 100
     
     private let saveOnChange: Bool
     init(saveOnChange: Bool = false) {
