@@ -514,14 +514,9 @@ class Settings: NSObject {
     class func setShouldFollowSystemTheme(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
-   
+    
     class func shouldFollowSystemTheme() -> Bool {
-        guard let shouldFollowSystemTheme = UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) as? Bool,
-              UserDefaults.standard.object(forKey: Constants.UserDefaults.themeKey) == nil
-        else {
-            return true
-        }
-        return shouldFollowSystemTheme
+        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
 
     // MARK: Player Actions
