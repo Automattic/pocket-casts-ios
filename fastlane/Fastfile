@@ -47,7 +47,7 @@ platform :ios do
           api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
           skip_waiting_for_build_processing: true)
 
-    sh 'cd .. && ./upload_dsyms.sh'
+    sh 'cd .. && make upload_dsyms'
     clean_build_artifacts
     increment_build_number
   end
