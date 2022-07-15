@@ -49,7 +49,7 @@ platform :ios do
 
     sh 'cd .. && make upload_dsyms'
     clean_build_artifacts
-    increment_build_number
+    increment_version_on_config
   end
 
   def ci_spm_cache_key
@@ -109,6 +109,21 @@ platform :ios do
 
       readonly: true
     )
+  end
+
+  # Increment the value of `VERSION_LONG` from the `Version.xcconfig` file
+  #
+  def increment_version_on_config
+    fastlane_require 'Xcodeproj'
+
+    # Get the current build version, and update it if needed
+    version_config_path = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
+    versions = Xcodeproj::Config.new(File.new(version_config_path)).to_hash
+    build_number = versions['VERSION_LONG'].to_i + 1
+    UI.message("Updating build version to #{build_number}")
+    versions['VERSION_LONG'] = build_number
+    new_config = Xcodeproj::Config.new(versions)
+    new_config.save_as(Pathname.new(version_config_path))
   end
 
   #####################################################################################
