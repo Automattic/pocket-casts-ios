@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-17 09:54:03+0000 */
+/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
 /* Plural-Forms: nplurals=1; plural=0; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: zh_CN */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Automattic 家族";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "致谢";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "随时随地加入";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "法律及更多信息";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "隐私政策";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "给我们评分";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "分享给朋友";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "服务条款";
 
 /* Button that takes people to our website */
 "about_website" = "网站";
@@ -823,7 +835,7 @@
 "episode_filter_by_duration_label" = "按持续时间筛选";
 
 /* Message shown when you have no episodes in an episode filter */
-"episode_filter_no_episodes_msg" = "是时候庆祝完成此列表了，或是编辑过滤器设置以获得更多信息。";
+"episode_filter_no_episodes_msg" = "您已完成此列表，也可以编辑过滤器设置以获得更多内容。";
 
 /* Title shown when you have no episodes in an episode filter */
 "episode_filter_no_episodes_title" = "无剧集";
