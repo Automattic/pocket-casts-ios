@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-24 11:54:03+0000 */
+/* Translation-Revision-Date: 2022-07-11 11:54:18+0000 */
 /* Plural-Forms: nplurals=1; plural=0; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: ja_JP */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Automattic ファミリー";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "謝辞";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "どこからでも参加可能";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "法的情報およびその他";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "プライバシーポリシー";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "評価してください";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "友達と共有する";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "利用規約";
 
 /* Button that takes people to our website */
 "about_website" = "サイト";
@@ -445,13 +457,13 @@
 "day_listened" = "聴取日数";
 
 /* Label shown for days saved when it's singular, eg: 1 day saved. */
-"day_saved" = "保存日数";
+"day_saved" = "節約日数";
 
 /* Label shown for days listened when it's singular, eg: 2 days listened. */
 "days_listened" = "聴取日数";
 
 /* Label shown for days saved when it's singular, eg: 2 days saved. */
-"days_saved" = "保存日数";
+"days_saved" = "節約日数";
 
 /* A common string used throughout the app. Prompt to delete the selected item(s). */
 "delete" = "削除";
@@ -1202,7 +1214,7 @@
 "hour_listened" = "聴取時間数";
 
 /* Label shown for hours saved when it's singular, eg: 1 hour saved. */
-"hour_saved" = "保存時間数";
+"hour_saved" = "節約時間数";
 
 /* Label shown for hours listened when it's plural, eg: 1 hours listened. */
 "hours_listened" = "聴取時間数";
@@ -1211,7 +1223,7 @@
 "hours_plural_format" = "%1$@時間";
 
 /* Label shown for hours saved when it's plural, eg: 1 hours saved. */
-"hours_saved" = "保存時間数";
+"hours_saved" = "節約時間数";
 
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "まず、保存する音声ファイルがあるアプリを開きます";
@@ -1279,13 +1291,13 @@
 "minute_listened" = "聴取分数";
 
 /* Label shown for minutes saved when it's singular, eg: 1 minute saved. */
-"minute_saved" = "保存分数";
+"minute_saved" = "節約分数";
 
 /* Label shown for minutes listened when it's plural, eg: 2 minutes listened. */
 "minutes_listened" = "聴取分数";
 
 /* Label shown for minutes saved when it's plural, eg: 2 minutes saved. */
-"minutes_saved" = "保存分数";
+"minutes_saved" = "節約分数";
 
 /* Basic string used in formats like 'price / month' */
 "month" = "月";
@@ -2168,7 +2180,7 @@
 "seconds_listened" = "聴取秒数";
 
 /* Label shown for seconds saved when it's plural, eg: 15 seconds saved. */
-"seconds_saved" = "保存秒数";
+"seconds_saved" = "節約秒数";
 
 /* A common string used throughout the app. Prompt to select items. */
 "select" = "選択";
