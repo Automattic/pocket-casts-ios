@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-24 13:54:03+0000 */
+/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
 /* Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: ru */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Семейство Automattic";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "Сведения об авторе и авторских правах";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "Присоединяйтесь";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "Юридическая информация и прочее";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "Политика конфиденциальности";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "Оцените нас";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "Поделитесь с друзьями";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "Условия предоставления услуг";
 
 /* Button that takes people to our website */
 "about_website" = "Сайт";
