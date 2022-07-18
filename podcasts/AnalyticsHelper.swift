@@ -253,18 +253,20 @@ class AnalyticsHelper {
 }
 
 // MARK: - Private
+
 private extension AnalyticsHelper {
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
-        Analytics.logEvent(name, parameters: parameters)
+            Analytics.logEvent(name, parameters: parameters)
 
-        let logger = Logger()
-        if let parameters = parameters {
-            logger.debug("🔵 Tracked: \(name) \(parameters)");
-        } else {
-            logger.debug("🔵 Tracked: \(name)")
-        }
+            let logger = Logger()
+            if let parameters = parameters {
+                logger.debug("🔵 Tracked: \(name) \(parameters)")
+            }
+            else {
+                logger.debug("🔵 Tracked: \(name)")
+            }
         #endif
     }
 }
