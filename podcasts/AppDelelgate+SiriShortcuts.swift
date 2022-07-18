@@ -19,7 +19,7 @@ extension AppDelegate {
             }
         }
         else if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            guard let incomingURL = userActivity.webpageURL, let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true), let path = components.path, let controller = SceneHelper.rootViewController() else { return }
+            guard let incomingURL = userActivity.webpageURL, let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true), let path = components.path, let controller = SceneHelper.rootViewController(), path != "/get" else { return }
             
             FileLog.shared.addMessage("Opening universal link, path: \(path)")
             openSharePath("social/share/show\(path)", controller: controller, onErrorOpen: incomingURL)

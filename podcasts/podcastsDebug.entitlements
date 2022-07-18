@@ -11,12 +11,14 @@
 		<string>webcredentials:play.pocketcasts.com</string>
 		<string>applinks:pcast.pocketcasts.net</string>
 		<string>applinks:pca.st</string>
+		<string>applinks:pocketcasts.com</string>
+		<string>applinks:pocket-casts-main-development.mystagingwebsite.com</string>
 	</array>
 	<key>com.apple.developer.carplay-audio</key>
 	<true/>
-	<key>com.apple.developer.playable-content</key>
-	<true/>
 	<key>com.apple.developer.networking.wifi-info</key>
+	<true/>
+	<key>com.apple.developer.playable-content</key>
 	<true/>
 	<key>com.apple.developer.siri</key>
 	<true/>
