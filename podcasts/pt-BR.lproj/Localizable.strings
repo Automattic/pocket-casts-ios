@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-23 18:54:03+0000 */
+/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
 /* Plural-Forms: nplurals=2; plural=(n > 1); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: pt_BR */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Família Automattic";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "Agradecimentos";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "Participe de qualquer lugar";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "Jurídico e mais";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "Política de privacidade";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "Classifique-nos";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "Compartilhe com seus amigos";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "Termos de serviço";
 
 /* Button that takes people to our website */
 "about_website" = "Site";

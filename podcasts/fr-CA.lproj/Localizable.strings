@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Famille Automattic";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "Remerciements";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "Inscrivez-vous de partout";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "Droit et divers";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "Politique de confidentialité";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "Évaluez-nous";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "Partager avec des amis";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "Conditions d’utilisation";
 
 /* Button that takes people to our website */
 "about_website" = "Site Web";
