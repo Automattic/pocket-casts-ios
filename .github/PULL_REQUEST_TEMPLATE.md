@@ -10,5 +10,5 @@ Steps to test your PR.
 
 ## Checklist
 
-- [ ] Should this change be included in the release notes? If yes, please add a line in docs/change_log.txt
-- [ ] Could you have written any new tests?
+- [ ]  I have considered if this change warrants user-facing release notes and have added them to `docs/change_log.txt` if necessary.
+- [ ]  I have considered adding unit tests for my changes.
