@@ -46,7 +46,7 @@ class PodcastPickerModel: ObservableObject {
         }
         
         allPodcasts = podcasts
-        filteredPodcasts = allPodcasts
+        filterPodcasts()
     }
     
     func togglePodcastSelected(_ podcast: Podcast) {
