@@ -253,11 +253,13 @@ class AnalyticsHelper {
 }
 
 // MARK: - Folders
+
 extension AnalyticsHelper {
     static func folderCreated() {
         logEvent("folder_created")
     }
 }
+
 // MARK: - Private
 
 private extension AnalyticsHelper {
