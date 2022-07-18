@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-18 09:54:04+0000 */
+/* Translation-Revision-Date: 2022-07-11 09:54:03+0000 */
 /* Plural-Forms: nplurals=1; plural=0; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: zh_TW */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Automattic 品牌系列";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "合作廠商";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "在任何地方都能遠端工作";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "法律與其他";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "隱私權政策";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "幫我們評分";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "與朋友分享";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "服務條款";
 
 /* Button that takes people to our website */
 "about_website" = "網站";
@@ -823,7 +835,7 @@
 "episode_filter_by_duration_label" = "依時間長度篩選";
 
 /* Message shown when you have no episodes in an episode filter */
-"episode_filter_no_episodes_msg" = "恭喜你聽完這份清單了，不然你可以編輯篩選器設定以搜尋更多內容。";
+"episode_filter_no_episodes_msg" = "恭喜你聽完這份清單了，或者你可以編輯篩選器設定以搜尋更多內容。";
 
 /* Title shown when you have no episodes in an episode filter */
 "episode_filter_no_episodes_title" = "沒有單集";

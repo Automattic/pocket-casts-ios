@@ -7,6 +7,7 @@ class SignOutHelper {
         let paidPodcasts = DataManager.sharedManager.allPaidPodcasts()
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportName)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportEmail)
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
         SyncManager.signout()
         UserEpisodeManager.cleanupCloudOnlyFiles()
         Settings.setLoginDetailsUpdated()

@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-05-16 16:54:04+0000 */
+/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: nl */
@@ -9,14 +9,26 @@
 /* Button that takes you to other Automattic apps, eg: our Automattic family of apps */
 "about_a8c_family" = "Automattic Family";
 
+/* Button that takes the user to the Acknowledgements screen */
+"about_acknowledgements" = "Erkenningen";
+
 /* Secondary text on our come with with us call out */
 "about_join_from_anywhere" = "Deelnemen vanaf elke locatie";
+
+/* Button that takes the user to legal and more screen */
+"about_legal_and_more" = "Juridisch en meer";
+
+/* Button that takes the user to privacy policy screen */
+"about_privacy_policy" = "Privacybeleid";
 
 /* About page text to ask the user to rate our app in the App Store */
 "about_rate_us" = "Beoordeel ons";
 
 /* About page text to ask the user to share a link to our app with friends */
 "about_share_friends" = "Delen met vrienden";
+
+/* Button that takes the user to terms of service screen */
+"about_terms_of_service" = "Servicevoorwaarden";
 
 /* Button that takes people to our website */
 "about_website" = "Site";

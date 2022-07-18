@@ -108,6 +108,10 @@ class Theme: ObservableObject {
     
     init() {
         let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
+        if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
+            Settings.setShouldFollowSystemTheme(true)
+        }
+
         activeTheme = ThemeType(rawValue: savedTheme) ?? .light
         
         NotificationCenter.default.addObserver(self, selector: #selector(systemThemeDidChange(_:)), name: Constants.Notifications.systemThemeMayHaveChanged, object: nil)
