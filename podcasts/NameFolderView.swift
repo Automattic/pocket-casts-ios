@@ -38,7 +38,7 @@ struct NameFolderView: View {
         .navigationTitle(L10n.folderNameTitle)
         .onAppear {
             // this appears to be a known issue with SwiftUI, in that it just passes this onto UIKit which can't set focus while a view is appearing, so here we artificially delay it
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 focusOnTextField = true
             }
         }
