@@ -255,7 +255,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     }
 }
 
-// MARK: - PLusLockedInfoDelegate
+// MARK: - PlusLockedInfoDelegate
 
 extension WatchSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
