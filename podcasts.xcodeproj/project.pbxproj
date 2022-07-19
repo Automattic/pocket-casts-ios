@@ -453,6 +453,7 @@
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
+		8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -1883,6 +1884,7 @@
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
+		8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderModelTests.swift; sourceTree = "<group>"; };
 		8F94CEC98B0A0E0B35578196 /* Pods-Today Extension.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -3167,6 +3169,7 @@
 		45ECEF7C27E910E300C65030 /* PocketCastsTests */ = {
 			isa = PBXGroup;
 			children = (
+				8BF1C61B2881F049007E80BF /* Folders */,
 				2F63CE9428809E5A00A34B51 /* ThemeTests.swift */,
 				45ECEF7D27E910E300C65030 /* PocketCastsTests.swift */,
 				45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */,
@@ -3462,6 +3465,14 @@
 				8BE85CA82876260600AEB5FF /* acknowledgements.html */,
 			);
 			name = Acknowledgments;
+			sourceTree = "<group>";
+		};
+		8BF1C61B2881F049007E80BF /* Folders */ = {
+			isa = PBXGroup;
+			children = (
+				8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */,
+			);
+			path = Folders;
 			sourceTree = "<group>";
 		};
 		BD03B383173A1D68000A419B /* Video Player */ = {
@@ -6683,6 +6694,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */,
 				45ECEF7E27E910E300C65030 /* PocketCastsTests.swift in Sources */,
 				45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */,
 				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
