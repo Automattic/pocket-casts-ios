@@ -47,6 +47,6 @@ class CarPlayImageHelper {
     }
 
     private enum Constants {
-        static let folderPreviewSize: CGRect = CGRect(x: 0, y: 0, width: 240, height: 240)
+        static let folderPreviewSize: CGRect = .init(x: 0, y: 0, width: 240, height: 240)
     }
 }
