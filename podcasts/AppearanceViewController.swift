@@ -303,6 +303,6 @@ extension AppearanceViewController: PlusLockedInfoDelegate {
     }
 
     func displaySource() -> PlusUpgradeViewSource {
-        return .themes
+        return .appearance
     }
 }

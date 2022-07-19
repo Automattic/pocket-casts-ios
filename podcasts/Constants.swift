@@ -232,6 +232,7 @@ struct Constants {
 
 enum PlusUpgradeViewSource: String {
     case profile
+    case appearance
     case files
     case folders
     case themes
