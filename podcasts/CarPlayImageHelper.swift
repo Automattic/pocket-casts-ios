@@ -9,9 +9,9 @@ class CarPlayImageHelper {
     }
     
     class func imageForFolder(_ folder: Folder) -> UIImage {
-        /// Sometimes CarPlay failures to generate the preview (normally when starting the
-        /// app from it). A workaround is to wrap the view in a UIStackView. This prevents
-        /// the folder image from being rendered without the artworks.
+        /// sj_snapshotImage is failing to generate the preview (artworks won't appear)
+        /// A workaround is to wrap the view in a UIStackView. This prevents the folder
+        /// image from being rendered without the artworks.
         let previewWrapper = UIStackView(frame: Constants.folderPreviewSize)
         let preview = FolderPreviewView(frame: Constants.folderPreviewSize)
         preview.showFolderName = false
