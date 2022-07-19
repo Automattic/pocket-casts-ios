@@ -1,7 +1,9 @@
 #if !os(watchOS)
     import Firebase
 #endif
+
 import Foundation
+import os
 
 class AnalyticsHelper {
     class func openedCategory(categoryId: Int, region: String) {
@@ -249,12 +251,24 @@ class AnalyticsHelper {
     class func accountDeleted() {
         logEvent("account_deleted", parameters: nil)
     }
-    
-    private class func logEvent(_ name: String, parameters: [String: Any]?) {
-        #if os(watchOS)
+}
+
+// MARK: - Private
+
+private extension AnalyticsHelper {
+    static let logger = Logger()
+
+    class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // assuming for now we don't want analytics on a watch
-        #else
+        #if !os(watchOS)
             Analytics.logEvent(name, parameters: parameters)
+
+            if let parameters = parameters {
+                logger.debug("🔵 Tracked: \(name) \(parameters)")
+            }
+            else {
+                logger.debug("🔵 Tracked: \(name)")
+            }
         #endif
     }
 }
