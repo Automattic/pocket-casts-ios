@@ -58,7 +58,8 @@ class FolderPreviewView: UIView {
         if forCarPlay {
             // For CarPlay we just want to grab whatever we have in cache
             imageView.imageView?.image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .list)
-        } else {
+        }
+        else {
             imageView.setPodcast(uuid: uuid, size: .list)
         }
     }
