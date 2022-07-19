@@ -251,6 +251,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 }
 
 // MARK: - PLusLockedInfoDelegate
+
 extension UploadedSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnFilesSettings(true)

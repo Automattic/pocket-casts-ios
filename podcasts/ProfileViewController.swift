@@ -453,6 +453,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 }
 
 // MARK: - PlusLockedInfoDelegate
+
 extension ProfileViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnProfile(true)

@@ -479,6 +479,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 }
 
 // MARK: Plus Locked Info Delegate
+
 extension AddCustomViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         lockView.isHidden = true

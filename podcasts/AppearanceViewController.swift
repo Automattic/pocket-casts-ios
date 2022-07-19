@@ -288,10 +288,10 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     func iconSelectorPresentingVC() -> UIViewController {
         self
     }
-
 }
 
 // MARK: - PlusLockedInfoDelegate
+
 extension AppearanceViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnAppearance(true)
