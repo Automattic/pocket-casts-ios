@@ -9,13 +9,19 @@ class CarPlayImageHelper {
     }
     
     class func imageForFolder(_ folder: Folder) -> UIImage {
-        let preview = FolderPreviewView(frame: CGRect(x: 0, y: 0, width: 240, height: 240))
+        /// Sometimes CarPlay failures to generate the preview (normally when starting the
+        /// app from it). A workaround is to wrap the view in a UIStackView. This prevents
+        /// the folder image from being rendered without the artworks.
+        let previewWrapper = UIStackView(frame: Constants.folderPreviewSize)
+        let preview = FolderPreviewView(frame: Constants.folderPreviewSize)
         preview.showFolderName = false
+        preview.forCarPlay = true
         preview.populateFrom(folder: folder)
-        preview.layoutSubviews()
-        
-        let image = preview.sj_snapshotImage(afterScreenUpdate: true, opaque: true) ?? UIImage(named: "noartwork-grid-dark")!
-        
+        previewWrapper.addArrangedSubview(preview)
+        previewWrapper.layoutSubviews()
+
+        let image = previewWrapper.sj_snapshotImage(afterScreenUpdate: true, opaque: true) ?? UIImage(named: "noartwork-grid-dark")!
+
         return adjustImageIfRequired(image: image)
     }
     
@@ -38,5 +44,9 @@ class CarPlayImageHelper {
         }
 
         return image
+    }
+
+    private enum Constants {
+        static let folderPreviewSize: CGRect = CGRect(x: 0, y: 0, width: 240, height: 240)
     }
 }
