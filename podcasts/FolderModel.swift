@@ -42,7 +42,9 @@ class FolderModel: ObservableObject {
     }
 
     @Published var color: Color = .red
-    
+
+    private let maximumAllowedCharactersForName = 100
+
     private let saveOnChange: Bool
     init(saveOnChange: Bool = false) {
         self.saveOnChange = saveOnChange
@@ -89,6 +91,12 @@ class FolderModel: ObservableObject {
         }
         
         return name.trim()
+    }
+
+    func validateFolderName(_ value: String) {
+        if value.count > maximumAllowedCharactersForName {
+            name = String(value.prefix(maximumAllowedCharactersForName))
+        }
     }
     
     private func updateFoldersBasedOnSelection() {

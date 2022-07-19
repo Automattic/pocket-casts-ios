@@ -1,5 +1,7 @@
 v7.20 881
 - Make the delete folder button to fill the whole row
+- Limit folders to 100 chars
+- Fix an issue where the sort order was ignoring the search text when creating a folder
 
 v7.20 880
 - Fixed a crash when creating a folder on iOS 14
