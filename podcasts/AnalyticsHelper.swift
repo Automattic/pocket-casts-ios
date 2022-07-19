@@ -1,7 +1,8 @@
 #if !os(watchOS)
     import Firebase
-    import os
 #endif
+
+import os
 import Foundation
 
 class AnalyticsHelper {
@@ -255,12 +256,13 @@ class AnalyticsHelper {
 // MARK: - Private
 
 private extension AnalyticsHelper {
+    static let logger = Logger()
+
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
             Analytics.logEvent(name, parameters: parameters)
 
-            let logger = Logger()
             if let parameters = parameters {
                 logger.debug("🔵 Tracked: \(name) \(parameters)")
             }
