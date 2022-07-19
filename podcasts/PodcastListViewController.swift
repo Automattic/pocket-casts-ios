@@ -221,6 +221,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
         
         present(hostingController, animated: true, completion: nil)
+        AnalyticsHelper.folderCreated()
     }
     
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
