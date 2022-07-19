@@ -9,6 +9,8 @@ class FolderPreviewView: UIView {
     private let imageSizeRatioNoLabel: CGFloat = 120 / 48
     
     var showFolderName = true
+
+    var forCarPlay = false
     
     private var images: [PodcastImageView] = []
     private var gradientLayer: CAGradientLayer?
@@ -39,7 +41,7 @@ class FolderPreviewView: UIView {
             let imageView = PodcastImageView()
             
             if let uuid = topPodcastUuids[safe: i] {
-                imageView.setPodcast(uuid: uuid, size: .list)
+                setImage(in: imageView, for: uuid)
             }
             else {
                 imageView.setTransparentNoArtwork(size: .list)
@@ -50,6 +52,15 @@ class FolderPreviewView: UIView {
         }
         
         layoutTiles()
+    }
+
+    private func setImage(in imageView: PodcastImageView, for uuid: String) {
+        if forCarPlay {
+            // For CarPlay we just want to grab whatever we have in cache
+            imageView.imageView?.image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .list)
+        } else {
+            imageView.setPodcast(uuid: uuid, size: .list)
+        }
     }
     
     override func layoutSubviews() {
