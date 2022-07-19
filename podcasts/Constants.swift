@@ -240,7 +240,7 @@ enum PlusUpgradeViewSource: String {
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
-        return self.rawValue.uppercased()
+        return rawValue.uppercased()
     }
 
     /// Converts the enum into a Firebase promotion name, this matches the values set on Android
@@ -250,9 +250,9 @@ enum PlusUpgradeViewSource: String {
         }
 
         if self == .profile {
-            return "Upgrade to Plus from \(self.rawValue)"
+            return "Upgrade to Plus from \(rawValue)"
         }
 
-        return "Upgrade to Plus for \(self.rawValue)"
+        return "Upgrade to Plus for \(rawValue)"
     }
 }
