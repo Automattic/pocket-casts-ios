@@ -292,6 +292,21 @@ extension AnalyticsHelper {
     }
 }
 
+    // MARK: - Account Creation
+
+    extension AnalyticsHelper {
+        static func createAccountDismissed() {
+            logEvent("close_account_missing")
+        }
+
+        static func createAccountConfirmed() {
+            logEvent("select_create_account")
+        }
+
+        static func createAccountSignIn() {
+            logEvent("select_sign_in_account")
+        }
+    }
 
     // MARK: - Folders
 
