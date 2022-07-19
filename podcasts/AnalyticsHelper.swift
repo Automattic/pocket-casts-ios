@@ -2,8 +2,8 @@
     import Firebase
 #endif
 
-import os
 import Foundation
+import os
 
 class AnalyticsHelper {
     class func openedCategory(categoryId: Int, region: String) {
