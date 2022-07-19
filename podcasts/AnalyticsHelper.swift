@@ -299,6 +299,10 @@ class AnalyticsHelper {
 
             logEvent(AnalyticsEventAddToCart, parameters: parameters)
         }
+
+        static func plusPlanPurchased() {
+            logEvent(AnalyticsEventPurchase)
+        }
     }
 
     // MARK: - Account Creation
