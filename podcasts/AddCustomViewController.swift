@@ -292,7 +292,8 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         }
     }
     
-    private var lockedArtworkTapGesture = UITapGestureRecognizer(target: AddCustomViewController.self, action: #selector(showSubscriptionRequired))
+    private lazy var lockedArtworkTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSubscriptionRequired))
+
     @objc private func setupUserAccess() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
