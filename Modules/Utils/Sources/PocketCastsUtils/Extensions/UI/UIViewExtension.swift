@@ -33,12 +33,10 @@
         }
         
         func sj_snapshotImage(afterScreenUpdate: Bool = false, opaque: Bool = true) -> UIImage? {
-            UIGraphicsBeginImageContextWithOptions(bounds.size, opaque, UIScreen.main.scale)
-            drawHierarchy(in: bounds, afterScreenUpdates: afterScreenUpdate)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            return image
+            let renderer = UIGraphicsImageRenderer(bounds: bounds)
+            return renderer.image { rendererContext in
+                layer.render(in: rendererContext.cgContext)
+            }
         }
         
         func moveTo(x: CGFloat, y: CGFloat) {
