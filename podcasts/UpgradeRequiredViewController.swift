@@ -42,7 +42,7 @@ class UpgradeRequiredViewController: PCViewController {
     }
 
     let source: PlusUpgradeViewSource
-    let upgradeRootViewController: UIViewController
+    weak var upgradeRootViewController: UIViewController?
     
     init(upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         self.upgradeRootViewController = upgradeRootViewController
@@ -98,16 +98,17 @@ class UpgradeRequiredViewController: PCViewController {
     }
     
     @IBAction func upgradeClicked(_ sender: Any) {
-        let upgradeRootVC = upgradeRootViewController
-        dismiss(animated: true, completion: {
+        dismiss(animated: true, completion: { [weak self] in
+            guard let self = self else { return }
+
+            let presentingController = self.upgradeRootViewController
+
             if SyncManager.isUserLoggedIn() {
                 let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-                let termsVC = TermsViewController(newSubscription: newSubscription)
-                upgradeRootVC.present(SJUIUtils.popupNavController(for: termsVC), animated: true, completion: nil)
+                presentingController?.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
             }
             else {
-                let profileIntroController = ProfileIntroViewController()
-                upgradeRootVC.present(SJUIUtils.popupNavController(for: profileIntroController), animated: true, completion: nil)
+                presentingController?.present(SJUIUtils.popupNavController(for: ProfileIntroViewController()), animated: true)
             }
         })
     }
