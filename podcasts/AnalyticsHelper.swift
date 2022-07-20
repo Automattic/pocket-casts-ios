@@ -253,13 +253,45 @@ class AnalyticsHelper {
     }
 }
 
-// MARK: - Folders
+// MARK: - Plus Upgrades
 
-extension AnalyticsHelper {
-    static func folderCreated() {
-        logEvent("folder_created")
+#if os(iOS)
+    extension AnalyticsHelper {
+        static func plusUpgradeViewed(source: PlusUpgradeViewSource) {
+            logPromotionEvent(AnalyticsEventViewPromotion,
+                              promotionId: source.promotionId(),
+                              promotionName: source.promotionName())
+        }
+
+        static func plusUpgradeConfirmed(source: PlusUpgradeViewSource) {
+            logPromotionEvent(AnalyticsEventSelectPromotion,
+                              promotionId: source.promotionId(),
+                              promotionName: source.promotionName())
+        }
     }
-}
+
+    // MARK: - Folders
+
+    extension AnalyticsHelper {
+        static func folderCreated() {
+            logEvent("folder_created")
+        }
+    }
+
+    // MARK: - Promotion Events
+
+    private extension AnalyticsHelper {
+        // Helper method to log a Firebase promotion event
+        static func logPromotionEvent(_ name: String, promotionId: String, promotionName: String) {
+            let parameters = [
+                AnalyticsParameterPromotionID: promotionId,
+                AnalyticsParameterPromotionName: promotionName
+            ]
+
+            logEvent(name, parameters: parameters)
+        }
+    }
+#endif // End iOS Only Check
 
 // MARK: - Private
 
