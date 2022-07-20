@@ -2,8 +2,8 @@ import UIKit
 
 protocol PlusLockedInfoDelegate: AnyObject {
     func closeInfoTapped()
-    func displayingViewController() -> UIViewController
-    func displaySource() -> PlusUpgradeViewSource
+    var displayingViewController: UIViewController { get }
+    var displaySource: PlusUpgradeViewSource { get }
 }
 
 class PlusLockedInfoView: ThemeableView {
@@ -67,12 +67,12 @@ class PlusLockedInfoView: ThemeableView {
     }
     
     @IBAction func learnMoreTapped(_ sender: Any) {
-        guard let displayingVC = delegate?.displayingViewController() else {
+        guard let displayingVC = delegate?.displayingViewController else {
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
             return
         }
 
-        let source: PlusUpgradeViewSource = delegate?.displaySource() ?? .unknown
+        let source: PlusUpgradeViewSource = delegate?.displaySource ?? .unknown
         NavigationManager.sharedManager.showUpsellView(from: displayingVC, source: source)
     }
 }

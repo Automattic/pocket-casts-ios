@@ -486,11 +486,11 @@ extension AddCustomViewController: PlusLockedInfoDelegate {
         Settings.setPlusInfoDismissedOnFilesAdd(true)
     }
 
-    func displayingViewController() -> UIViewController {
+    var displayingViewController: UIViewController {
         self
     }
 
-    func displaySource() -> PlusUpgradeViewSource {
-        return .files
+    var displaySource: PlusUpgradeViewSource {
+        .files
     }
 }

@@ -298,11 +298,11 @@ extension AppearanceViewController: PlusLockedInfoDelegate {
         updateTableAndData()
     }
 
-    func displayingViewController() -> UIViewController {
+    var displayingViewController: UIViewController {
         self
     }
 
-    func displaySource() -> PlusUpgradeViewSource {
-        return .appearance
+    var displaySource: PlusUpgradeViewSource {
+        .appearance
     }
 }
