@@ -263,11 +263,11 @@ extension WatchSettingsViewController: PlusLockedInfoDelegate {
         settingsTable.reloadData()
     }
 
-    func displayingViewController() -> UIViewController {
+    var displayingViewController: UIViewController {
         self
     }
 
-    func displaySource() -> PlusUpgradeViewSource {
-        return .watch
+    var displaySource: PlusUpgradeViewSource {
+        .watch
     }
 }

@@ -461,11 +461,11 @@ extension ProfileViewController: PlusLockedInfoDelegate {
         updateFooterFrame()
     }
 
-    func displayingViewController() -> UIViewController {
+    var displayingViewController: UIViewController {
         self
     }
 
-    func displaySource() -> PlusUpgradeViewSource {
-        return .profile
+    var displaySource: PlusUpgradeViewSource {
+        .profile
     }
 }

@@ -258,11 +258,11 @@ extension UploadedSettingsViewController: PlusLockedInfoDelegate {
         settingsTable.reloadData()
     }
 
-    func displayingViewController() -> UIViewController {
+    var displayingViewController: UIViewController {
         self
     }
 
-    func displaySource() -> PlusUpgradeViewSource {
-        return .files
+    var displaySource: PlusUpgradeViewSource {
+        .files
     }
 }
