@@ -4,6 +4,7 @@
 - Make the delete folder button to fill the whole row (#79)
 - Limit folders to 100 chars (#80)
 - Fix an issue where the sort order was ignoring the search text when creating a folder (#81)
+- Fix an issue with Folders appearing as black square in CarPlay (#88)
 
 #### 880
 - Fixed a crash when creating a folder on iOS 14

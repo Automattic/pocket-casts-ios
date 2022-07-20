@@ -29,7 +29,6 @@ class NavigationManager {
     static let subscriptionCancelledAcknowledgePageKey = "subscrptionCancelledAcknowledgePage"
     
     static let subscriptionUpgradeVCKey = "subscrptionUpgradeVC"
-    
     static let subscriptionRequiredPageKey = "subscrptionRequiredPage"
     
     static let showPlusMarketingPageKey = "showPlusMarketingPage"
@@ -208,5 +207,13 @@ class NavigationManager {
                 mainController?.showInSafariViewController(urlString: urlString)
             }
         }
+    }
+}
+
+// MARK: - Helpers
+
+extension NavigationManager {
+    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource) {
+        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source])
     }
 }
