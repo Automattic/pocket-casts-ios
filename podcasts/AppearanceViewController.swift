@@ -1,7 +1,7 @@
 import PocketCastsServer
 import UIKit
 
-class AppearanceViewController: SimpleNotificationsViewController, UITableViewDataSource, UITableViewDelegate, IconSelectorCellDelegate, PlusLockedInfoDelegate {
+class AppearanceViewController: SimpleNotificationsViewController, UITableViewDataSource, UITableViewDelegate, IconSelectorCellDelegate {
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
@@ -171,7 +171,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: self])
+                    NavigationManager.sharedManager.showUpsellView(from: self, source: .themes)
                 }
                 
                 return
@@ -288,15 +288,21 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     func iconSelectorPresentingVC() -> UIViewController {
         self
     }
-    
-    // MARK: - PlusLockedInfoDelegate
-    
+}
+
+// MARK: - PlusLockedInfoDelegate
+
+extension AppearanceViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnAppearance(true)
         updateTableAndData()
     }
-    
-    func displayingViewController() -> UIViewController {
+
+    var displayingViewController: UIViewController {
         self
+    }
+
+    var displaySource: PlusUpgradeViewSource {
+        .appearance
     }
 }

@@ -1,7 +1,7 @@
 import PocketCastsServer
 import UIKit
 
-class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, PlusLockedInfoDelegate {
+class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private let switchCellId = "SwitchCell"
     private let lockInfoCellId = "LockCell"
     private enum TableSections: Int { case autoSync, autoAddToUpNext, afterPlaying, onlyOnWifi, lockedInfo }
@@ -218,7 +218,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     }
     
     @objc func showSubscriptionRequired() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: self])
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
     }
     
     // MARK: - Switch Actions
@@ -248,15 +248,21 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     @objc private func onlyOnWifiToggled(_ sender: UISwitch) {
         ServerSettings.setUserEpisodeOnlyOnWifi(sender.isOn)
     }
-    
-    // MARK: - PLusLockedInfoDelegate
-    
+}
+
+// MARK: - PlusLockedInfoDelegate
+
+extension UploadedSettingsViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnFilesSettings(true)
         settingsTable.reloadData()
     }
-    
-    func displayingViewController() -> UIViewController {
+
+    var displayingViewController: UIViewController {
         self
+    }
+
+    var displaySource: PlusUpgradeViewSource {
+        .files
     }
 }

@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate, PlusLockedInfoDelegate {
+class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
 
     @IBOutlet var signedInView: ThemeableView! {
@@ -445,21 +445,27 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
         }
     }
-    
-    // MARK: - PlusLockedInfoDelegate
-    
+
+    private func updateFooterFrame() {
+        let height: CGFloat = plusInfoView.isHidden ? 120 : 308
+        footerView.frame = CGRect(x: footerView.frame.minX, y: footerView.frame.minY, width: footerView.frame.width, height: height)
+    }
+}
+
+// MARK: - PlusLockedInfoDelegate
+
+extension ProfileViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         Settings.setPlusInfoDismissedOnProfile(true)
         plusInfoView.isHidden = true
         updateFooterFrame()
     }
-    
-    func displayingViewController() -> UIViewController {
+
+    var displayingViewController: UIViewController {
         self
     }
-    
-    private func updateFooterFrame() {
-        let height: CGFloat = plusInfoView.isHidden ? 120 : 308
-        footerView.frame = CGRect(x: footerView.frame.minX, y: footerView.frame.minY, width: footerView.frame.width, height: height)
+
+    var displaySource: PlusUpgradeViewSource {
+        .profile
     }
 }
