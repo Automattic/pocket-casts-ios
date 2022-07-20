@@ -61,6 +61,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     
     private func closeWindow() {
         dismiss(animated: true, completion: nil)
+        AnalyticsHelper.createAccountDismissed()
     }
     
     // MARK: - SyncSigninDelegate
@@ -78,11 +79,15 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         signinPage.delegate = self
         
         navigationController?.pushViewController(signinPage, animated: true)
+
+        AnalyticsHelper.createAccountSignIn()
     }
     
     @IBAction func createTapped() {
         let selectAccountVC = SelectAccountTypeViewController()
         navigationController?.pushViewController(selectAccountVC, animated: true)
+
+        AnalyticsHelper.createAccountConfirmed()
     }
     
     // MARK: - Orientation

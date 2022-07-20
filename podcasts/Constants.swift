@@ -247,14 +247,15 @@ enum PlusUpgradeViewSource: String {
 
     /// Converts the enum into a Firebase promotion name, this matches the values set on Android
     func promotionName() -> String {
-        if self == .unknown {
-            return "Unknown"
-        }
-
-        if self == .profile {
+        switch self {
+        case .profile, .appearance:
             return "Upgrade to Plus from \(rawValue)"
-        }
 
-        return "Upgrade to Plus for \(rawValue)"
+        case .unknown:
+            return "Unknown"
+
+        default:
+            return "Upgrade to Plus for \(rawValue)"
+        }
     }
 }

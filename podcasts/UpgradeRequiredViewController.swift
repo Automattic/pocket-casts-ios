@@ -71,6 +71,8 @@ class UpgradeRequiredViewController: PCViewController {
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        AnalyticsHelper.plusUpgradeViewed(source: source)
     }
     
     deinit {
@@ -94,10 +96,13 @@ class UpgradeRequiredViewController: PCViewController {
     }
     
     @IBAction func doneCicked(_ sender: Any) {
+        AnalyticsHelper.plusUpgradeDismissed(source: source)
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func upgradeClicked(_ sender: Any) {
+        AnalyticsHelper.plusUpgradeConfirmed(source: source)
+
         dismiss(animated: true, completion: { [weak self] in
             guard let self = self else { return }
 
