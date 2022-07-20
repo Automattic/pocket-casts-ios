@@ -128,6 +128,9 @@ class SelectPaymentFreqViewController: UIViewController {
     
     @IBAction func nextTapped(_ sender: Any) {
         newSubscription.iap_identifier = isYearly ? Constants.IapProducts.yearly.rawValue : Constants.IapProducts.monthly.rawValue
+
+        AnalyticsHelper.plusAddToCart(identifier: newSubscription.iap_identifier)
+
         if newSubscription.isNewAccount {
             let newEmailVC = NewEmailViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(newEmailVC, animated: true)

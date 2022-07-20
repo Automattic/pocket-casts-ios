@@ -268,6 +268,57 @@ class AnalyticsHelper {
                               promotionId: source.promotionId(),
                               promotionName: source.promotionName())
         }
+
+        static func plusUpgradeDismissed(source: PlusUpgradeViewSource) {
+            logPromotionEvent("close_promotion",
+                              promotionId: source.promotionId(),
+                              promotionName: source.promotionName())
+        }
+
+        static func plusAddToCart(identifier: String) {
+            guard let product = IapHelper.shared.getProductWithIdentifier(identifier: identifier) else {
+                return
+            }
+
+            let price = product.price
+            let currency = product.priceLocale.currencyCode ?? ""
+            let name = product.localizedTitle
+
+            let item: [String: Any] = [
+                AnalyticsParameterItemID: identifier,
+                AnalyticsParameterItemName: name,
+                AnalyticsParameterPrice: price,
+                AnalyticsParameterQuantity: 1
+            ]
+
+            let parameters: [String: Any] = [
+                AnalyticsParameterCurrency: currency,
+                AnalyticsParameterValue: price,
+                AnalyticsParameterItems: [item]
+            ]
+
+            logEvent(AnalyticsEventAddToCart, parameters: parameters)
+        }
+
+        static func plusPlanPurchased() {
+            logEvent(AnalyticsEventPurchase)
+        }
+    }
+
+    // MARK: - Account Creation
+
+    extension AnalyticsHelper {
+        static func createAccountDismissed() {
+            logEvent("close_account_missing")
+        }
+
+        static func createAccountConfirmed() {
+            logEvent("select_create_account")
+        }
+
+        static func createAccountSignIn() {
+            logEvent("select_sign_in_account")
+        }
     }
 
     // MARK: - Folders

@@ -116,6 +116,7 @@ extension IapHelper: SKPaymentTransactionObserver {
                     hasNewPurchasedReceipt = true
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
+                    AnalyticsHelper.plusPlanPurchased()
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
