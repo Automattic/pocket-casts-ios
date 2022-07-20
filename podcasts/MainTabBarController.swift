@@ -223,9 +223,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         controller?.present(SJUIUtils.popupNavController(for: cancelledVC), animated: true, completion: nil)
     }
     
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController) {
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController)
-        let controller = view.window?.rootViewController
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
+        // If we're already presenting a view, then present from that view if possible
+        let controller = presentedViewController ?? view.window?.rootViewController
+        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
         controller?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
     }
     

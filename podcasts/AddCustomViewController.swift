@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class AddCustomViewController: PCViewController, UITextFieldDelegate, PlusLockedInfoDelegate {
+class AddCustomViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var backgroundView: ThemeableView! {
         didSet {
             backgroundView.style = .primaryUi04
@@ -292,7 +292,8 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate, PlusLocked
         }
     }
     
-    private var lockedArtworkTapGesture = UITapGestureRecognizer(target: AddCustomViewController.self, action: #selector(showSubscriptionRequired))
+    private lazy var lockedArtworkTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSubscriptionRequired))
+
     @objc private func setupUserAccess() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -474,18 +475,23 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate, PlusLocked
     }
     
     @objc func showSubscriptionRequired() {
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: self)
-        present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
     }
-    
-    // MARK: Plus Locked Info Delegate
-    
+}
+
+// MARK: Plus Locked Info Delegate
+
+extension AddCustomViewController: PlusLockedInfoDelegate {
     func closeInfoTapped() {
         lockView.isHidden = true
         Settings.setPlusInfoDismissedOnFilesAdd(true)
     }
-    
-    func displayingViewController() -> UIViewController {
+
+    var displayingViewController: UIViewController {
         self
+    }
+
+    var displaySource: PlusUpgradeViewSource {
+        .files
     }
 }

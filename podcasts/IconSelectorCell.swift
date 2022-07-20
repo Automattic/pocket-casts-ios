@@ -196,7 +196,8 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !SubscriptionHelper.hasActiveSubscription(), indexPath.item >= IconSelectorCell.firstPaidIconIndex {
             collectionView.deselectItem(at: indexPath, animated: true)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: [NavigationManager.subscriptionUpgradeVCKey: delegate.iconSelectorPresentingVC()])
+
+            NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
         }
         else {
             delegate?.changeIcon(name: IconType(rawValue: indexPath.row)?.iconName)
