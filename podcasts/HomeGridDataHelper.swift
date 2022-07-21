@@ -159,7 +159,7 @@ class HomeGridDataHelper {
     private class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
         let index1 = indexOfItemInSortedList(item: item1, sortedPodcasts: sortedPodcasts)
         let index2 = indexOfItemInSortedList(item: item2, sortedPodcasts: sortedPodcasts)
-        
+
         return index1 < index2
     }
     
@@ -170,6 +170,6 @@ class HomeGridDataHelper {
         
         guard let folderUuid = item.folder?.uuid else { return 0 }
         
-        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid } ?? 0
+        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid } ?? Int.max
     }
 }
