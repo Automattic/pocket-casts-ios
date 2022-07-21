@@ -139,7 +139,7 @@ class HomeGridDataHelper {
             convertedTitle2 = String(convertedTitle2[range.upperBound...])
         }
 
-        return convertedTitle1.localizedCaseInsensitiveCompare(convertedTitle2) == .orderedAscending
+        return convertedTitle1.localizedLowercase.compare(convertedTitle2.localizedLowercase) == .orderedAscending
     }
     
     private class func customSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
