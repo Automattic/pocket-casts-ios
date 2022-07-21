@@ -33,6 +33,13 @@ platform :ios do
 
   desc 'Run the unit tests'
   lane :test do
+    # Decrypt the secrets
+    configure_apply
+    # This is necessary for `match` to work correctly in CI. When running
+    # locally, it has no effect.
+    setup_ci
+
+    # TODO: Very barebone for now
     run_tests(scheme: 'pocketcasts')
   end
 
