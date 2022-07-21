@@ -31,6 +31,11 @@ platform :ios do
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
+  desc 'Run the unit tests'
+  lane :test do
+    run_tests(scheme: 'pocketcasts')
+  end
+
   desc 'Submit a new Beta Build to Apple TestFlight'
   lane :beta do
     ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t Aspera'
