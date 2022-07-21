@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "1D72E1CC-98F4-4EA9-AA22-10C848A77156",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:podcasts.xcodeproj",
+        "identifier" : "45ECEF7A27E910E300C65030",
+        "name" : "PocketCastsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
