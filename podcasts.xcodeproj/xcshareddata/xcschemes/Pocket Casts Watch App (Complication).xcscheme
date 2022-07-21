@@ -84,8 +84,10 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "32">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/Pocket Casts">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDD301631EFB9356004A9972"
@@ -93,7 +95,7 @@
             BlueprintName = "Pocket Casts Watch App"
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -102,8 +104,10 @@
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES"
       launchAutomaticallySubstyle = "32">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/Pocket Casts">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDD301631EFB9356004A9972"
@@ -111,7 +115,16 @@
             BlueprintName = "Pocket Casts Watch App"
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "BDD301631EFB9356004A9972"
+            BuildableName = "Pocket Casts Watch App.app"
+            BlueprintName = "Pocket Casts Watch App"
+            ReferencedContainer = "container:podcasts.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

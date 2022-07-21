@@ -41,26 +41,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ServerTests"
-               BuildableName = "ServerTests"
-               BlueprintName = "ServerTests"
-               ReferencedContainer = "container:Modules/Server">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "UtilsTests"
-               BuildableName = "UtilsTests"
-               BlueprintName = "UtilsTests"
-               ReferencedContainer = "container:Modules/Utils">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "45ECEF7A27E910E300C65030"
                BuildableName = "PocketCastsTests.xctest"
                BlueprintName = "PocketCastsTests"
