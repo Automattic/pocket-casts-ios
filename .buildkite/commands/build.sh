@@ -35,5 +35,8 @@ install_gems # see bash-cache Automattic's Buildkite plugin
 echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
+echo "+++ :test-analytics: Check Test Analytcis"
+echo "Token starts with $(echo "$BUILDKITE_ANALYTICS_TOKEN" | cut -c1-3) "
+
 echo "--- Build & Test"
 bundle exec fastlane test
