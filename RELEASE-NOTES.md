@@ -6,6 +6,7 @@
 - Fix an issue where the sort order was ignoring the search text when creating a folder (#81)
 - Fix an issue with Folders appearing as black square in CarPlay (#88)
 - Fix an issue where the podcast name was being truncated on the podcast details screen [#96]
+- Fix an issue where changing the folder on the podcast details view would not be sync'd with the server [#103]
 
 #### 880
 - Fixed a crash when creating a folder on iOS 14
