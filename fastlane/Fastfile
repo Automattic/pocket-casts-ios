@@ -200,7 +200,7 @@ platform :ios do
   end
 
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
-  lane :download_localized_metadata_from_glotpress do
+  lane :download_localized_app_store_metadata_from_glotpress do
     # FIXME: Replace this with a call to the future replacement of
     # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
     # paaHJt-31O-p2).
