@@ -4,12 +4,16 @@
       "id" : "1D72E1CC-98F4-4EA9-AA22-10C848A77156",
       "name" : "Configuration 1",
       "options" : {
-
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:podcasts.xcodeproj",
+          "identifier" : "BDBD53EB17019B2A0048C8C5",
+          "name" : "podcasts"
+        }
       }
     }
   ],
   "defaultOptions" : {
-        "environmentVariableEntries" : [
+    "environmentVariableEntries" : [
       {
         "key" : "BUILDKITE_ANALYTICS_TOKEN",
         "value" : "$(BUILDKITE_ANALYTICS_TOKEN)"
