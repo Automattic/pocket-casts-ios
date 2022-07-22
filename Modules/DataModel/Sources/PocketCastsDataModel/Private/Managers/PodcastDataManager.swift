@@ -334,7 +334,7 @@ class PodcastDataManager {
     }
     
     func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: FMDatabaseQueue) {
-        DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ? WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
+        DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
     
