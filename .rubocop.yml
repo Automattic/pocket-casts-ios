@@ -8,17 +8,21 @@ AllCops:
     # For some reason, RuboCop suggests installing this, even though we don't use Rake
     rubocop-rake: false
 
+Metrics/BlockLength:
+  # "xfiles" is a standin for `Fast-`, `Pod-`, and `Rake-file`
+  Exclude: &xfiles
+    - fastlane/Fastfile
+    - fastlane/lanes/*.rb
+    - Podfile
+    - 'scripts/themes/generate_themes.rb'
+
 Layout/LineLength:
   Exclude:
     - 'scripts/themes/generate_themes.rb'
+    - *xfiles
 
 Metrics/AbcSize:
   Exclude:
-    - 'scripts/themes/generate_themes.rb'
-
-Metrics/BlockLength:
-  Exclude:
-    - fastlane/*file
     - 'scripts/themes/generate_themes.rb'
 
 Metrics/BlockNesting:
