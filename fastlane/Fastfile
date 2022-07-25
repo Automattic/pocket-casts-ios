@@ -228,6 +228,54 @@ platform :ios do
   end
 
   #####################################################################################
+  # finalize_release
+  # -----------------------------------------------------------------------------------
+  # This lane finalize a release: updates store metadata, bump final version number,
+  # remove branch protection and close milestone, then trigger the final release on CI
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane finalize_release [skip_confirm:<skip confirm>] [version:<version>]
+  #
+  # Example:
+  # bundle exec fastlane finalize_release
+  # bundle exec fastlane finalize_release skip_confirm:true
+  #####################################################################################
+  desc 'Trigger the final release build on CI'
+  lane :finalize_release do |options|
+    if ios_current_branch_is_hotfix
+      UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead')
+    end
+
+    ios_finalize_prechecks(options)
+
+    UI.message('Checking app strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      abort_on_violations: false
+    )
+
+    UI.message('Checking release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      abort_on_violations: false
+    )
+
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+    ios_bump_version_beta
+
+    # Wrap up
+    version = ios_get_app_version
+    removebranchprotection(repository: GHHELPER_REPO, branch: "release/#{version}")
+    setfrozentag(repository: GHHELPER_REPO, milestone: version, freeze: false)
+    create_new_milestone(repository: GHHELPER_REPO)
+    close_milestone(repository: GHHELPER_REPO, milestone: version)
+
+    # Start the build
+    trigger_release_build(branch_to_build: "release/#{version}")
+  end
+
+  #####################################################################################
   # build_and_upload_app_store_connect
   # -----------------------------------------------------------------------------------
   # Builds the Pocket Cast app and uploads it to TestFlight, for beta-testing or final release
