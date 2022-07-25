@@ -66,7 +66,7 @@ platform :ios do
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
-  ENV[GHHELPER_REPO = 'Automattic/pocket-casts-ios']
+  ENV.fetch(GHHELPER_REPO = 'Automattic/pocket-casts-ios')
 
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
@@ -203,9 +203,10 @@ platform :ios do
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
     # For Pocket Casts the strings are grab on a weekly basis from `trunk`
-    #generate_strings_file_for_glotpress
+    # generate_strings_file_for_glotpress
 
-    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm('Push changes to the remote and trigger the beta build?')
+    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false)
+      || UI.confirm('Push changes to the remote and trigger the beta build?')
       push_to_git_remote(tags: false)
       trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
     else
@@ -232,11 +233,12 @@ platform :ios do
   # Builds the Pocket Cast app and uploads it to TestFlight, for beta-testing or final release
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_and_upload_app_store_connect [skip_confirm:<skip confirm>] [create_release:<Create release on GH>] [beta_release:<intermediate beta?>]
+  # bundle exec fastlane build_and_upload_app_store_connect [skip_confirm:<skip confirm>]
+  # [create_release:<Create release on GH>] [beta_release:<intermediate beta?>]
   #
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   # @option [Boolean] skip_prechecks (default: false) If true, don't run the ios_build_prechecks and ios_build_preflight
-  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
+  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive
   # @option [Boolean] beta_release If true, the GitHub release will be marked as being a pre-release
   #
   #####################################################################################
@@ -247,12 +249,13 @@ platform :ios do
 
     configure_code_signing
 
-    gym(scheme: 'pocketcasts',
-        include_bitcode: false,
-        include_symbols: true,
-        clean: true,
-        export_options: { method: 'app-store' }
-    )
+    gym(
+      scheme: 'pocketcasts',
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      export_options: { method: 'app-store' }
+      )
 
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
     testflight(
