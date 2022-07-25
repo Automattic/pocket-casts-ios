@@ -11,6 +11,7 @@ SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
+RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -65,6 +66,7 @@ platform :ios do
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
+  ENV[GHHELPER_REPO = 'Automattic/pocket-casts-ios']
 
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
@@ -156,6 +158,127 @@ platform :ios do
   #####################################################################################
   # Release Lanes
   #####################################################################################
+
+  #####################################################################################
+  # code_freeze
+  # -----------------------------------------------------------------------------------
+  # This lane executes the steps planned on code freeze
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane code_freeze [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane code_freeze
+  # bundle exec fastlane code_freeze skip_confirm:true
+  #####################################################################################
+  desc 'Creates a new release branch from the current trunk'
+  lane :code_freeze do |options|
+    ios_codefreeze_prechecks(options)
+
+    ios_bump_version_release(skip_glotpress: true)
+    new_version = ios_get_app_version
+    extract_release_notes_for_version(
+      version: new_version,
+      release_notes_file_path: 'RELEASE-NOTES.txt',
+      extracted_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt')
+    )
+    ios_update_release_notes(new_version: new_version)
+    setbranchprotection(repository: GHHELPER_REPO, branch: "release/#{new_version}")
+    setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
+  end
+
+  #####################################################################################
+  # complete_code_freeze
+  # -----------------------------------------------------------------------------------
+  # This lane executes the initial steps planned on code freeze
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane complete_code_freeze [skip_confirm:<skip confirm>]
+  #
+  # Example:
+  # bundle exec fastlane complete_code_freeze
+  # bundle exec fastlane complete_code_freeze skip_confirm:true
+  #####################################################################################
+  desc 'Creates a new release branch from the current trunk'
+  lane :complete_code_freeze do |options|
+    ios_completecodefreeze_prechecks(options)
+    # For Pocket Casts the strings are grab on a weekly basis from `trunk`
+    #generate_strings_file_for_glotpress
+
+    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm('Push changes to the remote and trigger the beta build?')
+      push_to_git_remote(tags: false)
+      trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
+    else
+      UI.message('Aborting code freeze completion as requested.')
+    end
+  end
+
+  #####################################################################################
+  # trigger_beta_build
+  # -----------------------------------------------------------------------------------
+  # This lane triggers a beta build on CI
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane trigger_beta_build [branch_to_build:<branch_name>]
+  #
+  #####################################################################################
+  lane :trigger_beta_build do |options|
+    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
+  end
+
+  #####################################################################################
+  # build_and_upload_app_store_connect
+  # -----------------------------------------------------------------------------------
+  # Builds the Pocket Cast app and uploads it to TestFlight, for beta-testing or final release
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_and_upload_app_store_connect [skip_confirm:<skip confirm>] [create_release:<Create release on GH>] [beta_release:<intermediate beta?>]
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [Boolean] skip_prechecks (default: false) If true, don't run the ios_build_prechecks and ios_build_preflight
+  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
+  # @option [Boolean] beta_release If true, the GitHub release will be marked as being a pre-release
+  #
+  #####################################################################################
+  desc 'Builds and uploads for distribution to App Store Connect'
+  lane :build_and_upload_app_store_connect do |options|
+    ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
+    ios_build_preflight unless options[:skip_prechecks]
+
+    configure_code_signing
+
+    gym(scheme: 'pocketcasts',
+        include_bitcode: false,
+        include_symbols: true,
+        clean: true,
+        export_options: { method: 'app-store' }
+    )
+
+    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
+    testflight(
+      skip_waiting_for_build_processing: true,
+      team_id: TEAM_ID,
+      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
+    )
+
+    sh 'cd .. && make upload_dsyms'
+
+    next unless options[:create_release]
+
+    archive_zip_path = File.join(File.dirname(Dir.pwd), 'PocketCasts.xarchive.zip')
+    zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
+
+    version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
+    create_release(
+      repository: GHHELPER_REPO,
+      version: version,
+      release_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt'),
+      release_assets: archive_zip_path.to_s,
+      prerelease: options[:beta_release]
+    )
+
+    FileUtils.rm_rf(archive_zip_path)
+  end
 
   #####################################################################################
   # update_appstore_strings
@@ -254,6 +377,19 @@ inal copy, and try again.")
       path: files_to_commit,
       message: 'Update App Store metadata translations',
       allow_nothing_to_commit: true
+    )
+  end
+
+  # -----------------------------------------------------------------------------------
+  # Kicks off a Buildkite build
+  # -----------------------------------------------------------------------------------
+  def trigger_buildkite_release_build(branch:, beta:)
+    buildkite_trigger_build(
+      buildkite_organization: 'automattic',
+      buildkite_pipeline: 'pocket-casts-ios',
+      branch: branch,
+      environment: { BETA_RELEASE: beta },
+      pipeline_file: 'release-builds.yml'
     )
   end
 
