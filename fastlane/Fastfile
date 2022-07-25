@@ -66,7 +66,7 @@ platform :ios do
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
-  ENV.fetch(GHHELPER_REPO = 'Automattic/pocket-casts-ios')
+  ENV.fetch(GHHELPER_REPO = 'Automattic/pocket-casts-ios', nil)
 
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
@@ -313,6 +313,11 @@ platform :ios do
   lane :download_localized_strings_and_metadata_from_glotpress do
     download_localized_strings_and_metadata
     download_localized_app_store_metadata_from_glotpress
+  end
+
+  desc 'Lint the `.strings` files'
+  lane :lint_localizations do
+    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
   end
 
   #####################################################################################
