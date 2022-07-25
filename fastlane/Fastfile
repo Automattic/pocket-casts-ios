@@ -284,6 +284,38 @@ platform :ios do
   end
 
   #####################################################################################
+  # new_beta_release
+  # -----------------------------------------------------------------------------------
+  # This lane updates the release branch for a new beta release. It will update the
+  # current release branch by default. If you want to update a different branch
+  # (i.e. hotfix branch) pass the related version with the 'base_version' param
+  # (example: base_version:10.6.1 will work on the 10.6.1 branch)
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane new_beta_release [skip_confirm:<skip confirm>] [base_version:<version>]
+  #
+  # Example:
+  # bundle exec fastlane new_beta_release
+  # bundle exec fastlane new_beta_release skip_confirm:true
+  # bundle exec fastlane new_beta_release base_version:10.6.1
+  #####################################################################################
+  desc 'Updates a release branch for a new beta release'
+  lane :new_beta_release do |options|
+    ios_betabuild_prechecks(options)
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+    ios_bump_version_beta
+    version = ios_get_app_version
+    trigger_beta_build(branch_to_build: "release/#{version}")
+  end
+
+  desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
+  lane :download_localized_strings_and_metadata_from_glotpress do
+    download_localized_strings_and_metadata
+    download_localized_app_store_metadata_from_glotpress
+  end
+
+  #####################################################################################
   # update_appstore_strings
   # -----------------------------------------------------------------------------------
   # This lane updates the AppStoreStrings.po files for the Pocket Casts app with
