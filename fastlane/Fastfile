@@ -205,8 +205,8 @@ platform :ios do
     # For Pocket Casts the strings are grab on a weekly basis from `trunk`
     # generate_strings_file_for_glotpress
 
-    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false)
-      || UI.confirm('Push changes to the remote and trigger the beta build?')
+    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) ||
+      UI.confirm('Push changes to the remote and trigger the beta build?')
       push_to_git_remote(tags: false)
       trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
     else
