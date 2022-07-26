@@ -65,7 +65,11 @@ platform :ios do
     # locally, it has no effect.
     setup_ci
 
+    load_ci_spm_cache
+
     run_tests(scheme: 'pocketcasts')
+
+    save_ci_spm_cache
   end
 
   desc 'Submit a new Beta Build to Apple TestFlight'
