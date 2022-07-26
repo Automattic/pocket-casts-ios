@@ -1,7 +1,7 @@
 ### 7.20
 
 #### 882
-
+- Match the Android / Web client sort order for folders that start with emoji (#63)
 
 #### 881
 - Make the delete folder button to fill the whole row (#79)
@@ -10,7 +10,6 @@
 - Fix an issue with Folders appearing as black square in CarPlay (#88)
 - Fix an issue where the podcast name was being truncated on the podcast details screen [#96]
 - Fix an issue where changing the folder on the podcast details view would not be sync'd with the server [#103]
-- Match the Android / Web client sort order for folders that start with emoji (#63)
 
 #### 880
 - Fixed a crash when creating a folder on iOS 14
