@@ -437,6 +437,7 @@
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
+		8B317BA028906A8900A26A13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317B9F28906A8900A26A13 /* main.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1880,6 +1881,7 @@
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		8B317B9F28906A8900A26A13 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -5036,6 +5038,7 @@
 				BD585C242047C74D00AC842C /* AppDelegate+Defaults.swift */,
 				403B5B0521812E6000821A54 /* AppDelelgate+SiriShortcuts.swift */,
 				404A080924E4C78000308722 /* SceneDelegate.swift */,
+				8B317B9F28906A8900A26A13 /* main.swift */,
 				BD2063301B5351D500DBB592 /* podcasts-Bridging-Header.h */,
 				BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */,
 				BD056F0E1F6F8BE300AF8260 /* Main.storyboard */,
@@ -6849,6 +6852,7 @@
 				BDAA3CF321228A0D00649F81 /* ExpandCollapseButton.swift in Sources */,
 				407B9B72238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift in Sources */,
 				40422D96251AF10500C80BE4 /* BundlePodcastCell.swift in Sources */,
+				8B317BA028906A8900A26A13 /* main.swift in Sources */,
 				BDC86830238251B0004C998F /* NowPlayingPlayerItemViewController+UpNextPan.swift in Sources */,
 				BD7BCF131F6A4F920006E008 /* SharingItemProvider.swift in Sources */,
 				BD21D4A722DEDAE700D5888B /* ThemeableCollectionView.swift in Sources */,
