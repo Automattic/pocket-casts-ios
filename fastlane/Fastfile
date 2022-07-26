@@ -10,6 +10,7 @@ APP_STORE_METADATA_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
+SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -88,13 +89,6 @@ platform :ios do
     increment_version_on_config
   end
 
-  def ci_spm_cache_key
-    UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
-
-    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
-    "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
-  end
-
   desc 'Build the project only'
   lane :build do
     # CI has its own mechanism to setup the Ruby gems and CocoaPods
@@ -103,25 +97,19 @@ platform :ios do
       cocoapods
     end
 
-    # Handling SPM caching for CI here for now to avoid having two sources of
-    # truth for what the cache key is. The alternative would be to call the
-    # save and restore cache commands in the CI pipeline and then duplicate the
-    # logic to get the key here.
-    spm_cache_folder = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
-    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
-
     configure_code_signing
+    load_ci_spm_cache
 
     gym(
       scheme: 'pocketcasts',
       include_bitcode: false,
-      cloned_source_packages_path: spm_cache_folder,
+      cloned_source_packages_path: SPM_CACHE_FOLDER,
       clean: true
     )
     clean_build_artifacts
     sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
 
-    sh(command: %(save_cache #{spm_cache_folder} "#{ci_spm_cache_key}")) if is_ci
+    save_ci_spm_cache
   end
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
@@ -439,5 +427,24 @@ inal copy, and try again.")
     styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
 
     File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  end
+
+  def load_ci_spm_cache
+    # Handling SPM caching for CI here for now to avoid having two sources of
+    # truth for what the cache key is. The alternative would be to call the
+    # save and restore cache commands in the CI pipeline and then duplicate the
+    # logic to get the key here.
+    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
+  end
+
+  def save_ci_spm_cache
+    sh(command: %(save_cache #{SPM_CACHE_FOLDER} "#{ci_spm_cache_key}")) if is_ci
+  end
+
+  def ci_spm_cache_key
+    UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
+
+    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
+    "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 end
