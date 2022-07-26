@@ -49,6 +49,17 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
   'zh-tw' => 'zh-Hant'
 }.freeze
 
+before_all do
+  # This is necessary for `match` to work correctly in CI. When running
+  # locally, it has no effect so it's safe to run it before all lanes.
+  setup_ci
+
+  # Decrypt the secrets. This is redundant on dev machines most of the time,
+  # but it has such a negligible overhead that it's worth running it here to
+  # keep the individual lanes cleaner.
+  configure_apply
+end
+
 platform :ios do
   # Unfortunately, release toolkit still relies on certain settings being set in the environment
   ENV['PROJECT_NAME'] = 'podcasts'
@@ -59,12 +70,6 @@ platform :ios do
 
   desc 'Run the unit tests'
   lane :test do
-    # Decrypt the secrets
-    configure_apply
-    # This is necessary for `match` to work correctly in CI. When running
-    # locally, it has no effect.
-    setup_ci
-
     load_ci_spm_cache
 
     run_tests(scheme: 'pocketcasts')
@@ -118,11 +123,6 @@ platform :ios do
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
   lane :configure_code_signing do
-    # Decrypt the secrets
-    configure_apply
-    # This is necessary for `match` to work correctly in CI. When running
-    # locally, it has no effect.
-    setup_ci
     match(
       type: 'appstore',
       team_id: TEAM_ID,
