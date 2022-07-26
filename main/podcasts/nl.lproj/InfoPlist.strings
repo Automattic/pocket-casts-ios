@@ -1,6 +1,0 @@
-NSCameraUsageDescription = "Hiermee kan je aangepaste afbeeldingen aan je bestanden toevoegen";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts heeft toegang nodig tot je bluetooth om Google Cast-apparaten in de buurt te kunnen detecteren.";
-NSLocalNetworkUsageDescription = "Pocket Casts gebruikt deze om Google Cast-apparaten binnen je netwerk te vinden. Als je deze functie niet gebruikt, kan je altijd nee zeggen.";
-NSMicrophoneUsageDescription = "Pocket Casts heeft toegang nodig tot je microfoon om Google Cast-apparaten in de buurt te kunnen detecteren.";
-NSPhotoLibraryUsageDescription = "Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.";
