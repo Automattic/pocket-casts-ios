@@ -35,5 +35,5 @@ install_gems # see bash-cache Automattic's Buildkite plugin
 echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
-echo "--- Build"
-bundle exec fastlane build
+echo "--- Build & Test"
+bundle exec fastlane test
