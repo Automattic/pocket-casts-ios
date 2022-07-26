@@ -1,5 +1,8 @@
 ### 7.20
 
+#### 882
+
+
 #### 881
 - Make the delete folder button to fill the whole row (#79)
 - Limit folders to 100 chars (#80)
