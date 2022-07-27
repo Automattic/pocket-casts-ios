@@ -17,6 +17,11 @@ class FolderBuilder {
         return self
     }
 
+    func with(name: String) -> Self {
+        folder.name = name
+        return self
+    }
+
     func build() -> Folder {
         folder
     }
