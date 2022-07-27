@@ -156,3 +156,28 @@ extension IapHelper: SKPaymentTransactionObserver {
         }
     }
 }
+
+// MARK: - SKProductSubscriptionPeriod Helper Extension
+
+private extension SKProductSubscriptionPeriod {
+
+    /// Converts the period into a localized readable format, ie: 3 days, 1 month, 1 year, etc.
+    /// - Returns: Localized formatted version of the subscription period
+    func localizedPeriodString() -> String? {
+        let calendarUnit: NSCalendar.Unit
+        switch unit {
+        case .day:
+            calendarUnit = .day
+        case .week:
+            calendarUnit = .weekOfMonth
+        case .month:
+            calendarUnit = .month
+        case .year:
+            calendarUnit = .year
+        @unknown default:
+            return nil
+        }
+
+        return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
+    }
+}
