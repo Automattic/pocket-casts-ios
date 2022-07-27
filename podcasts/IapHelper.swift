@@ -94,6 +94,43 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 }
 
+// MARK: - Intro Offers: Free Trials
+
+extension IapHelper {
+    func isEligibleForFreeTrial() -> Bool {
+        #warning("TODO: Update isEligibleForIntroOffer with a real check")
+        return true
+    }
+
+    /// Returns the localized trial duration if there is one
+    /// - Parameter identifier: The product to check
+    /// - Returns: A formatted string (1 week) or nil if there is no offer available
+    func localizedFreeTrialDuration(_ identifier: Constants.IapProducts) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    /// Checks if there is a free trial introductory offer for the given product
+    /// - Parameter identifier: The product to check
+    /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
+    private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
+        guard
+            isEligibleForFreeTrial(),
+            let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
+            offer.paymentMode == .freeTrial
+        else {
+            return nil
+        }
+
+        return offer
+    }
+}
+
+// MARK: - SKPaymentTransactionObserver
+
 extension IapHelper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
