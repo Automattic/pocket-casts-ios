@@ -156,7 +156,7 @@ class HomeGridDataHelper {
     }
     
     // this function relies on sortedPodcasts already being in latest episode sort order, and then uses that to also figure out where a folder should be based on it's top sorted podcast
-    private class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
+    class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
         let index1 = indexOfItemInSortedList(item: item1, sortedPodcasts: sortedPodcasts)
         let index2 = indexOfItemInSortedList(item: item2, sortedPodcasts: sortedPodcasts)
 
