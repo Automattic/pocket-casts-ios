@@ -7,13 +7,13 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
     
-    private let productIdentifiers = Set([Constants.IapProducts.monthly.rawValue, Constants.IapProducts.yearly.rawValue])
+    private let productIdentifiers: [Constants.IapProducts] = [.yearly, .monthly]
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
     
     func requestProductInfo() {
-        let request = SKProductsRequest(productIdentifiers: productIdentifiers)
+        let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
     }
@@ -135,7 +135,7 @@ extension IapHelper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
-        let lowercasedProductIdentifiers = productIdentifiers.map { $0.lowercased() }
+        let lowercasedProductIdentifiers = productIdentifiers.map { $0.rawValue.lowercased() }
         
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
