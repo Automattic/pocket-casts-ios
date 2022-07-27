@@ -2,6 +2,12 @@ import PocketCastsServer
 import UIKit
 
 class UpgradeRequiredViewController: PCViewController {
+    @IBOutlet var trialDetailLabel: ThemeableLabel! {
+        didSet {
+            trialDetailLabel.isHidden = true
+        }
+    }
+
     @IBOutlet var upgradeButton: ThemeableRoundedButton! {
         didSet {
             upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
