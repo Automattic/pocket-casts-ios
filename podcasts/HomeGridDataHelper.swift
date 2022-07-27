@@ -153,9 +153,10 @@ class HomeGridDataHelper {
         let index2 = indexOfItemInSortedList(item: item2, sortedPodcasts: sortedPodcasts)
 
         // Sort empty folders by the title, to keep consistency with the web player
-        if let folder1 = item1.folder, let folder2 = item2.folder, index1 == nil && index2 == nil {
+        if let folder1 = item1.folder, let folder2 = item2.folder, index1 == nil, index2 == nil {
             return PodcastSorter.titleSort(title1: folder1.name, title2: folder2.name)
-        } else {
+        }
+        else {
             return index1 ?? Int.max < index2 ?? Int.max
         }
     }
