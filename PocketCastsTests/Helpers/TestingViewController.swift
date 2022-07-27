@@ -5,7 +5,7 @@ class TestingViewController: UIViewController {
     @IBOutlet weak var innerRing: UIView!
 
     override func viewWillAppear(_ animated: Bool) {
-        // Animate the logo
+        // Animate the logo to make you anxious while tests are running
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut, .autoreverse, .repeat], animations: {
             self.innerRing.alpha = 0.3
         }, completion: nil)
