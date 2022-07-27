@@ -108,6 +108,12 @@ extension IapHelper {
         return offer.subscriptionPeriod.localizedPeriodString()
     }
 
+    /// Returns the localized trial duration for any product with a free trial
+    /// - Returns: Returns the formatted duration, or nil if there is no free trial
+    func localizedFreeTrialDurationForAnyProduct() -> String? {
+        return productIdentifiers.compactMap { localizedFreeTrialDuration($0) }.first
+    }
+
     private func isEligibleForFreeTrial() -> Bool {
         #warning("TODO: Update isEligibleForIntroOffer with a real check")
         return true
