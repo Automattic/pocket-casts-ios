@@ -1,12 +1,16 @@
 ### 7.20
 
+#### 882
+- Match the Android / Web client sort order for folders that start with emoji (#63)
+- Sort empty folders to the end of the list when sorting by Episode Release Date (#70)
+
 #### 881
 - Make the delete folder button to fill the whole row (#79)
 - Limit folders to 100 chars (#80)
 - Fix an issue where the sort order was ignoring the search text when creating a folder (#81)
 - Fix an issue with Folders appearing as black square in CarPlay (#88)
 - Fix an issue where the podcast name was being truncated on the podcast details screen [#96]
-- Sort empty folders to the end of the list when sorting by Episode Release Date (70)
+- Fix an issue where changing the folder on the podcast details view would not be sync'd with the server [#103]
 
 #### 880
 - Fixed a crash when creating a folder on iOS 14

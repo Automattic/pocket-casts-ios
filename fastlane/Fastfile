@@ -9,6 +9,8 @@ PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 APP_STORE_METADATA_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
+VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
+SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -23,13 +25,57 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
-# Unfortunately, release toolkit still relies on certain settings being set in the environment
-ENV['PUBLIC_CONFIG_FILE'] = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
+# URL of the GlotPress project containing the strings used in the app
+GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
+# URL of the GlotPress project containing App Store Connect metadata
+GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
+
+# Mapping of all locales which can be used for AppStore metadata
+# (Glotpress code => AppStore Connect code)
+#
+# TODO: Replace with `LocaleHelper` once provided by release toolkit
+# (https://github.com/wordpress-mobile/release-toolkit/pull/296)
+GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
+  'de' => 'de-DE',
+  'es' => 'es-ES',
+  'fr' => 'fr-FR',
+  'it' => 'it',
+  'ja' => 'ja',
+  'nl' => 'nl-NL',
+  'pt-br' => 'pt-BR',
+  'ru' => 'ru',
+  'sv' => 'sv',
+  'zh-cn' => 'zh-Hans',
+  'zh-tw' => 'zh-Hant'
+}.freeze
+
+before_all do
+  # This is necessary for `match` to work correctly in CI. When running
+  # locally, it has no effect so it's safe to run it before all lanes.
+  setup_ci
+
+  # Decrypt the secrets. This is redundant on dev machines most of the time,
+  # but it has such a negligible overhead that it's worth running it here to
+  # keep the individual lanes cleaner.
+  configure_apply
+end
 
 platform :ios do
+  # Unfortunately, release toolkit still relies on certain settings being set in the environment
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
+  ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
+
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
+
+  desc 'Run the unit tests'
+  lane :test do
+    load_ci_spm_cache
+
+    run_tests(scheme: 'pocketcasts')
+
+    save_ci_spm_cache
+  end
 
   desc 'Submit a new Beta Build to Apple TestFlight'
   lane :beta do
@@ -52,13 +98,6 @@ platform :ios do
     increment_version_on_config
   end
 
-  def ci_spm_cache_key
-    UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
-
-    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
-    "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
-  end
-
   desc 'Build the project only'
   lane :build do
     # CI has its own mechanism to setup the Ruby gems and CocoaPods
@@ -67,34 +106,23 @@ platform :ios do
       cocoapods
     end
 
-    # Handling SPM caching for CI here for now to avoid having two sources of
-    # truth for what the cache key is. The alternative would be to call the
-    # save and restore cache commands in the CI pipeline and then duplicate the
-    # logic to get the key here.
-    spm_cache_folder = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
-    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
-
     configure_code_signing
+    load_ci_spm_cache
 
     gym(
       scheme: 'pocketcasts',
       include_bitcode: false,
-      cloned_source_packages_path: spm_cache_folder,
+      cloned_source_packages_path: SPM_CACHE_FOLDER,
       clean: true
     )
     clean_build_artifacts
     sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
 
-    sh(command: %(save_cache #{spm_cache_folder} "#{ci_spm_cache_key}")) if is_ci
+    save_ci_spm_cache
   end
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
   lane :configure_code_signing do
-    # Decrypt the secrets
-    configure_apply
-    # This is necessary for `match` to work correctly in CI. When running
-    # locally, it has no effect.
-    setup_ci
     match(
       type: 'appstore',
       team_id: TEAM_ID,
@@ -117,13 +145,12 @@ platform :ios do
     fastlane_require 'Xcodeproj'
 
     # Get the current build version, and update it if needed
-    version_config_path = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
-    versions = Xcodeproj::Config.new(File.new(version_config_path)).to_hash
+    versions = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
     build_number = versions['VERSION_LONG'].to_i + 1
     UI.message("Updating build version to #{build_number}")
     versions['VERSION_LONG'] = build_number
     new_config = Xcodeproj::Config.new(versions)
-    new_config.save_as(Pathname.new(version_config_path))
+    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
   end
 
   #####################################################################################
@@ -173,6 +200,61 @@ platform :ios do
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
   lane :download_localized_strings_and_metadata do |options|
     ios_update_metadata(options)
+  end
+
+  desc 'Downloads localized metadata for App Store Connect from GlotPress'
+  lane :download_localized_app_store_metadata_from_glotpress do
+    # FIXME: Replace this with a call to the future replacement of
+    # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
+    # paaHJt-31O-p2).
+    target_files = {
+      "v#{ios_get_app_version}-whats-new": {
+        desc: 'release_notes.txt',
+        max_size: 4000
+      },
+      app_store_subtitle: { desc: 'subtitle.txt', max_size: 30 },
+      app_store_desc: { desc: 'description.txt', max_size: 4000 },
+      app_store_keywords: { desc: 'keywords.txt', max_size: 100 }
+    }
+
+    gp_downloadmetadata(
+      project_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      target_files: target_files,
+      locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
+      download_path: APP_STORE_METADATA_FOLDER
+    )
+    files_to_commit = [File.join(APP_STORE_METADATA_FOLDER, '**', '*.txt')]
+
+    # Ensure that none of the `.txt` files in `en-US` would accidentally
+    # override our originals in `default`
+    target_files.values.map { |h| h[:desc] }.each do |file|
+      en_file_path = File.join(APP_STORE_METADATA_FOLDER, 'en-US', file)
+      next unless File.exist?(en_file_path)
+
+      UI.user_error!("File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default
+`, but `default/` is the source of truth. " \
++ "Delete the `#{en_file_path}` file, ensure the `default/` one has the expected orig
+inal copy, and try again.")
+    end
+
+    # Ensure even empty locale folders have an empty `.gitkeep` file (in case
+    # we don't have any translation at all ready for some locales)
+    GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.each_value do |locale|
+      gitkeep = File.join(APP_STORE_METADATA_FOLDER, locale, '.gitkeep')
+      next if File.exist?(gitkeep)
+
+      FileUtils.mkdir_p(File.dirname(gitkeep))
+      FileUtils.touch(gitkeep)
+      files_to_commit.append(gitkeep)
+    end
+
+    # Commit
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: 'Update App Store metadata translations',
+      allow_nothing_to_commit: true
+    )
   end
 
   #####################################################################################
@@ -349,5 +431,24 @@ platform :ios do
     styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
 
     File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  end
+
+  def load_ci_spm_cache
+    # Handling SPM caching for CI here for now to avoid having two sources of
+    # truth for what the cache key is. The alternative would be to call the
+    # save and restore cache commands in the CI pipeline and then duplicate the
+    # logic to get the key here.
+    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
+  end
+
+  def save_ci_spm_cache
+    sh(command: %(save_cache #{SPM_CACHE_FOLDER} "#{ci_spm_cache_key}")) if is_ci
+  end
+
+  def ci_spm_cache_key
+    UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
+
+    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
+    "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 end

@@ -334,7 +334,7 @@ class PodcastDataManager {
     }
     
     func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: FMDatabaseQueue) {
-        DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ? WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
+        DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
     
@@ -604,22 +604,13 @@ class PodcastDataManager {
     
     private func addedDateSort(p1: Podcast, p2: Podcast) -> Bool {
         guard let date1 = p1.addedDate, let date2 = p2.addedDate else { return false }
-        
-        return date1.compare(date2) == .orderedAscending
+
+        return PodcastSorter.dateAddedSort(date1: date1, date2: date2)
     }
     
     private func titleSort(p1: Podcast, p2: Podcast) -> Bool {
         guard let title1 = p1.title, let title2 = p2.title else { return false }
-        
-        var convertedTitle1 = title1
-        var convertedTitle2 = title2
-        if let range = convertedTitle1.range(of: "^the ", options: [.regularExpression, .caseInsensitive]) {
-            convertedTitle1 = String(convertedTitle1[range.upperBound...])
-        }
-        if let range = convertedTitle2.range(of: "^the ", options: [.regularExpression, .caseInsensitive]) {
-            convertedTitle2 = String(convertedTitle2[range.upperBound...])
-        }
-        
-        return convertedTitle1.localizedCaseInsensitiveCompare(convertedTitle2) == .orderedAscending
+
+        return PodcastSorter.titleSort(title1: title1, title2: title2)
     }
 }

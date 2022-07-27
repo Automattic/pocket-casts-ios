@@ -1,0 +1,62 @@
+{
+  "configurations" : [
+    {
+      "id" : "1D72E1CC-98F4-4EA9-AA22-10C848A77156",
+      "name" : "Configuration 1",
+      "options" : {
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:podcasts.xcodeproj",
+          "identifier" : "BDBD53EB17019B2A0048C8C5",
+          "name" : "podcasts"
+        }
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "BUILDKITE_ANALYTICS_TOKEN",
+        "value" : "$(BUILDKITE_ANALYTICS_TOKEN)"
+      },
+      {
+        "key" : "BUILDKITE_BRANCH",
+        "value" : "$(BUILDKITE_BRANCH)"
+      },
+      {
+        "key" : "BUILDKITE_BUILD_ID",
+        "value" : "$(BUILDKITE_BUILD_ID)"
+      },
+      {
+        "key" : "BUILDKITE_BUILD_NUMBER",
+        "value" : "$(BUILDKITE_BUILD_NUMBER)"
+      },
+      {
+        "key" : "BUILDKITE_BUILD_URL",
+        "value" : "$(BUILDKITE_BUILD_URL)"
+      },
+      {
+        "key" : "BUILDKITE_COMMIT",
+        "value" : "$(BUILDKITE_COMMIT)"
+      },
+      {
+        "key" : "BUILDKITE_JOB_ID",
+        "value" : "$(BUILDKITE_JOB_ID)"
+      },
+      {
+        "key" : "BUILDKITE_MESSAGE",
+        "value" : "$(BUILDKITE_MESSAGE)"
+      }
+    ],
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:podcasts.xcodeproj",
+        "identifier" : "45ECEF7A27E910E300C65030",
+        "name" : "PocketCastsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
