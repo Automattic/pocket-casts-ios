@@ -1,5 +1,5 @@
-import XCTest
 import PocketCastsUtils
+import XCTest
 
 class TimePeriodFormatterTests: XCTestCase {
     func testZeroesReturnPlural() {

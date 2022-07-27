@@ -1,7 +1,6 @@
 import Foundation
 
-public struct TimePeriodFormatter {
-
+public enum TimePeriodFormatter {
     /// Convert a number of units (30) and a calendar period unit (days) into a localized string (30 days)
     /// - Parameters:
     ///   - numberOfUnits: The number of units that you want to convert in int form
