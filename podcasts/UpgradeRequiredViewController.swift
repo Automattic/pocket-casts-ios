@@ -64,19 +64,11 @@ class UpgradeRequiredViewController: PCViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.pocketCastsPlus
-        
+
+        configureNavigationBar()
+        updatePricingLabels()
+
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
-        
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        if monthlyPrice.count > 0 {
-            priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
-        }
-        
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneCicked))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
-        navigationItem.leftBarButtonItem = closeButton
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         AnalyticsHelper.plusUpgradeViewed(source: source)
     }
@@ -125,15 +117,32 @@ class UpgradeRequiredViewController: PCViewController {
     }
     
     @objc func iapProductsUpdated() {
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        if monthlyPrice.count > 0 {
-            priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
-        }
+        updatePricingLabels()
     }
     
     // MARK: - Orientation
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+// MARK: - Private: UI Helpers
+
+private extension UpgradeRequiredViewController {
+    func configureNavigationBar() {
+        title = L10n.pocketCastsPlus
+
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    func updatePricingLabels() {
+        updatePriceLabel()
+    }
+
+    func updatePriceLabel() {
+        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
+
+        priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
     }
 }
