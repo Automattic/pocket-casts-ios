@@ -1,6 +1,0 @@
-NSCameraUsageDescription = "これによりファイルにカスタム画像を追加できます";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts は近くの Google Cast 端末を検出するために Bluetooth にアクセスする必要があります。";
-NSLocalNetworkUsageDescription = "Pocket Casts はこれを使ってネットワークの Google Cast 端末を探します。 この機能を使わない場合は、オフにしてください。";
-NSMicrophoneUsageDescription = "Pocket Casts は近くの Google Cast 端末を検出するためにマイクにアクセスする必要があります。";
-NSPhotoLibraryUsageDescription = "Pocket Casts でこの画像をフォトライブラリに保存するには権限が必要です。";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts でこの画像をフォトライブラリに保存するには権限が必要です。";

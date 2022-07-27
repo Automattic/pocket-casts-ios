@@ -1,6 +1,0 @@
-NSCameraUsageDescription = "Cela vous permet d’ajouter des images personnalisées à vos fichiers";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts a besoin d’avoir accès à votre bluetooth afin de détecter les appareils Google Cast à portée de main.";
-NSLocalNetworkUsageDescription = "Pocket Casts l’utilise afin de trouver les appareils Google Cast de votre réseau. N’hésitez pas à refuser si vous n’utilisez pas cette fonctionnalité.";
-NSMicrophoneUsageDescription = "Pocket Casts a besoin d’avoir accès à votre microphone pour détecter les appareils Google Cast à portée de main.";
-NSPhotoLibraryUsageDescription = "Pocket Casts a besoin d’une permission pour sauvegarder cette image dans votre bibliothèque de photos.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts a besoin d’une permission pour sauvegarder cette image dans votre bibliothèque de photos.";
