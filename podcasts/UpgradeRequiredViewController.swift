@@ -138,11 +138,34 @@ private extension UpgradeRequiredViewController {
 
     func updatePricingLabels() {
         updatePriceLabel()
+        updateUIForTrialIfNeeded()
     }
 
     func updatePriceLabel() {
         let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
 
         priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
+    }
+}
+
+// MARK: - Private: Free Trial Support
+
+private extension UpgradeRequiredViewController {
+    func updateUIForTrialIfNeeded() {
+        guard let trialDuration = IapHelper.shared.localizedFreeTrialDurationForAnyProduct() else {
+            trialDetailLabel.isHidden = true
+            return
+        }
+
+        // Update the labels
+        infoLabel.text = L10n.freeTrialTitleLabel(trialDuration)
+        trialDetailLabel.text = L10n.freeTrialDetailLabel
+        upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
+
+        // Show the detail label, since its hidden by default
+        trialDetailLabel.isHidden = false
+
+        // Hide the pricing label to better highlight the trial
+        priceLabel.isHidden = true
     }
 }
