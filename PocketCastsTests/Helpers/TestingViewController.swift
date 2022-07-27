@@ -1,8 +1,8 @@
 import UIKit
 
 class TestingViewController: UIViewController {
-    @IBOutlet weak var outerRing: UIView!
-    @IBOutlet weak var innerRing: UIView!
+    @IBOutlet var outerRing: UIView!
+    @IBOutlet var innerRing: UIView!
 
     override func viewWillAppear(_ animated: Bool) {
         // Animate the logo to make you anxious while tests are running
@@ -14,5 +14,4 @@ class TestingViewController: UIViewController {
             self.outerRing.alpha = 0.3
         }, completion: nil)
     }
-
 }

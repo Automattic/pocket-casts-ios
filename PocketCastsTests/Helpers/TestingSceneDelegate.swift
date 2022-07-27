@@ -7,7 +7,7 @@ class TestingSceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-        let storyboard = UIStoryboard.init(name: "TestingScreen", bundle: Bundle.init(for: self.classForCoder))
+        let storyboard = UIStoryboard(name: "TestingScreen", bundle: Bundle(for: classForCoder))
         window?.rootViewController = storyboard.instantiateInitialViewController()
         window?.makeKeyAndVisible()
     }
