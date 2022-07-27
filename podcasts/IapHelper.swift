@@ -97,11 +97,6 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
-    func isEligibleForFreeTrial() -> Bool {
-        #warning("TODO: Update isEligibleForIntroOffer with a real check")
-        return true
-    }
-
     /// Returns the localized trial duration if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string (1 week) or nil if there is no offer available
@@ -111,6 +106,11 @@ extension IapHelper {
         }
 
         return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    private func isEligibleForFreeTrial() -> Bool {
+        #warning("TODO: Update isEligibleForIntroOffer with a real check")
+        return true
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -197,7 +197,6 @@ extension IapHelper: SKPaymentTransactionObserver {
 // MARK: - SKProductSubscriptionPeriod Helper Extension
 
 private extension SKProductSubscriptionPeriod {
-
     /// Converts the period into a localized readable format, ie: 3 days, 1 month, 1 year, etc.
     /// - Returns: Localized formatted version of the subscription period
     func localizedPeriodString() -> String? {
