@@ -817,6 +817,14 @@ internal enum L10n {
   internal static var folderUnnamed: String { return L10n.tr("Localizable", "folder_unnamed") }
   /// Folders
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
+  /// No Payment Now – Cancel Anytime
+  internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
+  /// Start Free Trial
+  internal static var freeTrialStartButton: String { return L10n.tr("Localizable", "free_trial_start_button") }
+  /// Try Pocket Casts Plus free for %1$@
+  internal static func freeTrialTitleLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_title_label", String(describing: p1))
+  }
   /// It really matches your eyes ✨
   internal static var funnyConfMsg: String { return L10n.tr("Localizable", "funny_conf_msg") }
   /// You really don't listen much, do you?
