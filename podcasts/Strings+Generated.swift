@@ -819,6 +819,10 @@ internal enum L10n {
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
   /// No Payment Now – Cancel Anytime
   internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
+  /// %1$@ free then %2$@
+  internal static func freeTrialPricingTerms(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_pricing_terms", String(describing: p1), String(describing: p2))
+  }
   /// Start Free Trial
   internal static var freeTrialStartButton: String { return L10n.tr("Localizable", "free_trial_start_button") }
   /// Try Pocket Casts Plus free for %1$@
