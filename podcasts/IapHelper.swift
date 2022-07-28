@@ -94,6 +94,24 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 }
 
+// MARK: - Pricing String Helpers
+
+extension IapHelper {
+    /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
+    /// - Parameter product: The product to get the pricing string for
+    /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
+    func pricingStringWithFrequency(for product: Constants.IapProducts) -> String? {
+        let pricing = getPriceForIdentifier(identifier: product.rawValue)
+        let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
+
+        guard !pricing.isEmpty, !frequency.isEmpty else {
+            return nil
+        }
+
+        return "\(pricing) / \(frequency)"
+    }
+}
+
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
