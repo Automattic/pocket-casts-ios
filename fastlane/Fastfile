@@ -205,12 +205,9 @@ platform :ios do
     # For Pocket Casts the strings are grab on a weekly basis from `trunk`
     # generate_strings_file_for_glotpress
 
-    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) ||
-       UI.confirm('Push changes to the remote and trigger the beta build?')
+    after_confirming_push do
       push_to_git_remote(tags: false)
       trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
-    else
-      UI.message('Aborting code freeze completion as requested.')
     end
   end
 
@@ -388,9 +385,11 @@ platform :ios do
   #####################################################################################
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
-    ios_finalize_prechecks(options)
-    version = ios_get_app_version
-    trigger_release_build(branch_to_build: "release/#{version}")
+    after_confirming_push do
+      ios_finalize_prechecks(options)
+      version = ios_get_app_version
+      trigger_release_build(branch_to_build: "release/#{version}")
+    end
   end
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
@@ -710,5 +709,13 @@ inal copy, and try again.")
 
     hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
+  end
+
+  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
+    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
+      yield
+    else
+      UI.message('Aborting push as requested.')
+    end
   end
 end
