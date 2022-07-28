@@ -52,7 +52,7 @@ class ConfirmPaymentViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var trialDetailLabel: ThemeableLabel!
+    @IBOutlet var trialDetailLabel: ThemeableLabel!
     @IBOutlet var tryAgainView: ThemeableView!
     var newSubscription: NewSubscription
     
@@ -203,6 +203,7 @@ class ConfirmPaymentViewController: UIViewController {
 }
 
 // MARK: - UI Helpers
+
 private extension ConfirmPaymentViewController {
     func updateBackItem() {
         var controllers = navigationController?.viewControllers ?? []
@@ -226,6 +227,7 @@ private extension ConfirmPaymentViewController {
 }
 
 // MARK: - Free Trial
+
 private extension ConfirmPaymentViewController {
     func updatePricingLabels() {
         guard
@@ -245,7 +247,6 @@ private extension ConfirmPaymentViewController {
 
         priceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
         trialDetailLabel.text = L10n.pricingTermsAfterTrial(pricing)
-
     }
 
     func updateBuyButton() {
