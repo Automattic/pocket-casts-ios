@@ -37,65 +37,6 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7X-pB-jN4" userLabel="Error View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                    <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no-connection" translatesAutoresizingMaskIntoConstraints="NO" id="WAZ-W2-Y9W" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="127" y="212" width="160" height="160"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to contact App Store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohi-mH-WAm" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="62.5" y="396" width="289" height="26.5"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vs6-Bm-boB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="24" y="428.5" width="366" height="36"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4F-Bc-6Y8" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="746" width="382" height="56"/>
-                            <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="56" id="qzw-fC-Ghl"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <state key="normal" title="Try Again">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <state key="disabled" title=" "/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="12"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="0ax-Xi-4h9"/>
-                            </connections>
-                        </button>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="ytW-8d-YgK">
-                            <rect key="frame" x="197" y="764" width="20" height="20"/>
-                        </activityIndicatorView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="xgM-BI-u0P"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="vs6-Bm-boB" firstAttribute="trailing" secondItem="xgM-BI-u0P" secondAttribute="trailing" constant="-24" id="5DB-p3-FNF"/>
-                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="leading" secondItem="xgM-BI-u0P" secondAttribute="leading" constant="16" id="ERm-1A-Ngt"/>
-                        <constraint firstItem="vs6-Bm-boB" firstAttribute="top" secondItem="ohi-mH-WAm" secondAttribute="bottom" constant="6" id="HO0-ad-k9x"/>
-                        <constraint firstItem="ytW-8d-YgK" firstAttribute="centerX" secondItem="z4F-Bc-6Y8" secondAttribute="centerX" id="I9k-9l-xwm"/>
-                        <constraint firstItem="vs6-Bm-boB" firstAttribute="leading" secondItem="xgM-BI-u0P" secondAttribute="leading" constant="24" id="Tsn-OA-wzp"/>
-                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="trailing" secondItem="xgM-BI-u0P" secondAttribute="trailing" constant="-16" id="Vjh-Gs-PK4"/>
-                        <constraint firstItem="ohi-mH-WAm" firstAttribute="centerX" secondItem="o7X-pB-jN4" secondAttribute="centerX" id="W2D-ch-xfO"/>
-                        <constraint firstItem="ohi-mH-WAm" firstAttribute="centerY" secondItem="o7X-pB-jN4" secondAttribute="centerY" id="XLQ-J4-f6W"/>
-                        <constraint firstItem="ohi-mH-WAm" firstAttribute="top" secondItem="WAZ-W2-Y9W" secondAttribute="bottom" constant="24" id="Zhh-Bc-E0g"/>
-                        <constraint firstItem="ytW-8d-YgK" firstAttribute="centerY" secondItem="z4F-Bc-6Y8" secondAttribute="centerY" id="c1O-Y4-qby"/>
-                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="bottom" secondItem="xgM-BI-u0P" secondAttribute="bottom" constant="-16" id="q6L-qM-f3l"/>
-                        <constraint firstItem="WAZ-W2-Y9W" firstAttribute="centerX" secondItem="o7X-pB-jN4" secondAttribute="centerX" id="yyj-ba-RDl"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMW-XN-mbK" userLabel="Monthly" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="99" width="382" height="72"/>
                     <subviews>
@@ -279,6 +220,65 @@
                         <action selector="nextTapped:" destination="-1" eventType="touchUpInside" id="MlT-7g-5Hp"/>
                     </connections>
                 </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7X-pB-jN4" userLabel="Error View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no-connection" translatesAutoresizingMaskIntoConstraints="NO" id="WAZ-W2-Y9W" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="127" y="212" width="160" height="160"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to contact App Store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohi-mH-WAm" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="62.5" y="396" width="289" height="26.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vs6-Bm-boB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="24" y="428.5" width="366" height="36"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4F-Bc-6Y8" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="746" width="382" height="56"/>
+                            <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="qzw-fC-Ghl"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <state key="normal" title="Try Again">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="disabled" title=" "/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="12"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="0ax-Xi-4h9"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="ytW-8d-YgK">
+                            <rect key="frame" x="197" y="764" width="20" height="20"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="xgM-BI-u0P"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="vs6-Bm-boB" firstAttribute="trailing" secondItem="xgM-BI-u0P" secondAttribute="trailing" constant="-24" id="5DB-p3-FNF"/>
+                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="leading" secondItem="xgM-BI-u0P" secondAttribute="leading" constant="16" id="ERm-1A-Ngt"/>
+                        <constraint firstItem="vs6-Bm-boB" firstAttribute="top" secondItem="ohi-mH-WAm" secondAttribute="bottom" constant="6" id="HO0-ad-k9x"/>
+                        <constraint firstItem="ytW-8d-YgK" firstAttribute="centerX" secondItem="z4F-Bc-6Y8" secondAttribute="centerX" id="I9k-9l-xwm"/>
+                        <constraint firstItem="vs6-Bm-boB" firstAttribute="leading" secondItem="xgM-BI-u0P" secondAttribute="leading" constant="24" id="Tsn-OA-wzp"/>
+                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="trailing" secondItem="xgM-BI-u0P" secondAttribute="trailing" constant="-16" id="Vjh-Gs-PK4"/>
+                        <constraint firstItem="ohi-mH-WAm" firstAttribute="centerX" secondItem="o7X-pB-jN4" secondAttribute="centerX" id="W2D-ch-xfO"/>
+                        <constraint firstItem="ohi-mH-WAm" firstAttribute="centerY" secondItem="o7X-pB-jN4" secondAttribute="centerY" id="XLQ-J4-f6W"/>
+                        <constraint firstItem="ohi-mH-WAm" firstAttribute="top" secondItem="WAZ-W2-Y9W" secondAttribute="bottom" constant="24" id="Zhh-Bc-E0g"/>
+                        <constraint firstItem="ytW-8d-YgK" firstAttribute="centerY" secondItem="z4F-Bc-6Y8" secondAttribute="centerY" id="c1O-Y4-qby"/>
+                        <constraint firstItem="z4F-Bc-6Y8" firstAttribute="bottom" secondItem="xgM-BI-u0P" secondAttribute="bottom" constant="-16" id="q6L-qM-f3l"/>
+                        <constraint firstItem="WAZ-W2-Y9W" firstAttribute="centerX" secondItem="o7X-pB-jN4" secondAttribute="centerX" id="yyj-ba-RDl"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
