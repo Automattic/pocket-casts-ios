@@ -37,8 +37,14 @@ class SelectPaymentFreqViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var monthlyTitleLabel: ThemeableLabel!
     @IBOutlet var monthlyPriceLabel: ThemeableLabel!
+    @IBOutlet weak var monthlyTrialLabel: ThemeableLabel!
+
+    @IBOutlet weak var yearlyTitleLabel: ThemeableLabel!
     @IBOutlet var yearlyPriceLabel: ThemeableLabel!
+    @IBOutlet weak var yearlyTrialLabel: ThemeableLabel!
+
     @IBOutlet var yearlyButton: UIButton! {
         didSet {
             yearlyButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
@@ -50,6 +56,12 @@ class SelectPaymentFreqViewController: UIViewController {
     @IBOutlet var discountLabel: ThemeableLabel! {
         didSet {
             discountLabel.style = .primaryField03Active
+        }
+    }
+
+    @IBOutlet weak var yearlyDiscountLabel: ThemeableLabel! {
+        didSet {
+            yearlyDiscountLabel.style = .primaryField03Active
         }
     }
     
