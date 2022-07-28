@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class HomeGridDataHelper {
     class func gridListItemsForSearchTerm(_ searchTerm: String) -> [HomeGridItem] {
@@ -129,47 +130,45 @@ class HomeGridDataHelper {
     
     private class func titleSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
         guard let title1 = item1.podcast?.title ?? item1.folder?.name, let title2 = item2.podcast?.title ?? item2.folder?.name else { return false }
-        
-        var convertedTitle1 = title1
-        var convertedTitle2 = title2
-        if let range = convertedTitle1.range(of: "^the ", options: [.regularExpression, .caseInsensitive]) {
-            convertedTitle1 = String(convertedTitle1[range.upperBound...])
-        }
-        if let range = convertedTitle2.range(of: "^the ", options: [.regularExpression, .caseInsensitive]) {
-            convertedTitle2 = String(convertedTitle2[range.upperBound...])
-        }
 
-        return convertedTitle1.localizedCaseInsensitiveCompare(convertedTitle2) == .orderedAscending
+        return PodcastSorter.titleSort(title1: title1, title2: title2)
     }
     
     private class func customSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
         let order1 = item1.podcast?.sortOrder ?? item1.folder?.sortOrder ?? 0
         let order2 = item2.podcast?.sortOrder ?? item2.folder?.sortOrder ?? 0
-        
-        return order2 > order1
+
+        return PodcastSorter.customSort(order1: order1, order2: order2)
     }
     
     private class func dateAddedSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
         guard let date1 = item1.podcast?.addedDate ?? item1.folder?.addedDate, let date2 = item2.podcast?.addedDate ?? item2.folder?.addedDate else { return false }
-        
-        return date1.compare(date2) == .orderedAscending
+
+        return PodcastSorter.dateAddedSort(date1: date1, date2: date2)
     }
     
     // this function relies on sortedPodcasts already being in latest episode sort order, and then uses that to also figure out where a folder should be based on it's top sorted podcast
-    private class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
+    class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
         let index1 = indexOfItemInSortedList(item: item1, sortedPodcasts: sortedPodcasts)
         let index2 = indexOfItemInSortedList(item: item2, sortedPodcasts: sortedPodcasts)
-        
-        return index1 < index2
+
+        // Sort empty folders by the title, to keep consistency with the web player
+        if let folder1 = item1.folder, let folder2 = item2.folder, index1 == nil, index2 == nil {
+            return PodcastSorter.titleSort(title1: folder1.name, title2: folder2.name)
+        }
+        else {
+            return index1 ?? Int.max < index2 ?? Int.max
+        }
     }
-    
-    private class func indexOfItemInSortedList(item: HomeGridItem, sortedPodcasts: [Podcast]) -> Int {
+
+    // In the case of a `nil` value, this mean an empty folder
+    private class func indexOfItemInSortedList(item: HomeGridItem, sortedPodcasts: [Podcast]) -> Int? {
         if let podcast = item.podcast {
             return sortedPodcasts.firstIndex(of: podcast) ?? 0
         }
-        
+
         guard let folderUuid = item.folder?.uuid else { return 0 }
-        
-        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid } ?? 0
+
+        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid }
     }
 }
