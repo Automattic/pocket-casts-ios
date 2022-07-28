@@ -2,6 +2,7 @@
 
 #### 882
 - Match the Android / Web client sort order for folders that start with emoji (#63)
+- Sort empty folders to the end of the list when sorting by Episode Release Date (#70)
 
 #### 881
 - Make the delete folder button to fill the whole row (#79)
