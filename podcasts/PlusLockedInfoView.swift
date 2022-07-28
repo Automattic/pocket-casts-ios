@@ -8,7 +8,7 @@ protocol PlusLockedInfoDelegate: AnyObject {
 
 class PlusLockedInfoView: ThemeableView {
     weak var delegate: PlusLockedInfoDelegate? {
-        didSet{
+        didSet {
             setInfoLabelText()
         }
     }
