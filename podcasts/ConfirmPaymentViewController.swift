@@ -52,6 +52,7 @@ class ConfirmPaymentViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var trialDetailLabel: ThemeableLabel!
     @IBOutlet var tryAgainView: ThemeableView!
     var newSubscription: NewSubscription
     
@@ -77,9 +78,9 @@ class ConfirmPaymentViewController: UIViewController {
             emailLabel.text = email
         }
         
-        let paymentFreq = IapHelper.shared.getPaymentFrequencyForIdentifier(identifier: newSubscription.iap_identifier)
-        priceLabel.text = "\(IapHelper.shared.getPriceForIdentifier(identifier: newSubscription.iap_identifier))" + " / " + "\(paymentFreq)"
-        renewLabel.text = Constants.IapProducts(rawValue: newSubscription.iap_identifier)?.renewalPrompt
+        updatePricingLabels()
+        updateBuyButton()
+
         activityIndicator.isHidden = true
         activityIndicator.hidesWhenStopped = true
         
@@ -175,6 +176,7 @@ class ConfirmPaymentViewController: UIViewController {
         tryAgainView.isHidden = false
         title = ""
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
@@ -220,5 +222,38 @@ private extension ConfirmPaymentViewController {
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
+    }
+}
+
+// MARK: - Free Trial
+private extension ConfirmPaymentViewController {
+    func updatePricingLabels() {
+        guard
+            let product = Constants.IapProducts(rawValue: newSubscription.iap_identifier),
+            let pricing = IapHelper.shared.pricingStringWithFrequency(for: product)
+        else {
+            return
+        }
+
+        renewLabel.text = product.renewalPrompt
+
+        guard let trialDuration = IapHelper.shared.localizedFreeTrialDuration(product) else {
+            priceLabel.text = pricing
+            trialDetailLabel.isHidden = true
+            return
+        }
+
+        priceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
+        trialDetailLabel.text = L10n.pricingTermsAfterTrial(pricing)
+
+    }
+
+    func updateBuyButton() {
+        guard IapHelper.shared.getFirstFreeTrialProduct() != nil else {
+            buyButton.setTitle(L10n.confirm, for: .normal)
+            return
+        }
+
+        buyButton.setTitle(L10n.freeTrialStartButton, for: .normal)
     }
 }
