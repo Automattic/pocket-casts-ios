@@ -113,7 +113,11 @@ class SelectPaymentFreqViewController: UIViewController {
         isYearly = true
         
         title = L10n.plusSelectPaymentFrequency
-        
+
+        monthlyTitleLabel.text = L10n.monthly
+        yearlyTitleLabel.text = L10n.yearly
+        nextButton.setTitle(L10n.next, for: .normal)
+
         let backButton = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped(_:)))
         backButton.accessibilityLabel = L10n.back
         navigationItem.leftBarButtonItem = backButton
