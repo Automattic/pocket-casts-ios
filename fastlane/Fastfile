@@ -314,7 +314,7 @@ platform :ios do
 
     next unless options[:create_release]
 
-    archive_zip_path = File.join(File.dirname(Dir.pwd), 'PocketCasts.xarchive.zip')
+    archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
     zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     version = ios_get_app_version
