@@ -68,11 +68,9 @@ class ConfirmPaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountCreationComplete
-        
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
-        navigationItem.leftBarButtonItem = closeButton
-        
+
+        updateBackItem()
+
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         if let email = ServerSettings.syncingEmail() {
@@ -108,6 +106,10 @@ class ConfirmPaymentViewController: UIViewController {
         }
     }
     
+    @IBAction func backTapped(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -181,9 +183,10 @@ class ConfirmPaymentViewController: UIViewController {
     @objc func iapPurchaseCancelled() {
         activityIndicator.stopAnimating()
         buyButton.titleLabel?.isHidden = false
-        buyButton.setTitle(L10n.confirm, for: .normal)
         buyButton.isEnabled = true
         cancelledLabel.isHidden = false
+
+        updateBuyButton()
     }
     
     // MARK: - Orientation
@@ -194,5 +197,28 @@ class ConfirmPaymentViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+}
+
+// MARK: - UI Helpers
+private extension ConfirmPaymentViewController {
+    func updateBackItem() {
+        var controllers = navigationController?.viewControllers ?? []
+        controllers.removeLast()
+
+        // Show the close button if we're coming from the create account view
+        guard let lastController = controllers.last, lastController is NewEmailViewController else {
+            // Show a back button if we're coming from somewhere else
+            let backButton = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped(_:)))
+            backButton.accessibilityLabel = L10n.back
+            navigationItem.leftBarButtonItem = backButton
+
+            return
+        }
+
+        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.tintColor = ThemeColor.primaryIcon01()
+        navigationItem.leftBarButtonItem = closeButton
     }
 }
