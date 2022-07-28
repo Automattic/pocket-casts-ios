@@ -7,13 +7,13 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
     
-    private let productIdentifiers = Set([Constants.IapProducts.monthly.rawValue, Constants.IapProducts.yearly.rawValue])
+    private let productIdentifiers: [Constants.IapProducts] = [.monthly, .yearly]
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
     
     func requestProductInfo() {
-        let request = SKProductsRequest(productIdentifiers: productIdentifiers)
+        let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
     }
@@ -94,6 +94,24 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 }
 
+// MARK: - Pricing String Helpers
+
+extension IapHelper {
+    /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
+    /// - Parameter product: The product to get the pricing string for
+    /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
+    func pricingStringWithFrequency(for product: Constants.IapProducts) -> String? {
+        let pricing = getPriceForIdentifier(identifier: product.rawValue)
+        let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
+
+        guard !pricing.isEmpty, !frequency.isEmpty else {
+            return nil
+        }
+
+        return "\(pricing) / \(frequency)"
+    }
+}
+
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
@@ -106,6 +124,19 @@ extension IapHelper {
         }
 
         return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    /// Returns the localized trial duration for any product with a free trial
+    /// - Returns: Returns the formatted duration, or nil if there is no free trial
+    func localizedFreeTrialDurationForAnyProduct() -> String? {
+        return productIdentifiers.compactMap { localizedFreeTrialDuration($0) }.first
+    }
+
+    /// Returns the first product with a free trial
+    /// The priority order is set by the productIdentifiers array
+    /// - Returns: The product enum with a free trial or nil if there is no free trial
+    func getFirstFreeTrialProduct() -> Constants.IapProducts? {
+        return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
     }
 
     private func isEligibleForFreeTrial() -> Bool {
@@ -135,7 +166,7 @@ extension IapHelper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
-        let lowercasedProductIdentifiers = productIdentifiers.map { $0.lowercased() }
+        let lowercasedProductIdentifiers = productIdentifiers.map { $0.rawValue.lowercased() }
         
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
