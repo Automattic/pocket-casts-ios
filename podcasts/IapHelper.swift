@@ -7,13 +7,10 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
     
-    let productIdentifiers = Set([Constants.IapProducts.monthly.rawValue, Constants.IapProducts.yearly.rawValue])
-    
-    var product: SKProduct?
-    var productsArray = [SKProduct]()
-    var requestedPurchase: String!
-    
-    fileprivate var productsRequest: SKProductsRequest?
+    private let productIdentifiers = Set([Constants.IapProducts.monthly.rawValue, Constants.IapProducts.yearly.rawValue])
+    private var productsArray = [SKProduct]()
+    private var requestedPurchase: String!
+    private var productsRequest: SKProductsRequest?
     
     func requestProductInfo() {
         let request = SKProductsRequest(productIdentifiers: productIdentifiers)
@@ -97,6 +94,43 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 }
 
+// MARK: - Intro Offers: Free Trials
+
+extension IapHelper {
+    /// Returns the localized trial duration if there is one
+    /// - Parameter identifier: The product to check
+    /// - Returns: A formatted string (1 week) or nil if there is no offer available
+    func localizedFreeTrialDuration(_ identifier: Constants.IapProducts) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    private func isEligibleForFreeTrial() -> Bool {
+        #warning("TODO: Update isEligibleForIntroOffer with a real check")
+        return true
+    }
+
+    /// Checks if there is a free trial introductory offer for the given product
+    /// - Parameter identifier: The product to check
+    /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
+    private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
+        guard
+            isEligibleForFreeTrial(),
+            let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
+            offer.paymentMode == .freeTrial
+        else {
+            return nil
+        }
+
+        return offer
+    }
+}
+
+// MARK: - SKPaymentTransactionObserver
+
 extension IapHelper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
@@ -157,5 +191,29 @@ extension IapHelper: SKPaymentTransactionObserver {
             })
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCompleted)
         }
+    }
+}
+
+// MARK: - SKProductSubscriptionPeriod Helper Extension
+
+private extension SKProductSubscriptionPeriod {
+    /// Converts the period into a localized readable format, ie: 3 days, 1 month, 1 year, etc.
+    /// - Returns: Localized formatted version of the subscription period
+    func localizedPeriodString() -> String? {
+        let calendarUnit: NSCalendar.Unit
+        switch unit {
+        case .day:
+            calendarUnit = .day
+        case .week:
+            calendarUnit = .weekOfMonth
+        case .month:
+            calendarUnit = .month
+        case .year:
+            calendarUnit = .year
+        @unknown default:
+            return nil
+        }
+
+        return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
     }
 }
