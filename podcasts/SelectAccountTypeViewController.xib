@@ -39,6 +39,68 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7s-2e-XCg" userLabel="Error View Overlay" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iiu-V9-nSM" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="127" y="212" width="160" height="160"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="160" id="6or-BL-Eal"/>
+                                <constraint firstAttribute="width" constant="160" id="ciR-IG-nXx"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to contact App Store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jz-Wm-DxZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="62.5" y="396" width="289" height="26.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hu-UL-8Vg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="24" y="428.5" width="366" height="36"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRU-cD-7g1" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="746" width="382" height="56"/>
+                            <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="EXX-lC-2q1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <state key="normal" title="Try Again">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="12"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="bKR-cb-cbT"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="rcF-Tz-MCf">
+                            <rect key="frame" x="197" y="764" width="20" height="20"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="L5U-KW-99M"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Iiu-V9-nSM" firstAttribute="centerX" secondItem="h7s-2e-XCg" secondAttribute="centerX" id="AP3-zw-fdf"/>
+                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="trailing" secondItem="L5U-KW-99M" secondAttribute="trailing" constant="-24" id="AYS-hv-Ptc"/>
+                        <constraint firstItem="dRU-cD-7g1" firstAttribute="trailing" secondItem="L5U-KW-99M" secondAttribute="trailing" constant="-16" id="BRQ-n3-X73"/>
+                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="centerY" secondItem="h7s-2e-XCg" secondAttribute="centerY" id="KTF-cA-FWs"/>
+                        <constraint firstItem="rcF-Tz-MCf" firstAttribute="centerY" secondItem="dRU-cD-7g1" secondAttribute="centerY" id="Nai-LZ-4Wk"/>
+                        <constraint firstItem="dRU-cD-7g1" firstAttribute="leading" secondItem="L5U-KW-99M" secondAttribute="leading" constant="16" id="QoH-tu-cdg"/>
+                        <constraint firstItem="dRU-cD-7g1" firstAttribute="bottom" secondItem="L5U-KW-99M" secondAttribute="bottom" constant="-16" id="Uan-G4-ZXV"/>
+                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="top" secondItem="Iiu-V9-nSM" secondAttribute="bottom" constant="24" id="WtT-Jf-TfY"/>
+                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="leading" secondItem="L5U-KW-99M" secondAttribute="leading" constant="24" id="bb7-UY-A67"/>
+                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="top" secondItem="5jz-Wm-DxZ" secondAttribute="bottom" constant="6" id="g3q-Lr-J0Q"/>
+                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="centerX" secondItem="h7s-2e-XCg" secondAttribute="centerX" id="i0S-L9-Zpj"/>
+                        <constraint firstItem="rcF-Tz-MCf" firstAttribute="centerX" secondItem="dRU-cD-7g1" secondAttribute="centerX" id="mG3-k8-HKo"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eLP-1e-ko2" userLabel="Free Account" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="99" width="382" height="72"/>
                     <subviews>
@@ -168,23 +230,23 @@
                         <bool key="isElement" value="YES"/>
                     </accessibility>
                     <constraints>
+                        <constraint firstItem="6U5-s5-pBE" firstAttribute="top" secondItem="NfE-tS-Ax8" secondAttribute="bottom" constant="25" id="6q0-vH-4ji"/>
                         <constraint firstAttribute="height" constant="370" id="6tW-UY-u1W"/>
+                        <constraint firstItem="X8K-LY-9ch" firstAttribute="leading" secondItem="svm-dD-tiR" secondAttribute="trailing" constant="18" id="9th-6e-6sd"/>
                         <constraint firstItem="1bJ-mq-eiQ" firstAttribute="top" secondItem="E77-8q-qNU" secondAttribute="bottom" constant="18" id="AVM-Rs-oiW"/>
                         <constraint firstAttribute="trailing" secondItem="JfQ-6u-x5G" secondAttribute="trailing" constant="24" id="AlO-Tk-P5X"/>
                         <constraint firstItem="LTu-vK-q2S" firstAttribute="top" secondItem="1bJ-mq-eiQ" secondAttribute="bottom" constant="17.390000000000001" id="Az9-eQ-1Kx"/>
                         <constraint firstItem="1bJ-mq-eiQ" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="Bap-iK-bSW"/>
-                        <constraint firstItem="NfE-tS-Ax8" firstAttribute="bottom" secondItem="6U5-s5-pBE" secondAttribute="top" constant="-25" id="Iqx-x1-jwm"/>
                         <constraint firstItem="svm-dD-tiR" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="31" id="NGv-Eq-xle"/>
                         <constraint firstAttribute="trailing" secondItem="E77-8q-qNU" secondAttribute="trailing" constant="20" id="NYf-Ur-5Pr"/>
                         <constraint firstItem="LTu-vK-q2S" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="OA7-DN-7sO"/>
                         <constraint firstItem="E77-8q-qNU" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="20" id="PFw-TZ-VDc"/>
                         <constraint firstItem="NfE-tS-Ax8" firstAttribute="leading" secondItem="X8K-LY-9ch" secondAttribute="leading" id="PfC-aS-Vop"/>
                         <constraint firstItem="JfQ-6u-x5G" firstAttribute="trailing" secondItem="gfB-0W-5rF" secondAttribute="trailing" id="SRX-Yw-ahW"/>
+                        <constraint firstItem="gfB-0W-5rF" firstAttribute="top" secondItem="JfQ-6u-x5G" secondAttribute="bottom" constant="2" id="ZyR-Ii-Q9B"/>
                         <constraint firstItem="svm-dD-tiR" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="18" id="aQX-eQ-dVS"/>
                         <constraint firstAttribute="bottom" secondItem="LTu-vK-q2S" secondAttribute="bottom" constant="16" id="bVf-z0-xwv"/>
                         <constraint firstItem="NfE-tS-Ax8" firstAttribute="top" secondItem="X8K-LY-9ch" secondAttribute="bottom" constant="2" id="eLI-m9-aal"/>
-                        <constraint firstItem="svm-dD-tiR" firstAttribute="trailing" secondItem="X8K-LY-9ch" secondAttribute="leading" constant="-18" id="fHQ-mj-ibu"/>
-                        <constraint firstItem="JfQ-6u-x5G" firstAttribute="bottom" secondItem="gfB-0W-5rF" secondAttribute="top" constant="-2" id="iF2-ck-e26"/>
                         <constraint firstItem="X8K-LY-9ch" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="24" id="iOu-81-x5T"/>
                         <constraint firstItem="6U5-s5-pBE" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="lgZ-49-NOO"/>
                         <constraint firstItem="JfQ-6u-x5G" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="24" id="oma-u8-mqK"/>
@@ -210,68 +272,6 @@
                         <action selector="nextTapped:" destination="-1" eventType="touchUpInside" id="5c4-vT-cbv"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7s-2e-XCg" userLabel="Error View Overlay" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                    <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iiu-V9-nSM" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="127" y="212" width="160" height="160"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="160" id="6or-BL-Eal"/>
-                                <constraint firstAttribute="width" constant="160" id="ciR-IG-nXx"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to contact App Store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jz-Wm-DxZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="62.5" y="396" width="289" height="26.5"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hu-UL-8Vg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="24" y="428.5" width="366" height="36"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRU-cD-7g1" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="746" width="382" height="56"/>
-                            <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="56" id="EXX-lC-2q1"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <state key="normal" title="Try Again">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="12"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="bKR-cb-cbT"/>
-                            </connections>
-                        </button>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="rcF-Tz-MCf">
-                            <rect key="frame" x="197" y="764" width="20" height="20"/>
-                        </activityIndicatorView>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="L5U-KW-99M"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="Iiu-V9-nSM" firstAttribute="centerX" secondItem="h7s-2e-XCg" secondAttribute="centerX" id="AP3-zw-fdf"/>
-                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="trailing" secondItem="L5U-KW-99M" secondAttribute="trailing" constant="-24" id="AYS-hv-Ptc"/>
-                        <constraint firstItem="dRU-cD-7g1" firstAttribute="trailing" secondItem="L5U-KW-99M" secondAttribute="trailing" constant="-16" id="BRQ-n3-X73"/>
-                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="centerY" secondItem="h7s-2e-XCg" secondAttribute="centerY" id="KTF-cA-FWs"/>
-                        <constraint firstItem="rcF-Tz-MCf" firstAttribute="centerY" secondItem="dRU-cD-7g1" secondAttribute="centerY" id="Nai-LZ-4Wk"/>
-                        <constraint firstItem="dRU-cD-7g1" firstAttribute="leading" secondItem="L5U-KW-99M" secondAttribute="leading" constant="16" id="QoH-tu-cdg"/>
-                        <constraint firstItem="dRU-cD-7g1" firstAttribute="bottom" secondItem="L5U-KW-99M" secondAttribute="bottom" constant="-16" id="Uan-G4-ZXV"/>
-                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="top" secondItem="Iiu-V9-nSM" secondAttribute="bottom" constant="24" id="WtT-Jf-TfY"/>
-                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="leading" secondItem="L5U-KW-99M" secondAttribute="leading" constant="24" id="bb7-UY-A67"/>
-                        <constraint firstItem="8Hu-UL-8Vg" firstAttribute="top" secondItem="5jz-Wm-DxZ" secondAttribute="bottom" constant="6" id="g3q-Lr-J0Q"/>
-                        <constraint firstItem="5jz-Wm-DxZ" firstAttribute="centerX" secondItem="h7s-2e-XCg" secondAttribute="centerX" id="i0S-L9-Zpj"/>
-                        <constraint firstItem="rcF-Tz-MCf" firstAttribute="centerX" secondItem="dRU-cD-7g1" secondAttribute="centerX" id="mG3-k8-HKo"/>
-                    </constraints>
-                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
