@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 
 class SelectAccountTypeViewController: UIViewController {
-    @IBOutlet weak var plusNameLabel: ThemeableLabel!
+    @IBOutlet var plusNameLabel: ThemeableLabel!
 
     @IBOutlet var freeBorderView: ThemeableSelectionView! {
         didSet {
@@ -229,6 +229,7 @@ class SelectAccountTypeViewController: UIViewController {
 }
 
 // MARK: - Free Trials
+
 private extension SelectAccountTypeViewController {
     private func configureLabels() {
         let iapHelper = IapHelper.shared
