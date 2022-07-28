@@ -3,6 +3,8 @@ import PocketCastsUtils
 import UIKit
 
 class SelectAccountTypeViewController: UIViewController {
+    @IBOutlet weak var plusNameLabel: ThemeableLabel!
+
     @IBOutlet var freeBorderView: ThemeableSelectionView! {
         didSet {
             freeBorderView.isSelected = true

@@ -24,8 +24,9 @@
                 <outlet property="plusBorderView" destination="tpb-mP-vsO" id="bSG-NK-O9g"/>
                 <outlet property="plusFeatureView" destination="6U5-s5-pBE" id="c1D-qv-vHW"/>
                 <outlet property="plusLogoImageView" destination="1bJ-mq-eiQ" id="ZcM-gQ-AOr"/>
-                <outlet property="plusPaymentFreqLabel" destination="gfB-0W-5rF" id="du4-4K-R2m"/>
-                <outlet property="plusPriceLabel" destination="JfQ-6u-x5G" id="upe-YX-QuJ"/>
+                <outlet property="plusNameLabel" destination="X8K-LY-9ch" id="VqS-P2-xDY"/>
+                <outlet property="plusPaymentFreqLabel" destination="dlP-kJ-i9W" id="zrq-Yw-x7Z"/>
+                <outlet property="plusPriceLabel" destination="g1m-qH-UBw" id="Vt6-9o-Nt8"/>
                 <outlet property="plusRadioButton" destination="svm-dD-tiR" id="W6V-Ue-QZB"/>
                 <outlet property="regularLabel" destination="1Fg-vd-rzu" id="udn-DT-x5D"/>
                 <outlet property="seperatorView" destination="E77-8q-qNU" id="v63-Xv-sp9"/>
@@ -101,159 +102,172 @@
                         <constraint firstItem="rcF-Tz-MCf" firstAttribute="centerX" secondItem="dRU-cD-7g1" secondAttribute="centerX" id="mG3-k8-HKo"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eLP-1e-ko2" userLabel="Free Account" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="16" y="99" width="382" height="72"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="d0x-VZ-kH9">
+                    <rect key="frame" x="16" y="99" width="382" height="444.5"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLd-GS-jSi" userLabel="Radio Button">
-                            <rect key="frame" x="20" y="24" width="24" height="24"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eLP-1e-ko2" userLabel="Free Account" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="72"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLd-GS-jSi" userLabel="Radio Button">
+                                    <rect key="frame" x="20" y="24" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="Tgj-ac-daK"/>
+                                        <constraint firstAttribute="width" constant="24" id="aOV-H9-mJO"/>
+                                    </constraints>
+                                    <state key="normal" image="radio-unselected"/>
+                                    <state key="selected" image="radio-selected"/>
+                                    <connections>
+                                        <action selector="freeTapped:" destination="-1" eventType="touchUpInside" id="x0G-iF-H8g"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FREE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e61-Fm-lYI" userLabel="Pricing Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="328" y="26.5" width="39" height="19.5"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ASw-Od-jZW">
+                                    <rect key="frame" x="54" y="25.5" width="102.5" height="21.5"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fg-vd-rzu" userLabel="Name Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="102.5" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Almost everything" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLZ-5W-f28" userLabel="Subtitle label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="102.5" height="0.0"/>
+                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                                            <color key="textColor" red="0.72156862745098038" green="0.76470588235294112" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <accessibility key="accessibilityConfiguration" label="Regular account, free">
+                                <accessibilityTraits key="traits" button="YES"/>
+                                <bool key="isElement" value="YES"/>
+                            </accessibility>
                             <constraints>
-                                <constraint firstAttribute="height" constant="24" id="Tgj-ac-daK"/>
-                                <constraint firstAttribute="width" constant="24" id="aOV-H9-mJO"/>
-                            </constraints>
-                            <state key="normal" image="radio-unselected"/>
-                            <state key="selected" image="radio-selected"/>
-                            <connections>
-                                <action selector="freeTapped:" destination="-1" eventType="touchUpInside" id="x0G-iF-H8g"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FREE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e61-Fm-lYI" userLabel="Pricing Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="315" y="25.5" width="43" height="21.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fg-vd-rzu" userLabel="Name Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="59" y="16" width="64.5" height="21.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Almost everything" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLZ-5W-f28" userLabel="Subtitle label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="59" y="39.5" width="102.5" height="14.5"/>
-                            <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
-                            <color key="textColor" red="0.72156862745098038" green="0.76470588235294112" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <accessibility key="accessibilityConfiguration" label="Regular account, free">
-                        <accessibilityTraits key="traits" button="YES"/>
-                        <bool key="isElement" value="YES"/>
-                    </accessibility>
-                    <constraints>
-                        <constraint firstItem="QLZ-5W-f28" firstAttribute="leading" secondItem="1Fg-vd-rzu" secondAttribute="leading" id="52Y-ad-COd"/>
-                        <constraint firstAttribute="trailing" secondItem="e61-Fm-lYI" secondAttribute="trailing" constant="24" id="ICA-Sd-e5b"/>
-                        <constraint firstItem="QLd-GS-jSi" firstAttribute="centerY" secondItem="eLP-1e-ko2" secondAttribute="centerY" id="cwi-D0-OBk"/>
-                        <constraint firstItem="QLd-GS-jSi" firstAttribute="leading" secondItem="eLP-1e-ko2" secondAttribute="leading" constant="20" id="lcW-q0-Jms"/>
-                        <constraint firstItem="QLZ-5W-f28" firstAttribute="top" secondItem="1Fg-vd-rzu" secondAttribute="bottom" constant="2" id="mzk-Gd-ZED"/>
-                        <constraint firstItem="1Fg-vd-rzu" firstAttribute="top" secondItem="eLP-1e-ko2" secondAttribute="top" constant="16" id="nck-au-3ZV"/>
-                        <constraint firstAttribute="height" constant="72" id="p7Q-yO-ghg"/>
-                        <constraint firstItem="1Fg-vd-rzu" firstAttribute="leading" secondItem="QLd-GS-jSi" secondAttribute="trailing" constant="15" id="y3d-TV-qMm"/>
-                        <constraint firstItem="e61-Fm-lYI" firstAttribute="centerY" secondItem="eLP-1e-ko2" secondAttribute="centerY" id="zUT-0D-tuY"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-mP-vsO" userLabel="Plus Account" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="16" y="187" width="382" height="350"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svm-dD-tiR" userLabel="Radio Button">
-                            <rect key="frame" x="18" y="31" width="24" height="24"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="24" id="Rh9-FO-Ci9"/>
-                                <constraint firstAttribute="width" constant="24" id="pCz-4l-BDY"/>
-                            </constraints>
-                            <state key="normal" title="Button" image="radio-unselected"/>
-                            <state key="selected" image="radio-selected"/>
-                            <connections>
-                                <action selector="plusTapped:" destination="-1" eventType="touchUpInside" id="IcX-dl-06h"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts Plus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8K-LY-9ch" userLabel="Name Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="57" y="24" width="150.5" height="21.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Everything unlocked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NfE-tS-Ax8" userLabel="Subtitle Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="57" y="47.5" width="115" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JfQ-6u-x5G" userLabel="Pricing Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="338" y="24" width="20" height="21.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="per month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfB-0W-5rF" userLabel="Price Frequency Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="297" y="47.5" width="61" height="14.5"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                            <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6U5-s5-pBE" customClass="PlusFeaturesView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="57" y="72" width="250" height="144"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="144" id="agd-wb-DpY"/>
-                                <constraint firstAttribute="width" constant="250" id="zq0-PP-WkY"/>
+                                <constraint firstItem="ASw-Od-jZW" firstAttribute="leading" secondItem="QLd-GS-jSi" secondAttribute="trailing" constant="10" id="Fld-aA-5b1"/>
+                                <constraint firstAttribute="trailing" secondItem="e61-Fm-lYI" secondAttribute="trailing" constant="15" id="ICA-Sd-e5b"/>
+                                <constraint firstItem="QLd-GS-jSi" firstAttribute="centerY" secondItem="ASw-Od-jZW" secondAttribute="centerY" id="cwi-D0-OBk"/>
+                                <constraint firstItem="QLd-GS-jSi" firstAttribute="leading" secondItem="eLP-1e-ko2" secondAttribute="leading" constant="20" id="lcW-q0-Jms"/>
+                                <constraint firstItem="ASw-Od-jZW" firstAttribute="centerY" secondItem="eLP-1e-ko2" secondAttribute="centerY" id="n4g-Xo-LWu"/>
+                                <constraint firstAttribute="height" constant="72" id="p7Q-yO-ghg"/>
+                                <constraint firstItem="e61-Fm-lYI" firstAttribute="centerY" secondItem="eLP-1e-ko2" secondAttribute="centerY" id="zUT-0D-tuY"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E77-8q-qNU" userLabel="Separator View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="20" y="234" width="342" height="1"/>
-                            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-mP-vsO" userLabel="Plus Account" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="88" width="382" height="356.5"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svm-dD-tiR" userLabel="Radio Button">
+                                    <rect key="frame" x="18" y="31" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="Rh9-FO-Ci9"/>
+                                        <constraint firstAttribute="width" constant="24" id="pCz-4l-BDY"/>
+                                    </constraints>
+                                    <state key="normal" title="Button" image="radio-unselected"/>
+                                    <state key="selected" image="radio-selected"/>
+                                    <connections>
+                                        <action selector="plusTapped:" destination="-1" eventType="touchUpInside" id="IcX-dl-06h"/>
+                                    </connections>
+                                </button>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="1Ce-tI-uJ9" userLabel="Plus Name Stackview">
+                                    <rect key="frame" x="52" y="24" width="120.5" height="38"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8K-LY-9ch" userLabel="Name Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="120.5" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Everything unlocked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NfE-tS-Ax8" userLabel="Subtitle Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="23.5" width="120.5" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                            <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="bottom" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Z2R-dz-h7S" userLabel="Pricing Stack View">
+                                    <rect key="frame" x="306" y="24" width="61" height="38"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1m-qH-UBw" userLabel="Pricing Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="11" y="0.0" width="50" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="per month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlP-kJ-i9W" userLabel="Price Frequency Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="23.5" width="61" height="14.5"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                            <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6U5-s5-pBE" customClass="PlusFeaturesView" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="23" y="82" width="250" height="144"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="144" id="agd-wb-DpY"/>
+                                        <constraint firstAttribute="width" constant="250" id="zq0-PP-WkY"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E77-8q-qNU" userLabel="Separator View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="20" y="244" width="342" height="1"/>
+                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="5GB-Zm-G0y"/>
+                                    </constraints>
+                                </view>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1bJ-mq-eiQ" userLabel="Vertical Plus Logo" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="69" y="263" width="244" height="37"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="37" id="3I9-Op-MhE"/>
+                                        <constraint firstAttribute="width" constant="244" id="QZk-zN-PlG"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LTu-vK-q2S" userLabel="Learn More Button">
+                                    <rect key="frame" x="63" y="310" width="256" height="30.5"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                    <state key="normal" title="Find out more about Pocket Casts Plus">
+                                        <color key="titleColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="learnMoreTapped:" destination="-1" eventType="touchUpInside" id="3Of-nR-D9z"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <accessibility key="accessibilityConfiguration" hint="Access to the web player and cloud storage for your own custom files" label="Pocket Casts Plus">
+                                <accessibilityTraits key="traits" button="YES"/>
+                                <bool key="isElement" value="YES"/>
+                            </accessibility>
                             <constraints>
-                                <constraint firstAttribute="height" constant="1" id="5GB-Zm-G0y"/>
+                                <constraint firstItem="1bJ-mq-eiQ" firstAttribute="top" secondItem="E77-8q-qNU" secondAttribute="bottom" constant="18" id="AVM-Rs-oiW"/>
+                                <constraint firstItem="LTu-vK-q2S" firstAttribute="top" secondItem="1bJ-mq-eiQ" secondAttribute="bottom" constant="10" id="Az9-eQ-1Kx"/>
+                                <constraint firstItem="1bJ-mq-eiQ" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="Bap-iK-bSW"/>
+                                <constraint firstAttribute="trailing" secondItem="Z2R-dz-h7S" secondAttribute="trailing" constant="15" id="GML-DG-Yhk"/>
+                                <constraint firstAttribute="trailing" secondItem="E77-8q-qNU" secondAttribute="trailing" constant="20" id="NYf-Ur-5Pr"/>
+                                <constraint firstItem="LTu-vK-q2S" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="OA7-DN-7sO"/>
+                                <constraint firstItem="6U5-s5-pBE" firstAttribute="top" secondItem="1Ce-tI-uJ9" secondAttribute="bottom" constant="20" id="OMt-wH-3Ur"/>
+                                <constraint firstItem="E77-8q-qNU" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="20" id="PFw-TZ-VDc"/>
+                                <constraint firstItem="6U5-s5-pBE" firstAttribute="leading" secondItem="1Ce-tI-uJ9" secondAttribute="leading" constant="-29" id="R0G-Yz-7N7"/>
+                                <constraint firstItem="1Ce-tI-uJ9" firstAttribute="leading" secondItem="svm-dD-tiR" secondAttribute="trailing" constant="10" id="U7z-tO-nvf"/>
+                                <constraint firstItem="svm-dD-tiR" firstAttribute="centerY" secondItem="1Ce-tI-uJ9" secondAttribute="centerY" id="UPK-u6-XaZ"/>
+                                <constraint firstItem="E77-8q-qNU" firstAttribute="top" secondItem="6U5-s5-pBE" secondAttribute="bottom" constant="18" id="Yed-1F-VeT"/>
+                                <constraint firstItem="svm-dD-tiR" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="18" id="aQX-eQ-dVS"/>
+                                <constraint firstAttribute="bottom" secondItem="LTu-vK-q2S" secondAttribute="bottom" constant="16" id="bVf-z0-xwv"/>
+                                <constraint firstItem="Z2R-dz-h7S" firstAttribute="centerY" secondItem="1Ce-tI-uJ9" secondAttribute="centerY" id="ttE-Sf-JcC"/>
+                                <constraint firstItem="1Ce-tI-uJ9" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="24" id="u9R-pA-gDj"/>
                             </constraints>
                         </view>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1bJ-mq-eiQ" userLabel="Vertical Plus Logo" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="69" y="253" width="244" height="37"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="37" id="3I9-Op-MhE"/>
-                                <constraint firstAttribute="width" constant="244" id="QZk-zN-PlG"/>
-                            </constraints>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LTu-vK-q2S" userLabel="Learn More Button">
-                            <rect key="frame" x="63" y="300" width="256" height="34"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                            <state key="normal" title="Find out more about Pocket Casts Plus">
-                                <color key="titleColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                            <connections>
-                                <action selector="learnMoreTapped:" destination="-1" eventType="touchUpInside" id="3Of-nR-D9z"/>
-                            </connections>
-                        </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <accessibility key="accessibilityConfiguration" hint="Access to the web player and cloud storage for your own custom files" label="Pocket Casts Plus">
-                        <accessibilityTraits key="traits" button="YES"/>
-                        <bool key="isElement" value="YES"/>
-                    </accessibility>
-                    <constraints>
-                        <constraint firstItem="6U5-s5-pBE" firstAttribute="leading" secondItem="X8K-LY-9ch" secondAttribute="leading" id="1Mz-Mf-ZSZ"/>
-                        <constraint firstItem="6U5-s5-pBE" firstAttribute="top" secondItem="NfE-tS-Ax8" secondAttribute="bottom" constant="10" id="6q0-vH-4ji"/>
-                        <constraint firstAttribute="height" constant="350" id="6tW-UY-u1W"/>
-                        <constraint firstItem="X8K-LY-9ch" firstAttribute="leading" secondItem="svm-dD-tiR" secondAttribute="trailing" constant="15" id="9th-6e-6sd"/>
-                        <constraint firstItem="1bJ-mq-eiQ" firstAttribute="top" secondItem="E77-8q-qNU" secondAttribute="bottom" constant="18" id="AVM-Rs-oiW"/>
-                        <constraint firstAttribute="trailing" secondItem="JfQ-6u-x5G" secondAttribute="trailing" constant="24" id="AlO-Tk-P5X"/>
-                        <constraint firstItem="LTu-vK-q2S" firstAttribute="top" secondItem="1bJ-mq-eiQ" secondAttribute="bottom" constant="10" id="Az9-eQ-1Kx"/>
-                        <constraint firstItem="1bJ-mq-eiQ" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="Bap-iK-bSW"/>
-                        <constraint firstItem="svm-dD-tiR" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="31" id="NGv-Eq-xle"/>
-                        <constraint firstAttribute="trailing" secondItem="E77-8q-qNU" secondAttribute="trailing" constant="20" id="NYf-Ur-5Pr"/>
-                        <constraint firstItem="LTu-vK-q2S" firstAttribute="centerX" secondItem="tpb-mP-vsO" secondAttribute="centerX" id="OA7-DN-7sO"/>
-                        <constraint firstItem="E77-8q-qNU" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="20" id="PFw-TZ-VDc"/>
-                        <constraint firstItem="NfE-tS-Ax8" firstAttribute="leading" secondItem="X8K-LY-9ch" secondAttribute="leading" id="PfC-aS-Vop"/>
-                        <constraint firstItem="JfQ-6u-x5G" firstAttribute="trailing" secondItem="gfB-0W-5rF" secondAttribute="trailing" id="SRX-Yw-ahW"/>
-                        <constraint firstItem="E77-8q-qNU" firstAttribute="top" secondItem="6U5-s5-pBE" secondAttribute="bottom" constant="18" id="Yed-1F-VeT"/>
-                        <constraint firstItem="gfB-0W-5rF" firstAttribute="top" secondItem="JfQ-6u-x5G" secondAttribute="bottom" constant="2" id="ZyR-Ii-Q9B"/>
-                        <constraint firstItem="svm-dD-tiR" firstAttribute="leading" secondItem="tpb-mP-vsO" secondAttribute="leading" constant="18" id="aQX-eQ-dVS"/>
-                        <constraint firstAttribute="bottom" secondItem="LTu-vK-q2S" secondAttribute="bottom" constant="16" id="bVf-z0-xwv"/>
-                        <constraint firstItem="NfE-tS-Ax8" firstAttribute="top" secondItem="X8K-LY-9ch" secondAttribute="bottom" constant="2" id="eLI-m9-aal"/>
-                        <constraint firstItem="X8K-LY-9ch" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="24" id="iOu-81-x5T"/>
-                        <constraint firstItem="JfQ-6u-x5G" firstAttribute="top" secondItem="tpb-mP-vsO" secondAttribute="top" constant="24" id="oma-u8-mqK"/>
-                    </constraints>
-                </view>
+                </stackView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m06-su-ths" userLabel="Next Button" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="790" width="382" height="56"/>
                     <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -277,19 +291,15 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tpb-mP-vsO" secondAttribute="trailing" constant="16" id="7hx-2D-iRY"/>
-                <constraint firstItem="tpb-mP-vsO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="McR-fz-jSJ"/>
+                <constraint firstItem="d0x-VZ-kH9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="DS4-eV-sr0"/>
+                <constraint firstItem="d0x-VZ-kH9" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="55" id="Kme-LM-knd"/>
                 <constraint firstItem="h7s-2e-XCg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="NY5-cT-sh4"/>
-                <constraint firstItem="eLP-1e-ko2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="XqP-nL-HFH"/>
                 <constraint firstItem="m06-su-ths" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="YY6-UB-w2f"/>
-                <constraint firstItem="eLP-1e-ko2" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="55" id="ZzB-FC-BU9"/>
-                <constraint firstItem="tpb-mP-vsO" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="iZ0-YH-5nq"/>
                 <constraint firstItem="h7s-2e-XCg" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="kb8-fj-fmT"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eLP-1e-ko2" secondAttribute="trailing" constant="16" id="kfa-yr-0fU"/>
                 <constraint firstItem="h7s-2e-XCg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="l2l-Yf-ydH"/>
-                <constraint firstItem="tpb-mP-vsO" firstAttribute="top" secondItem="eLP-1e-ko2" secondAttribute="bottom" constant="16" id="pDc-aQ-omm"/>
                 <constraint firstItem="m06-su-ths" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="-16" id="qvJ-hd-FV7"/>
                 <constraint firstItem="h7s-2e-XCg" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="u6Y-Vo-ht0"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="d0x-VZ-kH9" secondAttribute="trailing" constant="16" id="usx-7D-31j"/>
                 <constraint firstItem="m06-su-ths" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="-16" id="zVB-i7-hRi"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="69.642857142857139"/>
