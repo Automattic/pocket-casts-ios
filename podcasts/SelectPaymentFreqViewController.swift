@@ -214,6 +214,10 @@ private extension SelectPaymentFreqViewController {
             return
         }
 
+        let price = IapHelper.shared.pricingStringWithFrequency(for: .monthly)
+        monthlyPriceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
+        monthlyTrialLabel.text = L10n.pricingTermsAfterTrial(price ?? "")
+        monthlyTrialLabel.style = .primaryText02
     }
 
     func updateYearlyLabel() {
@@ -230,5 +234,13 @@ private extension SelectPaymentFreqViewController {
             return
         }
 
+        let price = IapHelper.shared.pricingStringWithFrequency(for: .yearly)
+        yearlyPriceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
+        yearlyTrialLabel.text = L10n.pricingTermsAfterTrial(price ?? "")
+        yearlyDiscountLabel.text = L10n.plusPaymentFrequencyBestValue.localizedUppercase
+        yearlyTrialLabel.style = .primaryText02
+
+        discountLabel.isHidden = true
+        yearlyDiscountLabel.isHidden = false
     }
 }
