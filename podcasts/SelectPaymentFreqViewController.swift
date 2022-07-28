@@ -169,20 +169,7 @@ class SelectPaymentFreqViewController: UIViewController {
     }
     
     // MARK: - Helper functions
-    
-    private func configureLabels() {
-        let yearlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.yearly.rawValue)
-        #if targetEnvironment(simulator)
-            nextButton.isEnabled = true
-        #else
-            nextButton.isEnabled = yearlyPrice.count > 0
-        #endif
-        nextButton.buttonStyle = nextButton.isEnabled ? .primaryInteractive01 : .primaryUi05
-        yearlyPriceLabel.text = "\(yearlyPrice)"
-        monthlyPriceLabel.text = "\(IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue))"
-        discountLabel.text = L10n.plusPaymentFrequencyBestValue.localizedUppercase
-    }
-    
+
     @IBAction func yearlyTapped(_ sender: Any) {
         isYearly = true
     }
@@ -210,5 +197,38 @@ class SelectPaymentFreqViewController: UIViewController {
         yearlyButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
         monthlyButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
         monthlyButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
+    }
+}
+
+// MARK: - Pricing Labels
+private extension SelectPaymentFreqViewController {
+    private func configureLabels() {
+        updateYearlyLabel()
+        updateMonthlyLabel()
+    }
+
+    func updateMonthlyLabel() {
+        guard let trialDuration = IapHelper.shared.localizedFreeTrialDuration(.monthly) else {
+            monthlyPriceLabel.text = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
+            monthlyTrialLabel.isHidden = true
+            return
+        }
+
+    }
+
+    func updateYearlyLabel() {
+        guard let trialDuration = IapHelper.shared.localizedFreeTrialDuration(.yearly) else {
+            let yearlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.yearly.rawValue)
+            nextButton.isEnabled = !yearlyPrice.isEmpty
+            nextButton.buttonStyle = nextButton.isEnabled ? .primaryInteractive01 : .primaryUi05
+
+            yearlyPriceLabel.text = yearlyPrice
+            yearlyTrialLabel.isHidden = true
+            yearlyDiscountLabel.isHidden = true
+            discountLabel.text = L10n.plusPaymentFrequencyBestValue.localizedUppercase
+
+            return
+        }
+
     }
 }
