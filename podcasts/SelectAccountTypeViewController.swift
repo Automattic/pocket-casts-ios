@@ -241,11 +241,15 @@ private extension SelectAccountTypeViewController {
             configurePricingLabels()
             return
         }
+        plusNameLabel.text = L10n.pocketCastsPlusShort
+        plusPriceLabel.text = L10n.freeTrialDurationFree(trialDuration)
+        plusPaymentFreqLabel.text = L10n.pricingTermsAfterTrial(price)
     }
 
     private func configurePricingLabels() {
         let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
 
+        plusNameLabel.text = L10n.pocketCastsPlus
 
         if monthlyPrice.count > 0 {
             plusPriceLabel.text = monthlyPrice
