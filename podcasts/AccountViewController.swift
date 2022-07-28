@@ -96,7 +96,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     
     @IBOutlet var priceLabel: ThemeableLabel! {
         didSet {
-            priceLabel.style = .primaryText02
+            priceLabel.style = .primaryText01
         }
     }
     
@@ -108,7 +108,15 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             learnMoreButton.buttonStyle = .primaryUi01
         }
     }
-    
+
+    @IBOutlet var trialDetailLabel: ThemeableLabel! {
+        didSet {
+            trialDetailLabel.style = .primaryText02
+        }
+    }
+
+    @IBOutlet var pricingCenterConstraint: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountTitle
