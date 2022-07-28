@@ -249,7 +249,10 @@ private extension ConfirmPaymentViewController {
     }
 
     func updateBuyButton() {
-        guard IapHelper.shared.getFirstFreeTrialProduct() != nil else {
+        guard
+            let product = Constants.IapProducts(rawValue: newSubscription.iap_identifier),
+            IapHelper.shared.localizedFreeTrialDuration(product) != nil
+        else {
             buyButton.setTitle(L10n.confirm, for: .normal)
             return
         }
