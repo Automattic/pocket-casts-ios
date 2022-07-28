@@ -132,6 +132,14 @@ extension IapHelper {
         return productIdentifiers.compactMap { localizedFreeTrialDuration($0) }.first
     }
 
+
+    /// Returns the first product with a free trial
+    /// The priority order is set by the productIdentifiers array
+    /// - Returns: The product enum with a free trial or nil if there is no free trial
+    func getFirstFreeTrialProduct() -> Constants.IapProducts? {
+        return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
+    }
+
     private func isEligibleForFreeTrial() -> Bool {
         #warning("TODO: Update isEligibleForIntroOffer with a real check")
         return true
