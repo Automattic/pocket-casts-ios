@@ -2,6 +2,12 @@ import PocketCastsServer
 import UIKit
 
 class UpgradeRequiredViewController: PCViewController {
+    @IBOutlet var trialDetailLabel: ThemeableLabel! {
+        didSet {
+            trialDetailLabel.isHidden = true
+        }
+    }
+
     @IBOutlet var upgradeButton: ThemeableRoundedButton! {
         didSet {
             upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
@@ -58,19 +64,11 @@ class UpgradeRequiredViewController: PCViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.pocketCastsPlus
-        
+
+        configureNavigationBar()
+        updatePricingLabels()
+
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
-        
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        if monthlyPrice.count > 0 {
-            priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
-        }
-        
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneCicked))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
-        navigationItem.leftBarButtonItem = closeButton
-        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         AnalyticsHelper.plusUpgradeViewed(source: source)
     }
@@ -119,15 +117,65 @@ class UpgradeRequiredViewController: PCViewController {
     }
     
     @objc func iapProductsUpdated() {
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        if monthlyPrice.count > 0 {
-            priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
-        }
+        updatePricingLabels()
     }
     
     // MARK: - Orientation
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+// MARK: - Private: UI Helpers
+
+private extension UpgradeRequiredViewController {
+    func configureNavigationBar() {
+        title = L10n.pocketCastsPlus
+
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    func updatePricingLabels() {
+        updatePriceLabel()
+        updateUIForTrialIfNeeded()
+    }
+
+    func updatePriceLabel() {
+        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
+
+        priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
+    }
+}
+
+// MARK: - Private: Free Trial Support
+
+private extension UpgradeRequiredViewController {
+    func updateUIForTrialIfNeeded() {
+        let iapHelper = IapHelper.shared
+
+        guard
+            let trialProduct = iapHelper.getFirstFreeTrialProduct(),
+            let trialDuration = iapHelper.localizedFreeTrialDuration(trialProduct)
+        else {
+            trialDetailLabel.isHidden = true
+            return
+        }
+
+        // Update the labels
+        infoLabel.text = L10n.freeTrialTitleLabel(trialDuration)
+        trialDetailLabel.text = L10n.freeTrialDetailLabel
+        upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
+
+        // Show the detail label, since its hidden by default
+        trialDetailLabel.isHidden = false
+
+        // Update the pricing label to show the terms free for X then Y price
+        guard let pricing = iapHelper.pricingStringWithFrequency(for: trialProduct) else {
+            priceLabel.isHidden = true
+            return
+        }
+
+        priceLabel.text = L10n.freeTrialPricingTerms(trialDuration, "\(pricing)")
     }
 }
