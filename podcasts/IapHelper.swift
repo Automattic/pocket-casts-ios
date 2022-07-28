@@ -7,13 +7,13 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
     
-    private let productIdentifiers = Set([Constants.IapProducts.monthly.rawValue, Constants.IapProducts.yearly.rawValue])
+    private let productIdentifiers: [Constants.IapProducts] = [.yearly, .monthly]
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
     
     func requestProductInfo() {
-        let request = SKProductsRequest(productIdentifiers: productIdentifiers)
+        let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
     }
@@ -108,6 +108,12 @@ extension IapHelper {
         return offer.subscriptionPeriod.localizedPeriodString()
     }
 
+    /// Returns the localized trial duration for any product with a free trial
+    /// - Returns: Returns the formatted duration, or nil if there is no free trial
+    func localizedFreeTrialDurationForAnyProduct() -> String? {
+        return productIdentifiers.compactMap { localizedFreeTrialDuration($0) }.first
+    }
+
     private func isEligibleForFreeTrial() -> Bool {
         #warning("TODO: Update isEligibleForIntroOffer with a real check")
         return true
@@ -135,7 +141,7 @@ extension IapHelper: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
-        let lowercasedProductIdentifiers = productIdentifiers.map { $0.lowercased() }
+        let lowercasedProductIdentifiers = productIdentifiers.map { $0.rawValue.lowercased() }
         
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
