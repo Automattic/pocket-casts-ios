@@ -8,7 +8,6 @@ echo "--- :arrow_down: Installing Release Dependencies"
 brew update # Update homebrew to temporarily fix a bintray issue
 brew install imagemagick
 brew install ghostscript
-brew install sentry-cli
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
