@@ -37,13 +37,13 @@ class SelectPaymentFreqViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var monthlyTitleLabel: ThemeableLabel!
+    @IBOutlet var monthlyTitleLabel: ThemeableLabel!
     @IBOutlet var monthlyPriceLabel: ThemeableLabel!
-    @IBOutlet weak var monthlyTrialLabel: ThemeableLabel!
+    @IBOutlet var monthlyTrialLabel: ThemeableLabel!
 
-    @IBOutlet weak var yearlyTitleLabel: ThemeableLabel!
+    @IBOutlet var yearlyTitleLabel: ThemeableLabel!
     @IBOutlet var yearlyPriceLabel: ThemeableLabel!
-    @IBOutlet weak var yearlyTrialLabel: ThemeableLabel!
+    @IBOutlet var yearlyTrialLabel: ThemeableLabel!
 
     @IBOutlet var yearlyButton: UIButton! {
         didSet {
@@ -59,7 +59,7 @@ class SelectPaymentFreqViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var yearlyDiscountLabel: ThemeableLabel! {
+    @IBOutlet var yearlyDiscountLabel: ThemeableLabel! {
         didSet {
             yearlyDiscountLabel.style = .primaryField03Active
         }
@@ -201,6 +201,7 @@ class SelectPaymentFreqViewController: UIViewController {
 }
 
 // MARK: - Pricing Labels
+
 private extension SelectPaymentFreqViewController {
     private func configureLabels() {
         updateYearlyLabel()
