@@ -153,7 +153,6 @@ private extension UpgradeRequiredViewController {
 private extension UpgradeRequiredViewController {
     func updateUIForTrialIfNeeded() {
         guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
-            priceLabel.isHidden = true
             trialDetailLabel.isHidden = true
             return
         }
