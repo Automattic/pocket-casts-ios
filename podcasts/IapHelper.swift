@@ -126,17 +126,20 @@ extension IapHelper {
         return offer.subscriptionPeriod.localizedPeriodString()
     }
 
-    /// Returns the localized trial duration for any product with a free trial
-    /// - Returns: Returns the formatted duration, or nil if there is no free trial
-    func localizedFreeTrialDurationForAnyProduct() -> String? {
-        return productIdentifiers.compactMap { localizedFreeTrialDuration($0) }.first
-    }
-
     /// Returns the first product with a free trial
     /// The priority order is set by the productIdentifiers array
     /// - Returns: The product enum with a free trial or nil if there is no free trial
-    func getFirstFreeTrialProduct() -> Constants.IapProducts? {
-        return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
+    typealias FreeTrialDetails = (duration: String, pricing: String)
+    func getFirstFreeTrialDetails() -> FreeTrialDetails? {
+        guard
+            let product = productIdentifiers.first(where: { getFreeTrialOffer($0) != nil }),
+            let duration = localizedFreeTrialDuration(product),
+            let pricing = pricingStringWithFrequency(for: product)
+        else {
+            return nil
+        }
+
+        return (duration, pricing)
     }
 
     private func isEligibleForFreeTrial() -> Bool {
