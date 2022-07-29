@@ -1,6 +1,6 @@
 import UIKit
 
-class TermsViewController: UIViewController {
+class TermsViewController: PCViewController {
     @IBOutlet var noButton: ThemeableRoundedButton! {
         didSet {
             noButton.shouldFill = false
