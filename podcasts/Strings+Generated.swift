@@ -1550,6 +1550,8 @@ internal enum L10n {
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
+  /// Help support Pocket Casts by upgrading your account
+  internal static var profileHelpSupport: String { return L10n.tr("Localizable", "profile_help_support") }
   /// App last refreshed %1$@
   internal static func profileLastAppRefresh(_ p1: Any) -> String {
     return L10n.tr("Localizable", "profile_last_app_refresh", String(describing: p1))
