@@ -232,19 +232,13 @@ class SelectAccountTypeViewController: UIViewController {
 
 private extension SelectAccountTypeViewController {
     private func configureLabels() {
-        let iapHelper = IapHelper.shared
-
-        guard
-            let trialProduct = iapHelper.getFirstFreeTrialProduct(),
-            let trialDuration = iapHelper.localizedFreeTrialDuration(trialProduct),
-            let price = iapHelper.pricingStringWithFrequency(for: trialProduct)
-        else {
+        guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
             configurePricingLabels()
             return
         }
         plusNameLabel.text = L10n.pocketCastsPlusShort
-        plusPriceLabel.text = L10n.freeTrialDurationFree(trialDuration)
-        plusPaymentFreqLabel.text = L10n.pricingTermsAfterTrial(price)
+        plusPriceLabel.text = L10n.freeTrialDurationFree(trialDetails.duration)
+        plusPaymentFreqLabel.text = L10n.pricingTermsAfterTrial(trialDetails.pricing)
     }
 
     private func configurePricingLabels() {
