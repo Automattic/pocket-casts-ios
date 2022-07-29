@@ -829,7 +829,7 @@ internal enum L10n {
   }
   /// Start Free Trial
   internal static var freeTrialStartButton: String { return L10n.tr("Localizable", "free_trial_start_button") }
-  /// Try Pocket Casts Plus free for %1$@
+  /// Try Plus with %1$@ free
   internal static func freeTrialTitleLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "free_trial_title_label", String(describing: p1))
   }
