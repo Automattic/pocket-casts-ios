@@ -3,6 +3,8 @@ import PocketCastsUtils
 import UIKit
 
 class SelectAccountTypeViewController: UIViewController {
+    @IBOutlet var plusNameLabel: ThemeableLabel!
+
     @IBOutlet var freeBorderView: ThemeableSelectionView! {
         didSet {
             freeBorderView.isSelected = true
@@ -143,7 +145,7 @@ class SelectAccountTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountSelectType
-        isFreeAccount = true
+        isFreeAccount = false
         configureLabels()
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
@@ -166,24 +168,7 @@ class SelectAccountTypeViewController: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    private func configureLabels() {
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        if monthlyPrice.count > 0 {
-            plusPriceLabel.text = monthlyPrice
-            plusPaymentFreqLabel.text = L10n.plusPerMonth
-            nextButton.isEnabled = true
-        }
-        else {
-            #if targetEnvironment(simulator)
-                nextButton.isEnabled = true
-                
-            #else
-                nextButton.isEnabled = false
-            #endif
-        }
-    }
-    
+
     // MARK: - Actions
     
     @IBAction func nextTapped(_ sender: Any) {
@@ -240,5 +225,45 @@ class SelectAccountTypeViewController: UIViewController {
         freeRadioButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
         freeRadioButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
         learnMoreButton.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
+    }
+}
+
+// MARK: - Free Trials
+
+private extension SelectAccountTypeViewController {
+    private func configureLabels() {
+        let iapHelper = IapHelper.shared
+
+        guard
+            let trialProduct = iapHelper.getFirstFreeTrialProduct(),
+            let trialDuration = iapHelper.localizedFreeTrialDuration(trialProduct),
+            let price = iapHelper.pricingStringWithFrequency(for: trialProduct)
+        else {
+            configurePricingLabels()
+            return
+        }
+        plusNameLabel.text = L10n.pocketCastsPlusShort
+        plusPriceLabel.text = L10n.freeTrialDurationFree(trialDuration)
+        plusPaymentFreqLabel.text = L10n.pricingTermsAfterTrial(price)
+    }
+
+    private func configurePricingLabels() {
+        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
+
+        plusNameLabel.text = L10n.pocketCastsPlus
+
+        if monthlyPrice.count > 0 {
+            plusPriceLabel.text = monthlyPrice
+            plusPaymentFreqLabel.text = L10n.plusPerMonth
+            nextButton.isEnabled = true
+        }
+        else {
+            #if targetEnvironment(simulator)
+                nextButton.isEnabled = true
+
+            #else
+                nextButton.isEnabled = false
+            #endif
+        }
     }
 }
