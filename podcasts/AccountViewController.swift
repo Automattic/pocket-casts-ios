@@ -334,20 +334,14 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
 private extension AccountViewController {
     func updatePricingLabels() {
-        let iapHelper = IapHelper.shared
-
-        guard
-            let trialProduct = iapHelper.getFirstFreeTrialProduct(),
-            let trialDuration = iapHelper.localizedFreeTrialDuration(trialProduct),
-            let price = iapHelper.pricingStringWithFrequency(for: trialProduct)
-        else {
+        guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
             configurePricingLabels()
             return
         }
 
         upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
-        priceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
-        trialDetailLabel.text = L10n.pricingTermsAfterTrial(price)
+        priceLabel.text = L10n.freeTrialDurationFree(trialDetails.duration).localizedLowercase
+        trialDetailLabel.text = L10n.pricingTermsAfterTrial(trialDetails.pricing)
         trialDetailLabel.isHidden = false
         pricingCenterConstraint.constant = 1
         noInternetView.isHidden = true
