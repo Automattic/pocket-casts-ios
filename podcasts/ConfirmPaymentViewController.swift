@@ -52,6 +52,7 @@ class ConfirmPaymentViewController: UIViewController {
         }
     }
     
+    @IBOutlet var trialDetailLabel: ThemeableLabel!
     @IBOutlet var tryAgainView: ThemeableView!
     var newSubscription: NewSubscription
     
@@ -68,20 +69,18 @@ class ConfirmPaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountCreationComplete
-        
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
-        navigationItem.leftBarButtonItem = closeButton
-        
+
+        updateBackItem()
+
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         if let email = ServerSettings.syncingEmail() {
             emailLabel.text = email
         }
         
-        let paymentFreq = IapHelper.shared.getPaymentFrequencyForIdentifier(identifier: newSubscription.iap_identifier)
-        priceLabel.text = "\(IapHelper.shared.getPriceForIdentifier(identifier: newSubscription.iap_identifier))" + " / " + "\(paymentFreq)"
-        renewLabel.text = Constants.IapProducts(rawValue: newSubscription.iap_identifier)?.renewalPrompt
+        updatePricingLabels()
+        updateBuyButton()
+
         activityIndicator.isHidden = true
         activityIndicator.hidesWhenStopped = true
         
@@ -108,6 +107,10 @@ class ConfirmPaymentViewController: UIViewController {
         }
     }
     
+    @IBAction func backTapped(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -173,6 +176,7 @@ class ConfirmPaymentViewController: UIViewController {
         tryAgainView.isHidden = false
         title = ""
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
@@ -181,9 +185,10 @@ class ConfirmPaymentViewController: UIViewController {
     @objc func iapPurchaseCancelled() {
         activityIndicator.stopAnimating()
         buyButton.titleLabel?.isHidden = false
-        buyButton.setTitle(L10n.confirm, for: .normal)
         buyButton.isEnabled = true
         cancelledLabel.isHidden = false
+
+        updateBuyButton()
     }
     
     // MARK: - Orientation
@@ -194,5 +199,65 @@ class ConfirmPaymentViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+}
+
+// MARK: - UI Helpers
+
+private extension ConfirmPaymentViewController {
+    func updateBackItem() {
+        var controllers = navigationController?.viewControllers ?? []
+        controllers.removeLast()
+
+        // Show the close button if we're coming from the create account view
+        guard let lastController = controllers.last, lastController is NewEmailViewController else {
+            // Show a back button if we're coming from somewhere else
+            let backButton = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped(_:)))
+            backButton.accessibilityLabel = L10n.back
+            navigationItem.leftBarButtonItem = backButton
+
+            return
+        }
+
+        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
+        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.tintColor = ThemeColor.primaryIcon01()
+        navigationItem.leftBarButtonItem = closeButton
+    }
+}
+
+// MARK: - Free Trial
+
+private extension ConfirmPaymentViewController {
+    func updatePricingLabels() {
+        guard
+            let product = Constants.IapProducts(rawValue: newSubscription.iap_identifier),
+            let pricing = IapHelper.shared.pricingStringWithFrequency(for: product)
+        else {
+            return
+        }
+
+        renewLabel.text = product.renewalPrompt
+
+        guard let trialDuration = IapHelper.shared.localizedFreeTrialDuration(product) else {
+            priceLabel.text = pricing
+            trialDetailLabel.isHidden = true
+            return
+        }
+
+        priceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
+        trialDetailLabel.text = L10n.pricingTermsAfterTrial(pricing)
+    }
+
+    func updateBuyButton() {
+        guard
+            let product = Constants.IapProducts(rawValue: newSubscription.iap_identifier),
+            IapHelper.shared.localizedFreeTrialDuration(product) != nil
+        else {
+            buyButton.setTitle(L10n.confirm, for: .normal)
+            return
+        }
+
+        buyButton.setTitle(L10n.freeTrialStartButton, for: .normal)
     }
 }
