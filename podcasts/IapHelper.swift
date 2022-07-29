@@ -142,7 +142,7 @@ extension IapHelper {
         return (duration, pricing)
     }
 
-    private func isEligibleForFreeTrial() -> Bool {
+    func isEligibleForFreeTrial() -> Bool {
         #warning("TODO: Update isEligibleForIntroOffer with a real check")
         return true
     }
