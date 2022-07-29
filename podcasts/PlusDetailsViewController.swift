@@ -175,6 +175,7 @@ class PlusDetailsViewController: PCViewController {
 private extension PlusDetailsViewController {
     private func loadPrices() {
         guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
+            updatePricingLabels()
             return
         }
 
