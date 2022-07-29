@@ -96,7 +96,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     
     @IBOutlet var priceLabel: ThemeableLabel! {
         didSet {
-            priceLabel.style = .primaryText02
+            priceLabel.style = .primaryText01
         }
     }
     
@@ -108,7 +108,15 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             learnMoreButton.buttonStyle = .primaryUi01
         }
     }
-    
+
+    @IBOutlet var trialDetailLabel: ThemeableLabel! {
+        didSet {
+            trialDetailLabel.style = .primaryText02
+        }
+    }
+
+    @IBOutlet var pricingCenterConstraint: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountTitle
@@ -246,14 +254,9 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             accountDetailsLabel.text = nil
             paymentExpiryLabel.text = nil
             upgradeView.isHidden = false
-            if IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue).count > 0 {
-                priceLabel.text = L10n.plusPricePerMonth(IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue))
-                noInternetView.isHidden = true
-            }
-            else {
-                priceLabel.text = ""
-            }
-            
+
+            updatePricingLabels()
+
             profileView.isSubscribed = false
             
             var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
@@ -280,6 +283,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     @objc func iapProductsFailed() {
         #if !targetEnvironment(simulator)
             priceLabel.text = ""
+            trialDetailLabel.isHidden = true
             upgradeButton.isHidden = true
             noInternetView.isHidden = false
         #endif
@@ -325,5 +329,34 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 self.emailLabel.text = email
             }
         }
+    }
+}
+
+private extension AccountViewController {
+    func updatePricingLabels() {
+        guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
+            configurePricingLabels()
+            return
+        }
+
+        upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
+        priceLabel.text = L10n.freeTrialDurationFree(trialDetails.duration).localizedLowercase
+        trialDetailLabel.text = L10n.pricingTermsAfterTrial(trialDetails.pricing)
+        trialDetailLabel.isHidden = false
+        pricingCenterConstraint.constant = 1
+        noInternetView.isHidden = true
+    }
+
+    func configurePricingLabels() {
+        trialDetailLabel.isHidden = true
+
+        guard let price = IapHelper.shared.pricingStringWithFrequency(for: .monthly) else {
+            priceLabel.isHidden = true
+            return
+        }
+
+        noInternetView.isHidden = true
+        priceLabel.text = price
+        upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
     }
 }

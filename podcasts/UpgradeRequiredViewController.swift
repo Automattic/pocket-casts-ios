@@ -152,18 +152,14 @@ private extension UpgradeRequiredViewController {
 
 private extension UpgradeRequiredViewController {
     func updateUIForTrialIfNeeded() {
-        let iapHelper = IapHelper.shared
-
-        guard
-            let trialProduct = iapHelper.getFirstFreeTrialProduct(),
-            let trialDuration = iapHelper.localizedFreeTrialDuration(trialProduct)
-        else {
+        guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
+            priceLabel.isHidden = true
             trialDetailLabel.isHidden = true
             return
         }
 
         // Update the labels
-        infoLabel.text = L10n.freeTrialTitleLabel(trialDuration)
+        infoLabel.text = L10n.freeTrialTitleLabel(trialDetails.duration)
         trialDetailLabel.text = L10n.freeTrialDetailLabel
         upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
 
@@ -171,11 +167,6 @@ private extension UpgradeRequiredViewController {
         trialDetailLabel.isHidden = false
 
         // Update the pricing label to show the terms free for X then Y price
-        guard let pricing = iapHelper.pricingStringWithFrequency(for: trialProduct) else {
-            priceLabel.isHidden = true
-            return
-        }
-
-        priceLabel.text = L10n.freeTrialPricingTerms(trialDuration, "\(pricing)")
+        priceLabel.text = L10n.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
     }
 }
