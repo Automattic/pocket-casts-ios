@@ -12,7 +12,6 @@ common_params:
   # Common agents values to use with the `agents` key.
   - &common_agents
     queue: mac
-    dc_location: mke
 
 steps:
   - label: Build and Test
