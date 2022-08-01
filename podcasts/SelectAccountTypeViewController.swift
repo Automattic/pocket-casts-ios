@@ -143,7 +143,7 @@ class SelectAccountTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountSelectType
-        isFreeAccount = true
+        isFreeAccount = false
         configureLabels()
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
