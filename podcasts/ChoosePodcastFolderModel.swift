@@ -27,8 +27,8 @@ class ChoosePodcastFolderModel: ObservableObject {
         allFolders.sort { folder1, folder2 in
             let title1 = nameForFolder(folder: folder1)
             let title2 = nameForFolder(folder: folder2)
-            
-            return title1.localizedCaseInsensitiveCompare(title2) == .orderedAscending
+
+            return PodcastSorter.titleSort(title1: title1, title2: title2)
         }
         allFolders.insert(rootFolder, at: 0)
         
