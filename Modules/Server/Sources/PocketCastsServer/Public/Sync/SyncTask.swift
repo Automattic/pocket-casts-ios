@@ -75,9 +75,7 @@ class SyncTask: ApiBaseTask {
                 FileLog.shared.addMessage("Home grid refresh failed")
                 return
             }
-           
-            // any folder information on the current device will be replaced, so clear that first, then add the folders
-            DataManager.sharedManager.clearAllFolderInformation()
+
             if let folders = folders {
                 for folder in folders {
                     FolderHelper.addFolderToDatabase(folder)
@@ -93,8 +91,11 @@ class SyncTask: ApiBaseTask {
 
                 for podcast in podcasts {
                     guard let uuid = podcast.uuid, let localPodcast = DataManager.sharedManager.findPodcast(uuid: uuid) else { continue }
-                    
-                    localPodcast.folderUuid = podcast.folderUuid
+
+                    // If server's folderUuid is `nil` then we don't change
+                    if podcast.folderUuid?.isEmpty == false {
+                        localPodcast.folderUuid = podcast.folderUuid
+                    }
                     
                     // if the added date from the server is older than the one we have, replace it
                     if let addedDate = podcast.dateAdded, addedDate.timeIntervalSince1970 < localPodcast.addedDate?.timeIntervalSince1970 ?? 0 {
