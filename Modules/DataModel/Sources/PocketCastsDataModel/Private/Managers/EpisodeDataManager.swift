@@ -80,7 +80,13 @@ class EpisodeDataManager {
     }
     
     func findEpisodesWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+        // Use an INNER JOIN here to exclude any episodes whose Podcasts have been deleted without deleting the episodes
+        let query = """
+        SELECT \(DataManager.episodeTableName).* FROM \(DataManager.episodeTableName)
+        INNER JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid
+        WHERE \(customWhere)
+        """
+        return loadMultiple(query: query, values: arguments, dbQueue: dbQueue)
     }
     
     func unsyncedEpisodes(limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {

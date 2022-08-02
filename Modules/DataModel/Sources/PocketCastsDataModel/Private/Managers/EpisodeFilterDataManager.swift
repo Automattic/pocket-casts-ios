@@ -53,7 +53,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 let queryForFilter = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
-                let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForFilter)", values: nil)
+                let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode INNER JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE \(queryForFilter)", values: nil)
                 defer { resultSet.close() }
                 
                 if resultSet.next() {
