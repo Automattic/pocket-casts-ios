@@ -84,7 +84,6 @@ class SyncTask: ApiBaseTask {
             
             // then update the podcasts with folder info as well as addedDate if required
             if let podcasts = podcasts {
-
                 // If the server returns ALL `sortPosition` as `0`
                 // It means we should keep the local order for them to be synced later
                 let serverReturnsSortPosition: Bool = podcasts.compactMap { $0.sortPosition }.map { Int($0) }.reduce(0, +) > 0
