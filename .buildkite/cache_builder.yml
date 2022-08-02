@@ -28,7 +28,6 @@ steps:
     plugins: *common_plugins
     agents:
       queue: mac
-      dc_location: mke
     env:
       IMAGE_ID: xcode-13.4.1
 
