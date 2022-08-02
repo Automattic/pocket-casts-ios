@@ -1,3 +1,5 @@
+### 7.21
+
 ### 7.20.1
 
 - Fix an issue where the podcasts order was being changed after migrating to the latest version (#131)
