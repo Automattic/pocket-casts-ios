@@ -15,6 +15,8 @@ extension PodcastManager {
         
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
         if interactedEpisodes.count == 0 {
+            // Delete all the episodes for the podcast that we're deleting
+            DataManager.sharedManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
             DataManager.sharedManager.delete(podcast: podcast)
         }
     }
