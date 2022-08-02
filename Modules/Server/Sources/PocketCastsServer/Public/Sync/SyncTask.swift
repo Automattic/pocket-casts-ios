@@ -87,7 +87,7 @@ class SyncTask: ApiBaseTask {
 
                 // If the server returns ALL `sortPosition` as `0`
                 // It means we should keep the local order for them to be synced later
-                let shouldKeepLocalOrder: Bool = podcasts.compactMap { $0.sortPosition }.map { Int($0) }.reduce(0, +) == 0
+                let serverReturnsSortPosition: Bool = podcasts.compactMap { $0.sortPosition }.map { Int($0) }.reduce(0, +) > 0
 
                 for podcast in podcasts {
                     guard let uuid = podcast.uuid, let localPodcast = DataManager.sharedManager.findPodcast(uuid: uuid) else { continue }
@@ -101,7 +101,7 @@ class SyncTask: ApiBaseTask {
                     if let addedDate = podcast.dateAdded, addedDate.timeIntervalSince1970 < localPodcast.addedDate?.timeIntervalSince1970 ?? 0 {
                         localPodcast.addedDate = addedDate
                     }
-                    if let sortOrder = podcast.sortPosition, !shouldKeepLocalOrder {
+                    if let sortOrder = podcast.sortPosition, serverReturnsSortPosition {
                         localPodcast.sortOrder = sortOrder
                     }
                     
