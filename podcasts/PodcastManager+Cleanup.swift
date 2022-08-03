@@ -20,6 +20,30 @@ extension PodcastManager {
             DataManager.sharedManager.delete(podcast: podcast)
         }
     }
+
+    func deleteGhostEpisodesIfNeeded() {
+        let episodes = DataManager.sharedManager.findGhostEpisodes()
+        guard episodes.count != 0 else {
+            return
+        }
+
+        FileLog.shared.addMessage("Found \(episodes.count) Ghost Episodes")
+        
+        var deleted_count = 0
+        episodes.forEach { episode in
+            guard
+                episode.uuid.count != 0,
+                episode.userHasInteractedWithEpisode() == false
+            else {
+                return
+            }
+
+            DataManager.sharedManager.delete(episodeUuid: episode.uuid)
+            deleted_count += 1
+        }
+
+        FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
+    }
     
     func checkForUnusedPodcasts() {
         let podcasts = DataManager.sharedManager.allUnsubscribedPodcasts()
