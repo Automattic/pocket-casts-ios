@@ -1,4 +1,5 @@
 ### 7.20.2
+- Fixed the initial sync after migrating to 7.20 (#134)
 - Fix an issue where ghost episodes could appear in the filters even if you didn't subscribe to the podcast (#137)
 
 ### 7.20.1
