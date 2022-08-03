@@ -93,7 +93,7 @@ public class ApiServerHandler {
     
     public func reloadFoldersFromServer() {
         ServerSettings.setHomeGridNeedsRefresh(true)
-        RefreshManager.shared.refreshPodcasts()
+        RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
     }
     
     public func processPendingCloudDeletes(episodes: [UserEpisode], deleteCompletedHandler: ((UserEpisode) -> Void)?) {
