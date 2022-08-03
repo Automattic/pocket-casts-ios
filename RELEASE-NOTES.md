@@ -1,3 +1,6 @@
+### 7.20.2
+- Fix an issue where ghost episodes could appear in the filters even if you didn't subscribe to the podcast (#137)
+
 ### 7.20.1
 
 - Fix an issue where the podcasts order was being changed after migrating to the latest version (#131)
@@ -341,7 +344,7 @@
 - Fixed an issue that could cause podcast playback to stall when streaming
 - Cleaned up some old themes and fixed a few issues with them including importing new tokens
 - Cleaned up how switches look in the app so you don't end up with white backgrounds and white thumbs
-- Added release notes 
+- Added release notes
 
 ### 7.16 Builds 807
 - Rosé theme tweaks
@@ -1095,7 +1098,7 @@ Watch Changes:
 - Fixed issue where the stepper cells we use (the [-  +] things) were cut off in iOS 13
 - Added the ability to clear your listening history
 
-### 7.5.2 Build 648 
+### 7.5.2 Build 648
 - Fixed a syncing issue introduced in the previous version to do with legacy sync dates
 - Fixed an issue where syncing a podcast could cause the app to unsubscribe from it
 - Added better support for unsupported custom file types
@@ -2025,7 +2028,7 @@ Things you missed from internal builds:
 - Fixed: if you have Auto Download Up Next turned on, the app no longer tries to queue up already downloaded episodes
 - Hooked up sort order for podcast episodes
 - Added UI for searching podcast episodes, but it doesn't do anything yet
-- Added filtering button to podcast episodes, but it's not yet implemented 
+- Added filtering button to podcast episodes, but it's not yet implemented
 
 Known issues:
 - Podcast page is missing sorting, search, bulk actions and filtering
@@ -2047,7 +2050,7 @@ Known issues:
 - Fixed: if you have Auto Download Up Next turned on, the app no longer tries to queue up already downloaded episodes
 - Hooked up sort order for podcast episodes
 - Added UI for searching podcast episodes, but it doesn't do anything yet
-- Added filtering button to podcast episodes, but it's not yet implemented 
+- Added filtering button to podcast episodes, but it's not yet implemented
 
 ### 7.0 Build 523:
 - Syncing related crash fix, sorry about that.
@@ -2199,7 +2202,7 @@ Phone app:
   - Fixed starring an episode in a list not updating the episode in the player show notes page
   - Fixed clear all button on iPad crashing if you have more than 3 episodes in Up Next
   - Minor UI tweaks
- 
+
 ### 6.8 Build 488:
 - Fixed iOS app crash when you have an Apple Watch but not an Up Next list. This should solve the crash on launch issue people are having.
 
@@ -2551,7 +2554,7 @@ TODO TEST:
 
 ### 6.2 Build 419:
 *** AT THIS STAGE PLEASE DON'T SHARE THESE LINKS OUTSIDE OF THE BETA COMMUNITY ***
-- Added a new podcast sharing feature where you can share a list of podcasts. 
+- Added a new podcast sharing feature where you can share a list of podcasts.
 *** NO REALLY, PLEASE DON'T ***
 - This version is built in Xcode 8 and we've switched a whole bunch of libraries, so it's coming in a bit hot
 - Fixed a bug where the sleep timer would end at the end of an episode, instead of counting on in the next one
@@ -2840,7 +2843,7 @@ New fixes:
 - Fixed: First second or so of a podcast gets cut off. Regression in build 387 onwards?
 
 ### 6.0 Build 389:
-- Discover section: 
+- Discover section:
   - Cancel button only shows when you're searching
   - Added handling for when the page fails to load, and a nicer animation for the loading part
 - Fixed the playback scrubber on the iPad mini player
@@ -2897,7 +2900,7 @@ New fixes:
 - Improved AAC chapter support
 - Fixed issues with how chapters were being read and the way you skip through them.
 - Performance/Power profiled the app and reduced memory and CPU usage, increased performance. Specifically during playback and downloading.
-  
+
 ### 6.0 Build 382:
 - Fixed: streaming over a poor connection could lock up the UI until the stream started.
 - Related somewhat to the above, removed support for parsing chapters in streamed files
@@ -2920,7 +2923,7 @@ New fixes:
 - Various other small tweaks
 
 ### 6.0 Build 379: The post WWDC Lab Engineer assisted release!
-- Fixed an issue where app wouldn't pause for spoken audio 
+- Fixed an issue where app wouldn't pause for spoken audio
 - Fixed an audio playback scheduling issue that is too nerdy to explain
 - Fixed issues with iPad status bar color on dark theme
 - Added picture in picture button to portrait iPad video player
@@ -3212,7 +3215,7 @@ New fixes:
   - Podcast page
   - Video player
   - Podcast grid has some odd rotation spacing issues
-  
+
 ### 6.0 Build 343
 - Fixed: here's a bug where if you go to podcast settings and press the minus button on the Start Episode From item it resets to 0sec no matter what the previous value was. If it was 30 sec, press minus button, changes to 0sec.
 - Starred episodes no longer backed up by iCloud, also fixed a related bug
@@ -3260,8 +3263,8 @@ New fixes:
 
 ### 6.0 Build 339
 - [Discover Section] Subscribe button for the first show in the top chart is now visible
-- [Discover Section] Subscribe buttons now update properly when you subscribe to a podcast 
-- [Discover Section] Added tap support for podcasts in the networks section 
+- [Discover Section] Subscribe buttons now update properly when you subscribe to a podcast
+- [Discover Section] Added tap support for podcasts in the networks section
 - Mini player no longer shows up in the Discover section when loaded from the podcast list page
 - Fixed residual issues with play/pause/skip from headphones/apple watch
 - Fixed issues with searching the grid/list view of podcasts and the top bit jumping around

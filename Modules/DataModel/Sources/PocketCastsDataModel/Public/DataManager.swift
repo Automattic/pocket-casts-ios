@@ -825,7 +825,7 @@ public class DataManager {
     public func save(setting: UserSetting) {
         settingsManager.save(setting: setting, dbQueue: dbQueue)
     }
-    
+
     // MARK: - Advanced
     
     public func count(query: String, values: [Any]?) -> Int {
@@ -885,5 +885,21 @@ public class DataManager {
         }
         
         DataManager.sharedManager.save(podcast: podcast)
+    }
+}
+
+// MARK: - Ghost Episode Cleanup
+
+public extension DataManager {
+    func findGhostEpisodes() -> [Episode] {
+        episodeManager.findGhostEpisodes(dbQueue)
+    }
+
+    func deleteGhostsEpisodes(uuids: [String]) {
+        dbQueue.inDatabase { db in
+            let query = "DELETE FROM \(Self.episodeTableName) WHERE uuid IN (\(uuids.joined(separator: ",")))"
+
+            try? db.executeUpdate(query, values: nil)
+        }
     }
 }
