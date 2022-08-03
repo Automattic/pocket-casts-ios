@@ -894,4 +894,12 @@ public extension DataManager {
     func findGhostEpisodes() -> [Episode] {
         episodeManager.findGhostEpisodes(dbQueue)
     }
+
+    func deleteGhostsEpisodes(uuids: [String]) {
+        dbQueue.inDatabase { db in
+            let query = "DELETE FROM \(Self.episodeTableName) WHERE uuid IN (\(uuids.joined(separator: ",")))"
+
+            try? db.executeUpdate(query, values: nil)
+        }
+    }
 }
