@@ -825,7 +825,7 @@ public class DataManager {
     public func save(setting: UserSetting) {
         settingsManager.save(setting: setting, dbQueue: dbQueue)
     }
-    
+
     // MARK: - Advanced
     
     public func count(query: String, values: [Any]?) -> Int {
@@ -885,5 +885,13 @@ public class DataManager {
         }
         
         DataManager.sharedManager.save(podcast: podcast)
+    }
+}
+
+// MARK: - Ghost Episode Cleanup
+
+public extension DataManager {
+    func findGhostEpisodes() -> [Episode] {
+        episodeManager.findGhostEpisodes(dbQueue)
     }
 }
