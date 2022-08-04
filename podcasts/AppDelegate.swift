@@ -67,6 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupBackgroundRefresh()
         
         SKPaymentQueue.default().add(IapHelper.shared)
+
+        // Request the IAP products on launch
+        if SubscriptionHelper.hasActiveSubscription() == false {
+            IapHelper.shared.requestProductInfo()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)

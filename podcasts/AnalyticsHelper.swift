@@ -291,11 +291,16 @@ class AnalyticsHelper {
                 AnalyticsParameterQuantity: 1
             ]
 
-            let parameters: [String: Any] = [
+            var parameters: [String: Any] = [
                 AnalyticsParameterCurrency: currency,
                 AnalyticsParameterValue: price,
                 AnalyticsParameterItems: [item]
             ]
+
+            // Log that a free trial was used
+            if IapHelper.shared.isEligibleForFreeTrial(), product.introductoryPrice?.paymentMode == .freeTrial {
+                parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
+            }
 
             logEvent(AnalyticsEventAddToCart, parameters: parameters)
         }
