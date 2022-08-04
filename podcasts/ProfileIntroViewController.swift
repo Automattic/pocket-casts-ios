@@ -61,7 +61,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         closeWindow()
     }
     
-    private func closeWindow(completion: (()-> Void)? = nil) {
+    private func closeWindow(completion: (() -> Void)? = nil) {
         dismiss(animated: true, completion: completion)
         AnalyticsHelper.createAccountDismissed()
     }
