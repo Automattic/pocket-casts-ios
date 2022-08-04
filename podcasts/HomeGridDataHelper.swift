@@ -148,20 +148,27 @@ class HomeGridDataHelper {
     }
     
     // this function relies on sortedPodcasts already being in latest episode sort order, and then uses that to also figure out where a folder should be based on it's top sorted podcast
-    private class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
+    class func latestEpisodeSort(item1: HomeGridItem, item2: HomeGridItem, sortedPodcasts: [Podcast]) -> Bool {
         let index1 = indexOfItemInSortedList(item: item1, sortedPodcasts: sortedPodcasts)
         let index2 = indexOfItemInSortedList(item: item2, sortedPodcasts: sortedPodcasts)
-        
-        return index1 < index2
+
+        // Sort empty folders by the title, to keep consistency with the web player
+        if let folder1 = item1.folder, let folder2 = item2.folder, index1 == nil, index2 == nil {
+            return PodcastSorter.titleSort(title1: folder1.name, title2: folder2.name)
+        }
+        else {
+            return index1 ?? Int.max < index2 ?? Int.max
+        }
     }
-    
-    private class func indexOfItemInSortedList(item: HomeGridItem, sortedPodcasts: [Podcast]) -> Int {
+
+    // In the case of a `nil` value, this mean an empty folder
+    private class func indexOfItemInSortedList(item: HomeGridItem, sortedPodcasts: [Podcast]) -> Int? {
         if let podcast = item.podcast {
             return sortedPodcasts.firstIndex(of: podcast) ?? 0
         }
-        
+
         guard let folderUuid = item.folder?.uuid else { return 0 }
-        
-        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid } ?? 0
+
+        return sortedPodcasts.firstIndex { $0.folderUuid == folderUuid }
     }
 }

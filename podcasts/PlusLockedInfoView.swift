@@ -7,7 +7,12 @@ protocol PlusLockedInfoDelegate: AnyObject {
 }
 
 class PlusLockedInfoView: ThemeableView {
-    weak var delegate: PlusLockedInfoDelegate?
+    weak var delegate: PlusLockedInfoDelegate? {
+        didSet {
+            setInfoLabelText()
+        }
+    }
+
     @IBOutlet var contentView: ThemeableView! {
         didSet {
             contentView.style = .primaryUi01
@@ -23,7 +28,7 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText02
-            infoLabel.text = L10n.plusPromoParagraph
+            setInfoLabelText()
         }
     }
     
@@ -37,7 +42,7 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var learnMoreButton: ThemeableUIButton! {
         didSet {
             learnMoreButton.style = .primaryInteractive01
-            learnMoreButton.setTitle(L10n.learnMore, for: .normal)
+            learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
         }
     }
     
@@ -74,5 +79,14 @@ class PlusLockedInfoView: ThemeableView {
 
         let source: PlusUpgradeViewSource = delegate?.displaySource ?? .unknown
         NavigationManager.sharedManager.showUpsellView(from: displayingVC, source: source)
+    }
+    
+    private func setInfoLabelText() {
+        switch delegate?.displaySource {
+        case .profile:
+            infoLabel.text = L10n.profileHelpSupport
+        default:
+            infoLabel.text = L10n.plusPromoParagraph
+        }
     }
 }
