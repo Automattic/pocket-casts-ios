@@ -147,8 +147,9 @@ class PlusDetailsViewController: PCViewController {
             present(SJUIUtils.popupNavController(for: termsVC), animated: true, completion: nil)
         }
         else {
-            let profileIntroController = ProfileIntroViewController()
-            present(SJUIUtils.popupNavController(for: profileIntroController), animated: true, completion: nil)
+            let profileIntroViewController = ProfileIntroViewController()
+            profileIntroViewController.upgradeRootViewController = self
+            present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
         }
     }
     
