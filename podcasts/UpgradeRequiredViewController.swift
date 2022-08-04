@@ -113,7 +113,9 @@ class UpgradeRequiredViewController: PCViewController {
                 presentingController?.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
             }
             else {
-                presentingController?.present(SJUIUtils.popupNavController(for: ProfileIntroViewController()), animated: true)
+                let profileIntroViewController = ProfileIntroViewController()
+                profileIntroViewController.upgradeRootViewController = presentingController
+                presentingController?.present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
             }
         })
     }
