@@ -1,4 +1,5 @@
 ### 7.21
+- Fixed an issue where the user would be kicked out of the upgrade flow if they tried to sign in (#142)
 
 ### 7.20.2
 - Fixed the initial sync after migrating to 7.20 (#134)
@@ -7,7 +8,6 @@
 ### 7.20.1
 
 - Fix an issue where the podcasts order was being changed after migrating to the latest version (#131)
-- Fixed an issue where the user would be kicked out of the upgrade flow if they tried to sign in (#142)
 
 ### 7.20
 
