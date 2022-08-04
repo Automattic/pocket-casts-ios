@@ -449,7 +449,17 @@ platform :ios do
   #####################################################################################
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
   lane :download_localized_strings_and_metadata do |options|
-    ios_update_metadata(options)
+    # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
+    # We'll soon replace this with the new `ios_download_strings_files_from_glotpress`-based workflow.
+    sh("cd #{PROJECT_ROOT_FOLDER} && ./scripts/update-translations.rb")
+
+    files_to_commit = Dir.glob(File.join(RESOURCES_FOLDER, '**', '*.strings'))
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: 'Update translations',
+      allow_nothing_to_commit: true
+    )
   end
 
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
