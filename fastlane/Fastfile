@@ -163,19 +163,15 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
-  #####################################################################################
-  # code_freeze
-  # -----------------------------------------------------------------------------------
-  # This lane executes the steps planned on code freeze
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane code_freeze [skip_confirm:<skip confirm>]
+  # Executes the initial steps of the code freeze
   #
-  # Example:
-  # bundle exec fastlane code_freeze
-  # bundle exec fastlane code_freeze skip_confirm:true
-  #####################################################################################
-  desc 'Creates a new release branch from the current trunk'
+  # - Cuts a new release branch
+  # - Extracts the Release Notes
+  # - Freezes the GitHub milestone and enables the GitHub branch protection for the new branch
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Executes the initial steps needed during code freeze'
   lane :code_freeze do |options|
     ios_codefreeze_prechecks(options)
 
@@ -191,18 +187,14 @@ platform :ios do
     setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
   end
 
-  #####################################################################################
-  # complete_code_freeze
-  # -----------------------------------------------------------------------------------
-  # This lane executes the initial steps planned on code freeze
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane complete_code_freeze [skip_confirm:<skip confirm>]
+  # Executes the final steps for the code freeze
   #
-  # Example:
-  # bundle exec fastlane complete_code_freeze
-  # bundle exec fastlane complete_code_freeze skip_confirm:true
-  #####################################################################################
+  #  - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
+  #  - Triggers the build of the first beta on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Completes the final steps for the code freeze'
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
@@ -215,32 +207,23 @@ platform :ios do
     end
   end
 
-  #####################################################################################
-  # trigger_beta_build
-  # -----------------------------------------------------------------------------------
-  # This lane triggers a beta build on CI
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane trigger_beta_build [branch_to_build:<branch_name>]
+  # Triggers a beta build on CI
   #
-  #####################################################################################
+  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  #
   lane :trigger_beta_build do |options|
     trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
   end
 
-  #####################################################################################
-  # finalize_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalize a release: updates store metadata, bump final version number,
-  # remove branch protection and close milestone, then trigger the final release on CI
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_release [skip_confirm:<skip confirm>] [version:<version>]
+  # Finalizes a release at the end of a sprint to submit to the App Store
   #
-  # Example:
-  # bundle exec fastlane finalize_release
-  # bundle exec fastlane finalize_release skip_confirm:true
-  #####################################################################################
+  #  - Updates store metadata
+  #  - Bumps final version number
+  #  - Removes branch protection and close milestone
+  #  - Triggers the final release on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
   desc 'Trigger the final release build on CI'
   lane :finalize_release do |options|
     if ios_current_branch_is_hotfix
@@ -276,21 +259,15 @@ platform :ios do
     trigger_release_build(branch_to_build: "release/#{version}")
   end
 
-  #####################################################################################
-  # build_and_upload_app_store_connect
-  # -----------------------------------------------------------------------------------
-  # Builds the Pocket Cast app and uploads it to TestFlight, for beta-testing or final release
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_app_store_connect [skip_confirm:<skip confirm>]
-  # [create_release:<Create release on GH>] [beta_release:<intermediate beta?>]
+  # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
   #
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   # @option [Boolean] skip_prechecks (default: false) If true, don't run the ios_build_prechecks and ios_build_preflight
-  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive
+  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
   # @option [Boolean] beta_release If true, the GitHub release will be marked as being a pre-release
   #
-  #####################################################################################
+  # @called_by CI
+  #
   desc 'Builds and uploads for distribution to App Store Connect'
   lane :build_and_upload_app_store_connect do |options|
     ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
@@ -332,23 +309,13 @@ platform :ios do
     FileUtils.rm_rf(archive_zip_path)
   end
 
-  #####################################################################################
-  # new_beta_release
-  # -----------------------------------------------------------------------------------
-  # This lane updates the release branch for a new beta release. It will update the
-  # current release branch by default. If you want to update a different branch
-  # (i.e. hotfix branch) pass the related version with the 'base_version' param
-  # (example: base_version:10.6.1 will work on the 10.6.1 branch)
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_beta_release [skip_confirm:<skip confirm>] [base_version:<version>]
+  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
   #
-  # Example:
-  # bundle exec fastlane new_beta_release
-  # bundle exec fastlane new_beta_release skip_confirm:true
-  # bundle exec fastlane new_beta_release base_version:10.6.1
-  #####################################################################################
-  desc 'Updates a release branch for a new beta release'
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] base_version (default: _current app version_) If set, bases the beta on the specified version
+  #                  and `release/<base_version>` branch instead of the current one. Useful for triggering betas on hotfixes for example.
+  #
+  desc 'Trigger a new beta build on CI'
   lane :new_beta_release do |options|
     ios_betabuild_prechecks(options)
     download_localized_strings_and_metadata_from_glotpress
@@ -358,35 +325,24 @@ platform :ios do
     trigger_beta_build(branch_to_build: "release/#{version}")
   end
 
-  #####################################################################################
-  # new_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane creates the release branch for a new hotfix release.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version:<version>]
+  # Sets the stage to start working on a hotfix
   #
-  # Example:
-  # bundle exec fastlane new_hotfix_release version:10.6.1
-  # bundle exec fastlane new_hotfix_release skip_confirm:true version:10.6.1
-  #####################################################################################
-  desc 'Creates a new hotfix branch for the given version:x.y.z. The branch will be cut from the tag x.y of the previous release'
+  # - Cuts a new `release/x.y.z` branch from the tag from the latest (`x.y`) version
+  # - Bumps the app version numbers appropriately
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] version (required) The version number to use for the hotfix (`"x.y.z"`)
+  #
+  desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
   lane :new_hotfix_release do |options|
     prev_ver = ios_hotfix_prechecks(options)
     ios_bump_version_hotfix(previous_version: prev_ver, version: options[:version])
   end
 
-  #####################################################################################
-  # finalize_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalizes the hotfix branch.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_hotfix_release [skip_confirm:<skip confirm>]
+  # Finalizes a hotfix, by triggering a release build on CI
   #
-  # Example:
-  # bundle exec fastlane finalize_hotfix_release skip_confirm:true
-  #####################################################################################
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
     after_confirming_push do
@@ -407,19 +363,10 @@ platform :ios do
     ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
   end
 
-  #####################################################################################
-  # update_appstore_strings
-  # -----------------------------------------------------------------------------------
-  # This lane updates the AppStoreStrings.po files for the Pocket Casts app with
+  # Updates the AppStoreStrings.po files for the Pocket Casts app with
   # the latest content from the release_notes.txt file and the other text
   # sources
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane update_appstore_strings
   #
-  # Example:
-  # bundle exec fastlane update_appstore_strings
-  #####################################################################################
   desc 'Updates the AppStoreStrings.po file for the Pocket Casts app with the latest data'
   lane :update_appstore_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
@@ -439,14 +386,8 @@ platform :ios do
     )
   end
 
-  #####################################################################################
-  # download_localized_strings_and_metadata
-  # -----------------------------------------------------------------------------------
-  # Downloads localized app strings and App Store Connect metadata from GlotPress.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane download_localized_strings_and_metadata
-  #####################################################################################
+  # Downloads the localized app strings and App Store Connect metadata from GlotPress.
+  #
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
   lane :download_localized_strings_and_metadata do |options|
     # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
@@ -530,16 +471,10 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # screenshots
-  # -----------------------------------------------------------------------------------
   # Generates localized screenshots for the iPhone, and iPad.
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane screenshots
-  #####################################################################################
+  #
   desc 'Generates localized screenshots for the AppStore'
   lane :screenshots do
     iphone_devices = ['iPhone 12']
@@ -590,9 +525,6 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # watch_screenshots
-  # -----------------------------------------------------------------------------------
   # Generates localized screenshots for the Apple Watch.
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
@@ -603,11 +535,6 @@ inal copy, and try again.")
   # - Ensure the data syncs to the simulated watch. Mocking out the ApplicationContext from
   # the device can help ensure a consistent response.
   #
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane watch_screenshots
-  #####################################################################################
-
   desc 'Generates localized Watch screenshots for the AppStore'
   lane :watch_screenshots do
     watch_devices = ['Apple Watch Series 7 - 45mm']
@@ -652,14 +579,8 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # acknowledgments
-  # -----------------------------------------------------------------------------------
   # Generates a HTML containing the libraries acknowledgments.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane acknowledgments
-  #####################################################################################
+  #
   desc 'Generates a HTML with the list of used libraries and their licenses'
   lane :acknowledgments do
     require 'commonmarker'
