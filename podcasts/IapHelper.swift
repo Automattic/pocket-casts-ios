@@ -143,8 +143,8 @@ extension IapHelper {
     }
 
     func isEligibleForFreeTrial() -> Bool {
-        #warning("TODO: Update isEligibleForIntroOffer with a real check")
-        return true
+        #warning("TODO: Update isEligibleForIntroOffer with a check from the server")
+        return FeatureFlag.freeTrialsEnabled
     }
 
     /// Checks if there is a free trial introductory offer for the given product
