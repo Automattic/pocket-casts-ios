@@ -1,6 +1,8 @@
 import UIKit
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
+    weak var upgradeRootViewController: UIViewController?
+
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
             createAccountBtn.setTitle(L10n.createAccount, for: .normal)
@@ -60,7 +62,12 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     }
     
     private func closeWindow() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            if let presentingController = self.upgradeRootViewController {
+                let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
+                presentingController.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
+            }
+        })
         AnalyticsHelper.createAccountDismissed()
     }
     
