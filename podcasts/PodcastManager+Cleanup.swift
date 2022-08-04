@@ -15,8 +15,37 @@ extension PodcastManager {
         
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
         if interactedEpisodes.count == 0 {
+            // Delete all the episodes for the podcast that we're deleting
+            DataManager.sharedManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
             DataManager.sharedManager.delete(podcast: podcast)
         }
+    }
+
+    func deleteGhostEpisodesIfNeeded() {
+        let episodes = DataManager.sharedManager.findGhostEpisodes()
+        guard episodes.count != 0 else {
+            return
+        }
+
+        FileLog.shared.addMessage("Found \(episodes.count) Ghost Episodes")
+
+        var deleted_count = 0
+        var uuids: [String] = []
+
+        episodes.forEach { episode in
+            guard
+                episode.uuid.count != 0,
+                episode.userHasInteractedWithEpisode() == false
+            else {
+                return
+            }
+
+            uuids.append("'\(episode.uuid)'")
+            deleted_count += 1
+        }
+
+        DataManager.sharedManager.deleteGhostsEpisodes(uuids: uuids)
+        FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
     }
     
     func checkForUnusedPodcasts() {

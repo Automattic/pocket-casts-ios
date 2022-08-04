@@ -7,7 +7,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import StoreKit
 
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
     private static let minTimeBetweenRefreshes = 5.minutes
@@ -46,10 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GoogleCastManager.sharedManager.setup()
         
         setupRoutes()
-        
-        checkDefaults()
+
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+        checkDefaults()
         
         NotificationsHelper.shared.handleAppLaunch()
         
