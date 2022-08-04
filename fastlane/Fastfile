@@ -12,6 +12,7 @@ ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.jso
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
+GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -66,7 +67,7 @@ platform :ios do
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
-  ENV.fetch(GHHELPER_REPO = 'Automattic/pocket-casts-ios', nil)
+  ENV['GHHELPER_REPO'] = GHHELPER_REPO
 
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
