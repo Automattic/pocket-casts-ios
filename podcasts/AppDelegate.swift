@@ -45,10 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GoogleCastManager.sharedManager.setup()
         
         setupRoutes()
-        
-        checkDefaults()
+
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+        checkDefaults()
         
         NotificationsHelper.shared.handleAppLaunch()
         
