@@ -1777,7 +1777,7 @@
 		45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtilsTests.swift; sourceTree = "<group>"; };
 		45ECEF8727E9253900C65030 /* ShowNotesFormatterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtils.swift; sourceTree = "<group>"; };
-		460C375426D831E3008B3609 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		460C375426D831E3008B3609 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4614556227C6A32700B65F0F /* OrderPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPicker.swift; sourceTree = "<group>"; };
 		4614556627C6A7E800B65F0F /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelpers.swift; sourceTree = "<group>"; };
@@ -6791,7 +6791,6 @@
 				8BF0BBDB2891B038006BBECF /* FolderBuilder.swift in Sources */,
 				8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
-				45ECEF7E27E910E300C65030 /* PocketCastsTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
 				45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */,
 				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
