@@ -16,9 +16,10 @@ public class SubscriptionHelper: NSObject {
         return days
     }
     
-    public class func subscriptionPlatform() -> Int {
-        let platform = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionPlatform)
-        return platform
+    public class func subscriptionPlatform() -> SubscriptionPlatform {
+        let intValue = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionPlatform)
+
+        return SubscriptionPlatform(rawValue: intValue) ?? .none
     }
     
     public class func subscriptionRenewalDate() -> Date? {
@@ -40,10 +41,16 @@ public class SubscriptionHelper: NSObject {
     }
 
     public class func hasLifetimeGift() -> Bool {
-        guard SubscriptionHelper.subscriptionPlatform() == SubscriptionPlatform.gift.rawValue else { return false }
+        guard SubscriptionHelper.subscriptionPlatform() == .gift else { return false }
         let days = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionGiftDays)
         let tenYearsInDays = 10 * 365
         return days > tenYearsInDays
+    }
+    
+    public class func subscriptionFrequencyValue() -> SubscriptionFrequency {
+        let intValue = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionFrequency)
+
+        return SubscriptionFrequency(rawValue: intValue) ?? .none
     }
     
     // MARK: - Set Subscription status
