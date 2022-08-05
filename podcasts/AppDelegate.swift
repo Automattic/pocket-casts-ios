@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FileLog.shared.setup()
 
         setupSecrets()
+        setupAnalytics()
         
         let defaults = UserDefaults.standard
         
