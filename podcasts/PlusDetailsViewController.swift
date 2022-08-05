@@ -147,23 +147,14 @@ class PlusDetailsViewController: PCViewController {
             present(SJUIUtils.popupNavController(for: termsVC), animated: true, completion: nil)
         }
         else {
-            let profileIntroController = ProfileIntroViewController()
-            present(SJUIUtils.popupNavController(for: profileIntroController), animated: true, completion: nil)
+            let profileIntroViewController = ProfileIntroViewController()
+            profileIntroViewController.upgradeRootViewController = self
+            present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
         }
     }
     
     @IBAction func learnMoreTapped(_ sender: Any) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
-    }
-    
-    private func loadPrices() {
-        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
-        let yearlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.yearly.rawValue)
-        if monthlyPrice.count > 0, yearlyPrice.count > 0 {
-            let priceText = L10n.settingsPlusPricingFormat(monthlyPrice, yearlyPrice)
-            topPriceLabel.text = priceText
-            bottomPriceLabel.text = priceText
-        }
     }
     
     @objc private func iapProductsUpdated() {
@@ -177,5 +168,37 @@ class PlusDetailsViewController: PCViewController {
         gradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
         
         learnMoreBtn.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
+    }
+}
+
+// MARK: - Pricing Labels
+
+private extension PlusDetailsViewController {
+    private func loadPrices() {
+        guard let trialDetails = IapHelper.shared.getFirstFreeTrialDetails() else {
+            updatePricingLabels()
+            return
+        }
+
+        // Update the pricing labels with trial information
+        let pricingText = L10n.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
+        topPriceLabel.text = pricingText
+        bottomPriceLabel.text = pricingText
+
+        // Update the upgrade buttons with the start free trial title
+        let buttonTitle = L10n.freeTrialStartButton
+        upgradeButton.setTitle(buttonTitle, for: .normal)
+        secondUpgradeButton.setTitle(buttonTitle, for: .normal)
+    }
+
+    private func updatePricingLabels() {
+        let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
+        let yearlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.yearly.rawValue)
+
+        if monthlyPrice.count > 0, yearlyPrice.count > 0 {
+            let priceText = L10n.settingsPlusPricingFormat(monthlyPrice, yearlyPrice)
+            topPriceLabel.text = priceText
+            bottomPriceLabel.text = priceText
+        }
     }
 }
