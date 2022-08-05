@@ -965,3 +965,13 @@ class EpisodeDataManager {
         return values
     }
 }
+
+// MARK: - 👻 Ghost Episodes 👻
+
+extension EpisodeDataManager {
+    func findGhostEpisodes(_ dbQueue: FMDatabaseQueue) -> [Episode] {
+        let query = "SELECT SJEpisode.* FROM SJEpisode LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE SJPodcast.uuid IS NULL"
+
+        return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+    }
+}
