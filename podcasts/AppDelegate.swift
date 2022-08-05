@@ -7,7 +7,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import StoreKit
 
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
     private static let minTimeBetweenRefreshes = 5.minutes
@@ -46,10 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GoogleCastManager.sharedManager.setup()
         
         setupRoutes()
-        
-        checkDefaults()
+
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+        checkDefaults()
         
         NotificationsHelper.shared.handleAppLaunch()
         
@@ -68,6 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupBackgroundRefresh()
         
         SKPaymentQueue.default().add(IapHelper.shared)
+
+        // Request the IAP products on launch
+        if SubscriptionHelper.hasActiveSubscription() == false {
+            IapHelper.shared.requestProductInfo()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)

@@ -817,6 +817,22 @@ internal enum L10n {
   internal static var folderUnnamed: String { return L10n.tr("Localizable", "folder_unnamed") }
   /// Folders
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
+  /// No Payment Now – Cancel Anytime
+  internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
+  /// %1$@ FREE
+  internal static func freeTrialDurationFree(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_duration_free", String(describing: p1))
+  }
+  /// %1$@ free then %2$@
+  internal static func freeTrialPricingTerms(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_pricing_terms", String(describing: p1), String(describing: p2))
+  }
+  /// Start Free Trial
+  internal static var freeTrialStartButton: String { return L10n.tr("Localizable", "free_trial_start_button") }
+  /// Try Plus with %1$@ free
+  internal static func freeTrialTitleLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_title_label", String(describing: p1))
+  }
   /// It really matches your eyes ✨
   internal static var funnyConfMsg: String { return L10n.tr("Localizable", "funny_conf_msg") }
   /// You really don't listen much, do you?
@@ -1339,6 +1355,8 @@ internal enum L10n {
   internal static var pocketCastsNewsletterDescription: String { return L10n.tr("Localizable", "pocket_casts_newsletter_description") }
   /// Pocket Casts Plus
   internal static var pocketCastsPlus: String { return L10n.tr("Localizable", "pocket_casts_plus") }
+  /// Plus
+  internal static var pocketCastsPlusShort: String { return L10n.tr("Localizable", "pocket_casts_plus_short") }
   /// Access ended: %1$@
   internal static func podcastAccessEnded(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_access_ended", String(describing: p1))
@@ -1548,8 +1566,14 @@ internal enum L10n {
   internal static var podcastsSort: String { return L10n.tr("Localizable", "podcasts_sort") }
   /// Preview
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
+  /// then %1$@
+  internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))
+  }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
+  /// Help support Pocket Casts by upgrading your account
+  internal static var profileHelpSupport: String { return L10n.tr("Localizable", "profile_help_support") }
   /// App last refreshed %1$@
   internal static func profileLastAppRefresh(_ p1: Any) -> String {
     return L10n.tr("Localizable", "profile_last_app_refresh", String(describing: p1))

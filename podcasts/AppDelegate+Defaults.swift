@@ -87,7 +87,13 @@ extension AppDelegate {
                 ApiServerHandler.shared.reloadFoldersFromServer()
             }
         }
-        
+
+        // Clean up any Ghost episodes in users filters
+        // https://github.com/Automattic/pocket-casts-ios/issues/135
+        performUpdateIfRequired(updateKey: "v7_20_1_Ghost_Fix") {
+            PodcastManager.shared.deleteGhostEpisodesIfNeeded()
+        }
+
         defaults.synchronize()
     }
     
