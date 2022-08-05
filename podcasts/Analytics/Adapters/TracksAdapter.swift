@@ -57,13 +57,15 @@ class TracksAdapter: AnalyticsAdapter {
 
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUserProperties), name: ServerNotifications.subscriptionStatusChanged, object: nil)
-
     }
 
     @objc func updateUserProperties() {
-        defaultProperties.forEach { (key: String, value: AnyHashable) in
-            print("\(key): \(value)")
-            self.tracksService.userProperties[key] = value
+        // When being triggered from a notification this can end up on a background thread
+        DispatchQueue.main.async {
+            self.defaultProperties.forEach { (key: String, value: AnyHashable) in
+                print("\(key): \(value)")
+                self.tracksService.userProperties[key] = value
+            }
         }
     }
 }
