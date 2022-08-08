@@ -648,6 +648,7 @@ inal copy, and try again.")
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
+      push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
