@@ -4,9 +4,6 @@
 echo "--- :rubygems: Fixing Ruby Setup"
 gem install bundler
 
-echo "--- :arrow_down: Installing Release Dependencies"
-brew update # Update homebrew to temporarily fix a bintray issue
-
 echo "--- :rubygems: Setting up Gems"
 install_gems
 
