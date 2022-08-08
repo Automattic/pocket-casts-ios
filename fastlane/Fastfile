@@ -83,6 +83,9 @@ platform :ios do
     save_ci_spm_cache
   end
 
+  # FIXME: This whole lane should no longer be neccessary, but I'm reluctant to
+  # remove it now because of the `ENV` setup it does. We might want to refer to
+  # that code soon.
   desc 'Submit a new Beta Build to Apple TestFlight'
   lane :beta do
     ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t Aspera'
@@ -145,16 +148,18 @@ platform :ios do
     )
   end
 
-  # Increment the value of `VERSION_LONG` from the `Version.xcconfig` file
+  # Increment the value of `BUILD_NUMBER` from the `Version.xcconfig` file
   #
+  # Note that this is currently only used in the `:beta` lane, which we may be
+  # able to remove in favor of `build_and_upload_app_store_connect`.
   def increment_version_on_config
     fastlane_require 'Xcodeproj'
 
     # Get the current build version, and update it if needed
     versions = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    build_number = versions['VERSION_LONG'].to_i + 1
-    UI.message("Updating build version to #{build_number}")
-    versions['VERSION_LONG'] = build_number
+    build_number = versions['BUILD_NUMBER'].to_i + 1
+    UI.message("Updating build number (`BUILD_NUMBER`, `CURRENT_PROJECT_VERSION`) to #{build_number}")
+    versions['BUILD_NUMBER'] = build_number
     new_config = Xcodeproj::Config.new(versions)
     new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
   end

@@ -3,4 +3,4 @@
 // Map our custom version values (used by the automation tooling) to the values
 // Xcode uses
 MARKETING_VERSION=$(VERSION_SHORT)
-CURRENT_PROJECT_VERSION=$(VERSION_LONG)
+CURRENT_PROJECT_VERSION=$(BUILD_NUMBER)

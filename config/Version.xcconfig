@@ -1,2 +1,12 @@
-VERSION_LONG=887
+// Should be used for `MARKETING_VERSION`, what Xcode version prior to 11
+// called `CFBundleShortVersionString`.
 VERSION_SHORT=7.20.2
+
+// Should be use for `CURRENT_PROJECT_VERSION`, what Xcode versions prior to 11
+// called `CFBundleVersion`.
+BUILD_NUMBER=887
+
+// This is not used in the project but needs to be defined because of the
+// inflexible versioning setup in the release toolkit version at the time of
+// writing.
+VERSION_LONG=7.20.2.0
