@@ -101,7 +101,7 @@ class SyncTask: ApiBaseTask {
                         localPodcast.addedDate = addedDate
                     }
                     if let sortOrder = podcast.sortPosition, serverReturnsSortPosition {
-                        FileLog.shared.addMessage("Changing podcast order from \(localPodcast.sortOrder) to \(sortOrder)")
+                        FileLog.shared.addMessage("SyncTask: Changing podcast order from \(localPodcast.sortOrder) to \(sortOrder)")
                         localPodcast.sortOrder = sortOrder
                     }
                     

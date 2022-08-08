@@ -122,14 +122,14 @@ extension SyncTask {
             let newFolderUuid = (folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid
 
             if newFolderUuid != podcast.folderUuid {
-                FileLog.shared.addMessage("Changing podcast folder from \(podcast.folderUuid ?? "nil") to \(newFolderUuid ?? "nil")")
+                FileLog.shared.addMessage("SyncTaskServerChanges: Changing podcast folder from \(podcast.folderUuid ?? "nil") to \(newFolderUuid ?? "nil")")
             }
 
             podcast.folderUuid = newFolderUuid
         }
         if podcastItem.hasSortPosition {
             if podcast.sortOrder != podcastItem.sortPosition.value {
-                FileLog.shared.addMessage("Changing podcast order from \(podcast.sortOrder) to \(podcastItem.sortPosition.value)")
+                FileLog.shared.addMessage("SyncTaskServerChanges: Changing podcast order from \(podcast.sortOrder) to \(podcastItem.sortPosition.value)")
             }
 
             podcast.sortOrder = podcastItem.sortPosition.value
