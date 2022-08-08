@@ -128,6 +128,10 @@ extension SyncTask {
             podcast.folderUuid = newFolderUuid
         }
         if podcastItem.hasSortPosition {
+            if podcast.sortOrder != podcastItem.sortPosition.value {
+                FileLog.shared.addMessage("Changing podcast order from \(podcast.sortOrder) to \(podcastItem.sortPosition.value)")
+            }
+
             podcast.sortOrder = podcastItem.sortPosition.value
         }
         
