@@ -814,6 +814,7 @@ public class DataManager {
     public func clearAllFolderInformation() {
         podcastManager.removeAllPodcastsFromAllFolders(dbQueue: dbQueue)
         folderManager.deleteAllFolders(dbQueue: dbQueue)
+        FileLog.shared.addMessage("Clearing all folder information")
     }
     
     // MARK: - User Settings
