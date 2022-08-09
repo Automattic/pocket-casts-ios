@@ -14,7 +14,7 @@ Pods/
 !.configure-files/*.enc
 
 # Ruby tooling
-vendor/bundle
+vendor
 
 # SPM
 vendor/spm
