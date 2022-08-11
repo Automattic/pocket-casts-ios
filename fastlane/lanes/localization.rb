@@ -26,6 +26,26 @@ GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/po
 # URL of the GlotPress project containing App Store Connect metadata
 GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
 
+# List of locales used for the app strings (GlotPress code => `*.lproj` folder name`).
+# Sorted like Xcode sorts them in the File Inspector for easier comparison.
+#
+# TODO: Replace with `LocaleHelper` once provided by release toolkit (https://github.com/wordpress-mobile/release-toolkit/pull/296)
+GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES = {
+  'zh-cn' => 'zh-Hans', # Chinese (China, Simplified)
+  'zh-tw' => 'zh-Hant', # Chinese (Taiwan, Traditional)
+  'nl' => 'nl',         # Dutch
+  'fr' => 'fr',         # French
+  'fr-ca' => 'fr-CA',   # French (Canadian)
+  'de' => 'de',         # German
+  'it' => 'it',         # Italian
+  'ja' => 'ja',         # Japanese
+  'pt-br' => 'pt-BR',   # Portuguese (Brazil)
+  'ru' => 'ru',         # Russian
+  'es' => 'es',         # Spanish
+  'es-mx' => 'es-MX',   # Spanish (Mexico)
+  'sv' => 'sv'          # Swedish
+}.freeze
+
 # Mapping of all locales which can be used for AppStore metadata
 # (GlotPress code => AppStore Connect code)
 #
