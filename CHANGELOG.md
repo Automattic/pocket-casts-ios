@@ -1,4 +1,8 @@
 7.21
+-----
+
+
+7.21
 ----
 
 - Fixed an issue where the user would be kicked out of the upgrade flow if they tried to sign in (#142)
