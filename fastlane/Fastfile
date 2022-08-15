@@ -49,8 +49,8 @@ EN_LPROJ_FOLDER = File.join(LPROJ_ROOT_FOLDER, 'en.lproj')
 # See calls to `ios_merge_strings_files` and
 # `ios_extract_keys_from_strings_files` for usage.
 MANUALLY_MAINTAINED_STRINGS_FILES = {
-  File.join(EN_LPROJ_FOLDER, 'InfoPlist.strings') => 'infoplist',
-  File.join(EN_LPROJ_FOLDER, 'Intents.strings') => 'siri_intent_definition_key'
+  File.join(EN_LPROJ_FOLDER, 'InfoPlist.strings') => 'infoplist_',
+  File.join(EN_LPROJ_FOLDER, 'Intents.strings') => 'siri_intent_definition_key_'
 }.freeze
 
 # URL of the GlotPress project containing the strings used in the app
