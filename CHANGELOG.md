@@ -1,13 +1,28 @@
-### 7.21
+7.21
+----
+
 - Fixed an issue where the user would be kicked out of the upgrade flow if they tried to sign in (#142)
 
-### 7.20.2
+7.20.2
+----
+
 - Fixed the initial sync after migrating to 7.20 (#134)
 - Fix an issue where ghost episodes could appear in the filters even if you didn't subscribe to the podcast (#137)
 
-### 7.20.1
+7.20.1
+----
 
 - Fix an issue where the podcasts order was being changed after migrating to the latest version (#131)
+
+7.20
+----
+
+- Make the delete folder button to fill the whole row (#79)
+- Limit folders to 100 chars (#80)
+- Fix an issue where the sort order was ignoring the search text when creating a folder (#81)
+- Fix an issue with Folders appearing as black square in CarPlay (#88)
+- Fix an issue where the podcast name was being truncated on the podcast details screen [#96]
+- Fix an issue where changing the folder on the podcast details view would not be sync'd with the server [#103]
 
 ### 7.20
 

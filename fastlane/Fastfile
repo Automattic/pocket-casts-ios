@@ -11,6 +11,11 @@ SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
+RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
+RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'CHANGELOG.md')
+EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
+
+GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
 TEAM_ID = 'PZYM8XX95Q'
 
@@ -65,6 +70,7 @@ platform :ios do
   ENV['PROJECT_NAME'] = 'podcasts'
   ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
   ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
+  ENV['GHHELPER_REPO'] = GHHELPER_REPO
 
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
@@ -157,19 +163,213 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
-  #####################################################################################
-  # update_appstore_strings
-  # -----------------------------------------------------------------------------------
-  # This lane updates the AppStoreStrings.po files for the Pocket Casts app with
+  # Executes the initial steps of the code freeze
+  #
+  # - Cuts a new release branch
+  # - Extracts the Release Notes
+  # - Freezes the GitHub milestone and enables the GitHub branch protection for the new branch
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Executes the initial steps needed during code freeze'
+  lane :code_freeze do |options|
+    ios_codefreeze_prechecks(options)
+
+    ios_bump_version_release(skip_deliver: true, skip_glotpress: true)
+    new_version = ios_get_app_version
+    extract_release_notes_for_version(
+      version: new_version,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
+      extracted_notes_file_path: EXTRACTED_RELEASE_NOTES_PATH
+    )
+    ios_update_release_notes(
+      new_version: new_version,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
+    setbranchprotection(repository: GHHELPER_REPO, branch: "release/#{new_version}")
+    setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
+  end
+
+  # Executes the final steps for the code freeze
+  #
+  #  - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
+  #  - Triggers the build of the first beta on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Completes the final steps for the code freeze'
+  desc 'Creates a new release branch from the current trunk'
+  lane :complete_code_freeze do |options|
+    ios_completecodefreeze_prechecks(options)
+    # For Pocket Casts the strings are grab on a weekly basis from `trunk`
+    # generate_strings_file_for_glotpress
+
+    after_confirming_push do
+      push_to_git_remote(tags: false)
+      trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
+    end
+  end
+
+  # Triggers a beta build on CI
+  #
+  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  #
+  lane :trigger_beta_build do |options|
+    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
+  end
+
+  # Finalizes a release at the end of a sprint to submit to the App Store
+  #
+  #  - Updates store metadata
+  #  - Bumps final version number
+  #  - Removes branch protection and close milestone
+  #  - Triggers the final release on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Trigger the final release build on CI'
+  lane :finalize_release do |options|
+    if ios_current_branch_is_hotfix
+      UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead')
+    end
+
+    ios_finalize_prechecks(options)
+
+    UI.message('Checking app strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      abort_on_violations: false
+    )
+
+    UI.message('Checking release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      abort_on_violations: false
+    )
+
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+    ios_bump_version_beta
+
+    # Wrap up
+    version = ios_get_app_version
+    removebranchprotection(repository: GHHELPER_REPO, branch: "release/#{version}")
+    setfrozentag(repository: GHHELPER_REPO, milestone: version, freeze: false)
+    create_new_milestone(repository: GHHELPER_REPO)
+    close_milestone(repository: GHHELPER_REPO, milestone: version)
+
+    # Start the build
+    trigger_release_build(branch_to_build: "release/#{version}")
+  end
+
+  # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [Boolean] skip_prechecks (default: false) If true, don't run the ios_build_prechecks and ios_build_preflight
+  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
+  # @option [Boolean] beta_release If true, the GitHub release will be marked as being a pre-release
+  #
+  # @called_by CI
+  #
+  desc 'Builds and uploads for distribution to App Store Connect'
+  lane :build_and_upload_app_store_connect do |options|
+    ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
+    ios_build_preflight unless options[:skip_prechecks]
+
+    configure_code_signing
+
+    gym(
+      scheme: 'pocketcasts',
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      export_options: { method: 'app-store' }
+    )
+
+    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
+    testflight(
+      skip_waiting_for_build_processing: true,
+      team_id: TEAM_ID,
+      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
+    )
+
+    sh 'cd .. && make upload_dsyms'
+
+    next unless options[:create_release]
+
+    archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
+    zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
+
+    version = ios_get_app_version
+    create_release(
+      repository: GHHELPER_REPO,
+      version: version,
+      release_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt'),
+      release_assets: archive_zip_path.to_s,
+      prerelease: options[:beta_release]
+    )
+
+    FileUtils.rm_rf(archive_zip_path)
+  end
+
+  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] base_version (default: _current app version_) If set, bases the beta on the specified version
+  #                  and `release/<base_version>` branch instead of the current one. Useful for triggering betas on hotfixes for example.
+  #
+  desc 'Trigger a new beta build on CI'
+  lane :new_beta_release do |options|
+    ios_betabuild_prechecks(options)
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+    ios_bump_version_beta
+    version = ios_get_app_version
+    trigger_beta_build(branch_to_build: "release/#{version}")
+  end
+
+  # Sets the stage to start working on a hotfix
+  #
+  # - Cuts a new `release/x.y.z` branch from the tag from the latest (`x.y`) version
+  # - Bumps the app version numbers appropriately
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] version (required) The version number to use for the hotfix (`"x.y.z"`)
+  #
+  desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
+  lane :new_hotfix_release do |options|
+    prev_ver = ios_hotfix_prechecks(options)
+    ios_bump_version_hotfix(previous_version: prev_ver, version: options[:version])
+  end
+
+  # Finalizes a hotfix, by triggering a release build on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
+  lane :finalize_hotfix_release do |options|
+    after_confirming_push do
+      ios_finalize_prechecks(options)
+      version = ios_get_app_version
+      trigger_release_build(branch_to_build: "release/#{version}")
+    end
+  end
+
+  desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
+  lane :download_localized_strings_and_metadata_from_glotpress do
+    download_localized_strings_and_metadata
+    download_localized_app_store_metadata_from_glotpress
+  end
+
+  desc 'Lint the `.strings` files'
+  lane :lint_localizations do
+    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
+  end
+
+  # Updates the AppStoreStrings.po files for the Pocket Casts app with
   # the latest content from the release_notes.txt file and the other text
   # sources
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane update_appstore_strings
   #
-  # Example:
-  # bundle exec fastlane update_appstore_strings
-  #####################################################################################
   desc 'Updates the AppStoreStrings.po file for the Pocket Casts app with the latest data'
   lane :update_appstore_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
@@ -189,17 +389,21 @@ platform :ios do
     )
   end
 
-  #####################################################################################
-  # download_localized_strings_and_metadata
-  # -----------------------------------------------------------------------------------
-  # Downloads localized app strings and App Store Connect metadata from GlotPress.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane download_localized_strings_and_metadata
-  #####################################################################################
+  # Downloads the localized app strings and App Store Connect metadata from GlotPress.
+  #
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
-  lane :download_localized_strings_and_metadata do |options|
-    ios_update_metadata(options)
+  lane :download_localized_strings_and_metadata do
+    # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
+    # We'll soon replace this with the new `ios_download_strings_files_from_glotpress`-based workflow.
+    sh("cd #{PROJECT_ROOT_FOLDER} && ./scripts/update-translations.rb")
+
+    files_to_commit = Dir.glob(File.join(PROJECT_ROOT_FOLDER, 'podcasts', '**', '*.strings'))
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: 'Update translations',
+      allow_nothing_to_commit: true
+    )
   end
 
   desc 'Downloads localized metadata for App Store Connect from GlotPress'
@@ -257,16 +461,23 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # screenshots
   # -----------------------------------------------------------------------------------
+  # Kicks off a Buildkite build
+  # -----------------------------------------------------------------------------------
+  def trigger_buildkite_release_build(branch:, beta:)
+    buildkite_trigger_build(
+      buildkite_organization: 'automattic',
+      buildkite_pipeline: 'pocket-casts-ios',
+      branch: branch,
+      environment: { BETA_RELEASE: beta },
+      pipeline_file: 'release-builds.yml'
+    )
+  end
+
   # Generates localized screenshots for the iPhone, and iPad.
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane screenshots
-  #####################################################################################
+  #
   desc 'Generates localized screenshots for the AppStore'
   lane :screenshots do
     iphone_devices = ['iPhone 12']
@@ -317,9 +528,6 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # watch_screenshots
-  # -----------------------------------------------------------------------------------
   # Generates localized screenshots for the Apple Watch.
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
@@ -330,11 +538,6 @@ inal copy, and try again.")
   # - Ensure the data syncs to the simulated watch. Mocking out the ApplicationContext from
   # the device can help ensure a consistent response.
   #
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane watch_screenshots
-  #####################################################################################
-
   desc 'Generates localized Watch screenshots for the AppStore'
   lane :watch_screenshots do
     watch_devices = ['Apple Watch Series 7 - 45mm']
@@ -379,14 +582,8 @@ inal copy, and try again.")
     )
   end
 
-  #####################################################################################
-  # acknowledgments
-  # -----------------------------------------------------------------------------------
   # Generates a HTML containing the libraries acknowledgments.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane acknowledgments
-  #####################################################################################
+  #
   desc 'Generates a HTML with the list of used libraries and their licenses'
   lane :acknowledgments do
     require 'commonmarker'
@@ -450,5 +647,14 @@ inal copy, and try again.")
 
     hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
+  end
+
+  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
+    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
+      push_to_git_remote(tags: false)
+      yield
+    else
+      UI.message('Aborting push as requested.')
+    end
   end
 end
