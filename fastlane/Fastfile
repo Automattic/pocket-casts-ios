@@ -12,7 +12,7 @@ ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.jso
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
-RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
+RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'CHANGELOG.md')
 EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
@@ -182,7 +182,10 @@ platform :ios do
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
       extracted_notes_file_path: EXTRACTED_RELEASE_NOTES_PATH
     )
-    ios_update_release_notes(new_version: new_version)
+    ios_update_release_notes(
+      new_version: new_version,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
     setbranchprotection(repository: GHHELPER_REPO, branch: "release/#{new_version}")
     setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
   end
