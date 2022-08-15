@@ -20,7 +20,6 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - fastlane/*file
-    - fastlane/lanes/*.rb
     - 'scripts/themes/generate_themes.rb'
 
 Metrics/BlockNesting:
