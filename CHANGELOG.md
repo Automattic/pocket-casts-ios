@@ -2,6 +2,7 @@
 ----
 
 - Fixed an issue where the user would be kicked out of the upgrade flow if they tried to sign in (#142)
+- Make the button that clears the Up Next queue to have red colors indicating destructive actions (#152)
 
 7.20.2
 ----
