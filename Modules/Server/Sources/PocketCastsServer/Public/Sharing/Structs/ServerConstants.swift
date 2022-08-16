@@ -134,6 +134,7 @@ public enum ServerConstants {
         static let statsSkippedServer = "StatsSkippedServer"
         static let statsAutoSkipServer = "StatsIntroSkipServer"
         static let statsStartedDateServer = "StatsStartedDateServer"
+        static let userId = "UserId"
     }
     
     public enum Limits {
