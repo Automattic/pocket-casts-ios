@@ -49,15 +49,16 @@ class TracksAdapter: AnalyticsAdapter {
     }
 
     private var defaultProperties: [String: AnyHashable] {
-        let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-        let platform = SubscriptionHelper.subscriptionPlatform()
-        let type = hasSubscription ? SubscriptionHelper.subscriptionType() : .none
-        let frequency = hasSubscription ? SubscriptionHelper.subscriptionFrequencyValue() : .none
+        let hasSubscription = subscriptionData.hasActiveSubscription()
+        let platform = subscriptionData.subscriptionPlatform()
+        let type = hasSubscription ? subscriptionData.subscriptionType() : .none
+        let frequency = hasSubscription ? subscriptionData.subscriptionFrequency() : .none
+        let hasLifetime = subscriptionData.hasLifetimeGift()
 
         return [
             // Subscription Keys
             "plus_has_subscription": hasSubscription,
-            "plus_has_lifetime": SubscriptionHelper.hasLifetimeGift(),
+            "plus_has_lifetime": hasLifetime,
             "plus_subscription_type": type.toString,
             "plus_subscription_platform": platform.toString,
             "plus_subscription_frequency": frequency.toString,
@@ -68,8 +69,10 @@ class TracksAdapter: AnalyticsAdapter {
         ]
     }
 
+    // MARK: - Notification Handlers
+
     private func addNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProperties), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(susbscriptionStatusChanged), name: ServerNotifications.subscriptionStatusChanged, object: nil)
     }
 
     @objc func updateUserProperties() {
