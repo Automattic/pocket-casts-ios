@@ -3,7 +3,6 @@ import AutomatticTracksModel
 import Foundation
 import os
 import PocketCastsServer
-import UIKit
 
 class TracksAdapter: AnalyticsAdapter {
     // Dependencies
