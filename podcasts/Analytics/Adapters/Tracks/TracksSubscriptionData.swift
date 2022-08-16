@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsServer
 
-/// Abstraction to return information about the susbcriptions
+/// Abstraction to return information about the subcriptions
 protocol TracksSubscriptionData {
     func hasActiveSubscription() -> Bool
     func subscriptionPlatform() -> SubscriptionPlatform
