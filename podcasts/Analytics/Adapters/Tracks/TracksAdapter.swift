@@ -85,10 +85,10 @@ class TracksAdapter: AnalyticsAdapter {
     // MARK: - Notification Handlers
 
     private func addNotificationObservers() {
-        notificationCenter.addObserver(self, selector: #selector(susbscriptionStatusChanged), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(subscriptionStatusChanged), name: ServerNotifications.subscriptionStatusChanged, object: nil)
     }
 
-    @objc func susbscriptionStatusChanged() {
+    @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async {
             self.updateUserProperties()
         }
