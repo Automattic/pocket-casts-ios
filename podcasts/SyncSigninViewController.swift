@@ -267,23 +267,22 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         mainButton.setTitle("", for: .normal)
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
-                if !success {
+                guard success, let userId = userId else {
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
                     }
                     else {
                         self.showErrorMessage(L10n.syncAccountError)
                     }
-                    
+
                     self.mainButton.setTitle(L10n.signIn, for: .normal)
                     self.contentView.alpha = 1
                     self.activityIndicatorView.stopAnimating()
                     self.progressAlert?.hideAlert(false)
                     self.progressAlert = nil
-                    
                     return
                 }
-                
+
                 self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
                 self.progressAlert?.showAlert(self, hasProgress: false, completion: {
                     // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
