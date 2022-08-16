@@ -6,6 +6,12 @@ import PocketCastsServer
 import UIKit
 
 class TracksAdapter: AnalyticsAdapter {
+    // Dependencies
+    private let userDefaults: UserDefaults
+    private let subscriptionData: TracksSubscriptionData
+    private let notificationCenter: NotificationCenter
+
+    // Config
     private let tracksService: TracksService
 
     private enum TracksConfig {
@@ -17,7 +23,14 @@ class TracksAdapter: AnalyticsAdapter {
         NotificationCenter.default.removeObserver(self)
     }
 
-    init() {
+    init(userDefaults: UserDefaults = .standard,
+         subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
+         notificationCenter: NotificationCenter = .default)
+    {
+        self.userDefaults = userDefaults
+        self.subscriptionData = subscriptionData
+        self.notificationCenter = notificationCenter
+
         let context = TracksContextManager()
         tracksService = TracksService(contextManager: context)
         tracksService.eventNamePrefix = TracksConfig.prefix
