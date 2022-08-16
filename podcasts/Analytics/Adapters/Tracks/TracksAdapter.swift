@@ -88,13 +88,13 @@ class TracksAdapter: AnalyticsAdapter {
         notificationCenter.addObserver(self, selector: #selector(susbscriptionStatusChanged), name: ServerNotifications.subscriptionStatusChanged, object: nil)
     }
 
-    @objc func updateUserProperties() {
+    @objc func susbscriptionStatusChanged() {
         // When being triggered from a notification this can end up on a background thread
         DispatchQueue.main.async {
-            self.defaultProperties.forEach { (key: String, value: AnyHashable) in
-                print("\(key): \(value)")
-                self.tracksService.userProperties[key] = value
-            }
+            self.updateUserProperties()
+        }
+    }
+
     @objc func updateAuthenticationStateFromNotification() {
         DispatchQueue.main.async {
             self.updateAuthenticationState()
@@ -103,6 +103,12 @@ class TracksAdapter: AnalyticsAdapter {
 }
 
 private extension TracksAdapter {
+    func updateUserProperties() {
+        defaultProperties.forEach { (key: String, value: AnyHashable) in
+            self.tracksService.userProperties[key] = value
+        }
+    }
+
     func updateAuthenticationState() {
         #warning("TODO: Check for user authentication - This will be another PR")
         tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
