@@ -1,16 +1,18 @@
 import Foundation
-import os
+import PocketCastsUtils
 
 /// Simple tracking adapter that just logs the event
 struct AnalyticsLoggingAdapter: AnalyticsAdapter {
-    static let logger = Logger()
-
     func track(name: String, properties: [AnyHashable: Any]?) {
         guard let properties = properties as? [String: Any] else {
-            Self.logger.debug("🔵 Tracked: \(name)")
+            log("🔵 Tracked: \(name)")
             return
         }
 
-        Self.logger.debug("🔵 Tracked: \(name) \(properties)")
+        log("🔵 Tracked: \(name) \(properties)")
+    }
+
+    private func log(_ message: String) {
+        FileLog.shared.addMessage(message)
     }
 }
