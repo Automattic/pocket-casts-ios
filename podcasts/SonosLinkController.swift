@@ -67,7 +67,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
             return
         }
         
-        ApiServerHandler.shared.obtainToken(username: email, password: password, scope: "sonos") { token, _ in
+        ApiServerHandler.shared.obtainToken(username: email, password: password, scope: "sonos") { token, _, _ in
             DispatchQueue.main.async { [weak self] in
                 guard let token = token else {
                     self?.connectBtn.buttonTitle = L10n.retry.localizedUppercase

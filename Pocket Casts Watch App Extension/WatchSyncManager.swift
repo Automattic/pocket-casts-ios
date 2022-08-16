@@ -122,7 +122,7 @@ class WatchSyncManager {
     }
     
     func login(username: String, password: String) {
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, error in
+        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, _, error in
             DispatchQueue.main.async {
                 if !success {
                     if let message = error?.rawValue, !message.isEmpty {

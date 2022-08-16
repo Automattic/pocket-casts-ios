@@ -265,7 +265,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         activityIndicatorView.isHidden = false
         
         mainButton.setTitle("", for: .normal)
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, error in
+        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 if !success {
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
