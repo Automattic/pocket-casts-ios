@@ -89,7 +89,6 @@ class TracksAdapter: AnalyticsAdapter {
     }
 
     @objc func susbscriptionStatusChanged() {
-        // When being triggered from a notification this can end up on a background thread
         DispatchQueue.main.async {
             self.updateUserProperties()
         }
