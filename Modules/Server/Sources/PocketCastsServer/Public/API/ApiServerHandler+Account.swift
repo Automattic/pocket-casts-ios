@@ -7,9 +7,9 @@ import PocketCastsUtils
 import SwiftyJSON
 
 public extension ApiServerHandler {
-    func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ error: APIError?) -> Void) {
-        obtainToken(username: username, password: password, scope: ServerConstants.Values.apiScope) { token, error in
-            completion(token != nil, error)
+    func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
+        obtainToken(username: username, password: password, scope: ServerConstants.Values.apiScope) { token, userId, error in
+            completion(token != nil, userId, error)
         }
     }
     
@@ -88,7 +88,7 @@ public extension ApiServerHandler {
         }
     }
     
-    func obtainToken(username: String, password: String, scope: String, completion: @escaping (_ token: String?, _ error: APIError?) -> Void) {
+    func obtainToken(username: String, password: String, scope: String, completion: @escaping (_ token: String?, _ userId: String?, _ error: APIError?) -> Void) {
         var loginRequest = Api_UserLoginRequest()
         loginRequest.email = username
         loginRequest.password = password
@@ -100,7 +100,7 @@ public extension ApiServerHandler {
             
             guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
                 FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
-                completion(nil, nil)
+                completion(nil, nil, nil)
                 return
             }
             
@@ -108,25 +108,25 @@ public extension ApiServerHandler {
                 guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
                     let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
                     FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
-                    completion(nil, errorResponse)
+                    completion(nil, nil, errorResponse)
                     
                     return
                 }
                 
                 do {
-                    let token = try Api_UserLoginResponse(serializedData: responseData).token
-                    completion(token, nil)
+                    let response = try Api_UserLoginResponse(serializedData: responseData)
+                    completion(response.token, response.uuid, nil)
                 }
                 catch {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
-                    completion(nil, nil)
+                    completion(nil, nil, nil)
                 }
                 
             }.resume()
         }
         catch {
             FileLog.shared.addMessage("obtainToken failed \(error.localizedDescription)")
-            completion(nil, nil)
+            completion(nil, nil, nil)
         }
     }
     
