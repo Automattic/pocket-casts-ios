@@ -17,6 +17,20 @@ class TracksAdapter: AnalyticsAdapter {
     private enum TracksConfig {
         static let prefix = "pcios"
         static let userKey = "pc:user_id"
+        static let anonymousUUIDKey = "TracksAnonymousUUID"
+    }
+
+    /// Returns a UUID id to use if the user is in a logged out state
+    ///
+    private var anonymousUUID: String {
+        let key = TracksConfig.anonymousUUIDKey
+        guard let uuid = userDefaults.string(forKey: key) else {
+            let uuid = UUID().uuidString
+            userDefaults.set(uuid, forKey: key)
+            return uuid
+        }
+
+        return uuid
     }
 
     deinit {
@@ -40,8 +54,7 @@ class TracksAdapter: AnalyticsAdapter {
 
         updateUserProperties()
         addNotificationObservers()
-
-        #warning("TODO: Check for user authentication")
+        updateAuthenticationState()
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
@@ -82,13 +95,17 @@ class TracksAdapter: AnalyticsAdapter {
                 print("\(key): \(value)")
                 self.tracksService.userProperties[key] = value
             }
+    @objc func updateAuthenticationStateFromNotification() {
+        DispatchQueue.main.async {
+            self.updateAuthenticationState()
         }
     }
 }
 
-struct TracksLoggingAdapter: AnalyticsAdapter {
-    func track(name: String, properties: [AnyHashable: Any]?) {
-        print("🪵 \(name)")
+private extension TracksAdapter {
+    func updateAuthenticationState() {
+        #warning("TODO: Check for user authentication - This will be another PR")
+        tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
     }
 }
 
