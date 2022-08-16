@@ -71,9 +71,9 @@ class TracksAdapter: AnalyticsAdapter {
             // Subscription Keys
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
-            "plus_subscription_type": type.toString,
-            "plus_subscription_platform": platform.toString,
-            "plus_subscription_frequency": frequency.toString,
+            "plus_subscription_type": type.description,
+            "plus_subscription_platform": platform.description,
+            "plus_subscription_frequency": frequency.description,
             
             // Accessibility
             "accessibility_voice_over_enabled": UIAccessibility.isVoiceOverRunning,
