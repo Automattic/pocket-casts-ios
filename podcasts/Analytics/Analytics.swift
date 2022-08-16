@@ -18,3 +18,11 @@ class Analytics {
         }
     }
 }
+
+// MARK: - Dynamic Event Name
+
+private extension AnalyticsEvent {
+    var eventName: String {
+        return rawValue.toSnakeCaseFromCamelCase()
+    }
+}
