@@ -45,6 +45,7 @@ public class SyncManager {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgementNeedsSyncKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
+        UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.userId)
         UserDefaults.standard.synchronize()
         
         ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
