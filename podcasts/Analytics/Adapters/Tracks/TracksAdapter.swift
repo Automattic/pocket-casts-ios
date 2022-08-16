@@ -48,7 +48,7 @@ class TracksAdapter: AnalyticsAdapter {
             "plus_subscription_type": type.toString,
             "plus_subscription_platform": platform.toString,
             "plus_subscription_frequency": frequency.toString,
-            
+
             // Accessibility
             "accessibility_voice_over_enabled": UIAccessibility.isVoiceOverRunning,
             "is_rtl_language": UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
