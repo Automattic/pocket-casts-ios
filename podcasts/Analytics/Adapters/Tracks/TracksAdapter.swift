@@ -34,7 +34,7 @@ class TracksAdapter: AnalyticsAdapter {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        notificationCenter.removeObserver(self)
     }
 
     init(userDefaults: UserDefaults = .standard,
