@@ -4,10 +4,10 @@ public enum SubscriptionStatus: Int {
     case none = 0, cancelled = 1, paid = 2, legacyPaid = 3, notPaid = 4
 }
 
-public enum SubscriptionPlatform: Int {
+public enum SubscriptionPlatform: Int, CustomStringConvertible {
     case none = 0, iOS = 1, android = 2, web = 3, gift = 4
 
-    public var toString: String {
+    public var description: String {
         switch self {
         case .none:
             return "none"
@@ -23,10 +23,10 @@ public enum SubscriptionPlatform: Int {
     }
 }
 
-public enum SubscriptionFrequency: Int {
+public enum SubscriptionFrequency: Int, CustomStringConvertible {
     case none = 0, monthly = 1, yearly = 2
 
-    public var toString: String {
+    public var description: String {
         switch self {
         case .none:
             return "none"
@@ -38,10 +38,10 @@ public enum SubscriptionFrequency: Int {
     }
 }
 
-public enum SubscriptionType: Int {
+public enum SubscriptionType: Int, CustomStringConvertible {
     case none = 0, plus = 1, supporter = 2
 
-    public var toString: String {
+    public var description: String {
         switch self {
         case .none:
             return "none"
