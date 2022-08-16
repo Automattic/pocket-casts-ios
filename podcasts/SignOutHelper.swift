@@ -14,5 +14,6 @@ class SignOutHelper {
         paidPodcasts.forEach { PodcastManager.shared.unsubscribe(podcast: $0) }
         
         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+        NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
     }
 }
