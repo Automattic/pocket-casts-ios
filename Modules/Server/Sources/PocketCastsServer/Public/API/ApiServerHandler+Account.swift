@@ -49,7 +49,7 @@ public extension ApiServerHandler {
         }
     }
     
-    func registerAccount(username: String, password: String, completion: @escaping (_ success: Bool, _ error: APIError?) -> Void) {
+    func registerAccount(username: String, password: String, completion: @escaping (_ success: Bool, _ uuid: String?, _ error: APIError?) -> Void) {
         var request = Api_RegisterRequest()
         request.email = username
         request.password = password
@@ -60,31 +60,31 @@ public extension ApiServerHandler {
             let data = try request.serializedData()
             
             guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
-                completion(false, nil)
+                completion(false, nil, nil)
                 return
             }
             
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok else {
                     let errorResponse = ApiServerHandler.extractErrorResponse(data: data)
-                    completion(false, errorResponse)
+                    completion(false, nil, errorResponse)
                     
                     return
                 }
                 
                 do {
                     let response = try Api_RegisterResponse(serializedData: responseData)
-                    completion(response.success.value, nil)
+                    completion(response.success.value, response.uuid, nil)
                 }
                 catch {
-                    completion(false, nil)
+                    completion(false, nil, nil)
                 }
                 
             }.resume()
         }
         catch {
             FileLog.shared.addMessage("registerAccount failed \(error.localizedDescription)")
-            completion(false, nil)
+            completion(false, nil, nil)
         }
     }
     
