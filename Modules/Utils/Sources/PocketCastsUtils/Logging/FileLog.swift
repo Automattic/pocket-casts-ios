@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import os
 
 public class FileLog {
     public enum LogError: Error {
@@ -8,7 +9,8 @@ public class FileLog {
     }
 
     public static let shared = FileLog()
-    
+    private static let logger = Logger()
+
     #if os(watchOS)
         private let maxFileSize = 25.kilobytes
     #else
@@ -43,7 +45,8 @@ public class FileLog {
     public func addMessage(_ message: String?) {
         guard let message = message, message.count > 0 else { return }
         
-        print(message) // if it's important enough to log to file, write it to the debug console as well
+        // if it's important enough to log to file, write it to the debug console as well
+        Self.logger.log("\(message)")
         let dateFormatter = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
         appendStringToLog("\(dateFormatter.string(from: Date())) \(message)\n")
     }
