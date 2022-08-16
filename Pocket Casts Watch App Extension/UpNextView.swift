@@ -34,7 +34,7 @@ struct UpNextView: View {
                 ActionSheet(
                     title: Text(L10n.clearUpNext),
                     message: Text(L10n.clearUpNextMessage),
-                    buttons: [.default(Text(L10n.clear), action: { viewModel.clearUpNext() })]
+                    buttons: [.destructive(Text(L10n.clear), action: { viewModel.clearUpNext() })]
                 )
             }
         }
