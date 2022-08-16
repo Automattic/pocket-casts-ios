@@ -319,3 +319,17 @@ public class ServerSettings {
         ApiServerHandler.shared.syncSettings()
     }
 }
+
+// MARK: - User ID Support
+extension ServerSettings {
+    public class var userId: String? {
+        get {
+            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.userId)
+        }
+
+        set {
+            print("User UUID is now \(newValue ?? "deleted")")
+            UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.userId)
+        }
+    }
+}
