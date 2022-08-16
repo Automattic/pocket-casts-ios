@@ -74,11 +74,11 @@ class TracksAdapter: AnalyticsAdapter {
             "plus_subscription_type": type.description,
             "plus_subscription_platform": platform.description,
             "plus_subscription_frequency": frequency.description,
-
+            
             // Accessibility
             "accessibility_voice_over_enabled": UIAccessibility.isVoiceOverRunning,
             "is_rtl_language": UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft,
-
+            
             // Large is the default size
             "has_dynamic_font_size": UIApplication.shared.preferredContentSizeCategory != .large
         ]
