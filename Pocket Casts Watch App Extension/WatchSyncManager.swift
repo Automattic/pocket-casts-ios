@@ -122,9 +122,9 @@ class WatchSyncManager {
     }
     
     func login(username: String, password: String) {
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, _, error in
+        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
-                if !success {
+                guard success, let userId = userId else {
                     if let message = error?.rawValue, !message.isEmpty {
                         FileLog.shared.addMessage("FAILED Login \(message)")
                     }
@@ -133,6 +133,7 @@ class WatchSyncManager {
                     }
                     SyncManager.signout()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+                    NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
                     return
                 }
                 FileLog.shared.addMessage("Login successful")
@@ -142,12 +143,14 @@ class WatchSyncManager {
                 ServerSettings.saveSyncingPassword(password)
                 ServerSettings.clearLastSyncTime()
                 ServerSettings.setSyncingEmail(email: username)
+                ServerSettings.userId = userId
                 
                 // we've signed in, set all our existing podcasts to be non synced
                 DataManager.sharedManager.markAllPodcastsUnsynced()
                 
                 self.checkSubscriptionStatus()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+                NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
             }
         }
     }
