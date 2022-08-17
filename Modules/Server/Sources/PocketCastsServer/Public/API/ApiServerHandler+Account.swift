@@ -49,7 +49,7 @@ public extension ApiServerHandler {
         }
     }
     
-    func registerAccount(username: String, password: String, completion: @escaping (_ success: Bool, _ uuid: String?, _ error: APIError?) -> Void) {
+    func registerAccount(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
         var request = Api_RegisterRequest()
         request.email = username
         request.password = password
