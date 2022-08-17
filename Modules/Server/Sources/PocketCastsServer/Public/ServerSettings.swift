@@ -329,7 +329,6 @@ public extension ServerSettings {
         }
 
         set {
-            print("User UUID is now \(newValue ?? "deleted")")
             UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.userId)
         }
     }
