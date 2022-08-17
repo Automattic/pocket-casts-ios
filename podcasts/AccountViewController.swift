@@ -189,7 +189,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 }
             }
             else { // Gifted account
-                if SubscriptionHelper.subscriptionPlatform() == SubscriptionPlatform.gift.rawValue {
+                if SubscriptionHelper.subscriptionPlatform() == .gift {
                     if SubscriptionHelper.hasLifetimeGift() {
                         hideExpiryDate = true
                         upgradeView.isHidden = true
