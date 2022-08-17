@@ -32,6 +32,8 @@ public class SyncManager {
         clearTokensFromKeyChain()
         
         ServerSettings.setSyncingEmail(email: nil)
+        ServerSettings.userId = nil
+
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.upNextServerLastModified)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.historyServerLastModified)
@@ -45,7 +47,6 @@ public class SyncManager {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgementNeedsSyncKey)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
-        UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.userId)
         UserDefaults.standard.synchronize()
         
         ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
