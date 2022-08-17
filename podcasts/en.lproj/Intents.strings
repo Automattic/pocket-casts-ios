@@ -1,93 +1,140 @@
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut. ${filterName} is used as a placeholder and should remain intact. */
 "0EmR82" = "Open ${filterName} Filter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "0YXvyS" = "Previous";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "1uT6VF" = "Media Search";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "3aWmex" = "Chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${playbackSpeed} is used as a placeholder and should remain intact. */
 "5yWeuV" = "Play at ${playbackSpeed}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "CXbd65" = "Set Sleep Timer";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "E6Nzn4-No0K9w" = "resume Pocket Casts";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "E6Nzn4-Pk1Fkx" = "don't resume Pocket Casts";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "ErAaNp" = "Repeat Mode";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "EwNFJ5" = "Extend Sleep Timer";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "G0iCil" = "Unable to skip chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "G3J6fP" = "Play podcast";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
 "IyhbAH" = "Open Filter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "LdrEPN" = "A request to play media";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} is used as a placeholder and should remain intact. */
 "MbU5ep" = "Shuffle ${mediaItems}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "No0K9w" = "resume";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "Ntulol" = "Skip Chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "OJvsVr" = "Extend Sleep Timer by 5 mins";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "Pk1Fkx" = "don't resume";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
 "QektJm" = "Open Filter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "QqdHiR" = "shuffled";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "RvX3Zd" = "Playback Speed";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "WEjMGd" = "Play ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "Wj0EAI" = "Skip";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "WktFNa" = "Shuffled";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "YYfsKp" = "Play ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "bVm1vW" = "Set sleep timer";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "cV2HLF" = "Queue Location";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "cfJexL" = "Items";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "dBTobY" = "Skip chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "emhqzv" = "Podcast doesn't support chapters";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "gD0dlx" = "Next";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "iQo0yQ-0YXvyS" = "Previous Chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "iQo0yQ-Wj0EAI" = "Skip Chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "iQo0yQ-gD0dlx" = "Next Chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "mCAocc" = "not shuffled";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "nAv25k" = "Shuffle ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "nNozW1" = "Shuffle ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "nR0neu" = "Sleep Timer";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
 "ny98Lo" = "Extend Sleep Timer";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "o6CuZu" = "Resume ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} and ${playbackSpeed} is used as a placeholder and should remain intact. */
 "q8QY8B" = "Play ${mediaItems} at ${playbackSpeed}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "rnkZnd" = "Skip chapter";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "rvNMpm" = "Resume";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
 "sLPQxZ" = "Play ${mediaContainer}";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
 "xdnqvn" = "Container";
 
+/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
 "zvlpk3" = "Skipped chapter";
