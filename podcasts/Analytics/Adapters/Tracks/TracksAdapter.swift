@@ -101,7 +101,7 @@ private extension TracksAdapter {
             self.tracksService.userProperties[key] = value
         }
     }
-    
+
     func updateAuthenticationState() {
         guard let userId = ServerSettings.userId else {
             tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)

@@ -321,8 +321,9 @@ public class ServerSettings {
 }
 
 // MARK: - User ID Support
-extension ServerSettings {
-    public class var userId: String? {
+
+public extension ServerSettings {
+    class var userId: String? {
         get {
             UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.userId)
         }
