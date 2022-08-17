@@ -101,10 +101,16 @@ private extension TracksAdapter {
             self.tracksService.userProperties[key] = value
         }
     }
-
+    
     func updateAuthenticationState() {
-        #warning("TODO: Check for user authentication - This will be another PR")
-        tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+        guard let userId = ServerSettings.userId else {
+            tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+            return
+        }
+        
+        tracksService.switchToAuthenticatedUser(withUsername: nil,
+                                                userID: userId,
+                                                skipAliasEventCreation: false)
     }
 }
 
