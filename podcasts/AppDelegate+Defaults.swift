@@ -94,6 +94,11 @@ extension AppDelegate {
             PodcastManager.shared.deleteGhostEpisodesIfNeeded()
         }
 
+        // Check if we're missing the stored local userId and retrieve it if needed
+        performUpdateIfRequired(updateKey: "v7_21_UserIdUUIDCheck") {
+            retrieveUserIdIfNeeded()
+        }
+
         defaults.synchronize()
     }
     
