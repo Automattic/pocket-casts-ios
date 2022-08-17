@@ -63,7 +63,7 @@ class CancelInfoViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     private func configureLabels() {
-        guard let subscriptionPlatform = SubscriptionPlatform(rawValue: SubscriptionHelper.subscriptionPlatform()) else { return }
+        let subscriptionPlatform = SubscriptionHelper.subscriptionPlatform()
         
         switch subscriptionPlatform {
         case .iOS:

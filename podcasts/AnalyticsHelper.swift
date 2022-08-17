@@ -357,7 +357,8 @@ private extension AnalyticsHelper {
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
-            Analytics.logEvent(name, parameters: parameters)
+
+            Firebase.Analytics.logEvent(name, parameters: parameters)
 
             if let parameters = parameters {
                 logger.debug("🔵 Tracked: \(name) \(parameters)")
