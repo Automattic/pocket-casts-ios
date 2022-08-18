@@ -34,5 +34,18 @@ extension AppLifecycleAnalytics {
 
         analytics.track(.applicationOpened)
     }
+
+    func didEnterBackground() {
+        var properties: [String: Any] = [:]
+
+        // Calculate how long the app was opened for
+        if let openTime = applicationOpenedTime {
+            let timeInApp = round(Date().timeIntervalSince(openTime))
+            properties = ["time_in_app": timeInApp.description]
+        }
+
+        analytics.track(.applicationClosed, properties: properties)
+        applicationOpenedTime = nil
+    }
 }
 }
