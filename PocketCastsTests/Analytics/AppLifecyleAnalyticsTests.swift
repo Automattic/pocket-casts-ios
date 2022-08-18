@@ -7,8 +7,6 @@ class AppLifecycleAnalyticsTests: XCTestCase {
     private var analytics: MockAnalytics!
 
     override func setUp() {
-        super.setUp()
-
         userDefaults = UserDefaults(suiteName: "AppLifecycleAnalyticsTests")
         userDefaults.removePersistentDomain(forName: "AppLifecycleAnalyticsTests")
 
