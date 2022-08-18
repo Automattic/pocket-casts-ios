@@ -45,4 +45,10 @@ enum AnalyticsEvent: String {
     case createAccountViewAccessed
     case createAccountViewDismissed
     case createAccountViewNextButtonTapped
+
+    // Terms of Use
+    case termsOfUseViewAccessed
+    case termsOfUseViewDismissed
+    case termsOfUseViewAccepted
+    case termsOfUseViewRejected
 }
