@@ -155,6 +155,7 @@ class SelectAccountTypeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsFailed), name: ServerNotifications.iapProductsFailed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         errorView.isHidden = true
+        Analytics.track(.selectAccountTypeViewAccessed)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -181,10 +182,14 @@ class SelectAccountTypeViewController: UIViewController {
             let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(termsOfUseVC, animated: true)
         }
+
+        let accountType = isFreeAccount ? "free" : "plus"
+        Analytics.track(.selectAccountTypeViewNextButtonTapped, properties: ["account_type": accountType])
     }
     
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        Analytics.track(.selectAccountTypeViewDismissed)
     }
     
     @IBAction func learnMoreTapped(_ sender: Any) {
