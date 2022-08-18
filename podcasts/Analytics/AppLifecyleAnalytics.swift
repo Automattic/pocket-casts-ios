@@ -3,12 +3,12 @@ import Foundation
 class AppLifecycleAnalytics {
     // Dependencies
     private let userDefaults: UserDefaults
-    private let analytics: Analytics.Type
+    private let analytics: Analytics
 
     /// The date the app was last opened, used for calculating time in app
     private var applicationOpenedTime: Date?
 
-    init(userDefaults: UserDefaults = .standard, analytics: Analytics.Type = Analytics.self) {
+    init(userDefaults: UserDefaults = .standard, analytics: Analytics = Analytics.shared) {
         self.userDefaults = userDefaults
         self.analytics = analytics
     }
