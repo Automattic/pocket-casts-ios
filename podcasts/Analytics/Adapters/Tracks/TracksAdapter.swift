@@ -141,6 +141,7 @@ private extension TracksAdapter {
 
         // Over the timeout, reset the UUID
         resetAnonymousUUID()
+        updateAuthenticationState()
     }
 }
 
