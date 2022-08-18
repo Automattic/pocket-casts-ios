@@ -51,6 +51,8 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        Analytics.track(.setupAccountViewAccessed)
     }
     
     override func handleThemeChanged() {
@@ -64,6 +66,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     private func closeWindow(completion: (() -> Void)? = nil) {
         dismiss(animated: true, completion: completion)
         AnalyticsHelper.createAccountDismissed()
+        Analytics.track(.setupAccountViewDismissed)
     }
     
     // MARK: - SyncSigninDelegate
@@ -88,6 +91,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         navigationController?.pushViewController(signinPage, animated: true)
 
         AnalyticsHelper.createAccountSignIn()
+        Analytics.track(.setupAccountViewButtonTapped, properties: ["button": "sign_in"])
     }
     
     @IBAction func createTapped() {
@@ -95,6 +99,8 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         navigationController?.pushViewController(selectAccountVC, animated: true)
 
         AnalyticsHelper.createAccountConfirmed()
+
+        Analytics.track(.setupAccountViewButtonTapped, properties: ["button": "create_account"])
     }
     
     // MARK: - Orientation

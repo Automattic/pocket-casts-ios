@@ -27,4 +27,9 @@ enum AnalyticsEvent: String {
     case plusPromotionViewAccessed
     case plusPromotionViewDismissed
     case plusPromotionUpgradeButtonTapped
+
+    // Setup Account
+    case setupAccountViewAccessed
+    case setupAccountViewDismissed
+    case setupAccountViewButtonTapped
 }
