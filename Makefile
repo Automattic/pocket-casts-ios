@@ -23,7 +23,7 @@ install_dependencies: ## Install dependencies to run this project
 	bundle exec pod install --repo-update
 
 update_proto: ## Generates the protobuffer Swift files
-	./scripts/update_proto.sh
+	./scripts/update_proto.sh $(API_PATH)
 
 external_contributor: ## Generates an empty ApiCredentials.swift so the app builds
 	@cp podcasts/Credentials/ApiCredentials.tpl podcasts/Credentials/LocalApiCredentials.swift
