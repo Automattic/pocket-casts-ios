@@ -258,7 +258,7 @@ class AnalyticsHelper {
 #if os(iOS)
     extension AnalyticsHelper {
         static func plusUpgradeViewed(source: PlusUpgradeViewSource) {
-            Analytics.track(.plusPromotionViewAccessed, properties: ["source": source.rawValue])
+            Analytics.track(.plusPromotionShown, properties: ["source": source.rawValue])
 
             logPromotionEvent(AnalyticsEventViewPromotion,
                               promotionId: source.promotionId(),
@@ -274,7 +274,7 @@ class AnalyticsHelper {
         }
 
         static func plusUpgradeDismissed(source: PlusUpgradeViewSource) {
-            Analytics.track(.plusPromotionViewDismissed, properties: ["source": source.rawValue])
+            Analytics.track(.plusPromotionDismissed, properties: ["source": source.rawValue])
 
             logPromotionEvent("close_promotion",
                               promotionId: source.promotionId(),
