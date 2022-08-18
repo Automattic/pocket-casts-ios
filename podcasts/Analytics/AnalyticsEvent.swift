@@ -22,4 +22,9 @@ enum AnalyticsEvent: String {
     case purchaseSuccessful
     case purchaseFailed
     case purchaseCancelled
+
+    // Plus Upsell Dialog
+    case plusPromotionViewAccessed
+    case plusPromotionViewDismissed
+    case plusPromotionUpgradeButtonTapped
 }
