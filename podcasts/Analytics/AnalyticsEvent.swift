@@ -56,4 +56,9 @@ enum AnalyticsEvent: String {
     case selectPaymentFrequencyViewAccessed
     case selectPaymentFrequencyViewDismissed
     case selectPaymentFrequencyViewNextButtonTapped
+
+    // Confirm Payment
+    case confirmPaymentViewAccessed
+    case confirmPaymentViewDismissed
+    case confirmPaymentViewConfirmButtonTapped
 }
