@@ -33,7 +33,7 @@ enum AnalyticsEvent: String {
     case setupAccountDismissed
     case setupAccountButtonTapped
 
-    // Sign in
+    // Sign in View
     case signInShown
     case signInDismissed
 

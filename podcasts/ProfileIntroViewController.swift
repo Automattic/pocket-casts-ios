@@ -52,7 +52,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        Analytics.track(.setupAccountViewAccessed)
+        Analytics.track(.setupAccountShown)
     }
     
     override func handleThemeChanged() {
@@ -66,7 +66,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     private func closeWindow(completion: (() -> Void)? = nil) {
         dismiss(animated: true, completion: completion)
         AnalyticsHelper.createAccountDismissed()
-        Analytics.track(.setupAccountViewDismissed)
+        Analytics.track(.setupAccountDismissed)
     }
     
     // MARK: - SyncSigninDelegate
@@ -91,7 +91,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         navigationController?.pushViewController(signinPage, animated: true)
 
         AnalyticsHelper.createAccountSignIn()
-        Analytics.track(.setupAccountViewButtonTapped, properties: ["button": "sign_in"])
+        Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
     }
     
     @IBAction func createTapped() {
@@ -100,7 +100,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
         AnalyticsHelper.createAccountConfirmed()
 
-        Analytics.track(.setupAccountViewButtonTapped, properties: ["button": "create_account"])
+        Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
     }
     
     // MARK: - Orientation

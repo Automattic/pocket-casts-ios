@@ -112,7 +112,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         originalButtonConstant = nextButtonBottomConstraint.constant
         
         updateButtonState()
-        Analytics.track(.createAccountViewAccessed)
+        Analytics.track(.createAccountShown)
     }
     
     deinit {
@@ -139,7 +139,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     @objc func backTapped() {
         navigationController?.popViewController(animated: true)
-        Analytics.track(.createAccountViewDismissed)
+        Analytics.track(.createAccountDismissed)
     }
     
     @IBAction func nextTapped(_ sender: Any) {
@@ -158,7 +158,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func startRegister(_ username: String, password: String) {
-        Analytics.track(.createAccountViewNextButtonTapped)
+        Analytics.track(.createAccountNextButtonTapped)
 
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
