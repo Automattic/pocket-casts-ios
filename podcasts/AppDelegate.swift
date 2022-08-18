@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSecrets()
         setupAnalytics()
+        appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
         
         let defaults = UserDefaults.standard
         

@@ -48,4 +48,63 @@ extension AppLifecycleAnalytics {
         applicationOpenedTime = nil
     }
 }
+
+// MARK: - App Install/Updates
+
+extension AppLifecycleAnalytics {
+    /// Checks whether we need to track an app install or app update
+    func checkApplicationInstalledOrUpgraded() {
+        let currentVersion = Settings.appVersion()
+
+        defer {
+            // Set the current version in the user defaults
+            userDefaults.set(currentVersion, forKey: Constants.UserDefaults.lastRunVersion)
+            userDefaults.synchronize()
+        }
+
+        // If there is no previous version, then record this as an install
+        guard let lastRunVersion = tryToDetermineLastRunVersion() else {
+            analytics.track(.applicationInstalled)
+            return
+        }
+
+        // If the versions are not the same, then record this as an upgrade
+        guard lastRunVersion != currentVersion else {
+            return
+        }
+
+        analytics.track(.applicationUpdated, properties: ["previous_version": lastRunVersion])
+    }
+
+    private func tryToDetermineLastRunVersion() -> String? {
+        if let lastRunVersion = userDefaults.string(forKey: Constants.UserDefaults.lastRunVersion) {
+            return lastRunVersion
+        }
+
+        // Define a user defaults key -> app version to see if we can guess which previous version the user was running
+        // The versionKeys come from the AppDelegate+Defaults and are only set after the app is launched for the first time on that version
+        // Order matters, these are ordered from newest to oldest versions
+        // We won't need to add anymore to this, since we now track the last opened as of (7.21)
+        let versionMap: KeyValuePairs = [
+            "v7_20_1_Ghost_Fix": "7.20.1",
+            "FoldersInitialRun": "7.20.0",
+            "v7_19_1Run": "7.19.1",
+            "v7_16Run": "7.16.0",
+            "v7_15Run": "7.15.0",
+            "v7_12Run": "7.12.0",
+            "v7_11Run": "7.11.0",
+            "v7_3Run": "7.3.0"
+        ]
+
+        let version = versionMap.first { key, _ in
+            userDefaults.bool(forKey: key)
+        }
+
+        // If we can't determine which version then default to no version
+        guard let version = version else {
+            return nil
+        }
+
+        return version.value
+    }
 }
