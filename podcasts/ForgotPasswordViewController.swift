@@ -108,7 +108,9 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
                     
                     return
                 }
-                
+
+                Analytics.track(.userPasswordReset)
+
                 _ = self.navigationController?.popViewController(animated: true)
                 SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)
             }
