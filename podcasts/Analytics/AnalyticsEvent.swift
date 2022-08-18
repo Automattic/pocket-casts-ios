@@ -17,4 +17,9 @@ enum AnalyticsEvent: String {
     case userEmailUpdated
     case userPasswordUpdated
     case userPasswordReset
+
+    // Payment Events
+    case purchaseSuccessful
+    case purchaseFailed
+    case purchaseCancelled
 }
