@@ -166,6 +166,12 @@ extension IapHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IapHelper: SKPaymentTransactionObserver {
+    func purchaseWasSuccessful(_ productId: String) {
+        let product = getProductWithIdentifier(identifier: productId)
+        let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
+        
+        Analytics.track(.purchaseSuccessful, properties: ["product": productId, "is_free_trial": isFreeTrial])
+    }
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
@@ -185,6 +191,8 @@ extension IapHelper: SKPaymentTransactionObserver {
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
                     AnalyticsHelper.plusPlanPurchased()
+                    
+                    purchaseWasSuccessful(product)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
