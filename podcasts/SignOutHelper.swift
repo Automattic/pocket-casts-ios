@@ -15,5 +15,7 @@ class SignOutHelper {
         
         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
         NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
+
+        Analytics.track(.userSignedOut)
     }
 }
