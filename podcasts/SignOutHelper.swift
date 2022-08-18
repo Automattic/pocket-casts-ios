@@ -5,6 +5,8 @@ import PocketCastsServer
 class SignOutHelper {
     class func signout() {
         let paidPodcasts = DataManager.sharedManager.allPaidPodcasts()
+        Analytics.track(.userSignedOut)
+        
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportName)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportEmail)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
@@ -15,7 +17,5 @@ class SignOutHelper {
         
         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
         NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
-
-        Analytics.track(.userSignedOut)
     }
 }
