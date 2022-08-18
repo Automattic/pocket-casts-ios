@@ -24,42 +24,42 @@ enum AnalyticsEvent: String {
     case purchaseCancelled
 
     // Plus Upsell Dialog
-    case plusPromotionViewShown
-    case plusPromotionViewDismissed
+    case plusPromotionShown
+    case plusPromotionDismissed
     case plusPromotionUpgradeButtonTapped
 
     // Setup Account
-    case setupAccountViewShown
-    case setupAccountViewDismissed
-    case setupAccountViewButtonTapped
+    case setupAccountShown
+    case setupAccountDismissed
+    case setupAccountButtonTapped
 
-    // Sign in View
-    case signInViewShown
-    case signInViewDismissed
+    // Sign in
+    case signInShown
+    case signInDismissed
 
     // Select Account Type
-    case selectAccountTypeViewShown
-    case selectAccountTypeViewDismissed
-    case selectAccountTypeViewNextButtonTapped
+    case selectAccountTypeShown
+    case selectAccountTypeDismissed
+    case selectAccountTypeNextButtonTapped
 
     // Create Account
-    case createAccountViewShown
-    case createAccountViewDismissed
-    case createAccountViewNextButtonTapped
+    case createAccountShown
+    case createAccountDismissed
+    case createAccountNextButtonTapped
 
     // Terms of Use
-    case termsOfUseViewShown
-    case termsOfUseViewDismissed
-    case termsOfUseViewAccepted
-    case termsOfUseViewRejected
+    case termsOfUseShown
+    case termsOfUseDismissed
+    case termsOfUseAccepted
+    case termsOfUseRejected
 
     // Select Payment Frequency
-    case selectPaymentFrequencyViewShown
-    case selectPaymentFrequencyViewDismissed
-    case selectPaymentFrequencyViewNextButtonTapped
+    case selectPaymentFrequencyShown
+    case selectPaymentFrequencyDismissed
+    case selectPaymentFrequencyNextButtonTapped
 
     // Confirm Payment
-    case confirmPaymentViewShown
-    case confirmPaymentViewDismissed
-    case confirmPaymentViewConfirmButtonTapped
+    case confirmPaymentShown
+    case confirmPaymentDismissed
+    case confirmPaymentConfirmButtonTapped
 }
