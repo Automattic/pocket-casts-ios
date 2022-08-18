@@ -239,6 +239,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+
+        Analytics.track(.userAccountCreated)
     }
     
     // MARK: - UITextField Methods
