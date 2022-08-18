@@ -23,6 +23,8 @@ class TracksAdapter: AnalyticsAdapter {
     ///
     private var anonymousUUID: String {
         let key = TracksConfig.anonymousUUIDKey
+
+        // Generate a new UUID if there isn't currently one
         guard let uuid = userDefaults.string(forKey: key) else {
             let uuid = UUID().uuidString
             userDefaults.set(uuid, forKey: key)
@@ -51,6 +53,10 @@ class TracksAdapter: AnalyticsAdapter {
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate()
 
+        // Reset the anonymous UUID on each new analytics session
+        resetAnonymousUUID()
+
+        // Setup the rest of the
         updateUserProperties()
         addNotificationObservers()
         updateAuthenticationState()
@@ -103,14 +109,11 @@ private extension TracksAdapter {
     }
 
     func updateAuthenticationState() {
-        guard let userId = ServerSettings.userId else {
-            tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
-            return
-        }
-        
-        tracksService.switchToAuthenticatedUser(withUsername: nil,
-                                                userID: userId,
-                                                skipAliasEventCreation: false)
+        tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+    }
+
+    func resetAnonymousUUID() {
+        userDefaults.set(nil, forKey: TracksConfig.anonymousUUIDKey)
     }
 }
 
