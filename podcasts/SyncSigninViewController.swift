@@ -268,6 +268,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 guard success, let userId = userId else {
+                    Analytics.track(.userSignInFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
+
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
                     }
