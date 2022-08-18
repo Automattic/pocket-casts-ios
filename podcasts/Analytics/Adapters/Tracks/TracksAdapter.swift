@@ -15,7 +15,7 @@ class TracksAdapter: AnalyticsAdapter {
 
     private enum TracksConfig {
         static let prefix = "pcios"
-        static let userKey = "pc:user_id"
+        static let userKey = "pocketcasts:user_id"
         static let anonymousUUIDKey = "TracksAnonymousUUID"
     }
 
