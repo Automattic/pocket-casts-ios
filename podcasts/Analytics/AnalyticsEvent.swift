@@ -40,4 +40,9 @@ enum AnalyticsEvent: String {
     case selectAccountTypeViewAccessed
     case selectAccountTypeViewDismissed
     case selectAccountTypeViewNextButtonTapped
+
+    // Create Account
+    case createAccountViewAccessed
+    case createAccountViewDismissed
+    case createAccountViewNextButtonTapped
 }
