@@ -102,6 +102,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         originalButtonConstant = mainButtonBottomConstraint.constant
+
+        Analytics.track(.signInViewAccessed)
     }
     
     deinit {
@@ -144,6 +146,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
     
     @objc func closeTapped() {
+        Analytics.track(.signInViewDismissed)
+
         if dismissOnCancel {
             dismiss(animated: true, completion: nil)
         }

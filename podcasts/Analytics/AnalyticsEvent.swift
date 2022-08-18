@@ -32,4 +32,8 @@ enum AnalyticsEvent: String {
     case setupAccountViewAccessed
     case setupAccountViewDismissed
     case setupAccountViewButtonTapped
+
+    // Sign in View
+    case signInViewAccessed
+    case signInViewDismissed
 }
