@@ -172,6 +172,15 @@ extension IapHelper: SKPaymentTransactionObserver {
         
         Analytics.track(.purchaseSuccessful, properties: ["product": productId, "is_free_trial": isFreeTrial])
     }
+
+    func purchaseWasCancelled(_ productId: String, error: NSError) {
+        Analytics.track(.purchaseCancelled, properties: ["error_code": error.code])
+    }
+
+    func purchaseFailed(_ productId: String, error: NSError) {
+        Analytics.track(.purchaseFailed, properties: ["error_code": error.code])
+    }
+
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
@@ -200,9 +209,11 @@ extension IapHelper: SKPaymentTransactionObserver {
                     
                     if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled)
+                        purchaseWasCancelled(product, error: e)
                     }
                     else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed)
+                        purchaseFailed(product, error: e)
                     }
                 case .deferred:
                     FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
