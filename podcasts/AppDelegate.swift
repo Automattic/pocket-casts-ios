@@ -91,6 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
+
+        appLifecycleAnalytics.didEnterBackground()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
