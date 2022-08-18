@@ -168,6 +168,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
 
                 guard success, let userId = userId else {
+                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
