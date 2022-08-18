@@ -328,6 +328,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+
+        Analytics.track(.userSignedIn)
     }
     
     private func showErrorMessage(_ message: String) {
