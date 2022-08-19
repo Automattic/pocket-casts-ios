@@ -53,6 +53,8 @@ brew install swift-protobuf
 
 To update the protobuf files you can then run:
 
+Replace the `{API_PATH}` with the full path to the `pocketcasts-api/api/modules/protobuf/src/main/proto` folder
+
 ```
-make update_proto
+make update_proto API_PATH={API_PATH}
 ```
