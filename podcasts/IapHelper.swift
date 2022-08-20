@@ -14,6 +14,16 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
 
     /// Whether or not the user is eligible for a free trial
     private var isEligibleForTrial = ServerConstants.Values.freeTrialDefaultValue
+
+    /// Prevent multiple eligibility requests from being performed
+    private var isCheckingEligibility = false
+
+    override init() {
+        super.init()
+
+        addSubscriptionNotifications()
+    }
+
     func requestProductInfo() {
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
@@ -170,13 +180,21 @@ extension IapHelper {
 // MARK: - Trial Eligibility
 
 private extension IapHelper {
+    /// Listens for subscription changes
+    private func addSubscriptionNotifications() {
+        NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
+            self?.updateTrialEligibility()
+        }
+    }
 
     /// Update the trial eligibility if:
+    /// - We are not already performing a check
     /// - The doesn't have an active subscription
     /// - The receipt exists
     /// - The feature flag is enabled
     private func updateTrialEligibility() {
         guard
+            isCheckingEligibility == false,
             FeatureFlag.freeTrialsEnabled,
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
@@ -185,9 +203,11 @@ private extension IapHelper {
             return
         }
 
+        isCheckingEligibility = true
         ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(isEligible ? "Yes" : "No")")
             self?.isEligibleForTrial = isEligible
+            self?.isCheckingEligibility = false
         }
     }
 }
