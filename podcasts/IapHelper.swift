@@ -19,7 +19,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         request.delegate = self
         request.start()
     }
-    
+
     func getProductWithIdentifier(identifier: String) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
@@ -161,6 +161,31 @@ extension IapHelper {
         }
 
         return offer
+    }
+}
+
+// MARK: - Trial Eligibility
+
+private extension IapHelper {
+
+    /// Update the trial eligibility if:
+    /// - The doesn't have an active subscription
+    /// - The receipt exists
+    /// - The feature flag is enabled
+    private func updateTrialEligibility() {
+        guard
+            FeatureFlag.freeTrialsEnabled,
+            SubscriptionHelper.hasActiveSubscription() == false,
+            let receiptUrl = Bundle.main.appStoreReceiptURL,
+            let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
+        else {
+            return
+        }
+
+        ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
+            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(isEligible ? "Yes" : "No")")
+            self?.isEligibleForTrial = isEligible
+        }
     }
 }
 
