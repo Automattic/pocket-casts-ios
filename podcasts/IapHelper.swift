@@ -18,6 +18,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
+
+        // Update the trial eligibility while we update the IAP products
+        updateTrialEligibility()
     }
 
     func getProductWithIdentifier(identifier: String) -> SKProduct! {
