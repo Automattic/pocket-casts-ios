@@ -11,7 +11,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
-    
+
+    /// Whether or not the user is eligible for a free trial
+    private var isEligibleForTrial = ServerConstants.Values.freeTrialDefaultValue
     func requestProductInfo() {
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self

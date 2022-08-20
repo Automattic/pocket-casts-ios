@@ -99,7 +99,7 @@ public enum ServerConstants {
         /// We show the free trial by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
-        static let freeTrialDefaultValue = true
+        public static let freeTrialDefaultValue = true
     }
     
     public enum UserDefaults {
