@@ -6,7 +6,8 @@ default_platform :ios
 
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
-APP_STORE_METADATA_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata')
+FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
+APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
@@ -19,8 +20,9 @@ GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
 TEAM_ID = 'PZYM8XX95Q'
 
+APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
 MAIN_BUNDLE_IDENTIFIERS = [
-  'au.com.shiftyjelly.podcasts',
+  APP_STORE_VERSION_BUNDLE_IDENTIFIER,
   'au.com.shiftyjelly.podcasts.NotificationExtension',
   'au.com.shiftyjelly.podcasts.NotificationContent',
   'au.com.shiftyjelly.podcasts.watchkitapp',
@@ -476,6 +478,31 @@ inal copy, and try again.")
       language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
       abort_on_violations: abort_on_violations,
       skip_confirm: skip_confirm
+    )
+  end
+
+  # Upload the localized metadata (from `fastlane/metadata/`) to App Store Connect
+  #
+  # @option [Boolean] with_screenshots (default: false) If true, will also upload the latest screenshot files to ASC
+  #
+  desc 'Upload the localized metadata to App Store Connect, optionally including screenshots.'
+  lane :update_metadata_on_app_store_connect do |options|
+    # Skip screenshots by default. The naming is "with" to make it clear that
+    # callers need to opt-in to adding screenshots. The naming of the deliver
+    # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
+    with_screenshots = options.fetch(:with_screenshots, false)
+    skip_screenshots = with_screenshots == false
+
+    upload_to_app_store(
+      app_identifier: APP_STORE_VERSION_BUNDLE_IDENTIFIER,
+      app_version: ios_get_app_version,
+      skip_binary_upload: true,
+      screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
+      skip_screenshots: skip_screenshots,
+      overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
+      phased_release: true,
+      precheck_include_in_app_purchases: false,
+      api_key_path: ASC_KEY_PATH
     )
   end
 
