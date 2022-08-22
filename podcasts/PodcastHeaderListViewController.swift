@@ -60,7 +60,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         var cell: UITableViewCell
         if showFeaturedCell, indexPath.row == 0 {
             let featuredCell = tableView.dequeueReusableCell(withIdentifier: PodcastHeaderListViewController.featuredCellId, for: indexPath) as! FeaturedTableViewCell
-            featuredCell.populateFrom(podcast, listName: labelTitle ?? L10n.top)
+            featuredCell.populateFrom(podcast, listName: labelTitle ?? L10n.Localizable.top)
             featuredCell.showRanking()
             if let uuid = podcast.uuid {
                 ColorManager.darkThemeTintColorForPodcastUuid(uuid, completion: { (color: UIColor) in

@@ -71,7 +71,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         view.addSubview(dismissView)
         
         dismissView.isAccessibilityElement = true
-        dismissView.accessibilityLabel = L10n.accessibilityDismiss
+        dismissView.accessibilityLabel = L10n.Localizable.accessibilityDismiss
         dismissView.accessibilityTraits = [.button]
         NSLayoutConstraint.activate([
             dismissView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

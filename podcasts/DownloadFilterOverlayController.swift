@@ -18,7 +18,7 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         addTableViewHeader()
         
         setupLargeTitle()
-        title = L10n.filterDownloadStatus
+        title = L10n.Localizable.filterDownloadStatus
         tableView.contentInsetAdjustmentBehavior = .never
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -97,11 +97,11 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
     private func titleForRow(row: TableRow) -> String {
         switch row {
         case .all:
-            return L10n.filterValueAll
+            return L10n.Localizable.filterValueAll
         case .downloaded:
-            return L10n.statusDownloaded
+            return L10n.Localizable.statusDownloaded
         case .notDownloaded:
-            return L10n.statusNotDownloaded
+            return L10n.Localizable.statusNotDownloaded
         }
     }
 }

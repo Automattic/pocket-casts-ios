@@ -58,10 +58,10 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
 
     public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
         if identifier == Constants.IapProducts.monthly.rawValue {
-            return L10n.month
+            return L10n.Localizable.month
         }
         else if identifier == Constants.IapProducts.yearly.rawValue {
-            return L10n.year
+            return L10n.Localizable.year
         }
         return ""
     }

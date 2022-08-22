@@ -18,7 +18,7 @@ class ShelfActionsViewController: UIViewController {
     @IBOutlet var headingLabel: ThemeableLabel! {
         didSet {
             headingLabel.style = .playerContrast02
-            headingLabel.text = L10n.accessibilityMoreActions.localizedUppercase
+            headingLabel.text = L10n.Localizable.accessibilityMoreActions.localizedUppercase
         }
     }
     
@@ -31,7 +31,7 @@ class ShelfActionsViewController: UIViewController {
     @IBOutlet var rearrangeHeader: ThemeableLabel! {
         didSet {
             rearrangeHeader.style = .playerContrast01
-            rearrangeHeader.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeHeader.text = L10n.Localizable.playerActionsRearrangeTitle.localizedCapitalized
         }
     }
     
@@ -80,7 +80,7 @@ class ShelfActionsViewController: UIViewController {
         actionsTable.reloadData()
         actionsTable.isScrollEnabled = true
         
-        sender.setTitle(L10n.done, for: .normal)
+        sender.setTitle(L10n.Localizable.done, for: .normal)
         
         rearrangeHeader.isHidden = false
         dragHandle.isHidden = true

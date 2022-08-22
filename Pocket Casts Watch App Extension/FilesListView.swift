@@ -6,14 +6,14 @@ struct FilesListView: View {
         ItemListContainer(isEmpty: $viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
             ScrollView {
                 LazyVStack {
-                    EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
+                    EpisodeListView(title: L10n.Localizable.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
                 }
             }
-            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.filesSort, supportsToolbar: viewModel.supportsSort) { option in
+            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.Localizable.filesSort, supportsToolbar: viewModel.supportsSort) { option in
                 viewModel.sortOrder = option
             }
         }
-        .navigationTitle(L10n.settingsFiles.prefixSourceUnicode)
+        .navigationTitle(L10n.Localizable.settingsFiles.prefixSourceUnicode)
         .onAppear {
             viewModel.loadUserEpisodes()
         }

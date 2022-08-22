@@ -795,11 +795,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
             
             if episode.downloaded(pathFinder: DownloadManager.shared) {
-                let message = userMessage ?? L10n.playerErrorCorruptedFile
+                let message = userMessage ?? L10n.Localizable.playerErrorCorruptedFile
                 DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
             }
             else {
-                let message = userMessage ?? L10n.playerErrorInternetConnection
+                let message = userMessage ?? L10n.Localizable.playerErrorInternetConnection
                 DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
                 cleanupCurrentPlayer(permanent: false)
             }
@@ -1530,7 +1530,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         if actionsEnabled {
             #if !os(watchOS)
-                markPlayedCommand.setTitle(title: L10n.markPlayedShort)
+                markPlayedCommand.setTitle(title: L10n.Localizable.markPlayedShort)
             #endif
             markPlayedCommand.removeTarget(self)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
@@ -1542,7 +1542,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             markPlayedCommand.isEnabled = true
             
             #if !os(watchOS)
-                starCommand.setTitle(title: L10n.starEpisodeShort)
+                starCommand.setTitle(title: L10n.Localizable.starEpisodeShort)
             #endif
             starCommand.removeTarget(self)
             starCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in

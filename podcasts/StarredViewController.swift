@@ -23,14 +23,14 @@ class StarredViewController: PCViewController {
 
     @IBOutlet var noEpisodesTitle: ThemeableLabel! {
         didSet {
-            noEpisodesTitle.text = L10n.profileStarredNoEpisodesTitle
+            noEpisodesTitle.text = L10n.Localizable.profileStarredNoEpisodesTitle
         }
     }
 
     @IBOutlet var noEpisodesDescription: ThemeableLabel! {
         didSet {
             noEpisodesDescription.style = .primaryText02
-            noEpisodesDescription.text = L10n.profileStarredNoEpisodesDesc
+            noEpisodesDescription.text = L10n.Localizable.profileStarredNoEpisodesDesc
         }
     }
     
@@ -85,7 +85,7 @@ class StarredViewController: PCViewController {
         super.viewDidLoad()
         
         refreshQueue.maxConcurrentOperationCount = 1
-        title = L10n.statusStarred
+        title = L10n.Localizable.statusStarred
         setupNavBar()
         refreshEpisodesFromServer(animated: false)
         addEventObservers()
@@ -173,10 +173,10 @@ class StarredViewController: PCViewController {
     }
     
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.select
+        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(title: L10n.Localizable.select, style: .plain, target: self, action: #selector(selectTapped))
+        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.Localizable.accessibilityCancelMultiselect : L10n.Localizable.select
         
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
+        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }

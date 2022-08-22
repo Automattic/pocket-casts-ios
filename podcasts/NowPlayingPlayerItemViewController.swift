@@ -278,13 +278,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         
         let options = OptionsPicker(title: nil, themeOverride: .dark)
         
-        let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+        let markPlayedOption = OptionAction(label: L10n.Localizable.markPlayedShort, icon: nil) {
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)
         
         if PlaybackManager.shared.queue.upNextCount() > 0 {
-            let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
+            let skipToNextAction = OptionAction(label: L10n.Localizable.nextEpisode, icon: nil) {
                 let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true)
             }

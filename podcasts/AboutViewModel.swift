@@ -5,7 +5,7 @@ class AboutViewModel: ObservableObject {
     @Published var whatsNewInfo: WhatsNewInfo?
     
     var whatsNewText: String {
-        L10n.whatsNewInVersion(Settings.appVersion())
+        L10n.Localizable.whatsNewInVersion(Settings.appVersion())
     }
     
     init() {

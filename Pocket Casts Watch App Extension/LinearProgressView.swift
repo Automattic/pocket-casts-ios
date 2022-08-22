@@ -15,7 +15,7 @@ struct LinearProgressView: View {
                     .clipShape(Capsule())
                     .frame(width: geo.size.width * progress)
             }
-            .accessibilityLabel(L10n.accessibilityPercentCompleteFormat(progress.localized(.spellOut)))
+            .accessibilityLabel(L10n.Localizable.accessibilityPercentCompleteFormat(progress.localized(.spellOut)))
         }
         .frame(height: 4)
     }

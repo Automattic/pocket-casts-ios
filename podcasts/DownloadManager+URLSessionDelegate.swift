@@ -82,17 +82,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
-            markEpisode(episode, asFailedWithMessage: L10n.downloadFailed)
+            markEpisode(episode, asFailedWithMessage: L10n.Localizable.downloadFailed)
             return
         }
         
         if response.statusCode >= 400, response.statusCode < 600 {
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
-                message = L10n.downloadErrorContactAuthorVersion2
+                message = L10n.Localizable.downloadErrorContactAuthorVersion2
             }
             else {
-                message = L10n.downloadErrorStatusCode(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))
+                message = L10n.Localizable.downloadErrorStatusCode(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))
             }
             
             // invalid download
@@ -110,7 +110,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
             // basic sanity checks to make sure the file looks big enough and it's content type isn't text
             if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
-                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2)
+                markEpisode(episode, asFailedWithMessage: L10n.Localizable.downloadErrorContactAuthorVersion2)
                 
                 return
             }
@@ -132,7 +132,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         }
         catch {
-            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace)
+            markEpisode(episode, asFailedWithMessage: L10n.Localizable.downloadErrorNotEnoughSpace)
         }
     }
     

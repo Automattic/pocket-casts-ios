@@ -45,7 +45,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             overflowButton.setImage(UIImage(named: "more"), for: .normal)
             overflowButton.imageView?.tintColor = ThemeColor.playerContrast02()
             overflowButton.addTarget(self, action: #selector(overflowTapped), for: .touchUpInside)
-            overflowButton.accessibilityLabel = L10n.accessibilityMoreActions
+            overflowButton.accessibilityLabel = L10n.Localizable.accessibilityMoreActions
             addToShelf(on: overflowButton)
             
             return false
@@ -69,7 +69,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             sleepBtn.tintColor = sleepTimerActive ? PlayerColorHelper.playerHighlightColor01(for: .dark) : ThemeColor.playerContrast02()
             sleepBtn.sleepTimerOn = sleepTimerActive
             sleepBtn.addTarget(self, action: #selector(sleepBtnTapped(_:)), for: .touchUpInside)
-            sleepBtn.accessibilityLabel = sleepTimerActive ? L10n.playerAccessibilitySleepTimerOn : L10n.playerActionTitleSleepTimer
+            sleepBtn.accessibilityLabel = sleepTimerActive ? L10n.Localizable.playerAccessibilitySleepTimerOn : L10n.Localizable.playerActionTitleSleepTimer
             addToShelf(on: sleepBtn)
             sleepBtn.setupAnimation()
         case .routePicker:
@@ -83,7 +83,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
                 shareBtn.setImage(UIImage(named: action.largeIconName(episode: nil)), for: .normal)
                 shareBtn.imageView?.tintColor = ThemeColor.playerContrast02()
                 shareBtn.addTarget(self, action: #selector(shareTapped(_:)), for: .touchUpInside)
-                shareBtn.accessibilityLabel = L10n.share
+                shareBtn.accessibilityLabel = L10n.Localizable.share
                 
                 addToShelf(on: shareBtn)
             }
@@ -93,7 +93,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             gotoPodcastBtn.imageView?.tintColor = ThemeColor.playerContrast02()
             gotoPodcastBtn.setImage(UIImage(named: action.largeIconName(episode: nil)), for: .normal)
             gotoPodcastBtn.addTarget(self, action: #selector(goToTapped(_:)), for: .touchUpInside)
-            gotoPodcastBtn.accessibilityLabel = L10n.goToPodcast
+            gotoPodcastBtn.accessibilityLabel = L10n.Localizable.goToPodcast
             
             addToShelf(on: gotoPodcastBtn)
         case .chromecast:
@@ -117,7 +117,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             markPlayedBtn.imageView?.tintColor = ThemeColor.playerContrast02()
             markPlayedBtn.setImage(UIImage(named: action.largeIconName(episode: nil)), for: .normal)
             markPlayedBtn.addTarget(self, action: #selector(markPlayedTapped(_:)), for: .touchUpInside)
-            markPlayedBtn.accessibilityLabel = L10n.markPlayed
+            markPlayedBtn.accessibilityLabel = L10n.Localizable.markPlayed
             
             addToShelf(on: markPlayedBtn)
         case .archive:
@@ -126,7 +126,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             archiveButton.imageView?.tintColor = ThemeColor.playerContrast02()
             archiveButton.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
             archiveButton.addTarget(self, action: #selector(archiveTapped(_:)), for: .touchUpInside)
-            archiveButton.accessibilityLabel = L10n.archive
+            archiveButton.accessibilityLabel = L10n.Localizable.archive
             
             addToShelf(on: archiveButton)
         }
@@ -261,11 +261,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
         
-        let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+        let markPlayedAction = OptionAction(label: L10n.Localizable.markPlayedShort, icon: nil) {
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         markPlayedAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
+        optionsPicker.addDescriptiveActions(title: L10n.Localizable.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
     
@@ -280,11 +280,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
         
-        let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
+        let archiveAction = OptionAction(label: L10n.Localizable.archive, icon: nil) {
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         }
         archiveAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
+        optionsPicker.addDescriptiveActions(title: L10n.Localizable.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
     
@@ -320,19 +320,19 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func shareEpisode(sender: UIView) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
         
-        let shareOptions = OptionsPicker(title: L10n.playerShareHeader, themeOverride: .dark)
+        let shareOptions = OptionsPicker(title: L10n.Localizable.playerShareHeader, themeOverride: .dark)
         
-        let sharePodcastAction = OptionAction(label: L10n.podcastSingular, icon: "chapter-link") {
+        let sharePodcastAction = OptionAction(label: L10n.Localizable.podcastSingular, icon: "chapter-link") {
             self.sharePodcast(source: sender, podcast: episode.parentPodcast())
         }
         shareOptions.addAction(action: sharePodcastAction)
         
-        let shareLinkAction = OptionAction(label: L10n.episode, icon: "chapter-link") {
+        let shareLinkAction = OptionAction(label: L10n.Localizable.episode, icon: "chapter-link") {
             self.shareEpisode(source: sender, episode: episode, fromTime: 0)
         }
         shareOptions.addAction(action: shareLinkAction)
         
-        let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: "chapter-link") {
+        let sharePositionAction = OptionAction(label: L10n.Localizable.shareCurrentPosition, icon: "chapter-link") {
             self.shareEpisode(source: sender, episode: episode, fromTime: PlaybackManager.shared.currentTime())
         }
         shareOptions.addAction(action: sharePositionAction)

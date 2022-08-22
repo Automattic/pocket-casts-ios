@@ -32,14 +32,14 @@ struct NowPlayingWidgetEntryView: View {
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                        
                 if entry.isPlaying {
-                    Text(L10n.nowPlaying.localizedUppercase)
+                    Text(L10n.Localizable.nowPlaying.localizedUppercase)
                         .font(.caption2)
                         .fontWeight(.medium)
                         .foregroundColor(Color.secondary)
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
                 }
                 else {
-                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)).localizedUppercase)
+                    Text(L10n.Localizable.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)).localizedUppercase)
                         .font(.caption2)
                         .fontWeight(.medium)
                         .foregroundColor(Color.secondary)

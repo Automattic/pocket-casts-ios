@@ -28,7 +28,7 @@ extension AppDelegate {
             guard let type = uti?.takeRetainedValue() else { return false }
             
             if UTTypeConformsTo(type, kUTTypeXML) || UTTypeConformsTo(type, "unofficial.opml" as CFString) {
-                progressDialog = ShiftyLoadingAlert(title: L10n.opmlImporting)
+                progressDialog = ShiftyLoadingAlert(title: L10n.Localizable.opmlImporting)
                 rootViewController.dismiss(animated: false, completion: nil)
                 progressDialog?.showAlert(rootViewController, hasProgress: false, completion: { [weak self] in
                     if let progressDialog = self?.progressDialog {
@@ -150,7 +150,7 @@ extension AppDelegate {
             let feedUrl = subscribeUrl.replacingOccurrences(of: prefix, with: "")
             let searchTerm = "http://\(feedUrl)"
             
-            strongSelf.progressDialog = ShiftyLoadingAlert(title: L10n.podcastLoading)
+            strongSelf.progressDialog = ShiftyLoadingAlert(title: L10n.Localizable.podcastLoading)
             controller.dismiss(animated: false, completion: nil)
             strongSelf.progressDialog?.showAlert(controller, hasProgress: false, completion: {
                 MainServerHandler.shared.podcastSearch(searchTerm: searchTerm) { response in
@@ -158,7 +158,7 @@ extension AppDelegate {
                         DispatchQueue.main.async {
                             self?.hideProgressDialog()
                             
-                            SJUIUtils.showAlert(title: L10n.error, message: L10n.errorGeneralPodcastNotFound, from: SceneHelper.rootViewController())
+                            SJUIUtils.showAlert(title: L10n.Localizable.error, message: L10n.Localizable.errorGeneralPodcastNotFound, from: SceneHelper.rootViewController())
                         }
                         
                         return
@@ -171,7 +171,7 @@ extension AppDelegate {
                                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: uuid])
                             }
                             else {
-                                SJUIUtils.showAlert(title: L10n.error, message: L10n.errorGeneralPodcastNotFound, from: SceneHelper.rootViewController())
+                                SJUIUtils.showAlert(title: L10n.Localizable.error, message: L10n.Localizable.errorGeneralPodcastNotFound, from: SceneHelper.rootViewController())
                             }
                         }
                     }
@@ -323,7 +323,7 @@ extension AppDelegate {
     }
     
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
-        progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)
+        progressDialog = ShiftyLoadingAlert(title: L10n.Localizable.sharedItemLoading)
         controller.dismiss(animated: false, completion: nil)
         
         progressDialog?.showAlert(controller, hasProgress: false) {
@@ -394,7 +394,7 @@ extension AppDelegate {
             else {
                 DispatchQueue.main.async {
                     self.hideProgressDialog()
-                    SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: SceneHelper.rootViewController())
+                    SJUIUtils.showAlert(title: L10n.Localizable.podcastShareErrorTitle, message: L10n.Localizable.podcastShareErrorMsg, from: SceneHelper.rootViewController())
                 }
             }
         })

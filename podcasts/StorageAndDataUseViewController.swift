@@ -17,7 +17,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsStorage
+        title = L10n.Localizable.settingsStorage
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,10 +38,10 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         
         if section == usageSection {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settingsStorageUsage)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsStorageUsage)
         }
         
-        return SettingsTableHeader(frame: headerFrame, title: L10n.settingsStorageMobileData)
+        return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsStorageMobileData)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -52,7 +52,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         if indexPath.section == usageSection {
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             
-            cell.cellLabel.text = L10n.downloadedFiles
+            cell.cellLabel.text = L10n.Localizable.downloadedFiles
             
             let fileSize = EpisodeManager.downloadSizeOfAllEpisodes()
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(fileSize))
@@ -63,7 +63,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             
-            cell.cellLabel.text = L10n.settingsStorageDataWarning
+            cell.cellLabel.text = L10n.Localizable.settingsStorageDataWarning
             cell.cellSwitch.isOn = !Settings.mobileDataAllowed()
             
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)

@@ -39,7 +39,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
                     self.progressWindow.hideAlert(false)
                     let controller = SceneHelper.rootViewController()
                     
-                    SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                    SJUIUtils.showAlert(title: L10n.Localizable.opmlImportFailedTitle, message: L10n.Localizable.opmlImportFailedMessage, from: controller)
                 }
                 
                 return
@@ -150,6 +150,6 @@ class OpmlImporter: Operation, XMLParserDelegate {
     }
 
     func progress(imported: Int, total: Int) -> String {
-        L10n.opmlImportProgressFormat(imported.localized(), total.localized())
+        L10n.Localizable.opmlImportProgressFormat(imported.localized(), total.localized())
     }
 }

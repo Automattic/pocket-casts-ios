@@ -4,14 +4,14 @@ import UIKit
 class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var resetPasswordBtn: ThemeableRoundedButton! {
         didSet {
-            resetPasswordBtn.setTitle(L10n.profileResetPassword, for: .normal)
+            resetPasswordBtn.setTitle(L10n.Localizable.profileResetPassword, for: .normal)
             resetPasswordBtn.buttonStyle = .primaryInteractive01
         }
     }
     
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
-            emailField.placeholder = L10n.signInEmailAddressPrompt
+            emailField.placeholder = L10n.Localizable.signInEmailAddressPrompt
             emailField.delegate = self
             emailField.addTarget(self, action: #selector(ForgotPasswordViewController.emailFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -51,7 +51,7 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.profileResetPassword
+        title = L10n.Localizable.profileResetPassword
         resetPasswordBtn.isEnabled = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
     }
@@ -84,7 +84,7 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
     @IBAction func performResetPassword(_ sender: Any) {
         guard let email = emailField.text else { return }
         
-        progressAlert = ShiftyLoadingAlert(title: L10n.profileSendingResetEmail)
+        progressAlert = ShiftyLoadingAlert(title: L10n.Localizable.profileSendingResetEmail)
         progressAlert?.showAlert(self, hasProgress: false, completion: {
             self.startPasswordReset(email)
         })
@@ -103,14 +103,14 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
                         self.showErrorMessage(message)
                     }
                     else {
-                        self.showErrorMessage(L10n.profileSendingResetEmailFailed)
+                        self.showErrorMessage(L10n.Localizable.profileSendingResetEmailFailed)
                     }
                     
                     return
                 }
                 
                 _ = self.navigationController?.popViewController(animated: true)
-                SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)
+                SJUIUtils.showAlert(title: L10n.Localizable.profileSendingResetEmailConfTitle, message: L10n.Localizable.profileSendingResetEmailConfMsg, from: self)
             }
         }
     }

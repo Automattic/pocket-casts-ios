@@ -7,13 +7,13 @@ protocol SortOption: Identifiable, CaseIterable, Equatable {
 }
 
 extension PodcastEpisodeSortOrder: SortOption {
-    static var pickerTitle: String = L10n.sortEpisodes
+    static var pickerTitle: String = L10n.Localizable.sortEpisodes
 
     var id: Int32 { rawValue }
 }
 
 extension LibrarySort: SortOption {
-    static var pickerTitle: String = L10n.podcastsSort
+    static var pickerTitle: String = L10n.Localizable.podcastsSort
     var id: Int { rawValue }
 
     static var allCases: [LibrarySort] {
@@ -22,6 +22,6 @@ extension LibrarySort: SortOption {
 }
 
 extension UploadedSort: SortOption {
-    static var pickerTitle: String = L10n.filesSort
+    static var pickerTitle: String = L10n.Localizable.filesSort
     public var id: Int { rawValue }
 }

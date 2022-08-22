@@ -251,7 +251,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingSubTitle(forEpisode episode: BaseEpisode) -> String? {
-        guard !PlaybackManager.shared.buffering() else { return L10n.watchBuffering }
+        guard !PlaybackManager.shared.buffering() else { return L10n.Localizable.watchBuffering }
         return episode.subTitle()
     }
 

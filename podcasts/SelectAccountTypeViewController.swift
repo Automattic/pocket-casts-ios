@@ -43,20 +43,20 @@ class SelectAccountTypeViewController: UIViewController {
     
     @IBOutlet var freeLabel: ThemeableLabel! {
         didSet {
-            freeLabel.text = L10n.createAccountFreePrice.localizedUppercase
+            freeLabel.text = L10n.Localizable.createAccountFreePrice.localizedUppercase
         }
     }
 
     @IBOutlet var plusPriceLabel: ThemeableLabel!
     @IBOutlet var regularLabel: ThemeableLabel! {
         didSet {
-            regularLabel.text = L10n.createAccountFreeAccountType
+            regularLabel.text = L10n.Localizable.createAccountFreeAccountType
         }
     }
     
     @IBOutlet var almostEverythingLabel: ThemeableLabel! {
         didSet {
-            almostEverythingLabel.text = L10n.createAccountFreeDetails
+            almostEverythingLabel.text = L10n.Localizable.createAccountFreeDetails
             almostEverythingLabel.style = .primaryText02
         }
     }
@@ -69,14 +69,14 @@ class SelectAccountTypeViewController: UIViewController {
     
     @IBOutlet var everythingLabel: ThemeableLabel! {
         didSet {
-            everythingLabel.text = L10n.createAccountPlusDetails
+            everythingLabel.text = L10n.Localizable.createAccountPlusDetails
             everythingLabel.style = .primaryText02
         }
     }
     
     @IBOutlet var nextButton: ThemeableRoundedButton! {
         didSet {
-            nextButton.setTitle(L10n.next, for: .normal)
+            nextButton.setTitle(L10n.Localizable.next, for: .normal)
         }
     }
 
@@ -96,7 +96,7 @@ class SelectAccountTypeViewController: UIViewController {
     
     @IBOutlet var learnMoreButton: UIButton! {
         didSet {
-            learnMoreButton.setTitle(L10n.createAccountFindOutMorePlus, for: .normal)
+            learnMoreButton.setTitle(L10n.Localizable.createAccountFindOutMorePlus, for: .normal)
             learnMoreButton.backgroundColor = UIColor.clear
             learnMoreButton.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
         }
@@ -108,13 +108,13 @@ class SelectAccountTypeViewController: UIViewController {
     
     @IBOutlet var errorMessageTitle: ThemeableLabel! {
         didSet {
-            errorMessageTitle.text = L10n.createAccountAppStoreErrorTitle
+            errorMessageTitle.text = L10n.Localizable.createAccountAppStoreErrorTitle
         }
     }
     
     @IBOutlet var errorDetailLabel: ThemeableLabel! {
         didSet {
-            errorDetailLabel.text = L10n.createAccountAppStoreErrorMessage
+            errorDetailLabel.text = L10n.Localizable.createAccountAppStoreErrorMessage
             errorDetailLabel.style = .primaryText02
         }
     }
@@ -144,11 +144,11 @@ class SelectAccountTypeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.accountSelectType
+        title = L10n.Localizable.accountSelectType
         isFreeAccount = false
         configureLabels()
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
@@ -236,19 +236,19 @@ private extension SelectAccountTypeViewController {
             configurePricingLabels()
             return
         }
-        plusNameLabel.text = L10n.pocketCastsPlusShort
-        plusPriceLabel.text = L10n.freeTrialDurationFree(trialDetails.duration)
-        plusPaymentFreqLabel.text = L10n.pricingTermsAfterTrial(trialDetails.pricing)
+        plusNameLabel.text = L10n.Localizable.pocketCastsPlusShort
+        plusPriceLabel.text = L10n.Localizable.freeTrialDurationFree(trialDetails.duration)
+        plusPaymentFreqLabel.text = L10n.Localizable.pricingTermsAfterTrial(trialDetails.pricing)
     }
 
     private func configurePricingLabels() {
         let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
 
-        plusNameLabel.text = L10n.pocketCastsPlus
+        plusNameLabel.text = L10n.Localizable.pocketCastsPlus
 
         if monthlyPrice.count > 0 {
             plusPriceLabel.text = monthlyPrice
-            plusPaymentFreqLabel.text = L10n.plusPerMonth
+            plusPaymentFreqLabel.text = L10n.Localizable.plusPerMonth
             nextButton.isEnabled = true
         }
         else {

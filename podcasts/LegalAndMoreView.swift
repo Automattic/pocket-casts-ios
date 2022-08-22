@@ -13,33 +13,33 @@ struct LegalAndMore: View {
                 .ignoresSafeArea()
             List {
                 Section {
-                    AboutRow(mainText: L10n.aboutTermsOfService, showChevronIcon: true) {
+                    AboutRow(mainText: L10n.Localizable.aboutTermsOfService, showChevronIcon: true) {
                         showTermsOfService = true
                     }
-                    AboutRow(mainText: L10n.aboutPrivacyPolicy, showChevronIcon: true) {
+                    AboutRow(mainText: L10n.Localizable.aboutPrivacyPolicy, showChevronIcon: true) {
                         showPrivacyPolicy = true
                     }
-                    AboutRow(mainText: L10n.aboutAcknowledgements, showChevronIcon: true) {
+                    AboutRow(mainText: L10n.Localizable.aboutAcknowledgements, showChevronIcon: true) {
                         showAcknowledgements = true
                     }
                 }
             }
             .listStyle(.insetGrouped)
         }
-        .navigationBarTitle(L10n.aboutLegalAndMore, displayMode: .inline)
+        .navigationBarTitle(L10n.Localizable.aboutLegalAndMore, displayMode: .inline)
         // Terms of Service
         NavigationLink(
-            destination: WebView(url: Constants.termsOfUseURL).navigationTitle(L10n.aboutTermsOfService),
+            destination: WebView(url: Constants.termsOfUseURL).navigationTitle(L10n.Localizable.aboutTermsOfService),
             isActive: $showTermsOfService
         ) {}
         // Privacy Policy
         NavigationLink(
-            destination: WebView(url: Constants.privacyPolicyURL).navigationTitle(L10n.aboutPrivacyPolicy),
+            destination: WebView(url: Constants.privacyPolicyURL).navigationTitle(L10n.Localizable.aboutPrivacyPolicy),
             isActive: $showPrivacyPolicy
         ) {}
         // Acknowledgements
         NavigationLink(
-            destination: WebView(url: Constants.acknowledgementsURL).navigationTitle(L10n.aboutAcknowledgements),
+            destination: WebView(url: Constants.acknowledgementsURL).navigationTitle(L10n.Localizable.aboutAcknowledgements),
             isActive: $showAcknowledgements
         ) {}
     }

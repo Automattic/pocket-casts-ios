@@ -34,25 +34,25 @@ class Theme: ObservableObject {
         var description: String {
             switch self {
             case .light:
-                return L10n.themeLight
+                return L10n.Localizable.themeLight
             case .dark:
-                return L10n.themeDark
+                return L10n.Localizable.themeDark
             case .extraDark:
-                return L10n.themeExtraDark
+                return L10n.Localizable.themeExtraDark
             case .electric:
-                return L10n.themeElectricity
+                return L10n.Localizable.themeElectricity
             case .classic:
-                return L10n.themeClassic
+                return L10n.Localizable.themeClassic
             case .indigo:
-                return L10n.themeIndigo
+                return L10n.Localizable.themeIndigo
             case .radioactive:
-                return L10n.themeRadioactivity
+                return L10n.Localizable.themeRadioactivity
             case .rosé:
-                return L10n.themeRose
+                return L10n.Localizable.themeRose
             case .contrastLight:
-                return L10n.themeLightContrast
+                return L10n.Localizable.themeLightContrast
             case .contrastDark:
-                return L10n.themeDarkContrast
+                return L10n.Localizable.themeDarkContrast
             }
         }
 

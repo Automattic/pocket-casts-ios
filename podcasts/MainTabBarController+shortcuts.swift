@@ -5,38 +5,38 @@ extension MainTabBarController {
         // playback
         addKeyCommand(playPauseCommand)
         
-        let skipBackCommand = UIKeyCommand(title: L10n.skipBack, action: #selector(handleSkipBack), input: UIKeyCommand.inputLeftArrow, modifierFlags: [.command])
+        let skipBackCommand = UIKeyCommand(title: L10n.Localizable.skipBack, action: #selector(handleSkipBack), input: UIKeyCommand.inputLeftArrow, modifierFlags: [.command])
         addKeyCommand(skipBackCommand)
         
-        let skipForwardCommand = UIKeyCommand(title: L10n.skipForward, action: #selector(handleSkipForward), input: UIKeyCommand.inputRightArrow, modifierFlags: [.command])
+        let skipForwardCommand = UIKeyCommand(title: L10n.Localizable.skipForward, action: #selector(handleSkipForward), input: UIKeyCommand.inputRightArrow, modifierFlags: [.command])
         addKeyCommand(skipForwardCommand)
         
-        let openPlayerCommand = UIKeyCommand(title: L10n.keycommandOpenPlayer, action: #selector(handleOpenPlayer), input: UIKeyCommand.inputUpArrow, modifierFlags: [.command])
+        let openPlayerCommand = UIKeyCommand(title: L10n.Localizable.keycommandOpenPlayer, action: #selector(handleOpenPlayer), input: UIKeyCommand.inputUpArrow, modifierFlags: [.command])
         addKeyCommand(openPlayerCommand)
         
-        let closePlayerCommand = UIKeyCommand(title: L10n.keycommandClosePlayer, action: #selector(handleClosePlayer), input: UIKeyCommand.inputDownArrow, modifierFlags: [.command])
+        let closePlayerCommand = UIKeyCommand(title: L10n.Localizable.keycommandClosePlayer, action: #selector(handleClosePlayer), input: UIKeyCommand.inputDownArrow, modifierFlags: [.command])
         addKeyCommand(closePlayerCommand)
         
-        let decreaseSpeedCommand = UIKeyCommand(title: L10n.keycommandDecreaseSpeed, action: #selector(handleDecreaseSpeed), input: "[", modifierFlags: [.command])
+        let decreaseSpeedCommand = UIKeyCommand(title: L10n.Localizable.keycommandDecreaseSpeed, action: #selector(handleDecreaseSpeed), input: "[", modifierFlags: [.command])
         addKeyCommand(decreaseSpeedCommand)
         
-        let increaseSpeedCommand = UIKeyCommand(title: L10n.keycommandIncreaseSpeed, action: #selector(handleIncreaseSpeed), input: "]", modifierFlags: [.command])
+        let increaseSpeedCommand = UIKeyCommand(title: L10n.Localizable.keycommandIncreaseSpeed, action: #selector(handleIncreaseSpeed), input: "]", modifierFlags: [.command])
         addKeyCommand(increaseSpeedCommand)
         
         // navigation
-        let podcastsCommand = UIKeyCommand(title: L10n.podcastsPlural, action: #selector(handlePodcasts), input: "1", modifierFlags: [.command])
+        let podcastsCommand = UIKeyCommand(title: L10n.Localizable.podcastsPlural, action: #selector(handlePodcasts), input: "1", modifierFlags: [.command])
         addKeyCommand(podcastsCommand)
         
-        let filtersCommand = UIKeyCommand(title: L10n.filters, action: #selector(handleFilters), input: "2", modifierFlags: [.command])
+        let filtersCommand = UIKeyCommand(title: L10n.Localizable.filters, action: #selector(handleFilters), input: "2", modifierFlags: [.command])
         addKeyCommand(filtersCommand)
         
-        let discoverCommand = UIKeyCommand(title: L10n.discover, action: #selector(handleDiscover), input: "3", modifierFlags: [.command])
+        let discoverCommand = UIKeyCommand(title: L10n.Localizable.discover, action: #selector(handleDiscover), input: "3", modifierFlags: [.command])
         addKeyCommand(discoverCommand)
         
-        let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "4", modifierFlags: [.command])
+        let profileCommand = UIKeyCommand(title: L10n.Localizable.profile, action: #selector(handleProfile), input: "4", modifierFlags: [.command])
         addKeyCommand(profileCommand)
         
-        let searchCommand = UIKeyCommand(title: L10n.search, action: #selector(handleSearch), input: "f", modifierFlags: [.command])
+        let searchCommand = UIKeyCommand(title: L10n.Localizable.search, action: #selector(handleSearch), input: "f", modifierFlags: [.command])
         addKeyCommand(searchCommand)
     }
     

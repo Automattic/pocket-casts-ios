@@ -34,10 +34,10 @@ class CancelInfoViewController: UIViewController, SFSafariViewControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.cancelSubscription
+        title = L10n.Localizable.cancelSubscription
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -67,14 +67,14 @@ class CancelInfoViewController: UIViewController, SFSafariViewControllerDelegate
         
         switch subscriptionPlatform {
         case .iOS:
-            platformLabel.text = L10n.plusSubscriptionApple
-            cancelLabel.text = L10n.plusSubscriptionAppleDetails
+            platformLabel.text = L10n.Localizable.plusSubscriptionApple
+            cancelLabel.text = L10n.Localizable.plusSubscriptionAppleDetails
         case .android:
-            platformLabel.text = L10n.plusSubscriptionGoogle
-            cancelLabel.text = L10n.plusSubscriptionGoogleDetails
+            platformLabel.text = L10n.Localizable.plusSubscriptionGoogle
+            cancelLabel.text = L10n.Localizable.plusSubscriptionGoogleDetails
         case .web:
-            platformLabel.text = L10n.plusSubscriptionWeb
-            cancelLabel.text = L10n.plusSubscriptionWebDetails
+            platformLabel.text = L10n.Localizable.plusSubscriptionWeb
+            cancelLabel.text = L10n.Localizable.plusSubscriptionWebDetails
         default:
             platformLabel.text = ""
             cancelLabel.text = ""

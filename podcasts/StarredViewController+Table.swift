@@ -18,11 +18,11 @@ extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
             guard let indexPath = starredTable.indexPathForRow(at: touchPoint) else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                let allAboveAction = OptionAction(label: L10n.Localizable.selectAllAbove, icon: "selectall-up", action: { [] in
                     self.starredTable.selectAllAbove(indexPath: indexPath)
                 })
                 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                let allBelowAction = OptionAction(label: L10n.Localizable.selectAllBelow, icon: "selectall-down", action: { [] in
                     self.starredTable.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)

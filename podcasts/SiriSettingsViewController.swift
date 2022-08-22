@@ -29,7 +29,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
     let disclosureCelld = "siriDisclosureCellId"
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settingsSiriShortcuts
+        title = L10n.Localizable.settingsSiriShortcuts
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         suggestedShortcuts = SiriShortcutsManager.shared.defaultSuggestions()
@@ -64,9 +64,9 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         let section = tableData[section]
         switch section {
         case .enabledSection:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settingsSiriShortcutsEnabled.localizedCapitalized)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsSiriShortcutsEnabled.localizedCapitalized)
         case .suggestedSection:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settingsSiriShortcutsAvailable.localizedCapitalized)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsSiriShortcutsAvailable.localizedCapitalized)
         case .playSection:
             return nil
         }
@@ -104,9 +104,9 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             let row = playRows[indexPath.row]
             switch row {
             case .playPodcast:
-                cell.titleLabel?.text = L10n.settingsSiriShortcutsSpecificPodcast
+                cell.titleLabel?.text = L10n.Localizable.settingsSiriShortcutsSpecificPodcast
             case .playFilter:
-                cell.titleLabel?.text = L10n.settingsSiriShortcutsSpecificFilter
+                cell.titleLabel?.text = L10n.Localizable.settingsSiriShortcutsSpecificFilter
             }
             return cell
         }

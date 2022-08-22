@@ -87,7 +87,7 @@ class FolderModel: ObservableObject {
     
     func nameForFolder() -> String {
         if name.trim().isEmpty {
-            return L10n.folderNew
+            return L10n.Localizable.folderNew
         }
         
         return name.trim()

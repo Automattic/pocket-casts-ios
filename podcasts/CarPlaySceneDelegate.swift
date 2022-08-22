@@ -122,7 +122,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         let upNextEpisodes = convertToListItems(episodes: episodes, showArtwork: true, closeListOnTap: true)
         
         let upNextSection = CPListSection(items: upNextEpisodes)
-        let template = CPListTemplate(title: L10n.upNext, sections: [upNextSection])
+        let template = CPListTemplate(title: L10n.Localizable.upNext, sections: [upNextSection])
         
         return template
     }

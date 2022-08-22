@@ -16,7 +16,7 @@ struct EpisodeActionView: View {
 
 struct EpisodeActionView_Previews: PreviewProvider {
     static var previews: some View {
-        EpisodeActionView(iconName: "episode_download", title: L10n.download)
+        EpisodeActionView(iconName: "episode_download", title: L10n.Localizable.download)
             .previewDevice(.largeWatch)
     }
 }

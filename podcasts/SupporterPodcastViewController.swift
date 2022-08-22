@@ -197,7 +197,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         switch row {
         case .goToPodcast:
             let cell = tableView.dequeueReusableCell(withIdentifier: SupporterPodcastViewController.actionCellId, for: indexPath) as! AccountActionCell
-            cell.cellLabel.text = L10n.goToPodcast
+            cell.cellLabel.text = L10n.Localizable.goToPodcast
             cell.cellImage.image = UIImage(named: "goto")
             cell.iconStyle = .primaryInteractive01
             cell.counterView.isHidden = true
@@ -205,7 +205,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             return cell
         case .cancelSubscription:
             let cell = tableView.dequeueReusableCell(withIdentifier: SupporterPodcastViewController.actionCellId, for: indexPath) as! AccountActionCell
-            cell.cellLabel.text = L10n.paidPodcastCancel
+            cell.cellLabel.text = L10n.Localizable.paidPodcastCancel
             cell.cellImage.image = UIImage(named: "cancelsubscription")
             cell.iconStyle = .primaryInteractive01
             cell.counterView.isHidden = true
@@ -267,19 +267,19 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             if let firstPodcastSubscription = firstPodcastSubscription, !firstPodcastSubscription.isExpired() {
                 let podcastCount = bundleSubscription.podcasts.count.localized()
                 let subscribedPodcastCount = bundleSubscription.podcasts.filter { DataManager.sharedManager.findPodcast(uuid: $0.uuid) != nil }.count.localized()
-                let title = L10n.paidPodcastBundledSubscriptions(subscribedPodcastCount, podcastCount)
-                let rightBtnTitle = subscribedPodcastCount == podcastCount ? L10n.unsubscribeAll.localizedUppercase : L10n.subscribeAll.localizedUppercase
+                let title = L10n.Localizable.paidPodcastBundledSubscriptions(subscribedPodcastCount, podcastCount)
+                let rightBtnTitle = subscribedPodcastCount == podcastCount ? L10n.Localizable.unsubscribeAll.localizedUppercase : L10n.Localizable.subscribeAll.localizedUppercase
                 let rightBtnStyle: ThemeStyle = subscribedPodcastCount == podcastCount ? .support05 : .primaryInteractive01
                 let rightBtnSelector = subscribedPodcastCount == podcastCount ? #selector(unsubscribeWarning) : #selector(subscribeAll)
                 return SettingsTableHeader(frame: headerFrame, title: title, rightBtnTitle: rightBtnTitle, rightBtnSelector: rightBtnSelector, rightBtnTarget: self, rightBtnThemeStyle: rightBtnStyle)
             }
             else {
-                return SettingsTableHeader(frame: headerFrame, title: L10n.podcastsPlural.localizedUppercase)
+                return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.podcastsPlural.localizedUppercase)
             }
         case .manageSubscription:
             let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
             
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settings.localizedUppercase)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settings.localizedUppercase)
         }
     }
     
@@ -304,15 +304,15 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         guard let firstPodcastSubscription = bundleSubscription.podcasts.first, let firstPodcast = DataManager.sharedManager.findPodcast(uuid: firstPodcastSubscription.uuid, includeUnsubscribed: true) else { return }
         let actionSheet = OptionsPicker(title: nil)
         
-        let cancelAction = OptionAction(label: L10n.paidPodcastCancel, icon: nil) { [weak self] in
+        let cancelAction = OptionAction(label: L10n.Localizable.paidPodcastCancel, icon: nil) { [weak self] in
             self?.performCancel()
         }
         cancelAction.destructive = true
         
         let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
-        let deleteAfterExpiryMessage = isSingleBundleSubscription() ? L10n.paidPodcastCancelMsgSingular(expiryDateStr) : L10n.paidPodcastCancelMsgPlural(expiryDateStr)
-        let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.paidPodcastCancelMsgRetainAccess(expiryDateStr)
-        actionSheet.addDescriptiveActions(title: L10n.areYouSure, message: message, icon: "cancelsubscription-large", actions: [cancelAction])
+        let deleteAfterExpiryMessage = isSingleBundleSubscription() ? L10n.Localizable.paidPodcastCancelMsgSingular(expiryDateStr) : L10n.Localizable.paidPodcastCancelMsgPlural(expiryDateStr)
+        let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.Localizable.paidPodcastCancelMsgRetainAccess(expiryDateStr)
+        actionSheet.addDescriptiveActions(title: L10n.Localizable.areYouSure, message: message, icon: "cancelsubscription-large", actions: [cancelAction])
         
         actionSheet.show(statusBarStyle: preferredStatusBarStyle)
     }
@@ -320,7 +320,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     private var progressAlert: ShiftyLoadingAlert?
     private func performCancel() {
         guard let firstPodcastSubscription = bundleSubscription.podcasts.first else { return }
-        progressAlert = ShiftyLoadingAlert(title: L10n.canceling)
+        progressAlert = ShiftyLoadingAlert(title: L10n.Localizable.canceling)
         progressAlert?.showAlert(self, hasProgress: false, completion: nil)
         ApiServerHandler.shared.cancelPaidPodcastSubcription(bundleUuid: firstPodcastSubscription.bundleUuid) { [weak self] success in
             guard let self = self else { return }
@@ -332,7 +332,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
                     self.navigationController?.popViewController(animated: true)
                 }
                 else {
-                    SJUIUtils.showAlert(title: L10n.cancelFailed, message: L10n.pleaseTryAgainLater, from: self)
+                    SJUIUtils.showAlert(title: L10n.Localizable.cancelFailed, message: L10n.Localizable.pleaseTryAgainLater, from: self)
                 }
             }
         }
@@ -375,7 +375,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             frequencyLabel.text = SubscriptionHelper.readableSubscriptionFrequency(frequency: firstPodcastSubscription.frequency)
             
             let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
-            nextPaymentLabel.text = L10n.nextPaymentFormat(expiryDateStr)
+            nextPaymentLabel.text = L10n.Localizable.nextPaymentFormat(expiryDateStr)
         }
         else {
             nextPaymentLabel.isHidden = true
@@ -470,12 +470,12 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     
     @objc func unsubscribeWarning() {
         let optionPicker = OptionsPicker(title: nil)
-        let unsubscribeAction = OptionAction(label: L10n.unsubscribeAll, icon: nil, action: { [weak self] in
+        let unsubscribeAction = OptionAction(label: L10n.Localizable.unsubscribeAll, icon: nil, action: { [weak self] in
             self?.unsubscribeAll()
         })
         
         unsubscribeAction.destructive = true
-        optionPicker.addDescriptiveActions(title: L10n.unsubscribe, message: L10n.paidPodcastUnsubscribeMsg, icon: "option-alert", actions: [unsubscribeAction])
+        optionPicker.addDescriptiveActions(title: L10n.Localizable.unsubscribe, message: L10n.Localizable.paidPodcastUnsubscribeMsg, icon: "option-alert", actions: [unsubscribeAction])
         
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }

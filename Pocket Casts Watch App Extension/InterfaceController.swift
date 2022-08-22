@@ -38,23 +38,23 @@ class InterfaceController: PCInterfaceController {
                 upNextRow.icon.setImage(UIImage(named: "upnext"))
                 upNextRow.episodeCountGroup.setHidden(false)
                 let upNextCount = sourceIsPhone ? WatchDataManager.upNextCount() : PlaybackManager.shared.queue.upNextCount()
-                upNextRow.populate(title: L10n.upNext, count: upNextCount)
+                upNextRow.populate(title: L10n.Localizable.upNext, count: upNextCount)
             case .podcasts:
                 let podcastsRow = mainTable.rowController(at: rowIndex) as! TopLevelItemRowController
-                podcastsRow.populate(title: L10n.podcastsPlural)
+                podcastsRow.populate(title: L10n.Localizable.podcastsPlural)
                 podcastsRow.icon.setImage(UIImage(named: "podcasts"))
             case .filters:
                 let filtersRow = mainTable.rowController(at: rowIndex) as! TopLevelItemRowController
-                filtersRow.populate(title: L10n.filters)
+                filtersRow.populate(title: L10n.Localizable.filters)
                 filtersRow.icon.setImage(UIImage(named: "filters"))
             case .downloads:
                 let downloadsRow = mainTable.rowController(at: rowIndex) as! TopLevelItemRowController
                 downloadsRow.icon.setImage(UIImage(named: "filter_downloaded"))
                 let downloadCount = sourceIsPhone ? 0 : DataManager.sharedManager.downloadedEpisodeCount()
-                downloadsRow.populate(title: L10n.downloads, count: downloadCount)
+                downloadsRow.populate(title: L10n.Localizable.downloads, count: downloadCount)
             case .files:
                 let filesRow = mainTable.rowController(at: rowIndex) as! TopLevelItemRowController
-                filesRow.populate(title: L10n.files)
+                filesRow.populate(title: L10n.Localizable.files)
                 filesRow.icon.setImage(UIImage(named: "file"))
             }
         }
@@ -96,10 +96,10 @@ class InterfaceController: PCInterfaceController {
     
     override func populateTitle() {
         if SourceManager.shared.isPhone() {
-            setTitle(L10n.phone.prefixSourceUnicode)
+            setTitle(L10n.Localizable.phone.prefixSourceUnicode)
         }
         else {
-            setTitle(L10n.watch.prefixSourceUnicode)
+            setTitle(L10n.Localizable.watch.prefixSourceUnicode)
         }
     }
     

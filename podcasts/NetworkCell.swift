@@ -37,7 +37,7 @@ class NetworkCell: UICollectionViewCell {
     
     func populateFrom(_ network: PodcastNetwork) {
         if let title = network.title {
-            networkImage.accessibilityLabel = L10n.discoverPodcastNetwork(title)
+            networkImage.accessibilityLabel = L10n.Localizable.discoverPodcastNetwork(title)
         }
         
         if let imageUrl = network.imageUrl {

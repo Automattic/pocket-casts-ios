@@ -21,7 +21,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     
     @IBOutlet var newFilterButton: UIButton! {
         didSet {
-            newFilterButton.setTitle(L10n.filtersNewFilterButton, for: .normal)
+            newFilterButton.setTitle(L10n.Localizable.filtersNewFilterButton, for: .normal)
         }
     }
     
@@ -30,7 +30,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         
         customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         
-        title = L10n.filters
+        title = L10n.Localizable.filters
         
         if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
             let playlistViewController = PlaylistViewController(filter: filter)

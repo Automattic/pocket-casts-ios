@@ -19,7 +19,7 @@ class PCSearchBarController: UIViewController {
     @IBOutlet var searchIcon: UIImageView!
     @IBOutlet var cancelButton: UIButton! {
         didSet {
-            cancelButton.setTitle(L10n.cancel, for: .normal)
+            cancelButton.setTitle(L10n.Localizable.cancel, for: .normal)
         }
     }
 
@@ -43,7 +43,7 @@ class PCSearchBarController: UIViewController {
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
     
-    var placeholderText = L10n.search
+    var placeholderText = L10n.Localizable.search
     
     var backgroundColorOverride: UIColor?
     

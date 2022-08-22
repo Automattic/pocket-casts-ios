@@ -10,7 +10,7 @@ class PodcastShortcutsViewController: PCViewController, UITableViewDelegate, UIT
     let addCellId = "siriAddCellId"
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.siriShortcutToPodcast.localizedCapitalized
+        title = L10n.Localizable.siriShortcutToPodcast.localizedCapitalized
         tableView.register(UINib(nibName: "SiriShortcutAddCell", bundle: nil), forCellReuseIdentifier: addCellId)
     }
     

@@ -16,7 +16,7 @@ class PlaylistManager {
             newReleases.filterAudioVideoType = AudioVideoFilter.all.rawValue
             newReleases.filterAllPodcasts = true
             newReleases.sortPosition = 0
-            newReleases.playlistName = L10n.filtersDefaultNewReleases
+            newReleases.playlistName = L10n.Localizable.filtersDefaultNewReleases
             newReleases.filterDownloaded = true
             newReleases.filterNotDownloaded = true
             newReleases.filterHours = (24 * 14) // two weeks
@@ -42,7 +42,7 @@ class PlaylistManager {
             inProgress.filterAllPodcasts = true
             inProgress.filterAudioVideoType = AudioVideoFilter.all.rawValue
             inProgress.sortPosition = 2
-            inProgress.playlistName = L10n.inProgress
+            inProgress.playlistName = L10n.Localizable.inProgress
             inProgress.filterDownloaded = true
             inProgress.filterNotDownloaded = true
             inProgress.filterUnplayed = false
@@ -63,7 +63,7 @@ class PlaylistManager {
             starred.filterAllPodcasts = true
             starred.filterAudioVideoType = AudioVideoFilter.all.rawValue
             starred.sortPosition = 3
-            starred.playlistName = L10n.statusStarred
+            starred.playlistName = L10n.Localizable.statusStarred
             starred.filterDownloaded = true
             starred.filterNotDownloaded = true
             starred.filterUnplayed = true
@@ -100,7 +100,7 @@ class PlaylistManager {
     class func createNewFilter() -> EpisodeFilter {
         let filter = EpisodeFilter()
         filter.uuid = UUID().uuidString
-        filter.playlistName = L10n.filtersDefaultNewFilter
+        filter.playlistName = L10n.Localizable.filtersDefaultNewFilter
         filter.syncStatus = SyncStatus.notSynced.rawValue
         filter.sortPosition = nextSortPosition()
         filter.filterPartiallyPlayed = true

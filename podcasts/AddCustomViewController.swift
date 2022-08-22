@@ -109,7 +109,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 let maxStorage = Int64(max(ServerSettings.customStorageUserLimit(), Constants.RemoteParams.customStorageLimitGBDefault.gigabytes))
                 let usedStorage = Int64(ServerSettings.customStorageUsed())
                 if usedStorage + Int64(fileSize) > maxStorage, Settings.userFilesAutoUpload() {
-                    showError(message: L10n.fileUploadError + "\n" + L10n.fileUploadErrorSubtitle)
+                    showError(message: L10n.Localizable.fileUploadError + "\n" + L10n.Localizable.fileUploadErrorSubtitle)
                 }
             }
         }
@@ -122,11 +122,11 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 fileImageView.contentMode = .scaleAspectFit
                 fileImageView.backgroundColor = AppTheme.embeddedArtworkColor()
                 imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor()
-                addCustomImageButton.setTitle(L10n.fileUploadRemoveImage, for: .normal)
+                addCustomImageButton.setTitle(L10n.Localizable.fileUploadRemoveImage, for: .normal)
                 colorPickerView.reloadData()
             }
             else {
-                addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
+                addCustomImageButton.setTitle(L10n.Localizable.fileUploadAddImage, for: .normal)
             }
         }
     }
@@ -190,7 +190,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         }
         setupColorPicker()
         if let episode = episodeToEdit {
-            title = L10n.fileUploadEditFile
+            title = L10n.Localizable.fileUploadEditFile
             nameTextfield.text = name
             nameLabel.text = name
             fileSize = Int(episode.sizeInBytes)
@@ -220,12 +220,12 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         }
         else {
             guard FileTypeUtil.isSupportedUserFileType(fileName: fileUrl.absoluteString) else {
-                showError(message: L10n.fileUploadSupportError)
+                showError(message: L10n.Localizable.fileUploadSupportError)
                 return
             }
             if let newFileLocation = DownloadManager.shared.addLocalFile(url: fileUrl, uuid: uuid) {
                 destinationUrl = newFileLocation
-                title = L10n.fileUploadAddFile
+                title = L10n.Localizable.fileUploadAddFile
                 errorView.isHidden = true
                 let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
                 navigationItem.leftBarButtonItem = cancelButton
@@ -238,7 +238,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 setupScrollViewOffset()
             }
             else {
-                showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
+                showError(message: L10n.Localizable.pleaseTryAgain) // TODO: update error meessage
             }
         }
         
@@ -248,7 +248,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .centeredHorizontally)
-        let saveButton = UIBarButtonItem(title: L10n.fileUploadSave, style: .plain, target: self, action: #selector(saveTapped))
+        let saveButton = UIBarButtonItem(title: L10n.Localizable.fileUploadSave, style: .plain, target: self, action: #selector(saveTapped))
         customRightBtn = saveButton
     }
     
@@ -304,7 +304,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.addCustomImageButton.alpha = 1
             }
             else {
-                self.addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
+                self.addCustomImageButton.setTitle(L10n.Localizable.fileUploadAddImage, for: .normal)
                 self.addCustomImageButton.isEnabled = true
                 self.addCustomlock.isHidden = false
                 self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd()
@@ -414,16 +414,16 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
     
     private func showAddImagePicker(hasCameraAccess: Bool) {
-        let optionPicker = OptionsPicker(title: L10n.fileUploadChooseImage)
+        let optionPicker = OptionsPicker(title: L10n.Localizable.fileUploadChooseImage)
         
         if hasCameraAccess {
-            let cameraAction = OptionAction(label: L10n.fileUploadChooseImageCamera, icon: nil) {
+            let cameraAction = OptionAction(label: L10n.Localizable.fileUploadChooseImageCamera, icon: nil) {
                 self.showCamera()
             }
             optionPicker.addAction(action: cameraAction)
         }
         
-        let libraryAction = OptionAction(label: L10n.fileUploadChooseImagePhotoLibrary, icon: nil) {
+        let libraryAction = OptionAction(label: L10n.Localizable.fileUploadChooseImagePhotoLibrary, icon: nil) {
             self.showPhotoLibrary()
         }
         optionPicker.addAction(action: libraryAction)
@@ -469,7 +469,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         }
         else {
             navigationItem.rightBarButtonItem?.isEnabled = false
-            nameLabel.text = L10n.fileUploadNameRequired
+            nameLabel.text = L10n.Localizable.fileUploadNameRequired
             nameLabel.style = .support05
         }
     }

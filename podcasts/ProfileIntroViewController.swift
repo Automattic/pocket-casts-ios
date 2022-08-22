@@ -5,14 +5,14 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
-            createAccountBtn.setTitle(L10n.createAccount, for: .normal)
+            createAccountBtn.setTitle(L10n.Localizable.createAccount, for: .normal)
             createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
     }
     
     @IBOutlet var signInBtn: ThemeableRoundedButton! {
         didSet {
-            signInBtn.setTitle(L10n.signIn, for: .normal)
+            signInBtn.setTitle(L10n.Localizable.signIn, for: .normal)
             signInBtn.shouldFill = false
             signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
@@ -26,14 +26,14 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     
     @IBOutlet var signOrCreateLabel: ThemeableLabel! {
         didSet {
-            signOrCreateLabel.text = L10n.signInPrompt
+            signOrCreateLabel.text = L10n.Localizable.signInPrompt
             signOrCreateLabel.style = .primaryText01
         }
     }
     
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.text = L10n.signInMessage
+            infoLabel.text = L10n.Localizable.signInMessage
             infoLabel.style = .primaryText02
         }
     }
@@ -41,15 +41,15 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.setupAccount
+        title = L10n.Localizable.setupAccount
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         
         handleThemeChanged()
         let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
-        doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        doneButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
     }
     

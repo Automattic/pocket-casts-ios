@@ -26,99 +26,99 @@ class PlusDetailsViewController: PCViewController {
     
     @IBOutlet var learnMoreBtn: UIButton! {
         didSet {
-            learnMoreBtn.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
+            learnMoreBtn.setTitle(L10n.Localizable.plusMarketingLearnMoreButton, for: .normal)
         }
     }
     
     // top section
     @IBOutlet var mainTitle: ThemeableLabel! {
         didSet {
-            mainTitle.text = L10n.plusMarketingMainTitle
+            mainTitle.text = L10n.Localizable.plusMarketingMainTitle
         }
     }
 
     @IBOutlet var plusDescription: SecondaryLabel! {
         didSet {
-            plusDescription.text = L10n.plusMarketingMainDescription
+            plusDescription.text = L10n.Localizable.plusMarketingMainDescription
         }
     }
 
     @IBOutlet var upgradeButton: GradientButton! {
         didSet {
-            upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
+            upgradeButton.setTitle(L10n.Localizable.plusMarketingUpgradeButton, for: .normal)
         }
     }
     
     @IBOutlet var secondUpgradeButton: GradientButton! {
         didSet {
-            secondUpgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
+            secondUpgradeButton.setTitle(L10n.Localizable.plusMarketingUpgradeButton, for: .normal)
         }
     }
     
     // Features
     @IBOutlet var desktopAppsTitle: ThemeableLabel! {
         didSet {
-            desktopAppsTitle.text = L10n.plusMarketingDesktopAppsTitle
+            desktopAppsTitle.text = L10n.Localizable.plusMarketingDesktopAppsTitle
         }
     }
 
     @IBOutlet var desktopAppsDescription: SecondaryLabel! {
         didSet {
-            desktopAppsDescription.text = L10n.plusMarketingDesktopAppsDescription
+            desktopAppsDescription.text = L10n.Localizable.plusMarketingDesktopAppsDescription
         }
     }
 
     @IBOutlet var cloudStorageTitle: ThemeableLabel! {
         didSet {
-            cloudStorageTitle.text = L10n.plusMarketingCloudStorageTitle
+            cloudStorageTitle.text = L10n.Localizable.plusMarketingCloudStorageTitle
         }
     }
 
     @IBOutlet var cloudStorageDescription: SecondaryLabel! {
         didSet {
-            cloudStorageDescription.text = L10n.plusMarketingCloudStorageDescription
+            cloudStorageDescription.text = L10n.Localizable.plusMarketingCloudStorageDescription
         }
     }
 
     @IBOutlet var watchPlaybackTitle: ThemeableLabel! {
         didSet {
-            watchPlaybackTitle.text = L10n.plusMarketingWatchPlaybackTitle
+            watchPlaybackTitle.text = L10n.Localizable.plusMarketingWatchPlaybackTitle
         }
     }
 
     @IBOutlet var watchPlaybackDescription: SecondaryLabel! {
         didSet {
-            watchPlaybackDescription.text = L10n.plusMarketingWatchPlaybackDescription
+            watchPlaybackDescription.text = L10n.Localizable.plusMarketingWatchPlaybackDescription
         }
     }
     
     @IBOutlet var foldersTitle: ThemeableLabel! {
         didSet {
-            foldersTitle.text = L10n.folders
+            foldersTitle.text = L10n.Localizable.folders
         }
     }
     
     @IBOutlet var foldersDescription: SecondaryLabel! {
         didSet {
-            foldersDescription.text = L10n.plusMarketingFoldersDescription
+            foldersDescription.text = L10n.Localizable.plusMarketingFoldersDescription
         }
     }
     
     @IBOutlet var themesTitle: ThemeableLabel! {
         didSet {
-            themesTitle.text = L10n.plusMarketingThemesIconsTitle
+            themesTitle.text = L10n.Localizable.plusMarketingThemesIconsTitle
         }
     }
 
     @IBOutlet var themesDescription: SecondaryLabel! {
         didSet {
-            themesDescription.text = L10n.plusMarketingThemesIconsDescription
+            themesDescription.text = L10n.Localizable.plusMarketingThemesIconsDescription
         }
     }
 
     @IBOutlet var finalCallToAction: SecondaryLabel! {
         didSet {
-            finalCallToAction.text = L10n.plusMarketingFinalCallToAction
+            finalCallToAction.text = L10n.Localizable.plusMarketingFinalCallToAction
         }
     }
     
@@ -127,7 +127,7 @@ class PlusDetailsViewController: PCViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
         
-        title = L10n.pocketCastsPlus
+        title = L10n.Localizable.pocketCastsPlus
         loadPrices()
         handleThemeChanged()
     }
@@ -181,12 +181,12 @@ private extension PlusDetailsViewController {
         }
 
         // Update the pricing labels with trial information
-        let pricingText = L10n.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
+        let pricingText = L10n.Localizable.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
         topPriceLabel.text = pricingText
         bottomPriceLabel.text = pricingText
 
         // Update the upgrade buttons with the start free trial title
-        let buttonTitle = L10n.freeTrialStartButton
+        let buttonTitle = L10n.Localizable.freeTrialStartButton
         upgradeButton.setTitle(buttonTitle, for: .normal)
         secondUpgradeButton.setTitle(buttonTitle, for: .normal)
     }
@@ -196,7 +196,7 @@ private extension PlusDetailsViewController {
         let yearlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.yearly.rawValue)
 
         if monthlyPrice.count > 0, yearlyPrice.count > 0 {
-            let priceText = L10n.settingsPlusPricingFormat(monthlyPrice, yearlyPrice)
+            let priceText = L10n.Localizable.settingsPlusPricingFormat(monthlyPrice, yearlyPrice)
             topPriceLabel.text = priceText
             bottomPriceLabel.text = priceText
         }

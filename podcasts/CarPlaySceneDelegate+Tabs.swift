@@ -37,8 +37,8 @@ extension CarPlaySceneDelegate {
         }
         
         let podcastsSection = CPListSection(items: podcastItems)
-        let template = CPListTemplate(title: L10n.podcastsPlural, sections: [podcastsSection])
-        template.tabTitle = L10n.podcastsPlural
+        let template = CPListTemplate(title: L10n.Localizable.podcastsPlural, sections: [podcastsSection])
+        template.tabTitle = L10n.Localizable.podcastsPlural
         template.tabImage = UIImage(named: "car_tab_podcasts")
         
         return template
@@ -58,8 +58,8 @@ extension CarPlaySceneDelegate {
         }
         
         let filtersSection = CPListSection(items: filterItems)
-        let template = CPListTemplate(title: L10n.filters, sections: [filtersSection])
-        template.tabTitle = L10n.filters
+        let template = CPListTemplate(title: L10n.Localizable.filters, sections: [filtersSection])
+        template.tabTitle = L10n.Localizable.filters
         template.tabImage = UIImage(named: "car_tab_filters")
         
         return template
@@ -70,22 +70,22 @@ extension CarPlaySceneDelegate {
         let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true, closeListOnTap: false)
         
         let episodeSection = CPListSection(items: items)
-        let template = CPListTemplate(title: L10n.downloads, sections: [episodeSection])
-        template.tabTitle = L10n.downloads
+        let template = CPListTemplate(title: L10n.Localizable.downloads, sections: [episodeSection])
+        template.tabTitle = L10n.Localizable.downloads
         template.tabImage = UIImage(named: "car_tab_downloads")
         
         return template
     }
     
     func createMoreTab() -> CPTemplate {
-        let listeningHistoryItem = CPListItem(text: L10n.listeningHistory, detailText: nil, image: UIImage(named: "car_more_listening_history"))
+        let listeningHistoryItem = CPListItem(text: L10n.Localizable.listeningHistory, detailText: nil, image: UIImage(named: "car_more_listening_history"))
         listeningHistoryItem.accessoryType = .disclosureIndicator
         listeningHistoryItem.handler = { [weak self] _, completion in
             self?.listeningHistoryTapped()
             completion()
         }
         
-        let filesItem = CPListItem(text: L10n.files, detailText: nil, image: UIImage(named: "car_more_files"))
+        let filesItem = CPListItem(text: L10n.Localizable.files, detailText: nil, image: UIImage(named: "car_more_files"))
         filesItem.accessoryType = .disclosureIndicator
         filesItem.handler = { [weak self] _, completion in
             self?.filesTapped(closeListOnTap: false)
@@ -93,8 +93,8 @@ extension CarPlaySceneDelegate {
         }
         
         let mainSection = CPListSection(items: [listeningHistoryItem, filesItem])
-        let template = CPListTemplate(title: L10n.carplayMore, sections: [mainSection])
-        template.tabTitle = L10n.carplayMore
+        let template = CPListTemplate(title: L10n.Localizable.carplayMore, sections: [mainSection])
+        template.tabTitle = L10n.Localizable.carplayMore
         template.tabImage = UIImage(named: "car_tab_more")
         
         return template

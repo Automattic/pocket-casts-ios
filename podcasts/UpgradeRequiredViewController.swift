@@ -10,7 +10,7 @@ class UpgradeRequiredViewController: PCViewController {
 
     @IBOutlet var upgradeButton: ThemeableRoundedButton! {
         didSet {
-            upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
+            upgradeButton.setTitle(L10n.Localizable.plusMarketingUpgradeButton, for: .normal)
         }
     }
 
@@ -30,7 +30,7 @@ class UpgradeRequiredViewController: PCViewController {
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText01
-            infoLabel.text = L10n.plusRequiredFeature
+            infoLabel.text = L10n.Localizable.plusRequiredFeature
         }
     }
     
@@ -43,7 +43,7 @@ class UpgradeRequiredViewController: PCViewController {
     @IBOutlet var noThanksButton: ThemeableRoundedButton! {
         didSet {
             noThanksButton.shouldFill = false
-            noThanksButton.setTitle(L10n.settingsGeneralNoThanks, for: .normal)
+            noThanksButton.setTitle(L10n.Localizable.settingsGeneralNoThanks, for: .normal)
         }
     }
 
@@ -85,7 +85,7 @@ class UpgradeRequiredViewController: PCViewController {
         didSet {
             learnMoreButton.textStyle = .primaryInteractive01
             learnMoreButton.buttonStyle = .primaryUi01
-            learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
+            learnMoreButton.setTitle(L10n.Localizable.plusMarketingLearnMoreButton, for: .normal)
         }
     }
     
@@ -133,7 +133,7 @@ class UpgradeRequiredViewController: PCViewController {
 
 private extension UpgradeRequiredViewController {
     func configureNavigationBar() {
-        title = L10n.pocketCastsPlus
+        title = L10n.Localizable.pocketCastsPlus
 
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
@@ -146,7 +146,7 @@ private extension UpgradeRequiredViewController {
     func updatePriceLabel() {
         let monthlyPrice = IapHelper.shared.getPriceForIdentifier(identifier: Constants.IapProducts.monthly.rawValue)
 
-        priceLabel.text = L10n.plusPricePerMonth(monthlyPrice)
+        priceLabel.text = L10n.Localizable.plusPricePerMonth(monthlyPrice)
     }
 }
 
@@ -160,14 +160,14 @@ private extension UpgradeRequiredViewController {
         }
 
         // Update the labels
-        infoLabel.text = L10n.freeTrialTitleLabel(trialDetails.duration)
-        trialDetailLabel.text = L10n.freeTrialDetailLabel
-        upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
+        infoLabel.text = L10n.Localizable.freeTrialTitleLabel(trialDetails.duration)
+        trialDetailLabel.text = L10n.Localizable.freeTrialDetailLabel
+        upgradeButton.setTitle(L10n.Localizable.freeTrialStartButton, for: .normal)
 
         // Show the detail label, since its hidden by default
         trialDetailLabel.isHidden = false
 
         // Update the pricing label to show the terms free for X then Y price
-        priceLabel.text = L10n.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
+        priceLabel.text = L10n.Localizable.freeTrialPricingTerms(trialDetails.duration, trialDetails.pricing)
     }
 }

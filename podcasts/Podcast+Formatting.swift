@@ -8,19 +8,19 @@ extension Podcast {
         
         // the above is in English, from the server unfortunately, so we need to translate it client side
         if frequency == "hourly" {
-            return L10n.releaseFrequencyHourly.localizedCapitalized
+            return L10n.Localizable.releaseFrequencyHourly.localizedCapitalized
         }
         else if frequency == "daily" {
-            return L10n.releaseFrequencyDaily.localizedCapitalized
+            return L10n.Localizable.releaseFrequencyDaily.localizedCapitalized
         }
         else if frequency == "weekly" {
-            return L10n.releaseFrequencyWeekly.localizedCapitalized
+            return L10n.Localizable.releaseFrequencyWeekly.localizedCapitalized
         }
         else if frequency == "fortnightly" {
-            return L10n.releaseFrequencyFortnightly.localizedCapitalized
+            return L10n.Localizable.releaseFrequencyFortnightly.localizedCapitalized
         }
         else if frequency == "monthly" {
-            return L10n.releaseFrequencyMonthly.localizedCapitalized
+            return L10n.Localizable.releaseFrequencyMonthly.localizedCapitalized
         }
         
         // we shouldn't get here, but if we do, just return the English string
@@ -31,10 +31,10 @@ extension Podcast {
         let dateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
 
         if licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue {
-            return expiryDate.timeIntervalSinceNow < 0 ? L10n.podcastAccessEnded(dateStr) : L10n.podcastAccessEnds(dateStr)
+            return expiryDate.timeIntervalSinceNow < 0 ? L10n.Localizable.podcastAccessEnded(dateStr) : L10n.Localizable.podcastAccessEnds(dateStr)
         }
         else {
-            return expiryDate.timeIntervalSinceNow < 0 ? L10n.podcastUpdatesEnded(dateStr) : L10n.podcastUpdatesEnds(dateStr)
+            return expiryDate.timeIntervalSinceNow < 0 ? L10n.Localizable.podcastUpdatesEnded(dateStr) : L10n.Localizable.podcastUpdatesEnds(dateStr)
         }
     }
     
@@ -53,13 +53,13 @@ extension Podcast {
             return nil
         }
         else if Calendar.current.isDateInToday(expectedDate) {
-            return L10n.today
+            return L10n.Localizable.today
         }
         else if Calendar.current.isDateInTomorrow(expectedDate) {
-            return L10n.podcastTomorrow
+            return L10n.Localizable.podcastTomorrow
         }
         else if expectedDate < now, expectedDate >= now.addingTimeInterval(-7.days) {
-            return L10n.podcastSoon
+            return L10n.Localizable.podcastSoon
         }
         else if expectedDate < now.addingTimeInterval(6.days) {
             let dateFormatter = DateFormatHelper.sharedHelper.justDayFormatter

@@ -6,7 +6,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var showAllButton: ThemeableUIButton! {
         didSet {
-            showAllButton.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
+            showAllButton.setTitle(L10n.Localizable.discoverShowAll.localizedUppercase, for: .normal)
         }
     }
     

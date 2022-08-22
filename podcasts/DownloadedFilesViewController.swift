@@ -28,7 +28,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.downloadedFiles
+        title = L10n.Localizable.downloadedFiles
         
         // load the last used values for cleanup
         deleteUnplayed = UserDefaults.standard.bool(forKey: Constants.UserDefaults.cleanupUnplayed)
@@ -54,7 +54,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: checkboxCellId, for: indexPath) as! CheckboxSubtitleCell
             
             if indexPath.row == 0 {
-                cell.titleLabel.text = L10n.statusUnplayed
+                cell.titleLabel.text = L10n.Localizable.statusUnplayed
                 cell.setSelectedState(deleteUnplayed)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.unplayedToggled(_:)), for: .touchUpInside)
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.unplayedToggled(_:)), for: .touchUpInside)
@@ -63,7 +63,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
             }
             else if indexPath.row == 1 {
-                cell.titleLabel.text = L10n.inProgress
+                cell.titleLabel.text = L10n.Localizable.inProgress
                 cell.setSelectedState(deleteInProgress)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
@@ -72,7 +72,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
             }
             else if indexPath.row == 2 {
-                cell.titleLabel.text = L10n.statusPlayed
+                cell.titleLabel.text = L10n.Localizable.statusPlayed
                 cell.setSelectedState(deletePlayed)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
@@ -81,7 +81,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
             }
             else if indexPath.row == 3 {
-                cell.titleLabel.text = L10n.settingsStorageDownloadsStarred
+                cell.titleLabel.text = L10n.Localizable.settingsStorageDownloadsStarred
                 cell.setSelectedState(includeStarred)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
@@ -92,7 +92,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
             
-            cell.statName.text = L10n.statsTotal
+            cell.statName.text = L10n.Localizable.statsTotal
             cell.hideIcon()
             
             let total = totalDeleteSize()
@@ -103,7 +103,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! DestructiveButtonCell
-            cell.buttonTitle.text = L10n.cleanUp
+            cell.buttonTitle.text = L10n.Localizable.cleanUp
             cell.buttonTitle.textColor = canDeleteAnything() ? UIColor(hex: "#FC0000") : UIColor(hex: "#C8C8C8")
             
             return cell
@@ -148,11 +148,11 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     
     private func confirmCleanup() {
         let confirmOption = OptionsPicker(title: nil)
-        let deleteAction = OptionAction(label: L10n.delete, icon: nil) {
+        let deleteAction = OptionAction(label: L10n.Localizable.delete, icon: nil) {
             self.performDelete()
         }
         deleteAction.destructive = true
-        confirmOption.addDescriptiveActions(title: L10n.cleanUp, message: L10n.downloadedFilesCleanupConfirmation, icon: "option-delete", actions: [deleteAction])
+        confirmOption.addDescriptiveActions(title: L10n.Localizable.cleanUp, message: L10n.Localizable.downloadedFilesCleanupConfirmation, icon: "option-delete", actions: [deleteAction])
         
         confirmOption.show(statusBarStyle: preferredStatusBarStyle)
     }

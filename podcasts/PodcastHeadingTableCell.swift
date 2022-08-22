@@ -122,7 +122,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     @IBOutlet var folderButton: ThemeableUIButton! {
         didSet {
             folderButton.style = .primaryIcon02
-            folderButton.accessibilityLabel = L10n.folder
+            folderButton.accessibilityLabel = L10n.Localizable.folder
         }
     }
     
@@ -184,14 +184,14 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             supporterView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
             supporterHeart.tintColor = ThemeColor.primaryInteractive02()
             
-            supportMessage.text = SyncManager.isUserLoggedIn() ? L10n.subscriptionsThankYou : L10n.paidPodcastSupporterOnlyMsg
-            supporterLabel.text = L10n.supporter.localizedUppercase
+            supportMessage.text = SyncManager.isUserLoggedIn() ? L10n.Localizable.subscriptionsThankYou : L10n.Localizable.paidPodcastSupporterOnlyMsg
+            supporterLabel.text = L10n.Localizable.supporter.localizedUppercase
             if let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) {
                 let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
                 let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
                 supporterDateImageView.image = UIImage(named: "support-date-calendar")
                 if subscription.autoRenewing {
-                    supportDate.text = L10n.nextPaymentFormat(expiryDateStr)
+                    supportDate.text = L10n.Localizable.nextPaymentFormat(expiryDateStr)
                     supportMessage.style = .support02
                     supportMessageHeart.tintColor = ThemeColor.support02()
                 }
@@ -205,15 +205,15 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                 supportMessage.style = .primaryText02
                 
                 if SyncManager.isUserLoggedIn() {
-                    supportDate.text = L10n.paidPodcastGenericError
-                    manageSupportBtn.setTitle(L10n.paidPodcastManage, for: .normal)
+                    supportDate.text = L10n.Localizable.paidPodcastGenericError
+                    manageSupportBtn.setTitle(L10n.Localizable.paidPodcastManage, for: .normal)
                 }
                 else {
-                    supportDate.text = L10n.paidPodcastSigninPromptTitle
-                    manageSupportBtn.setTitle(L10n.signIn, for: .normal)
+                    supportDate.text = L10n.Localizable.paidPodcastSigninPromptTitle
+                    manageSupportBtn.setTitle(L10n.Localizable.signIn, for: .normal)
                     supporterBadge.image = UIImage(named: "podcast-supporter-warning")
                     supporterBadge.tintColor = ThemeColor.contrast02()
-                    supporterLabel.text = L10n.paidPodcastSigninPromptMsg
+                    supporterLabel.text = L10n.Localizable.paidPodcastSigninPromptMsg
                     supporterDateImageView.image = UIImage(named: "podcast-supporter-signin")
                 }
             }
@@ -283,7 +283,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
         
         if expanded, let frequency = podcast.displayableFrequency() {
-            schedule.text = L10n.paidPodcastReleaseFrequencyFormat(frequency)
+            schedule.text = L10n.Localizable.paidPodcastReleaseFrequencyFormat(frequency)
             scheduleView.isHidden = false
         }
         else {
@@ -291,7 +291,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
         
         if expanded, let estimatedDate = podcast.displayableNextEpisodeDate() {
-            nextEpisode.text = L10n.paidPodcastNextEpisodeFormat(estimatedDate)
+            nextEpisode.text = L10n.Localizable.paidPodcastNextEpisodeFormat(estimatedDate)
             nextEpisodeView.isHidden = false
         }
         else {
@@ -314,7 +314,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         guard let podcast = delegate?.displayedPodcast(), let _ = delegate?.isSummaryExpanded() else { return }
         
         subscribeButton.isSelected = podcast.isSubscribed()
-        subscribeButton.accessibilityLabel = podcast.isSubscribed() ? L10n.subscribed : L10n.subscribe
+        subscribeButton.accessibilityLabel = podcast.isSubscribed() ? L10n.Localizable.subscribed : L10n.Localizable.subscribe
         subscribeButton.setBackgroundColors()
         if subscribeButton.isSelected {
             folderButton.isHidden = !showFolderButton()
@@ -463,7 +463,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                 self.layoutIfNeeded()
             }, completion: { _ in
                 self.isAnimatingToSubscribed = false
-                self.subscribeButton.accessibilityLabel = L10n.subscribed
+                self.subscribeButton.accessibilityLabel = L10n.Localizable.subscribed
             })
         }
     }

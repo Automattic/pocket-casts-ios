@@ -90,7 +90,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.upNext
+        title = L10n.Localizable.upNext
         
         (view as? ThemeableView)?.style = .primaryUi04
         (view as? ThemeableView)?.themeOverride = themeOverride
@@ -112,7 +112,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.style = .playerContrast02
         remainingLabel.themeOverride = themeOverride
         
-        clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
+        clearQueueButton.setTitle(L10n.Localizable.queueClearQueue, for: .normal)
         clearQueueButton.setTitleColor(AppTheme.colorForStyle(.playerContrast01, themeOverride: themeOverride), for: .normal)
         clearQueueButton.setTitleColor(AppTheme.colorForStyle(.playerContrast05, themeOverride: themeOverride), for: .disabled)
         clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
@@ -141,12 +141,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         else {
             let clearOptions = OptionsPicker(title: nil, themeOverride: .dark)
-            let actionLabel = L10n.queueClearEpisodeQueuePlural(queueCount.localized())
+            let actionLabel = L10n.Localizable.queueClearEpisodeQueuePlural(queueCount.localized())
             let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
                 self?.performClearAll()
             })
             clearAllAction.destructive = true
-            clearOptions.addDescriptiveActions(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, icon: "option-clear", actions: [clearAllAction])
+            clearOptions.addDescriptiveActions(title: L10n.Localizable.clearUpNext, message: L10n.Localizable.clearUpNextMessage, icon: "option-clear", actions: [clearAllAction])
             
             clearOptions.show(statusBarStyle: preferredStatusBarStyle)
         }
@@ -184,7 +184,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if let episode = PlaybackManager.shared.currentEpisode() {
             totalDuration += episode.duration.seconds - PlaybackManager.shared.currentTime()
         }
-        remainingLabel.text = L10n.queueTotalTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration))
+        remainingLabel.text = L10n.Localizable.queueTotalTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration))
     }
     
     // MARK: - UIGestureRecongizerDelegate
@@ -223,20 +223,20 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     func updateNavBarButtons() {
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.Localizable.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
             }
             else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.Localizable.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
             }
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         }
         else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.Localizable.select, style: .plain, target: self, action: #selector(selectTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.Localizable.done, style: .plain, target: self, action: #selector(doneTapped))
         }
         else {
             navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.Localizable.done, style: .plain, target: self, action: #selector(doneTapped))
         }
     }
     

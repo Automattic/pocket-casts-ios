@@ -66,7 +66,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @IBOutlet var podcastsLabel: ThemeableLabel! {
         didSet {
             podcastsLabel.style = .contrast03
-            podcastsLabel.text = L10n.podcastsPlural
+            podcastsLabel.text = L10n.Localizable.podcastsPlural
         }
     }
     
@@ -125,11 +125,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "profile-settings"), style: .plain, target: self, action: #selector(settingsTapped))
-        customRightBtn?.accessibilityLabel = L10n.accessibilityProfileSettings
+        customRightBtn?.accessibilityLabel = L10n.Localizable.accessibilityProfileSettings
         customRightBtn?.accessibilityIdentifier = "Settings"
         
         super.viewDidLoad()
-        navigationItem.title = L10n.profile
+        navigationItem.title = L10n.Localizable.profile
         
         profileTable.tableHeaderView = headerView
         profileTable.tableFooterView = footerView
@@ -215,7 +215,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     
     private func refreshTapped() {
         refreshBtn.animateImage(animationType: .rotate)
-        lastRefreshTime.text = L10n.refreshing
+        lastRefreshTime.text = L10n.Localizable.refreshing
         RefreshManager.shared.refreshPodcasts()
     }
     
@@ -256,30 +256,30 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 }
                 
                 if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
-                    signInStatus.text = L10n.pocketCastsPlus.uppercased()
+                    signInStatus.text = L10n.Localizable.pocketCastsPlus.uppercased()
                     signInStatus.textColor = ThemeColor.primaryText02()
                 }
                 else {
                     if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
                         let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
-                        signInStatus.text = L10n.plusSubscriptionExpiration(time)
+                        signInStatus.text = L10n.Localizable.plusSubscriptionExpiration(time)
                     }
                     else {
-                        signInStatus.text = L10n.pocketCastsPlus.uppercased()
+                        signInStatus.text = L10n.Localizable.pocketCastsPlus.uppercased()
                     }
                     signInStatus.textColor = AppTheme.pcPlusRed()
                 }
             }
             else {
-                signInStatus.text = L10n.signedInAs
+                signInStatus.text = L10n.Localizable.signedInAs
                 signInStatus.textColor = ThemeColor.primaryText02()
                 profileStatusView.isSubscribed = false
             }
         }
         else {
-            signInStatus.text = L10n.signedOut.localizedUppercase
+            signInStatus.text = L10n.Localizable.signedOut.localizedUppercase
             signInStatus.textColor = ThemeColor.primaryText02()
-            emailAddress.text = L10n.setupAccount
+            emailAddress.text = L10n.Localizable.setupAccount
             profileStatusView.isSubscribed = false
             let totalListeningTime = StatsManager.shared.totalListeningTime()
             let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
@@ -287,7 +287,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
         
         signedInView.accessibilityLabel = signInStatus.text
-        signedInView.accessibilityHint = L10n.accessibilitySignIn
+        signedInView.accessibilityHint = L10n.Localizable.accessibilitySignIn
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
@@ -296,24 +296,24 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     
     private func updateLastRefreshDetails() {
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
-            lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
-            refreshBtn.buttonTitle = L10n.tryAgain
+            lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.Localizable.refreshFailed : L10n.Localizable.syncFailed
+            refreshBtn.buttonTitle = L10n.Localizable.tryAgain
             alertIcon.isHidden = false
         }
         else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
-            refreshBtn.buttonTitle = L10n.refreshNow
+            refreshBtn.buttonTitle = L10n.Localizable.refreshNow
             if abs(lastUpdateTime.timeIntervalSinceNow) > 2.days {
-                lastRefreshTime.text = L10n.profileLastAppRefresh(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
+                lastRefreshTime.text = L10n.Localizable.profileLastAppRefresh(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
                 alertIcon.isHidden = false
             }
             else {
-                lastRefreshTime.text = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
+                lastRefreshTime.text = L10n.Localizable.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
                 alertIcon.isHidden = true
             }
         }
         else {
-            refreshBtn.buttonTitle = L10n.refreshNow
-            lastRefreshTime.text = L10n.refreshPreviousRun(L10n.timeFormatNever)
+            refreshBtn.buttonTitle = L10n.Localizable.refreshNow
+            lastRefreshTime.text = L10n.Localizable.refreshPreviousRun(L10n.Localizable.timeFormatNever)
             alertIcon.isHidden = false
         }
     }
@@ -338,33 +338,33 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         if mins < 1, hours < 1, days < 1 {
             valueLabel.text = "\(secs)"
-            unitLabel.text = valueType == .listened ? L10n.secondsListened : L10n.secondsSaved
+            unitLabel.text = valueType == .listened ? L10n.Localizable.secondsListened : L10n.Localizable.secondsSaved
         }
         else if days > 0 {
             valueLabel.text = "\(days)"
             if days == 1 {
-                unitLabel.text = valueType == .listened ? L10n.dayListened : L10n.daySaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.dayListened : L10n.Localizable.daySaved
             }
             else {
-                unitLabel.text = valueType == .listened ? L10n.daysListened : L10n.daysSaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.daysListened : L10n.Localizable.daysSaved
             }
         }
         else if hours > 0 {
             valueLabel.text = "\(hours)"
             if hours == 1 {
-                unitLabel.text = valueType == .listened ? L10n.hourListened : L10n.hourSaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.hourListened : L10n.Localizable.hourSaved
             }
             else {
-                unitLabel.text = valueType == .listened ? L10n.hoursListened : L10n.hoursSaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.hoursListened : L10n.Localizable.hoursSaved
             }
         }
         else if mins > 0 {
             valueLabel.text = "\(mins)"
             if mins == 1 {
-                unitLabel.text = valueType == .listened ? L10n.minuteListened : L10n.minuteSaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.minuteListened : L10n.Localizable.minuteSaved
             }
             else {
-                unitLabel.text = valueType == .listened ? L10n.minutesListened : L10n.minutesSaved
+                unitLabel.text = valueType == .listened ? L10n.Localizable.minutesListened : L10n.Localizable.minutesSaved
             }
         }
     }
@@ -388,19 +388,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
-            cell.settingsLabel.text = L10n.settingsStats
+            cell.settingsLabel.text = L10n.Localizable.settingsStats
         case .downloaded:
             cell.settingsImage.image = UIImage(named: "profile-download")
-            cell.settingsLabel.text = L10n.downloads
+            cell.settingsLabel.text = L10n.Localizable.downloads
         case .uploadedFiles:
             cell.settingsImage.image = UIImage(named: "profile_files")
-            cell.settingsLabel.text = L10n.files
+            cell.settingsLabel.text = L10n.Localizable.files
         case .starred:
             cell.settingsImage.image = UIImage(named: "profile-star")
-            cell.settingsLabel.text = L10n.statusStarred
+            cell.settingsLabel.text = L10n.Localizable.statusStarred
         case .listeningHistory:
             cell.settingsImage.image = UIImage(named: "profile-history")
-            cell.settingsLabel.text = L10n.listeningHistory
+            cell.settingsLabel.text = L10n.Localizable.listeningHistory
         }
         
         return cell

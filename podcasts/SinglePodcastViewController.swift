@@ -23,8 +23,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
             
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.Localizable.subscribe
+            subscribeButton.onAccessibilityLabel = L10n.Localizable.subscribed
         }
     }
     
@@ -100,11 +100,11 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             podcastImage?.setPodcast(uuid: uuid, size: .grid)
         }
         if let isSponsored = item?.isSponsored, isSponsored {
-            typeBadgeLabel.text = L10n.discoverSponsored
+            typeBadgeLabel.text = L10n.Localizable.discoverSponsored
             typeBadgeLabel.style = .primaryText02
         }
         else {
-            typeBadgeLabel.text = L10n.discoverFreshPick
+            typeBadgeLabel.text = L10n.Localizable.discoverFreshPick
             typeBadgeLabel.style = .support02
         }
         

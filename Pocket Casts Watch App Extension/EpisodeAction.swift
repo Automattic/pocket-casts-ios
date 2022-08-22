@@ -21,29 +21,29 @@ extension EpisodeAction {
     var title: String {
         switch self {
         case .download:
-            return L10n.download
+            return L10n.Localizable.download
         case .pauseDownload:
-            return L10n.stopDownload
+            return L10n.Localizable.stopDownload
         case .deleteDownload:
-            return L10n.deleteDownload
+            return L10n.Localizable.deleteDownload
         case .removeFromQueue:
-            return L10n.removeUpNext
+            return L10n.Localizable.removeUpNext
         case .playNext:
-            return L10n.playNext
+            return L10n.Localizable.playNext
         case .playLast:
-            return L10n.playLast
+            return L10n.Localizable.playLast
         case .archive:
-            return L10n.archive
+            return L10n.Localizable.archive
         case .unarchive:
-            return L10n.unarchive
+            return L10n.Localizable.unarchive
         case .star:
-            return L10n.starEpisodeShort
+            return L10n.Localizable.starEpisodeShort
         case .unstar:
-            return L10n.unstar
+            return L10n.Localizable.unstar
         case .markPlayed:
-            return L10n.markPlayedShort
+            return L10n.Localizable.markPlayedShort
         case .markUnplayed:
-            return L10n.markUnplayedShort
+            return L10n.Localizable.markUnplayedShort
         }
     }
 
@@ -101,7 +101,7 @@ extension EpisodeAction {
     var confirmationTitle: String {
         switch self {
         case .deleteDownload:
-            return L10n.deleteFile
+            return L10n.Localizable.deleteFile
         default:
             return ""
         }
@@ -110,7 +110,7 @@ extension EpisodeAction {
     var confirmationMessage: String {
         switch self {
         case .deleteDownload:
-            return L10n.deleteFileMessage
+            return L10n.Localizable.deleteFileMessage
         default:
             return ""
         }
@@ -119,7 +119,7 @@ extension EpisodeAction {
     var confirmationButtonTitle: String {
         switch self {
         case .deleteDownload:
-            return L10n.delete
+            return L10n.Localizable.delete
         default:
             return ""
         }

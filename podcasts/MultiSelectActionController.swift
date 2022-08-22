@@ -35,20 +35,20 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     
     @IBOutlet var editButton: UIButton! {
         didSet {
-            editButton.setTitle(L10n.edit, for: .normal)
+            editButton.setTitle(L10n.Localizable.edit, for: .normal)
         }
     }
     
     @IBOutlet var doneButton: UIButton! {
         didSet {
-            doneButton.setTitle(L10n.done, for: .normal)
+            doneButton.setTitle(L10n.Localizable.done, for: .normal)
         }
     }
     
     @IBOutlet var rearrangeLabel: ThemeableLabel! {
         didSet {
             rearrangeLabel.themeOverride = themeOverride
-            rearrangeLabel.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeLabel.text = L10n.Localizable.playerActionsRearrangeTitle.localizedCapitalized
         }
     }
     
@@ -86,7 +86,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedCountLabel.text = numSelectedEpisodes == 1 ? L10n.multiSelectSelectedCountSingular : L10n.multiSelectSelectedCountPlural(numSelectedEpisodes.localized())
+        selectedCountLabel.text = numSelectedEpisodes == 1 ? L10n.Localizable.multiSelectSelectedCountSingular : L10n.Localizable.multiSelectSelectedCountPlural(numSelectedEpisodes.localized())
         actionsTable.isScrollEnabled = false
         rearrangeLabel.isHidden = true
         doneButton.isHidden = true
@@ -188,10 +188,10 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         var title = ""
         
         if section == shortcutSection {
-            title = L10n.multiSelectShortcutInActionBar
+            title = L10n.Localizable.multiSelectShortcutInActionBar
         }
         else if section == inMenuSection {
-            title = L10n.settingsInMenu
+            title = L10n.Localizable.settingsInMenu
         }
         
         let headerView = SettingsTableHeader(frame: headerFrame, title: title, showLockedImage: false, themeStyle: .primaryUi01, themeOverride: themeOverride)

@@ -21,7 +21,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settingsFiles
+        title = L10n.Localizable.settingsFiles
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
     }
     
@@ -80,34 +80,34 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         
         switch row {
         case .autoDownload:
-            cell.cellLabel?.text = L10n.settingsFilesAutoDownload
+            cell.cellLabel?.text = L10n.Localizable.settingsFilesAutoDownload
             cell.cellSwitch.isOn = ServerSettings.userEpisodeAutoDownload()
             cell.cellSwitch.addTarget(self, action: #selector(autoDownloadToggled(_:)), for: .valueChanged)
             cell.isLocked = SubscriptionHelper.hasActiveSubscription()
             cell.setImage(imageName: "episode-download")
         case .autoUpload:
-            cell.cellLabel?.text = L10n.settingsFilesAutoUpload
+            cell.cellLabel?.text = L10n.Localizable.settingsFilesAutoUpload
             cell.setImage(imageName: "plus_upload")
             cell.cellSwitch.isOn = Settings.userFilesAutoUpload()
             cell.cellSwitch.addTarget(self, action: #selector(autoUploadToggled(_:)), for: .valueChanged)
             cell.isLocked = SubscriptionHelper.hasActiveSubscription()
         case .autoAddToUpNext:
-            cell.cellLabel?.text = L10n.settingsAutoAdd
+            cell.cellLabel?.text = L10n.Localizable.settingsAutoAdd
             cell.setImage(imageName: "settings_upnext")
             cell.cellSwitch.isOn = Settings.userEpisodeAutoAddToUpNext()
             cell.cellSwitch.addTarget(self, action: #selector(autoAddToUpNextToggled(_:)), for: .valueChanged)
         case .removeFileAfterPlaying:
-            cell.cellLabel?.text = L10n.settingsFilesDeleteLocalFile
+            cell.cellLabel?.text = L10n.Localizable.settingsFilesDeleteLocalFile
             cell.setImage(imageName: "delete")
             cell.cellSwitch.isOn = Settings.userEpisodeRemoveFileAfterPlaying()
             cell.cellSwitch.addTarget(self, action: #selector(removeFileAfterPlayingToggled(_:)), for: .valueChanged)
         case .removeFromCloudAfterPlaying:
-            cell.cellLabel?.text = L10n.settingsFilesDeleteCloudFile
+            cell.cellLabel?.text = L10n.Localizable.settingsFilesDeleteCloudFile
             cell.setImage(imageName: "settings_cloud_strikethrough")
             cell.cellSwitch.isOn = Settings.userEpisodeRemoveFromCloudAfterPlaying()
             cell.cellSwitch.addTarget(self, action: #selector(removeFromCloudAfterPlayingToggled(_:)), for: .valueChanged)
         case .onlyOnWifi:
-            cell.cellLabel?.text = L10n.onlyOnWifi
+            cell.cellLabel?.text = L10n.Localizable.onlyOnWifi
             cell.setNoImage()
             cell.cellSwitch.isOn = ServerSettings.userEpisodeOnlyOnWifi()
             cell.cellSwitch.addTarget(self, action: #selector(onlyOnWifiToggled(_:)), for: .valueChanged)
@@ -131,13 +131,13 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         let section = tableSections()[section]
         switch section {
         case .autoSync:
-            let syncFooter = (Settings.userFilesAutoUpload() ? L10n.settingsFilesAutoUploadSubtitleOn : L10n.settingsFilesAutoUploadSubtitleOff)
+            let syncFooter = (Settings.userFilesAutoUpload() ? L10n.Localizable.settingsFilesAutoUploadSubtitleOn : L10n.Localizable.settingsFilesAutoUploadSubtitleOff)
                 + "\n"
-                + (ServerSettings.userEpisodeAutoDownload() ? L10n.settingsFilesAutoDownloadSubtitleOn : L10n.settingsFilesAutoDownloadSubtitleOff)
+                + (ServerSettings.userEpisodeAutoDownload() ? L10n.Localizable.settingsFilesAutoDownloadSubtitleOn : L10n.Localizable.settingsFilesAutoDownloadSubtitleOff)
 
             return SubscriptionHelper.hasActiveSubscription() ? syncFooter : nil
         case .autoAddToUpNext:
-            return L10n.settingsFilesAddUpNextSubtitle
+            return L10n.Localizable.settingsFilesAddUpNextSubtitle
         default:
             return nil
         }
@@ -154,7 +154,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
             let syncLabel = ThemeableLabel()
             syncLabel.style = .primaryText02
             syncLabel.alpha = 0.7
-            syncLabel.text = L10n.settingsFilesAutoUploadSubtitleOff + "\n" + L10n.settingsFilesAutoDownloadSubtitleOff
+            syncLabel.text = L10n.Localizable.settingsFilesAutoUploadSubtitleOff + "\n" + L10n.Localizable.settingsFilesAutoDownloadSubtitleOff
             syncLabel.numberOfLines = 0
             syncLabel.font = UIFont.systemFont(ofSize: 12)
             syncLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -189,9 +189,9 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         let section = tableSections()[section]
         switch section {
         case .autoSync:
-            title = L10n.plusFeatures
+            title = L10n.Localizable.plusFeatures
         case .afterPlaying:
-            title = L10n.afterPlaying.localizedUppercase
+            title = L10n.Localizable.afterPlaying.localizedUppercase
         default:
             title = ""
         }

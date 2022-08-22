@@ -15,7 +15,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             }
             moveToTopAction.image = UIImage(named: "upnext-movetotop")
             moveToTopAction.backgroundColor = ThemeColor.support04()
-            moveToTopAction.accessibilityLabel = L10n.moveToTop
+            moveToTopAction.accessibilityLabel = L10n.Localizable.moveToTop
             moveToTopAction.hidesWhenSelected = true
             let moveToBottomAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
                 guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
@@ -26,7 +26,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             }
             moveToBottomAction.image = UIImage(named: "upnext-movetobottom")
             moveToBottomAction.backgroundColor = ThemeColor.support03()
-            moveToBottomAction.accessibilityLabel = L10n.moveToBottom
+            moveToBottomAction.accessibilityLabel = L10n.Localizable.moveToBottom
             moveToBottomAction.hidesWhenSelected = true
             return [moveToTopAction, moveToBottomAction]
         case .right:
@@ -56,7 +56,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             // customize the action appearance
             deleteAction.image = UIImage(named: "episode-removenext")
             deleteAction.backgroundColor = ThemeColor.support05(for: themeOverride)
-            deleteAction.accessibilityLabel = L10n.removeFromUpNext
+            deleteAction.accessibilityLabel = L10n.Localizable.removeFromUpNext
             return [deleteAction]
         }
     }

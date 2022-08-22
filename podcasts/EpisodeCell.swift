@@ -239,7 +239,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         EpisodeDateHelper.setDate(episode: episode, on: dayName, tintColor: mainTintColor)
         
         if episode.archived {
-            informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
+            informationLabel.text = L10n.Localizable.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         }
         else if let userEpisode = episode as? UserEpisode {
             informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
@@ -298,7 +298,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         desc.append(info)
 
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            desc.append(L10n.statusDownloaded)
+            desc.append(L10n.Localizable.statusDownloaded)
         }
         else if episode.downloadFailed() {
             desc.append(episode.readableErrorMessage())
@@ -307,17 +307,17 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             desc.append(playbackError)
         }
         if episode.keepEpisode {
-            desc.append(L10n.statusStarred)
+            desc.append(L10n.Localizable.statusStarred)
         }
         if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
-            desc.append(L10n.statusUploaded)
+            desc.append(L10n.Localizable.statusUploaded)
         }
         if isMultiSelectEnabled {
             if showTick {
-                desc.append(L10n.statusSelected)
+                desc.append(L10n.Localizable.statusSelected)
             }
             else {
-                desc.append(L10n.statusNotSelected)
+                desc.append(L10n.Localizable.statusNotSelected)
             }
         }
         return desc.joined(separator: ". ")
@@ -444,20 +444,20 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         let statusBarStyle = filterUuid == nil ? UIStatusBarStyle.lightContent : AppTheme.defaultStatusBarStyle()
         if episode.playbackError() {
             let optionsPicker = OptionsPicker(title: nil)
-            let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
+            let retryAction = OptionAction(label: L10n.Localizable.retry, icon: nil, action: { [weak self] in
                 self?.playTapped()
             })
             
-            optionsPicker.addDescriptiveActions(title: L10n.playbackFailed, message: episode.playbackErrorDetails, icon: "option-alert", actions: [retryAction])
+            optionsPicker.addDescriptiveActions(title: L10n.Localizable.playbackFailed, message: episode.playbackErrorDetails, icon: "option-alert", actions: [retryAction])
             optionsPicker.show(statusBarStyle: statusBarStyle)
         }
         else {
             let downloadError = episode.readableErrorMessage()
             let optionsPicker = OptionsPicker(title: nil)
-            let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
+            let retryAction = OptionAction(label: L10n.Localizable.retry, icon: nil, action: { [weak self] in
                 self?.downloadTapped()
             })
-            optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: downloadError, icon: "option-alert", actions: [retryAction])
+            optionsPicker.addDescriptiveActions(title: L10n.Localizable.downloadFailed, message: downloadError, icon: "option-alert", actions: [retryAction])
             optionsPicker.show(statusBarStyle: statusBarStyle)
         }
     }
@@ -511,7 +511,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         didSet {
             selectTickImageView.isHidden = !showTick
             selectCircleView.layer.borderWidth = showTick ? 0 : 2
-            selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
+            selectView.accessibilityLabel = showTick ? L10n.Localizable.accessibilityDeselectEpisode : L10n.Localizable.accessibilitySelectEpisode
             accessibilityLabel = labelForAccessibility(episode: episode)
             style = showTick ? .primaryUi02Selected : .primaryUi02
             updateColor()

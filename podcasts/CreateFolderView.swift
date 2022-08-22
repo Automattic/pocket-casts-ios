@@ -13,10 +13,10 @@ struct CreateFolderView: View {
     var addButtonTitle: String {
         let selectedCount = pickerModel.selectedPodcastUuids.count
         if selectedCount == 1 {
-            return L10n.folderAddPodcastsSingular
+            return L10n.Localizable.folderAddPodcastsSingular
         }
         else {
-            return L10n.folderAddPodcastsPluralFormat(selectedCount)
+            return L10n.Localizable.folderAddPodcastsPluralFormat(selectedCount)
         }
     }
     
@@ -38,7 +38,7 @@ struct CreateFolderView: View {
             }
         }
         .padding()
-        .navigationTitle(L10n.folderCreate)
+        .navigationTitle(L10n.Localizable.folderCreate)
         .onAppear {
             pickerModel.setup()
             if let uuid = preselectPodcastUuid {
@@ -62,7 +62,7 @@ struct CreateFolderView: View {
                             Image("close")
                                 .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
                         }
-                        .accessibilityLabel(L10n.close)
+                        .accessibilityLabel(L10n.Localizable.close)
                     }
                 }
         }

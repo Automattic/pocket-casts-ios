@@ -4,7 +4,7 @@ import UIKit
 class SleepTimerViewController: SimpleNotificationsViewController {
     @IBOutlet var plusFiveBtn: UIButton! {
         didSet {
-            plusFiveBtn.setTitle(L10n.sleepTimerAdd5Mins, for: .normal)
+            plusFiveBtn.setTitle(L10n.Localizable.sleepTimerAdd5Mins, for: .normal)
             plusFiveBtn.layer.cornerRadius = 12
             plusFiveBtn.layer.borderWidth = 2
             plusFiveBtn.backgroundColor = UIColor.clear
@@ -14,7 +14,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     
     @IBOutlet var endOfEpisodeBtn: UIButton! {
         didSet {
-            endOfEpisodeBtn.setTitle(L10n.sleepTimerEndOfEpisode, for: .normal)
+            endOfEpisodeBtn.setTitle(L10n.Localizable.sleepTimerEndOfEpisode, for: .normal)
             endOfEpisodeBtn.layer.cornerRadius = 12
             endOfEpisodeBtn.layer.borderWidth = 2
             endOfEpisodeBtn.backgroundColor = UIColor.clear
@@ -24,7 +24,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     
     @IBOutlet var cancelBtn: UIButton! {
         didSet {
-            cancelBtn.setTitle(L10n.sleepTimerCancel, for: .normal)
+            cancelBtn.setTitle(L10n.Localizable.sleepTimerCancel, for: .normal)
             cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
             cancelBtn.layer.cornerRadius = 12
         }
@@ -58,14 +58,14 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBOutlet var sleepTimerOffHeadingLabel: ThemeableLabel! {
         didSet {
             sleepTimerOffHeadingLabel.style = .playerContrast02
-            sleepTimerOffHeadingLabel.text = L10n.sleepTimer.localizedUppercase
+            sleepTimerOffHeadingLabel.text = L10n.Localizable.sleepTimer.localizedUppercase
         }
     }
     
     @IBOutlet var endOfEpisodeLabel: ThemeableLabel! {
         didSet {
             endOfEpisodeLabel.style = .playerContrast01
-            endOfEpisodeLabel.text = L10n.sleepTimerEndOfEpisode
+            endOfEpisodeLabel.text = L10n.Localizable.sleepTimerEndOfEpisode
         }
     }
     
@@ -191,7 +191,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             timeRemaining.isHidden = false
             endOfEpisodeLabel.isHidden = true
             timeRemaining.text = TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining)
-            timeRemaining.accessibilityLabel = L10n.sleepTimerTimeRemaining(TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining))
+            timeRemaining.accessibilityLabel = L10n.Localizable.sleepTimerTimeRemaining(TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining))
         }
         else if PlaybackManager.shared.sleepOnEpisodeEnd {
             timeRemaining.isHidden = true

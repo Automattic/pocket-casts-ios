@@ -16,27 +16,27 @@ struct NameFolderView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(L10n.name.localizedUppercase)
+            Text(L10n.Localizable.name.localizedUppercase)
                 .textStyle(SecondaryText())
                 .font(.subheadline)
                 .onChange(of: model.name, perform: model.validateFolderName)
             if #available(iOS 15.0, *) {
-                TextField(L10n.folderName, text: $model.name)
+                TextField(L10n.Localizable.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
                     .themedTextField()
             }
             else {
-                TextField(L10n.folderName, text: $model.name)
+                TextField(L10n.Localizable.folderName, text: $model.name)
                     .themedTextField()
             }
             Spacer()
             NavigationLink(destination: ColorPreviewFolderView(model: model, dismissAction: dismissAction)) {
-                Text(L10n.continue)
+                Text(L10n.Localizable.continue)
                     .textStyle(RoundedButton())
             }
         }
         .padding()
-        .navigationTitle(L10n.folderNameTitle)
+        .navigationTitle(L10n.Localizable.folderNameTitle)
         .onAppear {
             // this appears to be a known issue with SwiftUI, in that it just passes this onto UIKit which can't set focus while a view is appearing, so here we artificially delay it
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {

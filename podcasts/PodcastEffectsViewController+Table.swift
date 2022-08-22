@@ -27,7 +27,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         switch tableRow {
         case .customForPodcast:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel?.text = L10n.settingsCustom
+            cell.cellLabel?.text = L10n.Localizable.settingsCustom
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.cellSwitch.isOn = podcast.overrideGlobalEffects
             cell.setNoImage()
@@ -38,8 +38,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .playbackSpeed:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
-            cell.cellLabel?.text = L10n.settingsPlaySpeed
-            cell.cellSecondaryLabel.text = L10n.playbackSpeed(podcast.playbackSpeed.localized())
+            cell.cellLabel?.text = L10n.Localizable.settingsPlaySpeed
+            cell.cellSecondaryLabel.text = L10n.Localizable.playbackSpeed(podcast.playbackSpeed.localized())
             cell.configureWithImage(imageName: "player_speed", tintColor: podcast.iconTintColor())
             
             cell.timeStepper.tintColor = podcast.iconTintColor()
@@ -56,7 +56,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .trimSilence:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel?.text = L10n.settingsTrimSilence
+            cell.cellLabel?.text = L10n.Localizable.settingsTrimSilence
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_trim")
             cell.cellSwitch.isOn = podcast.trimSilenceAmount > 0
@@ -67,7 +67,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .trimSilenceAmount:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel?.text = L10n.settingsTrimLevel
+            cell.cellLabel?.text = L10n.Localizable.settingsTrimLevel
             cell.setImage(imageName: nil)
             
             let trimAmount = TrimSilenceAmount(rawValue: Int(podcast.trimSilenceAmount)) ?? .low
@@ -76,7 +76,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .volumeBoost:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel?.text = L10n.settingsVolumeBoost
+            cell.cellLabel?.text = L10n.Localizable.settingsVolumeBoost
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_volumeboost")
             cell.cellSwitch.isOn = podcast.boostVolume
@@ -94,7 +94,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         let tableRow = tableData()[indexPath.section][indexPath.row]
         
         if tableRow == .trimSilenceAmount {
-            let options = OptionsPicker(title: L10n.settingsTrimLevel)
+            let options = OptionsPicker(title: L10n.Localizable.settingsTrimLevel)
             addTrimLevelAction(level: .low, to: options)
             addTrimLevelAction(level: .medium, to: options)
             addTrimLevelAction(level: .high, to: options)
@@ -125,7 +125,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Table Footer Text
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        podcast.overrideGlobalEffects ? nil : L10n.settingsCustomMsg
+        podcast.overrideGlobalEffects ? nil : L10n.Localizable.settingsCustomMsg
     }
     
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {

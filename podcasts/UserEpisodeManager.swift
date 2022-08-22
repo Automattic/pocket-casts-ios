@@ -256,17 +256,17 @@ struct UserEpisodeManager {
         static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, actionCallback: ((Bool, Bool) -> Void)? = nil) {
             let optionPicker = OptionsPicker(title: "", themeOverride: themeOverride)
             
-            let deleteCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil, action: { [] in
+            let deleteCloudAction = OptionAction(label: L10n.Localizable.deleteFromCloud, icon: nil, action: { [] in
                 UserEpisodeManager.deleteFromCloud(episode: episode)
                 actionCallback?(false, true)
             })
             
-            let deleteDeviceLabel = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.deleteFromDeviceOnly : L10n.deleteFromDevice
+            let deleteDeviceLabel = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.Localizable.deleteFromDeviceOnly : L10n.Localizable.deleteFromDevice
             let deleteDeviceAction = OptionAction(label: deleteDeviceLabel, icon: nil, action: { [] in
                 UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                 actionCallback?(true, false)
             })
-            let deleteEverywhereAction = OptionAction(label: L10n.deleteEverywhereShort, icon: nil, action: { [] in
+            let deleteEverywhereAction = OptionAction(label: L10n.Localizable.deleteEverywhereShort, icon: nil, action: { [] in
                 UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
                 actionCallback?(true, true)
             })
@@ -290,15 +290,15 @@ struct UserEpisodeManager {
             
             let title: String
             if episode.uploaded(), !episode.downloaded(pathFinder: DownloadManager.shared) {
-                title = L10n.deleteFromCloud
+                title = L10n.Localizable.deleteFromCloud
             }
             else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
-                title = L10n.deleteFromDevice
+                title = L10n.Localizable.deleteFromDevice
             }
             else {
-                title = L10n.deleteFile
+                title = L10n.Localizable.deleteFile
             }
-            optionPicker.addDescriptiveActions(title: title, message: L10n.deleteFileMessage, icon: "delete-red", actions: actions)
+            optionPicker.addDescriptiveActions(title: title, message: L10n.Localizable.deleteFileMessage, icon: "delete-red", actions: actions)
             
             optionPicker.show(statusBarStyle: preferredStatusBarStyle)
         }

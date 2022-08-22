@@ -3,9 +3,9 @@ import Foundation
 extension String {
     private var sourceDescriptor: String {
         if SourceManager.shared.isWatch() {
-            return L10n.watch
+            return L10n.Localizable.watch
         }
-        return L10n.phone
+        return L10n.Localizable.phone
     }
 
     var prefixSourceUnicode: String {

@@ -17,7 +17,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsAutoArchive
+        title = L10n.Localizable.settingsAutoArchive
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,17 +46,17 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
         if indexPath.section == settingsSection {
             let castCell = cell as! DisclosureCell
             if indexPath.row == 0 {
-                castCell.cellLabel.text = L10n.settingsArchivePlayedEpisodes
+                castCell.cellLabel.text = L10n.Localizable.settingsArchivePlayedEpisodes
                 castCell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(Settings.autoArchivePlayedAfter())
             }
             else if indexPath.row == 1 {
-                castCell.cellLabel.text = L10n.settingsArchiveInactiveEpisodes
+                castCell.cellLabel.text = L10n.Localizable.settingsArchiveInactiveEpisodes
                 castCell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(Settings.autoArchiveInactiveAfter())
             }
         }
         else if indexPath.section == starredSection {
             let castCell = cell as! SwitchCell
-            castCell.cellLabel.text = L10n.settingsAutoArchiveIncludeStarred
+            castCell.cellLabel.text = L10n.Localizable.settingsAutoArchiveIncludeStarred
             castCell.cellSwitch.isOn = Settings.archiveStarredEpisodes()
             
             castCell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -69,7 +69,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
         
         if indexPath.section == settingsSection {
             if indexPath.row == 0 {
-                let options = OptionsPicker(title: L10n.settingsArchivePlayedTitle)
+                let options = OptionsPicker(title: L10n.Localizable.settingsArchivePlayedTitle)
                 
                 addArchivePlayedAction(time: -1, to: options)
                 addArchivePlayedAction(time: 0, to: options)
@@ -80,7 +80,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
                 options.show(statusBarStyle: preferredStatusBarStyle)
             }
             else if indexPath.row == 1 {
-                let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
+                let options = OptionsPicker(title: L10n.Localizable.settingsArchiveInactiveTitle)
                 
                 addArchiveInactiveAction(time: -1, to: options)
                 addArchiveInactiveAction(time: 1.week, to: options)
@@ -96,7 +96,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         
-        return section == starredSection ? SettingsTableHeader(frame: headerFrame, title: L10n.settings.localizedUppercase) : nil
+        return section == starredSection ? SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settings.localizedUppercase) : nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -105,10 +105,10 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == settingsSection {
-            return L10n.settingsAutoArchiveSubtitle
+            return L10n.Localizable.settingsAutoArchiveSubtitle
         }
         else if section == starredSection {
-            return Settings.archiveStarredEpisodes() ? L10n.settingsAutoArchiveIncludeStarredOnSubtitle : L10n.settingsAutoArchiveIncludeStarredOffSubtitle
+            return Settings.archiveStarredEpisodes() ? L10n.Localizable.settingsAutoArchiveIncludeStarredOnSubtitle : L10n.Localizable.settingsAutoArchiveIncludeStarredOffSubtitle
         }
         
         return nil

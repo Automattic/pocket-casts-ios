@@ -10,7 +10,7 @@ protocol SyncSigninDelegate: AnyObject {
 class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
-            emailField.placeholder = L10n.signInEmailAddressPrompt
+            emailField.placeholder = L10n.Localizable.signInEmailAddressPrompt
             emailField.delegate = self
             emailField.addTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -18,7 +18,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var passwordField: ThemeableTextField! {
         didSet {
-            passwordField.placeholder = L10n.signInPasswordPrompt
+            passwordField.placeholder = L10n.Localizable.signInPasswordPrompt
             passwordField.delegate = self
             passwordField.addTarget(self, action: #selector(passwordFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -26,7 +26,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var mainButton: ThemeableRoundedButton! {
         didSet {
-            mainButton.setTitle(L10n.signIn, for: .normal)
+            mainButton.setTitle(L10n.Localizable.signIn, for: .normal)
             mainButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
     }
@@ -62,7 +62,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var errorLabel: UILabel!
     @IBOutlet var forgotPasswordBtn: ThemeableUIButton! {
         didSet {
-            forgotPasswordBtn.setTitle(L10n.signInForgotPassword, for: .normal)
+            forgotPasswordBtn.setTitle(L10n.Localizable.signInForgotPassword, for: .normal)
             forgotPasswordBtn.style = .primaryInteractive01
         }
     }
@@ -92,8 +92,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.signIn
-        mainButton.accessibilityLabel = L10n.signIn
+        title = L10n.Localizable.signIn
+        mainButton.accessibilityLabel = L10n.Localizable.signIn
         updateButtonState()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
@@ -174,12 +174,12 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
             
             let upTo = number.intValue
             if self.totalPodcastsToImport > 0 {
-                progressAlert.title = L10n.syncProgress(upTo.localized(), self.totalPodcastsToImport.localized())
+                progressAlert.title = L10n.Localizable.syncProgress(upTo.localized(), self.totalPodcastsToImport.localized())
                 progressAlert.progress = CGFloat(upTo / self.totalPodcastsToImport)
             }
             else {
                 // Used when the total number of podcasts to sync isn't known.
-                progressAlert.title = upTo == 1 ? L10n.syncProgressUnknownCountSingular : L10n.syncProgressUnknownCountPluralFormat(upTo.localized())
+                progressAlert.title = upTo == 1 ? L10n.Localizable.syncProgressUnknownCountSingular : L10n.Localizable.syncProgressUnknownCountPluralFormat(upTo.localized())
             }
         }
     }
@@ -188,7 +188,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         guard let progressAlert = progressAlert else { return }
         
         DispatchQueue.main.async {
-            progressAlert.title = L10n.syncInProgress
+            progressAlert.title = L10n.Localizable.syncInProgress
         }
     }
     
@@ -272,10 +272,10 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                         self.showErrorMessage(message)
                     }
                     else {
-                        self.showErrorMessage(L10n.syncAccountError)
+                        self.showErrorMessage(L10n.Localizable.syncAccountError)
                     }
                     
-                    self.mainButton.setTitle(L10n.signIn, for: .normal)
+                    self.mainButton.setTitle(L10n.Localizable.signIn, for: .normal)
                     self.contentView.alpha = 1
                     self.activityIndicatorView.stopAnimating()
                     self.progressAlert?.hideAlert(false)
@@ -284,7 +284,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     return
                 }
                 
-                self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+                self.progressAlert = ShiftyLoadingAlert(title: L10n.Localizable.syncAccountLogin)
                 self.progressAlert?.showAlert(self, hasProgress: false, completion: {
                     // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
                     SyncManager.clearTokensFromKeyChain()

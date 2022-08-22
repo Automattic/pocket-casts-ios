@@ -47,7 +47,7 @@ class PCRefreshControl: UIView {
         alpha = 0
         
         // refresh label
-        refreshLabel.text = L10n.refreshControlPullToRefresh
+        refreshLabel.text = L10n.Localizable.refreshControlPullToRefresh
         refreshLabel.textAlignment = NSTextAlignment.center
         refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
         refreshLabel.textColor = UIColor(hex: "#B8C3C9")
@@ -114,7 +114,7 @@ class PCRefreshControl: UIView {
             self.offsetToPullDown()
         })
         
-        refreshLabel.text = L10n.refreshControlFetchingEpisodes
+        refreshLabel.text = L10n.Localizable.refreshControlFetchingEpisodes
         startRefreshAnimation()
         
         RefreshManager.shared.refreshPodcasts()
@@ -186,10 +186,10 @@ class PCRefreshControl: UIView {
         
         let adjustedAmount = min(pullDownAmountForRefresh, amount)
         if adjustedAmount < pullDownAmountForRefresh {
-            refreshLabel.text = L10n.refreshControlPullToRefresh
+            refreshLabel.text = L10n.Localizable.refreshControlPullToRefresh
         }
         else {
-            refreshLabel.text = L10n.refreshControlReleaseToRefresh
+            refreshLabel.text = L10n.Localizable.refreshControlReleaseToRefresh
         }
         
         innerRotationAngle = (amount * 4).degreesToRadians
@@ -212,25 +212,25 @@ class PCRefreshControl: UIView {
     @objc func podcastsRefreshed() {
         if SyncManager.isUserLoggedIn() {
             DispatchQueue.main.async { [weak self] in
-                self?.refreshLabel.text = L10n.refreshControlSyncingPodcasts
+                self?.refreshLabel.text = L10n.Localizable.refreshControlSyncingPodcasts
             }
             
             return
         }
         
-        processRefreshCompleted(L10n.refreshControlRefreshComplete)
+        processRefreshCompleted(L10n.Localizable.refreshControlRefreshComplete)
     }
     
     @objc func podcastRefreshFailed() {
-        processRefreshCompleted(L10n.refreshControlRefreshFailed)
+        processRefreshCompleted(L10n.Localizable.refreshControlRefreshFailed)
     }
     
     @objc func syncCompleted() {
-        processRefreshCompleted(L10n.refreshControlRefreshComplete)
+        processRefreshCompleted(L10n.Localizable.refreshControlRefreshComplete)
     }
     
     @objc func syncFailed() {
-        processRefreshCompleted(L10n.refreshControlSyncFailed)
+        processRefreshCompleted(L10n.Localizable.refreshControlSyncFailed)
     }
     
     func processRefreshCompleted(_ message: String) {

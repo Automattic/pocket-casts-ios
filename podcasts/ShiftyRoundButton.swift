@@ -31,7 +31,7 @@ class ShiftyRoundButton: UIView {
             else {
                 textLayer.foregroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
                 shapeLayer.strokeColor = disabledFillColor.cgColor
-                accessibilityHint = L10n.accessibilityDisabled
+                accessibilityHint = L10n.Localizable.accessibilityDisabled
             }
             
             shapeLayer.fillColor = fillColorForButton()

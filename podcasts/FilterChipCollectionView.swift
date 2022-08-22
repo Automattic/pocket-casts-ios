@@ -98,29 +98,29 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         var returnedString = ""
         switch chip {
         case .podcast:
-            returnedString = filter.filterAllPodcasts ? L10n.filterChipsAllPodcasts : L10n.podcastCount(filter.podcastUuids.components(separatedBy: ",").count, capitalized: true)
+            returnedString = filter.filterAllPodcasts ? L10n.Localizable.filterChipsAllPodcasts : L10n.podcastCount(filter.podcastUuids.components(separatedBy: ",").count, capitalized: true)
         case .episode:
             var selectedOptions = 0
             if filter.filterUnplayed {
-                returnedString = L10n.statusUnplayed
+                returnedString = L10n.Localizable.statusUnplayed
                 selectedOptions += 1
             }
             if filter.filterPartiallyPlayed {
                 if returnedString.count > 0 {
                     returnedString.append(", ")
                 }
-                returnedString.append(L10n.inProgress)
+                returnedString.append(L10n.Localizable.inProgress)
                 selectedOptions += 1
             }
             if filter.filterFinished {
                 if returnedString.count > 0 {
                     returnedString.append(", ")
                 }
-                returnedString.append(L10n.statusPlayed)
+                returnedString.append(L10n.Localizable.statusPlayed)
                 selectedOptions += 1
             }
             if selectedOptions == 0 || selectedOptions == 3 {
-                returnedString = L10n.filterEpisodeStatus
+                returnedString = L10n.Localizable.filterEpisodeStatus
             }
         case .mediaType:
             if filter.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
@@ -130,7 +130,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
                 returnedString = AudioVideoFilter.videoOnly.description
             }
             else {
-                returnedString = L10n.filterMediaType
+                returnedString = L10n.Localizable.filterMediaType
             }
         case .duration:
             if filter.filterDuration {
@@ -139,22 +139,22 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
                 returnedString = "\(longTime) - \(shortTime)"
             }
             else {
-                returnedString = L10n.filterChipsDuration
+                returnedString = L10n.Localizable.filterChipsDuration
             }
         case .downloadStatus:
             if filter.filterDownloaded, !filter.filterNotDownloaded {
-                returnedString = L10n.statusDownloaded
+                returnedString = L10n.Localizable.statusDownloaded
             }
             else if !filter.filterDownloaded, filter.filterNotDownloaded {
-                returnedString = L10n.statusNotDownloaded
+                returnedString = L10n.Localizable.statusNotDownloaded
             }
             else {
-                returnedString = L10n.filterDownloadStatus
+                returnedString = L10n.Localizable.filterDownloadStatus
             }
         case .releaseDate:
             returnedString = filterLengthToTime(filterHours: filter.filterHours)
         case .starred:
-            returnedString = L10n.statusStarred
+            returnedString = L10n.Localizable.statusStarred
         }
         return returnedString
     }
@@ -183,14 +183,14 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
 
     func filterLengthToTime(filterHours: Int32) -> String {
         if filterHours <= ReleaseDateFilterOption.anytime.rawValue {
-            return L10n.filterReleaseDate
+            return L10n.Localizable.filterReleaseDate
         }
         else if let filter = ReleaseDateFilterOption(rawValue: filterHours) {
             return filter.description
         }
         else {
             // fallback in case another client sets some unexpected amount of hours
-            return L10n.hoursPluralFormat(filterHours)
+            return L10n.Localizable.hoursPluralFormat(filterHours)
         }
     }
 

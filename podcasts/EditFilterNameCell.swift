@@ -9,7 +9,7 @@ class EditFilterNameCell: ThemeableCell {
     
     @IBOutlet var nameLabel: ThemeableLabel! {
         didSet {
-            nameLabel.text = L10n.name.localizedCapitalized
+            nameLabel.text = L10n.Localizable.name.localizedCapitalized
         }
     }
     

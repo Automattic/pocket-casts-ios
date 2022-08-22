@@ -30,7 +30,7 @@ class FolderPreviewView: UIView {
         cleanupImages()
         configureGradient()
         updateNameLabel(name: folderName)
-        accessibilityLabel = folderName.isEmpty ? L10n.folderUnnamed : "\(folderName) \(L10n.folder)"
+        accessibilityLabel = folderName.isEmpty ? L10n.Localizable.folderUnnamed : "\(folderName) \(L10n.Localizable.folder)"
         isAccessibilityElement = true
         
         backgroundColor = AppTheme.folderColor(colorInt: folderColor)

@@ -27,13 +27,13 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     var selectBtn: UIBarButtonItem!
     
     override func viewDidLoad() {
-        selectBtn = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectBtnTapped))
+        selectBtn = UIBarButtonItem(title: L10n.Localizable.selectAll, style: .plain, target: self, action: #selector(selectBtnTapped))
         if allowSelectAll {
             customRightBtn = selectBtn
         }
         super.viewDidLoad()
         
-        title = L10n.shareSelectPodcasts
+        title = L10n.Localizable.shareSelectPodcasts
         
         loadPodcasts()
     }
@@ -110,7 +110,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     }
     
     func updateSelectBtn() {
-        selectBtn.title = shouldSelectAll() ? L10n.selectAll : L10n.deselectAll
+        selectBtn.title = shouldSelectAll() ? L10n.Localizable.selectAll : L10n.Localizable.deselectAll
     }
     
     @objc private func selectBtnTapped() {

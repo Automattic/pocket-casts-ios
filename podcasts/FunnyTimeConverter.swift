@@ -6,7 +6,7 @@ class FunnyTimeConverter {
     class func timeSecsToFunnyText(_ timeInSeconds: Double) -> String {
         // don't bother if the listening time is less than 1 minute
         if timeInSeconds < 60 {
-            return L10n.funnyTimeNotEnough
+            return L10n.Localizable.funnyTimeNotEnough
         }
         
         while true {
@@ -70,31 +70,31 @@ class FunnyTimeConverter {
 
             switch self {
             case .births:
-                return L10n.funnyTimeUnitBirths(amount.localized())
+                return L10n.Localizable.funnyTimeUnitBirths(amount.localized())
             case .blinks:
-                return L10n.funnyTimeUnitBlinks(amount.localized())
+                return L10n.Localizable.funnyTimeUnitBlinks(amount.localized())
             case .lightning:
-                return L10n.funnyTimeUnitLightning(amount.localized())
+                return L10n.Localizable.funnyTimeUnitLightning(amount.localized())
             case .shedSkin:
-                return L10n.funnyTimeUnitShedSkin(amount.localized())
+                return L10n.Localizable.funnyTimeUnitShedSkin(amount.localized())
             case .astronautSneezes:
-                return L10n.funnyTimeUnitAstronautSneezes(amount.localized())
+                return L10n.Localizable.funnyTimeUnitAstronautSneezes(amount.localized())
             case .emails:
-                return L10n.funnyTimeUnitEmails(amount.localized())
+                return L10n.Localizable.funnyTimeUnitEmails(amount.localized())
             case .tweets:
-                return L10n.funnyTimeUnitTweets(amount.localized())
+                return L10n.Localizable.funnyTimeUnitTweets(amount.localized())
             case .farts:
-                return L10n.funnyTimeUnitFarts(amount.localized())
+                return L10n.Localizable.funnyTimeUnitFarts(amount.localized())
             case .tiedShoes:
-                return L10n.funnyTimeUnitTiedShoes(amount.localized())
+                return L10n.Localizable.funnyTimeUnitTiedShoes(amount.localized())
             case .balloonTravel:
-                return L10n.funnyTimeUnitBalloonTravel(amount.localized())
+                return L10n.Localizable.funnyTimeUnitBalloonTravel(amount.localized())
             case .google:
-                return L10n.funnyTimeUnitGoogle(amount.localized())
+                return L10n.Localizable.funnyTimeUnitGoogle(amount.localized())
             case .airplaneTakeoffs:
-                return L10n.funnyTimeUnitAirplaneTakeoffs(amount.localized())
+                return L10n.Localizable.funnyTimeUnitAirplaneTakeoffs(amount.localized())
             case .phoneProduction:
-                return L10n.funnyTimeUnitPhoneProduction(amount.localized())
+                return L10n.Localizable.funnyTimeUnitPhoneProduction(amount.localized())
             }
         }
         

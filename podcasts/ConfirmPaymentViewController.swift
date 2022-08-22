@@ -68,7 +68,7 @@ class ConfirmPaymentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.accountCreationComplete
+        title = L10n.Localizable.accountCreationComplete
 
         updateBackItem()
 
@@ -117,8 +117,8 @@ class ConfirmPaymentViewController: UIViewController {
     
     func showAccountUpdated() {
         let upgradedVC = AccountUpdatedViewController()
-        upgradedVC.titleText = newSubscription.isNewAccount ? L10n.accountCreated : L10n.accountUpgraded
-        upgradedVC.detailText = L10n.accountWelcomePlus
+        upgradedVC.titleText = newSubscription.isNewAccount ? L10n.Localizable.accountCreated : L10n.Localizable.accountUpgraded
+        upgradedVC.detailText = L10n.Localizable.accountWelcomePlus
         upgradedVC.imageName = newSubscription.isNewAccount ? AppTheme.accountCreatedImageName : AppTheme.plusCreatedImageName
         upgradedVC.hideNewsletter = !newSubscription.isNewAccount
         navigationController?.pushViewController(upgradedVC, animated: true)
@@ -161,23 +161,23 @@ class ConfirmPaymentViewController: UIViewController {
     
     @objc func iapPurchaseDeferred() {
         let upgradedVC = AccountUpdatedViewController()
-        upgradedVC.titleText = L10n.accountCompletionNudge
+        upgradedVC.titleText = L10n.Localizable.accountCompletionNudge
         upgradedVC.imageName = AppTheme.paymentDeferredImageName
-        upgradedVC.detailText = L10n.accountCompletionNudge
+        upgradedVC.detailText = L10n.Localizable.accountCompletionNudge
         navigationController?.pushViewController(upgradedVC, animated: true)
     }
     
     @objc func iapPurchaseFailed() {
         activityIndicator.stopAnimating()
         buyButton.titleLabel?.isHidden = false
-        buyButton.setTitle(L10n.tryAgain, for: .normal)
+        buyButton.setTitle(L10n.Localizable.tryAgain, for: .normal)
         buyButton.isEnabled = true
         borderView.isHidden = true
         tryAgainView.isHidden = false
         title = ""
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
 
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
     }
@@ -213,14 +213,14 @@ private extension ConfirmPaymentViewController {
         guard let lastController = controllers.last, lastController is NewEmailViewController else {
             // Show a back button if we're coming from somewhere else
             let backButton = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped(_:)))
-            backButton.accessibilityLabel = L10n.back
+            backButton.accessibilityLabel = L10n.Localizable.back
             navigationItem.leftBarButtonItem = backButton
 
             return
         }
 
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
     }
@@ -245,8 +245,8 @@ private extension ConfirmPaymentViewController {
             return
         }
 
-        priceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
-        trialDetailLabel.text = L10n.pricingTermsAfterTrial(pricing)
+        priceLabel.text = L10n.Localizable.freeTrialDurationFree(trialDuration).localizedLowercase
+        trialDetailLabel.text = L10n.Localizable.pricingTermsAfterTrial(pricing)
     }
 
     func updateBuyButton() {
@@ -254,10 +254,10 @@ private extension ConfirmPaymentViewController {
             let product = Constants.IapProducts(rawValue: newSubscription.iap_identifier),
             IapHelper.shared.localizedFreeTrialDuration(product) != nil
         else {
-            buyButton.setTitle(L10n.confirm, for: .normal)
+            buyButton.setTitle(L10n.Localizable.confirm, for: .normal)
             return
         }
 
-        buyButton.setTitle(L10n.freeTrialStartButton, for: .normal)
+        buyButton.setTitle(L10n.Localizable.freeTrialStartButton, for: .normal)
     }
 }

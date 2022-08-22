@@ -16,7 +16,7 @@ class EpisodeListTableViewCell: UITableViewCell {
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var duration: UILabel! {
         didSet {
-            duration.text = L10n.unknownDuration
+            duration.text = L10n.Localizable.unknownDuration
         }
     }
 

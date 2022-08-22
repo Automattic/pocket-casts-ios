@@ -42,7 +42,7 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var learnMoreButton: ThemeableUIButton! {
         didSet {
             learnMoreButton.style = .primaryInteractive01
-            learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
+            learnMoreButton.setTitle(L10n.Localizable.plusMarketingLearnMoreButton, for: .normal)
         }
     }
     
@@ -84,9 +84,9 @@ class PlusLockedInfoView: ThemeableView {
     private func setInfoLabelText() {
         switch delegate?.displaySource {
         case .profile:
-            infoLabel.text = L10n.profileHelpSupport
+            infoLabel.text = L10n.Localizable.profileHelpSupport
         default:
-            infoLabel.text = L10n.plusPromoParagraph
+            infoLabel.text = L10n.Localizable.plusPromoParagraph
         }
     }
 }

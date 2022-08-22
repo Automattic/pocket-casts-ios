@@ -87,7 +87,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.textColor = ThemeColor.primaryText02()
-        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.search, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()])
+        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.Localizable.search, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()])
         searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
         roundedBackgroundView.backgroundColor = ThemeColor.primaryField01()
         searchIcon.tintColor = ThemeColor.primaryIcon02()
@@ -102,15 +102,15 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let archivedCount = delegate.archivedEpisodeCount()
         let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive)
 
-        episodeInfoLabel?.text = episodeCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodeCount.localized())
+        episodeInfoLabel?.text = episodeCount == 1 ? L10n.Localizable.podcastEpisodeCountSingular : L10n.Localizable.podcastEpisodeCountPluralFormat(episodeCount.localized())
 
-        limitLabel?.text = L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimit.localized())
-        archivedInfoLabel?.text = L10n.podcastArchivedCountFormat(archivedCount.localized())
+        limitLabel?.text = L10n.Localizable.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimit.localized())
+        archivedInfoLabel?.text = L10n.Localizable.podcastArchivedCountFormat(archivedCount.localized())
         
         limitLabel?.isHidden = !hasEpisodeLimit
         archivedInfoLabel?.isHidden = hasEpisodeLimit
 
-        let archivedTitle = delegate.showingArchived() ? L10n.podcastHideArchived : L10n.podcastShowArchived
+        let archivedTitle = delegate.showingArchived() ? L10n.Localizable.podcastHideArchived : L10n.Localizable.podcastShowArchived
         if let showHideBtn = showHideArchiveBtn {
             UIView.performWithoutAnimation {
                 showHideBtn.setTitle(archivedTitle, for: .normal)
@@ -132,14 +132,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         
         let optionPicker = OptionsPicker(title: nil)
         
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let MultiSelectAction = OptionAction(label: L10n.Localizable.selectEpisodes, icon: "option-multiselect") { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.podcastDelegate?.enableMultiSelect()
         }
         optionPicker.addAction(action: MultiSelectAction)
         
         let currentSort = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder)?.description ?? ""
-        let sortAction = OptionAction(label: L10n.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
+        let sortAction = OptionAction(label: L10n.Localizable.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
             guard let strongSelf = self else { return }
             
             strongSelf.presentSortOptions()
@@ -147,14 +147,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         optionPicker.addAction(action: sortAction)
         
         let currentGroup = PodcastGrouping(rawValue: podcast.episodeGrouping)?.description ?? ""
-        let groupAction = OptionAction(label: L10n.groupEpisodes, secondaryLabel: currentGroup, icon: "option-group") { [weak self] in
+        let groupAction = OptionAction(label: L10n.Localizable.groupEpisodes, secondaryLabel: currentGroup, icon: "option-group") { [weak self] in
             guard let strongSelf = self else { return }
             
             strongSelf.presentGroupOptions()
         }
         optionPicker.addAction(action: groupAction)
         
-        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
+        let downloadAllAction = OptionAction(label: L10n.Localizable.downloadAll, icon: "filter_downloaded") { [weak self] in
             let downloadableCount = delegate.downloadableEpisodeCount(items: nil)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
             let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
@@ -168,19 +168,19 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
             
             if NetworkUtils.shared.isConnectedToWifi() {
-                confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+                confirmPicker.addDescriptiveActions(title: L10n.Localizable.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             }
             else {
                 downloadAction.destructive = true
                 
-                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+                let queueAction = OptionAction(label: L10n.Localizable.queueForLater, icon: nil) {
                     delegate.queueAllTapped()
                 }
                 
                 if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarning + "\n" + warningMessage
+                    warningMessage = L10n.Localizable.downloadDataWarning + "\n" + warningMessage
                 }
-                confirmPicker.addDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+                confirmPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
             }
             
             confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)
@@ -190,7 +190,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0"
         let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id])
         if unarchivedCount > 0 {
-            let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") { [weak self] in
+            let archiveAllAction = OptionAction(label: L10n.Localizable.podcastArchiveAll, icon: "podcast-archiveall") { [weak self] in
                 guard let strongSelf = self else { return }
                 
                 strongSelf.confirmArchiveAll(episodeCount: unarchivedCount, playedOnly: false)
@@ -199,7 +199,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         }
         else if !(podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive) {
             // we only show unarchive all for podcasts that haven't set an episode limit
-            let unarchiveAllAction = OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
+            let unarchiveAllAction = OptionAction(label: L10n.Localizable.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
                 guard let strongSelf = self else { return }
                 
                 strongSelf.performUnarchiveAll()
@@ -210,7 +210,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let playedNotArchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND playingStatus = \(PlayingStatus.completed.rawValue)"
         let playedNotArchivedCount = DataManager.sharedManager.count(query: playedNotArchivedQuery, values: [podcast.id])
         if playedNotArchivedCount > 0 {
-            let archiveAllPlayedAction = OptionAction(label: L10n.podcastArchiveAllPlayed, icon: "podcast-archiveall") { [weak self] in
+            let archiveAllPlayedAction = OptionAction(label: L10n.Localizable.podcastArchiveAllPlayed, icon: "podcast-archiveall") { [weak self] in
                 guard let strongSelf = self else { return }
                 
                 strongSelf.confirmArchiveAll(episodeCount: playedNotArchivedCount, playedOnly: true)
@@ -231,12 +231,12 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         guard let podcastDelegate = podcastDelegate else { return }
         
         let archiveAllConfirm = OptionsPicker(title: nil)
-        let archiveAllAction = OptionAction(label: episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized()), icon: nil, action: {
+        let archiveAllAction = OptionAction(label: episodeCount == 1 ? L10n.Localizable.podcastArchiveEpisodeCountSingular : L10n.Localizable.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized()), icon: nil, action: {
             podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
         })
         archiveAllAction.destructive = true
-        let title = playedOnly ? L10n.podcastArchiveAllPlayed : L10n.podcastArchiveAll
-        archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
+        let title = playedOnly ? L10n.Localizable.podcastArchiveAllPlayed : L10n.Localizable.podcastArchiveAll
+        archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.Localizable.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
         
         archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
     }
@@ -244,7 +244,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     private func presentSortOptions() {
         guard let podcast = podcastDelegate?.displayedPodcast() else { return }
         
-        let optionPicker = OptionsPicker(title: L10n.podcastSortOrderTitle)
+        let optionPicker = OptionsPicker(title: L10n.Localizable.podcastSortOrderTitle)
         
         let newestToOldestAction = OptionAction(label: PodcastEpisodeSortOrder.newestToOldest.description, selected: podcast.episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest.rawValue) { [weak self] in
             self?.setSortSetting(.newestToOldest)
@@ -273,29 +273,29 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     private func presentGroupOptions() {
         guard let podcast = podcastDelegate?.displayedPodcast() else { return }
         
-        let optionPicker = OptionsPicker(title: L10n.podcastGroupOptionsTitle)
+        let optionPicker = OptionsPicker(title: L10n.Localizable.podcastGroupOptionsTitle)
         
-        let noneAction = OptionAction(label: L10n.none, selected: podcast.episodeGrouping == PodcastGrouping.none.rawValue) { [weak self] in
+        let noneAction = OptionAction(label: L10n.Localizable.none, selected: podcast.episodeGrouping == PodcastGrouping.none.rawValue) { [weak self] in
             self?.setGroupingSetting(.none)
         }
         optionPicker.addAction(action: noneAction)
         
-        let downloadedAction = OptionAction(label: L10n.statusDownloaded, selected: podcast.episodeGrouping == PodcastGrouping.downloaded.rawValue) { [weak self] in
+        let downloadedAction = OptionAction(label: L10n.Localizable.statusDownloaded, selected: podcast.episodeGrouping == PodcastGrouping.downloaded.rawValue) { [weak self] in
             self?.setGroupingSetting(.downloaded)
         }
         optionPicker.addAction(action: downloadedAction)
         
-        let unplayedAction = OptionAction(label: L10n.statusUnplayed, selected: podcast.episodeGrouping == PodcastGrouping.unplayed.rawValue) { [weak self] in
+        let unplayedAction = OptionAction(label: L10n.Localizable.statusUnplayed, selected: podcast.episodeGrouping == PodcastGrouping.unplayed.rawValue) { [weak self] in
             self?.setGroupingSetting(.unplayed)
         }
         optionPicker.addAction(action: unplayedAction)
         
-        let seasonAction = OptionAction(label: L10n.season, selected: podcast.episodeGrouping == PodcastGrouping.season.rawValue) { [weak self] in
+        let seasonAction = OptionAction(label: L10n.Localizable.season, selected: podcast.episodeGrouping == PodcastGrouping.season.rawValue) { [weak self] in
             self?.setGroupingSetting(.season)
         }
         optionPicker.addAction(action: seasonAction)
         
-        let starAction = OptionAction(label: L10n.statusStarred, selected: podcast.episodeGrouping == PodcastGrouping.starred.rawValue) { [weak self] in
+        let starAction = OptionAction(label: L10n.Localizable.statusStarred, selected: podcast.episodeGrouping == PodcastGrouping.starred.rawValue) { [weak self] in
             self?.setGroupingSetting(.starred)
         }
         optionPicker.addAction(action: starAction)

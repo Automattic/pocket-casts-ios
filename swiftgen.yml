@@ -17,6 +17,7 @@
      - templateName: structured-swift5
        params:
          lookupFunction: localizedFormat
+         forceFileNameEnum: true
        output: podcasts/Strings+Generated.swift
 
 

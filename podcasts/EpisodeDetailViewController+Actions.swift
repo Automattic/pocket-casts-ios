@@ -13,13 +13,13 @@ extension EpisodeDetailViewController {
             PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false)
         }
         else {
-            let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
-            let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
+            let addToUpNextPicker = OptionsPicker(title: L10n.Localizable.addToUpNext.localizedUppercase)
+            let playNextAction = OptionAction(label: L10n.Localizable.playNext, icon: "list_playnext") {
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
             }
             addToUpNextPicker.addAction(action: playNextAction)
             
-            let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
+            let playLastAction = OptionAction(label: L10n.Localizable.playLast, icon: "list_playlast") {
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
             }
             addToUpNextPicker.addAction(action: playLastAction)
@@ -64,8 +64,8 @@ extension EpisodeDetailViewController {
     
     @IBAction func downloadTapped(_ sender: UIButton) {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
-            let yesAction = OptionAction(label: L10n.remove, icon: nil) {
+            let confirmation = OptionsPicker(title: L10n.Localizable.podcastDetailsRemoveDownload)
+            let yesAction = OptionAction(label: L10n.Localizable.remove, icon: nil) {
                 self.deleteDownloadedFile()
                 self.updateColors()
             }
@@ -95,45 +95,45 @@ extension EpisodeDetailViewController {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadBtn.setImage(UIImage(named: "episode-downloaded"), for: .normal)
             downloadBtn.setTitle(SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes), for: .normal)
-            downloadBtn.accessibilityLabel = L10n.removeDownload
+            downloadBtn.accessibilityLabel = L10n.Localizable.removeDownload
         }
         else if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             downloadBtn.setImage(UIImage(named: "episode-cancel"), for: .normal)
-            downloadBtn.accessibilityLabel = L10n.cancelDownload
+            downloadBtn.accessibilityLabel = L10n.Localizable.cancelDownload
         }
         else {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
-            downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
-            downloadBtn.accessibilityLabel = L10n.download
+            downloadBtn.setTitle(sizeAsStr == "" ? L10n.Localizable.download : sizeAsStr, for: .normal)
+            downloadBtn.accessibilityLabel = L10n.Localizable.download
         }
         
-        upNextBtn.setTitle(L10n.upNext, for: .normal)
+        upNextBtn.setTitle(L10n.Localizable.upNext, for: .normal)
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) || playbackManager.inUpNext(episode: episode) {
             upNextBtn.setImage(UIImage(named: "episode-removenext"), for: .normal)
-            upNextBtn.accessibilityLabel = L10n.removeFromUpNext
+            upNextBtn.accessibilityLabel = L10n.Localizable.removeFromUpNext
         }
         else {
             upNextBtn.setImage(UIImage(named: "episode-playnext"), for: .normal)
-            upNextBtn.accessibilityLabel = L10n.upNext
+            upNextBtn.accessibilityLabel = L10n.Localizable.upNext
         }
         
         if episode.archived {
             archiveButton.setImage(UIImage(named: "episode-unarchive"), for: .normal)
-            archiveButton.setTitle(L10n.unarchive, for: .normal)
+            archiveButton.setTitle(L10n.Localizable.unarchive, for: .normal)
         }
         else {
             archiveButton.setImage(UIImage(named: "episode-archive"), for: .normal)
-            archiveButton.setTitle(L10n.archive, for: .normal)
+            archiveButton.setTitle(L10n.Localizable.archive, for: .normal)
         }
         
         if episode.played() {
             playStatusButton.setImage(UIImage(named: "episode-markunplayed"), for: .normal)
-            playStatusButton.setTitle(L10n.markUnplayedShort, for: .normal)
+            playStatusButton.setTitle(L10n.Localizable.markUnplayedShort, for: .normal)
         }
         else {
             playStatusButton.setImage(UIImage(named: "episode-markasplayed"), for: .normal)
-            playStatusButton.setTitle(L10n.markPlayedShort, for: .normal)
+            playStatusButton.setTitle(L10n.Localizable.markPlayedShort, for: .normal)
         }
     }
     
@@ -163,17 +163,17 @@ extension EpisodeDetailViewController {
     
     func updateMessageView() {
         if episode.playbackError() {
-            setMessage(title: L10n.playbackFailed, details: episode.playbackErrorDetails ?? L10n.podcastDetailsPlaybackError, imageName: "option-alert")
+            setMessage(title: L10n.Localizable.playbackFailed, details: episode.playbackErrorDetails ?? L10n.Localizable.podcastDetailsPlaybackError, imageName: "option-alert")
         }
         else if episode.downloadFailed() {
-            setMessage(title: L10n.downloadFailed, details: episode.downloadErrorDetails ?? L10n.podcastDetailsDownloadError, imageName: "option-alert")
+            setMessage(title: L10n.Localizable.downloadFailed, details: episode.downloadErrorDetails ?? L10n.Localizable.podcastDetailsDownloadError, imageName: "option-alert")
         }
         else if episode.waitingForWifi() {
-            setMessage(title: L10n.waitForWifi, details: L10n.podcastDetailsDownloadWifiQueue, imageName: "waiting-wifi")
+            setMessage(title: L10n.Localizable.waitForWifi, details: L10n.Localizable.podcastDetailsDownloadWifiQueue, imageName: "waiting-wifi")
         }
         else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimit > 0 {
-            setMessage(title: L10n.podcastDetailsManualUnarchiveTitle,
-                       details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimit.localized()),
+            setMessage(title: L10n.Localizable.podcastDetailsManualUnarchiveTitle,
+                       details: L10n.Localizable.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimit.localized()),
                        imageName: "episode-archive")
         }
         else if buttonBottomOffsetConstraint.constant != 20 {

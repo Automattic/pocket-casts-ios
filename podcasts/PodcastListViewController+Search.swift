@@ -36,7 +36,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
     
     func showSortOrderOptions() {
-        let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+        let options = OptionsPicker(title: L10n.Localizable.sortBy.localizedUppercase)
         
         let sortOption = Settings.homeFolderSortOrder()
         

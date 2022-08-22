@@ -17,7 +17,7 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         
         countriesTable.register(UINib(nibName: "CountryCell", bundle: nil), forCellReuseIdentifier: CountryChooserViewController.cellId)
-        title = L10n.discoverSelectRegion
+        title = L10n.Localizable.discoverSelectRegion
         
         countriesTable.reloadData()
     }

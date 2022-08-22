@@ -9,25 +9,25 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
     
     @IBOutlet var importPocdcastsTitle: UILabel! {
         didSet {
-            importPocdcastsTitle.text = L10n.importPodcastsTitle.localizedUppercase
+            importPocdcastsTitle.text = L10n.Localizable.importPodcastsTitle.localizedUppercase
         }
     }
 
     @IBOutlet var importPodcastsDescription: ThemeableLabel! {
         didSet {
-            importPodcastsDescription.text = L10n.importPodcastsDescription
+            importPodcastsDescription.text = L10n.Localizable.importPodcastsDescription
         }
     }
 
     @IBOutlet var exportPodcastsTitle: UILabel! {
         didSet {
-            exportPodcastsTitle.text = L10n.exportPodcastsTitle.localizedUppercase
+            exportPodcastsTitle.text = L10n.Localizable.exportPodcastsTitle.localizedUppercase
         }
     }
 
     @IBOutlet var exportPodcastsDescription: ThemeableLabel! {
         didSet {
-            exportPodcastsDescription.text = L10n.exportPodcastsDescription
+            exportPodcastsDescription.text = L10n.Localizable.exportPodcastsDescription
         }
     }
 
@@ -51,20 +51,20 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
     
     @IBOutlet var exportBtn: UIButton! {
         didSet {
-            exportBtn.setTitle(L10n.exportPodcastsOption, for: .normal)
+            exportBtn.setTitle(L10n.Localizable.exportPodcastsOption, for: .normal)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsImportExport
+        title = L10n.Localizable.settingsImportExport
     }
     
     @IBOutlet var mainScrollView: UIScrollView!
     
     @IBAction func exportPodcasts(_ sender: AnyObject) {
-        loadingAlert = ShiftyLoadingAlert(title: L10n.settingsExportOpml)
+        loadingAlert = ShiftyLoadingAlert(title: L10n.Localizable.settingsExportOpml)
         loadingAlert?.showAlert(self, hasProgress: false, completion: {
             self.startExport()
         })
@@ -132,6 +132,6 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
     }
 
     private func presentError() {
-        SJUIUtils.showAlert(title: L10n.settingsExportError, message: L10n.settingsExportErrorMsg, from: self)
+        SJUIUtils.showAlert(title: L10n.Localizable.settingsExportError, message: L10n.Localizable.settingsExportErrorMsg, from: self)
     }
 }

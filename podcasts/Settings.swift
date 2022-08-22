@@ -282,9 +282,9 @@ class Settings: NSObject {
     
     class func displayableVersion() -> String {
         #if STAGING
-            return L10n.appVersion(Settings.appVersion(), Settings.buildNumber()) + " - STAGING"
+            return L10n.Localizable.appVersion(Settings.appVersion(), Settings.buildNumber()) + " - STAGING"
         #else
-            return L10n.appVersion(Settings.appVersion(), Settings.buildNumber())
+            return L10n.Localizable.appVersion(Settings.appVersion(), Settings.buildNumber())
         #endif
     }
     

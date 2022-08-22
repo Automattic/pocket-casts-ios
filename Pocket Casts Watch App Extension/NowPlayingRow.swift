@@ -10,7 +10,7 @@ struct NowPlayingRow: View {
                 NowPlayingImage(isPlaying: $isPlaying)
                     .frame(width: 26, height: 26)
                 VStack(alignment: .leading) {
-                    Text(L10n.nowPlaying)
+                    Text(L10n.Localizable.nowPlaying)
                     Text(podcastName ?? "")
                         .foregroundColor(.subheadlineText)
                 }

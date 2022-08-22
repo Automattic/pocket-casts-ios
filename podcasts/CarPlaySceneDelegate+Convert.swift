@@ -59,7 +59,7 @@ extension CarPlaySceneDelegate {
             images.append(CarPlayImageHelper.imageForEpisode(episode))
         }
         
-        let item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)
+        let item = CPListImageRowItem(text: L10n.Localizable.carplayUpNextQueue, images: images)
         item.listImageRowHandler = { [weak self] _, index, completion in
             guard let episode = episodes[safe: index] else { return }
             

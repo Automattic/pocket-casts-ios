@@ -8,7 +8,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
-            addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
+            addPodcastBtn.buttonTitle = L10n.Localizable.podcastGridDiscoverPodcasts
             addPodcastBtn.buttonTapped = {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
             }
@@ -25,7 +25,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @IBOutlet var noPodcastsMessage: ThemeableLabel! {
         didSet {
             noPodcastsMessage.style = .primaryText02
-            noPodcastsMessage.text = L10n.podcastGridNoPodcastsMsg
+            noPodcastsMessage.text = L10n.Localizable.podcastGridNoPodcastsMsg
         }
     }
     
@@ -41,7 +41,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     @IBOutlet var noPodcastsTitle: ThemeableLabel! {
         didSet {
-            noPodcastsTitle.text = L10n.podcastGridNoPodcastsTitle
+            noPodcastsTitle.text = L10n.Localizable.podcastGridNoPodcastsTitle
         }
     }
     
@@ -61,12 +61,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))
-        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+        customRightBtn?.accessibilityLabel = L10n.Localizable.accessibilityMoreActions
         super.viewDidLoad()
         
         updateFolderButton()
         
-        title = L10n.podcastsPlural
+        title = L10n.Localizable.podcastsPlural
         setupSearchBar()
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -150,7 +150,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     private func updateFolderButton() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let leftButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
-        leftButton.accessibilityLabel = L10n.folderCreateNew
+        leftButton.accessibilityLabel = L10n.Localizable.folderCreateNew
         navigationItem.leftBarButtonItem = leftButton
     }
     
@@ -228,32 +228,32 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let optionsPicker = OptionsPicker(title: nil)
         
         let sortOption = Settings.homeFolderSortOrder()
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
+        let sortAction = OptionAction(label: L10n.Localizable.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
         }
         optionsPicker.addAction(action: sortAction)
         
-        let largeGridAction = OptionAction(label: L10n.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
+        let largeGridAction = OptionAction(label: L10n.Localizable.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
         }
-        let smallGridAction = OptionAction(label: L10n.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
+        let smallGridAction = OptionAction(label: L10n.Localizable.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
             Settings.setLibraryType(.fourByFour)
             self?.gridTypeChanged()
         }
-        let listGridAction = OptionAction(label: L10n.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
+        let listGridAction = OptionAction(label: L10n.Localizable.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
             Settings.setLibraryType(.list)
             self?.gridTypeChanged()
         }
-        optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
+        optionsPicker.addSegmentedAction(name: L10n.Localizable.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
         
         let badgeType = Settings.podcastBadgeType()
-        let badgesAction = OptionAction(label: L10n.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") { [weak self] in
+        let badgesAction = OptionAction(label: L10n.Localizable.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") { [weak self] in
             self?.showBadgeOptions()
         }
         optionsPicker.addAction(action: badgesAction)
         
-        let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
+        let shareAction = OptionAction(label: L10n.Localizable.podcastsShare, icon: "podcast-share") {
             let shareController = SharePodcastsViewController()
             shareController.delegate = self
             let navController = SJUIUtils.navController(for: shareController)
@@ -295,7 +295,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
     
     private func showBadgeOptions() {
-        let options = OptionsPicker(title: L10n.podcastsBadges.localizedUppercase)
+        let options = OptionsPicker(title: L10n.Localizable.podcastsBadges.localizedUppercase)
         
         let badgeOption = Settings.podcastBadgeType()
         

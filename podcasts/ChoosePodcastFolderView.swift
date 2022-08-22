@@ -27,7 +27,7 @@ struct ChoosePodcastFolderView: View {
                         NavigationLink(destination: CreateFolderView(dismissAction: dismissAction, preselectPodcastUuid: model.pickingForPodcastUuid)) {
                             HStack {
                                 Image(systemName: "plus")
-                                Text(L10n.folderNew)
+                                Text(L10n.Localizable.folderNew)
                                     .fontWeight(.semibold)
                             }
                             .font(.callout)
@@ -45,7 +45,7 @@ struct ChoosePodcastFolderView: View {
                 }
             }
             .padding(.top, 14)
-            .navigationTitle(L10n.folderPodcastChooseFolder)
+            .navigationTitle(L10n.Localizable.folderPodcastChooseFolder)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -54,7 +54,7 @@ struct ChoosePodcastFolderView: View {
                         Image("close")
                             .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
                     }
-                    .accessibilityLabel(L10n.close)
+                    .accessibilityLabel(L10n.Localizable.close)
                 }
             }
             .applyDefaultThemeOptions()

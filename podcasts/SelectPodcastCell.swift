@@ -38,7 +38,7 @@ class SelectPodcastCell: UICollectionViewCell {
     }
     
     private func updateAccessibilityLabel(isSelected: Bool = false) {
-        let state = isSelected ? L10n.statusSelected : L10n.statusNotSelected
+        let state = isSelected ? L10n.Localizable.statusSelected : L10n.Localizable.statusNotSelected
         podcastImage.accessibilityLabel = (podcastTitle ?? "") + ", " + state
     }
 }

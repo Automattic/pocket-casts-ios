@@ -5,35 +5,35 @@ class PlusFeaturesView: UIView {
     @IBOutlet var backgroundView: UIView!
     @IBOutlet var customStorageLabel: ThemeableLabel! {
         didSet {
-            customStorageLabel.text = L10n.plusFeatureCloudStorage
+            customStorageLabel.text = L10n.Localizable.plusFeatureCloudStorage
             customStorageLabel.style = .primaryText02
         }
     }
     
     @IBOutlet var extraThemesLabel: ThemeableLabel! {
         didSet {
-            extraThemesLabel.text = L10n.plusFeatureThemesIcons
+            extraThemesLabel.text = L10n.Localizable.plusFeatureThemesIcons
             extraThemesLabel.style = .primaryText02
         }
     }
     
     @IBOutlet var extraIconsLabel: ThemeableLabel! {
         didSet {
-            extraIconsLabel.text = L10n.plusFeatureWatchApp
+            extraIconsLabel.text = L10n.Localizable.plusFeatureWatchApp
             extraIconsLabel.style = .primaryText02
         }
     }
     
     @IBOutlet var webPlayerLabel: ThemeableLabel! {
         didSet {
-            webPlayerLabel.text = L10n.plusFeatureWebPlayer
+            webPlayerLabel.text = L10n.Localizable.plusFeatureWebPlayer
             webPlayerLabel.style = .primaryText02
         }
     }
     
     @IBOutlet var foldersLabel: ThemeableLabel! {
         didSet {
-            foldersLabel.text = L10n.folders
+            foldersLabel.text = L10n.Localizable.folders
             foldersLabel.style = .primaryText02
         }
     }
@@ -63,6 +63,6 @@ class PlusFeaturesView: UIView {
     }
     
     private func configureLabels() {
-        customStorageLabel.text = L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())
+        customStorageLabel.text = L10n.Localizable.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())
     }
 }

@@ -30,7 +30,7 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.signIn
+        title = L10n.Localizable.signIn
         
         (view as? ThemeableView)?.style = .primaryUi01
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
@@ -105,6 +105,6 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
     }
     
     private func setInfoWithName(_ name: String) {
-        detailsLabel.text = L10n.paidPodcastSupporterSigninPrompt(name)
+        detailsLabel.text = L10n.Localizable.paidPodcastSupporterSigninPrompt(name)
     }
 }

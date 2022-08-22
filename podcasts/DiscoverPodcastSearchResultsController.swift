@@ -143,8 +143,8 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
         if !triggeredByTimer, searchTerm.count < 2 {
             completion()
             
-            let alert = UIAlertController(title: L10n.discoverSearchErrorTitle, message: L10n.discoverSearchErrorMsg, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: L10n.ok, style: UIAlertAction.Style.cancel, handler: nil))
+            let alert = UIAlertController(title: L10n.Localizable.discoverSearchErrorTitle, message: L10n.Localizable.discoverSearchErrorMsg, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: L10n.Localizable.ok, style: UIAlertAction.Style.cancel, handler: nil))
             present(alert, animated: true, completion: nil)
             
             return

@@ -72,7 +72,7 @@ struct EpisodeView: View {
         } label: {
             Image(viewModel.isPlaying ? "episodepause" : "episodeplay", bundle: Bundle.watchAssets)
         }
-        .accessibilityLabel(viewModel.isPlaying ? L10n.pause : L10n.play)
+        .accessibilityLabel(viewModel.isPlaying ? L10n.Localizable.pause : L10n.Localizable.play)
         .buttonStyle(.plain)
     }
     
@@ -96,7 +96,7 @@ struct EpisodeView: View {
             
             if viewModel.supportsPodcastNavigation, let podcast = viewModel.parentPodcast, let viewModel = PodcastEpisodeListViewModel(podcast: podcast) {
                 NavigationLink(destination: PodcastEpisodeListView(viewModel: viewModel)) {
-                    EpisodeActionView(iconName: "episode_goto", title: L10n.goToPodcast)
+                    EpisodeActionView(iconName: "episode_goto", title: L10n.Localizable.goToPodcast)
                 }
             }
         }

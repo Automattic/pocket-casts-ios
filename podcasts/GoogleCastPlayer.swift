@@ -16,7 +16,7 @@ class GoogleCastPlayer: PlaybackProtocol {
     func loadEpisode(_ episode: BaseEpisode) {
         if let episode = episode as? UserEpisode, !episode.uploaded() {
             PlaybackManager.shared.playbackDidFail(logMessage: "Unable to cast local file",
-                                                   userMessage: L10n.chromecastError)
+                                                   userMessage: L10n.Localizable.chromecastError)
             return
         }
         shouldKeepPlaying = true

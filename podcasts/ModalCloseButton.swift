@@ -14,7 +14,7 @@ struct ModalCloseButton: View {
                         .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
                     Image("close")
                         .foregroundColor(Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
-                        .accessibilityLabel(L10n.close)
+                        .accessibilityLabel(L10n.Localizable.close)
                 }
                 .frame(width: 30, height: 30)
             }

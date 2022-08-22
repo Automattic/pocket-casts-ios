@@ -20,7 +20,7 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         addTableViewHeader()
         
         setupLargeTitle()
-        title = L10n.filterEpisodeStatus
+        title = L10n.Localizable.filterEpisodeStatus
         tableView.contentInsetAdjustmentBehavior = .never
         
         setCurrentStatus()
@@ -46,13 +46,13 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         
         switch tableRow {
         case .unplayed:
-            cell.episodeTitle.text = L10n.statusUnplayed
+            cell.episodeTitle.text = L10n.Localizable.statusUnplayed
             cell.setSelectedState(filterUnplayed)
         case .inProgress:
-            cell.episodeTitle.text = L10n.inProgress
+            cell.episodeTitle.text = L10n.Localizable.inProgress
             cell.setSelectedState(filterPartiallyPlayed)
         case .played:
-            cell.episodeTitle.text = L10n.statusPlayed
+            cell.episodeTitle.text = L10n.Localizable.statusPlayed
             cell.setSelectedState(filterFinished)
         }
         cell.style = .primaryUi01

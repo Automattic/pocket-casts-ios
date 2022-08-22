@@ -5,10 +5,10 @@ struct UpNextView: View {
     @State private var presentClearPrompt = false
 
     var body: some View {
-        ItemListContainer(isEmpty: viewModel.isEmpty, noItemsTitle: L10n.watchUpNextNoItemsTitle, noItemsSubtitle: L10n.watchUpNextNoItemsSubtitle) {
+        ItemListContainer(isEmpty: viewModel.isEmpty, noItemsTitle: L10n.Localizable.watchUpNextNoItemsTitle, noItemsSubtitle: L10n.Localizable.watchUpNextNoItemsSubtitle) {
             List {
                 NowPlayingRow(isPlaying: $viewModel.isPlaying, podcastName: $viewModel.upNextTitle)
-                EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
+                EpisodeListView(title: L10n.Localizable.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
                     .padding(.vertical, 10)
             }
             .listStyle(.plain)
@@ -21,7 +21,7 @@ struct UpNextView: View {
                             Image("markasplayed", bundle: Bundle.watchAssets)
                                 .resizable()
                                 .frame(width: 20, height: 20)
-                            Text(L10n.removeAll)
+                            Text(L10n.Localizable.removeAll)
                                 .font(.dynamic(size: 16))
                             Spacer()
                         }
@@ -32,13 +32,13 @@ struct UpNextView: View {
             }
             .actionSheet(isPresented: $presentClearPrompt) {
                 ActionSheet(
-                    title: Text(L10n.clearUpNext),
-                    message: Text(L10n.clearUpNextMessage),
-                    buttons: [.destructive(Text(L10n.clear), action: { viewModel.clearUpNext() })]
+                    title: Text(L10n.Localizable.clearUpNext),
+                    message: Text(L10n.Localizable.clearUpNextMessage),
+                    buttons: [.destructive(Text(L10n.Localizable.clear), action: { viewModel.clearUpNext() })]
                 )
             }
         }
-        .navigationTitle(L10n.upNext.prefixSourceUnicode)
+        .navigationTitle(L10n.Localizable.upNext.prefixSourceUnicode)
         .restorable(.upnext)
     }
 }

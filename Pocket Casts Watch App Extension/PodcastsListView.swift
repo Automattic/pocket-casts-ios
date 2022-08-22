@@ -5,7 +5,7 @@ struct PodcastsListView: View {
     @StateObject var viewModel = PodcastsListViewModel()
 
     var body: some View {
-        ItemListContainer(isEmpty: viewModel.gridItems.isEmpty, noItemsTitle: L10n.watchNoPodcasts) {
+        ItemListContainer(isEmpty: viewModel.gridItems.isEmpty, noItemsTitle: L10n.Localizable.watchNoPodcasts) {
             List {
                 ForEach(viewModel.gridItems) { gridItem in
                     if let podcast = gridItem.podcast {
@@ -17,11 +17,11 @@ struct PodcastsListView: View {
                 }
             }
             .listStyle(.plain)
-            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.podcastsSort) { option in
+            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.Localizable.podcastsSort) { option in
                 viewModel.sortOrder = option
             }
         }
-        .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
+        .navigationTitle(L10n.Localizable.podcastsPlural.prefixSourceUnicode)
     }
 }
 

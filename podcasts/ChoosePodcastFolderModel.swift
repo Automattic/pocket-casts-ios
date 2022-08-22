@@ -52,9 +52,9 @@ class ChoosePodcastFolderModel: ObservableObject {
     }
     
     func nameForFolder(folder: Folder) -> String {
-        guard folder.uuid != rootFolder.uuid else { return L10n.folderNoFolder }
+        guard folder.uuid != rootFolder.uuid else { return L10n.Localizable.folderNoFolder }
         
-        return folder.name.isEmpty ? L10n.folderUnnamed : folder.name
+        return folder.name.isEmpty ? L10n.Localizable.folderUnnamed : folder.name
     }
     
     func movePodcastToFolder(_ folder: Folder) {

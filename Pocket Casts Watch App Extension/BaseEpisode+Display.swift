@@ -30,7 +30,7 @@ extension BaseEpisode {
 
     var episodeDetails: String {
         guard let episode = self as? Episode else {
-            return L10n.customEpisode
+            return L10n.Localizable.customEpisode
         }
 
         return episode.episodeDescription ?? ""

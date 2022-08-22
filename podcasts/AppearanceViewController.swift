@@ -29,7 +29,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsAppearance
+        title = L10n.Localizable.settingsAppearance
         updateTableAndData()
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
     }
@@ -97,7 +97,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         switch rowType {
         case .themeOption:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.appearanceMatchDeviceTheme
+            cell.cellLabel.text = L10n.Localizable.appearanceMatchDeviceTheme
             cell.cellSwitch.accessibilityIdentifier = "system theme toggle"
             cell.cellSwitch.isOn = Settings.shouldFollowSystemTheme()
             
@@ -107,13 +107,13 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             return cell
         case .lightTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
+            cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.Localizable.appearanceLightTheme : L10n.Localizable.appearanceThemeHeader
             cell.cellSecondaryLabel.text = Theme.preferredLightTheme().description
             
             return cell
         case .darkTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.appearanceDarkTheme
+            cell.cellLabel.text = L10n.Localizable.appearanceDarkTheme
             cell.cellSecondaryLabel.text = Theme.preferredDarkTheme().description
             
             return cell
@@ -125,12 +125,12 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             return cell
         case .refreshArtwork:
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! ButtonCell
-            cell.buttonTitle.text = L10n.appearanceRefreshAllArtwork
+            cell.buttonTitle.text = L10n.Localizable.appearanceRefreshAllArtwork
             
             return cell
         case .embeddedArtwork:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.appearanceEmbeddedArtwork
+            cell.cellLabel.text = L10n.Localizable.appearanceEmbeddedArtwork
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
             
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -150,7 +150,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         let row = tableData[indexPath.section][indexPath.row]
         
         if row == .refreshArtwork {
-            SJUIUtils.showAlert(title: L10n.appearanceRefreshAllArtworkConfTitle, message: L10n.appearanceRefreshAllArtworkConfMsg, from: self)
+            SJUIUtils.showAlert(title: L10n.Localizable.appearanceRefreshAllArtworkConfTitle, message: L10n.Localizable.appearanceRefreshAllArtworkConfMsg, from: self)
             refreshAllPodcastArtwork()
         }
         else if row == .lightTheme {
@@ -166,7 +166,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
     
     private func presentThemePicker(selectedTheme: Theme.ThemeType, persistThemeChange: @escaping (Theme.ThemeType) -> Void) {
-        let themeSelector = ThemeSelectorView(title: L10n.appearanceThemeSelect, onThemeSelected: { [weak self] theme in
+        let themeSelector = ThemeSelectorView(title: L10n.Localizable.appearanceThemeSelect, onThemeSelected: { [weak self] theme in
             guard let self = self else { return }
             
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
@@ -193,14 +193,14 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         
         if firstItem == .themeOption {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceThemeHeader)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.appearanceThemeHeader)
         }
         else if firstItem == .appIcon {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceAppIconHeader)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.appearanceAppIconHeader)
         }
         
         else if firstItem == .refreshArtwork {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.appearanceArtworkHeader)
         }
         
         return nil
@@ -213,7 +213,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let firstItem = tableData[section][0]
         
-        if firstItem == .refreshArtwork { return L10n.appearanceEmbeddedArtworkSubtitle }
+        if firstItem == .refreshArtwork { return L10n.Localizable.appearanceEmbeddedArtworkSubtitle }
         
         return nil
     }

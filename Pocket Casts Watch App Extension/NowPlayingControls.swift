@@ -66,7 +66,7 @@ struct NowPlayingControls: View {
             Image(viewModel.isPlaying ? "pause" : "play")
                 .playGroupStlyed()
         }
-        .accessibilityLabel(viewModel.isPlaying ? L10n.pause : L10n.play)
+        .accessibilityLabel(viewModel.isPlaying ? L10n.Localizable.pause : L10n.Localizable.play)
     }
 
     private var navigationGroup: some View {

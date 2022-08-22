@@ -6,7 +6,7 @@ import SwiftUI
 class NowPlayingViewModel: ObservableObject {
     @Published var episode: BaseEpisode?
     @Published var isPlaying = false
-    @Published var episodeName: String = L10n.loading
+    @Published var episodeName: String = L10n.Localizable.loading
     @Published var progress: CGFloat = 0
     @Published var progressTitle: String = ""
     @Published var timeRemaining: String = ""
@@ -50,7 +50,7 @@ class NowPlayingViewModel: ObservableObject {
                 let episode = episode,
                 let title = self.playSource.nowPlayingTitle(forEpisode: episode)
             else {
-                return L10n.loading
+                return L10n.Localizable.loading
             }
             return title
         }

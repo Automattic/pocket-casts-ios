@@ -59,7 +59,7 @@ class PlaylistColorChooserCell: ThemeableCell {
             }
             
             scrollView.addSubview(containerView)
-            containerView.accessibilityLabel = L10n.accessibilityPlaylistColor(i)
+            containerView.accessibilityLabel = L10n.Localizable.accessibilityPlaylistColor(i)
         }
     }
     

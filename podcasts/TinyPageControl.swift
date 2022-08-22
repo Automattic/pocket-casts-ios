@@ -102,6 +102,6 @@ class TinyPageControl: UIControl {
     }
     
     private func updateAccessibilityLabel() {
-        accessibilityLabel = L10n.pageControlPageProgressFormat((currentPage + 1).localized(), numberOfPages.localized())
+        accessibilityLabel = L10n.Localizable.pageControlPageProgressFormat((currentPage + 1).localized(), numberOfPages.localized())
     }
 }

@@ -55,7 +55,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             headerImageProvider.tintColor = ComplicationController.tintColor
             
             let headerTextProvider = CLKSimpleTextProvider(text: L10n.pocketCasts, shortText: L10n.pocketCastsShort)
-            let body1TextProvider = CLKSimpleTextProvider(text: L10n.watchTapToOpen)
+            let body1TextProvider = CLKSimpleTextProvider(text: L10n.Localizable.watchTapToOpen)
             
             return CLKComplicationTemplateModularLargeStandardBody(headerImageProvider: headerImageProvider, headerTextProvider: headerTextProvider, body1TextProvider: body1TextProvider)
         case .utilitarianSmall:

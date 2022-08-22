@@ -228,18 +228,18 @@ extension MainEpisodeActionView {
             
             drawDownloadPlayingProgress(context: context)
             
-            accessibilityLabel = L10n.podcastPausePlayback
+            accessibilityLabel = L10n.Localizable.podcastPausePlayback
         case .play:
             drawPlayTriangle(context: context, color: tintColor)
             drawDownloadPlayingProgress(context: context)
             
-            accessibilityLabel = L10n.play
+            accessibilityLabel = L10n.Localizable.play
         case .playedPlay:
             drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor())
-            accessibilityLabel = L10n.statusPlayed
+            accessibilityLabel = L10n.Localizable.statusPlayed
         case .playedDownload:
             drawImageInCenter(imageName: "list_played", color: AppTheme.episodeCellPlayedIndicatorColor())
-            accessibilityLabel = L10n.statusPlayed
+            accessibilityLabel = L10n.Localizable.statusPlayed
         case .download:
             drawDownloadArrow(context: context, color: tintColor)
             
@@ -259,7 +259,7 @@ extension MainEpisodeActionView {
                 context.drawPath(using: .stroke)
             }
             
-            accessibilityLabel = L10n.download
+            accessibilityLabel = L10n.Localizable.download
         case .pauseDownload:
             let squareLength = 10 * enlargementScale
             let startingY = circleCenter.y - (squareLength / 2.0)
@@ -286,7 +286,7 @@ extension MainEpisodeActionView {
             context.addArc(center: circleCenter, radius: MainEpisodeActionView.circleRadius * enlargementScale, startAngle: MainEpisodeActionView.startingAngle.degreesToRadians, endAngle: downloadAngle.degreesToRadians, clockwise: false)
             context.drawPath(using: .stroke)
             
-            accessibilityLabel = L10n.podcastPauseDownload
+            accessibilityLabel = L10n.Localizable.podcastPauseDownload
         case .waitingForWifi:
             let waitingColor = AppTheme.waitingForWifiColor()
             waitingColor.setFill()
@@ -334,12 +334,12 @@ extension MainEpisodeActionView {
             
             // draw the outline circle around it
             drawEmptyCircle(context: context, color: waitingColor)
-            accessibilityLabel = L10n.waitForWifi
+            accessibilityLabel = L10n.Localizable.waitForWifi
         case .error:
             let color = AppTheme.waitingForWifiColor()
             drawImageInCenter(imageName: "list_retry", color: color)
             drawEmptyCircle(context: context, color: color)
-            accessibilityLabel = L10n.error
+            accessibilityLabel = L10n.Localizable.error
         }
     }
     

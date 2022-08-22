@@ -50,7 +50,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
         let backImage = displayMode == .navController ? UIImage(named: "nav-back") : UIImage(named: "episode-close")
         backBtn.setImage(backImage, for: .normal)
-        backBtn.accessibilityLabel = L10n.close
+        backBtn.accessibilityLabel = L10n.Localizable.close
         backBtn.accessibilityIdentifier = "Close"
         fakeNavView.addSubview(backBtn)
         backBtn.translatesAutoresizingMaskIntoConstraints = false

@@ -76,13 +76,13 @@ struct ThemePreviewView: View {
                 .textStyle(PrimaryText())
         }
         .opacity(isLocked ? 0.5 : 1)
-        .accessibilityLabel(isLocked ? L10n.accessibilityPlusOnly : themeType.description)
+        .accessibilityLabel(isLocked ? L10n.Localizable.accessibilityPlusOnly : themeType.description)
     }
 }
 
 struct ThemeSelectorView_Previews: PreviewProvider {
     static var previews: some View {
-        ThemeSelectorView(title: L10n.appearanceThemeSelect, onThemeSelected: { _ in
+        ThemeSelectorView(title: L10n.Localizable.appearanceThemeSelect, onThemeSelected: { _ in
             
         }, dismissAction: {}, selectedTheme: .dark)
             .environmentObject(Theme.sharedTheme)

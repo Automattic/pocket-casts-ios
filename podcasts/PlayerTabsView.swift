@@ -13,18 +13,18 @@ enum PlayerTabs {
     var description: String {
         switch self {
         case .nowPlaying:
-            return L10n.nowPlaying
+            return L10n.Localizable.nowPlaying
         case .showNotes:
-            return L10n.showNotes
+            return L10n.Localizable.showNotes
         case .chapters:
-            return L10n.chapters
+            return L10n.Localizable.chapters
         }
     }
 
     var shortDescription: String {
         switch self {
         case .nowPlaying:
-            return L10n.nowPlayingShortTitle
+            return L10n.Localizable.nowPlayingShortTitle
         default:
             return description
         }

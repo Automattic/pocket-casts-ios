@@ -20,7 +20,7 @@ class FilterDurationViewController: PCViewController {
 
     @IBOutlet var longerThanDescription: ThemeableLabel! {
         didSet {
-            longerThanDescription.text = L10n.filterLongerThanLabel
+            longerThanDescription.text = L10n.Localizable.filterLongerThanLabel
         }
     }
     
@@ -39,7 +39,7 @@ class FilterDurationViewController: PCViewController {
 
     @IBOutlet var shorterThanDescription: ThemeableLabel! {
         didSet {
-            shorterThanDescription.text = L10n.filterShorterThanLabel
+            shorterThanDescription.text = L10n.Localizable.filterShorterThanLabel
         }
     }
     
@@ -56,13 +56,13 @@ class FilterDurationViewController: PCViewController {
             saveBtn.backgroundColor = filter.playlistColor()
             saveBtn.layer.cornerRadius = 12
             saveBtn.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
-            saveBtn.setTitle(L10n.filterUpdate, for: .normal)
+            saveBtn.setTitle(L10n.Localizable.filterUpdate, for: .normal)
         }
     }
     
     @IBOutlet var filterDurationLabel: ThemeableLabel! {
         didSet {
-            filterDurationLabel.text = L10n.episodeFilterByDurationLabel
+            filterDurationLabel.text = L10n.Localizable.episodeFilterByDurationLabel
         }
     }
     
@@ -112,7 +112,7 @@ class FilterDurationViewController: PCViewController {
     }
     
     private func setupNavigationBar() {
-        title = L10n.filterOptionEpisodeDuration
+        title = L10n.Localizable.filterOptionEpisodeDuration
         changeNavTint(titleColor: nil, iconsColor: ThemeColor.primaryIcon02())
         
         let navigationBar = navigationController?.navigationBar
@@ -173,7 +173,7 @@ class FilterDurationViewController: PCViewController {
         let shorterThanTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: shorterThanStepper.currentValue)
         let longerThanTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: longerThanStepper.currentValue)
         if filter.longerThan >= filter.shorterThan {
-            SJUIUtils.showAlert(title: L10n.filterOptionEpisodeDurationErrorTitle, message: L10n.filterOptionEpisodeDurationErrorMsgFormat(longerThanTime, shorterThanTime), from: self)
+            SJUIUtils.showAlert(title: L10n.Localizable.filterOptionEpisodeDurationErrorTitle, message: L10n.Localizable.filterOptionEpisodeDurationErrorMsgFormat(longerThanTime, shorterThanTime), from: self)
             
             return false
         }

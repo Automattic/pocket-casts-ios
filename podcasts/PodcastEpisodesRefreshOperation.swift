@@ -20,7 +20,7 @@ class PodcastEpisodesRefreshOperation: Operation {
             if self.isCancelled { return }
             
             // the podcast page has a header, for simplicity in table animations, we add it here
-            let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
+            let searchHeader = ListHeader(headerTitle: L10n.Localizable.search, isSectionHeader: true)
             var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
             
             let tintColor = AppTheme.appTintColor()
@@ -33,28 +33,28 @@ class PodcastEpisodesRefreshOperation: Operation {
                 let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, name2 -> Bool in
                     sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
                 }, episodeShortKey: { episode -> String in
-                    episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.podcastNoSeason
+                    episode.seasonNumber > 0 ? L10n.Localizable.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.Localizable.podcastNoSeason
                 })
                 newData.append(contentsOf: groupedEpisodes)
             case .unplayed:
                 let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusUnplayed
+                    name1 == L10n.Localizable.statusUnplayed
                 }, episodeShortKey: { episode -> String in
-                    episode.played() ? L10n.statusPlayed : L10n.statusUnplayed
+                    episode.played() ? L10n.Localizable.statusPlayed : L10n.Localizable.statusUnplayed
                 })
                 newData.append(contentsOf: groupedEpisodes)
             case .downloaded:
                 let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusDownloaded
+                    name1 == L10n.Localizable.statusDownloaded
                 }, episodeShortKey: { (episode: Episode) -> String in
-                    episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() || episode.downloading() ? L10n.statusDownloaded : L10n.statusNotDownloaded
+                    episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() || episode.downloading() ? L10n.Localizable.statusDownloaded : L10n.Localizable.statusNotDownloaded
                 })
                 newData.append(contentsOf: groupedEpisodes)
             case .starred:
                 let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusStarred
+                    name1 == L10n.Localizable.statusStarred
                 }, episodeShortKey: { episode -> String in
-                    episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
+                    episode.keepEpisode ? L10n.Localizable.statusStarred : L10n.Localizable.statusNotStarred
                 })
                 newData.append(contentsOf: groupedEpisodes)
             }

@@ -15,20 +15,20 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var currentEmailLabel: ThemeableLabel! {
         didSet {
-            currentEmailLabel.text = L10n.currentEmailPrompt
+            currentEmailLabel.text = L10n.Localizable.currentEmailPrompt
         }
     }
     
     @IBOutlet var emailInfoLabel: ThemeableLabel! {
         didSet {
             emailInfoLabel.style = .primaryText02
-            emailInfoLabel.text = L10n.currentEmailPrompt.localizedCapitalized
+            emailInfoLabel.text = L10n.Localizable.currentEmailPrompt.localizedCapitalized
         }
     }
     
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
-            emailField.placeholder = L10n.newEmailAddressPrompt
+            emailField.placeholder = L10n.Localizable.newEmailAddressPrompt
             emailField.delegate = self
             emailField.addTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -36,7 +36,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var passwordField: ThemeableTextField! {
         didSet {
-            passwordField.placeholder = L10n.signInPasswordPrompt
+            passwordField.placeholder = L10n.Localizable.signInPasswordPrompt
             passwordField.delegate = self
             passwordField.addTarget(self, action: #selector(passwordFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -47,7 +47,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
             mainButton.isEnabled = false
             mainButton.buttonStyle = .primaryInteractive01Disabled
             mainButton.textStyle = .primaryInteractive02
-            mainButton.setTitle(L10n.confirm, for: .normal)
+            mainButton.setTitle(L10n.Localizable.confirm, for: .normal)
         }
     }
     
@@ -105,7 +105,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.changeEmail
+        title = L10n.Localizable.changeEmail
         currentEmailLabel.text = ServerSettings.syncingEmail()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -189,15 +189,15 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
                 Settings.setLoginDetailsUpdated()
                 DispatchQueue.main.async {
                     let updatedVC = AccountUpdatedViewController()
-                    updatedVC.titleText = L10n.changeEmailConf
-                    updatedVC.detailText = L10n.funnyConfMsg
+                    updatedVC.titleText = L10n.Localizable.changeEmailConf
+                    updatedVC.detailText = L10n.Localizable.funnyConfMsg
                     updatedVC.imageName = AppTheme.changedEmailImageName
                     self.navigationController?.pushViewController(updatedVC, animated: true)
                 }
             }
             else {
                 DispatchQueue.main.async {
-                    self.mainButton.setTitle(L10n.confirm, for: .normal)
+                    self.mainButton.setTitle(L10n.Localizable.confirm, for: .normal)
                     self.errorView.isHidden = false
                     self.contentView.alpha = 1
                 }

@@ -21,7 +21,7 @@ class NothingUpNextCell: ThemeableCell {
         didSet {
             headingLabel.style = .playerContrast01
             headingLabel.themeOverride = themeOverride
-            headingLabel.text = L10n.upNextEmptyTitle
+            headingLabel.text = L10n.Localizable.upNextEmptyTitle
         }
     }
     
@@ -29,7 +29,7 @@ class NothingUpNextCell: ThemeableCell {
         didSet {
             descriptionLabel.style = .playerContrast02
             descriptionLabel.themeOverride = themeOverride
-            descriptionLabel.text = L10n.upNextEmptyDescription
+            descriptionLabel.text = L10n.Localizable.upNextEmptyDescription
         }
     }
     

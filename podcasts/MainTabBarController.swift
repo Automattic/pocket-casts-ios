@@ -8,22 +8,22 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     
     let tabs: [Tab] = [.podcasts, .filter, .discover, .profile]
     
-    let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
+    let playPauseCommand = UIKeyCommand(title: L10n.Localizable.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let podcastsController = PodcastListViewController()
-        podcastsController.tabBarItem = UITabBarItem(title: L10n.podcastsPlural, image: UIImage(named: "podcasts_tab"), tag: tabs.firstIndex(of: .podcasts)!)
+        podcastsController.tabBarItem = UITabBarItem(title: L10n.Localizable.podcastsPlural, image: UIImage(named: "podcasts_tab"), tag: tabs.firstIndex(of: .podcasts)!)
         
         let filtersViewController = PlaylistsViewController()
-        filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: tabs.firstIndex(of: .filter)!)
+        filtersViewController.tabBarItem = UITabBarItem(title: L10n.Localizable.filters, image: UIImage(named: "filters_tab"), tag: tabs.firstIndex(of: .filter)!)
         
         let discoverViewController = DiscoverViewController()
-        discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
+        discoverViewController.tabBarItem = UITabBarItem(title: L10n.Localizable.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
         
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
+        profileViewController.tabBarItem = UITabBarItem(title: L10n.Localizable.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
         
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)

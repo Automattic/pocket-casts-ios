@@ -27,7 +27,7 @@ struct NowPlayingContainerView: View {
                 NowPlayingEmptyView()
             }
         }
-        .navigationTitle(L10n.nowPlayingShortTitle.prefixSourceUnicode)
+        .navigationTitle(L10n.Localizable.nowPlayingShortTitle.prefixSourceUnicode)
         .restorable(.nowPlaying)
         .onChange(of: optionSelected) { _ in
             withAnimation {
@@ -50,7 +50,7 @@ struct NowPlayingContainerView: View {
             }.hidden()
 
             if let episode = viewModel.episode {
-                NavigationLink(destination: EpisodeView(viewModel: EpisodeDetailsViewModel(episode: episode), listTitle: L10n.nowPlaying), tag: .episodeDetails, selection: $presentedView) {
+                NavigationLink(destination: EpisodeView(viewModel: EpisodeDetailsViewModel(episode: episode), listTitle: L10n.Localizable.nowPlaying), tag: .episodeDetails, selection: $presentedView) {
                     EmptyView()
                 }.hidden()
             }

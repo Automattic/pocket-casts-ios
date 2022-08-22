@@ -35,11 +35,11 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func registerForPushNotifications() {
-        let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.download, options: [])
-        let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.notificationsPlayNow, options: [])
-        let addQueueFirstAction = UNNotificationAction(identifier: addToQueueFirstActionId, title: L10n.playNext, options: [])
-        let addQueueLastAction = UNNotificationAction(identifier: addToQueueLastActionId, title: L10n.playLast, options: [])
-        let archiveAction = UNNotificationAction(identifier: archiveActionId, title: L10n.archive, options: [])
+        let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.Localizable.download, options: [])
+        let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.Localizable.notificationsPlayNow, options: [])
+        let addQueueFirstAction = UNNotificationAction(identifier: addToQueueFirstActionId, title: L10n.Localizable.playNext, options: [])
+        let addQueueLastAction = UNNotificationAction(identifier: addToQueueLastActionId, title: L10n.Localizable.playLast, options: [])
+        let archiveAction = UNNotificationAction(identifier: archiveActionId, title: L10n.Localizable.archive, options: [])
         
         let episodeCategory = UNNotificationCategory(identifier: "ep", actions: [downloadAction, playNowAction, addQueueFirstAction, addQueueLastAction, archiveAction], intentIdentifiers: [], options: [])
         

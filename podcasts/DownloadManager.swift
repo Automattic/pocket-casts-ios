@@ -161,7 +161,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
             }
             catch {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.Localizable.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
             }
             
             return
@@ -192,7 +192,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         else if let episode = episode as? UserEpisode {
             ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { url in
                 guard let url = url else {
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.Localizable.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
                     return
                 }
@@ -244,7 +244,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         
         // make sure the URL is valid and has a supported scheme: only http and https are allowed
         guard let url = downloadUrl, let scheme = url.scheme, scheme.count > 0, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
-            DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
+            DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.Localizable.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
             
             if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
             

@@ -21,7 +21,7 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
         
         filterSelectionTable.reloadData()
         
-        title = L10n.settingsSelectFiltersPlural
+        title = L10n.Localizable.settingsSelectFiltersPlural
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -14,14 +14,14 @@ extension NetworkUtils {
         }
         
         let optionsPicker = OptionsPicker(title: nil)
-        let downloadAction = OptionAction(label: L10n.podcastDownloadNow, icon: nil) {
+        let downloadAction = OptionAction(label: L10n.Localizable.podcastDownloadNow, icon: nil) {
             allowed?(false)
         }
-        let laterAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+        let laterAction = OptionAction(label: L10n.Localizable.queueForLater, icon: nil) {
             allowed?(true)
         }
         laterAction.outline = true
-        optionsPicker.addDescriptiveActions(title: L10n.notOnWifi, message: L10n.downloadDataWarning, icon: "option-alert", actions: [downloadAction, laterAction])
+        optionsPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: L10n.Localizable.downloadDataWarning, icon: "option-alert", actions: [downloadAction, laterAction])
         
         optionsPicker.setNoActionCallback {
             disallowed?()
@@ -38,10 +38,10 @@ extension NetworkUtils {
         }
         
         let optionsPicker = OptionsPicker(title: nil)
-        let streamAction = OptionAction(label: L10n.podcastStreamConfirmation, icon: nil) {
+        let streamAction = OptionAction(label: L10n.Localizable.podcastStreamConfirmation, icon: nil) {
             allowed?()
         }
-        optionsPicker.addDescriptiveActions(title: L10n.notOnWifi, message: L10n.podcastStreamDataWarning, icon: "option-alert", actions: [streamAction])
+        optionsPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: L10n.Localizable.podcastStreamDataWarning, icon: "option-alert", actions: [streamAction])
         
         optionsPicker.setNoActionCallback {
             disallowed?()
@@ -65,10 +65,10 @@ extension NetworkUtils {
         let uploadAction = OptionAction(label: "Upload Now", icon: nil) {
             allowed?(false)
         }
-        let laterAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+        let laterAction = OptionAction(label: L10n.Localizable.queueForLater, icon: nil) {
             allowed?(true)
         }
-        optionsPicker.addDescriptiveActions(title: L10n.notOnWifi, message: "", icon: "option-alert", actions: [uploadAction, laterAction])
+        optionsPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: "", icon: "option-alert", actions: [uploadAction, laterAction])
         
         optionsPicker.setNoActionCallback {
             disallowed?()

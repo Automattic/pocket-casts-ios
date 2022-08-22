@@ -16,31 +16,31 @@ enum IconType: Int, CaseIterable {
     var description: String {
         switch self {
         case .primary:
-            return L10n.appIconDefault
+            return L10n.Localizable.appIconDefault
         case .dark:
-            return L10n.appIconDark
+            return L10n.Localizable.appIconDark
         case .roundLight:
-            return L10n.appIconRoundLight
+            return L10n.Localizable.appIconRoundLight
         case .roundDark:
-            return L10n.appIconRoundDark
+            return L10n.Localizable.appIconRoundDark
         case .indigo:
-            return L10n.appIconIndigo
+            return L10n.Localizable.appIconIndigo
         case .rose:
-            return L10n.appIconRose
+            return L10n.Localizable.appIconRose
         case .pocketCats:
-            return L10n.appIconPocketCats
+            return L10n.Localizable.appIconPocketCats
         case .redVelvet:
-            return L10n.appIconRedVelvet
+            return L10n.Localizable.appIconRedVelvet
         case .plus:
-            return L10n.appIconPlus
+            return L10n.Localizable.appIconPlus
         case .classic:
-            return L10n.appIconClassic
+            return L10n.Localizable.appIconClassic
         case .electricBlue:
-            return L10n.appIconElectricBlue
+            return L10n.Localizable.appIconElectricBlue
         case .electricPink:
-            return L10n.appIconElectricPink
+            return L10n.Localizable.appIconElectricPink
         case .radioactivity:
-            return L10n.appIconRadioactivity
+            return L10n.Localizable.appIconRadioactivity
         }
     }
 
@@ -186,7 +186,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         cell.isAccessibilityElement = true
         cell.accessibilityLabel = cell.nameLabel.text
         if cell.isLocked {
-            cell.accessibilityHint = L10n.accessibilityPlusOnly
+            cell.accessibilityHint = L10n.Localizable.accessibilityPlusOnly
         }
         return cell
     }

@@ -4,7 +4,7 @@ struct FolderView: View {
     @StateObject var viewModel: FolderViewModel
 
     var body: some View {
-        ItemListContainer(isEmpty: viewModel.podcasts.isEmpty, noItemsTitle: L10n.watchNoPodcasts) {
+        ItemListContainer(isEmpty: viewModel.podcasts.isEmpty, noItemsTitle: L10n.Localizable.watchNoPodcasts) {
             List {
                 ForEach(viewModel.podcasts) { podcast in
                     NavigationLink(destination: PodcastEpisodeListView(viewModel: PodcastEpisodeListViewModel(podcast: podcast))) {

@@ -207,9 +207,9 @@ struct Constants {
             var renewalPrompt: String {
                 switch self {
                 case .yearly:
-                    return L10n.accountPaymentRenewsYearly
+                    return L10n.Localizable.accountPaymentRenewsYearly
                 case .monthly:
-                    return L10n.accountPaymentRenewsMonthly
+                    return L10n.Localizable.accountPaymentRenewsMonthly
                 }
             }
         }

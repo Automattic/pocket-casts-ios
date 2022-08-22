@@ -119,7 +119,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.accountTitle
+        title = L10n.Localizable.accountTitle
         
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsFailed), name: ServerNotifications.iapProductsFailed, object: nil)
@@ -137,7 +137,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateDisplayedData()
-        title = L10n.accountTitle
+        title = L10n.Localizable.accountTitle
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -167,7 +167,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         }
         
         if SubscriptionHelper.hasActiveSubscription() {
-            accountTypeLabel.text = L10n.pocketCastsPlus
+            accountTypeLabel.text = L10n.Localizable.pocketCastsPlus
             
             profileView.isSubscribed = true
             
@@ -177,14 +177,14 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             if SubscriptionHelper.hasRenewingSubscription() {
                 if SubscriptionHelper.subscriptionType() == .plus {
                     let nextPaymentDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
-                    accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
+                    accountDetailsLabel.text = L10n.Localizable.nextPaymentFormat(nextPaymentDate)
                     paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
                     upgradeView.isHidden = true
                 }
                 else if SubscriptionHelper.subscriptionType() == .supporter {
                     accountDetailsLabel.style = .support02
-                    accountDetailsLabel.text = L10n.supporter
-                    paymentExpiryLabel.text = L10n.supporterContributionsSubtitle
+                    accountDetailsLabel.text = L10n.Localizable.supporter
+                    paymentExpiryLabel.text = L10n.Localizable.supporterContributionsSubtitle
                     upgradeView.isHidden = true
                 }
             }
@@ -193,26 +193,26 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     if SubscriptionHelper.hasLifetimeGift() {
                         hideExpiryDate = true
                         upgradeView.isHidden = true
-                        accountDetailsLabel.text = L10n.subscriptionsThankYou
-                        paymentExpiryLabel.text = L10n.plusLifetimeMembership
+                        accountDetailsLabel.text = L10n.Localizable.subscriptionsThankYou
+                        paymentExpiryLabel.text = L10n.Localizable.plusLifetimeMembership
                         paymentExpiryLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
                         paymentExpiryLabel.style = .support02
                     }
                     else {
                         let freeTime = Double(SubscriptionHelper.subscriptionGiftDays()).days
                         let freeTimeStr = DateFormatHelper.sharedHelper.shortTimeRemaining(freeTime).capitalized
-                        accountDetailsLabel.text = L10n.plusFreeMembershipFormat(freeTimeStr)
+                        accountDetailsLabel.text = L10n.Localizable.plusFreeMembershipFormat(freeTimeStr)
                         hideExpiryDate = false
                     }
                 }
                 else {
                     if SubscriptionHelper.subscriptionType() == .plus {
-                        accountDetailsLabel.text = L10n.plusPaymentCanceled
+                        accountDetailsLabel.text = L10n.Localizable.plusPaymentCanceled
                         hideExpiryDate = false
                     }
                     else if SubscriptionHelper.subscriptionType() == .supporter {
                         accountDetailsLabel.style = .support05
-                        accountDetailsLabel.text = L10n.supporterPaymentCanceled
+                        accountDetailsLabel.text = L10n.Localizable.supporterPaymentCanceled
                         upgradeView.isHidden = true
                     }
                 }
@@ -230,7 +230,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry(), let expiryDate = expiryDate {
                 if !hideExpiryDate {
                     let time = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
-                    paymentExpiryLabel.text = L10n.plusExpirationFormat(time)
+                    paymentExpiryLabel.text = L10n.Localizable.plusExpirationFormat(time)
                     
                     if expiryTime < 15.days {
                         paymentExpiryLabel.style = .support05
@@ -339,9 +339,9 @@ private extension AccountViewController {
             return
         }
 
-        upgradeButton.setTitle(L10n.freeTrialStartButton, for: .normal)
-        priceLabel.text = L10n.freeTrialDurationFree(trialDetails.duration).localizedLowercase
-        trialDetailLabel.text = L10n.pricingTermsAfterTrial(trialDetails.pricing)
+        upgradeButton.setTitle(L10n.Localizable.freeTrialStartButton, for: .normal)
+        priceLabel.text = L10n.Localizable.freeTrialDurationFree(trialDetails.duration).localizedLowercase
+        trialDetailLabel.text = L10n.Localizable.pricingTermsAfterTrial(trialDetails.pricing)
         trialDetailLabel.isHidden = false
         pricingCenterConstraint.constant = 1
         noInternetView.isHidden = true
@@ -357,6 +357,6 @@ private extension AccountViewController {
 
         noInternetView.isHidden = true
         priceLabel.text = price
-        upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
+        upgradeButton.setTitle(L10n.Localizable.plusMarketingUpgradeButton, for: .normal)
     }
 }

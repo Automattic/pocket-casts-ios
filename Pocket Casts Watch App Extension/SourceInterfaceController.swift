@@ -14,7 +14,7 @@ class SourceInterfaceController: PCInterfaceController {
     @IBOutlet var watchNowPlayingIcon: WKInterfaceImage!
     @IBOutlet var watchTitle: WKInterfaceLabel! {
         didSet {
-            watchTitle.setText(L10n.watch)
+            watchTitle.setText(L10n.Localizable.watch)
         }
     }
     
@@ -27,49 +27,49 @@ class SourceInterfaceController: PCInterfaceController {
     
     @IBOutlet var phoneSourceLabel: WKInterfaceLabel! {
         didSet {
-            phoneSourceLabel.setText(L10n.phone)
+            phoneSourceLabel.setText(L10n.Localizable.phone)
         }
     }
 
     @IBOutlet var phoneSourceSymbol: WKInterfaceLabel! {
         didSet {
-            phoneSourceSymbol.setText(L10n.phone.sourceUnicode(isWatch: false))
+            phoneSourceSymbol.setText(L10n.Localizable.phone.sourceUnicode(isWatch: false))
         }
     }
 
     @IBOutlet var watchSourceSymbol: WKInterfaceLabel! {
         didSet {
-            watchSourceSymbol.setText(L10n.watch.sourceUnicode(isWatch: true))
+            watchSourceSymbol.setText(L10n.Localizable.watch.sourceUnicode(isWatch: true))
         }
     }
 
     @IBOutlet var refreshDataLabel: WKInterfaceLabel! {
         didSet {
-            refreshDataLabel.setText(L10n.watchSourceRefreshData)
+            refreshDataLabel.setText(L10n.Localizable.watchSourceRefreshData)
         }
     }
 
     @IBOutlet var signInPrompt: WKInterfaceLabel! {
         didSet {
-            signInPrompt.setText(L10n.watchSourceSignInInfo)
+            signInPrompt.setText(L10n.Localizable.watchSourceSignInInfo)
         }
     }
 
     @IBOutlet var refreshAccountLabel: WKInterfaceLabel! {
         didSet {
-            refreshAccountLabel.setText(L10n.watchSourceRefreshAccount)
+            refreshAccountLabel.setText(L10n.Localizable.watchSourceRefreshAccount)
         }
     }
 
     @IBOutlet var refreshAccountInfo: WKInterfaceLabel! {
         didSet {
-            refreshAccountInfo.setText(L10n.watchSourceRefreshAccountInfo)
+            refreshAccountInfo.setText(L10n.Localizable.watchSourceRefreshAccountInfo)
         }
     }
 
     @IBOutlet var plusInfo: WKInterfaceLabel! {
         didSet {
-            plusInfo.setText(L10n.watchSourcePlusInfo)
+            plusInfo.setText(L10n.Localizable.watchSourcePlusInfo)
         }
     }
 
@@ -120,7 +120,7 @@ class SourceInterfaceController: PCInterfaceController {
             profileImage.setImage(UIImage(named: "profile-plus"))
             updateLastRefreshDetails()
             infoLabel.setHidden(false)
-            infoLabel.setText(L10n.watchSourceMsg)
+            infoLabel.setText(L10n.Localizable.watchSourceMsg)
             refreshDataButton.setHidden(false)
             refreshAccountButton.setHidden(true)
             watchPlusOnlyGroup.setHidden(true)
@@ -132,7 +132,7 @@ class SourceInterfaceController: PCInterfaceController {
                 usernameLabel.setText(ServerSettings.syncingEmail())
             }
             else {
-                usernameLabel.setText(L10n.signedOut)
+                usernameLabel.setText(L10n.Localizable.signedOut)
             }
             profileImage.setImage(UIImage(named: "profile-free"))
             infoLabel.setHidden(true)
@@ -184,7 +184,7 @@ class SourceInterfaceController: PCInterfaceController {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         })
         
-        lastRefreshLabel.setText(L10n.refreshing)
+        lastRefreshLabel.setText(L10n.Localizable.refreshing)
     }
     
     @IBAction func refreshAccountTapped() {
@@ -196,19 +196,19 @@ class SourceInterfaceController: PCInterfaceController {
     @objc private func updateLastRefreshDetails() {
         var lastRefreshText = String()
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
-            lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
+            lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.Localizable.refreshFailed : L10n.Localizable.syncFailed
         }
         else if SyncManager.isFirstSyncInProgress() {
-            lastRefreshText = L10n.syncing
+            lastRefreshText = L10n.Localizable.syncing
         }
         else if SyncManager.isRefreshInProgress() {
-            lastRefreshText = L10n.refreshing
+            lastRefreshText = L10n.Localizable.refreshing
         }
         else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
-            lastRefreshText = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
+            lastRefreshText = L10n.Localizable.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
         }
         else {
-            lastRefreshText = L10n.timeFormatNever
+            lastRefreshText = L10n.Localizable.timeFormatNever
         }
         
         DispatchQueue.main.async { [weak self] in

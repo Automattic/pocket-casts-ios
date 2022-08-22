@@ -20,7 +20,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.supporterContributions
+        title = L10n.Localizable.supporterContributions
         bundleSubscriptions = SubscriptionHelper.subscriptionBundles()
         loadBundles()
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(podcastColorsLoaded(_:)))
@@ -110,10 +110,10 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
                 isCancelled = true
                 let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate).localizedUppercase
                 if expiryDate.timeIntervalSinceNow < 0 {
-                    frequencyText = L10n.paidPodcastSubscriptionEnded(expiryDateStr)
+                    frequencyText = L10n.Localizable.paidPodcastSubscriptionEnded(expiryDateStr)
                 }
                 else {
-                    frequencyText = L10n.paidPodcastSubscriptionEnds(expiryDateStr)
+                    frequencyText = L10n.Localizable.paidPodcastSubscriptionEnds(expiryDateStr)
                 }
             }
             

@@ -12,20 +12,20 @@ struct ColorPreviewFolderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Group {
-                Text(L10n.color.localizedUppercase)
+                Text(L10n.Localizable.color.localizedUppercase)
                     .textStyle(SecondaryText())
                     .font(.subheadline)
                     .padding(.bottom, -8)
                 ThemedDivider()
                 ColorSelectRow(model: model)
                 ThemedDivider()
-                Text(L10n.folderColorDetail)
+                Text(L10n.Localizable.folderColorDetail)
                     .font(.footnote)
                     .textStyle(SecondaryText())
                     .padding(.top, -8)
             }
             Group {
-                Text(L10n.preview.localizedUppercase)
+                Text(L10n.Localizable.preview.localizedUppercase)
                     .textStyle(SecondaryText())
                     .font(.subheadline)
                     .padding(.bottom, -8)
@@ -53,12 +53,12 @@ struct ColorPreviewFolderView: View {
                 let folderUuid = model.createFolder()
                 dismissAction(folderUuid)
             } label: {
-                Text(L10n.folderSaveFolder)
+                Text(L10n.Localizable.folderSaveFolder)
                     .textStyle(RoundedButton())
             }
         }
         .padding()
-        .navigationTitle(L10n.folderChooseColor)
+        .navigationTitle(L10n.Localizable.folderChooseColor)
         .applyDefaultThemeOptions()
     }
     

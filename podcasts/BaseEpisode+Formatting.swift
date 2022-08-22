@@ -9,7 +9,7 @@ extension BaseEpisode {
     
     func readableErrorMessage() -> String {
         guard let details = downloadErrorDetails else {
-            return L10n.podcastFailedDownload
+            return L10n.Localizable.podcastFailedDownload
         }
         
         return details
@@ -19,7 +19,7 @@ extension BaseEpisode {
         if inProgress(), playedUpTo > 0, duration > 0 {
             if duration > playedUpTo {
                 let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: duration - playedUpTo)
-                return L10n.podcastTimeLeft(time)
+                return L10n.Localizable.podcastTimeLeft(time)
             }
             else {
                 return TimeFormatter.shared.multipleUnitFormattedShortTime(time: 0)
@@ -35,20 +35,20 @@ extension BaseEpisode {
                 #if os(watchOS)
                     return "\(progress.percentageProgressAsString())"
                 #else
-                    return L10n.podcastDownloading(progress.percentageProgressAsString())
+                    return L10n.Localizable.podcastDownloading(progress.percentageProgressAsString())
                 #endif
             }
             else {
-                return L10n.podcastDownloading("").trimmingCharacters(in: .whitespaces)
+                return L10n.Localizable.podcastDownloading("").trimmingCharacters(in: .whitespaces)
             }
         }
         else if queued() {
             if sizeInBytes > 0 {
                 let size = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
-                return L10n.podcastQueued + " • " + size
+                return L10n.Localizable.podcastQueued + " • " + size
             }
             else {
-                return L10n.podcastQueuing
+                return L10n.Localizable.podcastQueuing
             }
         }
         else if let playbackError = playbackErrorDetails {
@@ -58,7 +58,7 @@ extension BaseEpisode {
             return readableErrorMessage()
         }
         else {
-            var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.unknownDuration
+            var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.Localizable.unknownDuration
             
             if includeSize, sizeInBytes > 0 {
                 if informationLabelStr.count == 0 {
@@ -86,14 +86,14 @@ extension BaseEpisode {
     }
     
     func shortDateFor(date: Date?) -> String {
-        let noDate = L10n.podcastNoDate
+        let noDate = L10n.Localizable.podcastNoDate
         guard let date = date, date.timeIntervalSince1970 > 0 else { return noDate }
         
         if Calendar.current.isDateInToday(date) {
-            return L10n.today
+            return L10n.Localizable.today
         }
         else if Calendar.current.isDateInYesterday(date) {
-            return L10n.podcastYesterday
+            return L10n.Localizable.podcastYesterday
         }
         
         let calendar = Calendar.current
@@ -105,7 +105,7 @@ extension BaseEpisode {
             let currentMonth = calendar.component(.month, from: now)
             
             if currentMonth == publishedMonth {
-                shortDate = L10n.podcastThisMonth
+                shortDate = L10n.Localizable.podcastThisMonth
             }
             else {
                 shortDate = calendar.monthSymbols[publishedMonth - 1]

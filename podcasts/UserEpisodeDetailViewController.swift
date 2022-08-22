@@ -236,16 +236,16 @@ class UserEpisodeDetailViewController: UIViewController {
         
         if hasError {
             if episode.downloadFailed() {
-                errorTypeLabel.text = L10n.playerUserEpisodeDownloadError
+                errorTypeLabel.text = L10n.Localizable.playerUserEpisodeDownloadError
                 errorMessageLabel.text = episode.downloadErrorDetails
             }
             else if episode.playbackError() {
-                errorTypeLabel.text = L10n.playerUserEpisodePlaybackError
+                errorTypeLabel.text = L10n.Localizable.playerUserEpisodePlaybackError
                 errorMessageLabel.text = episode.playbackErrorDetails
             }
             else if episode.uploadFailed() {
-                errorTypeLabel.text = L10n.playerUserEpisodeUploadError
-                errorMessageLabel.text = L10n.pleaseTryAgain
+                errorTypeLabel.text = L10n.Localizable.playerUserEpisodeUploadError
+                errorMessageLabel.text = L10n.Localizable.pleaseTryAgain
             }
         }
         

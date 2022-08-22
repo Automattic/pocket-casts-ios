@@ -32,7 +32,7 @@ class PromotionFinishedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.trialFinished
+        title = L10n.Localizable.trialFinished
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile-nothanksclose"), style: .done, target: self, action: #selector(doneTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
     }

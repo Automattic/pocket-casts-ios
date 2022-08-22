@@ -11,17 +11,17 @@ enum ReleaseDateFilterOption: Int32 {
     var description: String {
         switch self {
         case .anytime:
-            return L10n.filterReleaseDateAnytime
+            return L10n.Localizable.filterReleaseDateAnytime
         case .last24hours:
-            return L10n.filterReleaseDateLast24Hours
+            return L10n.Localizable.filterReleaseDateLast24Hours
         case .last3Days:
-            return L10n.filterReleaseDateLast3Days
+            return L10n.Localizable.filterReleaseDateLast3Days
         case .lastWeek:
-            return L10n.filterReleaseDateLastWeek
+            return L10n.Localizable.filterReleaseDateLastWeek
         case .last2Weeks:
-            return L10n.filterReleaseDateLast2Weeks
+            return L10n.Localizable.filterReleaseDateLast2Weeks
         case .lastMonth:
-            return L10n.filterReleaseDateLastMonth
+            return L10n.Localizable.filterReleaseDateLastMonth
         }
     }
 }
@@ -42,7 +42,7 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
         
         setCurrentReleaseDate()
         setupLargeTitle()
-        title = L10n.filterReleaseDate
+        title = L10n.Localizable.filterReleaseDate
         tableView.contentInsetAdjustmentBehavior = .never
         
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")

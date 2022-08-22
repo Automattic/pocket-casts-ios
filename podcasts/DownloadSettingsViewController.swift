@@ -21,7 +21,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsAutoDownload
+        title = L10n.Localizable.settingsAutoDownload
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
     }
     
@@ -41,7 +41,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         
         let firstRowInSection = tableRows()[section][0]
-        return firstRowInSection == .onlyOnWifi ? SettingsTableHeader(frame: headerFrame, title: L10n.settings.localizedUppercase) : nil
+        return firstRowInSection == .onlyOnWifi ? SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settings.localizedUppercase) : nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -52,13 +52,13 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         let firstRowInSection = tableRows()[section][0]
         
         if firstRowInSection == .upNext {
-            return L10n.settingsAutoDownloadsSubtitleUpNext
+            return L10n.Localizable.settingsAutoDownloadsSubtitleUpNext
         }
         else if firstRowInSection == .podcastAutoDownload {
-            return L10n.settingsAutoDownloadsSubtitleNewEpisodes
+            return L10n.Localizable.settingsAutoDownloadsSubtitleNewEpisodes
         }
         else if firstRowInSection == .filterSelection {
-            return L10n.settingsAutoDownloadsSubtitleFilters
+            return L10n.Localizable.settingsAutoDownloadsSubtitleFilters
         }
         
         return nil
@@ -79,7 +79,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .upNext:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
             
-            cell.cellLabel.text = L10n.upNext
+            cell.cellLabel.text = L10n.Localizable.upNext
             cell.cellSwitch.isOn = Settings.downloadUpNextEpisodes()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(downloadUpNextToggled(_:)), for: UIControl.Event.valueChanged)
@@ -88,7 +88,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .podcastAutoDownload:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
             
-            cell.cellLabel.text = L10n.newEpisodes.localizedCapitalized
+            cell.cellLabel.text = L10n.Localizable.newEpisodes.localizedCapitalized
             cell.cellSwitch.isOn = Settings.autoDownloadEnabled()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(automaticDownloadToggled(_:)), for: UIControl.Event.valueChanged)
@@ -109,15 +109,15 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             
             let autoDownloadFilterCount = FilterManager.autoDownloadFilterCount()
             
-            let filterStr = autoDownloadFilterCount == 1 ? L10n.settingsAutoDownloadsFiltersSelectedSingular : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadFilterCount.localized())
-            cell.cellLabel.text = autoDownloadFilterCount > 0 ? filterStr : L10n.settingsAutoDownloadsNoFiltersSelected
+            let filterStr = autoDownloadFilterCount == 1 ? L10n.Localizable.settingsAutoDownloadsFiltersSelectedSingular : L10n.Localizable.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadFilterCount.localized())
+            cell.cellLabel.text = autoDownloadFilterCount > 0 ? filterStr : L10n.Localizable.settingsAutoDownloadsNoFiltersSelected
             cell.cellSecondaryLabel.text = ""
             
             return cell
         case .onlyOnWifi:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
             
-            cell.cellLabel.text = L10n.onlyOnWifi
+            cell.cellLabel.text = L10n.Localizable.onlyOnWifi
             cell.cellSwitch.isOn = !Settings.autoDownloadMobileDataAllowed()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(useMobileDataToggled(_:)), for: UIControl.Event.valueChanged)

@@ -7,7 +7,7 @@ class NowPlayingRowController: NSObject {
     @IBOutlet var playingPodcast: WKInterfaceLabel!
     @IBOutlet var topLevelGroup: WKInterfaceGroup!
     func setNowPlayingInfo(isPlaying: Bool, podcastName: String?) {
-        label.setText(L10n.nowPlaying)
+        label.setText(L10n.Localizable.nowPlaying)
         updatePlayingState(isPlaying: isPlaying)
         guard let name = podcastName else {
             playingPodcast.setHidden(true)
@@ -15,7 +15,7 @@ class NowPlayingRowController: NSObject {
         }
         playingPodcast.setText(name)
         playingPodcast.setHidden(false)
-        topLevelGroup.setAccessibilityLabel(L10n.nowPlayingItem(name))
+        topLevelGroup.setAccessibilityLabel(L10n.Localizable.nowPlayingItem(name))
     }
     
     func updatePlayingState(isPlaying: Bool) {

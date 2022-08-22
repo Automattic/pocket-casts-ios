@@ -26,7 +26,7 @@ class SharingHelper: NSObject {
     func shareLinkToApp(fromController: UIViewController) {
         guard let sharingUrl = URL(string: ServerConstants.Urls.pocketcastsDotCom) else { return }
         
-        activityController = UIActivityViewController(activityItems: [L10n.appShareText, sharingUrl], applicationActivities: nil)
+        activityController = UIActivityViewController(activityItems: [L10n.Localizable.appShareText, sharingUrl], applicationActivities: nil)
         guard let activityController = activityController else { return }
         
         activityController.completionWithItemsHandler = { _, _, _, _ in

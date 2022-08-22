@@ -92,7 +92,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         EpisodeDateHelper.setDate(episode: episode, on: dateLabel, tintColor: ThemeColor.playerContrast02(for: themeOverride))
         
         if let dateText = dateLabel.text {
-            dateLabel.accessibilityLabel = L10n.queueNowPlayingAccessibility(dateText)
+            dateLabel.accessibilityLabel = L10n.Localizable.queueNowPlayingAccessibility(dateText)
         }
         progressUpdated(animated: false)
     }
@@ -106,7 +106,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         guard duration > 0, currentTime.isFinite else { return }
         
         let remaining = duration - currentTime
-        timeRemainingLabel.text = L10n.queueTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining))
+        timeRemainingLabel.text = L10n.Localizable.queueTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining))
         
         let percentageLapsed = CGFloat(currentTime / duration)
         progressViewWidthConstraint.constant = percentageLapsed * roundedBackgroundView.frame.width

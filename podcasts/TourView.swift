@@ -87,13 +87,13 @@ class TourView: ThemeableView {
     
     private func updateForStep() {
         leftLabel.style = position == 0 ? .support05 : .primaryText02
-        leftLabel.text = position == 0 ? L10n.featureTourNew : L10n.featureTourStepFormat(position.localized(), (totalStepCount - 1).localized())
+        leftLabel.text = position == 0 ? L10n.Localizable.featureTourNew : L10n.Localizable.featureTourStepFormat(position.localized(), (totalStepCount - 1).localized())
         
         if position == 0 {
-            closeBtn.setTitle(L10n.close, for: .normal)
+            closeBtn.setTitle(L10n.Localizable.close, for: .normal)
         }
         else {
-            closeBtn.setTitle(L10n.featureTourEndTour, for: .normal)
+            closeBtn.setTitle(L10n.Localizable.featureTourEndTour, for: .normal)
         }
         
         headingLabel.text = step?.title

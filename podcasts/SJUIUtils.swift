@@ -27,7 +27,7 @@ class SJUIUtils {
     
     private class func createDialog(title: String, message: String?) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: L10n.ok, style: .default, handler: nil)
+        let okAction = UIAlertAction(title: L10n.Localizable.ok, style: .default, handler: nil)
         alert.addAction(okAction)
         
         return alert

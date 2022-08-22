@@ -72,7 +72,7 @@ class PlayerCell: SwipeTableViewCell {
             selectView.backgroundColor = showTick ? AppTheme.colorForStyle(.playerContrast01, themeOverride: themeOverride) : AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
             selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
             
-            selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
+            selectView.accessibilityLabel = showTick ? L10n.Localizable.accessibilityDeselectEpisode : L10n.Localizable.accessibilitySelectEpisode
         }
     }
     
@@ -118,7 +118,7 @@ class PlayerCell: SwipeTableViewCell {
 
         var desc = [heading, subtitle, title, info]
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            desc.append(L10n.statusDownloaded)
+            desc.append(L10n.Localizable.statusDownloaded)
         }
         else if let playbackError = episode.playbackErrorDetails {
             desc.append(playbackError)
@@ -149,7 +149,7 @@ class PlayerCell: SwipeTableViewCell {
     
     func updateDownloadStatus() {
         if let episode = episode as? UserEpisode, episode.uploadStatus == UploadStatus.missing.rawValue {
-            episodeInfo.text = L10n.downloadErrorNotUploaded
+            episodeInfo.text = L10n.Localizable.downloadErrorNotUploaded
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
             

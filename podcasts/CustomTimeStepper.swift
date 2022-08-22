@@ -56,7 +56,7 @@ class CustomTimeStepper: UIControl {
         minusButton.addTarget(self, action: #selector(touchCancelled), for: .touchCancel)
         minusButton.addTarget(self, action: #selector(touchCancelled), for: .touchUpOutside)
         minusButton.addTarget(self, action: #selector(lessTouchDown), for: .touchDown)
-        minusButton.accessibilityLabel = L10n.playerDecrementTime
+        minusButton.accessibilityLabel = L10n.Localizable.playerDecrementTime
         addSubview(minusButton)
         
         minusButton.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,7 @@ class CustomTimeStepper: UIControl {
         plusButton.addTarget(self, action: #selector(touchCancelled), for: .touchCancel)
         plusButton.addTarget(self, action: #selector(touchCancelled), for: .touchUpOutside)
         plusButton.addTarget(self, action: #selector(moreTouchDown), for: .touchDown)
-        plusButton.accessibilityLabel = L10n.playerIncrementTime
+        plusButton.accessibilityLabel = L10n.Localizable.playerIncrementTime
         addSubview(plusButton)
         
         plusButton.translatesAutoresizingMaskIntoConstraints = false

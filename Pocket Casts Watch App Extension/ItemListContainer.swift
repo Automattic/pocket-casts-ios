@@ -8,7 +8,7 @@ struct ItemListContainer<Content: View>: View {
     let loading: Bool
     let content: Content
 
-    init(isEmpty: Bool, noItemsTitle: String = L10n.watchNoEpisodes, noItemsSubtitle: String? = nil, loading: Bool = false, @ViewBuilder content: () -> Content) {
+    init(isEmpty: Bool, noItemsTitle: String = L10n.Localizable.watchNoEpisodes, noItemsSubtitle: String? = nil, loading: Bool = false, @ViewBuilder content: () -> Content) {
         self.isEmpty = isEmpty
         self.noItemsTitle = noItemsTitle
         self.noItemsSubtitle = noItemsSubtitle
@@ -21,7 +21,7 @@ struct ItemListContainer<Content: View>: View {
             VStack {
                 ProgressView()
                     .frame(width: 50, height: 50)
-                Text(L10n.loading)
+                Text(L10n.Localizable.loading)
             }
         }
         else if isEmpty {

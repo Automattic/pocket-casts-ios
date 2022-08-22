@@ -11,11 +11,11 @@ struct PodcastEpisodeListView: View {
         ScrollView {
             LazyVStack {
                 podcastInfo
-                EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes)
+                EpisodeListView(title: L10n.Localizable.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes)
             }
         }
-        .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
-        .withOrderPickerToolbar(selectedOption: viewModel.sortOption, title: L10n.sortEpisodes, hasHorizontalPadding: true) { option in
+        .navigationTitle(L10n.Localizable.podcastsPlural.prefixSourceUnicode)
+        .withOrderPickerToolbar(selectedOption: viewModel.sortOption, title: L10n.Localizable.sortEpisodes, hasHorizontalPadding: true) { option in
             viewModel.didChangeSortOrder(option: option)
         }
     }
@@ -30,7 +30,7 @@ struct PodcastEpisodeListView: View {
                 .foregroundColor(.subheadlineText)
                 .padding(.bottom, 3)
             if viewModel.episodes.isEmpty {
-                Text(L10n.watchNoEpisodes)
+                Text(L10n.Localizable.watchNoEpisodes)
                     .font(.subheadline)
             }
         }

@@ -46,10 +46,10 @@ class PromotionAcknowledgementViewController: UIViewController {
         (view as? ThemeableView)?.style = .primaryUi01
         
         if let message = serverMessage {
-            descriptionLabel.text = message + "\n" + L10n.plusAccountTrialDetails
+            descriptionLabel.text = message + "\n" + L10n.Localizable.plusAccountTrialDetails
         }
         else {
-            descriptionLabel.text = L10n.plusAccountTrialDetails
+            descriptionLabel.text = L10n.Localizable.plusAccountTrialDetails
         }
     }
     

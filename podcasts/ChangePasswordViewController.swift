@@ -11,7 +11,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var currentField: ThemeableTextField! {
         didSet {
-            currentField.placeholder = L10n.currentPasswordPrompt
+            currentField.placeholder = L10n.Localizable.currentPasswordPrompt
             currentField.delegate = self
             currentField.addTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -19,7 +19,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var newField: ThemeableTextField! {
         didSet {
-            newField.placeholder = L10n.newPasswordPrompt
+            newField.placeholder = L10n.Localizable.newPasswordPrompt
             newField.delegate = self
             newField.addTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -27,7 +27,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var confirmField: ThemeableTextField! {
         didSet {
-            confirmField.placeholder = L10n.confirmNewPasswordPrompt
+            confirmField.placeholder = L10n.Localizable.confirmNewPasswordPrompt
             confirmField.delegate = self
             confirmField.addTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: UIControl.Event.editingChanged)
         }
@@ -38,7 +38,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             mainButton.isEnabled = false
             mainButton.buttonStyle = .primaryInteractive01Disabled
             mainButton.textStyle = .primaryInteractive02
-            mainButton.setTitle(L10n.confirm, for: .normal)
+            mainButton.setTitle(L10n.Localizable.confirm, for: .normal)
         }
     }
     
@@ -72,7 +72,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.attributedText = NSMutableAttributedString(string: "• " + L10n.changePasswordLengthError)
+            infoLabel.attributedText = NSMutableAttributedString(string: "• " + L10n.Localizable.changePasswordLengthError)
         }
     }
     
@@ -121,7 +121,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.changePassword
+        title = L10n.Localizable.changePassword
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -221,17 +221,17 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
                 ServerSettings.saveSyncingPassword(newPassword)
                 DispatchQueue.main.async {
                     let updatedVC = AccountUpdatedViewController()
-                    updatedVC.titleText = L10n.changePasswordConf
-                    updatedVC.detailText = L10n.funnyConfMsg
+                    updatedVC.titleText = L10n.Localizable.changePasswordConf
+                    updatedVC.detailText = L10n.Localizable.funnyConfMsg
                     updatedVC.imageName = AppTheme.passwordChangedImageName
                     self.navigationController?.pushViewController(updatedVC, animated: true)
                 }
             }
             else {
                 DispatchQueue.main.async {
-                    self.mainButton.setTitle(L10n.confirm, for: .normal)
+                    self.mainButton.setTitle(L10n.Localizable.confirm, for: .normal)
                     self.errorView.isHidden = false
-                    self.errorLabel.text = L10n.changePasswordError
+                    self.errorLabel.text = L10n.Localizable.changePasswordError
                     self.contentView.alpha = 1
                 }
             }
@@ -308,7 +308,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         }
         
         if newField.text != confirmField.text {
-            errorLabel.text = L10n.changePasswordErrorMismatch
+            errorLabel.text = L10n.Localizable.changePasswordErrorMismatch
             errorView.isHidden = false
             return false
         }

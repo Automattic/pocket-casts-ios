@@ -13,7 +13,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             saveButton.backgroundColor = AppTheme.playlistBlueColor()
             saveButton.layer.cornerRadius = 12
             saveButton.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
-            saveButton.setTitle(L10n.filterCreateSave, for: .normal)
+            saveButton.setTitle(L10n.Localizable.filterCreateSave, for: .normal)
         }
     }
     
@@ -50,7 +50,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
         tableView.separatorStyle = .none
         tableView.backgroundColor = AppTheme.viewBackgroundColor()
         
-        title = L10n.filterDetails
+        title = L10n.Localizable.filterDetails
         tableView.register(UINib(nibName: "TextEntryCell", bundle: nil), forCellReuseIdentifier: textEntryCellId)
         
         tableView.register(UINib(nibName: "PlaylistIconChooserCell", bundle: nil), forCellReuseIdentifier: iconChooserCellId)
@@ -101,7 +101,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             cell.playlist = filterToEdit
             cell.showSeperatorView()
             cell.style = .primaryUi01
-            cell.accessibilityLabel = L10n.filterDetailsColorSelection
+            cell.accessibilityLabel = L10n.Localizable.filterDetailsColorSelection
             return cell
         case .icon:
             let cell = tableView.dequeueReusableCell(withIdentifier: iconChooserCellId) as! PlaylistIconChooserCell
@@ -112,7 +112,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
                 self.filterToEdit.customIcon = selectedIcon
                 tableView.reloadData()
             })
-            cell.accessibilityLabel = L10n.filterDetailsIconSelection
+            cell.accessibilityLabel = L10n.Localizable.filterDetailsIconSelection
             return cell
         }
     }
@@ -127,9 +127,9 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
        
         switch section {
         case CreateFilterViewController.nameSection:
-            title = L10n.filterDetailsName
+            title = L10n.Localizable.filterDetailsName
         case CreateFilterViewController.colorIconSection:
-            title = L10n.filterDetailsColorIcon
+            title = L10n.Localizable.filterDetailsColorIcon
         default:
             return nil
         }
@@ -150,7 +150,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
     
     @IBAction func saveTapped(_ sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.Localizable.filtersDefaultNewFilter.localizedCapitalized)
         DataManager.sharedManager.save(filter: filterToEdit)
         UserDefaults.standard.set(filterToEdit.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: filterToEdit)

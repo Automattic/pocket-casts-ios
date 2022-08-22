@@ -20,11 +20,11 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             guard let indexPath = downloadsTable.indexPathForRow(at: touchPoint) else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                let allAboveAction = OptionAction(label: L10n.Localizable.selectAllAbove, icon: "selectall-up", action: { [] in
                     self.downloadsTable.selectAllAbove(indexPath: indexPath)
                 })
                 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                let allBelowAction = OptionAction(label: L10n.Localizable.selectAllBelow, icon: "selectall-down", action: { [] in
                     self.downloadsTable.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)
@@ -101,7 +101,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             
             if episode.downloadFailed() {
                 let optionsPicker = OptionsPicker(title: nil)
-                let retryAction = OptionAction(label: L10n.retry, icon: nil, action: {
+                let retryAction = OptionAction(label: L10n.Localizable.retry, icon: nil, action: {
                     NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
                         if later {
                             DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
@@ -111,7 +111,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                         }
                     }, disallowed: nil)
                 })
-                optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
+                optionsPicker.addDescriptiveActions(title: L10n.Localizable.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
             }
             else if let parentPodcast = episode.parentPodcast() {

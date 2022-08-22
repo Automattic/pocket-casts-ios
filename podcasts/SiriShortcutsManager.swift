@@ -142,28 +142,28 @@ class SiriShortcutsManager: CustomObserver {
     func resumeLastIntent() -> INIntent {
         let artwork = INImage(named: "siri_play")
         let episode = INMediaItem(identifier: Constants.SiriActions.resumeId,
-                                  title: L10n.siriShortcutResumeTitle,
+                                  title: L10n.Localizable.siriShortcutResumeTitle,
                                   type: .podcastEpisode,
                                   artwork: artwork)
         
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutResumePhrase
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutResumePhrase
         return intent
     }
     
     func pauseIntent() -> INIntent {
         let episode = INMediaItem(identifier: Constants.SiriActions.pauseId,
-                                  title: L10n.siriShortcutPauseTitle,
+                                  title: L10n.Localizable.siriShortcutPauseTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
         
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .none, resumePlayback: false)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPausePhrase
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPausePhrase
         return intent
     }
     
     func playPodcastIntent(podcast: Podcast) -> INIntent {
-        playPodcastIntent(podcastTitle: podcast.title ?? L10n.podcastSingular, podcastUuid: podcast.uuid)
+        playPodcastIntent(podcastTitle: podcast.title ?? L10n.Localizable.podcastSingular, podcastUuid: podcast.uuid)
     }
     
     func playPodcastIntent(podcastTitle: String, podcastUuid: String) -> INIntent {
@@ -171,7 +171,7 @@ class SiriShortcutsManager: CustomObserver {
         let podcastArtwork = INImage(url: podcastUrl)
         
         let episode = INMediaItem(identifier: Constants.SiriActions.playPodcastId,
-                                  title: L10n.siriShortcutPlayEpisodeTitle,
+                                  title: L10n.Localizable.siriShortcutPlayEpisodeTitle,
                                   type: .podcastEpisode,
                                   artwork: podcastArtwork)
         
@@ -180,7 +180,7 @@ class SiriShortcutsManager: CustomObserver {
                                            type: .podcastShow,
                                            artwork: podcastArtwork)
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: podcastContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayPodcastPhrase(podcastTitle)
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPlayPodcastPhrase(podcastTitle)
         intent.setImage(podcastArtwork, forParameterNamed: \INPlayMediaIntent.mediaItems)
         intent.setImage(podcastArtwork, forParameterNamed: \INPlayMediaIntent.mediaContainer)
         
@@ -191,7 +191,7 @@ class SiriShortcutsManager: CustomObserver {
         let filterName = filter.playlistName
         let uuid = filter.uuid
         let episode = INMediaItem(identifier: Constants.SiriActions.playFilterId,
-                                  title: L10n.siriShortcutPlayEpisodeTitle,
+                                  title: L10n.Localizable.siriShortcutPlayEpisodeTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
         
@@ -201,7 +201,7 @@ class SiriShortcutsManager: CustomObserver {
                                           type: .podcastPlaylist,
                                           artwork: artwork)
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: filterContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayFilterPhrase(filterName)
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPlayFilterPhrase(filterName)
         return intent
     }
     
@@ -209,7 +209,7 @@ class SiriShortcutsManager: CustomObserver {
         let filterName = filter.playlistName
         let uuid = filter.uuid
         let episode = INMediaItem(identifier: Constants.SiriActions.playAllFilterId,
-                                  title: L10n.siriShortcutPlayAllTitle,
+                                  title: L10n.Localizable.siriShortcutPlayAllTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
         
@@ -219,7 +219,7 @@ class SiriShortcutsManager: CustomObserver {
                                           type: .podcastPlaylist,
                                           artwork: artwork)
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: filterContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayAllPhrase(filterName)
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPlayAllPhrase(filterName)
         return intent
     }
     
@@ -228,35 +228,35 @@ class SiriShortcutsManager: CustomObserver {
         let intent = SJOpenFilterIntent()
         intent.filterUuid = filter.uuid
         intent.filterName = filterName
-        intent.suggestedInvocationPhrase = L10n.siriShortcutOpenFilterPhrase(filterName)
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutOpenFilterPhrase(filterName)
         return intent
     }
     
     func playNextIntent() -> INIntent {
         let artwork = INImage(named: "siri_upnext")
         let episode = INMediaItem(identifier: Constants.SiriActions.playUpNextId,
-                                  title: L10n.siriShortcutPlayUpNextTitle,
+                                  title: L10n.Localizable.siriShortcutPlayUpNextTitle,
                                   type: .podcastEpisode,
                                   artwork: artwork)
         
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .none, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayUpNextPhrase
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPlayUpNextPhrase
         return intent
     }
     
     func playSuggestedIntent() -> INIntent {
         let episode = INMediaItem(identifier: Constants.SiriActions.playSuggestedId,
-                                  title: L10n.siriShortcutPlaySuggestedPodcastTitle,
+                                  title: L10n.Localizable.siriShortcutPlaySuggestedPodcastTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
         let artwork = INImage(named: "siri_suggested")
-        let suggestedTitle = L10n.siriShortcutPlaySuggestedPodcastSuggestedTitle
+        let suggestedTitle = L10n.Localizable.siriShortcutPlaySuggestedPodcastSuggestedTitle
         let container = INMediaItem(identifier: Constants.SiriActions.playSuggestedId,
                                     title: suggestedTitle,
                                     type: .podcastPlaylist,
                                     artwork: artwork)
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: container, playShuffled: false, playbackRepeatMode: .none, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlaySuggestedPodcastPhrase
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPlaySuggestedPodcastPhrase
         return intent
     }
     
@@ -265,24 +265,24 @@ class SiriShortcutsManager: CustomObserver {
     func nextChapterIntent() -> INIntent {
         let artwork = INImage(named: "siri_chapter_next")
         let episode = INMediaItem(identifier: Constants.SiriActions.nextChapterId,
-                                  title: L10n.siriShortcutNextChapter,
+                                  title: L10n.Localizable.siriShortcutNextChapter,
                                   type: .podcastEpisode,
                                   artwork: artwork)
         
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .none, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutNextChapter
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutNextChapter
         return intent
     }
     
     func previousChapterIntent() -> INIntent {
         let artwork = INImage(named: "siri_chapter_previous")
         let episode = INMediaItem(identifier: Constants.SiriActions.previousChapterId,
-                                  title: L10n.siriShortcutPreviousChapter,
+                                  title: L10n.Localizable.siriShortcutPreviousChapter,
                                   type: .podcastEpisode,
                                   artwork: artwork)
         
         let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: nil, playShuffled: false, playbackRepeatMode: .none, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPreviousChapter
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutPreviousChapter
         return intent
     }
     
@@ -292,14 +292,14 @@ class SiriShortcutsManager: CustomObserver {
         let intent = SJSleepTimerIntent()
         intent.minutes = Settings.customSleepTime() as NSNumber
         let formattedTime = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
-        intent.suggestedInvocationPhrase = L10n.siriShortcutExtendSleepTimer(formattedTime)
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutExtendSleepTimer(formattedTime)
         return intent
     }
     
     func setExtendSleepTimerIntent() -> INIntent {
         let intent = SJExtendSleepTimerIntent()
         intent.minutes = 5
-        intent.suggestedInvocationPhrase = L10n.siriShortcutExtendSleepTimerFiveMin
+        intent.suggestedInvocationPhrase = L10n.Localizable.siriShortcutExtendSleepTimerFiveMin
         return intent
     }
     

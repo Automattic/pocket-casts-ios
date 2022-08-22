@@ -26,7 +26,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.filterOptions
+        title = L10n.Localizable.filterOptions
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
         tapRecognizer.cancelsTouchesInView = false
@@ -47,7 +47,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.Localizable.filtersDefaultNewFilter.localizedCapitalized)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
@@ -101,7 +101,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
             cell.cellSwitch.onStyle = filterToEdit.playlistStyle()
             
-            cell.cellLabel.text = L10n.settingsAutoDownload
+            cell.cellLabel.text = L10n.Localizable.settingsAutoDownload
             cell.cellLabel.font.withSize(16)
             cell.setImage(imageName: "filter_downloaded")
             cell.cellSwitch.setOn(filterToEdit.autoDownloadEpisodes, animated: true)
@@ -111,13 +111,13 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             return cell
         case .autoDownloadLimit:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId) as! DisclosureCell
-            cell.cellLabel.text = L10n.autoDownloadPromptFirst
-            cell.cellSecondaryLabel.text = L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized())
+            cell.cellLabel.text = L10n.Localizable.autoDownloadPromptFirst
+            cell.cellSecondaryLabel.text = L10n.Localizable.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized())
             
             return cell
         case .siriShortcut:
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) as! TopLevelSettingsCell
-            cell.settingsLabel.text = L10n.settingsSiriShortcuts
+            cell.settingsLabel.text = L10n.Localizable.settingsSiriShortcuts
             cell.settingsImage.image = UIImage(named: "settings_shortcuts")
             cell.settingsImage.tintColor = filterToEdit.playlistColor()
             return cell
@@ -132,7 +132,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             
             tableView.deselectRow(at: indexPath, animated: true)
             
-            let options = OptionsPicker(title: L10n.autoDownloadFirst)
+            let options = OptionsPicker(title: L10n.Localizable.autoDownloadFirst)
             let currentLimit = filterToEdit.maxAutoDownloadEpisodes()
             addAutoLimitOption(optionPicker: options, limit: 5, currentLimit: currentLimit)
             addAutoLimitOption(optionPicker: options, limit: 10, currentLimit: currentLimit)
@@ -153,7 +153,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 2 {
-            return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.autoDownloadOffSubtitle
+            return filterToEdit.autoDownloadEpisodes ? L10n.Localizable.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.Localizable.autoDownloadOffSubtitle
         }
         return nil
     }
@@ -181,7 +181,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
-        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
+        filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.Localizable.filtersDefaultNewFilter.localizedCapitalized)
         textField.resignFirstResponder()
     }
     
@@ -214,7 +214,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     // MARK: - Private Helper Methods
     
     private func addAutoLimitOption(optionPicker: OptionsPicker, limit: Int32, currentLimit: Int32) {
-        let action = OptionAction(label: L10n.episodeCountPluralFormat(limit.localized()), selected: currentLimit == limit) { [weak self] in
+        let action = OptionAction(label: L10n.Localizable.episodeCountPluralFormat(limit.localized()), selected: currentLimit == limit) { [weak self] in
             self?.filterToEdit.autoDownloadLimit = limit
             self?.tableView.reloadData()
         }

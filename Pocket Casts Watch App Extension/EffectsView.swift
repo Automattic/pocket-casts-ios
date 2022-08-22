@@ -14,7 +14,7 @@ struct EffectsView: View {
                     }
                     .roundIcon()
 
-                    Button(L10n.playbackSpeed(viewModel.playbackSpeed.localized()), action: { viewModel.changeSpeedInterval() })
+                    Button(L10n.Localizable.playbackSpeed(viewModel.playbackSpeed.localized()), action: { viewModel.changeSpeedInterval() })
                         .buttonStyle(.plain)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -28,17 +28,17 @@ struct EffectsView: View {
                 }
 
                 if viewModel.trimSilenceAvailable {
-                    Toggle(L10n.trimSilence, isOn: $viewModel.trimSilenceEnabled)
+                    Toggle(L10n.Localizable.trimSilence, isOn: $viewModel.trimSilenceEnabled)
                         .styled()
                 }
                 if viewModel.volumeBoostAvailable {
-                    Toggle(L10n.volumeBoost, isOn: $viewModel.volumeBoostEnabled)
+                    Toggle(L10n.Localizable.volumeBoost, isOn: $viewModel.volumeBoostEnabled)
                         .styled()
                 }
             }
             .padding(.top, 15)
         }
-        .navigationTitle(L10n.watchEffects)
+        .navigationTitle(L10n.Localizable.watchEffects)
     }
 }
 

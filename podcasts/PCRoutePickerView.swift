@@ -19,7 +19,7 @@ class PCRoutePickerView: AVRoutePickerView {
     
     override var accessibilityLabel: String? {
         get {
-            L10n.playerRouteSelection
+            L10n.Localizable.playerRouteSelection
         }
         set {}
     }

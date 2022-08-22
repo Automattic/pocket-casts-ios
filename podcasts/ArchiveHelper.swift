@@ -5,28 +5,28 @@ import PocketCastsUtils
 class ArchiveHelper {
     class func archiveTimeToText(_ time: TimeInterval) -> String {
         if time < 0 {
-            return L10n.timeFormatNever.localizedCapitalized
+            return L10n.Localizable.timeFormatNever.localizedCapitalized
         }
         else if time == 0 {
-            return L10n.afterPlaying
+            return L10n.Localizable.afterPlaying
         }
         else if time == 24.hours {
-            return L10n.settingsAutoArchive24Hours
+            return L10n.Localizable.settingsAutoArchive24Hours
         }
         else if time == 2.days {
-            return L10n.settingsAutoArchive2Days
+            return L10n.Localizable.settingsAutoArchive2Days
         }
         else if time == 1.week {
-            return L10n.settingsAutoArchive1Week
+            return L10n.Localizable.settingsAutoArchive1Week
         }
         else if time == 2.weeks {
-            return L10n.settingsAutoArchive2Weeks
+            return L10n.Localizable.settingsAutoArchive2Weeks
         }
         else if time == 30.days {
-            return L10n.settingsAutoArchive30Days
+            return L10n.Localizable.settingsAutoArchive30Days
         }
         else if time == 90.days {
-            return L10n.settingsAutoArchive3Months
+            return L10n.Localizable.settingsAutoArchive3Months
         }
         else {
             return "TODO"

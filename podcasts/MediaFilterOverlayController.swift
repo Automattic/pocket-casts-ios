@@ -5,11 +5,11 @@ extension AudioVideoFilter {
     var description: String {
         switch self {
         case .all:
-            return L10n.filterValueAll
+            return L10n.Localizable.filterValueAll
         case .audioOnly:
-            return L10n.filterMediaTypeAudio
+            return L10n.Localizable.filterMediaTypeAudio
         case .videoOnly:
-            return L10n.filterMediaTypeVideo
+            return L10n.Localizable.filterMediaTypeVideo
         }
     }
 }
@@ -29,7 +29,7 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
         tableView.register(UINib(nibName: "RadioButtonCell", bundle: nil), forCellReuseIdentifier: MediaFilterOverlayController.mediaCellId)
         
         setupLargeTitle()
-        title = L10n.filterMediaType
+        title = L10n.Localizable.filterMediaType
         tableView.contentInsetAdjustmentBehavior = .never
         selectedIndex = Int(filterToEdit.filterAudioVideoType)
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")

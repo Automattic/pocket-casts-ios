@@ -31,7 +31,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             moreButton.setImage(UIImage(named: "more"), for: .normal)
             moreButton.tintColor = ThemeColor.primaryInteractive02()
             moreButton.layer.cornerRadius = 18
-            moreButton.accessibilityLabel = L10n.accessibilityMoreActions
+            moreButton.accessibilityLabel = L10n.Localizable.accessibilityMoreActions
         }
     }
     
@@ -103,7 +103,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         }
         
         isHidden = false
-        selectedCountLabel.text = L10n.selectedCountFormat(count)
+        selectedCountLabel.text = L10n.Localizable.selectedCountFormat(count)
         selectedCountLabel.isHidden = false
         leftActionButton.isHidden = false
         rightActionButton.isHidden = false
@@ -139,7 +139,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         bottomSheet.isScrimAccessibilityElement = true
-        bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
+        bottomSheet.scrimAccessibilityLabel = L10n.Localizable.accessibilityDismiss
         delegate.multiSelectPresentingViewController().present(bottomSheet, animated: true, completion: nil)
     }
     

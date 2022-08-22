@@ -11,7 +11,7 @@ class PodcastSelectionHeaderView: UIView {
     @IBOutlet var selectAllSwitch: ThemeableSwitch!
     @IBOutlet var titleLabel: UILabel! {
         didSet {
-            titleLabel.text = L10n.filterCreatePodcastsAllPodcasts
+            titleLabel.text = L10n.Localizable.filterCreatePodcastsAllPodcasts
         }
     }
 

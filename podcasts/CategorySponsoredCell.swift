@@ -39,8 +39,8 @@ class CategorySponsoredCell: ThemeableCell {
             subscribeButton.onImage = UIImage(named: "discover_tick")
             subscribeButton.offImage = UIImage(named: "discover_add")
             subscribeButton.tintColor = ThemeColor.secondaryIcon01()
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.Localizable.subscribe
+            subscribeButton.onAccessibilityLabel = L10n.Localizable.subscribed
             
             NotificationCenter.default.addObserver(self, selector: #selector(podcastWasAdded), name: Constants.Notifications.podcastAdded, object: nil)
         }

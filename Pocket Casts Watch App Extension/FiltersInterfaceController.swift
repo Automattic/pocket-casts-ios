@@ -8,7 +8,7 @@ class FiltersInterfaceController: PCInterfaceController {
     private var watchFilters: [EpisodeFilter]?
     private var phoneFilters: [WatchFilter]?
     override func populateTitle() {
-        setTitle(L10n.filters.prefixSourceUnicode)
+        setTitle(L10n.Localizable.filters.prefixSourceUnicode)
     }
     
     override func handleDataUpdated() {
@@ -72,7 +72,7 @@ class FiltersInterfaceController: PCInterfaceController {
     private func handleNoDataAvailable() {
         filtersTable.setNumberOfRows(0, withRowType: "TopLevelItemRowController")
         loadingLabel.setHidden(false)
-        loadingLabel.setText(L10n.watchNoFilters)
+        loadingLabel.setText(L10n.Localizable.watchNoFilters)
     }
     
     // MARK: - Restorable Support

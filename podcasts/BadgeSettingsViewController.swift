@@ -20,7 +20,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         
         episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
         
-        title = L10n.appBadge
+        title = L10n.Localizable.appBadge
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -38,7 +38,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         
         if section == optionsSection { return nil }
         
-        return SettingsTableHeader(frame: headerFrame, title: L10n.settingsBadgeFilterHeader)
+        return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsBadgeFilterHeader)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -51,13 +51,13 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         
         if indexPath.section == optionsSection {
             if indexPath.row == 0 {
-                cell.settingsLabel.text = L10n.off
+                cell.settingsLabel.text = L10n.Localizable.off
             }
             else if indexPath.row == 1 {
-                cell.settingsLabel.text = L10n.settingsBadgeTotalUnplayed
+                cell.settingsLabel.text = L10n.Localizable.settingsBadgeTotalUnplayed
             }
             else if indexPath.row == 2 {
-                cell.settingsLabel.text = L10n.settingsBadgeNewSinceOpened
+                cell.settingsLabel.text = L10n.Localizable.settingsBadgeNewSinceOpened
             }
             
             let badgeSetting = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)

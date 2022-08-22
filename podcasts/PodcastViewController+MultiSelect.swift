@@ -56,7 +56,7 @@ extension PodcastViewController {
     }
     
     @IBAction func selectAllTapped() {
-        let shouldSelectAll = multiSelectAllBtn.title(for: .normal) == L10n.selectAll
+        let shouldSelectAll = multiSelectAllBtn.title(for: .normal) == L10n.Localizable.selectAll
         if shouldSelectAll {
             guard let allObjects = episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
             episodesTable.selectAllBelow(indexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
@@ -77,10 +77,10 @@ extension PodcastViewController {
     func updateSelectAllBtn() {
         let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
         if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) {
-            multiSelectAllBtn.setTitle(L10n.selectAll, for: .normal)
+            multiSelectAllBtn.setTitle(L10n.Localizable.selectAll, for: .normal)
         }
         else {
-            multiSelectAllBtn.setTitle(L10n.deselectAll, for: .normal)
+            multiSelectAllBtn.setTitle(L10n.Localizable.deselectAll, for: .normal)
         }
     }
     

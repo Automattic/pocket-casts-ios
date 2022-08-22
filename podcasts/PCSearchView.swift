@@ -37,7 +37,7 @@ struct PCSearchView: UIViewControllerRepresentable {
         searchController.shouldShowCancelButton = false
         searchController.searchDelegate = context.coordinator
         searchController.backgroundColorOverride = UIColor.clear
-        searchController.placeholderText = L10n.searchPodcasts
+        searchController.placeholderText = L10n.Localizable.searchPodcasts
         
         return searchController
     }

@@ -41,7 +41,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func setupNavBar() {
         setupCloseButton()
         changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
-        title = L10n.filterChoosePodcasts
+        title = L10n.Localizable.filterChoosePodcasts
         navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()
@@ -107,7 +107,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
     
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.filterUpdate, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+        let attributedTitle = NSAttributedString(string: L10n.Localizable.filterUpdate, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
     
@@ -142,10 +142,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func setSwitchSubtitle() {
         let allSelected = selectedUuids.count == allPodcasts.count
         if allSelected {
-            headerView.subtitleLabel.text = L10n.filterAutoAddSubtitle
+            headerView.subtitleLabel.text = L10n.Localizable.filterAutoAddSubtitle
         }
         else {
-            headerView.subtitleLabel.text = L10n.filterManualAddSubtitle
+            headerView.subtitleLabel.text = L10n.Localizable.filterManualAddSubtitle
         }
     }
     

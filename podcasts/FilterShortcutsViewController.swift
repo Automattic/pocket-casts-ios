@@ -34,7 +34,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settingsSiriShortcuts
+        title = L10n.Localizable.settingsSiriShortcuts
         view.backgroundColor = AppTheme.colorForStyle(.primaryUi04)
         
         tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
@@ -68,9 +68,9 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         let thisSection = tableData[section]
         switch thisSection {
         case .enabledSection:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settingsSiriShortcutsEnabled)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsSiriShortcutsEnabled)
         case .availableSection:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.settingsSiriShortcutsAvailable)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsSiriShortcutsAvailable)
         }
     }
     
@@ -94,11 +94,11 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             if let thisRow = availableRows[safe: indexPath.row] {
                 switch thisRow {
                 case .playAll:
-                    cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayAllEpisodes
+                    cell.titleLabel?.text = L10n.Localizable.settingsShortcutsFilterPlayAllEpisodes
                 case .playTopEpisode:
-                    cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayTopEpisode
+                    cell.titleLabel?.text = L10n.Localizable.settingsShortcutsFilterPlayTopEpisode
                 case .openFilter:
-                    cell.titleLabel?.text = L10n.settingsShortcutsFilterOpenFilter
+                    cell.titleLabel?.text = L10n.Localizable.settingsShortcutsFilterOpenFilter
                 }
             }
             return cell

@@ -30,11 +30,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                let allAboveAction = OptionAction(label: L10n.Localizable.selectAllAbove, icon: "selectall-up", action: { [] in
                     self.episodesTable.selectAllFrom(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection), toIndexPath: indexPath)
                 })
                 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                let allBelowAction = OptionAction(label: L10n.Localizable.selectAllBelow, icon: "selectall-down", action: { [] in
                     self.episodesTable.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)

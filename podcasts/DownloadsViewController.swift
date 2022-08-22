@@ -17,13 +17,13 @@ class DownloadsViewController: PCViewController {
 
     @IBOutlet var noDownloadsTitle: ThemeableLabel! {
         didSet {
-            noDownloadsTitle.text = L10n.downloadsNoDownloadsTitle
+            noDownloadsTitle.text = L10n.Localizable.downloadsNoDownloadsTitle
         }
     }
 
     @IBOutlet var noDownloadsDescription: ThemeableLabel! {
         didSet {
-            noDownloadsDescription.text = L10n.downloadsNoDownloadsDesc
+            noDownloadsDescription.text = L10n.Localizable.downloadsNoDownloadsDesc
         }
     }
 
@@ -107,7 +107,7 @@ class DownloadsViewController: PCViewController {
         downloadsTable.tableFooterView = UIView(frame: CGRect.zero)
         downloadsTable.sectionFooterHeight = 0.0
         
-        title = L10n.downloads
+        title = L10n.Localizable.downloads
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -189,10 +189,10 @@ class DownloadsViewController: PCViewController {
     
     func setupNavBar() {
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.Localizable.accessibilityCancelMultiselect : L10n.Localizable.accessibilitySortAndOptions
         
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
+        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -203,31 +203,31 @@ class DownloadsViewController: PCViewController {
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
         
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let MultiSelectAction = OptionAction(label: L10n.Localizable.selectEpisodes, icon: "option-multiselect") { [weak self] in
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
-        let settingsAction = OptionAction(label: L10n.downloadsAutoDownload, icon: "podcast-settings") { [weak self] in
+        let settingsAction = OptionAction(label: L10n.Localizable.downloadsAutoDownload, icon: "podcast-settings") { [weak self] in
             self?.navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
         }
         optionsPicker.addAction(action: settingsAction)
         
         if failedEpisodes().count > 0 {
-            let retryAction = OptionAction(label: L10n.downloadsRetryFailedDownloads, icon: "option-download-retry") { [weak self] in
+            let retryAction = OptionAction(label: L10n.Localizable.downloadsRetryFailedDownloads, icon: "option-download-retry") { [weak self] in
                 self?.retryAllFailed(sender)
             }
             optionsPicker.addAction(action: retryAction)
         }
         
         if downloadingEpisodes().count > 0 {
-            let stopAction = OptionAction(label: L10n.downloadsStopAllDownloads, icon: "option-cross-circle") { [weak self] in
+            let stopAction = OptionAction(label: L10n.Localizable.downloadsStopAllDownloads, icon: "option-cross-circle") { [weak self] in
                 self?.pauseAllDownloads()
             }
             optionsPicker.addAction(action: stopAction)
         }
         
-        let cleanupAction = OptionAction(label: L10n.cleanUp, icon: "list_delete") { [weak self] in
+        let cleanupAction = OptionAction(label: L10n.Localizable.cleanUp, icon: "list_delete") { [weak self] in
             self?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
         }
         optionsPicker.addAction(action: cleanupAction)

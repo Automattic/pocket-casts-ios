@@ -58,10 +58,10 @@ class TermsViewController: PCViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.termsOfUse
+        title = L10n.Localizable.termsOfUse
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
     }
     

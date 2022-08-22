@@ -27,7 +27,7 @@ class BasePlayPauseButton: UIButton {
             }
 
             isAccessibilityElement = true
-            accessibilityLabel = isPlaying ? L10n.pause : L10n.play
+            accessibilityLabel = isPlaying ? L10n.Localizable.pause : L10n.Localizable.play
             accessibilityIdentifier = "play pause button"
         }
     }

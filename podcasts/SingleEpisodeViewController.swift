@@ -20,7 +20,7 @@ class SingleEpisodeViewController: UIViewController {
 
     @IBOutlet var duration: ThemeableLabel! {
         didSet {
-            duration.text = L10n.unknownDuration
+            duration.text = L10n.Localizable.unknownDuration
             duration.style = .primaryText02
         }
     }
@@ -75,7 +75,7 @@ class SingleEpisodeViewController: UIViewController {
         viewModel.$isTrailer
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] isTrailer in
-                self.playButton.text = isTrailer ? L10n.discoverPlayTrailer : L10n.discoverPlayEpisode
+                self.playButton.text = isTrailer ? L10n.Localizable.discoverPlayTrailer : L10n.Localizable.discoverPlayEpisode
             })
             .store(in: &cancellables)
 
@@ -113,6 +113,6 @@ extension SingleEpisodeViewController: DiscoverSummaryProtocol {
     func populateFrom(item: DiscoverItem) {
         viewModel.discoverItem = item
         
-        typeBadgeLabel.text = (item.title ?? L10n.discoverFeaturedEpisode).uppercased()
+        typeBadgeLabel.text = (item.title ?? L10n.Localizable.discoverFeaturedEpisode).uppercased()
     }
 }

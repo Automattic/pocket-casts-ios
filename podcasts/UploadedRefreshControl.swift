@@ -29,7 +29,7 @@ class UploadedRefreshControl: PCRefreshControl {
             self.offsetToPullDown()
         })
         
-        refreshLabel.text = L10n.refreshControlRefreshingFiles
+        refreshLabel.text = L10n.Localizable.refreshControlRefreshingFiles
         startRefreshAnimation()
         
         UserEpisodeManager.updateUserEpisodes()
@@ -38,10 +38,10 @@ class UploadedRefreshControl: PCRefreshControl {
     // MARK: - Refreshing Events
     
     @objc private func userEpisodesRefreshed() {
-        processRefreshCompleted(L10n.refreshControlRefreshComplete)
+        processRefreshCompleted(L10n.Localizable.refreshControlRefreshComplete)
     }
     
     @objc private func userEpisodestRefreshFailed() {
-        processRefreshCompleted(L10n.refreshControlRefreshFailed)
+        processRefreshCompleted(L10n.Localizable.refreshControlRefreshFailed)
     }
 }

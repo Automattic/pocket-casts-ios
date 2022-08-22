@@ -4,7 +4,7 @@ import UIKit
 class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var selectRegionLabel: ThemeableLabel! {
         didSet {
-            selectRegionLabel.text = L10n.discoverSelectRegion
+            selectRegionLabel.text = L10n.Localizable.discoverSelectRegion
         }
     }
 
@@ -59,7 +59,7 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
         
         countryName.text = serverRegion.name.localized
         countryFlag.kf.setImage(with: URL(string: serverRegion.flag))
-        discoverSectionView.accessibilityLabel = L10n.discoverChangeRegion(serverRegion.name)
+        discoverSectionView.accessibilityLabel = L10n.Localizable.discoverChangeRegion(serverRegion.name)
     }
     
     func serverRegions() -> [String: DiscoverRegion] {

@@ -44,13 +44,13 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     
     @IBOutlet var noEpisodesTitle: ThemeableLabel! {
         didSet {
-            noEpisodesTitle.text = L10n.episodeFilterNoEpisodesTitle
+            noEpisodesTitle.text = L10n.Localizable.episodeFilterNoEpisodesTitle
         }
     }
     
     @IBOutlet var noEpisodesDescription: ThemeableLabel! {
         didSet {
-            noEpisodesDescription.text = L10n.episodeFilterNoEpisodesMsg
+            noEpisodesDescription.text = L10n.Localizable.episodeFilterNoEpisodesMsg
             noEpisodesDescription.style = .primaryText02
         }
     }
@@ -137,7 +137,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     override func viewDidLoad() {
         supportsGoogleCast = true
         super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
-        super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
+        super.customRightBtn?.accessibilityLabel = L10n.Localizable.accessibilitySortAndOptions
         
         super.viewDidLoad()
         
@@ -219,10 +219,10 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         navigationItem.titleView = isMultiSelectEnabled ? nil : titleView
         title = isMultiSelectEnabled ? filter.playlistName : nil
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
+        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.Localizable.accessibilityCancelMultiselect : L10n.Localizable.accessibilitySortAndOptions
         
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
+        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -314,20 +314,20 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     @objc func moreTapped() {
         let optionsPicker = OptionsPicker(title: nil)
         
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let MultiSelectAction = OptionAction(label: L10n.Localizable.selectEpisodes, icon: "option-multiselect") { [weak self] in
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
         let currentSort = PlaylistSort(rawValue: filter.sortType)?.description ?? ""
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
+        let sortAction = OptionAction(label: L10n.Localizable.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
             self.showSortByPicker()
         }
-        let editAction = OptionAction(label: L10n.filterOptions, icon: "profile-settings") {
+        let editAction = OptionAction(label: L10n.Localizable.filterOptions, icon: "profile-settings") {
             self.filterOptionsTapped()
         }
         
-        let playAllAction = OptionAction(label: L10n.playAll, icon: "filter_play") { [weak self] in
+        let playAllAction = OptionAction(label: L10n.Localizable.playAll, icon: "filter_play") { [weak self] in
             guard let self = self else { return }
             
             let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
@@ -336,7 +336,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             })
         }
         
-        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
+        let downloadAllAction = OptionAction(label: L10n.Localizable.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
             let downloadableCount = self.downloadableCount(listEpisodes: self.episodes)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
@@ -351,20 +351,20 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
             
             if NetworkUtils.shared.isConnectedToWifi() {
-                confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+                confirmPicker.addDescriptiveActions(title: L10n.Localizable.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             }
             else {
                 downloadAction.destructive = true
                 
-                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+                let queueAction = OptionAction(label: L10n.Localizable.queueForLater, icon: nil) {
                     self.queueAll()
                 }
                 
                 if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarning + "\n" + warningMessage
+                    warningMessage = L10n.Localizable.downloadDataWarning + "\n" + warningMessage
                 }
                 
-                confirmPicker.addDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+                confirmPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
             }
             confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
         }
@@ -378,7 +378,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
     
     func showSortByPicker() {
-        let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+        let optionsPicker = OptionsPicker(title: L10n.Localizable.sortBy.localizedUppercase)
         
         addSortAction(to: optionsPicker, sortOrder: .newestToOldest)
         addSortAction(to: optionsPicker, sortOrder: .oldestToNewest)
@@ -454,7 +454,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.titleView.accessibilityHint = L10n.accessibilityShowFilterDetails
+            self.titleView.accessibilityHint = L10n.Localizable.accessibilityShowFilterDetails
         })
     }
     
@@ -465,7 +465,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.titleView.accessibilityHint = L10n.accessibilityHideFilterDetails
+            self.titleView.accessibilityHint = L10n.Localizable.accessibilityHideFilterDetails
         })
     }
     

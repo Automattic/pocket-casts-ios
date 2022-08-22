@@ -22,7 +22,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsStats
+        title = L10n.Localizable.settingsStats
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +47,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         
         if section == 1 {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.statsTimeSaved)
         }
         
         return nil
@@ -73,12 +73,12 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let castCell = cell as! StatsTopCell
             if loadingState == LoadingStatus.failed {
                 castCell.loadingIndicator.stopAnimating()
-                castCell.descriptionLabel.text = L10n.statsError
+                castCell.descriptionLabel.text = L10n.Localizable.statsError
                 castCell.timeLabel.text = "🤔"
-                castCell.accessibilityLabel = L10n.statsError
+                castCell.accessibilityLabel = L10n.Localizable.statsError
             }
             else if loadingState == LoadingStatus.loading {
-                castCell.listenLabel.text = L10n.statsListenHistoryLoading
+                castCell.listenLabel.text = L10n.Localizable.statsListenHistoryLoading
                 castCell.timeLabel.text = nil
                 castCell.descriptionLabel.text = nil
                 castCell.loadingIndicator.startAnimating()
@@ -90,34 +90,34 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 if StatsManager.shared.statsStartedAt() > 0 {
                     let startDate = Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt()))
                     let dateStr = DateFormatter.localizedString(from: startDate, dateStyle: .long, timeStyle: .none)
-                    castCell.listenLabel.text = L10n.statsListenHistoryFormat(dateStr)
+                    castCell.listenLabel.text = L10n.Localizable.statsListenHistoryFormat(dateStr)
                 }
                 else {
-                    castCell.listenLabel.text = L10n.statsListenHistoryNoDate
+                    castCell.listenLabel.text = L10n.Localizable.statsListenHistoryNoDate
                 }
-                castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
+                castCell.accessibilityLabel = L10n.Localizable.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
             }
         }
         else if indexPath.section == 1 {
             let castCell = cell as! StatsCell
             castCell.showIcon()
             if indexPath.row == 0 {
-                castCell.statName.text = L10n.statsSkipping
+                castCell.statName.text = L10n.Localizable.statsSkipping
                 castCell.statsIcon.image = UIImage(named: "stats_skipping")
                 castCell.statValue.text = formatStat(skippedStat())
             }
             else if indexPath.row == 1 {
-                castCell.statName.text = L10n.statsVariableSpeed
+                castCell.statName.text = L10n.Localizable.statsVariableSpeed
                 castCell.statsIcon.image = UIImage(named: "stats_speed")
                 castCell.statValue.text = formatStat(variableSpeedStat())
             }
             else if indexPath.row == 2 {
-                castCell.statName.text = L10n.settingsTrimSilence
+                castCell.statName.text = L10n.Localizable.settingsTrimSilence
                 castCell.statsIcon.image = UIImage(named: "stats_silence")
                 castCell.statValue.text = formatStat(silenceRemovedStat())
             }
             else if indexPath.row == 3 {
-                castCell.statName.text = L10n.statsAutoSkip
+                castCell.statName.text = L10n.Localizable.statsAutoSkip
                 castCell.statsIcon.image = UIImage(named: "stats_skip_both")
                 castCell.statValue.text = formatStat(autoSkipStat())
             }
@@ -125,7 +125,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         else {
             let castCell = cell as! StatsCell
-            castCell.statName.text = L10n.statsTotal
+            castCell.statName.text = L10n.Localizable.statsTotal
             castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
             castCell.statValue.style = .support01
             castCell.hideIcon()
@@ -203,7 +203,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         if output.count == 0 {
             let components = DateComponents(calendar: Calendar.current, second: secs)
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full) ?? L10n.statsTimeZeroSeconds
+            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full) ?? L10n.Localizable.statsTimeZeroSeconds
         }
 
         return output.joined(separator: " ")

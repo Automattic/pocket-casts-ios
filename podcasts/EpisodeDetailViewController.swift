@@ -152,8 +152,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         
         scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
         navTitle = episode.title
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
+        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.Localizable.share, action: #selector(shareTapped(_:)))
+        starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.Localizable.starEpisode, action: #selector(starTapped(_:)))
         
         setupWebView()
         updateMessageView()
@@ -277,7 +277,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             if downloadIndicator.isHidden { downloadIndicator.isHidden = false }
             
             if episode.waitingForWifi() {
-                downloadBtn.setTitle(L10n.cancel, for: .normal)
+                downloadBtn.setTitle(L10n.Localizable.cancel, for: .normal)
                 downloadIndicator.progress = 1
                 downloadIndicator.color = ThemeColor.secondaryIcon01(for: themeOverride)
             }
@@ -286,7 +286,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 downloadIndicator.progress = CGFloat(progress.progress())
             }
             else {
-                downloadBtn.setTitle(L10n.podcastDetailsQueued, for: .normal)
+                downloadBtn.setTitle(L10n.Localizable.podcastDetailsQueued, for: .normal)
                 downloadIndicator.progress = 0.1
             }
         }
@@ -305,8 +305,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         
         let starImageName = episode.keepEpisode ? "star_filled" : "star_empty"
         starButton?.setImage(UIImage(named: starImageName), for: .normal)
-        starButton?.accessibilityLabel = episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
-        starButton?.accessibilityHint = episode.keepEpisode ? L10n.accessibilityHintUnstar : L10n.accessibilityHintStar
+        starButton?.accessibilityLabel = episode.keepEpisode ? L10n.Localizable.statusStarred : L10n.Localizable.statusNotStarred
+        starButton?.accessibilityHint = episode.keepEpisode ? L10n.Localizable.accessibilityHintUnstar : L10n.Localizable.accessibilityHintStar
         
         updateButtonStates()
         updateProgress()
@@ -373,18 +373,18 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         let shareOptions = OptionsPicker(title: nil)
         
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
-        let shareLinkAction = OptionAction(label: L10n.podcastShareEpisode, icon: nil) { [weak self] in
+        let shareLinkAction = OptionAction(label: L10n.Localizable.podcastShareEpisode, icon: nil) { [weak self] in
             self?.shareLinkToEpisode(sharePosition: false, sourceRect: sourceRect)
         }
         shareOptions.addAction(action: shareLinkAction)
         
-        let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: nil) { [weak self] in
+        let sharePositionAction = OptionAction(label: L10n.Localizable.shareCurrentPosition, icon: nil) { [weak self] in
             self?.shareLinkToEpisode(sharePosition: true, sourceRect: sourceRect)
         }
         shareOptions.addAction(action: sharePositionAction)
         
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            let openFileAction = OptionAction(label: L10n.podcastShareOpenFile, icon: nil) { [weak self] in
+            let openFileAction = OptionAction(label: L10n.Localizable.podcastShareOpenFile, icon: nil) { [weak self] in
                 self?.shareEpisodeFile(sourceRect: sourceRect)
             }
             shareOptions.addAction(action: openFileAction)
@@ -427,8 +427,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         
         let canOpen = docController?.presentOpenInMenu(from: sourceRect, in: view, animated: true) ?? false
         if !canOpen {
-            let alert = UIAlertController(title: L10n.error, message: L10n.podcastShareEpisodeErrorMsg, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: L10n.ok, style: UIAlertAction.Style.cancel, handler: nil))
+            let alert = UIAlertController(title: L10n.Localizable.error, message: L10n.Localizable.podcastShareEpisodeErrorMsg, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: L10n.Localizable.ok, style: UIAlertAction.Style.cancel, handler: nil))
             present(alert, animated: true, completion: nil)
             
             docController?.delegate = nil

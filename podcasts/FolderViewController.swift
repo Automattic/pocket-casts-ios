@@ -12,13 +12,13 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     @IBOutlet var emptyFolderView: ThemeableView!
     @IBOutlet var emptyFolderTitle: ThemeableLabel! {
         didSet {
-            emptyFolderTitle.text = L10n.folderEmptyTitle
+            emptyFolderTitle.text = L10n.Localizable.folderEmptyTitle
         }
     }
 
     @IBOutlet var emptyFolderDescription: UILabel! {
         didSet {
-            emptyFolderDescription.text = L10n.folderEmptyDescription
+            emptyFolderDescription.text = L10n.Localizable.folderEmptyDescription
         }
     }
 
@@ -47,7 +47,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(folderOptionsTapped(_:)))
-        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+        customRightBtn?.accessibilityLabel = L10n.Localizable.accessibilityMoreActions
         super.viewDidLoad()
 
         title = folder.name
@@ -119,12 +119,12 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let optionsPicker = OptionsPicker(title: nil)
         
         let sortOption = folder.librarySort()
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
+        let sortAction = OptionAction(label: L10n.Localizable.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOptions()
         }
         optionsPicker.addAction(action: sortAction)
         
-        let editAction = OptionAction(label: L10n.folderEdit, icon: "folder-edit") { [weak self] in
+        let editAction = OptionAction(label: L10n.Localizable.folderEdit, icon: "folder-edit") { [weak self] in
             guard let folder = self?.folder else { return }
             
             let model = FolderModel(saveOnChange: true)
@@ -144,7 +144,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         }
         optionsPicker.addAction(action: editAction)
         
-        let addRemoveAction = OptionAction(label: L10n.folderAddRemovePodcasts, icon: "folder-podcasts") { [weak self] in
+        let addRemoveAction = OptionAction(label: L10n.Localizable.folderAddRemovePodcasts, icon: "folder-podcasts") { [weak self] in
             guard let self = self else { return }
             
             self.showPodcastSelectionDialog()
@@ -169,7 +169,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     }
     
     private func showSortOptions() {
-        let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+        let options = OptionsPicker(title: L10n.Localizable.sortBy.localizedUppercase)
         
         let sortOption = folder.librarySort()
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in

@@ -34,7 +34,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         switch row {
         case .feedError:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsFeedError
+            cell.cellLabel.text = L10n.Localizable.settingsFeedError
             cell.setImage(imageName: "option-alert", tintColor: podcast.iconTintColor())
             
             cell.cellSecondaryLabel.text = nil
@@ -42,7 +42,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .autoDownload:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.settingsAutoDownload
+            cell.cellLabel.text = L10n.Localizable.settingsAutoDownload
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "download")
             cell.cellSwitch.isOn = podcast.autoDownloadOn() && Settings.autoDownloadEnabled()
@@ -53,7 +53,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .notifications:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.settingsNotifications
+            cell.cellLabel.text = L10n.Localizable.settingsNotifications
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "settings-notifications")
             cell.cellSwitch.isOn = podcast.pushEnabled && NotificationsHelper.shared.pushEnabled()
@@ -64,7 +64,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .upNext:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.addToUpNext
+            cell.cellLabel.text = L10n.Localizable.addToUpNext
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "upnext")
             cell.cellSwitch.isOn = podcast.autoAddToUpNextOn()
@@ -75,19 +75,19 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .upNextPosition:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsQueuePosition
+            cell.cellLabel.text = L10n.Localizable.settingsQueuePosition
             cell.setImage(imageName: nil)
             
             let upNextOrder = Int(podcast.autoAddToUpNext)
-            cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.bottom : L10n.top
+            cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.Localizable.bottom : L10n.Localizable.top
             
             return cell
         case .globalUpNext:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsGlobalSettings
+            cell.cellLabel.text = L10n.Localizable.settingsGlobalSettings
             cell.setImage(imageName: nil)
             
-            cell.cellSecondaryLabel.text = L10n.settingsEpisodeLimitFormat(ServerSettings.autoAddToUpNextLimit().localized())
+            cell.cellSecondaryLabel.text = L10n.Localizable.settingsEpisodeLimitFormat(ServerSettings.autoAddToUpNextLimit().localized())
             
             return cell
         case .playbackEffects:
@@ -100,7 +100,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .skipFirst:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
-            cell.cellLabel.text = L10n.settingsSkipFirst
+            cell.cellLabel.text = L10n.Localizable.settingsSkipFirst
             cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
             cell.timeStepper.tintColor = podcast.iconTintColor()
             cell.timeStepper.minimumValue = 0
@@ -122,7 +122,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .skipLast:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
-            cell.cellLabel.text = L10n.settingsSkipLast
+            cell.cellLabel.text = L10n.Localizable.settingsSkipLast
             cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
             cell.timeStepper.tintColor = podcast.iconTintColor()
             cell.timeStepper.minimumValue = 0
@@ -144,7 +144,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case .autoArchive:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsAutoArchive
+            cell.cellLabel.text = L10n.Localizable.settingsAutoArchive
             cell.setImage(imageName: "list_archive", tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
             
@@ -156,30 +156,30 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             
             let filterCount = filterUuidsPodcastAppearsIn().count
             if filterCount == 0 {
-                cell.cellLabel.text = L10n.settingsNotInFilters
+                cell.cellLabel.text = L10n.Localizable.settingsNotInFilters
             }
             else {
-                cell.cellLabel.text = filterCount == 1 ? L10n.settingsInFiltersSingular : L10n.settingsInFiltersPluralFormat(filterCount.localized())
+                cell.cellLabel.text = filterCount == 1 ? L10n.Localizable.settingsInFiltersSingular : L10n.Localizable.settingsInFiltersPluralFormat(filterCount.localized())
             }
             
             return cell
         case .siriShortcut:
             if existingShortcut != nil {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.siriEnabledCellId) as! SiriShortcutEnabledCell
-                cell.titleLabel.text = L10n.settingsSiriShortcut
+                cell.titleLabel.text = L10n.Localizable.settingsSiriShortcut
                 let existingShortcutPhrase = existingSiriVoiceShortcut().invocationPhrase
                 cell.phraseLabel.text = "\"\(existingShortcutPhrase)\""
                 return cell
             }
             else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.createSiriShortcutCellId) as! CreateSiriShortcutCell
-                cell.buttonTitle.text = L10n.settingsCreateSiriShortcut
+                cell.buttonTitle.text = L10n.Localizable.settingsCreateSiriShortcut
                 
                 return cell
             }
         case .unsubscribe:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.destructiveButtonCellId, for: indexPath) as! DestructiveButtonCell
-            cell.buttonTitle.text = L10n.unsubscribe
+            cell.buttonTitle.text = L10n.Localizable.unsubscribe
             cell.buttonTitle.textColor = ThemeColor.support05()
             return cell
         }
@@ -193,18 +193,18 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             showAutoAddPositionSettings()
         }
         else if row == .feedError {
-            let alert = UIAlertController(title: L10n.settingsFeedIssue, message: L10n.settingsFeedIssueMsg, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: L10n.Localizable.settingsFeedIssue, message: L10n.Localizable.settingsFeedIssueMsg, preferredStyle: UIAlertController.Style.alert)
                 
-            let okAction = UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: L10n.Localizable.cancel, style: .cancel, handler: nil)
             alert.addAction(okAction)
             
-            let refreshAction = UIAlertAction(title: L10n.settingsFeedFixRefresh, style: .default) { _ in
+            let refreshAction = UIAlertAction(title: L10n.Localizable.settingsFeedFixRefresh, style: .default) { _ in
                 MainServerHandler.shared.refreshPodcastFeed(podcast: self.podcast) { success in
                     if success {
-                        SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshSuccessTitle, message: L10n.settingsFeedFixRefreshSuccessMsg, from: self)
+                        SJUIUtils.showAlert(title: L10n.Localizable.settingsFeedFixRefreshSuccessTitle, message: L10n.Localizable.settingsFeedFixRefreshSuccessMsg, from: self)
                     }
                     else {
-                        SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshFailedTitle, message: L10n.settingsFeedFixRefreshFailedMsg, from: self)
+                        SJUIUtils.showAlert(title: L10n.Localizable.settingsFeedFixRefreshFailedTitle, message: L10n.Localizable.settingsFeedFixRefreshFailedMsg, from: self)
                     }
                 }
             }
@@ -277,23 +277,23 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let upNextLimit = ServerSettings.autoAddToUpNextLimit()
             let onLimitReached = ServerSettings.onAutoAddLimitReached()
             if onLimitReached == .addToTopOnly {
-                return L10n.settingsUpNextLimitAddToTop(upNextLimit.localized())
+                return L10n.Localizable.settingsUpNextLimitAddToTop(upNextLimit.localized())
             }
             else {
-                return L10n.settingsUpNextLimit(upNextLimit.localized())
+                return L10n.Localizable.settingsUpNextLimit(upNextLimit.localized())
             }
         }
         else if firstRow == .feedError {
-            return L10n.settingsFeedErrorMsg
+            return L10n.Localizable.settingsFeedErrorMsg
         }
         else if firstRow == .autoArchive {
             return nil
         }
         else if firstRow == .playbackEffects {
-            return L10n.settingsSkipMsg
+            return L10n.Localizable.settingsSkipMsg
         }
         else if firstRow == .siriShortcut, let name = podcast.title {
-            let format = existingShortcut != nil ? L10n.settingsSiriShortcutMsg : L10n.settingsCreateSiriShortcutMsg
+            let format = existingShortcut != nil ? L10n.Localizable.settingsSiriShortcutMsg : L10n.Localizable.settingsCreateSiriShortcutMsg
             return format(name)
         }
         
@@ -307,14 +307,14 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     // MARK: - Auto Add To Up Next
     
     private func showAutoAddPositionSettings() {
-        let positionPicker = OptionsPicker(title: L10n.autoAdd.localizedUppercase)
+        let positionPicker = OptionsPicker(title: L10n.Localizable.autoAdd.localizedUppercase)
         
-        let topAction = OptionAction(label: L10n.top, icon: nil) {
+        let topAction = OptionAction(label: L10n.Localizable.top, icon: nil) {
             self.setUpNext(.addFirst)
         }
         positionPicker.addAction(action: topAction)
         
-        let bottomAction = OptionAction(label: L10n.bottom, icon: nil) {
+        let bottomAction = OptionAction(label: L10n.Localizable.bottom, icon: nil) {
             self.setUpNext(.addLast)
         }
         positionPicker.addAction(action: bottomAction)

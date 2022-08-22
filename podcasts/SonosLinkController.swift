@@ -27,7 +27,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
     
     @IBOutlet var createBtn: ShiftyRoundButton! {
         didSet {
-            createBtn.buttonTitle = L10n.createAccount
+            createBtn.buttonTitle = L10n.Localizable.createAccount
             createBtn.buttonTapped = { [weak self] in
                 self?.signIntoPocketCasts(signInMode: false)
             }
@@ -41,7 +41,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.sonosConnectPrompt
+        title = L10n.Localizable.sonosConnectPrompt
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(SonosLinkController.cancelTapped))
     }
     
@@ -49,29 +49,29 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
         super.viewWillAppear(animated)
         
         if SyncManager.isUserLoggedIn() {
-            mainMessage.text = L10n.sonosConnectionPrivacyNotice
-            connectBtn.buttonTitle = L10n.sonosConnectAction
+            mainMessage.text = L10n.Localizable.sonosConnectionPrivacyNotice
+            connectBtn.buttonTitle = L10n.Localizable.sonosConnectAction
             createBtn.isHidden = true
         }
         else {
-            mainMessage.text = L10n.sonosConnectionSignInPrompt
-            connectBtn.buttonTitle = L10n.signIn.localizedUppercase
+            mainMessage.text = L10n.Localizable.sonosConnectionSignInPrompt
+            connectBtn.buttonTitle = L10n.Localizable.signIn.localizedUppercase
             createBtn.isHidden = false
         }
     }
     
     func connectWithSonos() {
-        connectBtn.buttonTitle = L10n.sonosConnecting
+        connectBtn.buttonTitle = L10n.Localizable.sonosConnecting
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
-            connectBtn.buttonTitle = L10n.retry.localizedUppercase
+            connectBtn.buttonTitle = L10n.Localizable.retry.localizedUppercase
             return
         }
         
         ApiServerHandler.shared.obtainToken(username: email, password: password, scope: "sonos") { token, _ in
             DispatchQueue.main.async { [weak self] in
                 guard let token = token else {
-                    self?.connectBtn.buttonTitle = L10n.retry.localizedUppercase
-                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
+                    self?.connectBtn.buttonTitle = L10n.Localizable.retry.localizedUppercase
+                    SJUIUtils.showAlert(title: L10n.Localizable.sonosConnectionFailedTitle, message: L10n.Localizable.sonosConnectionFailedAccountLink, from: self)
                     
                     return
                 }
@@ -83,8 +83,8 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 else {
-                    strongSelf.connectBtn.buttonTitle = L10n.retry.localizedUppercase
-                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAppMissing, from: self)
+                    strongSelf.connectBtn.buttonTitle = L10n.Localizable.retry.localizedUppercase
+                    SJUIUtils.showAlert(title: L10n.Localizable.sonosConnectionFailedTitle, message: L10n.Localizable.sonosConnectionFailedAppMissing, from: self)
                 }
             }
         }

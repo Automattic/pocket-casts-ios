@@ -34,7 +34,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(IncomingShareListViewController.doneTapped))
         super.viewDidLoad()
         
-        title = L10n.sharedList
+        title = L10n.Localizable.sharedList
         loadSharedPodcasts()
         
         let footer = UIView(frame: CGRect(x: 0, y: 0, width: podcastsTable.bounds.width, height: 55))
@@ -75,11 +75,11 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         if podcasts.count > 2 {
             let optionPicker = OptionsPicker(title: nil)
             
-            let subscribeAction = OptionAction(label: L10n.sharedListSubscribeConfAction, icon: nil, action: { [weak self] in
+            let subscribeAction = OptionAction(label: L10n.Localizable.sharedListSubscribeConfAction, icon: nil, action: { [weak self] in
                 self?.performSubscribeAll()
             })
-            optionPicker.addDescriptiveActions(title: L10n.sharedListSubscribeConfTitle,
-                                               message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()),
+            optionPicker.addDescriptiveActions(title: L10n.Localizable.sharedListSubscribeConfTitle,
+                                               message: L10n.Localizable.sharedListSubscribeConfMsg(podcasts.count.localized()),
                                                icon: "option-podcasts",
                                                actions: [subscribeAction])
             
@@ -99,7 +99,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     }
     
     private func performSubscribeAll() {
-        let loadingAlert = ShiftyLoadingAlert(title: L10n.shareListSubscribing)
+        let loadingAlert = ShiftyLoadingAlert(title: L10n.Localizable.shareListSubscribing)
         loadingAlert.showAlert(navigationController!, hasProgress: false) {
             self.subscribeNext(loadingAlert: loadingAlert)
         }

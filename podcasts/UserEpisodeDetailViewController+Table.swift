@@ -23,48 +23,48 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         
         switch tableRow {
         case .download:
-            cell.titleLabel.text = L10n.download
+            cell.titleLabel.text = L10n.Localizable.download
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "episode-download")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .cancelDownload:
-            cell.titleLabel.text = L10n.cancelDownload
+            cell.titleLabel.text = L10n.Localizable.cancelDownload
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "cancel")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .upload:
-            cell.titleLabel.text = L10n.customEpisodeUpload
+            cell.titleLabel.text = L10n.Localizable.customEpisodeUpload
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "plus_upload")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
             cell.setLocked(locked: !SubscriptionHelper.hasActiveSubscription())
         case .removeFromCloud:
-            cell.titleLabel.text = L10n.customEpisodeRemoveUpload
+            cell.titleLabel.text = L10n.Localizable.customEpisodeRemoveUpload
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "remove_from_cloud")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .upNext:
-            cell.titleLabel.text = PlaybackManager.shared.inUpNext(episode: episode) ? L10n.removeFromUpNext : L10n.addToUpNext
+            cell.titleLabel.text = PlaybackManager.shared.inUpNext(episode: episode) ? L10n.Localizable.removeFromUpNext : L10n.Localizable.addToUpNext
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = PlaybackManager.shared.inUpNext(episode: episode) ? UIImage(named: "episode-removenext") : UIImage(named: "episode-playnext")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .markAsPlayed:
-            cell.titleLabel.text = episode.played() ? L10n.markUnplayedShort : L10n.markPlayed
+            cell.titleLabel.text = episode.played() ? L10n.Localizable.markUnplayedShort : L10n.Localizable.markPlayed
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = episode.played() ? UIImage(named: "episode-markunplayed") : UIImage(named: "episode-markasplayed")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .editDetails:
-            cell.titleLabel.text = L10n.edit
+            cell.titleLabel.text = L10n.Localizable.edit
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "rename")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .delete:
-            cell.titleLabel.text = L10n.delete
+            cell.titleLabel.text = L10n.Localizable.delete
             cell.titleLabel.style = .support05
             cell.actionImage?.image = UIImage(named: "delete")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         case .cancelUpload:
-            cell.titleLabel.text = L10n.customEpisodeCancelUpload
+            cell.titleLabel.text = L10n.Localizable.customEpisodeCancelUpload
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "cancel")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
@@ -102,13 +102,13 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
             }
             else {
-                let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
-                let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
+                let addToUpNextPicker = OptionsPicker(title: L10n.Localizable.addToUpNext.localizedUppercase)
+                let playNextAction = OptionAction(label: L10n.Localizable.playNext, icon: "list_playnext") {
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
                 }
                 addToUpNextPicker.addAction(action: playNextAction)
                 
-                let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
+                let playLastAction = OptionAction(label: L10n.Localizable.playLast, icon: "list_playlast") {
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
                 }
                 addToUpNextPicker.addAction(action: playLastAction)

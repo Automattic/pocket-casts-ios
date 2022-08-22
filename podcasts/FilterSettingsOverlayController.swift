@@ -15,7 +15,7 @@ class FilterSettingsOverlayController: LargeNavBarViewController {
             saveButton.backgroundColor = filterToEdit.playlistColor()
             saveButton.layer.cornerRadius = 12
             saveButton.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
-            saveButton.setTitle(L10n.filterUpdate, for: .normal)
+            saveButton.setTitle(L10n.Localizable.filterUpdate, for: .normal)
         }
     }
     

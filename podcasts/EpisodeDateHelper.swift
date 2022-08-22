@@ -11,7 +11,7 @@ import PocketCastsUtils
 
 struct EpisodeDateHelper {
     private static func seasonTrailerText(_ seasonNumber: Int64) -> String {
-        seasonNumber > 0 ? L10n.episodeIndicatorSeasonTrailer(seasonNumber.localized()) : L10n.episodeIndicatorTrailer
+        seasonNumber > 0 ? L10n.Localizable.episodeIndicatorSeasonTrailer(seasonNumber.localized()) : L10n.Localizable.episodeIndicatorTrailer
     }
 
     #if !os(watchOS)
@@ -25,7 +25,7 @@ struct EpisodeDateHelper {
             }
 
             if episode.isBonus() {
-                setRowTitle(dateText: episodeDate, episode: episode, label: label, tintColor: tintColor, indicatorText: L10n.episodeIndicatorBonus.localizedUppercase)
+                setRowTitle(dateText: episodeDate, episode: episode, label: label, tintColor: tintColor, indicatorText: L10n.Localizable.episodeIndicatorBonus.localizedUppercase)
             }
             else if episode.isTrailer() {
                 let indicator = seasonTrailerText(episode.seasonNumber).localizedUppercase
@@ -70,7 +70,7 @@ struct EpisodeDateHelper {
             }
 
             if episode.isBonus() {
-                return rowTitle(dateText: episodeDate, episode: episode, indicatorText: L10n.episodeIndicatorBonus)
+                return rowTitle(dateText: episodeDate, episode: episode, indicatorText: L10n.Localizable.episodeIndicatorBonus)
             }
             else if episode.isTrailer() {
                 let indicator = seasonTrailerText(episode.seasonNumber)

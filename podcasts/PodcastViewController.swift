@@ -141,7 +141,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     @IBOutlet var multiSelectCancelBtn: UIButton! {
         didSet {
-            multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
+            multiSelectCancelBtn.setTitle(L10n.Localizable.cancel, for: .normal)
         }
     }
 
@@ -201,7 +201,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         operationQueue.maxConcurrentOperationCount = 1
         scrollPointToChangeTitle = 38
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
+        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.Localizable.share, action: #selector(shareTapped(_:)))
         addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
@@ -404,7 +404,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                     }
                     
                     if indexToInsertAt >= 0 {
-                        let message = episodeLimit == 1 ? L10n.podcastLimitSingular : L10n.podcastLimitPluralFormat(episodeLimit.localized())
+                        let message = episodeLimit == 1 ? L10n.Localizable.podcastLimitSingular : L10n.Localizable.podcastLimitPluralFormat(episodeLimit.localized())
                         let placeholder = EpisodeLimitPlaceholder(limit: episodeLimit, message: message)
                         episodes?.insert(placeholder, at: indexToInsertAt)
                         finalData[1] = ArraySection(model: "episodes", elements: episodes!)
@@ -433,7 +433,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             }
             else if needsNoEpisodesMessage {
                 let archivedCount = self.archivedEpisodeCount()
-                let message = L10n.podcastArchivedMsg(archivedCount.localized())
+                let message = L10n.Localizable.podcastArchivedMsg(archivedCount.localized())
                 let placeholder = AllArchivedPlaceholder(archived: archivedCount, message: message)
                 finalData[1] = ArraySection(model: "episodes", elements: [placeholder])
             }
@@ -476,7 +476,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast else { return }
         
         let optionsPicker = OptionsPicker(title: nil)
-        let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: nil) {
+        let refreshAction = OptionAction(label: L10n.Localizable.podcastRefreshArtwork, icon: nil) {
             ImageManager.sharedManager.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
         }
         optionsPicker.addAction(action: refreshAction)
@@ -494,13 +494,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             }
         }
         
-        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
-        let unsubscribeAction = OptionAction(label: L10n.unsubscribe, icon: nil, action: { [weak self] in
+        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.Localizable.areYouSure)
+        let unsubscribeAction = OptionAction(label: L10n.Localizable.unsubscribe, icon: nil, action: { [weak self] in
             self?.performUnsubscribe()
         })
         if downloadedCount > 0 {
             unsubscribeAction.destructive = true
-            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
+            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.Localizable.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
         }
         else {
             optionPicker.addAction(action: unsubscribeAction)
@@ -753,7 +753,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast, let folder = DataManager.sharedManager.findFolder(uuid: currentFolderUuid) else { return }
         
         let optionsPicker = OptionsPicker(title: folder.name.localizedUppercase)
-        let removeAction = OptionAction(label: L10n.folderRemoveFrom.localizedCapitalized, icon: "folder-remove") {
+        let removeAction = OptionAction(label: L10n.Localizable.folderRemoveFrom.localizedCapitalized, icon: "folder-remove") {
             podcast.sortOrder = ServerPodcastManager.shared.highestSortOrderForHomeGrid() + 1
             podcast.folderUuid = nil
             podcast.syncStatus = SyncStatus.notSynced.rawValue
@@ -765,14 +765,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
         optionsPicker.addAction(action: removeAction)
         
-        let changeFolderAction = OptionAction(label: L10n.folderChange.localizedCapitalized, icon: "folder-arrow") { [weak self] in
+        let changeFolderAction = OptionAction(label: L10n.Localizable.folderChange.localizedCapitalized, icon: "folder-arrow") { [weak self] in
             guard let self = self else { return }
             
             self.showFolderPickerDialog()
         }
         optionsPicker.addAction(action: changeFolderAction)
         
-        let goToFolderAction = OptionAction(label: L10n.folderGoTo.localizedCapitalized, icon: "folder-goto") {
+        let goToFolderAction = OptionAction(label: L10n.Localizable.folderGoTo.localizedCapitalized, icon: "folder-goto") {
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
         }
         optionsPicker.addAction(action: goToFolderAction)

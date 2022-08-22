@@ -102,11 +102,11 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
             guard let indexPath = uploadsTable.indexPathForRow(at: touchPoint) else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                let allAboveAction = OptionAction(label: L10n.Localizable.selectAllAbove, icon: "selectall-up", action: { [] in
                     self.uploadsTable.selectAllAbove(indexPath: indexPath)
                 })
                 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                let allBelowAction = OptionAction(label: L10n.Localizable.selectAllBelow, icon: "selectall-down", action: { [] in
                     self.uploadsTable.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)

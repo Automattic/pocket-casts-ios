@@ -17,7 +17,7 @@ struct UpNextWidgetEntryView: View {
         else {
             VStack(alignment: .center) {
                 HStack(alignment: .top) {
-                    Text(L10n.widgetsNothingPlaying)
+                    Text(L10n.Localizable.widgetsNothingPlaying)
                         .font(.subheadline)
                         .fontWeight(.regular)
                         .foregroundColor(Color.secondary)

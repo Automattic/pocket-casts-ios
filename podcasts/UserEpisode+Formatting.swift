@@ -9,13 +9,13 @@ extension UserEpisode {
     func displayableInfo(includeSize: Bool = true) -> String {
         if uploading() {
             let progress = UploadManager.shared.progressManager.progressForEpisode(uuid)?.percentageProgressAsString() ?? ""
-            return L10n.podcastUploading(progress).trimmingCharacters(in: .whitespaces)
+            return L10n.Localizable.podcastUploading(progress).trimmingCharacters(in: .whitespaces)
         }
         else if uploadWaitingForWifi() {
-            return L10n.podcastWaitingUpload
+            return L10n.Localizable.podcastWaitingUpload
         }
         else if uploadFailed() {
-            return L10n.podcastFailedUpload
+            return L10n.Localizable.podcastFailedUpload
         }
         else {
             return commonDisplayableInfo(includeSize: includeSize)
@@ -23,7 +23,7 @@ extension UserEpisode {
     }
     
     func displayableDuration(includeSize: Bool = true) -> String {
-        var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.unknownDuration
+        var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.Localizable.unknownDuration
         
         if includeSize, sizeInBytes > 0 {
             if informationLabelStr.count == 0 {
@@ -66,6 +66,6 @@ extension UserEpisode {
     }
     
     public func subTitle() -> String {
-        uploadStatus == UploadStatus.missing.rawValue ? L10n.downloadErrorNotUploaded : L10n.customEpisode
+        uploadStatus == UploadStatus.missing.rawValue ? L10n.Localizable.downloadErrorNotUploaded : L10n.Localizable.customEpisode
     }
 }

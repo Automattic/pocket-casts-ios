@@ -48,9 +48,9 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.whatsNew
+        title = L10n.Localizable.whatsNew
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
@@ -155,10 +155,10 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     
     private func updateButtonText() {
         if pageControl.currentPage == pageControl.numberOfPages - 1 {
-            nextButton.setTitle(L10n.done, for: .normal)
+            nextButton.setTitle(L10n.Localizable.done, for: .normal)
         }
         else {
-            nextButton.setTitle(L10n.next, for: .normal)
+            nextButton.setTitle(L10n.Localizable.next, for: .normal)
         }
     }
     

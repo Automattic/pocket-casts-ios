@@ -34,11 +34,11 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     private var nextBtn: UIBarButtonItem!
     
     override func viewDidLoad() {
-        nextBtn = UIBarButtonItem(title: L10n.next, style: .plain, target: self, action: #selector(SharePodcastsViewController.nextTapped))
+        nextBtn = UIBarButtonItem(title: L10n.Localizable.next, style: .plain, target: self, action: #selector(SharePodcastsViewController.nextTapped))
         customRightBtn = nextBtn
         
         super.viewDidLoad()
-        title = L10n.shareSelectPodcasts
+        title = L10n.Localizable.shareSelectPodcasts
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
         
         loadPodcasts()
@@ -118,12 +118,12 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     private func updateSelectButton() {
         UIView.performWithoutAnimation {
             if self.selectedPodcasts.count == self.podcasts.count {
-                self.selectAllBtn.setTitle(L10n.deselectAll.localizedUppercase, for: UIControl.State())
-                self.selectedCount.text = L10n.sharePodcastsAllSelected
+                self.selectAllBtn.setTitle(L10n.Localizable.deselectAll.localizedUppercase, for: UIControl.State())
+                self.selectedCount.text = L10n.Localizable.sharePodcastsAllSelected
             }
             else {
-                self.selectAllBtn.setTitle(L10n.selectAll.localizedUppercase, for: UIControl.State())
-                self.selectedCount.text = L10n.selectedCountFormat(self.selectedPodcasts.count).localizedUppercase
+                self.selectAllBtn.setTitle(L10n.Localizable.selectAll.localizedUppercase, for: UIControl.State())
+                self.selectedCount.text = L10n.Localizable.selectedCountFormat(self.selectedPodcasts.count).localizedUppercase
             }
             self.selectAllBtn.layoutIfNeeded()
         }

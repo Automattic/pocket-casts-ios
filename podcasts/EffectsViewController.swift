@@ -7,7 +7,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet var headingLbl: ThemeableLabel! {
         didSet {
             headingLbl.style = .playerContrast02
-            headingLbl.text = L10n.playbackEffects.localizedUppercase
+            headingLbl.text = L10n.Localizable.playbackEffects.localizedUppercase
         }
     }
     
@@ -24,7 +24,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet var speedLbl: ThemeableLabel! {
         didSet {
             speedLbl.style = .playerContrast01
-            speedLbl.text = L10n.speed
+            speedLbl.text = L10n.Localizable.speed
         }
     }
     
@@ -47,7 +47,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet var trimSilenceLbl: ThemeableLabel! {
         didSet {
             trimSilenceLbl.style = .playerContrast01
-            trimSilenceLbl.text = L10n.trimSilence
+            trimSilenceLbl.text = L10n.Localizable.trimSilence
         }
     }
     
@@ -74,14 +74,14 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet var volumeLbl: ThemeableLabel! {
         didSet {
             volumeLbl.style = .playerContrast01
-            volumeLbl.text = L10n.volumeBoost
+            volumeLbl.text = L10n.Localizable.volumeBoost
         }
     }
     
     @IBOutlet var volumeDescription: ThemeableLabel! {
         didSet {
             volumeDescription.style = .playerContrast02
-            volumeDescription.text = L10n.volumeBoostDescription
+            volumeDescription.text = L10n.Localizable.volumeBoostDescription
         }
     }
     
@@ -271,11 +271,11 @@ class EffectsViewController: SimpleNotificationsViewController {
         
         let timeSaved = StatsManager.shared.timeSavedDynamicSpeedInclusive()
         if timeSaved < 60 {
-            trimSilenceDescription.text = L10n.playerEffectsTrimSilenceDetails
+            trimSilenceDescription.text = L10n.Localizable.playerEffectsTrimSilenceDetails
         }
         else {
             let timeFormatted = DateFormatHelper.sharedHelper.longElapsedTime(timeSaved)
-            trimSilenceDescription.text = L10n.playerEffectsTrimSilenceProgress(timeFormatted)
+            trimSilenceDescription.text = L10n.Localizable.playerEffectsTrimSilenceProgress(timeFormatted)
         }
     }
     
@@ -290,10 +290,10 @@ class EffectsViewController: SimpleNotificationsViewController {
         let effects = PlaybackManager.shared.effects()
         speedBtn.fillColor = ThemeColor.playerContrast01()
         speedBtn.isOn = (effects.playbackSpeed != 1)
-        speedBtn.buttonTitle = "  " + L10n.playbackSpeed(effects.playbackSpeed.localized())
+        speedBtn.buttonTitle = "  " + L10n.Localizable.playbackSpeed(effects.playbackSpeed.localized())
         speedBtn.strokeColor = speedBtn.isOn ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
         speedBtn.textColor = speedBtn.isOn ? PlayerColorHelper.playerBackgroundColor01() : ThemeColor.playerContrast01()
-        speedBtn.accessibilityLabel = L10n.accessibilityPlayerEffectsPlaybackSpeed(effects.playbackSpeed.localized(.spellOut))
+        speedBtn.accessibilityLabel = L10n.Localizable.accessibilityPlayerEffectsPlaybackSpeed(effects.playbackSpeed.localized(.spellOut))
     }
     
     @objc private func updateColors() {

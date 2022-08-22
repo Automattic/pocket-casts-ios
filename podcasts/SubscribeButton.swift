@@ -15,7 +15,7 @@ class SubscribeButton: ThemeableView {
 
     @IBOutlet var titleLabel: ThemeableLabel! {
         didSet {
-            titleLabel.text = L10n.subscribe
+            titleLabel.text = L10n.Localizable.subscribe
             titleLabel.style = .primaryInteractive02
         }
     }

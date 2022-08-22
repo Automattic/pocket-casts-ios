@@ -10,7 +10,7 @@ class FiltersShortcutsViewController: PCViewController, UITableViewDelegate, UIT
     let addCellId = "siriAddCellId"
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settingsSelectFilterSingular
+        title = L10n.Localizable.settingsSelectFilterSingular
         tableView.register(UINib(nibName: "SiriShortcutAddCell", bundle: nil), forCellReuseIdentifier: addCellId)
     }
     

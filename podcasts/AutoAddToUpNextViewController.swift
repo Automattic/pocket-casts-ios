@@ -21,7 +21,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = L10n.settingsAutoAdd
+        title = L10n.Localizable.settingsAutoAdd
         reloadDownloadedPodcasts()
     }
 
@@ -39,16 +39,16 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             switch row {
             case .autoAddLimit:
-                cell.cellLabel.text = L10n.settingsAutoAddLimit
+                cell.cellLabel.text = L10n.Localizable.settingsAutoAddLimit
                 cell.cellSecondaryLabel.text = ServerSettings.autoAddToUpNextLimit().localized()
             case .ifLimitReached:
-                cell.cellLabel.text = L10n.settingsAutoAddLimitReached
+                cell.cellLabel.text = L10n.Localizable.settingsAutoAddLimitReached
                 
                 let limitAction = ServerSettings.onAutoAddLimitReached()
                 cell.cellSecondaryLabel.text = limitAction.description(short: true)
             case .selectPodcasts:
                 let podcastCount = autoDownloadPodcasts.count
-                cell.cellLabel.text = podcastCount == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastCount.localized())
+                cell.cellLabel.text = podcastCount == 1 ? L10n.Localizable.chosenPodcastsSingular : L10n.Localizable.chosenPodcastsPluralFormat(podcastCount.localized())
                 cell.cellSecondaryLabel.text = nil
             }
             
@@ -70,7 +70,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
             let row = topSettingsData[indexPath.row]
             switch row {
             case .autoAddLimit:
-                let options = OptionsPicker(title: L10n.settingsAutoAddLimit)
+                let options = OptionsPicker(title: L10n.Localizable.settingsAutoAddLimit)
                 addAutoAddLimit(amount: 10, to: options)
                 addAutoAddLimit(amount: 20, to: options)
                 addAutoAddLimit(amount: 50, to: options)
@@ -81,7 +81,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
                 
                 options.show(statusBarStyle: preferredStatusBarStyle)
             case .ifLimitReached:
-                let options = OptionsPicker(title: L10n.settingsAutoAddLimitReached)
+                let options = OptionsPicker(title: L10n.Localizable.settingsAutoAddLimitReached)
                 addOnLimitReached(action: .addToTopOnly, to: options)
                 addOnLimitReached(action: .stopAdding, to: options)
                 
@@ -96,9 +96,9 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         }
         else {
             let podcast = autoDownloadPodcasts[indexPath.row]
-            let options = OptionsPicker(title: L10n.autoAdd)
-            addActionForPodcast(podcast: podcast, setting: .addFirst, label: L10n.top, to: options)
-            addActionForPodcast(podcast: podcast, setting: .addLast, label: L10n.bottom, to: options)
+            let options = OptionsPicker(title: L10n.Localizable.autoAdd)
+            addActionForPodcast(podcast: podcast, setting: .addFirst, label: L10n.Localizable.top, to: options)
+            addActionForPodcast(podcast: podcast, setting: .addLast, label: L10n.Localizable.bottom, to: options)
             
             options.show(statusBarStyle: preferredStatusBarStyle)
         }
@@ -113,7 +113,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? nil : L10n.settingsAutoAddPodcasts
+        section == 0 ? nil : L10n.Localizable.settingsAutoAddPodcasts
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -121,10 +121,10 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         let onLimitReached = ServerSettings.onAutoAddLimitReached()
         let explanationStr: String
         if onLimitReached == .addToTopOnly {
-            explanationStr = L10n.settingsAutoAddLimitSubtitleTop(autoAddLimit.localized())
+            explanationStr = L10n.Localizable.settingsAutoAddLimitSubtitleTop(autoAddLimit.localized())
         }
         else {
-            explanationStr = L10n.settingsAutoAddLimitSubtitleStop(autoAddLimit.localized())
+            explanationStr = L10n.Localizable.settingsAutoAddLimitSubtitleStop(autoAddLimit.localized())
         }
         
         return section == 0 ? explanationStr : nil
@@ -163,7 +163,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
     
     private func addAutoAddLimit(amount: Int, to: OptionsPicker) {
         let selectedSetting = ServerSettings.autoAddToUpNextLimit()
-        let action = OptionAction(label: L10n.episodeCountPluralFormat(amount.localized()).localizedCapitalized, selected: selectedSetting == amount) { [weak self] in
+        let action = OptionAction(label: L10n.Localizable.episodeCountPluralFormat(amount.localized()).localizedCapitalized, selected: selectedSetting == amount) { [weak self] in
             ServerSettings.setAutoAddToUpNextLimit(amount)
             self?.mainTable.reloadData()
         }

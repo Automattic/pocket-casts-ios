@@ -46,15 +46,15 @@ struct AboutView: View {
                             }
                         }
                         Section {
-                            AboutRow(mainText: L10n.aboutRateUs) {
+                            AboutRow(mainText: L10n.Localizable.aboutRateUs) {
                                 openUrl(ServerConstants.Urls.appStoreReview)
                             }
-                            AboutRow(mainText: L10n.aboutShareFriends) {
+                            AboutRow(mainText: L10n.Localizable.aboutShareFriends) {
                                 openShareApp()
                             }
                         }
                         Section {
-                            AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
+                            AboutRow(mainText: L10n.Localizable.aboutWebsite, secondaryText: L10n.websiteShort) {
                                 openUrl(ServerConstants.Urls.pocketcastsDotCom)
                             }
                             AboutRow(mainText: L10n.instagram, secondaryText: L10n.socialHandle) {
@@ -65,13 +65,13 @@ struct AboutView: View {
                             }
                         }
                         Section {
-                            AboutRow(mainText: L10n.aboutLegalAndMore, showChevronIcon: true) {
+                            AboutRow(mainText: L10n.Localizable.aboutLegalAndMore, showChevronIcon: true) {
                                 showLegalAndMore = true
                             }
                         }
                         Section {
                             VStack(alignment: .leading) {
-                                Text(L10n.aboutA8cFamily)
+                                Text(L10n.Localizable.aboutA8cFamily)
                                     .textStyle(PrimaryText())
                                     .padding(.top, familyCellTopPadding)
                                 GeometryReader { geometry in
@@ -92,9 +92,9 @@ struct AboutView: View {
                         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
                         Section {
                             VStack(alignment: .leading) {
-                                Text(L10n.aboutWorkWithUs)
+                                Text(L10n.Localizable.aboutWorkWithUs)
                                     .textStyle(PrimaryText())
-                                Text(L10n.aboutJoinFromAnywhere)
+                                Text(L10n.Localizable.aboutJoinFromAnywhere)
                                     .textStyle(SecondaryText())
                                     .font(.subheadline)
                             }

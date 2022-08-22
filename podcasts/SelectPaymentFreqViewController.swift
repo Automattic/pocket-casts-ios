@@ -112,14 +112,14 @@ class SelectPaymentFreqViewController: UIViewController {
         configureLabels()
         isYearly = true
         
-        title = L10n.plusSelectPaymentFrequency
+        title = L10n.Localizable.plusSelectPaymentFrequency
 
-        monthlyTitleLabel.text = L10n.monthly
-        yearlyTitleLabel.text = L10n.yearly
-        nextButton.setTitle(L10n.next, for: .normal)
+        monthlyTitleLabel.text = L10n.Localizable.monthly
+        yearlyTitleLabel.text = L10n.Localizable.yearly
+        nextButton.setTitle(L10n.Localizable.next, for: .normal)
 
         let backButton = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped(_:)))
-        backButton.accessibilityLabel = L10n.back
+        backButton.accessibilityLabel = L10n.Localizable.back
         navigationItem.leftBarButtonItem = backButton
         
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
@@ -216,8 +216,8 @@ private extension SelectPaymentFreqViewController {
         }
 
         let price = IapHelper.shared.pricingStringWithFrequency(for: .monthly)
-        monthlyPriceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
-        monthlyTrialLabel.text = L10n.pricingTermsAfterTrial(price ?? "")
+        monthlyPriceLabel.text = L10n.Localizable.freeTrialDurationFree(trialDuration).localizedLowercase
+        monthlyTrialLabel.text = L10n.Localizable.pricingTermsAfterTrial(price ?? "")
         monthlyTrialLabel.style = .primaryText02
     }
 
@@ -230,15 +230,15 @@ private extension SelectPaymentFreqViewController {
             yearlyPriceLabel.text = yearlyPrice
             yearlyTrialLabel.isHidden = true
             yearlyDiscountLabel.isHidden = true
-            discountLabel.text = L10n.plusPaymentFrequencyBestValue.localizedUppercase
+            discountLabel.text = L10n.Localizable.plusPaymentFrequencyBestValue.localizedUppercase
 
             return
         }
 
         let price = IapHelper.shared.pricingStringWithFrequency(for: .yearly)
-        yearlyPriceLabel.text = L10n.freeTrialDurationFree(trialDuration).localizedLowercase
-        yearlyTrialLabel.text = L10n.pricingTermsAfterTrial(price ?? "")
-        yearlyDiscountLabel.text = L10n.plusPaymentFrequencyBestValue.localizedUppercase
+        yearlyPriceLabel.text = L10n.Localizable.freeTrialDurationFree(trialDuration).localizedLowercase
+        yearlyTrialLabel.text = L10n.Localizable.pricingTermsAfterTrial(price ?? "")
+        yearlyDiscountLabel.text = L10n.Localizable.plusPaymentFrequencyBestValue.localizedUppercase
         yearlyTrialLabel.style = .primaryText02
 
         discountLabel.isHidden = true

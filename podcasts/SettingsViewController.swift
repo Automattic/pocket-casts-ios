@@ -10,33 +10,33 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         var display: (text: String, image: UIImage?) {
             switch self {
             case .general:
-                return (L10n.settingsGeneral, UIImage(named: "profile-settings"))
+                return (L10n.Localizable.settingsGeneral, UIImage(named: "profile-settings"))
             case .notifications:
-                return (L10n.settingsNotifications, UIImage(named: "settings_notifications"))
+                return (L10n.Localizable.settingsNotifications, UIImage(named: "settings_notifications"))
             case .appearance:
-                return (L10n.settingsAppearance, UIImage(named: "settings_appearance"))
+                return (L10n.Localizable.settingsAppearance, UIImage(named: "settings_appearance"))
             case .storageAndDataUse:
-                return (L10n.settingsStorage, UIImage(named: "settings_storage"))
+                return (L10n.Localizable.settingsStorage, UIImage(named: "settings_storage"))
             case .autoArchive:
-                return (L10n.settingsAutoArchive, UIImage(named: "settings_archive"))
+                return (L10n.Localizable.settingsAutoArchive, UIImage(named: "settings_archive"))
             case .autoAddToUpNext:
-                return (L10n.settingsAutoAdd, UIImage(named: "playlast"))
+                return (L10n.Localizable.settingsAutoAdd, UIImage(named: "playlast"))
             case .autoDownload:
-                return (L10n.settingsAutoDownload, UIImage(named: "settings_autodownload"))
+                return (L10n.Localizable.settingsAutoDownload, UIImage(named: "settings_autodownload"))
             case .help:
-                return (L10n.settingsHelp, UIImage(named: "settings_help"))
+                return (L10n.Localizable.settingsHelp, UIImage(named: "settings_help"))
             case .opml:
-                return (L10n.settingsOpml, UIImage(named: "settings_importexport"))
+                return (L10n.Localizable.settingsOpml, UIImage(named: "settings_importexport"))
             case .about:
-                return (L10n.settingsAbout, UIImage(named: "settings_about"))
+                return (L10n.Localizable.settingsAbout, UIImage(named: "settings_about"))
             case .siriShortcuts:
-                return (L10n.settingsSiriShortcuts, UIImage(named: "settings_shortcuts"))
+                return (L10n.Localizable.settingsSiriShortcuts, UIImage(named: "settings_shortcuts"))
             case .customFiles:
-                return (L10n.files, UIImage(named: "profile_files"))
+                return (L10n.Localizable.files, UIImage(named: "profile_files"))
             case .watch:
                 return (L10n.appleWatch, UIImage(named: "settings_watch"))
             case .pocketCastsPlus:
-                return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
+                return (L10n.Localizable.pocketCastsPlus, UIImage(named: "plusGold24"))
             }
         }
     }
@@ -54,7 +54,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settings
+        title = L10n.Localizable.settings
     }
     
     override func viewWillAppear(_ animated: Bool) {

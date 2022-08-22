@@ -22,6 +22,6 @@ struct ColorSelectCircle: View {
                 }
             }
         }
-        .accessibilityLabel("\(L10n.color) \(folderColorId + 1)")
+        .accessibilityLabel("\(L10n.Localizable.color) \(folderColorId + 1)")
     }
 }

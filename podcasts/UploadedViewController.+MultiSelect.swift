@@ -66,7 +66,7 @@ extension UploadedViewController: MultiSelectActionDelegate {
     
     func updateSelectAllBtn() {
         guard isMultiSelectEnabled else { return }
-        let leftButtonTitle = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: uploadedEpisodes.count) ? L10n.selectAll : L10n.deselectAll
+        let leftButtonTitle = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: uploadedEpisodes.count) ? L10n.Localizable.selectAll : L10n.Localizable.deselectAll
         if navigationItem.leftBarButtonItem?.title != leftButtonTitle {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: leftButtonTitle, style: .done, target: self, action: #selector(selectAllTapped))
         }

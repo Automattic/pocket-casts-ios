@@ -52,7 +52,7 @@ class ShortcutManager: CustomObserver {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
-                        localizedTitle: L10n.pause,
+                        localizedTitle: L10n.Localizable.pause,
                         localizedSubtitle: currentEpisode.displayableTitle(),
                         icon: UIApplicationShortcutIcon(type: .pause),
                         userInfo: ["url": "pktc://shortcuts/pause" as NSSecureCoding]
@@ -63,7 +63,7 @@ class ShortcutManager: CustomObserver {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
-                        localizedTitle: L10n.play,
+                        localizedTitle: L10n.Localizable.play,
                         localizedSubtitle: currentEpisode.displayableTitle(),
                         icon: UIApplicationShortcutIcon(type: .play),
                         userInfo: ["url": "pktc://shortcuts/play" as NSSecureCoding]

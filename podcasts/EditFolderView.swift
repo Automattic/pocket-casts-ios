@@ -12,7 +12,7 @@ struct EditFolderView: View {
         NavigationView {
             VStack(alignment: .leading) {
                 Group {
-                    Text(L10n.name.localizedUppercase)
+                    Text(L10n.Localizable.name.localizedUppercase)
                         .textStyle(SecondaryText())
                         .font(.subheadline)
                         .padding(.bottom, -8)
@@ -22,7 +22,7 @@ struct EditFolderView: View {
                 }
                 .padding(.bottom, 10)
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(L10n.color.localizedUppercase)
+                    Text(L10n.Localizable.color.localizedUppercase)
                         .textStyle(SecondaryText())
                         .font(.subheadline)
                         .padding(.bottom, -14)
@@ -38,7 +38,7 @@ struct EditFolderView: View {
                     } label: {
                         Group {
                             Image("delete")
-                            Text(L10n.folderDelete)
+                            Text(L10n.Localizable.folderDelete)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .foregroundColor(ThemeColor.support05(for: theme.activeTheme).color)
@@ -46,9 +46,9 @@ struct EditFolderView: View {
                     }
                     .alert(isPresented: $showingDeleteConfirmation) {
                         Alert(
-                            title: Text(L10n.folderDeletePromptTitle),
-                            message: Text(L10n.folderDeletePromptMsg),
-                            primaryButton: .destructive(Text(L10n.delete)) {
+                            title: Text(L10n.Localizable.folderDeletePromptTitle),
+                            message: Text(L10n.Localizable.folderDeletePromptMsg),
+                            primaryButton: .destructive(Text(L10n.Localizable.delete)) {
                                 model.deleteFolder()
                                 dismissAction(true)
                             },
@@ -69,14 +69,14 @@ struct EditFolderView: View {
                         Image("close")
                             .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
                     }
-                    .accessibilityLabel(L10n.close)
+                    .accessibilityLabel(L10n.Localizable.close)
                 }
             }
             .onDisappear {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: model.folderUuid)
             }
             .applyDefaultThemeOptions()
-            .navigationTitle(L10n.folderEdit)
+            .navigationTitle(L10n.Localizable.folderEdit)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

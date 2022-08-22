@@ -5,7 +5,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     @IBOutlet var titleLabel: ThemeableLabel!
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
-            showAllBtn.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
+            showAllBtn.setTitle(L10n.Localizable.discoverShowAll.localizedUppercase, for: .normal)
         }
     }
     

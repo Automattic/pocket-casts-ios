@@ -28,7 +28,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.settingsHelp
+        title = L10n.Localizable.settingsHelp
         loadingIndicator.startAnimating()
         
         setupWebView()

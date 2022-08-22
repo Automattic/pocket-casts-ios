@@ -34,21 +34,21 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
                 case DownloadStatus.downloaded.rawValue:
                     self.downloadStatusIconName = "episodedownloaded"
                     info = episode.displayableTimeLeft()
-                    statusText = L10n.statusDownloaded
+                    statusText = L10n.Localizable.statusDownloaded
                 case DownloadStatus.downloading.rawValue:
                     self.downloadStatusIconName = nil
                     info = episode.displayableInfo(includeSize: false)
-                    statusText = L10n.statusDownloading
+                    statusText = L10n.Localizable.statusDownloading
                 case DownloadStatus.downloadFailed.rawValue:
                     self.downloadStatusIconName = "downloadfailed"
                     informationLabel = []
-                    accessibilityLabel = [L10n.downloadFailed]
+                    accessibilityLabel = [L10n.Localizable.downloadFailed]
                     info = episode.displayableInfo(includeSize: false)
                     statusText = nil
                 default:
                     self.downloadStatusIconName = nil
                     info = episode.displayableInfo(includeSize: false)
-                    statusText = L10n.statusNotDownloaded
+                    statusText = L10n.Localizable.statusNotDownloaded
                 }
 
                 informationLabel.append(info)

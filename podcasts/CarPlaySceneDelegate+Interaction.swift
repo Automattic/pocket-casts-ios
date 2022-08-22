@@ -12,7 +12,7 @@ extension CarPlaySceneDelegate {
     }
     
     func podcastTapped(_ podcast: Podcast, closeListOnTap: Bool) {
-        pushEpisodeList(title: podcast.title ?? L10n.podcastSingular, showArtwork: false, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
+        pushEpisodeList(title: podcast.title ?? L10n.Localizable.podcastSingular, showArtwork: false, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
             var query = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: nil, completion: nil).createEpisodesQuery()
             query += " LIMIT \(Constants.Limits.maxCarplayItems)"
             
@@ -44,14 +44,14 @@ extension CarPlaySceneDelegate {
     }
     
     func listeningHistoryTapped() {
-        pushEpisodeList(title: L10n.listeningHistory, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.Localizable.listeningHistory, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
             let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(Constants.Limits.maxCarplayItems)"
             return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
     
     func filesTapped(closeListOnTap: Bool) {
-        pushEpisodeList(title: L10n.files, showArtwork: true, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.Localizable.files, showArtwork: true, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
             let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
             return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
         }
@@ -67,7 +67,7 @@ extension CarPlaySceneDelegate {
             guard let chapter = PlaybackManager.shared.chapterAt(index: i) else { continue }
             
             let chapterLength = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
-            let subtTitle = L10n.carplayChapterCount((i + 1).localized(), chapterCount.localized(), chapterLength)
+            let subtTitle = L10n.Localizable.carplayChapterCount((i + 1).localized(), chapterCount.localized(), chapterLength)
             let chapterItem = CPListItem(text: chapter.title, detailText: subtTitle)
             chapterItem.isPlaying = currentChapter?.index == chapter.index
             chapterItem.playingIndicatorLocation = .trailing
@@ -81,7 +81,7 @@ extension CarPlaySceneDelegate {
         }
         
         let mainSection = CPListSection(items: chapterItems)
-        let listTemplate = CPListTemplate(title: L10n.chapters, sections: [mainSection])
+        let listTemplate = CPListTemplate(title: L10n.Localizable.chapters, sections: [mainSection])
         
         interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
     }
@@ -104,13 +104,13 @@ extension CarPlaySceneDelegate {
         addSpeed(3.0, to: &speedItems, currentSpeed: currentSpeed)
         
         let mainSection = CPListSection(items: speedItems)
-        let listTemplate = CPListTemplate(title: L10n.carplayPlaybackSpeed, sections: [mainSection])
+        let listTemplate = CPListTemplate(title: L10n.Localizable.carplayPlaybackSpeed, sections: [mainSection])
         
         interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
     }
     
     private func addSpeed(_ speed: Double, to itemList: inout [CPListItem], currentSpeed: Double) {
-        let item = CPListItem(text: L10n.playbackSpeed(speed.localized()), detailText: nil)
+        let item = CPListItem(text: L10n.Localizable.playbackSpeed(speed.localized()), detailText: nil)
         item.playingIndicatorLocation = .trailing
         item.isPlaying = (speed == currentSpeed)
         item.handler = { [weak self] _, completion in

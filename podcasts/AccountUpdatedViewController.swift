@@ -30,20 +30,20 @@ class AccountUpdatedViewController: UIViewController {
     
     @IBOutlet var newsletterHeadingLabel: ThemeableLabel! {
         didSet {
-            newsletterHeadingLabel.text = L10n.pocketCastsNewsletter
+            newsletterHeadingLabel.text = L10n.Localizable.pocketCastsNewsletter
         }
     }
     
     @IBOutlet var newsletterDetailLabel: ThemeableLabel! {
         didSet {
             newsletterDetailLabel.style = .primaryText02
-            newsletterDetailLabel.text = L10n.pocketCastsNewsletterDescription
+            newsletterDetailLabel.text = L10n.Localizable.pocketCastsNewsletterDescription
         }
     }
     
     @IBOutlet var doneBtn: ThemeableRoundedButton! {
         didSet {
-            doneBtn.setTitle(L10n.done.localizedCapitalized, for: .normal)
+            doneBtn.setTitle(L10n.Localizable.done.localizedCapitalized, for: .normal)
         }
     }
     
@@ -63,7 +63,7 @@ class AccountUpdatedViewController: UIViewController {
             imageView.image = UIImage(named: imageNameFunc())
         }
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         newsletterView.isHidden = hideNewsletter
         

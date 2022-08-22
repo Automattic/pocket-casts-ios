@@ -26,20 +26,20 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     @IBOutlet var noEpisodeTitleLabel: ThemeableLabel! {
         didSet {
             noEpisodeTitleLabel.style = .primaryText01
-            noEpisodeTitleLabel.text = L10n.fileUploadNoFilesTitle
+            noEpisodeTitleLabel.text = L10n.Localizable.fileUploadNoFilesTitle
         }
     }
     
     @IBOutlet var noEpisodeDetailLabel: ThemeableLabel! {
         didSet {
             noEpisodeDetailLabel.style = .primaryText02
-            noEpisodeDetailLabel.text = L10n.fileUploadNoFilesDescription
+            noEpisodeDetailLabel.text = L10n.Localizable.fileUploadNoFilesDescription
         }
     }
     
     @IBOutlet var howToBtn: ThemeableUIButton! {
         didSet {
-            howToBtn.setTitle(L10n.fileUploadNoFilesHelper, for: .normal)
+            howToBtn.setTitle(L10n.Localizable.fileUploadNoFilesHelper, for: .normal)
         }
     }
 
@@ -101,7 +101,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         super.viewDidLoad()
         
         registerCells()
-        title = L10n.files
+        title = L10n.Localizable.files
         
         if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
             tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar)
@@ -180,28 +180,28 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     
     func setupNavBar() {
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.Localizable.accessibilityCancelMultiselect : L10n.Localizable.accessibilitySortAndOptions
         
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
+        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
         
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let MultiSelectAction = OptionAction(label: L10n.Localizable.selectEpisodes, icon: "option-multiselect") { [weak self] in
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
         let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
+        let sortAction = OptionAction(label: L10n.Localizable.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
             self.showSortByPicker()
         }
         optionsPicker.addAction(action: sortAction)
         
-        let settingsAction = OptionAction(label: L10n.settingsFiles, icon: "podcast-settings") { [weak self] in
+        let settingsAction = OptionAction(label: L10n.Localizable.settingsFiles, icon: "podcast-settings") { [weak self] in
             self?.navigationController?.pushViewController(UploadedSettingsViewController(), animated: true)
         }
         optionsPicker.addAction(action: settingsAction)
@@ -248,7 +248,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
     
     func showSortByPicker() {
-        let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+        let optionsPicker = OptionsPicker(title: L10n.Localizable.sortBy.localizedUppercase)
         optionsPicker.addAction(action: createSortAction(sort: .newestToOldest))
         optionsPicker.addAction(action: createSortAction(sort: .oldestToNewest))
         optionsPicker.addAction(action: createSortAction(sort: .titleAtoZ))

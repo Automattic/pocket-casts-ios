@@ -20,8 +20,8 @@ class PodcastGroupCell: ThemeableCell {
         didSet {
             subscribeButton.onImage = UIImage(named: "discover_tick")
             subscribeButton.offImage = UIImage(named: "discover_add")
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.Localizable.subscribe
+            subscribeButton.onAccessibilityLabel = L10n.Localizable.subscribed
             
             subscribeButton.tintColor = ThemeColor.secondaryIcon01()
         }

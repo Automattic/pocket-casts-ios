@@ -31,7 +31,7 @@ struct OrderPickerView<T>: View where T: SortOption {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text(L10n.cancel)
+                    Text(L10n.Localizable.cancel)
                 }
             }
         }

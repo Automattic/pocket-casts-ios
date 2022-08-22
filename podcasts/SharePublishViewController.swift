@@ -41,13 +41,13 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
     @IBOutlet var descriptionPlaceholder: UILabel! {
         didSet {
             descriptionPlaceholder.textColor = AppTheme.placeholderTextColor()
-            descriptionPlaceholder.text = L10n.podcastShareListDescription
+            descriptionPlaceholder.text = L10n.Localizable.podcastShareListDescription
         }
     }
     
     @IBOutlet var listName: UITextField! {
         didSet {
-            listName.placeholder = L10n.podcastShareListName
+            listName.placeholder = L10n.Localizable.podcastShareListName
         }
     }
 
@@ -64,7 +64,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
     
     @IBOutlet var creatingListProgressLabel: UILabel! {
         didSet {
-            creatingListProgressLabel.text = L10n.podcastShareListCreating
+            creatingListProgressLabel.text = L10n.Localizable.podcastShareListCreating
         }
     }
 
@@ -83,13 +83,13 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
     }
     
     override func viewDidLoad() {
-        shareBtn = UIBarButtonItem(title: L10n.share, style: .plain, target: self, action: #selector(SharePublishViewController.shareTapped))
+        shareBtn = UIBarButtonItem(title: L10n.Localizable.share, style: .plain, target: self, action: #selector(SharePublishViewController.shareTapped))
         shareBtn.isEnabled = false
         customRightBtn = shareBtn
         
         super.viewDidLoad()
         
-        title = L10n.sharePodcastsCreateList
+        title = L10n.Localizable.sharePodcastsCreateList
         
         navigationItem.rightBarButtonItem = shareBtn
     }
@@ -105,7 +105,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         
         listName.resignFirstResponder()
         listDescription.resignFirstResponder()
-        shareBtn.title = L10n.sharePodcastsSharing
+        shareBtn.title = L10n.Localizable.sharePodcastsSharing
         shareBtn.isEnabled = false
         startSharingAnimation()
         
@@ -241,7 +241,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         sharingUrl = ""
         transitionToShareFailed()
         
-        SJUIUtils.showAlert(title: L10n.sharePodcastsSharingFailedTitle, message: L10n.sharePodcastsSharingFailedMsg, from: self)
+        SJUIUtils.showAlert(title: L10n.Localizable.sharePodcastsSharingFailedTitle, message: L10n.Localizable.sharePodcastsSharingFailedMsg, from: self)
     }
     
     private func sharingDidSucceed(_ shareUrl: String) {
@@ -265,7 +265,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         descriptionDivider.isHidden = false
         creatingView.isHidden = true
         shareBtn.isEnabled = true
-        shareBtn.title = L10n.retry
+        shareBtn.title = L10n.Localizable.retry
     }
     
     private func transitionToShareCompleted() {

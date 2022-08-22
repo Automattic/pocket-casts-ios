@@ -57,7 +57,7 @@ class CastToViewController: PCViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelTapped))
         
         if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-            title = GoogleCastManager.sharedManager.connectedDevice()?.friendlyName ?? L10n.chromecastConnected
+            title = GoogleCastManager.sharedManager.connectedDevice()?.friendlyName ?? L10n.Localizable.chromecastConnected
             connectedView.isHidden = false
             castTable.isHidden = true
             volumeSlider.value = GoogleCastManager.sharedManager.currentVolume()
@@ -65,7 +65,7 @@ class CastToViewController: PCViewController {
             GoogleCastManager.sharedManager.requestMultizoneUpdate()
         }
         else {
-            title = L10n.chromecastCastTo
+            title = L10n.Localizable.chromecastCastTo
             castTable.isHidden = false
             connectedView.isHidden = true
             reloadAvailableDevices()
@@ -107,8 +107,8 @@ class CastToViewController: PCViewController {
     
     private func updatePlayingDetails() {
         guard GoogleCastManager.sharedManager.connected(), let playingEpisode = PlaybackManager.shared.currentEpisode() else {
-            episodeName.text = L10n.chromecastConnectedToDevice
-            podcastName.text = L10n.chromecastNothingPlaying
+            episodeName.text = L10n.Localizable.chromecastConnectedToDevice
+            podcastName.text = L10n.Localizable.chromecastNothingPlaying
             playPauseBtn.isHidden = true
             playingArtwork.isHidden = true
             

@@ -67,7 +67,7 @@ extension PodcastViewController {
         loadingPodcastInfo = false
         DispatchQueue.main.async {
             if !successfully {
-                SJUIUtils.showAlert(title: L10n.podcastErrorTitle, message: L10n.podcastErrorMessage, from: self, completion: {
+                SJUIUtils.showAlert(title: L10n.Localizable.podcastErrorTitle, message: L10n.Localizable.podcastErrorMessage, from: self, completion: {
                     // we need to move this pop to the end of the UI stack, because it complains about multiple transitions otherwise
                     DispatchQueue.main.async {
                         self.navigationController?.popViewController(animated: true)

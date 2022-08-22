@@ -102,17 +102,17 @@ extension NowPlayingPlayerItemViewController {
             
             chapterSkipBackBtn.isEnabled = !chapter.isFirst
             chapterSkipFwdBtn.isEnabled = !chapter.isLast
-            chapterCounter.text = L10n.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
+            chapterCounter.text = L10n.Localizable.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
             chapterLink.isHidden = chapter.url == nil
             if let image = chapter.image {
                 showingCustomImage = true
                 episodeImage.image = image
-                episodeImage.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
+                episodeImage.accessibilityLabel = L10n.Localizable.playerArtwork(chapterName.text ?? "")
             }
             else if showingCustomImage {
                 showingCustomImage = false
                 ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
-                episodeImage.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
+                episodeImage.accessibilityLabel = L10n.Localizable.playerArtwork(playingEpisode.title ?? "")
             }
         }
         else {
@@ -162,7 +162,7 @@ extension NowPlayingPlayerItemViewController {
         if let chapter = PlaybackManager.shared.chapterForTime(time: time) {
             episodeName.text = chapter.title.count > 0 ? chapter.title : playingEpisode.displayableTitle()
             
-            chapterCounter.text = L10n.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
+            chapterCounter.text = L10n.Localizable.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
         }
     }
     

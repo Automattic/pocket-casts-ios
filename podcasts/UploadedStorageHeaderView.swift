@@ -76,9 +76,9 @@ class UploadedStorageHeaderView: UIView {
             let numFiles = ServerSettings.customStorageNumFiles()
             
             let percentageUsed = maxStorage > 0 ? Double(usedStorage) / Double(maxStorage) : 0
-            numFilesLabel.text = numFiles == 1 ? L10n.profileSingleFile : L10n.profileNumberOfFiles(numFiles.localized())
+            numFilesLabel.text = numFiles == 1 ? L10n.Localizable.profileSingleFile : L10n.Localizable.profileNumberOfFiles(numFiles.localized())
             storageSizeLabel.text = "\(SizeFormatter.shared.defaultFormat(bytes: usedStorage))/ \(SizeFormatter.shared.defaultFormat(bytes: maxStorage))"
-            percentageLabel.text = L10n.profilePercentFull(percentageUsed.localized(.percent))
+            percentageLabel.text = L10n.Localizable.profilePercentFull(percentageUsed.localized(.percent))
 
             if percentageUsed >= 99 {
                 percentageLabel.textColor = AppTheme.colorForStyle(.support05)

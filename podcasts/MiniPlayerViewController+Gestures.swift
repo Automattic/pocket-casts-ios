@@ -78,14 +78,14 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
     
     private func showLongPressMenu(_ touchPoint: CGPoint) {
         let optionsPicker = OptionsPicker(title: nil)
-        let markAsPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") {
+        let markAsPlayedAction = OptionAction(label: L10n.Localizable.markPlayedShort, icon: "episode-markasplayed") {
             if let episode = PlaybackManager.shared.currentEpisode() {
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
         }
         optionsPicker.addAction(action: markAsPlayedAction)
         
-        let closeAction = OptionAction(label: L10n.miniPlayerClose, icon: "close") {
+        let closeAction = OptionAction(label: L10n.Localizable.miniPlayerClose, icon: "close") {
             FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
             self.removeAllCustomObservers()
             

@@ -28,10 +28,10 @@ struct FilterEpisodeListView: View {
     var body: some View {
         headerWithContent {
             ItemListContainer(isEmpty: $viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
-                EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
+                EpisodeListView(title: L10n.Localizable.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
             }
         }
-        .navigationTitle(L10n.filters.prefixSourceUnicode)
+        .navigationTitle(L10n.Localizable.filters.prefixSourceUnicode)
         .onAppear {
             viewModel.loadFilterEpisodes()
         }

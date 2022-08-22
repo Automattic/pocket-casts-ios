@@ -7,13 +7,13 @@ enum TrimSilenceAmount: Int {
     var description: String {
         switch self {
         case .off:
-            return L10n.off
+            return L10n.Localizable.off
         case .low:
-            return L10n.playbackEffectTrimSilenceMild
+            return L10n.Localizable.playbackEffectTrimSilenceMild
         case .medium:
-            return L10n.playbackEffectTrimSilenceMedium
+            return L10n.Localizable.playbackEffectTrimSilenceMedium
         case .high:
-            return L10n.playbackEffectTrimSilenceMax
+            return L10n.Localizable.playbackEffectTrimSilenceMax
         }
     }
     

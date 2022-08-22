@@ -26,7 +26,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         switch tableRow {
         case .customForPodcast:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.settingsCustom
+            cell.cellLabel.text = L10n.Localizable.settingsCustom
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.cellSwitch.isOn = podcast.overrideGlobalArchive
             
@@ -36,7 +36,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .playedEpisodes:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsArchivePlayedEpisodes
+            cell.cellLabel.text = L10n.Localizable.settingsArchivePlayedEpisodes
             
             let playedValue = podcast.overrideGlobalArchive ? podcast.autoArchivePlayedAfter : Settings.autoArchivePlayedAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(playedValue)
@@ -44,7 +44,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .inactiveEpisodes:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsArchiveInactiveEpisodes
+            cell.cellLabel.text = L10n.Localizable.settingsArchiveInactiveEpisodes
             
             let inactiveValue = podcast.overrideGlobalArchive ? podcast.autoArchiveInactiveAfter : Settings.autoArchiveInactiveAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(inactiveValue)
@@ -52,7 +52,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             return cell
         case .episodeLimit:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsEpisodeLimit
+            cell.cellLabel.text = L10n.Localizable.settingsEpisodeLimit
             cell.cellSecondaryLabel.text = stringForLimit(podcast.autoArchiveEpisodeLimit)
             
             return cell
@@ -65,7 +65,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         let row = PodcastArchiveViewController.tableData[indexPath.section][indexPath.row]
         
         if row == .playedEpisodes {
-            let options = OptionsPicker(title: L10n.settingsArchivePlayedTitle)
+            let options = OptionsPicker(title: L10n.Localizable.settingsArchivePlayedTitle)
             
             addArchivePlayedAction(time: -1, to: options)
             addArchivePlayedAction(time: 0, to: options)
@@ -76,7 +76,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             options.show(statusBarStyle: preferredStatusBarStyle)
         }
         else if row == .inactiveEpisodes {
-            let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
+            let options = OptionsPicker(title: L10n.Localizable.settingsArchiveInactiveTitle)
             
             addArchiveInactiveAction(time: -1, to: options)
             addArchiveInactiveAction(time: 24.hours, to: options)
@@ -89,7 +89,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             options.show(statusBarStyle: preferredStatusBarStyle)
         }
         else if row == .episodeLimit {
-            let options = OptionsPicker(title: L10n.settingsEpisodeLimit)
+            let options = OptionsPicker(title: L10n.Localizable.settingsEpisodeLimit)
             addEpisodeLimitAction(limit: 0, to: options)
             addEpisodeLimitAction(limit: 1, to: options)
             addEpisodeLimitAction(limit: 2, to: options)
@@ -112,13 +112,13 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         let firstRow = PodcastArchiveViewController.tableData[section][0]
         
         if firstRow == .customForPodcast {
-            return podcast.overrideGlobalArchive ? nil : L10n.settingsCustomAutoArchiveMsg
+            return podcast.overrideGlobalArchive ? nil : L10n.Localizable.settingsCustomAutoArchiveMsg
         }
         else if firstRow == .playedEpisodes {
-            return L10n.settingsInactiveEpisodesMsg
+            return L10n.Localizable.settingsInactiveEpisodesMsg
         }
         else if firstRow == .episodeLimit {
-            return L10n.settingsEpisodeLimitMsg
+            return L10n.Localizable.settingsEpisodeLimitMsg
         }
         
         return nil
@@ -188,6 +188,6 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
     
     private func stringForLimit(_ limit: Int32) -> String {
-        limit == 0 ? L10n.settingsEpisodeLimitNoLimit : L10n.settingsEpisodeLimitLimitFormat(limit.localized())
+        limit == 0 ? L10n.Localizable.settingsEpisodeLimitNoLimit : L10n.Localizable.settingsEpisodeLimitLimitFormat(limit.localized())
     }
 }

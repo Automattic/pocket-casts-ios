@@ -9,7 +9,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     @IBOutlet var filterByLabel: ThemeableLabel! {
         didSet {
             filterByLabel.style = .primaryText02
-            filterByLabel.text = L10n.filterCreateFilterBy.localizedUppercase
+            filterByLabel.text = L10n.Localizable.filterCreateFilterBy.localizedUppercase
         }
     }
     
@@ -25,21 +25,21 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     @IBOutlet var instructionLabel: ThemeableLabel! {
         didSet {
             instructionLabel.style = .primaryText02
-            instructionLabel.text = L10n.filterCreateInstructions
+            instructionLabel.text = L10n.Localizable.filterCreateInstructions
         }
     }
 
     @IBOutlet var addMoreLabel: ThemeableLabel! {
         didSet {
             addMoreLabel.style = .primaryText02
-            addMoreLabel.text = L10n.filterCreateAddMore
+            addMoreLabel.text = L10n.Localizable.filterCreateAddMore
         }
     }
 
     @IBOutlet var previewLabel: ThemeableLabel! {
         didSet {
             previewLabel.style = .primaryText02
-            previewLabel.text = L10n.preview.localizedUppercase
+            previewLabel.text = L10n.Localizable.preview.localizedUppercase
         }
     }
 
@@ -61,7 +61,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     @IBOutlet var continueButton: ThemeableRoundedButton! {
         didSet {
             continueButton.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
-            continueButton.setTitle(L10n.continue, for: .normal)
+            continueButton.setTitle(L10n.Localizable.continue, for: .normal)
         }
     }
 
@@ -74,21 +74,21 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
 
     @IBOutlet var noEpisodesLabel: ThemeableLabel! {
         didSet {
-            noEpisodesLabel.text = L10n.filterCreateNoEpisodes
+            noEpisodesLabel.text = L10n.Localizable.filterCreateNoEpisodes
         }
     }
 
     @IBOutlet var noEpisodeCriteriaLabel: ThemeableLabel! {
         didSet {
             noEpisodeCriteriaLabel.style = .primaryText02
-            noEpisodeCriteriaLabel.text = L10n.filterCreateNoEpisodesDescriptionExplanation
+            noEpisodeCriteriaLabel.text = L10n.Localizable.filterCreateNoEpisodesDescriptionExplanation
         }
     }
 
     @IBOutlet var noEpisodeDifferentLabel: ThemeableLabel! {
         didSet {
             noEpisodeDifferentLabel.style = .primaryText02
-            noEpisodeDifferentLabel.text = L10n.filterCreateNoEpisodesDescriptionPrompt
+            noEpisodeDifferentLabel.text = L10n.Localizable.filterCreateNoEpisodesDescriptionPrompt
         }
     }
 
@@ -107,7 +107,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.createFilter
+        title = L10n.Localizable.createFilter
         newFilter = PlaylistManager.createNewFilter()
       
         setupLargeTitle()

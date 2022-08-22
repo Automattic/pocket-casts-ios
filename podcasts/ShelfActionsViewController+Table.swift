@@ -148,10 +148,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         let headerView: SettingsTableHeader
         if section == ShelfActionsViewController.shortcutSection {
-            headerView = SettingsTableHeader(frame: headerFrame, title: L10n.playerOptionsShortcutOnPlayer)
+            headerView = SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.playerOptionsShortcutOnPlayer)
         }
         else {
-            headerView = SettingsTableHeader(frame: headerFrame, title: L10n.settingsInMenu)
+            headerView = SettingsTableHeader(frame: headerFrame, title: L10n.Localizable.settingsInMenu)
         }
         headerView.titleLabel.style = .playerContrast02
         headerView.clearBackground = true

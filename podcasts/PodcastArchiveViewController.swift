@@ -24,7 +24,7 @@ class PodcastArchiveViewController: PCViewController {
         super.viewDidLoad()
         
         changeNavTint(titleColor: nil, iconsColor: podcast.navIconTintColor(), backgroundColor: podcast.navigationBarTintColor())
-        title = L10n.settingsAutoArchive
+        title = L10n.Localizable.settingsAutoArchive
     }
     
     override func viewDidDisappear(_ animated: Bool) {

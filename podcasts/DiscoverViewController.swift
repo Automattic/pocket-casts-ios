@@ -27,7 +27,7 @@ class DiscoverViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.discover
+        title = L10n.Localizable.discover
         
         setupSearchBar()
         handleThemeChanged()

@@ -41,7 +41,7 @@ class CastDeviceVolumeView: UIStackView {
         label.themeOverride = themeOverride
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 15)
-        label.text = device.friendlyName ?? L10n.chromecastUnnamedDevice
+        label.text = device.friendlyName ?? L10n.Localizable.chromecastUnnamedDevice
         addArrangedSubview(label)
         
         let slider = UISlider()

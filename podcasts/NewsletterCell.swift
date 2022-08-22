@@ -5,14 +5,14 @@ class NewsletterCell: ThemeableCell {
     
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
-            cellLabel.text = L10n.pocketCastsNewsletter
+            cellLabel.text = L10n.Localizable.pocketCastsNewsletter
         }
     }
 
     @IBOutlet var cellSecondaryLabel: ThemeableLabel! {
         didSet {
             cellSecondaryLabel.style = .primaryText02
-            cellSecondaryLabel.text = L10n.pocketCastsNewsletterDescription
+            cellSecondaryLabel.text = L10n.Localizable.pocketCastsNewsletterDescription
         }
     }
     

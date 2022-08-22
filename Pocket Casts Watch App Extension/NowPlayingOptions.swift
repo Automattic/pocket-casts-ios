@@ -9,13 +9,13 @@ struct NowPlayingOptions: View {
         GeometryReader { geo in
             VStack(spacing: 5) {
                 HStack {
-                    NowPlayingOption(iconName: "markasplayed", title: L10n.markPlayedShort) {
+                    NowPlayingOption(iconName: "markasplayed", title: L10n.Localizable.markPlayedShort) {
                         viewModel.markPlayed()
                         optionSelected.toggle()
                     }
                     .frame(maxWidth: geo.size.width / 2)
                     
-                    NowPlayingOption(iconName: "episodedetails", title: L10n.watchEpisodeDetails) {
+                    NowPlayingOption(iconName: "episodedetails", title: L10n.Localizable.watchEpisodeDetails) {
                         presentView = .episodeDetails
                         optionSelected.toggle()
                     }
@@ -25,13 +25,13 @@ struct NowPlayingOptions: View {
 
                 if viewModel.hasChapters {
                     HStack {
-                        NowPlayingOption(iconName: "prevchapter", title: L10n.watchChapterPrev) {
+                        NowPlayingOption(iconName: "prevchapter", title: L10n.Localizable.watchChapterPrev) {
                             viewModel.changeChapter(next: false)
                             optionSelected.toggle()
                         }
                         .frame(maxWidth: geo.size.width / 2)
 
-                        NowPlayingOption(iconName: "nextchapter", title: L10n.watchChapterNext) {
+                        NowPlayingOption(iconName: "nextchapter", title: L10n.Localizable.watchChapterNext) {
                             viewModel.changeChapter(next: true)
                             optionSelected.toggle()
                         }

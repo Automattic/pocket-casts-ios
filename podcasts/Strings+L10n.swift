@@ -20,7 +20,7 @@ extension L10n {
     /* Support request screen title for opening a request for support (instead of providing feedback) */
     static let support = "Support"
 
-    /// When localizing  this text should be transitioned to use `L10n.cancel`
+    /// When localizing this text should be transitioned to use `L10n.Localizable.cancel`
     static let supportCancel = "Cancel"
 
     /* Persistent prompt on the support request screen for the user to enter a description about their request */
@@ -50,7 +50,7 @@ extension L10n {
     /* Title for the display field that shows the attached meta data */
     static let supportLogsMetaData = "Meta Data:"
 
-    /// When localizing  this text should be transitioned to use `L10n.podcastsPlural + ":"`
+    /// When localizing this text should be transitioned to use `L10n.Localizable.podcastsPlural + ":"`
     static let supportLogsPodcasts = "Podcasts:"
 
     /* Title for the display field that shows the attached tags */
@@ -65,7 +65,7 @@ extension L10n {
     /* Placeholder in the name text box */
     static let supportNamePlaceholder = "Enter your name"
 
-    /// When localizing  this text should be transitioned to use `L10n.ok`
+    /// When localizing  this text should be transitioned to use `L10n.Localizable.ok`
     static let supportOK = "Ok"
 
     /* Prompt to submit a service request. */
@@ -82,30 +82,30 @@ extension L10n {
 
     /* Activity message letting the user know that a process ir running. */
     static let supportWorking = "Working..."
-    
+
     // MARK: Helper Functions
-    
+
     static func podcastCount(_ count: Int, capitalized: Bool = false) -> String {
-        let result = count == 1 ? L10n.podcastCountSingular : L10n.podcastCountPluralFormat(count.localized())
+        let result = count == 1 ? L10n.Localizable.podcastCountSingular : L10n.Localizable.podcastCountPluralFormat(count.localized())
         return capitalized ? result.localizedCapitalized : result
     }
 
     static func downloadedFilesConf(_ count: Int) -> String {
-        count == 1 ? L10n.downloadedFilesConfSingular : L10n.downloadedFilesConfPluralFormat(count.localized())
+        count == 1 ? L10n.Localizable.downloadedFilesConfSingular : L10n.Localizable.downloadedFilesConfPluralFormat(count.localized())
     }
-    
+
     static func selectedPodcastCount(_ count: Int, capitalized: Bool = false) -> String {
         let result: String
         if count == 0 {
-            result = L10n.settingsAutoDownloadsNoPodcastsSelected
+            result = L10n.Localizable.settingsAutoDownloadsNoPodcastsSelected
         }
         else if count == 1 {
-            result = L10n.settingsAutoDownloadsPodcastsSelectedSingular
+            result = L10n.Localizable.settingsAutoDownloadsPodcastsSelectedSingular
         }
         else {
-            result = L10n.settingsAutoDownloadsPodcastsSelectedFormat(count.localized())
+            result = L10n.Localizable.settingsAutoDownloadsPodcastsSelectedFormat(count.localized())
         }
-        
+
         return capitalized ? result.localizedCapitalized : result
     }
 
@@ -113,38 +113,38 @@ extension L10n {
         let value = Double(time)
         if value < 60 {
             let components = DateComponents(calendar: .current, second: Int(value))
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short) ?? L10n.timePlaceholder
+            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short) ?? L10n.Localizable.timePlaceholder
         }
         else {
             let components = DateComponents(calendar: .current, minute: Int(floor(value / 60.0)), second: Int(value) % 60)
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .abbreviated) ?? L10n.timePlaceholder
+            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .abbreviated) ?? L10n.Localizable.timePlaceholder
         }
     }
 
     static func downloadCountPrompt(_ count: Int) -> String {
-        count == 1 ? L10n.downloadEpisodeSingular : L10n.downloadEpisodePluralFormat(count.localized())
+        count == 1 ? L10n.Localizable.downloadEpisodeSingular : L10n.Localizable.downloadEpisodePluralFormat(count.localized())
     }
 
     static let bulkDownloadMax: String = {
         #if os(watchOS)
-            return L10n.bulkDownloadMaxFormat(100.localized())
+            return L10n.Localizable.bulkDownloadMaxFormat(100.localized())
         #else
-            return L10n.bulkDownloadMaxFormat(Constants.Limits.maxBulkDownloads.localized())
+            return L10n.Localizable.bulkDownloadMaxFormat(Constants.Limits.maxBulkDownloads.localized())
         #endif
     }()
 
     static func seasonEpisodeShorthand(seasonNumber: Int64, episodeNumber: Int64, shortFormat: Bool = false) -> String {
         if seasonNumber > 0, episodeNumber > 0 {
-            return L10n.seasonEpisodeShorthandFormat(seasonNumber.localized(), episodeNumber.localized())
+            return L10n.Localizable.seasonEpisodeShorthandFormat(seasonNumber.localized(), episodeNumber.localized())
         }
         else if seasonNumber > 0, episodeNumber == 0 {
-            return L10n.seasonOnlyShorthandFormat(seasonNumber.localized())
+            return L10n.Localizable.seasonOnlyShorthandFormat(seasonNumber.localized())
         }
         else if shortFormat {
-            return L10n.episodeShorthandFormatShort(episodeNumber.localized())
+            return L10n.Localizable.episodeShorthandFormatShort(episodeNumber.localized())
         }
         else {
-            return L10n.episodeShorthandFormat(episodeNumber.localized())
+            return L10n.Localizable.episodeShorthandFormat(episodeNumber.localized())
         }
     }
 }

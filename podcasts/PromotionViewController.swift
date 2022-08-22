@@ -135,9 +135,9 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.isHidden = true
                 self.titleLabel.isHidden = false
-                self.titleLabel.text = L10n.plusErrorAlreadyRegistered
+                self.titleLabel.text = L10n.Localizable.plusErrorAlreadyRegistered
                 self.descriptionLabel.isHidden = false
-                self.descriptionLabel.text = L10n.plusErrorAlreadyRegisteredDetails
+                self.descriptionLabel.text = L10n.Localizable.plusErrorAlreadyRegisteredDetails
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.setupNewAccountGoldImageName
                 self.upgradeToPlusButton.isHidden = true
@@ -151,13 +151,13 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.activityIndicator.isHidden = true
                 self.setNavigationTitleToLogo()
                 self.titleLabel.isHidden = false
-                self.titleLabel.text = L10n.plusPromotionExpired
+                self.titleLabel.text = L10n.Localizable.plusPromotionExpired
                 if self.serverMessage != nil {
                     self.descriptionLabel.isHidden = false
                     self.descriptionLabel.text = self.serverMessage
                 }
                 self.secondDescriptionLabel.isHidden = false
-                self.secondDescriptionLabel.text = L10n.plusPromotionExpiredNudge
+                self.secondDescriptionLabel.text = L10n.Localizable.plusPromotionExpiredNudge
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
                 if SyncManager.isUserLoggedIn() {
@@ -172,9 +172,9 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.activityIndicator.isHidden = true
                 self.setNavigationTitleToLogo()
                 self.titleLabel.isHidden = false
-                self.titleLabel.text = L10n.plusPromotionExpired
+                self.titleLabel.text = L10n.Localizable.plusPromotionExpired
                 self.descriptionLabel.text = self.serverMessage
-                self.secondDescriptionLabel.text = L10n.plusPromotionExpiredNudge
+                self.secondDescriptionLabel.text = L10n.Localizable.plusPromotionExpiredNudge
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
                 self.doneButton.isHidden = false
@@ -190,7 +190,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.activityIndicator.isHidden = true
                 self.setNavigationTitleToLogo()
                 self.titleLabel.isHidden = false
-                self.titleLabel.text = L10n.plusPromotionUsed
+                self.titleLabel.text = L10n.Localizable.plusPromotionUsed
                 self.descriptionLabel.isHidden = false
                 self.descriptionLabel.text = self.serverMessage
                 self.centreImageView.isHidden = false
@@ -201,11 +201,11 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.activityIndicator.isHidden = true
                 self.setNavigationTitleToPlusLogo()
                 self.titleLabel.isHidden = false
-                self.titleLabel.text = " " + L10n.signInPrompt
+                self.titleLabel.text = " " + L10n.Localizable.signInPrompt
                 self.descriptionLabel.isHidden = false
                 
-                self.descriptionLabel.text = L10n.plusAccountRequiredPrompt
-                self.secondDescriptionLabel.text = L10n.plusAccountRequiredPromptDetails
+                self.descriptionLabel.text = L10n.Localizable.plusAccountRequiredPrompt
+                self.secondDescriptionLabel.text = L10n.Localizable.plusAccountRequiredPromptDetails
                 self.secondDescriptionLabel.isHidden = false
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.accountUpgradedImageName

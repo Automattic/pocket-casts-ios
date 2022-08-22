@@ -66,7 +66,7 @@ class ListeningHistoryViewController: PCViewController {
         super.viewDidLoad()
         
         operationQueue.maxConcurrentOperationCount = 1
-        title = L10n.listeningHistory
+        title = L10n.Localizable.listeningHistory
         refreshEpisodes(animated: false)
         
         setupNavBar()
@@ -136,33 +136,33 @@ class ListeningHistoryViewController: PCViewController {
     
     @objc func clearTapped() {
         let optionPicker = OptionsPicker(title: "")
-        let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
+        let clearAllAction = OptionAction(label: L10n.Localizable.historyClearAll, icon: nil, action: {
             DataManager.sharedManager.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self.refreshEpisodes(animated: true)
             
         })
-        optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
+        optionPicker.addDescriptiveActions(title: L10n.Localizable.historyClearAllDetails, message: L10n.Localizable.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
     
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilityMoreActions
+        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.Localizable.accessibilityCancelMultiselect : L10n.Localizable.accessibilityMoreActions
         
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
+        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.Localizable.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
         
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let MultiSelectAction = OptionAction(label: L10n.Localizable.selectEpisodes, icon: "option-multiselect") { [weak self] in
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
-        let clearAction = OptionAction(label: L10n.historyClearAllDetails, icon: "option-cleanup") { [weak self] in
+        let clearAction = OptionAction(label: L10n.Localizable.historyClearAllDetails, icon: "option-cleanup") { [weak self] in
             self?.clearTapped()
         }
         optionsPicker.addAction(action: clearAction)

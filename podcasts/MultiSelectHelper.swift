@@ -42,11 +42,11 @@ class MultiSelectHelper {
     private class func starEpisodes(actionDelegate: MultiSelectActionDelegate, star: Bool) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         if star {
-            let status = selectedEpisodes.count == 1 ? L10n.multiSelectStarringEpisodesSingular : L10n.multiSelectStarringEpisodesPluralFormat(selectedEpisodes.count.localized())
+            let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectStarringEpisodesSingular : L10n.Localizable.multiSelectStarringEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
         else {
-            let status = selectedEpisodes.count == 1 ? L10n.multiSelectUnstarringEpisodesSingular : L10n.multiSelectUnstarringEpisodesPluralFormat(selectedEpisodes.count.localized())
+            let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectUnstarringEpisodesSingular : L10n.Localizable.multiSelectUnstarringEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
         DispatchQueue.global().async {
@@ -56,7 +56,7 @@ class MultiSelectHelper {
     }
 
     private static func deleteFileMessage(_ count: Int) -> String {
-        count == 1 ? L10n.multiSelectDeleteFileMessageSingular : L10n.multiSelectDeleteFileMessagePlural(count.localized())
+        count == 1 ? L10n.Localizable.multiSelectDeleteFileMessageSingular : L10n.Localizable.multiSelectDeleteFileMessagePlural(count.localized())
     }
     
     private class func delete(actionDelegate: MultiSelectActionDelegate) {
@@ -68,7 +68,7 @@ class MultiSelectHelper {
         let confirmPicker: OptionsPicker
         if downloadedEpisodes.count == 0 {
             confirmPicker = OptionsPicker(title: nil)
-            let deleteFromCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil) { () in
+            let deleteFromCloudAction = OptionAction(label: L10n.Localizable.deleteFromCloud, icon: nil) { () in
                 DispatchQueue.global().async {
                     for episode in uploadedEpisodes {
                         UserEpisodeManager.deleteFromCloud(episode: episode)
@@ -79,11 +79,11 @@ class MultiSelectHelper {
             }
             
             let warningMessage = deleteFileMessage(uploadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
+            confirmPicker.addDescriptiveActions(title: L10n.Localizable.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
         }
         else if uploadedEpisodes.count == 0 {
             confirmPicker = OptionsPicker(title: nil)
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
+            let deleteFromDeviceAction = OptionAction(label: L10n.Localizable.deleteFromDeviceOnly, icon: nil) { () in
                 DispatchQueue.global().async {
                     for episode in downloadedEpisodes {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode)
@@ -94,11 +94,11 @@ class MultiSelectHelper {
             }
             
             let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
+            confirmPicker.addDescriptiveActions(title: L10n.Localizable.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
         }
         else {
             confirmPicker = OptionsPicker(title: nil)
-            let deleteEverwhereAction = OptionAction(label: L10n.deleteEverywhere, icon: nil) { () in
+            let deleteEverwhereAction = OptionAction(label: L10n.Localizable.deleteEverywhere, icon: nil) { () in
                 DispatchQueue.global().async {
                     for episode in selectedEpisodes {
                         UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
@@ -108,7 +108,7 @@ class MultiSelectHelper {
                 }
             }
 
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
+            let deleteFromDeviceAction = OptionAction(label: L10n.Localizable.deleteFromDeviceOnly, icon: nil) { () in
                 DispatchQueue.global().async {
                     for episode in downloadedEpisodes {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode)
@@ -120,7 +120,7 @@ class MultiSelectHelper {
             deleteFromDeviceAction.outline = true
             
             let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFile, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction, deleteEverwhereAction])
+            confirmPicker.addDescriptiveActions(title: L10n.Localizable.deleteFile, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction, deleteEverwhereAction])
         }
         
         confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
@@ -129,7 +129,7 @@ class MultiSelectHelper {
     private class func archiveEpisodes(actionDelegate: MultiSelectActionDelegate) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         let selectedUserEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? UserEpisode }
-        let status = selectedEpisodes.count == 1 ? L10n.multiSelectArchivingEpisodesSingular : L10n.multiSelectArchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
+        let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectArchivingEpisodesSingular : L10n.Localizable.multiSelectArchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
         DispatchQueue.global().async {
             EpisodeManager.bulkArchive(episodes: selectedEpisodes, removeFromPlayer: true, updateSyncFlag: SyncManager.isUserLoggedIn())
@@ -140,7 +140,7 @@ class MultiSelectHelper {
     
     private class func unarchiveEpisodes(actionDelegate: MultiSelectActionDelegate) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
-        let status = selectedEpisodes.count == 1 ? L10n.multiSelectUnarchivingEpisodesSingular : L10n.multiSelectUnarchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
+        let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectUnarchivingEpisodesSingular : L10n.Localizable.multiSelectUnarchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
         DispatchQueue.global().async {
             EpisodeManager.bulkUnarchive(episodes: selectedEpisodes)
@@ -158,11 +158,11 @@ class MultiSelectHelper {
         if selectedEpisodes.count > bulkAddLimit {
             episodesToAdd = Array(selectedEpisodes[0 ..< bulkAddLimit])
             showDelayedCompletionMessage = true
-            let status = L10n.multiSelectAddEpisodesMaxFormat(bulkAddLimit.localized())
+            let status = L10n.Localizable.multiSelectAddEpisodesMaxFormat(bulkAddLimit.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
         else {
-            let status = selectedEpisodes.count == 1 ? L10n.multiSelectAddingEpisodesSingular : L10n.multiSelectAddingEpisodesPluralFormat(selectedEpisodes.count.localized())
+            let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectAddingEpisodesSingular : L10n.Localizable.multiSelectAddingEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
         DispatchQueue.global().async {
@@ -183,7 +183,7 @@ class MultiSelectHelper {
     
     private class func markAsPlayedEpisodes(actionDelegate: MultiSelectActionDelegate) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
-        let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesPlayedSingular : L10n.multiSelectMarkEpisodesPlayedPluralFormat(selectedEpisodes.count.localized())
+        let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectMarkEpisodesPlayedSingular : L10n.Localizable.multiSelectMarkEpisodesPlayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
         
         DispatchQueue.global().async {
@@ -194,7 +194,7 @@ class MultiSelectHelper {
     
     private class func markAsUnplayedEpisodes(actionDelegate: MultiSelectActionDelegate) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
-        let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesUnplayedSingular : L10n.multiSelectMarkEpisodesUnplayedPluralFormat(selectedEpisodes.count.localized())
+        let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectMarkEpisodesUnplayedSingular : L10n.Localizable.multiSelectMarkEpisodesUnplayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
         
         DispatchQueue.global().async {
@@ -227,26 +227,26 @@ class MultiSelectHelper {
         
         if NetworkUtils.shared.isConnectedToWifi() {
             if downloadableCount < 5 {
-                let status = L10n.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
+                let status = L10n.Localizable.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
                 MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
                 return
             }
             else {
-                confirmPicker.addDescriptiveActions(title: L10n.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+                confirmPicker.addDescriptiveActions(title: L10n.Localizable.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             }
         }
         else {
-            let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
+            let queueAction = OptionAction(label: L10n.Localizable.queueForLater, icon: nil) {
+                let status = L10n.Localizable.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
                 queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
             }
             
             if !Settings.mobileDataAllowed() {
-                warningMessage = L10n.downloadDataWarning + "\n" + warningMessage
+                warningMessage = L10n.Localizable.downloadDataWarning + "\n" + warningMessage
             }
-            confirmPicker.addDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+            confirmPicker.addDescriptiveActions(title: L10n.Localizable.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
         }
         
         confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
@@ -282,7 +282,7 @@ class MultiSelectHelper {
     
     private class func removeDownload(actionDelegate: MultiSelectActionDelegate) {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
-        let status = selectedEpisodes.count == 1 ? L10n.multiSelectRemoveDownloadSingular : L10n.multiSelectRemoveDownloadsPluralFormat(selectedEpisodes.count.localized())
+        let status = selectedEpisodes.count == 1 ? L10n.Localizable.multiSelectRemoveDownloadSingular : L10n.Localizable.multiSelectRemoveDownloadsPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
         
         DispatchQueue.global().async {

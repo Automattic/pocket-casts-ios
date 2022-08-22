@@ -8,7 +8,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         didSet {
             emailField.delegate = self
             emailField.addTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
-            emailField.placeholder = L10n.signInEmailAddressPrompt
+            emailField.placeholder = L10n.Localizable.signInEmailAddressPrompt
         }
     }
     
@@ -17,7 +17,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         didSet {
             nextButton.isEnabled = false
             nextButton.buttonStyle = .primaryInteractive01Disabled
-            nextButton.setTitle(L10n.next, for: .normal)
+            nextButton.setTitle(L10n.Localizable.next, for: .normal)
         }
     }
     
@@ -47,7 +47,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.text = "• " + L10n.changePasswordLengthError
+            infoLabel.text = "• " + L10n.Localizable.changePasswordLengthError
         }
     }
     
@@ -55,7 +55,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         didSet {
             passwordField.delegate = self
             passwordField.addTarget(self, action: #selector(NewEmailViewController.passwordFieldDidChange), for: UIControl.Event.editingChanged)
-            passwordField.placeholder = L10n.signInPasswordPrompt
+            passwordField.placeholder = L10n.Localizable.signInPasswordPrompt
         }
     }
     
@@ -99,7 +99,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.createAccount
+        title = L10n.Localizable.createAccount
         emailField.becomeFirstResponder()
         activityIndicator.isHidden = true
         
@@ -173,9 +173,9 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                         self.showErrorMessage(message)
                     }
                     else {
-                        self.showErrorMessage(L10n.accountRegistrationFailed)
+                        self.showErrorMessage(L10n.Localizable.accountRegistrationFailed)
                     }
-                    self.nextButton.setTitle(L10n.next, for: .normal)
+                    self.nextButton.setTitle(L10n.Localizable.next, for: .normal)
                     return
                 }
                 FileLog.shared.addMessage("Registered new account for \(username)")
@@ -188,8 +188,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 }
                 else if self.newSubscription.promoCode != nil {
                     let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
+                    accountCreatedVC.titleText = L10n.Localizable.accountCreated
+                    accountCreatedVC.detailText = L10n.Localizable.accountWelcome
                     accountCreatedVC.imageName = AppTheme.plusCreatedImageName
                     accountCreatedVC.hideNewsletter = false
                     accountCreatedVC.delegate = self.accountUpdatedDelegate
@@ -197,8 +197,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 }
                 else { // Free account
                     let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
+                    accountCreatedVC.titleText = L10n.Localizable.accountCreated
+                    accountCreatedVC.detailText = L10n.Localizable.accountWelcome
                     accountCreatedVC.imageName = AppTheme.accountCreatedImageName
                     accountCreatedVC.hideNewsletter = false
                     self.navigationController?.pushViewController(accountCreatedVC, animated: true)

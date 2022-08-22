@@ -4,14 +4,14 @@ class HowToUploadViewController: UIViewController {
     @IBOutlet var explanationLabel: ThemeableLabel! {
         didSet {
             explanationLabel.style = .primaryText02
-            explanationLabel.text = L10n.howToUploadExplanation
+            explanationLabel.text = L10n.Localizable.howToUploadExplanation
         }
     }
     
     @IBOutlet var firstInstructionLabel: ThemeableLabel! {
         didSet {
             firstInstructionLabel.style = .primaryText02
-            firstInstructionLabel.text = L10n.howToUploadFirstInstruction
+            firstInstructionLabel.text = L10n.Localizable.howToUploadFirstInstruction
         }
     }
     
@@ -24,7 +24,7 @@ class HowToUploadViewController: UIViewController {
     @IBOutlet var secondInstructionLabel: ThemeableLabel! {
         didSet {
             secondInstructionLabel.style = .primaryText02
-            secondInstructionLabel.text = L10n.howToUploadSecondInstruction
+            secondInstructionLabel.text = L10n.Localizable.howToUploadSecondInstruction
         }
     }
     
@@ -37,7 +37,7 @@ class HowToUploadViewController: UIViewController {
     @IBOutlet var summaryLabel: ThemeableLabel! {
         didSet {
             summaryLabel.style = .primaryText02
-            summaryLabel.text = L10n.howToUploadSummary
+            summaryLabel.text = L10n.Localizable.howToUploadSummary
         }
     }
     
@@ -55,16 +55,16 @@ class HowToUploadViewController: UIViewController {
 
     @IBOutlet var doneTap: ThemeableRoundedButton! {
         didSet {
-            doneTap.setTitle(L10n.done.localizedCapitalized, for: .normal)
+            doneTap.setTitle(L10n.Localizable.done.localizedCapitalized, for: .normal)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = L10n.filesHowToTitle
+        title = L10n.Localizable.filesHowToTitle
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
-        closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+        closeButton.accessibilityLabel = L10n.Localizable.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
     }

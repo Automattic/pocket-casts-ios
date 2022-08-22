@@ -12,7 +12,7 @@ struct EditFolderPodcastsView: View {
             VStack(alignment: .leading) {
                 PodcastPickerView(pickerModel: pickerModel)
             }
-            .navigationTitle(L10n.folderChoosePodcasts)
+            .navigationTitle(L10n.Localizable.folderChoosePodcasts)
             .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -22,7 +22,7 @@ struct EditFolderPodcastsView: View {
                         Image("close")
                             .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
                     }
-                    .accessibilityLabel(L10n.close)
+                    .accessibilityLabel(L10n.Localizable.close)
                 }
             }
             .applyDefaultThemeOptions()

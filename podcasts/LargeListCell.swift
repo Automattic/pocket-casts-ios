@@ -18,8 +18,8 @@ class LargeListCell: ThemeableCollectionCell {
             subscribeButton.tintColor = ThemeColor.contrast01()
             subscribeButton.backgroundColor = ThemeColor.veil()
             
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.Localizable.subscribe
+            subscribeButton.onAccessibilityLabel = L10n.Localizable.subscribed
         }
     }
     

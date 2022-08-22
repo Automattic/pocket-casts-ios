@@ -21,7 +21,7 @@ struct PodcastPickerView: View {
                     SortByView(sortType: .dateAddedNewestToOldest, pickerModel: pickerModel)
                 } label: {
                     Image("podcast-sort")
-                        .accessibilityLabel(L10n.podcastsSort)
+                        .accessibilityLabel(L10n.Localizable.podcastsSort)
                         .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
                         .frame(width: 32, height: 32)
                         .overlay(
@@ -66,10 +66,10 @@ struct PodcastPickerView: View {
         var str = podcast.title ?? ""
         
         if selectedPodcasts.contains(podcast.uuid) {
-            str += " \(L10n.statusSelected)"
+            str += " \(L10n.Localizable.statusSelected)"
         }
         else {
-            str += " \(L10n.statusNotSelected)"
+            str += " \(L10n.Localizable.statusNotSelected)"
         }
         
         return str

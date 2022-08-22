@@ -30,7 +30,7 @@ class PodcastSettingsViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateExistingSortcutData()
-        title = L10n.settingsTitle
+        title = L10n.Localizable.settingsTitle
         
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
     }
@@ -94,13 +94,13 @@ class PodcastSettingsViewController: PCViewController {
                 downloadedCount += 1
             }
         }
-        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
-        let unsubscribeAction = OptionAction(label: L10n.unsubscribe, icon: nil, action: { [weak self] in
+        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.Localizable.areYouSure)
+        let unsubscribeAction = OptionAction(label: L10n.Localizable.unsubscribe, icon: nil, action: { [weak self] in
             self?.performUnsubscribe()
         })
         if downloadedCount > 0 {
             unsubscribeAction.destructive = true
-            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
+            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.Localizable.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
         }
         else {
             optionPicker.addAction(action: unsubscribeAction)

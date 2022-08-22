@@ -32,8 +32,8 @@ class DiscoverFeaturedView: ThemeableView {
             subscribeButton.offImage = UIImage(named: "discover_add")
             subscribeButton.tintColor = ThemeColor.contrast02()
             
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = L10n.Localizable.subscribe
+            subscribeButton.onAccessibilityLabel = L10n.Localizable.subscribed
         }
     }
     

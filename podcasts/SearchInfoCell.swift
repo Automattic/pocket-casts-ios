@@ -9,14 +9,14 @@ class SearchInfoCell: ThemeableCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
     
     func showFailed() {
-        infoTitle.text = L10n.discoverSearchFailed
-        infoSubtitle.text = L10n.discoverSearchFailedMsg
+        infoTitle.text = L10n.Localizable.discoverSearchFailed
+        infoSubtitle.text = L10n.Localizable.discoverSearchFailedMsg
         infoImage.image = UIImage(named: "discover_nointernet")
     }
     
     func showNoResults() {
-        infoTitle.text = L10n.discoverNoPodcastsFound
-        infoSubtitle.text = L10n.discoverNoPodcastsFoundMsg
+        infoTitle.text = L10n.Localizable.discoverNoPodcastsFound
+        infoSubtitle.text = L10n.Localizable.discoverNoPodcastsFoundMsg
         infoImage.image = UIImage(named: "discover_noresult")
     }
 }
