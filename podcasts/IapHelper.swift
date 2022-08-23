@@ -28,9 +28,6 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
-
-        // Update the trial eligibility while we update the IAP products
-        updateTrialEligibility()
     }
 
     func getProductWithIdentifier(identifier: String) -> SKProduct! {
@@ -86,6 +83,10 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count > 0 {
             productsArray = response.products
+
+            // Update the trial eligibility
+            updateTrialEligibility()
+
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsUpdated)
         }
         else {
