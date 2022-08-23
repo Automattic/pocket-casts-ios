@@ -7,7 +7,7 @@ struct NowPlayingControls: View {
 
     var body: some View {
         ScrollView([], showsIndicators: false) {
-            VStack() {
+            VStack {
                 progressGroup
                     .frame(maxHeight: .infinity)
                 plabackGroup
