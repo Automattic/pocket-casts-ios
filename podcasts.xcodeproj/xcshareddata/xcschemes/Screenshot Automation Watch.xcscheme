@@ -75,8 +75,10 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       notificationPayloadFile = "Pocket Casts Watch App Extension/PushNotificationPayload.apns">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/Pocket Casts">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BDD301631EFB9356004A9972"
@@ -84,7 +86,7 @@
             BlueprintName = "Pocket Casts Watch App"
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
