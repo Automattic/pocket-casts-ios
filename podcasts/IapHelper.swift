@@ -175,6 +175,12 @@ extension IapHelper {
 
         return offer
     }
+
+    /// Returns the first product ID that has a free trial
+    /// The priority order is set by the productIdentifiers array
+    private func getFirstFreeTrialProductId() -> Constants.IapProducts? {
+        return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
+    }
 }
 
 // MARK: - Trial Eligibility
