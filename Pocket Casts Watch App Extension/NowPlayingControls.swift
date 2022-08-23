@@ -15,7 +15,7 @@ struct NowPlayingControls: View {
                 navigationGroup
                     .frame(maxHeight: .infinity)
                 // To take into account the page indicator view
-                Spacer().frame(height: 5)
+                Spacer().frame(height: Constants.pagingIndicatorHeight)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -105,6 +105,10 @@ struct NowPlayingControls: View {
         .buttonStyle(.plain)
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 2)
+    }
+
+    private enum Constants {
+        static let pagingIndicatorHeight: CGFloat = 5
     }
 }
 
