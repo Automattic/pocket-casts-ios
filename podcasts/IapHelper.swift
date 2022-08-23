@@ -148,7 +148,7 @@ extension IapHelper {
     typealias FreeTrialDetails = (duration: String, pricing: String)
     func getFirstFreeTrialDetails() -> FreeTrialDetails? {
         guard
-            let product = productIdentifiers.first(where: { getFreeTrialOffer($0) != nil }),
+            let product = getFirstFreeTrialProductId(),
             let duration = localizedFreeTrialDuration(product),
             let pricing = pricingStringWithFrequency(for: product)
         else {
@@ -203,6 +203,7 @@ private extension IapHelper {
         guard
             isCheckingEligibility == false,
             FeatureFlag.freeTrialsEnabled,
+            getFirstFreeTrialProductId() != nil,
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
