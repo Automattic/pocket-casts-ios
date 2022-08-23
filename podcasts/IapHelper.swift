@@ -13,7 +13,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var productsRequest: SKProductsRequest?
 
     /// Whether or not the user is eligible for a free trial
-    private var isEligibleForTrial = ServerConstants.Values.freeTrialDefaultValue
+    private var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
 
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
@@ -205,8 +205,10 @@ private extension IapHelper {
 
         isCheckingEligibility = true
         ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
-            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(isEligible ? "Yes" : "No")")
-            self?.isEligibleForTrial = isEligible
+            let eligible = isEligible ?? Constants.Values.freeTrialDefaultValue
+
+            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+            self?.isEligibleForTrial = eligible
             self?.isCheckingEligibility = false
         }
     }
