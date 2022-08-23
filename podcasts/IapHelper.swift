@@ -196,9 +196,10 @@ private extension IapHelper {
 
     /// Update the trial eligibility if:
     /// - We are not already performing a check
-    /// - The doesn't have an active subscription
-    /// - The receipt exists
     /// - The feature flag is enabled
+    /// - A product has a free trial
+    /// - The user doesn't have an active subscription
+    /// - The receipt exists
     private func updateTrialEligibility() {
         guard
             isCheckingEligibility == false,
