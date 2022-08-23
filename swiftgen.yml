@@ -13,6 +13,7 @@
  strings:
    inputs:
      - podcasts/en.lproj/Localizable.strings
+     - podcasts/en.lproj/Intents.strings
    outputs:
      - templateName: structured-swift5
        params:
