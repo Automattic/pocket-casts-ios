@@ -10,5 +10,5 @@ Steps to test your PR.
 
 ## Checklist
 
-- [ ] I have considered if this change warrants user-facing release notes and have added them to `RELEASE_NOTES.md` if necessary.
+- [ ] I have considered if this change warrants user-facing release notes and have added them to `CHANGELOG.md` if necessary.
 - [ ] I have considered adding unit tests for my changes.
