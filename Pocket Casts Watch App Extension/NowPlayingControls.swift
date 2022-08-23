@@ -6,11 +6,19 @@ struct NowPlayingControls: View {
     @Binding var presentView: WatchInterfaceType?
 
     var body: some View {
-        VStack(spacing: 10) {
-            progressGroup
-            plabackGroup
-            navigationGroup
+        ScrollView([], showsIndicators: false) {
+            VStack() {
+                progressGroup
+                    .frame(maxHeight: .infinity)
+                plabackGroup
+                    .frame(maxHeight: .infinity)
+                navigationGroup
+                    .frame(maxHeight: .infinity)
+                // To take into account the page indicator view
+                Spacer().frame(height: 5)
+            }
         }
+        .edgesIgnoringSafeArea(.bottom)
     }
 
     private var progressGroup: some View {
