@@ -10,6 +10,102 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  internal enum Intents {
+    /// Open ${filterName} Filter
+    internal static var _0EmR82: String { return L10n.tr("Intents", "0EmR82") }
+    /// Previous
+    internal static var _0YXvyS: String { return L10n.tr("Intents", "0YXvyS") }
+    /// Media Search
+    internal static var _1uT6VF: String { return L10n.tr("Intents", "1uT6VF") }
+    /// Chapter
+    internal static var _3aWmex: String { return L10n.tr("Intents", "3aWmex") }
+    /// Play at ${playbackSpeed}
+    internal static var _5yWeuV: String { return L10n.tr("Intents", "5yWeuV") }
+    /// Set sleep timer
+    internal static var bVm1vW: String { return L10n.tr("Intents", "bVm1vW") }
+    /// Items
+    internal static var cfJexL: String { return L10n.tr("Intents", "cfJexL") }
+    /// Queue Location
+    internal static var cv2Hlf: String { return L10n.tr("Intents", "cV2HLF") }
+    /// Set Sleep Timer
+    internal static var cXbd65: String { return L10n.tr("Intents", "CXbd65") }
+    /// Skip chapter
+    internal static var dbTobY: String { return L10n.tr("Intents", "dBTobY") }
+    /// resume Pocket Casts
+    internal static var e6Nzn4No0K9w: String { return L10n.tr("Intents", "E6Nzn4-No0K9w") }
+    /// don't resume Pocket Casts
+    internal static var e6Nzn4Pk1Fkx: String { return L10n.tr("Intents", "E6Nzn4-Pk1Fkx") }
+    /// Podcast doesn't support chapters
+    internal static var emhqzv: String { return L10n.tr("Intents", "emhqzv") }
+    /// Repeat Mode
+    internal static var erAaNp: String { return L10n.tr("Intents", "ErAaNp") }
+    /// Extend Sleep Timer
+    internal static var ewNFJ5: String { return L10n.tr("Intents", "EwNFJ5") }
+    /// Unable to skip chapter
+    internal static var g0iCil: String { return L10n.tr("Intents", "G0iCil") }
+    /// Play podcast
+    internal static var g3J6fP: String { return L10n.tr("Intents", "G3J6fP") }
+    /// Next
+    internal static var gd0dlx: String { return L10n.tr("Intents", "gD0dlx") }
+    /// Previous Chapter
+    internal static var iQo0yQ0YXvyS: String { return L10n.tr("Intents", "iQo0yQ-0YXvyS") }
+    /// Next Chapter
+    internal static var iQo0yQGD0dlx: String { return L10n.tr("Intents", "iQo0yQ-gD0dlx") }
+    /// Skip Chapter
+    internal static var iQo0yQWj0EAI: String { return L10n.tr("Intents", "iQo0yQ-Wj0EAI") }
+    /// Open Filter
+    internal static var iyhbAH: String { return L10n.tr("Intents", "IyhbAH") }
+    /// A request to play media
+    internal static var ldrEPN: String { return L10n.tr("Intents", "LdrEPN") }
+    /// Shuffle ${mediaItems}
+    internal static var mbU5ep: String { return L10n.tr("Intents", "MbU5ep") }
+    /// not shuffled
+    internal static var mcAocc: String { return L10n.tr("Intents", "mCAocc") }
+    /// Shuffle ${mediaContainer}
+    internal static var nAv25k: String { return L10n.tr("Intents", "nAv25k") }
+    /// Shuffle ${mediaContainer}
+    internal static var nNozW1: String { return L10n.tr("Intents", "nNozW1") }
+    /// resume
+    internal static var no0K9w: String { return L10n.tr("Intents", "No0K9w") }
+    /// Sleep Timer
+    internal static var nr0neu: String { return L10n.tr("Intents", "nR0neu") }
+    /// Skip Chapter
+    internal static var ntulol: String { return L10n.tr("Intents", "Ntulol") }
+    /// Extend Sleep Timer
+    internal static var ny98Lo: String { return L10n.tr("Intents", "ny98Lo") }
+    /// Resume ${mediaContainer}
+    internal static var o6CuZu: String { return L10n.tr("Intents", "o6CuZu") }
+    /// Extend Sleep Timer by 5 mins
+    internal static var oJvsVr: String { return L10n.tr("Intents", "OJvsVr") }
+    /// don't resume
+    internal static var pk1Fkx: String { return L10n.tr("Intents", "Pk1Fkx") }
+    /// Play ${mediaItems} at ${playbackSpeed}
+    internal static var q8Qy8B: String { return L10n.tr("Intents", "q8QY8B") }
+    /// Open Filter
+    internal static var qektJm: String { return L10n.tr("Intents", "QektJm") }
+    /// shuffled
+    internal static var qqdHiR: String { return L10n.tr("Intents", "QqdHiR") }
+    /// Skip chapter
+    internal static var rnkZnd: String { return L10n.tr("Intents", "rnkZnd") }
+    /// Resume
+    internal static var rvNMpm: String { return L10n.tr("Intents", "rvNMpm") }
+    /// Playback Speed
+    internal static var rvX3Zd: String { return L10n.tr("Intents", "RvX3Zd") }
+    /// Play ${mediaContainer}
+    internal static var slpQxZ: String { return L10n.tr("Intents", "sLPQxZ") }
+    /// Play ${mediaContainer}
+    internal static var wEjMGd: String { return L10n.tr("Intents", "WEjMGd") }
+    /// Skip
+    internal static var wj0EAI: String { return L10n.tr("Intents", "Wj0EAI") }
+    /// Shuffled
+    internal static var wktFNa: String { return L10n.tr("Intents", "WktFNa") }
+    /// Container
+    internal static var xdnqvn: String { return L10n.tr("Intents", "xdnqvn") }
+    /// Play ${mediaContainer}
+    internal static var yYfsKp: String { return L10n.tr("Intents", "YYfsKp") }
+    /// Skipped chapter
+    internal static var zvlpk3: String { return L10n.tr("Intents", "zvlpk3") }
+  }
   internal enum Localizable {
     /// Automattic Family
     internal static var aboutA8cFamily: String { return L10n.tr("Localizable", "about_a8c_family") }
@@ -2135,100 +2231,6 @@ internal enum L10n {
     internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
     /// Not Signed In
     internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
-    /// Open ${filterName} Filter
-    internal static var siriIntentDefinitionKey0EmR82: String { return L10n.tr("Localizable", "siri_intent_definition_key_0EmR82") }
-    /// Previous
-    internal static var siriIntentDefinitionKey0YXvyS: String { return L10n.tr("Localizable", "siri_intent_definition_key_0YXvyS") }
-    /// Media Search
-    internal static var siriIntentDefinitionKey1uT6VF: String { return L10n.tr("Localizable", "siri_intent_definition_key_1uT6VF") }
-    /// Chapter
-    internal static var siriIntentDefinitionKey3aWmex: String { return L10n.tr("Localizable", "siri_intent_definition_key_3aWmex") }
-    /// Play at ${playbackSpeed}
-    internal static var siriIntentDefinitionKey5yWeuV: String { return L10n.tr("Localizable", "siri_intent_definition_key_5yWeuV") }
-    /// Set sleep timer
-    internal static var siriIntentDefinitionKeyBVm1vW: String { return L10n.tr("Localizable", "siri_intent_definition_key_bVm1vW") }
-    /// Items
-    internal static var siriIntentDefinitionKeyCfJexL: String { return L10n.tr("Localizable", "siri_intent_definition_key_cfJexL") }
-    /// Queue Location
-    internal static var siriIntentDefinitionKeyCV2HLF: String { return L10n.tr("Localizable", "siri_intent_definition_key_cV2HLF") }
-    /// Set Sleep Timer
-    internal static var siriIntentDefinitionKeyCXbd65: String { return L10n.tr("Localizable", "siri_intent_definition_key_CXbd65") }
-    /// Skip chapter
-    internal static var siriIntentDefinitionKeyDBTobY: String { return L10n.tr("Localizable", "siri_intent_definition_key_dBTobY") }
-    /// resume Pocket Casts
-    internal static var siriIntentDefinitionKeyE6Nzn4No0K9w: String { return L10n.tr("Localizable", "siri_intent_definition_key_E6Nzn4-No0K9w") }
-    /// don't resume Pocket Casts
-    internal static var siriIntentDefinitionKeyE6Nzn4Pk1Fkx: String { return L10n.tr("Localizable", "siri_intent_definition_key_E6Nzn4-Pk1Fkx") }
-    /// Podcast doesn't support chapters
-    internal static var siriIntentDefinitionKeyEmhqzv: String { return L10n.tr("Localizable", "siri_intent_definition_key_emhqzv") }
-    /// Repeat Mode
-    internal static var siriIntentDefinitionKeyErAaNp: String { return L10n.tr("Localizable", "siri_intent_definition_key_ErAaNp") }
-    /// Extend Sleep Timer
-    internal static var siriIntentDefinitionKeyEwNFJ5: String { return L10n.tr("Localizable", "siri_intent_definition_key_EwNFJ5") }
-    /// Unable to skip chapter
-    internal static var siriIntentDefinitionKeyG0iCil: String { return L10n.tr("Localizable", "siri_intent_definition_key_G0iCil") }
-    /// Play podcast
-    internal static var siriIntentDefinitionKeyG3J6fP: String { return L10n.tr("Localizable", "siri_intent_definition_key_G3J6fP") }
-    /// Next
-    internal static var siriIntentDefinitionKeyGD0dlx: String { return L10n.tr("Localizable", "siri_intent_definition_key_gD0dlx") }
-    /// Previous Chapter
-    internal static var siriIntentDefinitionKeyIQo0yQ0YXvyS: String { return L10n.tr("Localizable", "siri_intent_definition_key_iQo0yQ-0YXvyS") }
-    /// Next Chapter
-    internal static var siriIntentDefinitionKeyIQo0yQGD0dlx: String { return L10n.tr("Localizable", "siri_intent_definition_key_iQo0yQ-gD0dlx") }
-    /// Skip Chapter
-    internal static var siriIntentDefinitionKeyIQo0yQWj0EAI: String { return L10n.tr("Localizable", "siri_intent_definition_key_iQo0yQ-Wj0EAI") }
-    /// Open Filter
-    internal static var siriIntentDefinitionKeyIyhbAH: String { return L10n.tr("Localizable", "siri_intent_definition_key_IyhbAH") }
-    /// A request to play media
-    internal static var siriIntentDefinitionKeyLdrEPN: String { return L10n.tr("Localizable", "siri_intent_definition_key_LdrEPN") }
-    /// Shuffle ${mediaItems}
-    internal static var siriIntentDefinitionKeyMbU5ep: String { return L10n.tr("Localizable", "siri_intent_definition_key_MbU5ep") }
-    /// not shuffled
-    internal static var siriIntentDefinitionKeyMCAocc: String { return L10n.tr("Localizable", "siri_intent_definition_key_mCAocc") }
-    /// Shuffle ${mediaContainer}
-    internal static var siriIntentDefinitionKeyNAv25k: String { return L10n.tr("Localizable", "siri_intent_definition_key_nAv25k") }
-    /// Shuffle ${mediaContainer}
-    internal static var siriIntentDefinitionKeyNNozW1: String { return L10n.tr("Localizable", "siri_intent_definition_key_nNozW1") }
-    /// resume
-    internal static var siriIntentDefinitionKeyNo0K9w: String { return L10n.tr("Localizable", "siri_intent_definition_key_No0K9w") }
-    /// Sleep Timer
-    internal static var siriIntentDefinitionKeyNR0neu: String { return L10n.tr("Localizable", "siri_intent_definition_key_nR0neu") }
-    /// Skip Chapter
-    internal static var siriIntentDefinitionKeyNtulol: String { return L10n.tr("Localizable", "siri_intent_definition_key_Ntulol") }
-    /// Extend Sleep Timer
-    internal static var siriIntentDefinitionKeyNy98Lo: String { return L10n.tr("Localizable", "siri_intent_definition_key_ny98Lo") }
-    /// Resume ${mediaContainer}
-    internal static var siriIntentDefinitionKeyO6CuZu: String { return L10n.tr("Localizable", "siri_intent_definition_key_o6CuZu") }
-    /// Extend Sleep Timer by 5 mins
-    internal static var siriIntentDefinitionKeyOJvsVr: String { return L10n.tr("Localizable", "siri_intent_definition_key_OJvsVr") }
-    /// don't resume
-    internal static var siriIntentDefinitionKeyPk1Fkx: String { return L10n.tr("Localizable", "siri_intent_definition_key_Pk1Fkx") }
-    /// Play ${mediaItems} at ${playbackSpeed}
-    internal static var siriIntentDefinitionKeyQ8QY8B: String { return L10n.tr("Localizable", "siri_intent_definition_key_q8QY8B") }
-    /// Open Filter
-    internal static var siriIntentDefinitionKeyQektJm: String { return L10n.tr("Localizable", "siri_intent_definition_key_QektJm") }
-    /// shuffled
-    internal static var siriIntentDefinitionKeyQqdHiR: String { return L10n.tr("Localizable", "siri_intent_definition_key_QqdHiR") }
-    /// Skip chapter
-    internal static var siriIntentDefinitionKeyRnkZnd: String { return L10n.tr("Localizable", "siri_intent_definition_key_rnkZnd") }
-    /// Resume
-    internal static var siriIntentDefinitionKeyRvNMpm: String { return L10n.tr("Localizable", "siri_intent_definition_key_rvNMpm") }
-    /// Playback Speed
-    internal static var siriIntentDefinitionKeyRvX3Zd: String { return L10n.tr("Localizable", "siri_intent_definition_key_RvX3Zd") }
-    /// Play ${mediaContainer}
-    internal static var siriIntentDefinitionKeySLPQxZ: String { return L10n.tr("Localizable", "siri_intent_definition_key_sLPQxZ") }
-    /// Play ${mediaContainer}
-    internal static var siriIntentDefinitionKeyWEjMGd: String { return L10n.tr("Localizable", "siri_intent_definition_key_WEjMGd") }
-    /// Skip
-    internal static var siriIntentDefinitionKeyWj0EAI: String { return L10n.tr("Localizable", "siri_intent_definition_key_Wj0EAI") }
-    /// Shuffled
-    internal static var siriIntentDefinitionKeyWktFNa: String { return L10n.tr("Localizable", "siri_intent_definition_key_WktFNa") }
-    /// Container
-    internal static var siriIntentDefinitionKeyXdnqvn: String { return L10n.tr("Localizable", "siri_intent_definition_key_xdnqvn") }
-    /// Play ${mediaContainer}
-    internal static var siriIntentDefinitionKeyYYfsKp: String { return L10n.tr("Localizable", "siri_intent_definition_key_YYfsKp") }
-    /// Skipped chapter
-    internal static var siriIntentDefinitionKeyZvlpk3: String { return L10n.tr("Localizable", "siri_intent_definition_key_zvlpk3") }
     /// Set sleep timer to %1$@
     internal static func siriShortcutExtendSleepTimer(_ p1: Any) -> String {
       return L10n.tr("Localizable", "siri_shortcut_extend_sleep_timer", String(describing: p1))
