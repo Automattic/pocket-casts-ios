@@ -32,10 +32,7 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
-# The folder where all the `.lproj` folders are located
-LPROJ_ROOT_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts')
-
-EN_LPROJ_FOLDER = File.join(LPROJ_ROOT_FOLDER, 'en.lproj')
+EN_LPROJ_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'en.lproj')
 
 # List of `.strings` files manually maintained by developers (as opposed to
 # being automatically extracted from code and generated) which we will merge
