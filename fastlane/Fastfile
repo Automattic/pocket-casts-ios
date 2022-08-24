@@ -465,6 +465,7 @@ inal copy, and try again.")
     UI.message('Checking app strings translation status...')
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
       abort_on_violations: abort_on_violations,
       skip_confirm: skip_confirm
     )
@@ -472,6 +473,7 @@ inal copy, and try again.")
     UI.message('Checking release notes strings translation status...')
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
       abort_on_violations: abort_on_violations,
       skip_confirm: skip_confirm
     )
