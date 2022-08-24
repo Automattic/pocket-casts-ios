@@ -10,7 +10,7 @@ gem 'danger-rubocop', '~> 0.10'
 gem 'danger-swiftformat', git: 'https://github.com/shiftyjelly/danger-ruby-swiftformat.git'
 gem 'danger-swiftlint'
 gem 'fastlane'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 5.3'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 5.4'
 gem 'rubocop', '~> 1.30'
 gem 'watchbuild'
 
