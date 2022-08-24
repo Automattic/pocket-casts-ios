@@ -234,18 +234,7 @@ platform :ios do
     end
 
     ios_finalize_prechecks(options)
-
-    UI.message('Checking app strings translation status...')
-    check_translation_progress(
-      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
-      abort_on_violations: false
-    )
-
-    UI.message('Checking release notes strings translation status...')
-    check_translation_progress(
-      glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
-      abort_on_violations: false
-    )
+    check_all_translations_progress(interactive: false)
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
@@ -458,6 +447,33 @@ inal copy, and try again.")
       path: files_to_commit,
       message: 'Update App Store metadata translations',
       allow_nothing_to_commit: true
+    )
+  end
+
+  # Checks the translation progress (%) of all Mag16 for all the projects (app
+  # strings and metadata) in GlotPress.
+  #
+  # @option [Boolean] interactive (default: false) If true, will pause and ask
+  # confirmation to continue if it found any locale translated below the
+  # threshold
+  #
+  desc 'Check translation progress for all GlotPress projects'
+  lane :check_all_translations_progress do |options|
+    abort_on_violations = false
+    skip_confirm = options.fetch(:interactive, false) == false
+
+    UI.message('Checking app strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
+    )
+
+    UI.message('Checking release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
     )
   end
 
