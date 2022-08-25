@@ -63,19 +63,23 @@ class TermsViewController: PCViewController {
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped(_:)))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
+        Analytics.track(.termsOfUseShown)
     }
     
     @IBAction func agreeTapped(_ sender: Any) {
         let paymentVc = SelectPaymentFreqViewController(newSubscription: newSubscription)
         navigationController?.pushViewController(paymentVc, animated: true)
+        Analytics.track(.termsOfUseAccepted)
     }
     
     @IBAction func noTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        Analytics.track(.termsOfUseRejected)
     }
     
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        Analytics.track(.termsOfUseDismissed)
     }
     
     @IBAction func showTermsOfUse(_ sender: Any) {
