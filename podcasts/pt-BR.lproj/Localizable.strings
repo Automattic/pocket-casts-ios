@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
+/* Translation-Revision-Date: 2022-08-08 15:54:03+0000 */
 /* Plural-Forms: nplurals=2; plural=(n > 1); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: pt_BR */
@@ -36,7 +36,7 @@
 /* Main callout to come get a job with Automattic */
 "about_work_with_us" = "Trabalhe conosco";
 
-/* No comment provided by engineer. */
+/* A common string used throughout the app. An accessibility label to direct the user to turn off the multi-select mode. */
 "accessibility_cancel_multiselect" = "Cancelar multisseleção";
 
 /* A common string used throughout the app. Accessibility hint to inform that the control closes the current dialog window. */
@@ -1150,6 +1150,21 @@
 /* Common word used as in the app to denote the folders feature */
 "folders" = "Pastas";
 
+/* Upsell dialog free trial detail label that informs the user that they no payment is needed, and can cancel at anytime */
+"free_trial_detail_label" = "Sem pagamento por enquanto, cancele quando quiser";
+
+/* Free trial duration with the word free emphasized, %1$@ is the localize trial duration (1 month) */
+"free_trial_duration_free" = "GRÁTIS POR %1$@";
+
+/* Free trial terms where %1$@ refers to the trial duration (30 days) and %2$@ is the price after the trial ($0.99 / month) */
+"free_trial_pricing_terms" = "Grátis por %1$@ e depois %2$@";
+
+/* Upsell dialog confirmation button title when a free trial is active */
+"free_trial_start_button" = "Iniciar teste gratuito";
+
+/* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
+"free_trial_title_label" = "Experimente o Plus gratuitamente por %1$@";
+
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "Combina com seus olhos ✨";
 
@@ -1777,6 +1792,9 @@
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
+/* A shortened version of the common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. */
+"pocket_casts_plus_short" = "Plus";
+
 /* Indicates that the access to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the access expired. */
 "podcast_access_ended" = "O acesso terminou em: %1$@";
 
@@ -2038,8 +2056,14 @@
 /* Common word to denote a preview of something is being shown */
 "preview" = "Pré-visualizar";
 
+/* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
+"pricing_terms_after_trial" = "depois por %1$@";
+
 /* A common string used throughout the app. Refers to the Profile tab. */
 "profile" = "Perfil";
+
+/* Body of Plus promotional section */
+"profile_help_support" = "Apoie o Pocket Casts fazendo upgrade da sua conta";
 
 /* Informational label indicating the last time the app was refreshed. '%1$@' is a placeholder for a date string indicating when the last refresh occurred. */
 "profile_last_app_refresh" = "Última atualização do app em %1$@";

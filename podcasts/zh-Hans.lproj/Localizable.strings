@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-07-11 15:54:02+0000 */
+/* Translation-Revision-Date: 2022-08-09 09:54:15+0000 */
 /* Plural-Forms: nplurals=1; plural=0; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: zh_CN */
@@ -36,7 +36,7 @@
 /* Main callout to come get a job with Automattic */
 "about_work_with_us" = "加入我们";
 
-/* No comment provided by engineer. */
+/* A common string used throughout the app. An accessibility label to direct the user to turn off the multi-select mode. */
 "accessibility_cancel_multiselect" = "取消多选";
 
 /* A common string used throughout the app. Accessibility hint to inform that the control closes the current dialog window. */
@@ -1150,6 +1150,21 @@
 /* Common word used as in the app to denote the folders feature */
 "folders" = "文件夹";
 
+/* Upsell dialog free trial detail label that informs the user that they no payment is needed, and can cancel at anytime */
+"free_trial_detail_label" = "现在无需付款 - 可随时取消";
+
+/* Free trial duration with the word free emphasized, %1$@ is the localize trial duration (1 month) */
+"free_trial_duration_free" = "免费使用 %1$@";
+
+/* Free trial terms where %1$@ refers to the trial duration (30 days) and %2$@ is the price after the trial ($0.99 / month) */
+"free_trial_pricing_terms" = "免费使用 %1$@，之后 %2$@";
+
+/* Upsell dialog confirmation button title when a free trial is active */
+"free_trial_start_button" = "开始免费试用";
+
+/* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
+"free_trial_title_label" = "免费试用 Plus %1$@";
+
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "它真的很配您的双眼 ✨";
 
@@ -1450,7 +1465,7 @@
 "opml_import_failed_title" = "OPML 导入失败";
 
 /* Progress message indicating the total number of podcasts imported from an OPML file. '%1$@' serves as a placeholder for the current number of imported podcasts. '%2$@' serves as a placeholder for the total number of podcasts to import. */
-"opml_import_progress_format" = "正在导入 %1$@ 个，共 2$@ 个";
+"opml_import_progress_format" = "正在导入 %1$@ 个，共 %2$@ 个";
 
 /* Progress message indicating that the import process of an OPML file is running. */
 "opml_importing" = "正在导入播客...";
@@ -1777,6 +1792,9 @@
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
+/* A shortened version of the common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. */
+"pocket_casts_plus_short" = "Plus";
+
 /* Indicates that the access to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the access expired. */
 "podcast_access_ended" = "访问已结束：%1$@";
 
@@ -2038,8 +2056,14 @@
 /* Common word to denote a preview of something is being shown */
 "preview" = "预览";
 
+/* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
+"pricing_terms_after_trial" = "之后 %1$@";
+
 /* A common string used throughout the app. Refers to the Profile tab. */
 "profile" = "个人资料";
+
+/* Body of Plus promotional section */
+"profile_help_support" = "通过升级您的账户，帮助支持 Pocket Casts";
 
 /* Informational label indicating the last time the app was refreshed. '%1$@' is a placeholder for a date string indicating when the last refresh occurred. */
 "profile_last_app_refresh" = "应用程序上次刷新时间：%1$@";
