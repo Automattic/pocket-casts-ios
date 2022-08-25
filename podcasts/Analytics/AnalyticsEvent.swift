@@ -22,4 +22,44 @@ enum AnalyticsEvent: String {
     case purchaseSuccessful
     case purchaseFailed
     case purchaseCancelled
+
+    // Plus Upsell Dialog
+    case plusPromotionShown
+    case plusPromotionDismissed
+    case plusPromotionUpgradeButtonTapped
+
+    // Setup Account
+    case setupAccountShown
+    case setupAccountDismissed
+    case setupAccountButtonTapped
+
+    // Sign in View
+    case signInShown
+    case signInDismissed
+
+    // Select Account Type
+    case selectAccountTypeShown
+    case selectAccountTypeDismissed
+    case selectAccountTypeNextButtonTapped
+
+    // Create Account
+    case createAccountShown
+    case createAccountDismissed
+    case createAccountNextButtonTapped
+
+    // Terms of Use
+    case termsOfUseShown
+    case termsOfUseDismissed
+    case termsOfUseAccepted
+    case termsOfUseRejected
+
+    // Select Payment Frequency
+    case selectPaymentFrequencyShown
+    case selectPaymentFrequencyDismissed
+    case selectPaymentFrequencyNextButtonTapped
+
+    // Confirm Payment
+    case confirmPaymentShown
+    case confirmPaymentDismissed
+    case confirmPaymentConfirmButtonTapped
 }
