@@ -166,6 +166,24 @@ extension IapHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IapHelper: SKPaymentTransactionObserver {
+    func purchaseWasSuccessful(_ productId: String) {
+        let product = getProductWithIdentifier(identifier: productId)
+        let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
+        let isEligible = isEligibleForFreeTrial()
+        
+        Analytics.track(.purchaseSuccessful, properties: ["product": productId,
+                                                          "is_free_trial_available": isFreeTrial,
+                                                          "is_free_trial_eligible": isEligible])
+    }
+
+    func purchaseWasCancelled(_ productId: String, error: NSError) {
+        Analytics.track(.purchaseCancelled, properties: ["error_code": error.code])
+    }
+
+    func purchaseFailed(_ productId: String, error: NSError) {
+        Analytics.track(.purchaseFailed, properties: ["error_code": error.code])
+    }
+
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
@@ -185,6 +203,8 @@ extension IapHelper: SKPaymentTransactionObserver {
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
                     AnalyticsHelper.plusPlanPurchased()
+                    
+                    purchaseWasSuccessful(product)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
@@ -192,9 +212,11 @@ extension IapHelper: SKPaymentTransactionObserver {
                     
                     if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled)
+                        purchaseWasCancelled(product, error: e)
                     }
                     else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed)
+                        purchaseFailed(product, error: e)
                     }
                 case .deferred:
                     FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
