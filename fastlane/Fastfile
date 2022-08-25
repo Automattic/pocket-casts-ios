@@ -462,7 +462,7 @@ inal copy, and try again.")
     abort_on_violations = false
     skip_confirm = options.fetch(:interactive, false) == false
 
-    UI.message('Checking app strings translation status...')
+    UI.header('Checking app strings translation status...')
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
@@ -470,7 +470,7 @@ inal copy, and try again.")
       skip_confirm: skip_confirm
     )
 
-    UI.message('Checking release notes strings translation status...')
+    UI.header('Checking release notes strings translation status...')
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
       language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
