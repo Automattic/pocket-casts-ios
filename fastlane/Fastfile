@@ -234,7 +234,7 @@ platform :ios do
     end
 
     ios_finalize_prechecks(options)
-    check_all_translations_progress(interactive: false)
+    check_all_translations_progress(interactive: true)
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
