@@ -167,8 +167,9 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.contentView.alpha = 1
                 self.activityIndicator.stopAnimating()
 
-                guard success, let userId = userId else {
+                if !success {
                     Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
+
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
@@ -229,7 +230,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         infoLabel.style = .primaryText01
     }
     
-    private func saveUsernameAndPassword(_ username: String, password: String, userId: String) {
+    private func saveUsernameAndPassword(_ username: String, password: String, userId: String?) {
         ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
         

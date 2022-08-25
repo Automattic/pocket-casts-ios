@@ -124,7 +124,7 @@ class WatchSyncManager {
     func login(username: String, password: String) {
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
-                guard success, let userId = userId else {
+                if !success {
                     if let message = error?.rawValue, !message.isEmpty {
                         FileLog.shared.addMessage("FAILED Login \(message)")
                     }
