@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-07-11 09:54:03+0000 */
+/* Translation-Revision-Date: 2022-08-09 09:54:16+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: es */
@@ -36,7 +36,7 @@
 /* Main callout to come get a job with Automattic */
 "about_work_with_us" = "Trabaja con nosotros";
 
-/* No comment provided by engineer. */
+/* A common string used throughout the app. An accessibility label to direct the user to turn off the multi-select mode. */
 "accessibility_cancel_multiselect" = "Cancelar selección múltiple";
 
 /* A common string used throughout the app. Accessibility hint to inform that the control closes the current dialog window. */
@@ -1150,6 +1150,21 @@
 /* Common word used as in the app to denote the folders feature */
 "folders" = "Carpetas";
 
+/* Upsell dialog free trial detail label that informs the user that they no payment is needed, and can cancel at anytime */
+"free_trial_detail_label" = "Sin pago por adelantado. Cancela en cualquier momento";
+
+/* Free trial duration with the word free emphasized, %1$@ is the localize trial duration (1 month) */
+"free_trial_duration_free" = "%1$@ GRATIS";
+
+/* Free trial terms where %1$@ refers to the trial duration (30 days) and %2$@ is the price after the trial ($0.99 / month) */
+"free_trial_pricing_terms" = "%1$@ gratis, luego %2$@";
+
+/* Upsell dialog confirmation button title when a free trial is active */
+"free_trial_start_button" = "Iniciar prueba gratuita";
+
+/* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
+"free_trial_title_label" = "Prueba Plus durante %1$@ gratis";
+
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "Combina con tus ojos ✨";
 
@@ -1456,7 +1471,7 @@
 "opml_importing" = "Importando podcasts…";
 
 /* Format used to indicate the current page and total in a custom page control. '%1$@' is a placeholder for the current page. '%2$@' is a placeholder for the total pages. */
-"page_control_page_progress_format" = "Página %1$@ de 2$@";
+"page_control_page_progress_format" = "Página %1$@ de %2$@";
 
 /* A label indicating the number of podcasts the user has subscribed to compared to the total number of podcasts in the bundle. '%1$@' is a placeholder for the number of subscribed podcasts. '%2$@' is a placeholder for the number of podcasts in the bundle. */
 "paid_podcast_bundled_subscriptions" = "%1$@ \/ %2$@ SUSCRITOS";
@@ -1777,6 +1792,9 @@
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
+/* A shortened version of the common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. */
+"pocket_casts_plus_short" = "Plus";
+
 /* Indicates that the access to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the access expired. */
 "podcast_access_ended" = "El acceso terminó: %1$@";
 
@@ -2038,8 +2056,14 @@
 /* Common word to denote a preview of something is being shown */
 "preview" = "Vista previa";
 
+/* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
+"pricing_terms_after_trial" = "luego %1$@";
+
 /* A common string used throughout the app. Refers to the Profile tab. */
 "profile" = "Perfil";
+
+/* Body of Plus promotional section */
+"profile_help_support" = "Mejora tu cuenta y ayuda a la compatibilidad de Pocket Casts";
 
 /* Informational label indicating the last time the app was refreshed. '%1$@' is a placeholder for a date string indicating when the last refresh occurred. */
 "profile_last_app_refresh" = "Aplicación actualizada por última vez el %1$@";
