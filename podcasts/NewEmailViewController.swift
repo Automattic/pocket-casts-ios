@@ -168,6 +168,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
 
                 if !success {
+                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
+
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
@@ -239,6 +241,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+
+        Analytics.track(.userAccountCreated)
     }
     
     // MARK: - UITextField Methods
