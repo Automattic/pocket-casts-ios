@@ -265,7 +265,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         activityIndicatorView.isHidden = false
         
         mainButton.setTitle("", for: .normal)
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, error in
+        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 if !success {
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
@@ -274,22 +274,21 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     else {
                         self.showErrorMessage(L10n.syncAccountError)
                     }
-                    
+
                     self.mainButton.setTitle(L10n.signIn, for: .normal)
                     self.contentView.alpha = 1
                     self.activityIndicatorView.stopAnimating()
                     self.progressAlert?.hideAlert(false)
                     self.progressAlert = nil
-                    
                     return
                 }
-                
+
                 self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
                 self.progressAlert?.showAlert(self, hasProgress: false, completion: {
                     // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
                     SyncManager.clearTokensFromKeyChain()
                     
-                    self.handleSuccessfulSignIn(username, password: password)
+                    self.handleSuccessfulSignIn(username, password: password, userId: userId)
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     Settings.setPromotionFinishedAcknowledged(true)
                     Settings.setLoginDetailsUpdated()
@@ -318,7 +317,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     
     // MARK: - Private Helpers
     
-    private func handleSuccessfulSignIn(_ username: String, password: String) {
+    private func handleSuccessfulSignIn(_ username: String, password: String, userId: String?) {
+        ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
         
         // we've signed in, set all our existing podcasts to be non synced
@@ -326,6 +326,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
+
+        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
     
     private func showErrorMessage(_ message: String) {

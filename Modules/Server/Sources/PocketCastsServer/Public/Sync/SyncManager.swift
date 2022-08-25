@@ -32,6 +32,8 @@ public class SyncManager {
         clearTokensFromKeyChain()
         
         ServerSettings.setSyncingEmail(email: nil)
+        ServerSettings.userId = nil
+
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.upNextServerLastModified)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.historyServerLastModified)
