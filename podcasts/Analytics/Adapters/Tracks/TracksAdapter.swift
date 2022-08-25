@@ -15,14 +15,17 @@ class TracksAdapter: AnalyticsAdapter {
 
     private enum TracksConfig {
         static let prefix = "pcios"
-        static let userKey = "pc:user_id"
+        static let userKey = "pocketcasts:user_id"
         static let anonymousUUIDKey = "TracksAnonymousUUID"
+        static let uuidInactivityTimeout: TimeInterval = 30.minutes
     }
 
     /// Returns a UUID id to use if the user is in a logged out state
     ///
     private var anonymousUUID: String {
         let key = TracksConfig.anonymousUUIDKey
+
+        // Generate a new UUID if there isn't currently one
         guard let uuid = userDefaults.string(forKey: key) else {
             let uuid = UUID().uuidString
             userDefaults.set(uuid, forKey: key)
@@ -31,6 +34,9 @@ class TracksAdapter: AnalyticsAdapter {
 
         return uuid
     }
+
+    /// The date the last event was tracked, used to determine when to regenerate the UUID
+    private var lastEventDate: Date?
 
     deinit {
         notificationCenter.removeObserver(self)
@@ -51,13 +57,21 @@ class TracksAdapter: AnalyticsAdapter {
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate()
 
+        // Reset the anonymous UUID on each new analytics session
+        resetAnonymousUUID()
+
+        // Setup the rest of the
         updateUserProperties()
         addNotificationObservers()
         updateAuthenticationState()
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
+        regenerateAnonymousUUIDIfNeeded()
         tracksService.trackEventName(name, withCustomProperties: properties)
+
+        // Update the last event date so we can monitor the UUID timeout
+        lastEventDate = Date()
     }
 
     private var defaultProperties: [String: AnyHashable] {
@@ -103,14 +117,31 @@ private extension TracksAdapter {
     }
 
     func updateAuthenticationState() {
-        guard let userId = ServerSettings.userId else {
-            tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+        tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+    }
+
+    func resetAnonymousUUID() {
+        userDefaults.set(nil, forKey: TracksConfig.anonymousUUIDKey)
+    }
+
+    /// Checks to see if the time since the last tracking event is greater than the timeout
+    /// If it is, we reset the stored anonymous UUID so a new one will be generated for the event
+    func regenerateAnonymousUUIDIfNeeded() {
+        // No last event date, don't regenerate we're on a first launch
+        guard let lastEventDate = lastEventDate else {
             return
         }
-        
-        tracksService.switchToAuthenticatedUser(withUsername: nil,
-                                                userID: userId,
-                                                skipAliasEventCreation: false)
+
+        let secondsSince = Date().timeIntervalSince(lastEventDate)
+
+        // The timeout limit hasn't been hit yet
+        guard secondsSince >= TracksConfig.uuidInactivityTimeout else {
+            return
+        }
+
+        // Over the timeout, reset the UUID
+        resetAnonymousUUID()
+        updateAuthenticationState()
     }
 }
 

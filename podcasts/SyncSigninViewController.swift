@@ -267,7 +267,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         mainButton.setTitle("", for: .normal)
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
-                guard success, let userId = userId else {
+                if !success {
                     Analytics.track(.userSignInFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
 
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
@@ -319,7 +319,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     
     // MARK: - Private Helpers
     
-    private func handleSuccessfulSignIn(_ username: String, password: String, userId: String) {
+    private func handleSuccessfulSignIn(_ username: String, password: String, userId: String?) {
         ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
         
