@@ -458,6 +458,7 @@
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
+		8BECFCC428B95E3E00A8F021 /* Passkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BECFCC328B95E3E00A8F021 /* Passkey.swift */; };
 		8BF0BBD228918B49006BBECF /* HomeGridDataHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBD128918B49006BBECF /* HomeGridDataHelperTests.swift */; };
 		8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; };
 		8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1925,6 +1926,7 @@
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
+		8BECFCC328B95E3E00A8F021 /* Passkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passkey.swift; sourceTree = "<group>"; };
 		8BF0BBD128918B49006BBECF /* HomeGridDataHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGridDataHelperTests.swift; sourceTree = "<group>"; };
 		8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastBuilder.swift; sourceTree = "<group>"; };
 		8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderBuilder.swift; sourceTree = "<group>"; };
@@ -3756,6 +3758,7 @@
 				46305CEC272AFA5F003AC87B /* UserDefaults+Helpers.swift */,
 				BD6275BE27D1C5370020A28C /* TraceHelper.swift */,
 				C7AF5788289C60B70089E435 /* FeatureFlag.swift */,
+				8BECFCC328B95E3E00A8F021 /* Passkey.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -7003,6 +7006,7 @@
 				BD1EBD6E1CB7770B004F83D6 /* AppearanceViewController.swift in Sources */,
 				BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
+				8BECFCC428B95E3E00A8F021 /* Passkey.swift in Sources */,
 				407B21E72231F6A300B4E492 /* UploadedSettingsViewController.swift in Sources */,
 				BD339C5C2149E35600E655F9 /* VideoViewController+Controls.swift in Sources */,
 				4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */,
