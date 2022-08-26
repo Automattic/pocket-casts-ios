@@ -4,8 +4,12 @@ import UIKit
 import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
+    private var supportUtils: SupportUtils?
+
     private enum TableRow: String {
         case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus
+
+        case exportDatabase
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -37,6 +41,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.appleWatch, UIImage(named: "settings_watch"))
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
+            case .exportDatabase:
+                return ("Export Database", UIImage(systemName: "tray.and.arrow.up.fill"))
             }
         }
     }
@@ -131,6 +137,11 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
         case .pocketCastsPlus:
             navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
+        case .exportDatabase:
+            supportUtils = SupportUtils()
+            supportUtils?.exportDatabase(from: self, completion: { [weak self] in
+                self?.supportUtils = nil
+            })
         }
     }
     
@@ -139,12 +150,19 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     }
     
     private func reloadTable() {
-        if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml, .about]]
+        var watchSettings: [TableRow] = [.storageAndDataUse, .siriShortcuts, .watch, .customFiles]
+        if !WCSession.isSupported() {
+            watchSettings = [.storageAndDataUse, .siriShortcuts, .customFiles]
         }
-        else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml, .about]]
-        }
+
+        #warning("TODO: Only show export database for debug or beta versions of the app")
+        tableData = [
+            [.general, .notifications, .appearance],
+            [.autoArchive, .autoDownload, .autoAddToUpNext],
+            watchSettings,
+            [.help, .opml, .about],
+            [.exportDatabase]
+        ]
 
         if !SubscriptionHelper.hasActiveSubscription() {
             tableData.insert([.pocketCastsPlus], at: 0)

@@ -39,7 +39,7 @@ public class DataManager {
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
     }
-    
+
     // MARK: - Up Next
     
     public func allUpNextPlaylistEpisodes() -> [PlaylistEpisode] {
@@ -900,6 +900,39 @@ public extension DataManager {
             let query = "DELETE FROM \(Self.episodeTableName) WHERE uuid IN (\(uuids.joined(separator: ",")))"
 
             try? db.executeUpdate(query, values: nil)
+        }
+    }
+}
+
+// MARK: - Database Export Support
+
+public extension DataManager {
+    func exportDatabase(_ completion: @escaping (_ url: URL?) -> Void) {
+        DispatchQueue.global().async {
+            let url = URL(fileURLWithPath: DataManager.pathToDbFolder())
+            let coordinator = NSFileCoordinator()
+            let fileManager = FileManager.default
+
+            coordinator.coordinate(readingItemAt: url, options: .forUploading, error: nil) { zipURL in
+                do {
+                    let tempURL = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".zip")
+
+                    if fileManager.fileExists(atPath: tempURL.path) {
+                        try fileManager.removeItem(at: tempURL)
+                    }
+
+                    try fileManager.moveItem(at: zipURL, to: tempURL)
+
+                    DispatchQueue.main.async {
+                        completion(tempURL)
+                    }
+                }
+                catch {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+            }
         }
     }
 }
