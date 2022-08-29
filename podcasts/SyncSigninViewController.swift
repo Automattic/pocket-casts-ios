@@ -87,6 +87,12 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     private var progressAlert: ShiftyLoadingAlert?
     
     private var totalPodcastsToImport = -1
+
+    private lazy var passkeyHandler = {
+        let passkeyHandler = Passkey()
+        passkeyHandler.delegate = self
+        return passkeyHandler
+    }()
     
     // MARK: - UIView Methods
     
@@ -123,6 +129,12 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.podcastRefreshFailed, selector: #selector(syncCompleted))
+
+        if let window = view.window {
+            if #available(iOS 16, *) {
+                passkeyHandler.signInWith(anchor: window, preferImmediatelyAvailableCredentials: true)
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -376,5 +388,11 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         UIView.animate(withDuration: animationDuration, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+}
+
+extension SyncSigninViewController: PasskeyDelegate {
+    func didCompleteWithError() {
+        passwordBorderView.isHidden = false
     }
 }
