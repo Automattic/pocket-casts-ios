@@ -9,9 +9,15 @@ extension NSNotification.Name {
     static let ModalSignInSheetCanceled = Notification.Name("ModalSignInSheetCanceledNotification")
 }
 
+protocol PasskeyDelegate: AnyObject {
+    func didCompleteWithError()
+}
+
 class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
     var authenticationAnchor: ASPresentationAnchor?
     var isPerformingModalReqest = false
+
+    weak var delegate: PasskeyDelegate?
 
     @available(iOS 16, *)
     func signInWith(anchor: ASPresentationAnchor, preferImmediatelyAvailableCredentials: Bool) {
@@ -127,6 +133,8 @@ class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, 
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        delegate?.didCompleteWithError()
+
         let logger = Logger()
         guard let authorizationError = error as? ASAuthorizationError else {
             isPerformingModalReqest = false
