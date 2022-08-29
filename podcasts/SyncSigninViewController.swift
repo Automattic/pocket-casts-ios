@@ -42,6 +42,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         didSet {
             passwordBorderView.style = .primaryField02
             passwordBorderView.isSelected = false
+            passwordBorderView.isHidden = true
         }
     }
     
@@ -394,5 +395,10 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 extension SyncSigninViewController: PasskeyDelegate {
     func didCompleteWithError() {
         passwordBorderView.isHidden = false
+    }
+
+    func signIn() {
+        // To emulate a passkey sign in, add a valid username/password here
+        startSignIn("", password: "")
     }
 }

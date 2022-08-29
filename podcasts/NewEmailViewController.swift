@@ -162,9 +162,9 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func startRegister(_ username: String, password: String) {
+    private func startRegister(_ username: String, password: String, skipPasskey: Bool = false) {
         if #available(iOS 16, *) {
-            if let window = view.window, password.isEmpty {
+            if let window = view.window, password.isEmpty, !skipPasskey {
                 passkeyHandler.signUpWith(userName: username, anchor: window)
                 return
             }
@@ -353,5 +353,13 @@ extension NewEmailViewController: PasskeyDelegate {
         passwordBorderView.isHidden = false
         passwordField.becomeFirstResponder()
         updateButtonState()
+    }
+
+    func signIn() {
+        guard let email = emailField.text else {
+            return
+        }
+
+        startRegister(email, password: "charliedoidao", skipPasskey: true)
     }
 }

@@ -11,6 +11,7 @@ extension NSNotification.Name {
 
 protocol PasskeyDelegate: AnyObject {
     func didCompleteWithError()
+    func signIn()
 }
 
 class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
@@ -105,6 +106,7 @@ class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, 
                 // let clientDataJSON = credentialRegistration.rawClientDataJSON
 
                 // After the server verifies the registration and creates the user account, sign in the user with the new account.
+                delegate?.signIn()
             case let credentialAssertion as ASAuthorizationPlatformPublicKeyCredentialAssertion:
                 logger.log("A passkey was used to sign in: \(credentialAssertion)")
                 // Verify the below signature and clientDataJSON with your service for the given userID.
@@ -113,7 +115,7 @@ class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, 
                 // let userID = credentialAssertion.userID
 
                 // After the server verifies the assertion, sign in the user.
-                didFinishSignIn()
+                delegate?.signIn()
             case let passwordCredential as ASPasswordCredential:
                 logger.log("A password was provided: \(passwordCredential)")
                 // Verify the userName and password with your service.
@@ -121,7 +123,7 @@ class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, 
                 // let password = passwordCredential.password
 
                 // After the server verifies the userName and password, sign in the user.
-                didFinishSignIn()
+                delegate?.signIn()
             default:
                 fatalError("Received unknown authorization type.")
             }
@@ -161,10 +163,6 @@ class Passkey: NSObject, ASAuthorizationControllerPresentationContextProviding, 
 
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return authenticationAnchor!
-    }
-
-    func didFinishSignIn() {
-        NotificationCenter.default.post(name: .UserSignedIn, object: nil)
     }
 
     func didCancelModalSheet() {
