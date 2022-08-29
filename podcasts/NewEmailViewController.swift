@@ -42,6 +42,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
             passwordBorderView.isSelected = false
             passwordBorderView.layer.borderWidth = 2
             passwordBorderView.layer.cornerRadius = 6
+            passwordBorderView.isHidden = true
         }
     }
     
@@ -86,6 +87,12 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     var newSubscription: NewSubscription
     weak var accountUpdatedDelegate: AccountUpdatedDelegate?
+
+    private lazy var passkeyHandler = {
+        let passkeyHandler = Passkey()
+        passkeyHandler.delegate = self
+        return passkeyHandler
+    }()
     
     init(newSubscription: NewSubscription) {
         self.newSubscription = newSubscription
@@ -156,6 +163,13 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func startRegister(_ username: String, password: String) {
+        if #available(iOS 16, *) {
+            if let window = view.window, password.isEmpty {
+                passkeyHandler.signUpWith(userName: username, anchor: window)
+                return
+            }
+        }
+
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
         activityIndicator.startAnimating()
@@ -296,7 +310,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     private func validPassword() -> Bool {
         if let password = passwordField.text {
-            return password.count >= 3
+            return password.count >= 3 || passwordBorderView.isHidden
         }
         return false
     }
@@ -331,5 +345,13 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+extension NewEmailViewController: PasskeyDelegate {
+    func didCompleteWithError() {
+        passwordBorderView.isHidden = false
+        passwordField.becomeFirstResponder()
+        updateButtonState()
     }
 }
