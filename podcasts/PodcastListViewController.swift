@@ -233,6 +233,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         
         present(hostingController, animated: true, completion: nil)
         AnalyticsHelper.folderCreated()
+        Analytics.track(.podcastsListFolderButtonTapped)
     }
     
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
