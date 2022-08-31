@@ -54,6 +54,7 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
         title = L10n.profileResetPassword
         resetPasswordBtn.isEnabled = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
+        Analytics.track(.forgotPasswordShown)
     }
     
     deinit {
@@ -69,6 +70,12 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.tintColor = AppTheme.navBarIconsColor()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        Analytics.track(.forgotPasswordDismissed)
     }
     
     @objc func emailFieldDidChange() {
