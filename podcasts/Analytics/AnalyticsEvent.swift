@@ -67,4 +67,6 @@ enum AnalyticsEvent: String {
     case podcastsListShown
     case podcastsListUpdated
     case podcastsListFolderButtonTapped
+    case podcastsListPodcastTapped
+    case podcastsListFolderTapped
 }
