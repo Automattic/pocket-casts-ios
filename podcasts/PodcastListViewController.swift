@@ -198,10 +198,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             let oldData = strongSelf.gridItems
             let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
 
-            Analytics.track(.podcastsListUpdated, properties: [
-                "number_of_podcasts": newData.numberOfPodcasts,
-                "number_of_folders": newData.numberOfFolders
-            ])
+            // Only track `podcastsListUpdated` when the number of podcasts/folder
+            // changes during an app session
+            if oldData.numberOfPodcasts != newData.numberOfPodcasts
+                || oldData.numberOfFolders != newData.numberOfFolders {
+                Analytics.track(.podcastsListUpdated, properties: [
+                    "number_of_podcasts": newData.numberOfPodcasts,
+                    "number_of_folders": newData.numberOfFolders
+                ])
+            }
             
             DispatchQueue.main.sync {
                 let stagedSet = StagedChangeset(source: oldData, target: newData)
