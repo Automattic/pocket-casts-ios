@@ -11,13 +11,25 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
-    
+
+    /// Whether or not the user is eligible for a free trial
+    private var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
+
+    /// Prevent multiple eligibility requests from being performed
+    private var isCheckingEligibility = false
+
+    override init() {
+        super.init()
+
+        addSubscriptionNotifications()
+    }
+
     func requestProductInfo() {
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
     }
-    
+
     func getProductWithIdentifier(identifier: String) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
@@ -71,6 +83,10 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count > 0 {
             productsArray = response.products
+
+            // Update the trial eligibility
+            updateTrialEligibility()
+
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsUpdated)
         }
         else {
@@ -132,7 +148,7 @@ extension IapHelper {
     typealias FreeTrialDetails = (duration: String, pricing: String)
     func getFirstFreeTrialDetails() -> FreeTrialDetails? {
         guard
-            let product = productIdentifiers.first(where: { getFreeTrialOffer($0) != nil }),
+            let product = getFirstFreeTrialProductId(),
             let duration = localizedFreeTrialDuration(product),
             let pricing = pricingStringWithFrequency(for: product)
         else {
@@ -143,8 +159,7 @@ extension IapHelper {
     }
 
     func isEligibleForFreeTrial() -> Bool {
-        #warning("TODO: Update isEligibleForIntroOffer with a check from the server")
-        return FeatureFlag.freeTrialsEnabled
+        return FeatureFlag.freeTrialsEnabled && isEligibleForTrial
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -160,6 +175,51 @@ extension IapHelper {
         }
 
         return offer
+    }
+
+    /// Returns the first product ID that has a free trial
+    /// The priority order is set by the productIdentifiers array
+    private func getFirstFreeTrialProductId() -> Constants.IapProducts? {
+        return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
+    }
+}
+
+// MARK: - Trial Eligibility
+
+private extension IapHelper {
+    /// Listens for subscription changes
+    private func addSubscriptionNotifications() {
+        NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
+            self?.updateTrialEligibility()
+        }
+    }
+
+    /// Update the trial eligibility if:
+    /// - We are not already performing a check
+    /// - The feature flag is enabled
+    /// - A product has a free trial
+    /// - The user doesn't have an active subscription
+    /// - The receipt exists
+    private func updateTrialEligibility() {
+        guard
+            isCheckingEligibility == false,
+            FeatureFlag.freeTrialsEnabled,
+            getFirstFreeTrialProductId() != nil,
+            SubscriptionHelper.hasActiveSubscription() == false,
+            let receiptUrl = Bundle.main.appStoreReceiptURL,
+            let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
+        else {
+            return
+        }
+
+        isCheckingEligibility = true
+        ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
+            let eligible = isEligible ?? Constants.Values.freeTrialDefaultValue
+
+            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+            self?.isEligibleForTrial = eligible
+            self?.isCheckingEligibility = false
+        }
     }
 }
 
