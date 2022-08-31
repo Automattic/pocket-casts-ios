@@ -98,6 +98,8 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             gridItems.remove(at: index)
             gridItems.insert(itemBeingMoved, at: destinationIndexPath.row)
 
+            Analytics.track(.podcastsListReordered)
+
             saveSortOrder()
         }
     }
