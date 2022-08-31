@@ -69,4 +69,8 @@ enum AnalyticsEvent: String {
     // Forgot Password
     case forgotPasswordShown
     case forgotPasswordDismissed
+
+    // Account Updated View
+    case accountUpdatedShown
+    case accountUpdatedDismissed
 }

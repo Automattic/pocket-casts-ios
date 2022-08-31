@@ -68,6 +68,8 @@ class AccountUpdatedViewController: UIViewController {
         newsletterView.isHidden = hideNewsletter
         
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+
+        Analytics.track(.accountUpdatedShown)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -84,6 +86,7 @@ class AccountUpdatedViewController: UIViewController {
             return
         }
         dismiss(animated: true, completion: nil)
+        Analytics.track(.accountUpdatedDismissed)
     }
     
     @objc private func themeDidChange() {
