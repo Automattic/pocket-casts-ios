@@ -17,6 +17,17 @@ enum BadgeType: Int {
             return L10n.podcastsBadgeAllUnplayed
         }
     }
+
+    var analyticsDescription: String {
+        switch self {
+        case .off:
+            return "off"
+        case .latestEpisode:
+            return "only_latest_episode"
+        case .allUnplayed:
+            return "unfinished_episodes"
+        }
+    }
 }
 
 enum PodcastFinishedAction: Int {

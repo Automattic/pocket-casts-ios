@@ -85,7 +85,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         updateForVoiceOver()
         updateFolderButton()
 
-        Analytics.track(.podcastsListShown, properties: ["sort_order": Settings.homeFolderSortOrder().analyticsDescription])
+        Analytics.track(.podcastsListShown, properties: ["sort_order": Settings.homeFolderSortOrder().analyticsDescription, "badge_type": Settings.podcastBadgeType().analyticsDescription])
     }
     
     override func viewWillLayoutSubviews() {
