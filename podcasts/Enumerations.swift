@@ -2,6 +2,17 @@ import Foundation
 import PocketCastsDataModel
 enum LibraryType: Int {
     case fourByFour = 1, threeByThree = 2, list = 3
+
+    var analyticsDescription: String {
+        switch self {
+        case .fourByFour:
+            return "four_by_four"
+        case .threeByThree:
+            return "three_by_three"
+        case .list:
+            return "list"
+        }
+    }
 }
 
 enum BadgeType: Int {
