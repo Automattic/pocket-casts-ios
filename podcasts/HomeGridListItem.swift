@@ -62,7 +62,7 @@ class HomeGridListItem: ListItem {
     }
 }
 
-extension [HomeGridListItem] {
+extension Array where Element: HomeGridListItem {
     var numberOfPodcasts: Int {
         compactMap { $0.podcast }.count
     }
