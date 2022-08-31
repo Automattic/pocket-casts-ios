@@ -82,6 +82,9 @@ class TracksAdapter: AnalyticsAdapter {
         let hasLifetime = subscriptionData.hasLifetimeGift()
 
         return [
+            // General keys
+            "user_is_logged_in": SyncManager.isUserLoggedIn(),
+            
             // Subscription Keys
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
@@ -91,6 +94,7 @@ class TracksAdapter: AnalyticsAdapter {
             
             // Accessibility
             "is_rtl_language": UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft,
+            
             // Large is the default size
             "has_dynamic_font_size": UIApplication.shared.preferredContentSizeCategory != .large
         ]
