@@ -10,4 +10,4 @@ Steps to test your PR.
 
 - [ ] I have considered if this change warrants user-facing release notes and have added them to `CHANGELOG.md` if necessary.
 - [ ] I have considered adding unit tests for my changes.
-- [ ] I have added or modified analytics and have updated the [spreadsheet accordingly](https://docs.google.com/spreadsheets/d/107jqrutZhU0fVZJ19SBqxxVKbV2NWSdQC9MFYdLiAxc/edit?usp=sharing).
+- [ ] I have updated (or requested that someone edit) [the spreadsheet](https://docs.google.com/spreadsheets/d/107jqrutZhU0fVZJ19SBqxxVKbV2NWSdQC9MFYdLiAxc/edit?usp=sharing) to reflect any new or changed analytics.
