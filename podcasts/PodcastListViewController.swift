@@ -48,6 +48,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var gridItems = [HomeGridListItem]()
     
     private var lastWillLayoutWidth: CGFloat = 0
+
+    private var homeGridDataHelper = HomeGridDataHelper()
     
     private lazy var refreshQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -88,7 +90,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         Analytics.track(.podcastsListShown, properties: [
             "sort_order": Settings.homeFolderSortOrder().analyticsDescription,
             "badge_type": Settings.podcastBadgeType().analyticsDescription,
-            "layout": Settings.libraryType().analyticsDescription
+            "layout": Settings.libraryType().analyticsDescription,
+            "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
+            "number_of_folders": homeGridDataHelper.numberOfFolders
         ])
     }
     
@@ -197,16 +201,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             let oldData = strongSelf.gridItems
             let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
-
-            // Only track `podcastsListUpdated` when the number of podcasts/folder
-            // changes during an app session
-            if oldData.numberOfPodcasts != newData.numberOfPodcasts
-                || oldData.numberOfFolders != newData.numberOfFolders {
-                Analytics.track(.podcastsListUpdated, properties: [
-                    "number_of_podcasts": newData.numberOfPodcasts,
-                    "number_of_folders": newData.numberOfFolders
-                ])
-            }
             
             DispatchQueue.main.sync {
                 let stagedSet = StagedChangeset(source: oldData, target: newData)

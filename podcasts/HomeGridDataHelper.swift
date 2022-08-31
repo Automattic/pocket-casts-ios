@@ -4,6 +4,14 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class HomeGridDataHelper {
+    var numberOfPodcasts: Int {
+        DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).count
+    }
+
+    var numberOfFolders: Int {
+        DataManager.sharedManager.allFolders().count
+    }
+
     class func gridListItemsForSearchTerm(_ searchTerm: String) -> [HomeGridItem] {
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
         
