@@ -63,6 +63,19 @@ enum LibrarySort: Int, CaseIterable {
             return L10n.podcastsLibrarySortCustom
         }
     }
+
+    var analyticsDescription: String {
+        switch self {
+        case .dateAddedNewestToOldest:
+            return "date_added"
+        case .titleAtoZ:
+            return "name"
+        case .episodeDateNewestToOldest:
+            return "episode_release_date"
+        case .custom:
+            return "drag_and_drop"
+        }
+    }
 }
 
 enum AppBadge: Int {
