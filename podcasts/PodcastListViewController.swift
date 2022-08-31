@@ -84,6 +84,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addEventObservers()
         updateForVoiceOver()
         updateFolderButton()
+
+        Analytics.track(.podcastsListShown)
     }
     
     override func viewWillLayoutSubviews() {
