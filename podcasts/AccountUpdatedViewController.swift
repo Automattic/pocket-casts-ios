@@ -93,6 +93,8 @@ class AccountUpdatedViewController: UIViewController {
     }
     
     @IBAction func newsletterOptInChanged(_ sender: UISwitch) {
+        Analytics.track(.newsletterOptInChanged, properties: ["enabled": sender.isOn, "source": "account_updated"])
+
         ServerSettings.setMarketingOptIn(sender.isOn)
     }
 }

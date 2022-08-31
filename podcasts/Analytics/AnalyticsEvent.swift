@@ -63,6 +63,9 @@ enum AnalyticsEvent: String {
     case confirmPaymentDismissed
     case confirmPaymentConfirmButtonTapped
 
+    // Newsletter Opt In
+    case newsletterOptInChanged
+
     // Forgot Password
     case forgotPasswordShown
     case forgotPasswordDismissed
