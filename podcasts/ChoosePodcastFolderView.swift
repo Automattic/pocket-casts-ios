@@ -60,6 +60,7 @@ struct ChoosePodcastFolderView: View {
             .applyDefaultThemeOptions()
             .onAppear {
                 model.loadFolders()
+                Analytics.track(.folderChooseShown)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
