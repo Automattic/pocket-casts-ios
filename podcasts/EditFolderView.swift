@@ -72,6 +72,9 @@ struct EditFolderView: View {
                     .accessibilityLabel(L10n.close)
                 }
             }
+            .onAppear {
+                Analytics.track(.folderEditShown)
+            }
             .onDisappear {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: model.folderUuid)
             }

@@ -97,4 +97,5 @@ enum AnalyticsEvent: String {
     case folderOptionsButtonTapped
     case folderSortByChanged
     case folderOptionsModalOptionTapped
+    case folderEditShown
 }
