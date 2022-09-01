@@ -77,6 +77,7 @@ struct EditFolderView: View {
             }
             .onDisappear {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: model.folderUuid)
+                Analytics.track(.folderEditDismissed, properties: ["did_change_name": model.didChangeName, "did_change_color": model.didChangeColor])
             }
             .applyDefaultThemeOptions()
             .navigationTitle(L10n.folderEdit)
