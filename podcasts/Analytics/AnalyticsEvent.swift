@@ -85,9 +85,9 @@ enum AnalyticsEvent: String {
     // Folder
     case folderShown
     case folderCreateShown
-    case folderCreateSearchPerformed
-    case folderCreateSearchCleared
-    case folderCreateFilterChanged
+    case folderPodcastPickerSearchPerformed
+    case folderPodcastPickerSearchCleared
+    case folderPodcastPickerFilterChanged
     case folderCreateNameShown
     case folderCreateColorShown
     case folderSaved

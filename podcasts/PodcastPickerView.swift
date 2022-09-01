@@ -83,7 +83,7 @@ struct SortByView: View {
     var body: some View {
         Button {
             pickerModel.sortType = sortType
-            Analytics.track(.folderCreateFilterChanged, properties: ["sort_order": sortType.analyticsDescription])
+            Analytics.track(.folderPodcastPickerFilterChanged, properties: ["sort_order": sortType.analyticsDescription])
         } label: {
             HStack {
                 Text(sortType.description)

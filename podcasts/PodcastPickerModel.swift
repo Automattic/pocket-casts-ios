@@ -78,10 +78,10 @@ class PodcastPickerModel: ObservableObject {
 extension PodcastPickerModel {
     func trackSearchIfNeeded(oldValue: String, newValue: String) {
         if oldValue.count == 0 && newValue.count > 0 {
-            Analytics.track(.folderCreateSearchPerformed)
+            Analytics.track(.folderPodcastPickerSearchPerformed)
         }
         else if oldValue.count > 0 && newValue.count == 0 {
-            Analytics.track(.folderCreateSearchCleared)
+            Analytics.track(.folderPodcastPickerSearchCleared)
         }
     }
 }
