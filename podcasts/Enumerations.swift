@@ -2,6 +2,17 @@ import Foundation
 import PocketCastsDataModel
 enum LibraryType: Int {
     case fourByFour = 1, threeByThree = 2, list = 3
+
+    var analyticsDescription: String {
+        switch self {
+        case .fourByFour:
+            return "four_by_four"
+        case .threeByThree:
+            return "three_by_three"
+        case .list:
+            return "list"
+        }
+    }
 }
 
 enum BadgeType: Int {
@@ -15,6 +26,17 @@ enum BadgeType: Int {
             return L10n.podcastsBadgeLatestEpisode
         case .allUnplayed:
             return L10n.podcastsBadgeAllUnplayed
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+        case .off:
+            return "off"
+        case .latestEpisode:
+            return "only_latest_episode"
+        case .allUnplayed:
+            return "unfinished_episodes"
         }
     }
 }
@@ -61,6 +83,19 @@ enum LibrarySort: Int, CaseIterable {
             return L10n.podcastsLibrarySortEpisodeReleaseDate
         case .custom:
             return L10n.podcastsLibrarySortCustom
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+        case .dateAddedNewestToOldest:
+            return "date_added"
+        case .titleAtoZ:
+            return "name"
+        case .episodeDateNewestToOldest:
+            return "episode_release_date"
+        case .custom:
+            return "drag_and_drop"
         }
     }
 }
