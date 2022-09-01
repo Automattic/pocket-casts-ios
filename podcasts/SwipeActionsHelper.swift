@@ -2,6 +2,8 @@ import Foundation
 import PocketCastsDataModel
 
 protocol SwipeHandler: AnyObject {
+    var swipeSource: String { get }
+    
     func archivingRemovesFromList() -> Bool
     func actionPerformed(willBeRemoved: Bool)
     func deleteRequested(uuid: String)
