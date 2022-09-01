@@ -92,6 +92,7 @@ enum AnalyticsEvent: String {
     case folderCreateColorShown
     case folderSaved
     case folderChoosePodcastsShown
+    case folderChoosePodcastsDismissed
     case folderAddPodcastsButtonTapped
     case folderOptionsButtonTapped
     case folderSortByChanged
