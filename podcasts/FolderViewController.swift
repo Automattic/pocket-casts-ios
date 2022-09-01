@@ -81,6 +81,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+
+        Analytics.track(.folderShown, properties: ["number_of_podcasts": podcasts.count])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
