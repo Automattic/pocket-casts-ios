@@ -35,6 +35,7 @@ struct EditFolderView: View {
                     ThemedDivider()
                     Button {
                         showingDeleteConfirmation = true
+                        Analytics.track(.folderEditDeleteButtonTapped)
                     } label: {
                         Group {
                             Image("delete")
@@ -50,6 +51,7 @@ struct EditFolderView: View {
                             message: Text(L10n.folderDeletePromptMsg),
                             primaryButton: .destructive(Text(L10n.delete)) {
                                 model.deleteFolder()
+                                Analytics.track(.folderDeleted)
                                 dismissAction(true)
                             },
                             secondaryButton: .cancel()
