@@ -44,6 +44,7 @@ struct CreateFolderView: View {
             if let uuid = preselectPodcastUuid {
                 pickerModel.selectedPodcastUuids.append(uuid)
             }
+            Analytics.track(.createFolderShown)
         }
         .onDisappear {
             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
