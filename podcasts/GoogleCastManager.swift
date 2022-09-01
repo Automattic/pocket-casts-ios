@@ -8,7 +8,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
     
     let deviceManager = CastDevicesManager()
     
-    private let castAppId = "6D389446"
+    private let castAppId = "2FA4D21B"
     private let episodeUuidKey = "EPISODE_UUID"
     
     private let googleCastMaxPlaybackRate: Float = 2
