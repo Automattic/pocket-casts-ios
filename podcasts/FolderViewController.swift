@@ -101,6 +101,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     
     @IBAction func addPodcastsTapped(_ sender: Any) {
         showPodcastSelectionDialog()
+        Analytics.track(.folderAddPodcastsButtonTapped)
     }
     
     @objc private func reloadFolder() {
