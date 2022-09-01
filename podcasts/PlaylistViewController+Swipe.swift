@@ -31,7 +31,11 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
     
     // MARK: - SwipeActionsHandler
-    
+
+    var swipeSource: String {
+        "playlist"
+    }
+
     func actionPerformed(willBeRemoved: Bool) {
         refreshEpisodes(animated: true)
     }

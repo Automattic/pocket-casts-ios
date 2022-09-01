@@ -31,7 +31,11 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
     
     // MARK: - SwipeActionsHandler
-    
+
+    var swipeSource: String {
+        "downloads"
+    }
+
     func archivingRemovesFromList() -> Bool {
         true
     }
