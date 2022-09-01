@@ -88,4 +88,6 @@ enum AnalyticsEvent: String {
     case createFolderSearchCleared
     case createFolderFilterChanged
     case createFolderNameShown
+    case createFolderColorShown
+    case createFolderSaved
 }

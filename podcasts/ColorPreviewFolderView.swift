@@ -51,6 +51,7 @@ struct ColorPreviewFolderView: View {
             Spacer()
             Button {
                 let folderUuid = model.createFolder()
+                Analytics.track(.createFolderSaved, properties: ["number_of_podcasts": model.selectedPodcastUuids.count, "color": UIColor(model.color).hexString()])
                 dismissAction(folderUuid)
             } label: {
                 Text(L10n.folderSaveFolder)
@@ -59,6 +60,9 @@ struct ColorPreviewFolderView: View {
         }
         .padding()
         .navigationTitle(L10n.folderChooseColor)
+        .onAppear {
+            Analytics.track(.createFolderColorShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
+        }
         .applyDefaultThemeOptions()
     }
     
