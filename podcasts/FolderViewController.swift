@@ -155,6 +155,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         optionsPicker.addAction(action: addRemoveAction)
         
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+
+        Analytics.track(.folderOptionsButtonTapped)
     }
     
     private func showPodcastSelectionDialog() {
