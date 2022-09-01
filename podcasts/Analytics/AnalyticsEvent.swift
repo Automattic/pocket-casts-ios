@@ -104,4 +104,5 @@ enum AnalyticsEvent: String {
     case folderChooseShown
     case folderChooseFolderTapped
     case folderChooseRemovedFromFolder
+    case folderPodcastModalOptionTapped
 }
