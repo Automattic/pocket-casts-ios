@@ -831,7 +831,7 @@
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_googlecast._tcp</string>
-		<string>_6D389446._googlecast._tcp</string>
+		<string>_2FA4D21B._googlecast._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>This allows you to add custom images to your files</string>
