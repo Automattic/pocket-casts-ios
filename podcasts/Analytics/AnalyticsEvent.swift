@@ -63,6 +63,14 @@ enum AnalyticsEvent: String {
     case confirmPaymentDismissed
     case confirmPaymentConfirmButtonTapped
 
+    // Podcasts List
+    case podcastsListShown
+    case podcastsListFolderButtonTapped
+    case podcastsListPodcastTapped
+    case podcastsListFolderTapped
+    case podcastsListEllipsisButtonTapped
+    case podcastsListReordered
+
     // Newsletter Opt In
     case newsletterOptInChanged
 
