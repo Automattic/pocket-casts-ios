@@ -43,7 +43,7 @@ struct NameFolderView: View {
                 focusOnTextField = true
             }
 
-            Analytics.track(.createFolderNameShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
+            Analytics.track(.folderCreateNameShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
         }
         .applyDefaultThemeOptions()
     }
