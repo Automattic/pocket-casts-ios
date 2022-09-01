@@ -9,4 +9,9 @@ extension AppDelegate {
 
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
     }
+
+    func optOutOfAnalytics() {
+        AnalyticsHelper.optedOut = true
+        Analytics.unregister()
+    }
 }

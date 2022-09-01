@@ -6,6 +6,9 @@ import Foundation
 import os
 
 class AnalyticsHelper {
+    /// Whether the user has opted out of analytics or not
+    static var optedOut: Bool = false
+
     class func openedCategory(categoryId: Int, region: String) {
         logEvent("category_open", parameters: ["id": categoryId, "region": region])
         logEvent("category_page_open_\(categoryId)", parameters: nil)
@@ -361,6 +364,9 @@ private extension AnalyticsHelper {
     static let logger = Logger()
 
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
+        // Don't track anything if the user has opted out
+        if Self.optedOut { return }
+
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
 
