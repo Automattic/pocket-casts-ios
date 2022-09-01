@@ -124,6 +124,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let sortOption = folder.librarySort()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOptions()
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
         optionsPicker.addAction(action: sortAction)
         
@@ -144,6 +145,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
             
             self?.present(hostingController, animated: true, completion: nil)
+
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "edit_folder"])
         }
         optionsPicker.addAction(action: editAction)
         
@@ -151,6 +154,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             guard let self = self else { return }
             
             self.showPodcastSelectionDialog()
+
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "add_or_remove_podcasts"])
         }
         optionsPicker.addAction(action: addRemoveAction)
         
