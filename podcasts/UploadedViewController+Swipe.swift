@@ -26,7 +26,11 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
     
     // MARK: - SwipeActionsHandler
-    
+
+    var swipeSource: String {
+        "uploaded_files"
+    }
+
     func actionPerformed(willBeRemoved: Bool) {
         reloadLocalFiles()
     }
