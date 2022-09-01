@@ -79,14 +79,14 @@ class PodcastPickerModel: ObservableObject {
 extension PodcastPickerModel {
     func trackSearchIfNeeded(oldValue: String, newValue: String) {
         if oldValue.count == 0 && newValue.count > 0 {
-            Analytics.track(.createFolderSearchPerformed)
+            Analytics.track(.folderCreateSearchPerformed)
         }
         else if oldValue.count > 0 && newValue.count == 0 {
-            Analytics.track(.createFolderSearchCleared)
+            Analytics.track(.folderCreateSearchCleared)
         }
     }
 
     func trackSelectedFilter() {
-        Analytics.track(.createFolderFilterChanged, properties: ["sort_order": sortType.analyticsDescription])
+        Analytics.track(.folderCreateFilterChanged, properties: ["sort_order": sortType.analyticsDescription])
     }
 }
