@@ -81,4 +81,11 @@ enum AnalyticsEvent: String {
     // Account Updated View
     case accountUpdatedShown
     case accountUpdatedDismissed
+
+    // MARK: - Tab Bar Items
+
+    case podcastTabOpened
+    case filterTabOpened
+    case discoverTabOpened
+    case profileTabOpened
 }
