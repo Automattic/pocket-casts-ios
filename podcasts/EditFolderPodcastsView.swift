@@ -32,6 +32,7 @@ struct EditFolderPodcastsView: View {
             pickerModel.pickingForFolderUuid = model.folderUuid
             pickerModel.selectedPodcastUuids = model.selectedPodcastUuids
             pickerModel.setup()
+            Analytics.track(.folderChoosePodcastsShown)
         }
         .onDisappear {
             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
