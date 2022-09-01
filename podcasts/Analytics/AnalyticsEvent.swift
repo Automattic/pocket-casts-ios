@@ -82,7 +82,8 @@ enum AnalyticsEvent: String {
     case accountUpdatedShown
     case accountUpdatedDismissed
 
-    // Folders creation folow
+    // Folder
+    case folderShown
     case folderCreateShown
     case folderCreateSearchPerformed
     case folderCreateSearchCleared
