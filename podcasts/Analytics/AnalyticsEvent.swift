@@ -73,4 +73,7 @@ enum AnalyticsEvent: String {
     // Account Updated View
     case accountUpdatedShown
     case accountUpdatedDismissed
+
+    // Folders creation folow
+    case createFolderShown
 }
