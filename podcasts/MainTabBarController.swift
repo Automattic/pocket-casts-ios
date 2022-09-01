@@ -462,7 +462,7 @@ private extension MainTabBarController {
         case .podcasts:
             event = .podcastTabOpened
         case .filter:
-            event = .filterTabOpened
+            event = .filtersTabOpened
         case .discover:
             event = .discoverTabOpened
         case .profile:
