@@ -77,4 +77,5 @@ enum AnalyticsEvent: String {
     // Folders creation folow
     case createFolderShown
     case createFolderSearchPerformed
+    case createFolderSearchCleared
 }
