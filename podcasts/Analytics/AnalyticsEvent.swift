@@ -102,4 +102,6 @@ enum AnalyticsEvent: String {
     case folderEditDeleteButtonTapped
     case folderDeleted
     case folderChooseShown
+    case folderChooseFolderTapped
+    case folderChooseRemovedFromFolder
 }
