@@ -80,5 +80,8 @@ extension PodcastPickerModel {
         if oldValue.count == 0 && newValue.count > 0 {
             Analytics.track(.createFolderSearchPerformed)
         }
+        else if oldValue.count > 0 && newValue.count == 0 {
+            Analytics.track(.createFolderSearchCleared)
+        }
     }
 }
