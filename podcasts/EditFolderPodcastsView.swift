@@ -35,6 +35,8 @@ struct EditFolderPodcastsView: View {
             Analytics.track(.folderChoosePodcastsShown)
         }
         .onDisappear {
+            let numberOfPodcastsChanged = pickerModel.selectedPodcastUuids.count - model.selectedPodcastUuids.count
+            Analytics.track(.folderChoosePodcastsDismissed, properties: ["changed_podcasts": numberOfPodcastsChanged])
             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
         }
     }
