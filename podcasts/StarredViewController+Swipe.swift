@@ -31,7 +31,11 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
     
     // MARK: - Swipe Handler
-    
+
+    var swipeSource: String {
+        "starred"
+    }
+
     func archivingRemovesFromList() -> Bool {
         false
     }
