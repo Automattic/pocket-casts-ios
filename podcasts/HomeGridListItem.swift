@@ -61,13 +61,3 @@ class HomeGridListItem: ListItem {
         return false
     }
 }
-
-extension Array where Element: HomeGridListItem {
-    var numberOfPodcasts: Int {
-        compactMap { $0.podcast }.count
-    }
-
-    var numberOfFolders: Int {
-        compactMap { $0.folder }.count
-    }
-}
