@@ -68,7 +68,7 @@ enum AnalyticsEvent: String {
     case podcastsListFolderButtonTapped
     case podcastsListPodcastTapped
     case podcastsListFolderTapped
-    case podcastsListEllipsisButtonTapped
+    case podcastsListOptionsButtonTapped
     case podcastsListReordered
 
     // Newsletter Opt In
