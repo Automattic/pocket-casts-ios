@@ -16,6 +16,7 @@ class PodcastPickerModel: ObservableObject {
     @Published var sortType: LibrarySort = .titleAtoZ {
         didSet {
             UserDefaults.standard.set(sortType.rawValue, forKey: Constants.UserDefaults.lastPickerSort)
+            trackSelectedFilter()
             loadPodcasts()
         }
     }
@@ -83,5 +84,9 @@ extension PodcastPickerModel {
         else if oldValue.count > 0 && newValue.count == 0 {
             Analytics.track(.createFolderSearchCleared)
         }
+    }
+
+    func trackSelectedFilter() {
+        Analytics.track(.createFolderFilterChanged, properties: ["sort_order": sortType.analyticsDescription])
     }
 }
