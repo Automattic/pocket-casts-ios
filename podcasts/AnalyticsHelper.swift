@@ -373,10 +373,10 @@ private extension AnalyticsHelper {
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
             if let parameters = parameters {
-                logger.debug("🔵 Tracked: \(name) \(parameters)")
+                logger.debug("🟢 Tracked: \(name) \(parameters)")
             }
             else {
-                logger.debug("🔵 Tracked: \(name)")
+                logger.debug("🟢 Tracked: \(name)")
             }
         #endif
     }
