@@ -1,25 +1,15 @@
 import Foundation
 
 public extension NotificationCenter {
-    static func postOnMainThread(notification: Notification.Name) {
+    static func postOnMainThread(notification: Notification.Name, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         if Thread.isMainThread {
-            NotificationCenter.default.post(name: notification, object: nil)
+            NotificationCenter.default.post(name: notification, object: object, userInfo: userInfo)
+            return
         }
-        else {
-            DispatchQueue.main.sync { () in
-                NotificationCenter.default.post(name: notification, object: nil)
-            }
-        }
-    }
-    
-    static func postOnMainThread(notification: Notification.Name, object: Any?) {
-        if Thread.isMainThread {
-            NotificationCenter.default.post(name: notification, object: object)
-        }
-        else {
-            DispatchQueue.main.sync { () in
-                NotificationCenter.default.post(name: notification, object: object)
-            }
+
+        // Force the notification to be posted on the main thread
+        DispatchQueue.main.sync {
+            Self.postOnMainThread(notification: notification, object: object, userInfo: userInfo)
         }
     }
 }
