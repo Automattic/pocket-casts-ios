@@ -14,6 +14,8 @@ struct NameFolderView: View {
 
     var dismissAction: (String?) -> Void
 
+    var numberOfSelectedPodcasts = 0
+
     var body: some View {
         VStack(alignment: .leading) {
             Text(L10n.name.localizedUppercase)
@@ -43,7 +45,7 @@ struct NameFolderView: View {
                 focusOnTextField = true
             }
 
-            Analytics.track(.folderCreateNameShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
+            Analytics.track(.folderCreateNameShown, properties: ["number_of_podcasts": numberOfSelectedPodcasts])
         }
         .applyDefaultThemeOptions()
     }

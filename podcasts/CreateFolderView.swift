@@ -32,7 +32,7 @@ struct CreateFolderView: View {
     var mainBody: some View {
         VStack {
             PodcastPickerView(pickerModel: pickerModel)
-            NavigationLink(destination: NameFolderView(model: model, dismissAction: dismissAction)) {
+            NavigationLink(destination: NameFolderView(model: model, dismissAction: dismissAction, numberOfSelectedPodcasts: pickerModel.selectedPodcastUuids.count)) {
                 Text(addButtonTitle)
                     .textStyle(RoundedButton())
             }
