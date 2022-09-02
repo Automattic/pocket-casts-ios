@@ -218,6 +218,14 @@ platform :ios do
     trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
   end
 
+  # Triggers a stable release build on CI
+  #
+  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  #
+  lane :trigger_release_build do |options|
+    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: false)
+  end
+
   # Finalizes a release at the end of a sprint to submit to the App Store
   #
   #  - Updates store metadata
