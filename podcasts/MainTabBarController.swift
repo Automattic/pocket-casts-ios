@@ -27,7 +27,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
-        
+
+        // Track the initial tab opened event
+        trackTabOpened(tabs[selectedIndex], isInitial: true)
+
         NavigationManager.sharedManager.mainViewControllerDidLoad(controller: self)
         setupMiniPlayer()
         updateTabBarColor()
@@ -85,8 +88,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             // the user has tapped on a tab they are already at the root of, so trigger an action so we can handle this
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.tappedOnSelectedTab, object: tabIndex)
         }
+
         if tabIndex != selectedIndex {
-            AnalyticsHelper.tabSelected(tab: tabs[tabIndex])
+            let tab = tabs[tabIndex]
+            trackTabOpened(tab)
+            AnalyticsHelper.tabSelected(tab: tab)
         }
         
         UserDefaults.standard.set(tabIndex, forKey: Constants.UserDefaults.lastTabOpened)
@@ -442,5 +448,29 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
+    }
+}
+
+// MARK: - Analytics
+
+private extension MainTabBarController {
+    /// Tracks when a tab is switched to.
+    /// - Parameters:
+    ///   - tab: Which tab we're switching to
+    ///   - isInitial: Whether this is the tab that is being loaded on first launch
+    func trackTabOpened(_ tab: Tab, isInitial: Bool = false) {
+        let event: AnalyticsEvent
+        switch tab {
+        case .podcasts:
+            event = .podcastTabOpened
+        case .filter:
+            event = .filtersTabOpened
+        case .discover:
+            event = .discoverTabOpened
+        case .profile:
+            event = .profileTabOpened
+        }
+
+        Analytics.track(event, properties: ["initial": isInitial])
     }
 }
