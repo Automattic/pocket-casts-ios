@@ -12,6 +12,11 @@ class Analytics {
         Self.shared.adapters = adapters
     }
 
+    /// Unregisters all the registered adapters, disabling analytics
+    static func unregister() {
+        Self.shared.adapters = nil
+    }
+
     /// Convenience method to call Analytics.shared.track*
     static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
         Self.shared.track(event, properties: properties)
