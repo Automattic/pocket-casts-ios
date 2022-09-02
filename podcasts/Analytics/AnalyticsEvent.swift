@@ -116,4 +116,17 @@ enum AnalyticsEvent: String {
     case downloadsCleanUpShown
     case downloadsCleanUpButtonTapped
     case downloadsCleanUpCompleted
+
+    // MARK: - Listening History
+
+    case listeningHistoryShown
+    case listeningHistoryOptionsButtonTapped
+    case listeningHistoryOptionsModalOptionTapped
+
+    case listeningHistoryMultiSelectEntered
+    case listeningHistorySelectAllButtonTapped
+    case listeningHistoryMultiSelectExited
+
+    case listeningHistoryClearHistoryButtonTapped
+    case listeningHistoryCleared
 }
