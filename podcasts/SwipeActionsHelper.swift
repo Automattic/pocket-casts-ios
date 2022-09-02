@@ -117,7 +117,21 @@ enum SwipeActionsHelper {
         case archive
 
         var analyticsDescription: String {
-            rawValue.toSnakeCaseFromCamelCase()
+            switch self {
+
+            case .upNextRemove:
+                return "up_next_remove"
+            case .upNextAddTop:
+                return "up_next_add_top"
+            case .upNextAddBottom:
+                return "up_next_add_bottom"
+            case .delete:
+                return "delete"
+            case .unarchive:
+                return "unarchive"
+            case .archive:
+                return "archive"
+            }
         }
     }
 }
