@@ -33,7 +33,7 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
-        "podcast_list"
+        "podcast_details"
     }
 
     func archivingRemovesFromList() -> Bool {
