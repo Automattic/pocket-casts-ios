@@ -129,4 +129,11 @@ enum AnalyticsEvent: String {
 
     case listeningHistoryClearHistoryButtonTapped
     case listeningHistoryCleared
+
+    // MARK: - Starred
+
+    case starredShown
+    case starredMultiSelectEntered
+    case starredSelectAllButtonTapped
+    case starredMultiSelectExited
 }
