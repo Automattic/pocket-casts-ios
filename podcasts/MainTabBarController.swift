@@ -90,7 +90,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         if tabIndex != selectedIndex {
-            trackTabOpened(tabs[tabIndex])
+            let tab = tabs[tabIndex]
+            trackTabOpened(tab)
+            AnalyticsHelper.tabSelected(tab: tab)
         }
         
         UserDefaults.standard.set(tabIndex, forKey: Constants.UserDefaults.lastTabOpened)
@@ -470,7 +472,5 @@ private extension MainTabBarController {
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
-
-        AnalyticsHelper.tabSelected(tab: tab)
     }
 }
