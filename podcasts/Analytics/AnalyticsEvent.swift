@@ -112,5 +112,4 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
-
 }
