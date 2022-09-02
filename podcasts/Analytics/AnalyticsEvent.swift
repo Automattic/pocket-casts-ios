@@ -85,4 +85,11 @@ enum AnalyticsEvent: String {
     // MARK: - Table Swipe Actions for Podcast episodes
 
     case episodeSwipeActionPerformed
+
+    // MARK: - Tab Bar Items
+
+    case podcastTabOpened
+    case filtersTabOpened
+    case discoverTabOpened
+    case profileTabOpened
 }
