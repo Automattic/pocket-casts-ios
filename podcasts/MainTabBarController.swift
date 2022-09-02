@@ -452,7 +452,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 // MARK: - Analytics
 
 private extension MainTabBarController {
-    /// Tracks when the a tab is switched to.
+    /// Tracks when a tab is switched to.
     /// - Parameters:
     ///   - tab: Which tab we're switching to
     ///   - isInitial: Whether this is the tab that is being loaded on first launch
