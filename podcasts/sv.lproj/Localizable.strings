@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-08-09 14:54:03+0000 */
+/* Translation-Revision-Date: 2022-09-01 12:10:05+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: sv_SE */
@@ -2471,7 +2471,7 @@
 "settings_feed_issue_msg" = "Flödet för den här podcasten har slutat uppdateras eftersom det innehöll för många fel.";
 
 /* Prompt to navigate the user to the files setting screen. */
-"settings_files" = "Filer";
+"settings_files" = "Filinställningar";
 
 /* Prompt for the toggle to enable auto downloads for uploaded files. */
 "settings_files_auto_download" = "Automatisk nedladdning från molnet";
