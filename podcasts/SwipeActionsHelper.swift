@@ -118,7 +118,6 @@ enum SwipeActionsHelper {
 
         var analyticsDescription: String {
             switch self {
-
             case .upNextRemove:
                 return "up_next_remove"
             case .upNextAddTop:
