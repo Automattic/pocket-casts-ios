@@ -5,12 +5,10 @@ import PocketCastsServer
 class SignOutHelper {
     class func signout() {
         let paidPodcasts = DataManager.sharedManager.allPaidPodcasts()
-        Analytics.track(.userSignedOut)
-        
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportName)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.supportEmail)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
-        SyncManager.signout()
+        SyncManager.signout(userInitiated: true)
         UserEpisodeManager.cleanupCloudOnlyFiles()
         Settings.setLoginDetailsUpdated()
         paidPodcasts.forEach { PodcastManager.shared.unsubscribe(podcast: $0) }
