@@ -143,6 +143,15 @@ enum AnalyticsEvent: String {
     case uploadedFilesSortByChanged
     case uploadedFilesHelpButtonTapped
 
+    // MARK: - User File Details View
+
+    case userFileDeleted
+    case userFileDetailShown
+    case userFileDetailDismissed
+    case userFileOptionTapped
+
+    case userFilePlayPauseButtonTapped
+
     // MARK: - Starred
 
     case starredShown
