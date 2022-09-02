@@ -28,3 +28,8 @@ public enum ServerNotifications {
     public static let userEpisodesRefreshed = NSNotification.Name(rawValue: "SJUserEpisodesRefreshed")
     public static let userEpisodeUploadStatusChanged = NSNotification.Name(rawValue: "SJUserEpisodeUploadChanged")
 }
+
+public extension NSNotification.Name {
+    /// Fired before the user will be signed out
+    static let serverUserWillBeSignedOut = NSNotification.Name("Server.User.WillBeSignedOut")
+}
