@@ -130,6 +130,19 @@ enum AnalyticsEvent: String {
     case listeningHistoryClearHistoryButtonTapped
     case listeningHistoryCleared
 
+    // MARK: - Uploaded Files
+
+    case uploadedFilesShown
+    case uploadedFilesOptionsButtonTapped
+    case uploadedFilesOptionsModalOptionTapped
+
+    case uploadedFilesMultiSelectEntered
+    case uploadedFilesSelectAllButtonTapped
+    case uploadedFilesMultiSelectExited
+
+    case uploadedFilesSortByChanged
+    case uploadedFilesHelpButtonTapped
+
     // MARK: - Starred
 
     case starredShown

@@ -51,7 +51,11 @@ extension UploadedViewController: MultiSelectActionDelegate {
     }
     
     @IBAction func selectAllTapped() {
-        if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: uploadedEpisodes.count) {
+        let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: uploadedEpisodes.count)
+
+        Analytics.track(.uploadedFilesSelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
+
+        if shouldSelectAll {
             uploadsTable.selectAll()
         }
         else {
