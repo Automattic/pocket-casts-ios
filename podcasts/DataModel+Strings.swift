@@ -12,6 +12,17 @@ public extension UploadedSort {
             return L10n.uploadSortAlpha
         }
     }
+
+    var analyticsDescription: String {
+        switch self {
+        case .newestToOldest:
+            return "newest_to_oldest"
+        case .oldestToNewest:
+            return "oldest_to_newest"
+        case .titleAtoZ:
+            return "title_a_to_z"
+        }
+    }
 }
 
 public extension PodcastGrouping {
