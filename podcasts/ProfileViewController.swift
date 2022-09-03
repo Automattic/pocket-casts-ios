@@ -137,14 +137,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
-
-        Analytics.track(.profileShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         updateDisplayedData()
+
+        Analytics.track(.profileShown)
     }
     
     override func viewDidAppear(_ animated: Bool) {
