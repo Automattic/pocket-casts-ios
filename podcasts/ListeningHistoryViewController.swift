@@ -139,8 +139,6 @@ class ListeningHistoryViewController: PCViewController {
     }
     
     @objc func clearTapped() {
-        Analytics.track(.listeningHistoryClearHistoryButtonTapped)
-
         let optionPicker = OptionsPicker(title: "")
         let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
             Analytics.track(.listeningHistoryCleared)

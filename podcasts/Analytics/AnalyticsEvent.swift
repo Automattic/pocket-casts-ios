@@ -127,7 +127,6 @@ enum AnalyticsEvent: String {
     case listeningHistorySelectAllButtonTapped
     case listeningHistoryMultiSelectExited
 
-    case listeningHistoryClearHistoryButtonTapped
     case listeningHistoryCleared
 
     // MARK: - Uploaded Files
