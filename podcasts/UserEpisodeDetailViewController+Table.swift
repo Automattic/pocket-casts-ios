@@ -77,47 +77,47 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         
         switch tableRow {
         case .download:
-            Analytics.track(.userFileOptionTapped, properties: ["option": "download"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "download"])
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
             animateOut()
         case .cancelDownload:
-            Analytics.track(.userFileOptionTapped, properties: ["option": "cancel_download"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "cancel_download"])
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
             animateOut()
         case .upload:
             if SubscriptionHelper.hasActiveSubscription() {
-                Analytics.track(.userFileOptionTapped, properties: ["option": "upload"])
+                Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload"])
                 PlaybackActionHelper.upload(episodeUuid: episode.uuid)
                 animateOut()
             }
             else {
                 animateOut()
                 delegate?.showUpgradeRequired()
-                Analytics.track(.userFileOptionTapped, properties: ["option": "upload_upgrade_required"])
+                Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload_upgrade_required"])
             }
         case .cancelUpload:
             PlaybackActionHelper.stopUpload(episodeUuid: episode.uuid)
-            Analytics.track(.userFileOptionTapped, properties: ["option": "cancel_upload"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "cancel_upload"])
             animateOut()
         case .removeFromCloud:
             UserEpisodeManager.deleteFromCloud(episode: episode)
-            Analytics.track(.userFileOptionTapped, properties: ["option": "delete_from_cloud"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete_from_cloud"])
             animateOut()
         case .upNext:
             if PlaybackManager.shared.inUpNext(episode: episode) {
-                Analytics.track(.userFileOptionTapped, properties: ["option": "up_next_delete"])
+                Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_delete"])
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
             }
             else {
                 let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
                 let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
-                    Analytics.track(.userFileOptionTapped, properties: ["option": "up_next_add_top"])
+                    Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_top"])
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
                 }
                 addToUpNextPicker.addAction(action: playNextAction)
                 
                 let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
-                    Analytics.track(.userFileOptionTapped, properties: ["option": "up_next_add_bottom"])
+                    Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_bottom"])
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
                 }
                 addToUpNextPicker.addAction(action: playLastAction)
@@ -127,22 +127,22 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             animateOut()
         case .markAsPlayed:
             if episode.played() {
-                Analytics.track(.userFileOptionTapped, properties: ["option": "mark_unplayed"])
+                Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_unplayed"])
                 EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
             }
             else {
-                Analytics.track(.userFileOptionTapped, properties: ["option": "mark_played"])
+                Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_played"])
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
             animateOut()
         case .editDetails:
             animateOut()
             delegate?.showEdit(userEpisode: episode)
-            Analytics.track(.userFileOptionTapped, properties: ["option": "edit"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "edit"])
         case .delete:
             animateOut()
             delegate?.showDeleteConfirmation(userEpisode: episode)
-            Analytics.track(.userFileOptionTapped, properties: ["option": "delete"])
+            Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete"])
         }
     }
     
