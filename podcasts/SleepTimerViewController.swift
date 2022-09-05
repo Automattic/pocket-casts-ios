@@ -146,6 +146,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         super.viewDidLoad()
         
         updateColors()
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -229,6 +230,14 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     private func updateCustomSleepTime() {
         let title = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
         customTimeBtn.setTitle(title, for: .normal)
+    }
+
+    // When the user unlocks the phone and the timer count is active, we check
+    // if it's still going on. If not, the view is dismissed.
+    @objc private func dismissIfNeeded() {
+        if !PlaybackManager.shared.sleepTimerActive() && !sleepTimerActiveView.isHidden {
+            dismiss(animated: true)
+        }
     }
     
     // MARK: - Sleep Timer Actions
