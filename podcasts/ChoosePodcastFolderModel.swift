@@ -15,6 +15,12 @@ class ChoosePodcastFolderModel: ObservableObject {
         
         return folder
     }()
+
+    /// `true` when a podcast moved to a new folder
+    var didMoveToFolder = false
+
+    /// `true` when a podcast was removed from a folder
+    var didRemoveFromFolder = false
     
     init(pickingFor podcastUuid: String, currentFolder: String?) {
         pickingForPodcastUuid = podcastUuid
@@ -78,6 +84,8 @@ class ChoosePodcastFolderModel: ObservableObject {
         loadFolders()
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: currentFolder)
+
+        didMoveToFolder = true
     }
     
     private func removePodcastFromFolder() {
@@ -91,6 +99,8 @@ class ChoosePodcastFolderModel: ObservableObject {
         loadFolders()
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged)
+
+        didRemoveFromFolder = true
     }
     
     private func updateLastSync(folderUuid: String) {

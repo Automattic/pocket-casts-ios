@@ -17,6 +17,7 @@ struct ChoosePodcastFolderView: View {
                         Button {
                             model.movePodcastToFolder(folder)
                             dismissAction(folder.uuid)
+                            trackFolderTappedIfNeeded()
                         } label: {
                             FolderSelectRow(model: model, folder: folder)
                         }
@@ -60,9 +61,21 @@ struct ChoosePodcastFolderView: View {
             .applyDefaultThemeOptions()
             .onAppear {
                 model.loadFolders()
+                Analytics.track(.folderChooseShown)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+extension ChoosePodcastFolderView {
+    func trackFolderTappedIfNeeded() {
+        if model.didMoveToFolder {
+            Analytics.track(.folderChooseFolderTapped)
+        }
+        else if model.didRemoveFromFolder {
+            Analytics.track(.folderChooseRemovedFromFolder)
+        }
     }
 }
 
