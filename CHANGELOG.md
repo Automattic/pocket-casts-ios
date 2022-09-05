@@ -1,6 +1,7 @@
 7.22
 -----
 
+- Fixed an issue where the timer screen would show wrong time when unlocking the phone (#211)
 
 7.21
 ----
