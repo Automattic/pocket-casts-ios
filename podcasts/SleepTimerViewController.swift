@@ -235,7 +235,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     // When the user unlocks the phone and the timer count is active, we check
     // if it's still going on. If not, the view is dismissed.
     @objc private func dismissIfNeeded() {
-        if !PlaybackManager.shared.sleepTimerActive() && !sleepTimerActiveView.isHidden {
+        if !PlaybackManager.shared.sleepTimerActive(), !sleepTimerActiveView.isHidden {
             dismiss(animated: true)
         }
     }
