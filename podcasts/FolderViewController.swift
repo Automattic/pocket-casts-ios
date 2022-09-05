@@ -81,6 +81,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+
+        Analytics.track(.folderShown, properties: ["number_of_podcasts": podcasts.count, "sort_order": folder.librarySort().analyticsDescription])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -99,6 +101,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     
     @IBAction func addPodcastsTapped(_ sender: Any) {
         showPodcastSelectionDialog()
+        Analytics.track(.folderAddPodcastsButtonTapped)
     }
     
     @objc private func reloadFolder() {
@@ -121,6 +124,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let sortOption = folder.librarySort()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOptions()
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
         optionsPicker.addAction(action: sortAction)
         
@@ -141,6 +145,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
             
             self?.present(hostingController, animated: true, completion: nil)
+
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "edit_folder"])
         }
         optionsPicker.addAction(action: editAction)
         
@@ -148,10 +154,14 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             guard let self = self else { return }
             
             self.showPodcastSelectionDialog()
+
+            Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "add_or_remove_podcasts"])
         }
         optionsPicker.addAction(action: addRemoveAction)
         
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+
+        Analytics.track(.folderOptionsButtonTapped)
     }
     
     private func showPodcastSelectionDialog() {
@@ -201,6 +211,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         DataManager.sharedManager.save(folder: folder)
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
+
+        Analytics.track(.folderSortByChanged, properties: ["sort_order": order.analyticsDescription])
     }
     
     @objc private func miniPlayerStatusDidChange() {
