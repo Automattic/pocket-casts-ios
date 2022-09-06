@@ -50,6 +50,7 @@ class StarredViewController: PCViewController {
                 self.starredTable.endUpdates()
                 
                 if self.isMultiSelectEnabled {
+                    Analytics.track(.starredMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
@@ -58,6 +59,7 @@ class StarredViewController: PCViewController {
                     }
                 }
                 else {
+                    Analytics.track(.starredMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
             }
@@ -89,6 +91,7 @@ class StarredViewController: PCViewController {
         setupNavBar()
         refreshEpisodesFromServer(animated: false)
         addEventObservers()
+        Analytics.track(.starredShown)
     }
     
     func refreshEpisodesFromServer(animated: Bool) {

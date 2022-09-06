@@ -51,7 +51,11 @@ extension StarredViewController: MultiSelectActionDelegate {
     }
     
     @IBAction func selectAllTapped() {
-        if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count) {
+        let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count)
+
+        Analytics.track(.starredSelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
+
+        if shouldSelectAll {
             starredTable.selectAll()
         }
         else {
