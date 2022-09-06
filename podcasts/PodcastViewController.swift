@@ -762,6 +762,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             DataManager.sharedManager.updateFolderSyncModified(folderUuid: currentFolderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
             
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: currentFolderUuid)
+
+            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "remove"])
         }
         optionsPicker.addAction(action: removeAction)
         
@@ -769,11 +771,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             guard let self = self else { return }
             
             self.showFolderPickerDialog()
+
+            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "change"])
         }
         optionsPicker.addAction(action: changeFolderAction)
         
         let goToFolderAction = OptionAction(label: L10n.folderGoTo.localizedCapitalized, icon: "folder-goto") {
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "go_to"])
         }
         optionsPicker.addAction(action: goToFolderAction)
         
