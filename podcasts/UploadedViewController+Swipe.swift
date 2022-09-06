@@ -28,7 +28,7 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
-        "uploaded_files"
+        "files"
     }
 
     func actionPerformed(willBeRemoved: Bool) {
