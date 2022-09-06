@@ -86,6 +86,18 @@ enum AnalyticsEvent: String {
 
     case episodeSwipeActionPerformed
 
+    // MARK: - Profile View
+
+    case profileShown
+    case profileSettingsButtonTapped
+    case profileAccountButtonTapped
+    case profileRefreshButtonTapped
+
+    // MARK: - Stats View
+
+    case statsShown
+    case statsDismissed
+    
     // Folder
     case folderShown
     case folderCreateShown
@@ -116,4 +128,61 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
+
+    // MARK: - Downloads View
+
+    case downloadsShown
+    case downloadsOptionsButtonTapped
+    case downloadsOptionsModalOptionTapped
+
+    case downloadsMultiSelectEntered
+    case downloadsSelectAllButtonTapped
+    case downloadsMultiSelectExited
+
+    // MARK: - Downloads Clean Up View
+
+    case downloadsCleanUpShown
+    case downloadsCleanUpButtonTapped
+    case downloadsCleanUpCompleted
+
+    // MARK: - Listening History
+
+    case listeningHistoryShown
+    case listeningHistoryOptionsButtonTapped
+    case listeningHistoryOptionsModalOptionTapped
+
+    case listeningHistoryMultiSelectEntered
+    case listeningHistorySelectAllButtonTapped
+    case listeningHistoryMultiSelectExited
+
+    case listeningHistoryCleared
+
+    // MARK: - Uploaded Files
+
+    case uploadedFilesShown
+    case uploadedFilesOptionsButtonTapped
+    case uploadedFilesOptionsModalOptionTapped
+
+    case uploadedFilesMultiSelectEntered
+    case uploadedFilesSelectAllButtonTapped
+    case uploadedFilesMultiSelectExited
+
+    case uploadedFilesSortByChanged
+    case uploadedFilesHelpButtonTapped
+
+    // MARK: - User File Details View
+
+    case userFileDeleted
+    case userFileDetailShown
+    case userFileDetailDismissed
+    case userFileDetailOptionTapped
+
+    case userFilePlayPauseButtonTapped
+
+    // MARK: - Starred
+
+    case starredShown
+    case starredMultiSelectEntered
+    case starredSelectAllButtonTapped
+    case starredMultiSelectExited
 }
