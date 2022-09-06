@@ -33,7 +33,7 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
-        "playlist"
+        "filters"
     }
 
     func actionPerformed(willBeRemoved: Bool) {
