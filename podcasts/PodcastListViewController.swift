@@ -48,6 +48,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var gridItems = [HomeGridListItem]()
     
     private var lastWillLayoutWidth: CGFloat = 0
+
+    private var homeGridDataHelper = HomeGridDataHelper()
     
     private lazy var refreshQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -84,6 +86,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addEventObservers()
         updateForVoiceOver()
         updateFolderButton()
+
+        Analytics.track(.podcastsListShown, properties: [
+            "sort_order": Settings.homeFolderSortOrder().analyticsDescription,
+            "badge_type": Settings.podcastBadgeType().analyticsDescription,
+            "layout": Settings.libraryType().analyticsDescription,
+            "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
+            "number_of_folders": homeGridDataHelper.numberOfFolders
+        ])
     }
     
     override func viewWillLayoutSubviews() {
@@ -222,6 +232,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         
         present(hostingController, animated: true, completion: nil)
         AnalyticsHelper.folderCreated()
+        Analytics.track(.podcastsListFolderButtonTapped)
     }
     
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
@@ -262,6 +273,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         optionsPicker.addAction(action: shareAction)
         
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+
+        Analytics.track(.podcastsListOptionsButtonTapped)
     }
     
     // MARK: - ShareListDelegate
