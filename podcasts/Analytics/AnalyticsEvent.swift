@@ -68,7 +68,7 @@ enum AnalyticsEvent: String {
     case podcastsListFolderButtonTapped
     case podcastsListPodcastTapped
     case podcastsListFolderTapped
-    case podcastsListEllipsisButtonTapped
+    case podcastsListOptionsButtonTapped
     case podcastsListReordered
 
     // Newsletter Opt In
@@ -94,6 +94,30 @@ enum AnalyticsEvent: String {
     case statsShown
     case statsDismissed
     
+    // Folder
+    case folderShown
+    case folderCreateShown
+    case folderPodcastPickerSearchPerformed
+    case folderPodcastPickerSearchCleared
+    case folderPodcastPickerFilterChanged
+    case folderCreateNameShown
+    case folderCreateColorShown
+    case folderSaved
+    case folderChoosePodcastsShown
+    case folderChoosePodcastsDismissed
+    case folderAddPodcastsButtonTapped
+    case folderOptionsButtonTapped
+    case folderSortByChanged
+    case folderOptionsModalOptionTapped
+    case folderEditShown
+    case folderEditDismissed
+    case folderEditDeleteButtonTapped
+    case folderDeleted
+    case folderChooseShown
+    case folderChooseFolderTapped
+    case folderChooseRemovedFromFolder
+    case folderPodcastModalOptionTapped
+
     // MARK: - Tab Bar Items
 
     case podcastTabOpened
