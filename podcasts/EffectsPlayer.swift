@@ -105,8 +105,20 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
-            
-            let format = strongSelf.audioFile!.processingFormat
+
+            // iOS 16 has an issue in which if the conditions below are met, the playback will fail:
+            // Audio file has a single channel and spatial audio is enabled
+            // In order to prevent this issue, we create a two channel format and inside
+            // `AudioReadTask` we convert the mono segments to stereo
+            // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
+            var format: AVAudioFormat
+            if #available(iOS 16, *), strongSelf.audioFile!.processingFormat.channelCount == 1 {
+                let processingFormat = strongSelf.audioFile!.processingFormat
+                format = AVAudioFormat.init(standardFormatWithSampleRate: processingFormat.sampleRate, channels: 2)!
+            } else {
+                format = strongSelf.audioFile!.processingFormat
+            }
+
             strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.timePitch!, format: format)
             strongSelf.engine?.connect(strongSelf.timePitch!, to: strongSelf.highPassFilter!, format: format)
             strongSelf.engine?.connect(strongSelf.highPassFilter!, to: strongSelf.dynamicsProcessor!, format: format)
@@ -309,7 +321,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         
         guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: player.outputFormat(forBus: 0), bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
         
         audioReadTask?.startup()
