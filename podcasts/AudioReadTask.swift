@@ -183,7 +183,6 @@ class AudioReadTask {
         }
         
         currentFramePosition = audioFile.framePosition
-        let audioBuffer = BufferedAudio(audioBuffer: audioPCMBuffer!, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
         fadeInNextFrame = false
         if channelCount == 0 { channelCount = (audioPCMBuffer?.audioBufferList.pointee.mNumberBuffers)! }
         
@@ -193,6 +192,21 @@ class AudioReadTask {
             objc_sync_exit(lock)
             
             return nil
+        }
+
+        // iOS 16 has an issue in which if the conditions below are met, the playback will fail:
+        // Audio file has a single channel and spatial audio is enabled
+        // In order to prevent this issue, we convert a mono buffer to stereo buffer
+        // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
+        var audioBuffer: BufferedAudio
+        if #available(iOS 16, *), audioPCMBuffer!.audioBufferList.pointee.mNumberBuffers == 1 {
+            let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2)!
+            let converter = AVAudioConverter.init(from: audioFile.processingFormat, to: twoChannelsFormat)
+            let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer!.frameCapacity)!
+            try! converter?.convert(to: twoChannnelBuffer, from: audioPCMBuffer!)
+            audioBuffer = BufferedAudio(audioBuffer: twoChannnelBuffer, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
+        } else {
+            audioBuffer = BufferedAudio(audioBuffer: audioPCMBuffer!, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
         }
         
         var buffers = [BufferedAudio]()
