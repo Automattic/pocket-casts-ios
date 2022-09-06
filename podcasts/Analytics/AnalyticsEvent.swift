@@ -82,6 +82,10 @@ enum AnalyticsEvent: String {
     case accountUpdatedShown
     case accountUpdatedDismissed
 
+    // MARK: - Table Swipe Actions for Podcast episodes
+
+    case episodeSwipeActionPerformed
+
     // MARK: - Profile View
 
     case profileShown
