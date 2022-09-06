@@ -31,6 +31,7 @@ class ListeningHistoryViewController: PCViewController {
                 self.listeningHistoryTable.endUpdates()
                 
                 if self.isMultiSelectEnabled {
+                    Analytics.track(.listeningHistoryMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
@@ -39,6 +40,7 @@ class ListeningHistoryViewController: PCViewController {
                     }
                 }
                 else {
+                    Analytics.track(.listeningHistoryMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
             }
@@ -70,6 +72,8 @@ class ListeningHistoryViewController: PCViewController {
         refreshEpisodes(animated: false)
         
         setupNavBar()
+
+        Analytics.track(.listeningHistoryShown)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -137,6 +141,7 @@ class ListeningHistoryViewController: PCViewController {
     @objc func clearTapped() {
         let optionPicker = OptionsPicker(title: "")
         let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
+            Analytics.track(.listeningHistoryCleared)
             DataManager.sharedManager.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self.refreshEpisodes(animated: true)
@@ -155,14 +160,18 @@ class ListeningHistoryViewController: PCViewController {
     }
     
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
+        Analytics.track(.listeningHistoryOptionsButtonTapped)
+
         let optionsPicker = OptionsPicker(title: nil)
         
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+            Analytics.track(.listeningHistoryOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
         let clearAction = OptionAction(label: L10n.historyClearAllDetails, icon: "option-cleanup") { [weak self] in
+            Analytics.track(.listeningHistoryOptionsModalOptionTapped, properties: ["option": "clear_history"])
             self?.clearTapped()
         }
         optionsPicker.addAction(action: clearAction)
