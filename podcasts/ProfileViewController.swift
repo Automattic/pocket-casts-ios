@@ -143,6 +143,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
         
         updateDisplayedData()
+
+        Analytics.track(.profileShown)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -189,11 +191,15 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
     
     @objc private func settingsTapped() {
+        Analytics.track(.profileSettingsButtonTapped)
+
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
     }
     
     @objc func profileTapped() {
+        Analytics.track(.profileAccountButtonTapped)
+
         if SyncManager.isUserLoggedIn() {
             showAccountController()
         }
@@ -214,6 +220,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
     
     private func refreshTapped() {
+        Analytics.track(.profileRefreshButtonTapped)
+
         refreshBtn.animateImage(animationType: .rotate)
         lastRefreshTime.text = L10n.refreshing
         RefreshManager.shared.refreshPodcasts()
