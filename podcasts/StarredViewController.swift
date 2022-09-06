@@ -91,7 +91,7 @@ class StarredViewController: PCViewController {
         setupNavBar()
         refreshEpisodesFromServer(animated: false)
         addEventObservers()
-        Analytics.track(.statsShown)
+        Analytics.track(.starredShown)
     }
     
     func refreshEpisodesFromServer(animated: Bool) {
