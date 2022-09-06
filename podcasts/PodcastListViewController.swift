@@ -274,7 +274,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
 
-        Analytics.track(.podcastsListEllipsisButtonTapped)
+        Analytics.track(.podcastsListOptionsButtonTapped)
     }
     
     // MARK: - ShareListDelegate
