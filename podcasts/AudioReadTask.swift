@@ -199,13 +199,16 @@ class AudioReadTask {
         // In order to prevent this issue, we convert a mono buffer to stereo buffer
         // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
         var audioBuffer: BufferedAudio
-        if #available(iOS 16, *), audioPCMBuffer!.audioBufferList.pointee.mNumberBuffers == 1 {
-            let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2)!
-            let converter = AVAudioConverter.init(from: audioFile.processingFormat, to: twoChannelsFormat)
-            let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer!.frameCapacity)!
-            try! converter?.convert(to: twoChannnelBuffer, from: audioPCMBuffer!)
+        if #available(iOS 16, *), audioPCMBuffer!.audioBufferList.pointee.mNumberBuffers == 1,
+           let audioPCMBuffer = audioPCMBuffer,
+           let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2),
+           let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer.frameCapacity)
+        {
+            let converter = AVAudioConverter(from: audioFile.processingFormat, to: twoChannelsFormat)
+            try? converter?.convert(to: twoChannnelBuffer, from: audioPCMBuffer)
             audioBuffer = BufferedAudio(audioBuffer: twoChannnelBuffer, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
-        } else {
+        }
+        else {
             audioBuffer = BufferedAudio(audioBuffer: audioPCMBuffer!, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
         }
         
