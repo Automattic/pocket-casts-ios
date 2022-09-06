@@ -38,6 +38,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                 
                 self.changedViaSwipeToRemove = true
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
+                Analytics.track(.episodeSwipeActionPerformed, properties: ["action": "delete", "source": "up_next"])
                 let remainingEpisodes = PlaybackManager.shared.queue.upNextCount()
                 if remainingEpisodes > 0 {
                     do {
