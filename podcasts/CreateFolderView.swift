@@ -32,7 +32,7 @@ struct CreateFolderView: View {
     var mainBody: some View {
         VStack {
             PodcastPickerView(pickerModel: pickerModel)
-            NavigationLink(destination: NameFolderView(model: model, dismissAction: dismissAction)) {
+            NavigationLink(destination: NameFolderView(model: model, dismissAction: dismissAction, numberOfSelectedPodcasts: pickerModel.selectedPodcastUuids.count)) {
                 Text(addButtonTitle)
                     .textStyle(RoundedButton())
             }
@@ -44,6 +44,7 @@ struct CreateFolderView: View {
             if let uuid = preselectPodcastUuid {
                 pickerModel.selectedPodcastUuids.append(uuid)
             }
+            Analytics.track(.folderCreateShown, properties: ["source": analyticsSource])
         }
         .onDisappear {
             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
@@ -67,6 +68,11 @@ struct CreateFolderView: View {
                 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    /// From when the flow was initiated
+    var analyticsSource: String {
+        preselectPodcastUuid != nil ? "choose_folder" : "podcasts_list"
     }
 }
 

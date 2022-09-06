@@ -183,6 +183,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                     
                     DispatchQueue.main.async {
+                        Analytics.track(.userAccountDeleted)
                         AnalyticsHelper.accountDeleted()
                         SignOutHelper.signout()
                         
