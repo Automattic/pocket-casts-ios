@@ -26,7 +26,6 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                 PlaybackManager.shared.queue.move(episode: episode, to: queueCount - 1, fireNotification: false)
                 self.moveRow(at: indexPath, to: IndexPath(row: queueCount - 1, section: indexPath.section), in: tableView)
                 Analytics.track(.episodeSwipeActionPerformed, properties: ["action": "up_next_move_down", "source": "up_next"])
-
             }
             moveToBottomAction.image = UIImage(named: "upnext-movetobottom")
             moveToBottomAction.backgroundColor = ThemeColor.support03()
