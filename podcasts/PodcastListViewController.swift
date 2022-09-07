@@ -261,6 +261,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             Settings.setLibraryType(.list)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.list.analyticsDescription])
         }
         optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
         
