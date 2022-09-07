@@ -576,6 +576,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let settingsController = PodcastSettingsViewController(podcast: podcast)
         settingsController.episodes = episodeInfo
         navigationController?.pushViewController(settingsController, animated: true)
+        Analytics.track(.podcastScreenSettingsTapped)
     }
     
     func manageSubscriptionTapped() {
