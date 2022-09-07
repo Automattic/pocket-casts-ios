@@ -241,6 +241,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let sortOption = Settings.homeFolderSortOrder()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])
         }
         optionsPicker.addAction(action: sortAction)
         
