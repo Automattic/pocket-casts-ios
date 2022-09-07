@@ -250,6 +250,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
         
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
+
+        Analytics.track(.podcastScreenShown)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
