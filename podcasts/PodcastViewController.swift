@@ -151,6 +151,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     static let headerSection = 0
     static let allEpisodesSection = 1
+
+    private var isSearching = false
     
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -629,6 +631,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     func searchEpisodes(query: String) {
         performEpisodeSearch(query: query)
+        if !isSearching {
+            isSearching = true
+            Analytics.track(.podcastScreenSearchPerformed)
+        }
     }
     
     func clearSearch() {
