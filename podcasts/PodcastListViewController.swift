@@ -255,6 +255,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             Settings.setLibraryType(.fourByFour)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.fourByFour.analyticsDescription])
         }
         let listGridAction = OptionAction(label: L10n.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
             Settings.setLibraryType(.list)
