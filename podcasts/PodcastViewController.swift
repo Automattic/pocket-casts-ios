@@ -532,6 +532,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let listId = listUuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
         }
+
+        Analytics.track(.podcastScreenSubscribeTapped)
     }
     
     func isSummaryExpanded() -> Bool {

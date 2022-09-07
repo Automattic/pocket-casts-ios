@@ -191,4 +191,5 @@ enum AnalyticsEvent: String {
     case podcastScreenShown
     case podcastScreenFolderTapped
     case podcastScreenSettingsTapped
+    case podcastScreenSubscribeTapped
 }
