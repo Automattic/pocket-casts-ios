@@ -262,6 +262,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let badgeType = Settings.podcastBadgeType()
         let badgesAction = OptionAction(label: L10n.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") { [weak self] in
             self?.showBadgeOptions()
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "badges"])
         }
         optionsPicker.addAction(action: badgesAction)
         
