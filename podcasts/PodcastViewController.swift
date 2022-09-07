@@ -508,6 +508,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             optionPicker.addAction(action: unsubscribeAction)
         }
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+
+        Analytics.track(.podcastScreenUnsubscribeTapped)
     }
     
     private func performUnsubscribe() {
