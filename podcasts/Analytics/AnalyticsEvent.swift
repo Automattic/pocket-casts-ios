@@ -84,6 +84,7 @@ enum AnalyticsEvent: String {
     case podcastsListReordered
     case podcastsListModalOptionTapped
     case podcastsListSortOrderChanged
+    case podcastsListLayoutChanged
 
     // MARK: - Newsletter Opt In
 
