@@ -248,14 +248,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let largeGridAction = OptionAction(label: L10n.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
         }
         let smallGridAction = OptionAction(label: L10n.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
             Settings.setLibraryType(.fourByFour)
             self?.gridTypeChanged()
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
         }
         let listGridAction = OptionAction(label: L10n.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
             Settings.setLibraryType(.list)
             self?.gridTypeChanged()
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
         }
         optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
         
