@@ -249,6 +249,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.threeByThree.analyticsDescription])
         }
         let smallGridAction = OptionAction(label: L10n.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
             Settings.setLibraryType(.fourByFour)
