@@ -344,6 +344,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             Settings.setPodcastBadgeType(.latestEpisode)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.latestEpisode.analyticsDescription])
         }
         options.addAction(action: unplayedCountAction)
         
