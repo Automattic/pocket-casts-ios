@@ -189,4 +189,5 @@ enum AnalyticsEvent: String {
     // MARK: - Podcast screen
 
     case podcastScreenShown
+    case podcastScreenFolderTapped
 }
