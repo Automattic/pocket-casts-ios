@@ -326,6 +326,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             Settings.setPodcastBadgeType(.off)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.off.analyticsDescription])
         }
         options.addAction(action: badgeOffAction)
         
