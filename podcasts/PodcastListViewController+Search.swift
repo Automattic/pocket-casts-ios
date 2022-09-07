@@ -72,6 +72,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .custom)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom.analyticsDescription])
         }
         options.addAction(action: dragAndDropAction)
         
