@@ -270,6 +270,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             shareController.delegate = self
             let navController = SJUIUtils.navController(for: shareController)
             self.present(navController, animated: true, completion: nil)
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
         }
         optionsPicker.addAction(action: shareAction)
         
