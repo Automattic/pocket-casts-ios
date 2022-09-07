@@ -604,6 +604,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
     
     func folderTapped() {
+        Analytics.track(.podcastScreenFolderTapped)
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
