@@ -642,6 +642,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         uuidsThatMatchSearch.removeAll()
         loadLocalEpisodes(podcast: podcast, animated: true)
+        isSearching = false
+        Analytics.track(.podcastScreenSearchCleared)
     }
     
     func toggleShowArchived() {
