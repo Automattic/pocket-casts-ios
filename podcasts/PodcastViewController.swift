@@ -351,6 +351,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
+        Analytics.track(.podcastScreenShareTapped)
     }
     
     private func loadPodcastInfo() {
