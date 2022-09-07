@@ -5,15 +5,25 @@ protocol AnalyticsAdapter {
 }
 
 class Analytics {
-    private static let shared = Analytics()
+    static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
 
     static func register(adapters: [AnalyticsAdapter]) {
         Self.shared.adapters = adapters
     }
 
+    /// Unregisters all the registered adapters, disabling analytics
+    static func unregister() {
+        Self.shared.adapters = nil
+    }
+
+    /// Convenience method to call Analytics.shared.track*
     static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
-        Self.shared.adapters?.forEach {
+        Self.shared.track(event, properties: properties)
+    }
+
+    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        adapters?.forEach {
             $0.track(name: event.eventName, properties: properties)
         }
     }

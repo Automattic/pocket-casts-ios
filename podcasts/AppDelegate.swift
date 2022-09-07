@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var modalController: UINavigationController?
     
     lazy var lenticularFilter: LenticularFilter = .init()
-    
+    lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
+
     // MARK: - App Lifecycle
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSecrets()
         setupAnalytics()
+        appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
         
         let defaults = UserDefaults.standard
         
@@ -90,6 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
+
+        appLifecycleAnalytics.didEnterBackground()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -97,6 +101,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func handleBecomeActive() {
+        appLifecycleAnalytics.didBecomeActive()
+
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
         if DateUtil.hasEnoughTimePassed(since: lastUpdateTime, time: AppDelegate.minTimeBetweenRefreshes) {

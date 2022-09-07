@@ -10,6 +10,7 @@ gem 'danger-rubocop', '~> 0.10'
 gem 'danger-swiftformat', git: 'https://github.com/shiftyjelly/danger-ruby-swiftformat.git'
 gem 'danger-swiftlint'
 gem 'fastlane'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 5.4'
 gem 'rubocop', '~> 1.30'
 gem 'watchbuild'
 
@@ -18,7 +19,3 @@ gem 'watchbuild'
 # doesn't use Rake directly, so, to ensure the dependencies can resolve, let's
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
-
-# Fastlane plugins integration
-plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
-eval_gemfile(plugins_path) if File.exist?(plugins_path)

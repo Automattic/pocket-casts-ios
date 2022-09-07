@@ -51,7 +51,11 @@ extension DownloadsViewController: MultiSelectActionDelegate {
     }
     
     @IBAction func selectAllTapped() {
-        if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodeCount()) {
+        let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodeCount())
+
+        Analytics.track(.downloadsSelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
+
+        if shouldSelectAll {
             downloadsTable.selectAll()
         }
         else {

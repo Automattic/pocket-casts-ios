@@ -319,3 +319,17 @@ public class ServerSettings {
         ApiServerHandler.shared.syncSettings()
     }
 }
+
+// MARK: - User ID Support
+
+public extension ServerSettings {
+    class var userId: String? {
+        get {
+            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.userId)
+        }
+
+        set {
+            UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.userId)
+        }
+    }
+}

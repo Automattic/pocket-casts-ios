@@ -140,6 +140,7 @@ class UserEpisodeDetailViewController: UIViewController {
         containerViewHeight.constant = hasError ? UserEpisodeDetailViewController.containerHeightWithError : UserEpisodeDetailViewController.containerHeightWithoutError
         containerViewBottomConstraint.constant = -containerViewHeight.constant
         updateStatus()
+        Analytics.track(.userFileDetailShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -305,6 +306,7 @@ class UserEpisodeDetailViewController: UIViewController {
     // MARK: Actions
     
     @objc func hide() {
+        Analytics.track(.userFileDetailDismissed)
         animateOut()
     }
     
