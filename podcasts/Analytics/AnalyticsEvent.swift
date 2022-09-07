@@ -1,13 +1,15 @@
 import Foundation
 
 enum AnalyticsEvent: String {
-    // App Lifecycle
+    // MARK: - App Lifecycle
+
     case applicationInstalled
     case applicationOpened
     case applicationUpdated
     case applicationClosed
 
-    // User Lifecycle
+    // MARK: - User Lifecycle
+
     case userSignedIn
     case userSignedOut
     case userSignInFailed
@@ -18,52 +20,62 @@ enum AnalyticsEvent: String {
     case userPasswordUpdated
     case userPasswordReset
 
-    // Payment Events
+    // MARK: - Payment Events
+
     case purchaseSuccessful
     case purchaseFailed
     case purchaseCancelled
 
-    // Plus Upsell Dialog
+    // MARK: - Plus Upsell Dialog
+
     case plusPromotionShown
     case plusPromotionDismissed
     case plusPromotionUpgradeButtonTapped
 
-    // Setup Account
+    // MARK: - Setup Account
+
     case setupAccountShown
     case setupAccountDismissed
     case setupAccountButtonTapped
 
-    // Sign in View
+    // MARK: - Sign in View
+
     case signInShown
     case signInDismissed
 
-    // Select Account Type
+    // MARK: - Select Account Type
+
     case selectAccountTypeShown
     case selectAccountTypeDismissed
     case selectAccountTypeNextButtonTapped
 
-    // Create Account
+    // MARK: - Create Account
+
     case createAccountShown
     case createAccountDismissed
     case createAccountNextButtonTapped
 
-    // Terms of Use
+    // MARK: - Terms of Use
+
     case termsOfUseShown
     case termsOfUseDismissed
     case termsOfUseAccepted
     case termsOfUseRejected
 
-    // Select Payment Frequency
+    // MARK: - Select Payment Frequency
+
     case selectPaymentFrequencyShown
     case selectPaymentFrequencyDismissed
     case selectPaymentFrequencyNextButtonTapped
 
-    // Confirm Payment
+    // MARK: - Confirm Payment
+
     case confirmPaymentShown
     case confirmPaymentDismissed
     case confirmPaymentConfirmButtonTapped
 
-    // Podcasts List
+    // MARK: - Podcasts List
+
     case podcastsListShown
     case podcastsListFolderButtonTapped
     case podcastsListPodcastTapped
@@ -71,14 +83,17 @@ enum AnalyticsEvent: String {
     case podcastsListOptionsButtonTapped
     case podcastsListReordered
 
-    // Newsletter Opt In
+    // MARK: - Newsletter Opt In
+
     case newsletterOptInChanged
 
-    // Forgot Password
+    // MARK: - Forgot Password
+
     case forgotPasswordShown
     case forgotPasswordDismissed
 
-    // Account Updated View
+    // MARK: - Account Updated View
+
     case accountUpdatedShown
     case accountUpdatedDismissed
 
@@ -98,7 +113,8 @@ enum AnalyticsEvent: String {
     case statsShown
     case statsDismissed
     
-    // Folder
+    // MARK: - Folders
+
     case folderShown
     case folderCreateShown
     case folderPodcastPickerSearchPerformed
