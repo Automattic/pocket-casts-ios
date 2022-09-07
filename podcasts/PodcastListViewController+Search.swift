@@ -63,6 +63,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest.analyticsDescription])
         }
         options.addAction(action: subscribedOrder)
         
