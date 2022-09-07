@@ -27,11 +27,18 @@ public class SyncManager {
         }
         return lastRefreshStartDate.compare(lastRefreshEndDate) == .orderedDescending
     }
-    
-    public class func signout() {
+
+    /// Signs the user out
+    /// - Parameter userInitiated: Whether the user initiated the sign out or not
+    public class func signout(userInitiated: Bool = false) {
+        // Notify any listeners that the user login state will be changing
+        NotificationCenter.postOnMainThread(notification: .serverUserWillBeSignedOut, userInfo: ["user_initiated": userInitiated])
+
         clearTokensFromKeyChain()
         
         ServerSettings.setSyncingEmail(email: nil)
+        ServerSettings.userId = nil
+
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.upNextServerLastModified)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.historyServerLastModified)

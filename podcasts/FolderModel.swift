@@ -26,6 +26,7 @@ class FolderModel: ObservableObject {
                 folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
                 DataManager.sharedManager.save(folder: folder)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folderUuid)
+                didChangeName = true
             }
         }
     }
@@ -38,14 +39,21 @@ class FolderModel: ObservableObject {
             
             DataManager.sharedManager.updateFolderColor(folderUuid: folderUuid, color: Int32(colorInt), syncModified: TimeFormatter.currentUTCTimeInMillis())
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folderUuid)
+
+            didChangeColor = true
         }
     }
 
     @Published var color: Color = .red
 
+    var didChangeName = false
+
+    var didChangeColor = false
+
     private let maximumAllowedCharactersForName = 100
 
     private let saveOnChange: Bool
+
     init(saveOnChange: Bool = false) {
         self.saveOnChange = saveOnChange
     }

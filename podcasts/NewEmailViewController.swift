@@ -112,6 +112,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         originalButtonConstant = nextButtonBottomConstraint.constant
         
         updateButtonState()
+        Analytics.track(.createAccountShown)
     }
     
     deinit {
@@ -138,6 +139,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     
     @objc func backTapped() {
         navigationController?.popViewController(animated: true)
+        Analytics.track(.createAccountDismissed)
     }
     
     @IBAction func nextTapped(_ sender: Any) {
@@ -156,17 +158,22 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func startRegister(_ username: String, password: String) {
+        Analytics.track(.createAccountNextButtonTapped)
+
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
         activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         nextButton.setTitle("", for: .normal)
         
-        ApiServerHandler.shared.registerAccount(username: username, password: password) { success, error in
+        ApiServerHandler.shared.registerAccount(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 self.contentView.alpha = 1
                 self.activityIndicator.stopAnimating()
+
                 if !success {
+                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
+
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
@@ -178,8 +185,9 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                     self.nextButton.setTitle(L10n.next, for: .normal)
                     return
                 }
+
                 FileLog.shared.addMessage("Registered new account for \(username)")
-                self.saveUsernameAndPassword(username, password: password)
+                self.saveUsernameAndPassword(username, password: password, userId: userId)
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                 Settings.setLoginDetailsUpdated()
                 if self.newSubscription.iap_identifier.count > 0 {
@@ -226,7 +234,8 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         infoLabel.style = .primaryText01
     }
     
-    private func saveUsernameAndPassword(_ username: String, password: String) {
+    private func saveUsernameAndPassword(_ username: String, password: String, userId: String?) {
+        ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
         
         // we've signed in, set all our existing podcasts to be non synced
@@ -234,6 +243,10 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
+
+        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+
+        Analytics.track(.userAccountCreated)
     }
     
     // MARK: - UITextField Methods

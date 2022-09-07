@@ -67,6 +67,7 @@ class DownloadsViewController: PCViewController {
                 self.downloadsTable.endUpdates()
                 
                 if self.isMultiSelectEnabled {
+                    Analytics.track(.downloadsMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
@@ -75,6 +76,7 @@ class DownloadsViewController: PCViewController {
                     }
                 }
                 else {
+                    Analytics.track(.downloadsMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
             }
@@ -108,6 +110,8 @@ class DownloadsViewController: PCViewController {
         downloadsTable.sectionFooterHeight = 0.0
         
         title = L10n.downloads
+
+        Analytics.track(.downloadsShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -201,20 +205,25 @@ class DownloadsViewController: PCViewController {
     }
     
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
+        Analytics.track(.downloadsOptionsButtonTapped)
+
         let optionsPicker = OptionsPicker(title: nil)
         
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+            Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
         let settingsAction = OptionAction(label: L10n.downloadsAutoDownload, icon: "podcast-settings") { [weak self] in
+            Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "auto_download_settings"])
             self?.navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
         }
         optionsPicker.addAction(action: settingsAction)
         
         if failedEpisodes().count > 0 {
             let retryAction = OptionAction(label: L10n.downloadsRetryFailedDownloads, icon: "option-download-retry") { [weak self] in
+                Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "retry_failed_downloads"])
                 self?.retryAllFailed(sender)
             }
             optionsPicker.addAction(action: retryAction)
@@ -222,12 +231,14 @@ class DownloadsViewController: PCViewController {
         
         if downloadingEpisodes().count > 0 {
             let stopAction = OptionAction(label: L10n.downloadsStopAllDownloads, icon: "option-cross-circle") { [weak self] in
+                Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "stop_all_downloads"])
                 self?.pauseAllDownloads()
             }
             optionsPicker.addAction(action: stopAction)
         }
         
         let cleanupAction = OptionAction(label: L10n.cleanUp, icon: "list_delete") { [weak self] in
+            Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "clean_up"])
             self?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
         }
         optionsPicker.addAction(action: cleanupAction)

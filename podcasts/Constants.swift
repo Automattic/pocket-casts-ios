@@ -134,6 +134,8 @@ struct Constants {
         
         static let shouldFollowSystemThemeKey = "FollowSystemTheme"
         static let themeKey = "theme"
+
+        static let lastRunVersion = "lastRunVersion"
     }
     
     enum Values {
@@ -152,6 +154,11 @@ struct Constants {
         static let tableSectionHeaderHeight: CGFloat = 38
         
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
+
+        /// We show the free trial by default since if the app was just downloaded
+        /// there is a chance it doesn't have a receipt and we won't be able to do a server check
+        /// However Apple considers this user to be eligible
+        public static let freeTrialDefaultValue = true
     }
     
     enum Limits {

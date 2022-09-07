@@ -1205,6 +1205,11 @@ struct Api_EpisodeResponse {
     set {_uniqueStorage()._isDeleted = newValue}
   }
 
+  var author: String {
+    get {return _storage._author}
+    set {_uniqueStorage()._author = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1396,8 +1401,6 @@ struct Api_UpNextPlayRequest {
   /// Clears the value of `episode`. Subsequent reads from it will return its default value.
   mutating func clearEpisode() {self._episode = nil}
 
-  var showPlayStatus: Bool = false
-
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1514,6 +1517,8 @@ struct Api_UpNextResponse {
 
   var episodes: [Api_UpNextResponse.EpisodeResponse] = []
 
+  var episodeSync: [Api_UpNextResponse.EpisodeSyncResponse] = []
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   struct EpisodeResponse {
@@ -1538,6 +1543,20 @@ struct Api_UpNextResponse {
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() {self._published = nil}
 
+    var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    init() {}
+
+    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  }
+
+  struct EpisodeSyncResponse {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    var uuid: String = String()
+
     var playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value {
       get {return _playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
       set {_playedUpTo = newValue}
@@ -1560,7 +1579,6 @@ struct Api_UpNextResponse {
 
     init() {}
 
-    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     fileprivate var _playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     fileprivate var _duration: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
   }
@@ -1643,8 +1661,6 @@ struct Api_UpNextRemoveRequest {
   var uuids: [String] = []
 
   var version: String = String()
-
-  var showPlayStatus: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1740,6 +1756,103 @@ struct Api_RegisterRequest {
   var password: String = String()
 
   var scope: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_UserAuthorizeRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var email: String = String()
+
+  var password: String = String()
+
+  var responseType: String = String()
+
+  var clientID: String = String()
+
+  var redirectUri: String = String()
+
+  var scope: String = String()
+
+  var state: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_UserTokenRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var code: String = String()
+
+  var grantType: String = String()
+
+  var refreshToken: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_UserTokenResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accessToken: String = String()
+
+  var tokenType: String = String()
+
+  var expiresIn: Int32 = 0
+
+  var refreshToken: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _refreshToken ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_refreshToken = newValue}
+  }
+  /// Returns true if `refreshToken` has been explicitly set.
+  var hasRefreshToken: Bool {return self._refreshToken != nil}
+  /// Clears the value of `refreshToken`. Subsequent reads from it will return its default value.
+  mutating func clearRefreshToken() {self._refreshToken = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _refreshToken: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+}
+
+struct Api_UserRevokeRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var refreshToken: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_UserAuthorizeResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var success: Bool = false
+
+  var code: String = String()
+
+  var error: String = String()
+
+  var state: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2010,6 +2123,85 @@ struct Api_PlaylistSyncResponse {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
+struct Api_CheckEligibleRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var storeReceipt: Api_CheckEligibleRequest.OneOf_StoreReceipt? = nil
+
+  var android: Api_SubscriptionsPurchaseAndroidRequest {
+    get {
+      if case .android(let v)? = storeReceipt {return v}
+      return Api_SubscriptionsPurchaseAndroidRequest()
+    }
+    set {storeReceipt = .android(newValue)}
+  }
+
+  var apple: Api_SubscriptionsPurchaseAppleRequest {
+    get {
+      if case .apple(let v)? = storeReceipt {return v}
+      return Api_SubscriptionsPurchaseAppleRequest()
+    }
+    set {storeReceipt = .apple(newValue)}
+  }
+
+  var web: Api_SubscriptionsPurchaseWebRequest {
+    get {
+      if case .web(let v)? = storeReceipt {return v}
+      return Api_SubscriptionsPurchaseWebRequest()
+    }
+    set {storeReceipt = .web(newValue)}
+  }
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  enum OneOf_StoreReceipt: Equatable {
+    case android(Api_SubscriptionsPurchaseAndroidRequest)
+    case apple(Api_SubscriptionsPurchaseAppleRequest)
+    case web(Api_SubscriptionsPurchaseWebRequest)
+
+  #if !swift(>=4.1)
+    static func ==(lhs: Api_CheckEligibleRequest.OneOf_StoreReceipt, rhs: Api_CheckEligibleRequest.OneOf_StoreReceipt) -> Bool {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch (lhs, rhs) {
+      case (.android, .android): return {
+        guard case .android(let l) = lhs, case .android(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.apple, .apple): return {
+        guard case .apple(let l) = lhs, case .apple(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.web, .web): return {
+        guard case .web(let l) = lhs, case .web(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      default: return false
+      }
+    }
+  #endif
+  }
+
+  init() {}
+}
+
+struct Api_CheckEligibleResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var platform: Int32 = 0
+
+  var eligible: Bool = false
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct Api_SubscriptionsPurchaseAndroidRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -2166,6 +2358,11 @@ struct Api_SubscriptionResponse {
   var podcasts: [Api_PodcastPair] {
     get {return _storage._podcasts}
     set {_uniqueStorage()._podcasts = newValue}
+  }
+
+  var eligible: Bool {
+    get {return _storage._eligible}
+    set {_uniqueStorage()._eligible = newValue}
   }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -3491,6 +3688,52 @@ struct Api_LegacyRecord {
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
+  /// folder fields
+  var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._folderUuid = newValue}
+  }
+  /// Returns true if `folderUuid` has been explicitly set.
+  var hasFolderUuid: Bool {return _storage._folderUuid != nil}
+  /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
+  mutating func clearFolderUuid() {_uniqueStorage()._folderUuid = nil}
+
+  var name: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._name = newValue}
+  }
+  /// Returns true if `name` has been explicitly set.
+  var hasName: Bool {return _storage._name != nil}
+  /// Clears the value of `name`. Subsequent reads from it will return its default value.
+  mutating func clearName() {_uniqueStorage()._name = nil}
+
+  var color: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._color = newValue}
+  }
+  /// Returns true if `color` has been explicitly set.
+  var hasColor: Bool {return _storage._color != nil}
+  /// Clears the value of `color`. Subsequent reads from it will return its default value.
+  mutating func clearColor() {_uniqueStorage()._color = nil}
+
+  var podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._podcastsSortType = newValue}
+  }
+  /// Returns true if `podcastsSortType` has been explicitly set.
+  var hasPodcastsSortType: Bool {return _storage._podcastsSortType != nil}
+  /// Clears the value of `podcastsSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastsSortType() {_uniqueStorage()._podcastsSortType = nil}
+
+  var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._dateAdded = newValue}
+  }
+  /// Returns true if `dateAdded` has been explicitly set.
+  var hasDateAdded: Bool {return _storage._dateAdded != nil}
+  /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
+  mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -3920,6 +4163,52 @@ struct Api_LegacyResponseRecord {
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
+  /// folder fields
+  var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._folderUuid = newValue}
+  }
+  /// Returns true if `folderUuid` has been explicitly set.
+  var hasFolderUuid: Bool {return _storage._folderUuid != nil}
+  /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
+  mutating func clearFolderUuid() {_uniqueStorage()._folderUuid = nil}
+
+  var name: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._name = newValue}
+  }
+  /// Returns true if `name` has been explicitly set.
+  var hasName: Bool {return _storage._name != nil}
+  /// Clears the value of `name`. Subsequent reads from it will return its default value.
+  mutating func clearName() {_uniqueStorage()._name = nil}
+
+  var color: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._color = newValue}
+  }
+  /// Returns true if `color` has been explicitly set.
+  var hasColor: Bool {return _storage._color != nil}
+  /// Clears the value of `color`. Subsequent reads from it will return its default value.
+  mutating func clearColor() {_uniqueStorage()._color = nil}
+
+  var podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._podcastsSortType = newValue}
+  }
+  /// Returns true if `podcastsSortType` has been explicitly set.
+  var hasPodcastsSortType: Bool {return _storage._podcastsSortType != nil}
+  /// Clears the value of `podcastsSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastsSortType() {_uniqueStorage()._podcastsSortType = nil}
+
+  var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._dateAdded = newValue}
+  }
+  /// Returns true if `dateAdded` has been explicitly set.
+  var hasDateAdded: Bool {return _storage._dateAdded != nil}
+  /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
+  mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -4055,6 +4344,8 @@ struct Api_PodcastFolderRequest {
   /// Clears the value of `folder`. Subsequent reads from it will return its default value.
   mutating func clearFolder() {self._folder = nil}
 
+  var podcasts: [String] = []
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -4086,13 +4377,43 @@ struct Api_PodcastFolder {
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {self._dateAdded = nil}
 
-  var podcasts: [String] = []
-
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+struct Api_PodcastFolderSortRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var version: String = String()
+
+  var model: String = String()
+
+  var podcasts: [Api_PodcastFolderSorting] = []
+
+  var folders: [Api_PodcastFolderSorting] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_PodcastFolderSorting {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var position: Int32 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 #if swift(>=5.5) && canImport(_Concurrency)
@@ -4148,6 +4469,7 @@ extension Api_UpNextChanges: @unchecked Sendable {}
 extension Api_UpNextChanges.Change: @unchecked Sendable {}
 extension Api_UpNextResponse: @unchecked Sendable {}
 extension Api_UpNextResponse.EpisodeResponse: @unchecked Sendable {}
+extension Api_UpNextResponse.EpisodeSyncResponse: @unchecked Sendable {}
 extension Api_HistoryChange: @unchecked Sendable {}
 extension Api_HistorySyncRequest: @unchecked Sendable {}
 extension Api_HistoryResponse: @unchecked Sendable {}
@@ -4157,10 +4479,18 @@ extension Api_SearchPodcastsRequest: @unchecked Sendable {}
 extension Api_HealthResponse: @unchecked Sendable {}
 extension Api_StatsResponse: @unchecked Sendable {}
 extension Api_RegisterRequest: @unchecked Sendable {}
+extension Api_UserAuthorizeRequest: @unchecked Sendable {}
+extension Api_UserTokenRequest: @unchecked Sendable {}
+extension Api_UserTokenResponse: @unchecked Sendable {}
+extension Api_UserRevokeRequest: @unchecked Sendable {}
+extension Api_UserAuthorizeResponse: @unchecked Sendable {}
 extension Api_RegisterResponse: @unchecked Sendable {}
 extension Api_StarredEpisodesResponse: @unchecked Sendable {}
 extension Api_StarredEpisode: @unchecked Sendable {}
 extension Api_PlaylistSyncResponse: @unchecked Sendable {}
+extension Api_CheckEligibleRequest: @unchecked Sendable {}
+extension Api_CheckEligibleRequest.OneOf_StoreReceipt: @unchecked Sendable {}
+extension Api_CheckEligibleResponse: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseAndroidRequest: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseAppleRequest: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseWebRequest: @unchecked Sendable {}
@@ -4195,6 +4525,8 @@ extension Api_BundleUserResponse: @unchecked Sendable {}
 extension Api_PodcastSubscriptionCheckResponse: @unchecked Sendable {}
 extension Api_PodcastFolderRequest: @unchecked Sendable {}
 extension Api_PodcastFolder: @unchecked Sendable {}
+extension Api_PodcastFolderSortRequest: @unchecked Sendable {}
+extension Api_PodcastFolderSorting: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -6192,6 +6524,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     14: .standard(proto: "episode_season"),
     15: .standard(proto: "episode_number"),
     16: .standard(proto: "is_deleted"),
+    17: .same(proto: "author"),
   ]
 
   fileprivate class _StorageClass {
@@ -6211,6 +6544,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     var _episodeSeason: Int32 = 0
     var _episodeNumber: Int32 = 0
     var _isDeleted: Bool = false
+    var _author: String = String()
 
     static let defaultInstance = _StorageClass()
 
@@ -6233,6 +6567,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       _episodeSeason = source._episodeSeason
       _episodeNumber = source._episodeNumber
       _isDeleted = source._isDeleted
+      _author = source._author
     }
   }
 
@@ -6267,6 +6602,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         case 14: try { try decoder.decodeSingularInt32Field(value: &_storage._episodeSeason) }()
         case 15: try { try decoder.decodeSingularInt32Field(value: &_storage._episodeNumber) }()
         case 16: try { try decoder.decodeSingularBoolField(value: &_storage._isDeleted) }()
+        case 17: try { try decoder.decodeSingularStringField(value: &_storage._author) }()
         default: break
         }
       }
@@ -6327,6 +6663,9 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       if _storage._isDeleted != false {
         try visitor.visitSingularBoolField(value: _storage._isDeleted, fieldNumber: 16)
       }
+      if !_storage._author.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._author, fieldNumber: 17)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6352,6 +6691,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         if _storage._episodeSeason != rhs_storage._episodeSeason {return false}
         if _storage._episodeNumber != rhs_storage._episodeNumber {return false}
         if _storage._isDeleted != rhs_storage._isDeleted {return false}
+        if _storage._author != rhs_storage._author {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -6738,7 +7078,6 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     1: .same(proto: "version"),
     2: .same(proto: "model"),
     3: .same(proto: "episode"),
-    4: .standard(proto: "show_play_status"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6750,7 +7089,6 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
       case 1: try { try decoder.decodeSingularStringField(value: &self.version) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.model) }()
       case 3: try { try decoder.decodeSingularMessageField(value: &self._episode) }()
-      case 4: try { try decoder.decodeSingularBoolField(value: &self.showPlayStatus) }()
       default: break
       }
     }
@@ -6770,9 +7108,6 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     try { if let v = self._episode {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     } }()
-    if self.showPlayStatus != false {
-      try visitor.visitSingularBoolField(value: self.showPlayStatus, fieldNumber: 4)
-    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -6780,7 +7115,6 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if lhs.version != rhs.version {return false}
     if lhs.model != rhs.model {return false}
     if lhs._episode != rhs._episode {return false}
-    if lhs.showPlayStatus != rhs.showPlayStatus {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7029,6 +7363,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "server_modified"),
     4: .same(proto: "episodes"),
+    5: .same(proto: "episodeSync"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7039,6 +7374,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularInt64Field(value: &self.serverModified) }()
       case 4: try { try decoder.decodeRepeatedMessageField(value: &self.episodes) }()
+      case 5: try { try decoder.decodeRepeatedMessageField(value: &self.episodeSync) }()
       default: break
       }
     }
@@ -7051,12 +7387,16 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     if !self.episodes.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.episodes, fieldNumber: 4)
     }
+    if !self.episodeSync.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.episodeSync, fieldNumber: 5)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_UpNextResponse, rhs: Api_UpNextResponse) -> Bool {
     if lhs.serverModified != rhs.serverModified {return false}
     if lhs.episodes != rhs.episodes {return false}
+    if lhs.episodeSync != rhs.episodeSync {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7070,8 +7410,6 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
     3: .same(proto: "podcast"),
     4: .same(proto: "uuid"),
     5: .same(proto: "published"),
-    6: .standard(proto: "played_up_to"),
-    7: .same(proto: "duration"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7085,8 +7423,6 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
       case 3: try { try decoder.decodeSingularStringField(value: &self.podcast) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 5: try { try decoder.decodeSingularMessageField(value: &self._published) }()
-      case 6: try { try decoder.decodeSingularMessageField(value: &self._playedUpTo) }()
-      case 7: try { try decoder.decodeSingularMessageField(value: &self._duration) }()
       default: break
       }
     }
@@ -7112,12 +7448,6 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
     try { if let v = self._published {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     } }()
-    try { if let v = self._playedUpTo {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
-    } }()
-    try { if let v = self._duration {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
-    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -7127,6 +7457,52 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
     if lhs.podcast != rhs.podcast {return false}
     if lhs.uuid != rhs.uuid {return false}
     if lhs._published != rhs._published {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UpNextResponse.EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = Api_UpNextResponse.protoMessageName + ".EpisodeSyncResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    6: .standard(proto: "played_up_to"),
+    7: .same(proto: "duration"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._playedUpTo) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._duration) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    try { if let v = self._playedUpTo {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
+    try { if let v = self._duration {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UpNextResponse.EpisodeSyncResponse, rhs: Api_UpNextResponse.EpisodeSyncResponse) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
     if lhs._playedUpTo != rhs._playedUpTo {return false}
     if lhs._duration != rhs._duration {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -7305,7 +7681,6 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuids"),
     2: .same(proto: "version"),
-    3: .standard(proto: "show_play_status"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7316,7 +7691,6 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
       switch fieldNumber {
       case 1: try { try decoder.decodeRepeatedStringField(value: &self.uuids) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.version) }()
-      case 3: try { try decoder.decodeSingularBoolField(value: &self.showPlayStatus) }()
       default: break
       }
     }
@@ -7329,16 +7703,12 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
     if !self.version.isEmpty {
       try visitor.visitSingularStringField(value: self.version, fieldNumber: 2)
     }
-    if self.showPlayStatus != false {
-      try visitor.visitSingularBoolField(value: self.showPlayStatus, fieldNumber: 3)
-    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_UpNextRemoveRequest, rhs: Api_UpNextRemoveRequest) -> Bool {
     if lhs.uuids != rhs.uuids {return false}
     if lhs.version != rhs.version {return false}
-    if lhs.showPlayStatus != rhs.showPlayStatus {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7581,6 +7951,254 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.email != rhs.email {return false}
     if lhs.password != rhs.password {return false}
     if lhs.scope != rhs.scope {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserAuthorizeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserAuthorizeRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "email"),
+    2: .same(proto: "password"),
+    3: .standard(proto: "response_type"),
+    4: .standard(proto: "client_id"),
+    5: .standard(proto: "redirect_uri"),
+    6: .same(proto: "scope"),
+    7: .same(proto: "state"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.email) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.password) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.responseType) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.clientID) }()
+      case 5: try { try decoder.decodeSingularStringField(value: &self.redirectUri) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.scope) }()
+      case 7: try { try decoder.decodeSingularStringField(value: &self.state) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.email.isEmpty {
+      try visitor.visitSingularStringField(value: self.email, fieldNumber: 1)
+    }
+    if !self.password.isEmpty {
+      try visitor.visitSingularStringField(value: self.password, fieldNumber: 2)
+    }
+    if !self.responseType.isEmpty {
+      try visitor.visitSingularStringField(value: self.responseType, fieldNumber: 3)
+    }
+    if !self.clientID.isEmpty {
+      try visitor.visitSingularStringField(value: self.clientID, fieldNumber: 4)
+    }
+    if !self.redirectUri.isEmpty {
+      try visitor.visitSingularStringField(value: self.redirectUri, fieldNumber: 5)
+    }
+    if !self.scope.isEmpty {
+      try visitor.visitSingularStringField(value: self.scope, fieldNumber: 6)
+    }
+    if !self.state.isEmpty {
+      try visitor.visitSingularStringField(value: self.state, fieldNumber: 7)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserAuthorizeRequest, rhs: Api_UserAuthorizeRequest) -> Bool {
+    if lhs.email != rhs.email {return false}
+    if lhs.password != rhs.password {return false}
+    if lhs.responseType != rhs.responseType {return false}
+    if lhs.clientID != rhs.clientID {return false}
+    if lhs.redirectUri != rhs.redirectUri {return false}
+    if lhs.scope != rhs.scope {return false}
+    if lhs.state != rhs.state {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserTokenRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "code"),
+    2: .standard(proto: "grant_type"),
+    3: .standard(proto: "refresh_token"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.code) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.grantType) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.refreshToken) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.code.isEmpty {
+      try visitor.visitSingularStringField(value: self.code, fieldNumber: 1)
+    }
+    if !self.grantType.isEmpty {
+      try visitor.visitSingularStringField(value: self.grantType, fieldNumber: 2)
+    }
+    if !self.refreshToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.refreshToken, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserTokenRequest, rhs: Api_UserTokenRequest) -> Bool {
+    if lhs.code != rhs.code {return false}
+    if lhs.grantType != rhs.grantType {return false}
+    if lhs.refreshToken != rhs.refreshToken {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserTokenResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "access_token"),
+    2: .standard(proto: "token_type"),
+    3: .standard(proto: "expires_in"),
+    4: .standard(proto: "refresh_token"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accessToken) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.tokenType) }()
+      case 3: try { try decoder.decodeSingularInt32Field(value: &self.expiresIn) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._refreshToken) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.accessToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.accessToken, fieldNumber: 1)
+    }
+    if !self.tokenType.isEmpty {
+      try visitor.visitSingularStringField(value: self.tokenType, fieldNumber: 2)
+    }
+    if self.expiresIn != 0 {
+      try visitor.visitSingularInt32Field(value: self.expiresIn, fieldNumber: 3)
+    }
+    try { if let v = self._refreshToken {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserTokenResponse, rhs: Api_UserTokenResponse) -> Bool {
+    if lhs.accessToken != rhs.accessToken {return false}
+    if lhs.tokenType != rhs.tokenType {return false}
+    if lhs.expiresIn != rhs.expiresIn {return false}
+    if lhs._refreshToken != rhs._refreshToken {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserRevokeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserRevokeRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "refresh_token"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.refreshToken) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.refreshToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.refreshToken, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserRevokeRequest, rhs: Api_UserRevokeRequest) -> Bool {
+    if lhs.refreshToken != rhs.refreshToken {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserAuthorizeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserAuthorizeResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "success"),
+    2: .same(proto: "code"),
+    3: .same(proto: "error"),
+    4: .same(proto: "state"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.success) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.code) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.error) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.state) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.success != false {
+      try visitor.visitSingularBoolField(value: self.success, fieldNumber: 1)
+    }
+    if !self.code.isEmpty {
+      try visitor.visitSingularStringField(value: self.code, fieldNumber: 2)
+    }
+    if !self.error.isEmpty {
+      try visitor.visitSingularStringField(value: self.error, fieldNumber: 3)
+    }
+    if !self.state.isEmpty {
+      try visitor.visitSingularStringField(value: self.state, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserAuthorizeResponse, rhs: Api_UserAuthorizeResponse) -> Bool {
+    if lhs.success != rhs.success {return false}
+    if lhs.code != rhs.code {return false}
+    if lhs.error != rhs.error {return false}
+    if lhs.state != rhs.state {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7990,6 +8608,132 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
+extension Api_CheckEligibleRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".CheckEligibleRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "android"),
+    2: .same(proto: "apple"),
+    3: .same(proto: "web"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try {
+        var v: Api_SubscriptionsPurchaseAndroidRequest?
+        var hadOneofValue = false
+        if let current = self.storeReceipt {
+          hadOneofValue = true
+          if case .android(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.storeReceipt = .android(v)
+        }
+      }()
+      case 2: try {
+        var v: Api_SubscriptionsPurchaseAppleRequest?
+        var hadOneofValue = false
+        if let current = self.storeReceipt {
+          hadOneofValue = true
+          if case .apple(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.storeReceipt = .apple(v)
+        }
+      }()
+      case 3: try {
+        var v: Api_SubscriptionsPurchaseWebRequest?
+        var hadOneofValue = false
+        if let current = self.storeReceipt {
+          hadOneofValue = true
+          if case .web(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.storeReceipt = .web(v)
+        }
+      }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    switch self.storeReceipt {
+    case .android?: try {
+      guard case .android(let v)? = self.storeReceipt else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    }()
+    case .apple?: try {
+      guard case .apple(let v)? = self.storeReceipt else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    }()
+    case .web?: try {
+      guard case .web(let v)? = self.storeReceipt else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    }()
+    case nil: break
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_CheckEligibleRequest, rhs: Api_CheckEligibleRequest) -> Bool {
+    if lhs.storeReceipt != rhs.storeReceipt {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_CheckEligibleResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".CheckEligibleResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "platform"),
+    2: .same(proto: "eligible"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt32Field(value: &self.platform) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.eligible) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.platform != 0 {
+      try visitor.visitSingularInt32Field(value: self.platform, fieldNumber: 1)
+    }
+    if self.eligible != false {
+      try visitor.visitSingularBoolField(value: self.eligible, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_CheckEligibleResponse, rhs: Api_CheckEligibleResponse) -> Bool {
+    if lhs.platform != rhs.platform {return false}
+    if lhs.eligible != rhs.eligible {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsPurchaseAndroidRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -8202,6 +8946,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     14: .same(proto: "webStatus"),
     15: .standard(proto: "bundle_uuid"),
     16: .same(proto: "podcasts"),
+    17: .same(proto: "eligible"),
   ]
 
   fileprivate class _StorageClass {
@@ -8220,6 +8965,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _webStatus: Int32 = 0
     var _bundleUuid: String = String()
     var _podcasts: [Api_PodcastPair] = []
+    var _eligible: Bool = false
 
     static let defaultInstance = _StorageClass()
 
@@ -8241,6 +8987,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _webStatus = source._webStatus
       _bundleUuid = source._bundleUuid
       _podcasts = source._podcasts
+      _eligible = source._eligible
     }
   }
 
@@ -8274,6 +9021,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 14: try { try decoder.decodeSingularInt32Field(value: &_storage._webStatus) }()
         case 15: try { try decoder.decodeSingularStringField(value: &_storage._bundleUuid) }()
         case 16: try { try decoder.decodeRepeatedMessageField(value: &_storage._podcasts) }()
+        case 17: try { try decoder.decodeSingularBoolField(value: &_storage._eligible) }()
         default: break
         }
       }
@@ -8331,6 +9079,9 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       if !_storage._podcasts.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._podcasts, fieldNumber: 16)
       }
+      if _storage._eligible != false {
+        try visitor.visitSingularBoolField(value: _storage._eligible, fieldNumber: 17)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8355,6 +9106,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._webStatus != rhs_storage._webStatus {return false}
         if _storage._bundleUuid != rhs_storage._bundleUuid {return false}
         if _storage._podcasts != rhs_storage._podcasts {return false}
+        if _storage._eligible != rhs_storage._eligible {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9757,6 +10509,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     40: .standard(proto: "filter_duration"),
     41: .standard(proto: "longer_than"),
     42: .standard(proto: "shorter_than"),
+    43: .standard(proto: "folder_uuid"),
+    44: .same(proto: "name"),
+    45: .same(proto: "color"),
+    46: .standard(proto: "podcasts_sort_type"),
+    47: .standard(proto: "date_added"),
   ]
 
   fileprivate class _StorageClass {
@@ -9802,6 +10559,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _name: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -9850,6 +10612,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _filterDuration = source._filterDuration
       _longerThan = source._longerThan
       _shorterThan = source._shorterThan
+      _folderUuid = source._folderUuid
+      _name = source._name
+      _color = source._color
+      _podcastsSortType = source._podcastsSortType
+      _dateAdded = source._dateAdded
     }
   }
 
@@ -9910,6 +10677,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 40: try { try decoder.decodeSingularMessageField(value: &_storage._filterDuration) }()
         case 41: try { try decoder.decodeSingularMessageField(value: &_storage._longerThan) }()
         case 42: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
+        case 43: try { try decoder.decodeSingularMessageField(value: &_storage._folderUuid) }()
+        case 44: try { try decoder.decodeSingularMessageField(value: &_storage._name) }()
+        case 45: try { try decoder.decodeSingularMessageField(value: &_storage._color) }()
+        case 46: try { try decoder.decodeSingularMessageField(value: &_storage._podcastsSortType) }()
+        case 47: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
         default: break
         }
       }
@@ -10048,6 +10820,21 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._shorterThan {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 42)
       } }()
+      try { if let v = _storage._folderUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 43)
+      } }()
+      try { if let v = _storage._name {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 44)
+      } }()
+      try { if let v = _storage._color {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 45)
+      } }()
+      try { if let v = _storage._podcastsSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 46)
+      } }()
+      try { if let v = _storage._dateAdded {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -10099,6 +10886,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._filterDuration != rhs_storage._filterDuration {return false}
         if _storage._longerThan != rhs_storage._longerThan {return false}
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
+        if _storage._folderUuid != rhs_storage._folderUuid {return false}
+        if _storage._name != rhs_storage._name {return false}
+        if _storage._color != rhs_storage._color {return false}
+        if _storage._podcastsSortType != rhs_storage._podcastsSortType {return false}
+        if _storage._dateAdded != rhs_storage._dateAdded {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -10233,6 +11025,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     40: .standard(proto: "filter_duration"),
     41: .standard(proto: "longer_than"),
     42: .standard(proto: "shorter_than"),
+    43: .standard(proto: "folder_uuid"),
+    44: .same(proto: "name"),
+    45: .same(proto: "color"),
+    46: .standard(proto: "podcasts_sort_type"),
+    47: .standard(proto: "date_added"),
   ]
 
   fileprivate class _StorageClass {
@@ -10278,6 +11075,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _name: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -10326,6 +11128,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _filterDuration = source._filterDuration
       _longerThan = source._longerThan
       _shorterThan = source._shorterThan
+      _folderUuid = source._folderUuid
+      _name = source._name
+      _color = source._color
+      _podcastsSortType = source._podcastsSortType
+      _dateAdded = source._dateAdded
     }
   }
 
@@ -10386,6 +11193,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 40: try { try decoder.decodeSingularMessageField(value: &_storage._filterDuration) }()
         case 41: try { try decoder.decodeSingularMessageField(value: &_storage._longerThan) }()
         case 42: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
+        case 43: try { try decoder.decodeSingularMessageField(value: &_storage._folderUuid) }()
+        case 44: try { try decoder.decodeSingularMessageField(value: &_storage._name) }()
+        case 45: try { try decoder.decodeSingularMessageField(value: &_storage._color) }()
+        case 46: try { try decoder.decodeSingularMessageField(value: &_storage._podcastsSortType) }()
+        case 47: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
         default: break
         }
       }
@@ -10524,6 +11336,21 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._shorterThan {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 42)
       } }()
+      try { if let v = _storage._folderUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 43)
+      } }()
+      try { if let v = _storage._name {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 44)
+      } }()
+      try { if let v = _storage._color {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 45)
+      } }()
+      try { if let v = _storage._podcastsSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 46)
+      } }()
+      try { if let v = _storage._dateAdded {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -10575,6 +11402,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._filterDuration != rhs_storage._filterDuration {return false}
         if _storage._longerThan != rhs_storage._longerThan {return false}
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
+        if _storage._folderUuid != rhs_storage._folderUuid {return false}
+        if _storage._name != rhs_storage._name {return false}
+        if _storage._color != rhs_storage._color {return false}
+        if _storage._podcastsSortType != rhs_storage._podcastsSortType {return false}
+        if _storage._dateAdded != rhs_storage._dateAdded {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -10892,6 +11724,7 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     1: .same(proto: "version"),
     2: .same(proto: "model"),
     3: .same(proto: "folder"),
+    4: .same(proto: "podcasts"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10903,6 +11736,7 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
       case 1: try { try decoder.decodeSingularStringField(value: &self.version) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.model) }()
       case 3: try { try decoder.decodeSingularMessageField(value: &self._folder) }()
+      case 4: try { try decoder.decodeRepeatedStringField(value: &self.podcasts) }()
       default: break
       }
     }
@@ -10922,6 +11756,9 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try { if let v = self._folder {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     } }()
+    if !self.podcasts.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.podcasts, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -10929,6 +11766,7 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if lhs.version != rhs.version {return false}
     if lhs.model != rhs.model {return false}
     if lhs._folder != rhs._folder {return false}
+    if lhs.podcasts != rhs.podcasts {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -10943,7 +11781,6 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     4: .standard(proto: "sort_position"),
     5: .standard(proto: "podcasts_sort_type"),
     6: .standard(proto: "date_added"),
-    7: .same(proto: "podcasts"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10958,7 +11795,6 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       case 4: try { try decoder.decodeSingularInt32Field(value: &self.sortPosition) }()
       case 5: try { try decoder.decodeSingularInt32Field(value: &self.podcastsSortType) }()
       case 6: try { try decoder.decodeSingularMessageField(value: &self._dateAdded) }()
-      case 7: try { try decoder.decodeRepeatedStringField(value: &self.podcasts) }()
       default: break
       }
     }
@@ -10987,9 +11823,6 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     try { if let v = self._dateAdded {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
     } }()
-    if !self.podcasts.isEmpty {
-      try visitor.visitRepeatedStringField(value: self.podcasts, fieldNumber: 7)
-    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -11000,7 +11833,94 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     if lhs.sortPosition != rhs.sortPosition {return false}
     if lhs.podcastsSortType != rhs.podcastsSortType {return false}
     if lhs._dateAdded != rhs._dateAdded {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PodcastFolderSortRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PodcastFolderSortRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "version"),
+    2: .same(proto: "model"),
+    3: .same(proto: "podcasts"),
+    4: .same(proto: "folders"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.version) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.model) }()
+      case 3: try { try decoder.decodeRepeatedMessageField(value: &self.podcasts) }()
+      case 4: try { try decoder.decodeRepeatedMessageField(value: &self.folders) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.version.isEmpty {
+      try visitor.visitSingularStringField(value: self.version, fieldNumber: 1)
+    }
+    if !self.model.isEmpty {
+      try visitor.visitSingularStringField(value: self.model, fieldNumber: 2)
+    }
+    if !self.podcasts.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.podcasts, fieldNumber: 3)
+    }
+    if !self.folders.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.folders, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PodcastFolderSortRequest, rhs: Api_PodcastFolderSortRequest) -> Bool {
+    if lhs.version != rhs.version {return false}
+    if lhs.model != rhs.model {return false}
     if lhs.podcasts != rhs.podcasts {return false}
+    if lhs.folders != rhs.folders {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PodcastFolderSorting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PodcastFolderSorting"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "position"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularInt32Field(value: &self.position) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if self.position != 0 {
+      try visitor.visitSingularInt32Field(value: self.position, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PodcastFolderSorting, rhs: Api_PodcastFolderSorting) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs.position != rhs.position {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

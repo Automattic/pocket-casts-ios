@@ -6,6 +6,9 @@ import Foundation
 import os
 
 class AnalyticsHelper {
+    /// Whether the user has opted out of analytics or not
+    static var optedOut: Bool = false
+
     class func openedCategory(categoryId: Int, region: String) {
         logEvent("category_open", parameters: ["id": categoryId, "region": region])
         logEvent("category_page_open_\(categoryId)", parameters: nil)
@@ -258,18 +261,24 @@ class AnalyticsHelper {
 #if os(iOS)
     extension AnalyticsHelper {
         static func plusUpgradeViewed(source: PlusUpgradeViewSource) {
+            Analytics.track(.plusPromotionShown, properties: ["source": source.rawValue])
+
             logPromotionEvent(AnalyticsEventViewPromotion,
                               promotionId: source.promotionId(),
                               promotionName: source.promotionName())
         }
 
         static func plusUpgradeConfirmed(source: PlusUpgradeViewSource) {
+            Analytics.track(.plusPromotionUpgradeButtonTapped, properties: ["source": source.rawValue])
+
             logPromotionEvent(AnalyticsEventSelectPromotion,
                               promotionId: source.promotionId(),
                               promotionName: source.promotionName())
         }
 
         static func plusUpgradeDismissed(source: PlusUpgradeViewSource) {
+            Analytics.track(.plusPromotionDismissed, properties: ["source": source.rawValue])
+
             logPromotionEvent("close_promotion",
                               promotionId: source.promotionId(),
                               promotionName: source.promotionName())
@@ -355,16 +364,19 @@ private extension AnalyticsHelper {
     static let logger = Logger()
 
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
+        // Don't track anything if the user has opted out
+        if Self.optedOut { return }
+
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
 
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
             if let parameters = parameters {
-                logger.debug("🔵 Tracked: \(name) \(parameters)")
+                logger.debug("🟢 Tracked: \(name) \(parameters)")
             }
             else {
-                logger.debug("🔵 Tracked: \(name)")
+                logger.debug("🟢 Tracked: \(name)")
             }
         #endif
     }

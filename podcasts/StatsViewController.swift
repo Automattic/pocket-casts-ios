@@ -23,12 +23,18 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         
         title = L10n.settingsStats
+        Analytics.track(.statsShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         loadStats()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Analytics.track(.statsDismissed)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
