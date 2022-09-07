@@ -199,8 +199,9 @@ class AudioReadTask {
         // In order to prevent this issue, we convert a mono buffer to stereo buffer
         // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
         var audioBuffer: BufferedAudio
-        if #available(iOS 16, *), audioPCMBuffer!.audioBufferList.pointee.mNumberBuffers == 1,
+        if #available(iOS 16, *),
            let audioPCMBuffer = audioPCMBuffer,
+           audioPCMBuffer.audioBufferList.pointee.mNumberBuffers == 1,
            let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2),
            let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer.frameCapacity)
         {
