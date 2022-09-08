@@ -208,6 +208,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
+
+        playbackSource = "podcast_screen"
     }
     
     override func viewWillAppear(_ animated: Bool) {
