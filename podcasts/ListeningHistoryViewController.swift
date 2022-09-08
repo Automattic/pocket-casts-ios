@@ -179,3 +179,11 @@ class ListeningHistoryViewController: PCViewController {
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 }
+
+// MARK: - Analytics
+
+extension ListeningHistoryViewController: PlaybackSource {
+    var playbackSource: String {
+        "listening_history"
+    }
+}
