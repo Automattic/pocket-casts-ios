@@ -24,12 +24,22 @@ class AnalyticsPlaybackHelper {
             return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
         }
 
+        var informedSource: String {
+            let informedSource = currentSource ?? "unknown"
+            currentSource = nil
+            return informedSource
+        }
+
         func play() {
             Analytics.track(.play, properties: ["source": currentPlaybackSource])
         }
 
         func pause() {
             Analytics.track(.pause, properties: ["source": currentPlaybackSource])
+        }
+
+        func skipBack() {
+            Analytics.track(.skipBack, properties: ["source": informedSource])
         }
 
         func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
