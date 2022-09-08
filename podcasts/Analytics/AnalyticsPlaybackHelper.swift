@@ -42,6 +42,10 @@ class AnalyticsPlaybackHelper {
             Analytics.track(.skipBack, properties: ["source": informedSource])
         }
 
+        func skipForward() {
+            Analytics.track(.skipForward, properties: ["source": informedSource])
+        }
+
         func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
             if let nav = base as? UINavigationController {
                 return getTopViewController(base: nav.visibleViewController)
