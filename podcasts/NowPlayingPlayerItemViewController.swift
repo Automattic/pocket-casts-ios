@@ -211,6 +211,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @IBAction func playPauseTapped(_ sender: Any) {
+        AnalyticsPlaybackHelper.currentSource = "player"
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
