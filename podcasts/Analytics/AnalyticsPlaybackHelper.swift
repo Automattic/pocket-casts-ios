@@ -7,9 +7,17 @@ protocol PlaybackSource {
 
 /// Helper used to track playback
 class AnalyticsPlaybackHelper {
+    /// Sometimes the playback source can't be inferred, just inform it here
+    static var currentSource: String?
+
     #if !os(watchOS)
     var currentPlaybackSource: String {
-        (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
+        if let currentSource = Self.currentSource {
+            Self.currentSource = nil
+            return currentSource
+        }
+
+        return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
     }
     func play() {
         Analytics.track(.play, properties: ["source": currentPlaybackSource])
