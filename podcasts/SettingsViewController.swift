@@ -38,7 +38,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
             case .privacy:
-                return ("Privacy", UIImage.init(systemName: "hand.raised"))
+                return (L10n.settingsPrivacy, UIImage.init(systemName: "hand.raised"))
             }
         }
     }

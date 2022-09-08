@@ -2008,6 +2008,8 @@ internal enum L10n {
   internal static func settingsPlusPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "settings_plus_pricing_format", String(describing: p1), String(describing: p2))
   }
+  /// Privacy
+  internal static var settingsPrivacy: String { return L10n.tr("Localizable", "settings_privacy") }
   /// Position in Queue
   internal static var settingsQueuePosition: String { return L10n.tr("Localizable", "settings_queue_position") }
   /// Select Filter

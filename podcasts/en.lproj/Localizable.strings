@@ -2063,6 +2063,9 @@
 /* A common string used throughout the app. Refers to the About settings menu */
 "settings_about" = "About";
 
+/* A common string used throughout the app. Refers to the Privacy settings menu */
+"settings_privacy" = "Privacy";
+
 /* A common string used throughout the app. Refers to the Appearance settings menu. */
 "settings_appearance" = "Appearance";
 
