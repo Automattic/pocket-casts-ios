@@ -263,10 +263,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     func skipBack() {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipBack()
-        #endif
-
         let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
         skipBack(amount: skipBackAmount)
     }
@@ -282,10 +278,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     func skipForward() {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipForward()
-        #endif
-
         let skipForwardAmount = TimeInterval(ServerSettings.skipForwardTime())
         skipForward(amount: skipForwardAmount)
     }
