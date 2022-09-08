@@ -21,14 +21,13 @@ extension XCTestCase {
     func eventually(timeout: TimeInterval = 0.01, closure: @escaping () -> Void) {
         let expectation = self.expectation(description: "")
         expectation.fulfillAfter(timeout)
-        self.waitForExpectations(timeout: 60) { _ in
+        waitForExpectations(timeout: 60) { _ in
             closure()
         }
     }
 }
 
 extension XCTestExpectation {
-
     /// Call `fulfill()` after some time.
     ///
     /// - Parameter time: amout of time after which `fulfill()` will be called.
