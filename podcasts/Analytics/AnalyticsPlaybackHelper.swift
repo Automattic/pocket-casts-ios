@@ -16,7 +16,7 @@ class AnalyticsPlaybackHelper {
     }
 
     func pause() {
-        Analytics.track(.play, properties: ["source": currentPlaybackSource])
+        Analytics.track(.pause, properties: ["source": currentPlaybackSource])
     }
 
     func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {

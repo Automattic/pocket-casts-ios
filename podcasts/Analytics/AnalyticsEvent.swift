@@ -208,4 +208,5 @@ enum AnalyticsEvent: String {
 
     // MARK: - Playback
     case play
+    case pause
 }
