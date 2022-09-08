@@ -55,6 +55,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let playerCreateDestroyLock = NSObject()
     
     private let catchUpHelper = PlaybackCatchUpHelper()
+
+    private let analyticsPlaybackHelper = AnalyticsPlayback()
     
     init() {
         queue = PlaybackQueue()
@@ -188,6 +190,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func play(completion: (() -> Void)? = nil) {
         guard let currEpisode = currentEpisode() else { return }
         
+        #if !os(watchOS)
+        analyticsPlaybackHelper.play()
+        #endif
+
         aboutToPlay.value = true
         
         if playerSwitchRequired() {
