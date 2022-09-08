@@ -35,6 +35,8 @@ class DiscoverViewController: PCViewController {
         
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        playbackSource = "discover"
     }
     
     override func viewWillAppear(_ animated: Bool) {
