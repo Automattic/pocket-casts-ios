@@ -176,6 +176,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     private var lastBoundsAdjustedFor = CGRect.zero
+
+    private var playbackSource: String {
+        "player"
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -208,13 +213,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: - Interface Actions
     
     @IBAction func skipBackTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = "player"
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
     
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = "player"
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
