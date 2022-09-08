@@ -8,9 +8,15 @@ protocol PlaybackSource {
 /// Helper used to track playback
 class AnalyticsPlaybackHelper {
     #if !os(watchOS)
+    var currentPlaybackSource: String {
+        (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
+    }
     func play() {
-        let playBackSource = (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
-        Analytics.track(.play, properties: ["source": playBackSource])
+        Analytics.track(.play, properties: ["source": currentPlaybackSource])
+    }
+
+    func pause() {
+        Analytics.track(.play, properties: ["source": currentPlaybackSource])
     }
 
     func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
