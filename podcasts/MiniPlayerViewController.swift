@@ -74,6 +74,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func skipForwardTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
