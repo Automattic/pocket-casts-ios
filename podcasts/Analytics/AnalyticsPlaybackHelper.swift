@@ -24,35 +24,37 @@ class AnalyticsPlaybackHelper {
             return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
         }
 
-        private var informedSource: String {
-            let informedSource = currentSource ?? "unknown"
-            currentSource = nil
-            return informedSource
-        }
-
         func play() {
-            track(.play, source: currentPlaybackSource)
+            track(.play)
         }
 
         func pause() {
-            track(.pause, source: currentPlaybackSource)
+            track(.pause)
         }
 
         func skipBack() {
-            track(.play, source: informedSource)
+            track(.play)
         }
 
         func skipForward() {
-            track(.play, source: informedSource)
+            track(.play)
         }
 
-        private func track(_ event: AnalyticsEvent, source: String) {
-            DispatchQueue.main.async {
-                Analytics.track(event, properties: ["source": source])
+        private func track(_ event: AnalyticsEvent) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else {
+                    return
+                }
+
+                Analytics.track(event, properties: ["source": self.currentPlaybackSource])
             }
         }
 
         private func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+            guard UIApplication.shared.applicationState == .active else {
+                return nil
+            }
+
             if let nav = base as? UINavigationController {
                 return getTopViewController(base: nav.visibleViewController)
             }
