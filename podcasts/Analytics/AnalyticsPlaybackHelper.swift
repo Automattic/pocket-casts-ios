@@ -15,7 +15,7 @@ class AnalyticsPlaybackHelper {
     private init() {}
 
     #if !os(watchOS)
-        var currentPlaybackSource: String {
+        private var currentPlaybackSource: String {
             if let currentSource = currentSource {
                 self.currentSource = nil
                 return currentSource
@@ -24,7 +24,7 @@ class AnalyticsPlaybackHelper {
             return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
         }
 
-        var informedSource: String {
+        private var informedSource: String {
             let informedSource = currentSource ?? "unknown"
             currentSource = nil
             return informedSource
