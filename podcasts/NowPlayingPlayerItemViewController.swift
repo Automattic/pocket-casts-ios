@@ -225,6 +225,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @IBAction func skipFwdTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
