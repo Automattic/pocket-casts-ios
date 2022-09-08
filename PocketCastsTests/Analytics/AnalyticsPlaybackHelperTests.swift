@@ -8,6 +8,8 @@ class AnalyticsPlaybackHelperTests: XCTestCase {
 
         AnalyticsPlaybackHelper.shared.play()
 
-        XCTAssertNil(AnalyticsPlaybackHelper.shared.currentSource)
+        eventually {
+            XCTAssertNil(AnalyticsPlaybackHelper.shared.currentSource)
+        }
     }
 }
