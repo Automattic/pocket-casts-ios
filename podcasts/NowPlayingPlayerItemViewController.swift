@@ -160,6 +160,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }()
     
     var lastShelfLoadState = ShelfLoadState()
+
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,7 +213,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @IBAction func playPauseTapped(_ sender: Any) {
-        AnalyticsPlaybackHelper.currentSource = "player"
+        analyticsPlaybackHelper.currentSource = "player"
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
