@@ -165,6 +165,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         filterCollectionView.filter = filter
         
         isChipHidden = !isNewFilter
+
+        playbackSource = "filters"
     }
     
     override func viewWillAppear(_ animated: Bool) {
