@@ -381,3 +381,11 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         uploadsTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
     }
 }
+
+// MARK: - Analytics
+
+extension UploadedViewController: PlaybackSource {
+    var playbackSource: String {
+        "files"
+    }
+}
