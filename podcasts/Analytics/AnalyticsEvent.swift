@@ -210,4 +210,5 @@ enum AnalyticsEvent: String {
 
     case play
     case pause
+    case skipBack
 }

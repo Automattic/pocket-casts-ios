@@ -208,6 +208,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: - Interface Actions
     
     @IBAction func skipBackTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = "player"
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }

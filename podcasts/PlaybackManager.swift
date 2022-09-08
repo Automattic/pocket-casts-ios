@@ -263,6 +263,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     func skipBack() {
+        #if !os(watchOS)
+            analyticsPlaybackHelper.skipBack()
+        #endif
+
         let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
         skipBack(amount: skipBackAmount)
     }
