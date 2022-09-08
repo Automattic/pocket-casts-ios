@@ -31,22 +31,28 @@ class AnalyticsPlaybackHelper {
         }
 
         func play() {
-            Analytics.track(.play, properties: ["source": currentPlaybackSource])
+            track(.play, source: currentPlaybackSource)
         }
 
         func pause() {
-            Analytics.track(.pause, properties: ["source": currentPlaybackSource])
+            track(.pause, source: currentPlaybackSource)
         }
 
         func skipBack() {
-            Analytics.track(.skipBack, properties: ["source": informedSource])
+            track(.play, source: informedSource)
         }
 
         func skipForward() {
-            Analytics.track(.skipForward, properties: ["source": informedSource])
+            track(.play, source: informedSource)
         }
 
-        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+        private func track(_ event: AnalyticsEvent, source: String) {
+            DispatchQueue.main.async {
+                Analytics.track(event, properties: ["source": source])
+            }
+        }
+
+        private func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
             if let nav = base as? UINavigationController {
                 return getTopViewController(base: nav.visibleViewController)
             }
