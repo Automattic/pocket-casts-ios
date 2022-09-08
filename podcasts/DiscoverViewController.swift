@@ -35,8 +35,6 @@ class DiscoverViewController: PCViewController {
         
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
-
-        playbackSource = "discover"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -235,5 +233,13 @@ class DiscoverViewController: PCViewController {
     private func handleLoadFailed() {
         loadingIndicator.stopAnimating()
         noNetworkView.isHidden = false
+    }
+}
+
+// MARK: - Analytics
+
+extension DiscoverViewController: PlaybackSource {
+    var playbackSource: String {
+        "discover"
     }
 }
