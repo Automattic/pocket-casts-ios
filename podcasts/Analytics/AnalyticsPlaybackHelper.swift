@@ -1,7 +1,7 @@
 import UIKit
 
 /// Helper used to track playback
-class AnalyticsPlayback {
+class AnalyticsPlaybackHelper {
     #if !os(watchOS)
     func play() {
         let playBackSource = (getTopViewController() as? PCViewController)?.playbackSource ?? "unknown"

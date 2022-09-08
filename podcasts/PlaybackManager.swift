@@ -56,7 +56,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     
     private let catchUpHelper = PlaybackCatchUpHelper()
 
-    private let analyticsPlaybackHelper = AnalyticsPlayback()
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper()
     
     init() {
         queue = PlaybackQueue()
