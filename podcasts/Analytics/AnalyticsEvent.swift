@@ -207,6 +207,7 @@ enum AnalyticsEvent: String {
     case starredMultiSelectExited
 
     // MARK: - Playback
+
     case play
     case pause
 }

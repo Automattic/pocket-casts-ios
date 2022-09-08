@@ -12,37 +12,37 @@ class AnalyticsPlaybackHelper {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: String?
 
-    private init() { }
+    private init() {}
 
     #if !os(watchOS)
-    var currentPlaybackSource: String {
-        if let currentSource = currentSource {
-            self.currentSource = nil
-            return currentSource
+        var currentPlaybackSource: String {
+            if let currentSource = currentSource {
+                self.currentSource = nil
+                return currentSource
+            }
+
+            return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
         }
 
-        return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
-    }
-
-    func play() {
-        Analytics.track(.play, properties: ["source": currentPlaybackSource])
-    }
-
-    func pause() {
-        Analytics.track(.pause, properties: ["source": currentPlaybackSource])
-    }
-
-    func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return getTopViewController(base: nav.visibleViewController)
+        func play() {
+            Analytics.track(.play, properties: ["source": currentPlaybackSource])
         }
-        else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-            return getTopViewController(base: selected)
+
+        func pause() {
+            Analytics.track(.pause, properties: ["source": currentPlaybackSource])
         }
-        else if let presented = base?.presentedViewController {
-            return getTopViewController(base: presented)
+
+        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+            if let nav = base as? UINavigationController {
+                return getTopViewController(base: nav.visibleViewController)
+            }
+            else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+                return getTopViewController(base: selected)
+            }
+            else if let presented = base?.presentedViewController {
+                return getTopViewController(base: presented)
+            }
+            return base
         }
-        return base
-    }
     #endif
 }
