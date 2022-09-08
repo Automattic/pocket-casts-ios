@@ -13,9 +13,6 @@ class PCViewController: SimpleNotificationsViewController {
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
-
-    /// Used for analytics purpose when playing/pausing
-    var playbackSource: String = "unknown"
     
     override func viewDidLoad() {
         super.viewDidLoad()
