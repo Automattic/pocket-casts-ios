@@ -183,3 +183,11 @@ class StarredViewController: PCViewController {
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }
+
+// MARK: - Analytics
+
+extension StarredViewController: PlaybackSource {
+    var playbackSource: String {
+        "starred"
+    }
+}
