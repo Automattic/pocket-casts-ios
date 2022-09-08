@@ -228,6 +228,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     
     func pause() {
         guard let episode = currentEpisode() else { return }
+
+        #if !os(watchOS)
+        analyticsPlaybackHelper.pause()
+        #endif
         
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
