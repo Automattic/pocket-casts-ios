@@ -134,8 +134,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .pocketCastsPlus:
             navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
         case .privacy:
-            // do nothing for now
-            break
+            navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         }
     }
     
