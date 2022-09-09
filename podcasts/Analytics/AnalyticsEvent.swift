@@ -212,4 +212,18 @@ enum AnalyticsEvent: String {
     case pause
     case skipBack
     case skipForward
+
+    // MARK: - Podcast screen
+
+    case podcastScreenShown
+    case podcastScreenFolderTapped
+    case podcastScreenSettingsTapped
+    case podcastScreenSubscribeTapped
+    case podcastScreenUnsubscribeTapped
+    case podcastScreenSearchPerformed
+    case podcastScreenSearchCleared
+    case podcastScreenOptionsTapped
+    case podcastScreenToggleArchived
+    case podcastScreenShareTapped
+    case podcastScreenToggleSummary
 }
