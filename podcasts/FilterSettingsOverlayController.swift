@@ -29,7 +29,9 @@ class FilterSettingsOverlayController: LargeNavBarViewController {
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
 
-        Analytics.track(.filterUpdated)
+        if !filterToEdit.isNew {
+            Analytics.track(.filterUpdated)
+        }
     }
     
     override func handleThemeChanged() {
