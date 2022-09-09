@@ -230,4 +230,18 @@ enum AnalyticsEvent: String {
     case filterSiriShortcutsShown
     case filterSiriShortcutAdded
     case filterSiriShortcutRemoved
+
+    // MARK: - Podcast screen
+
+    case podcastScreenShown
+    case podcastScreenFolderTapped
+    case podcastScreenSettingsTapped
+    case podcastScreenSubscribeTapped
+    case podcastScreenUnsubscribeTapped
+    case podcastScreenSearchPerformed
+    case podcastScreenSearchCleared
+    case podcastScreenOptionsTapped
+    case podcastScreenToggleArchived
+    case podcastScreenShareTapped
+    case podcastScreenToggleSummary
 }

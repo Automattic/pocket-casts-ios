@@ -7,6 +7,7 @@
 
 - Fixed an issue where the timer screen would show wrong time when unlocking the phone (#211)
 - Fixed an issue where some podcasts won't play on iOS 16 (#213)
+- Fixed an issue where the plus pricing info wouldn't be updated on the account details view (#225)
 
 7.21
 ----
