@@ -36,7 +36,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             let playlistViewController = PlaylistViewController(filter: filter)
             navigationController?.pushViewController(playlistViewController, animated: false)
         }
-        
+
         setupNewFilterButton()
         handleThemeChanged()
     }
@@ -61,6 +61,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         updateNavTintColors()
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -74,6 +76,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
         customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
         refreshRightButtons()
+
+        Analytics.track(.filterListEditButtonToggled, properties: ["editing": filtersTable.isEditing])
     }
     
     @objc private func checkForScrollTap(_ notification: Notification) {
