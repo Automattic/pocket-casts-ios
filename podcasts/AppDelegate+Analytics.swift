@@ -9,10 +9,10 @@ extension AppDelegate {
 
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
 
-        addAnalyicsObservers()
+        addAnalyticsObservers()
     }
 
-    private func addAnalyicsObservers() {
+    private func addAnalyticsObservers() {
         // Signed out events
         NotificationCenter.default.addObserver(forName: .serverUserWillBeSignedOut, object: nil, queue: .main) { notification in
             guard let userInfo = notification.userInfo, let userIniated = userInfo["user_initiated"] as? Bool else {
