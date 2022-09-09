@@ -39,6 +39,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         
         setupNewFilterButton()
         handleThemeChanged()
+
+        // Reload the filters if we haven't already
+        if episodeFilters.count == 0 {
+            reloadFilters()
+        }
+
+        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
     }
     
     func setupNewFilterButton() {
@@ -74,6 +81,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
         customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
         refreshRightButtons()
+
+        Analytics.track(.filterListEditButtonToggled, properties: ["editing": filtersTable.isEditing])
     }
     
     @objc private func checkForScrollTap(_ notification: Notification) {
