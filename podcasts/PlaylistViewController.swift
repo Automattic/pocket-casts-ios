@@ -599,3 +599,11 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         return count
     }
 }
+
+// MARK: - Analytics
+
+extension PlaylistViewController: PlaybackSource {
+    var playbackSource: String {
+        "filters"
+    }
+}

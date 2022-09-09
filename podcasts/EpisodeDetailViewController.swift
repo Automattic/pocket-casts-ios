@@ -447,3 +447,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         failedToLoadLabel.isHidden = hide
     }
 }
+
+// MARK: - Analytics
+
+extension EpisodeDetailViewController: PlaybackSource {
+    var playbackSource: String {
+        "episode_detail"
+    }
+}

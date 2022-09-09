@@ -29,6 +29,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     var heightConstraint: NSLayoutConstraint?
     
     var upNextViewController: UpNextViewController?
+
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
+
+    private var playbackSource: String {
+        "miniplayer"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +53,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func playPauseTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
@@ -61,11 +68,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func skipBackTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
     
     @IBAction func skipForwardTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
@@ -165,7 +174,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if let rootNav = rootViewController()?.selectedViewController as? UINavigationController {
             return rootNav
         }
-        
+
         return nil
     }
     
