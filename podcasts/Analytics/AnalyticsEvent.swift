@@ -206,6 +206,13 @@ enum AnalyticsEvent: String {
     case starredSelectAllButtonTapped
     case starredMultiSelectExited
 
+    // MARK: - Playback
+
+    case play
+    case pause
+    case skipBack
+    case skipForward
+
     // MARK: - Filters
 
     case filterListShown

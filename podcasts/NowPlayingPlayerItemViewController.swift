@@ -160,6 +160,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }()
     
     var lastShelfLoadState = ShelfLoadState()
+
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,6 +176,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     private var lastBoundsAdjustedFor = CGRect.zero
+
+    private var playbackSource: String {
+        "player"
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -206,16 +213,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: - Interface Actions
     
     @IBAction func skipBackTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
     
     @IBAction func playPauseTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
     
     @IBAction func skipFwdTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }

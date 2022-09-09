@@ -860,3 +860,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         navigationController?.popToViewController(self, animated: true)
     }
 }
+
+// MARK: - Analytics
+
+extension PodcastViewController: PlaybackSource {
+    var playbackSource: String {
+        "podcast_screen"
+    }
+}
