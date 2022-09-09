@@ -1836,6 +1836,10 @@ internal enum L10n {
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened") }
   /// Total Unplayed
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed") }
+  /// Collect information
+  internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
+  /// Share information with our analytics tool about your use of the app. This information help us improve Pocket Casts.
+  internal static var settingsCollectInformationAdditionalInformation: String { return L10n.tr("Localizable", "settings_collect_information_additional_information") }
   /// Create Siri Shortcut
   internal static var settingsCreateSiriShortcut: String { return L10n.tr("Localizable", "settings_create_siri_shortcut") }
   /// Create a Siri Shortcut to play the newest episode of %1$@

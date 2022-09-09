@@ -36,7 +36,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-        cell.cellLabel.text = "Collect information"
+        cell.cellLabel.text = L10n.settingsCollectInformation
         cell.cellSwitch.isOn = !Settings.analyticsOptOut()
 
         cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -46,7 +46,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        "Share information with our analytics tool about your use of the app. This information help us improve Pocket Casts."
+        L10n.settingsCollectInformationAdditionalInformation
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {

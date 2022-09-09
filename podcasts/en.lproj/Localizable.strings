@@ -2516,6 +2516,12 @@
 /* Prompt for the option format to select the number of episodes to auto downloads for the Apple Watch app. '%1$@' is a placeholder for the number of items to download */
 "settings_watch_episode_number_option_format" = "Top %1$@";
 
+/* Label displayed right next the button to opt-in/out for Analytics tracking */
+"settings_collect_information" = "Collect information";
+
+/* Additional information about how the information collected is and how it's used */
+"settings_collect_information_additional_information" = "Share information with our analytics tool about your use of the app. This information help us improve Pocket Casts.";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
