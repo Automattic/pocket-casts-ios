@@ -13,7 +13,9 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
             collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
         }
     }
-    
+
+    private(set) var currentPage: Int = 0
+
     var cellSpacing = 0 as CGFloat
     var numVisibleColoumns = 1 as CGFloat
     var peekWidth = 8 as CGFloat
@@ -46,5 +48,23 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
         let adjacentItemOffsetX = adjacentItemIndexFloat * (cellWidth + cellSpacing) * numVisibleColoumns
         targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
+    }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentPage = Int(round(collectionView.contentOffset.x / collectionView.frame.width)) + 1
+
+        guard currentPage != self.currentPage else {
+            return
+        }
+
+        self.currentPage = currentPage
+        let total = Int(CGFloat(collectionView.numberOfItems(inSection: 0)) / numVisibleColoumns)
+        print(currentPage, total)
+
+        pageDidChange(to: currentPage, totalPages: total)
+    }
+
+    func pageDidChange(to: Int, totalPages: Int) {
+        // Subclasses can override
     }
 }
