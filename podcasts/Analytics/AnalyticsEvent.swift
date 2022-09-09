@@ -259,4 +259,20 @@ enum AnalyticsEvent: String {
     // MARK: - Signed out alert
 
     case signedOutAlertShown
+
+    // MARK: - Discover
+
+    case discoverShown
+    case discoverCategoryShown
+    case discoverFeaturedPodcastTapped
+    case discoverShowAllTapped
+
+    case discoverListImpression
+    case discoverListShowAllTapped
+    case discoverListEpisodeTapped
+    case discoverListEpisodePlay
+    case discoverListPodcastTapped
+    case discoverListPodcastSubscribed
+
+    case discoverPagedListPageChanged
 }
