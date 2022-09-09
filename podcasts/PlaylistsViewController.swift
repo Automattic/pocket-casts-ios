@@ -32,11 +32,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         
         title = L10n.filters
         
-//        if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
-//            let playlistViewController = PlaylistViewController(filter: filter)
-//            navigationController?.pushViewController(playlistViewController, animated: false)
-//        }
-//
+        if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
+            let playlistViewController = PlaylistViewController(filter: filter)
+            navigationController?.pushViewController(playlistViewController, animated: false)
+        }
+
         setupNewFilterButton()
         handleThemeChanged()
     }
