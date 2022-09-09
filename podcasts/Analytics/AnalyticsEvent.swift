@@ -303,7 +303,7 @@ enum AnalyticsEvent: String {
     case upNextDismissed
 
     // MARK: - Privacy
-
+    case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
 }

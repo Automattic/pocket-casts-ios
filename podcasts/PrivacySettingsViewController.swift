@@ -24,6 +24,12 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
         settingsTable.reloadData()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Analytics.track(.privacySettingsShown)
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
