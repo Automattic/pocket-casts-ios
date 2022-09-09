@@ -1872,5 +1872,5 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Analytics
 
-    private let commandCenterSource = "command_center"
+    private let commandCenterSource = "now_playing_widget"
 }
