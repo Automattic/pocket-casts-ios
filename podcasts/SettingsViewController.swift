@@ -38,7 +38,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
             case .privacy:
-                return (L10n.settingsPrivacy, UIImage.init(systemName: "hand.raised"))
+                return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
             }
         }
     }
@@ -144,10 +144,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     
     private func reloadTable() {
         if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml, .about, .privacy]]
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .privacy, .opml, .about]]
         }
         else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml, .about, .privacy]]
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .privacy, .opml, .about]]
         }
 
         if !SubscriptionHelper.hasActiveSubscription() {
