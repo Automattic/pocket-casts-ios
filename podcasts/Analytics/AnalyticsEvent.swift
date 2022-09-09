@@ -205,4 +205,18 @@ enum AnalyticsEvent: String {
     case starredMultiSelectEntered
     case starredSelectAllButtonTapped
     case starredMultiSelectExited
+
+    // MARK: - Podcast screen
+
+    case podcastScreenShown
+    case podcastScreenFolderTapped
+    case podcastScreenSettingsTapped
+    case podcastScreenSubscribeTapped
+    case podcastScreenUnsubscribeTapped
+    case podcastScreenSearchPerformed
+    case podcastScreenSearchCleared
+    case podcastScreenOptionsTapped
+    case podcastScreenToggleArchived
+    case podcastScreenShareTapped
+    case podcastScreenToggleSummary
 }
