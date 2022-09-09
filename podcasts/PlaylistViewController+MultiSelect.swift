@@ -63,7 +63,11 @@ extension PlaylistViewController: MultiSelectActionDelegate {
     }
     
     @IBAction func selectAllTapped() {
-        if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count) {
+        let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count)
+
+        Analytics.track(.filterSelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
+
+        if shouldSelectAll {
             tableView.selectAll()
         }
         else {
