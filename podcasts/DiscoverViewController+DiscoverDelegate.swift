@@ -26,6 +26,10 @@ extension DiscoverViewController: DiscoverDelegate {
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
         }
+        else {
+            Analytics.track(.discoverShowAllTapped)
+        }
+
         if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" {
             let collectionListVC = ExpandedCollectionViewController(item: item, podcasts: podcasts)
             collectionListVC.podcastCollection = podcastCollection
