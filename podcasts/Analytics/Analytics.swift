@@ -33,6 +33,7 @@ class Analytics {
 
 extension Analytics {
     func optOutOfAnalytics() {
+        Analytics.track(.analyticsOptOut)
         Settings.setAnalytics(optOut: true)
         Analytics.unregister()
     }
@@ -40,6 +41,7 @@ extension Analytics {
     func optInOfAnalytics() {
         Settings.setAnalytics(optOut: false)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+        Analytics.track(.analyticsOptIn)
     }
 
 }

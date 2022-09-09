@@ -301,4 +301,9 @@ enum AnalyticsEvent: String {
     case upNextMultiSelectExited
     case upNextQueueReordered
     case upNextDismissed
+
+    // MARK: - Privacy
+
+    case analyticsOptIn
+    case analyticsOptOut
 }
