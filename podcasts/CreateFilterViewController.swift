@@ -156,6 +156,20 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
         delegate?.filterCreated(newFilter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
         dismiss(animated: true, completion: nil)
+
+        Analytics.track(.filterCreated, properties: [
+            "all_podcasts": filterToEdit.filterAllPodcasts,
+            "media_type": (AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all).analyticsDescription,
+            "downloaded": filterToEdit.filterDownloaded,
+            "episode_status_played": filterToEdit.filterFinished,
+            "episode_status_unplayed": filterToEdit.filterUnplayed,
+            "episode_status_in_progress": filterToEdit.filterPartiallyPlayed,
+            "release_date": (ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime).analyticsDescription,
+            "starred": filterToEdit.filterStarred,
+            "duration": filterToEdit.filterDuration,
+            "color": filterToEdit.playlistColor().hexString(),
+            "icon_name": filterToEdit.iconImageName() ?? "unknown"
+        ])
     }
     
     @objc func backgroundTapped(_ sender: UITapGestureRecognizer) {
