@@ -28,6 +28,8 @@ class FilterSettingsOverlayController: LargeNavBarViewController {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
+
+        Analytics.track(.filterUpdated)
     }
     
     override func handleThemeChanged() {
