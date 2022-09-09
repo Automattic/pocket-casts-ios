@@ -255,8 +255,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             paymentExpiryLabel.text = nil
             upgradeView.isHidden = false
 
-            updatePricingLabels()
-
             profileView.isSubscribed = false
             
             var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
@@ -265,7 +263,17 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             }
             updateTableRows(newRows: newTableRows)
         }
+
+        // Hide this by default
+        noInternetView.isHidden = true
         
+        // If we're not hiding the upgrade view, then refresh the pricing info
+        // If the IAP information hasn't been pulled in yet, this method will trigger a refresh and the view will
+        // be updated via `iapProductsUpdated`
+        if upgradeView.isHidden == false {
+            updatePricingLabels()
+        }
+
         // recalculate header height if subscription status changed
         let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         if headerView.frame.size.height != size.height {
@@ -357,6 +365,7 @@ private extension AccountViewController {
             return
         }
 
+        priceLabel.isHidden = false
         noInternetView.isHidden = true
         priceLabel.text = price
         upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
