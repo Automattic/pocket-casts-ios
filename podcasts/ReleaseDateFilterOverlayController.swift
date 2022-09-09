@@ -24,6 +24,23 @@ enum ReleaseDateFilterOption: Int32 {
             return L10n.filterReleaseDateLastMonth
         }
     }
+
+    var analyticsDescription: String {
+        switch self {
+        case .anytime:
+            return "anytime"
+        case .last24hours:
+            return "24 hours"
+        case .last3Days:
+            return "3 days"
+        case .lastWeek:
+            return "Last Week"
+        case .last2Weeks:
+            return "Last 2 weeks"
+        case .lastMonth:
+            return "Last Month"
+        }
+    }
 }
 
 class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITableViewDataSource, UITableViewDelegate {
