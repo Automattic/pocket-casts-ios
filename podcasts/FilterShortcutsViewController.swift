@@ -39,6 +39,8 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         
         tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
         tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
+
+        Analytics.track(.filterSiriShortcutsShown)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -223,6 +225,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         reloadData()
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
+        Analytics.track(.filterSiriShortcutAdded)
     }
     
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
@@ -244,6 +247,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         reloadData()
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
+        Analytics.track(.filterSiriShortcutRemoved)
     }
     
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
