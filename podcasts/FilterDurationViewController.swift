@@ -134,7 +134,7 @@ class FilterDurationViewController: PCViewController {
         filter.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-        
+        Analytics.track(.filterUpdated)
         dismiss(animated: true, completion: nil)
     }
     
