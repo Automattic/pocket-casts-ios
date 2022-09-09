@@ -95,26 +95,38 @@ class AnalyticsHelper {
     // MARK: - List Analytics
     
     class func podcastEpisodePlayedFromList(listId: String, podcastUuid: String) {
-        logEvent("discover_list_episode_play", parameters: ["list_id": listId, "podcast_uuid": podcastUuid])
+        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        Analytics.track(.discoverListEpisodePlay)
+        logEvent("discover_list_episode_play", parameters: properties)
     }
     
     class func podcastSubscribedFromList(listId: String, podcastUuid: String) {
-        logEvent("discover_list_podcast_subscribe", parameters: ["list_id": listId, "podcast_uuid": podcastUuid])
+        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        Analytics.track(.discoverListPodcastSubscribed, properties: properties)
+        logEvent("discover_list_podcast_subscribe", parameters: properties)
     }
     
     class func podcastTappedFromList(listId: String, podcastUuid: String) {
-        logEvent("discover_list_podcast_tap", parameters: ["list_id": listId, "podcast_uuid": podcastUuid])
+        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        Analytics.track(.discoverListPodcastTapped, properties: properties)
+        logEvent("discover_list_podcast_tap", parameters: properties)
     }
 
     class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String) {
-        logEvent("discover_list_podcast_episode_tap", parameters: ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid])
+        let properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
+
+        Analytics.track(.discoverListShowAllTapped, properties: properties)
+        logEvent("discover_list_podcast_episode_tap", parameters: properties)
     }
 
     class func listShowAllTapped(listId: String) {
-        logEvent("discover_list_show_all", parameters: ["list_id": listId])
+        let properties = ["list_id": listId]
+        Analytics.track(.discoverListShowAllTapped, properties: properties)
+        logEvent("discover_list_show_all", parameters: properties)
     }
     
     class func listImpression(listId: String) {
+        Analytics.track(.discoverListImpression, properties: ["list_id": listId])
         logEvent("discover_list_impression", parameters: ["list_id": listId])
     }
     
