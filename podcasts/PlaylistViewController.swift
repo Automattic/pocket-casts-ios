@@ -91,6 +91,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 self.tableView.endUpdates()
                 
                 if self.isMultiSelectEnabled {
+                    Analytics.track(.filterMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     self.shouldShowChipsAfterMulitSelect = !self.isChipHidden
@@ -103,6 +104,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                     }
                 }
                 else {
+                    Analytics.track(.filterMultiSelectExited)
                     if self.shouldShowChipsAfterMulitSelect {
                         self.showFilterChips()
                     }
@@ -165,6 +167,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         filterCollectionView.filter = filter
         
         isChipHidden = !isNewFilter
+
+        Analytics.track(.filterShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -312,24 +316,30 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
     
     @objc func moreTapped() {
+        Analytics.track(.filterOptionsButtonTapped)
+
         let optionsPicker = OptionsPicker(title: nil)
         
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
         
         let currentSort = PlaylistSort(rawValue: filter.sortType)?.description ?? ""
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "sort_by"])
             self.showSortByPicker()
         }
         let editAction = OptionAction(label: L10n.filterOptions, icon: "profile-settings") {
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
             self.filterOptionsTapped()
         }
         
         let playAllAction = OptionAction(label: L10n.playAll, icon: "filter_play") { [weak self] in
             guard let self = self else { return }
-            
+
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
             let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
             OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: {
                 PlaybackManager.shared.play(filter: self.filter)
@@ -338,6 +348,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "download_all"])
+
             let downloadableCount = self.downloadableCount(listEpisodes: self.episodes)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
             let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
@@ -390,6 +402,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
         let action = OptionAction(label: sortOrder.description, selected: filter.sortType == sortOrder.rawValue) {
+            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder.analyticsDescription])
             self.filter.sortType = sortOrder.rawValue
             self.saveFilter()
         }

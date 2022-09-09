@@ -111,7 +111,7 @@ class PlaylistManager {
         filter.filterDownloaded = true
         filter.filterNotDownloaded = true
         filter.customIcon = 0
-        
+        filter.isNew = true
         return filter
     }
     

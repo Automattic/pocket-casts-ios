@@ -158,6 +158,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     private func reloadFilter() {
         guard let reloadedFilter = DataManager.sharedManager.findFilter(uuid: newFilter.uuid) else { return }
         newFilter = reloadedFilter
+        newFilter.isNew = true
         chipCollectionView.filter = reloadedFilter
         refreshEpisodes(animated: true)
         continueButton.backgroundColor = newFilter.playlistColor()
