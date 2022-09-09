@@ -150,6 +150,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
     
     @IBAction func saveTapped(_ sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
+        filterToEdit.isNew = false
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         DataManager.sharedManager.save(filter: filterToEdit)
         UserDefaults.standard.set(filterToEdit.uuid, forKey: Constants.UserDefaults.lastFilterShown)
