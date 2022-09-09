@@ -36,7 +36,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 //            let playlistViewController = PlaylistViewController(filter: filter)
 //            navigationController?.pushViewController(playlistViewController, animated: false)
 //        }
-//        
+//
         setupNewFilterButton()
         handleThemeChanged()
     }
