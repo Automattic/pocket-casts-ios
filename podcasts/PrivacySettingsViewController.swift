@@ -31,7 +31,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
         cell.cellLabel.text = "Collect information"
-        cell.cellSwitch.isOn = NotificationsHelper.shared.pushEnabled()
+        cell.cellSwitch.isOn = !Settings.analyticsOptOut()
 
         cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
         cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
@@ -49,10 +49,10 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
 
     @objc private func pushToggled(_ sender: UISwitch) {
         if sender.isOn {
-            // Enable Analytics
+            Settings.setAnalytics(optOut: false)
         }
         else {
-            // Disable Analytics
+            Settings.setAnalytics(optOut: true)
         }
     }
 
