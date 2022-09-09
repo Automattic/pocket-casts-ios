@@ -32,20 +32,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         
         title = L10n.filters
         
-        if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
-            let playlistViewController = PlaylistViewController(filter: filter)
-            navigationController?.pushViewController(playlistViewController, animated: false)
-        }
-        
+//        if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
+//            let playlistViewController = PlaylistViewController(filter: filter)
+//            navigationController?.pushViewController(playlistViewController, animated: false)
+//        }
+//        
         setupNewFilterButton()
         handleThemeChanged()
-
-        // Reload the filters if we haven't already
-        if episodeFilters.count == 0 {
-            reloadFilters()
-        }
-
-        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
     }
     
     func setupNewFilterButton() {
@@ -68,6 +61,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         updateNavTintColors()
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
