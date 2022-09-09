@@ -29,6 +29,21 @@ class Analytics {
     }
 }
 
+// MARK: - Opt out/in
+
+extension Analytics {
+    func optOutOfAnalytics() {
+        Settings.setAnalytics(optOut: true)
+        Analytics.unregister()
+    }
+
+    func optInOfAnalytics() {
+        Settings.setAnalytics(optOut: false)
+        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+    }
+
+}
+
 // MARK: - Dynamic Event Name
 
 private extension AnalyticsEvent {

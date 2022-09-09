@@ -7,7 +7,9 @@ import os
 
 class AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
-    static var optedOut: Bool = false
+    static var optedOut: Bool {
+        Settings.analyticsOptOut()
+    }
 
     class func openedCategory(categoryId: Int, region: String) {
         logEvent("category_open", parameters: ["id": categoryId, "region": region])
