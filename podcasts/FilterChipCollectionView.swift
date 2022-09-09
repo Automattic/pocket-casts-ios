@@ -199,7 +199,10 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         filter.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-        Analytics.track(.filterUpdated)
+
+        if !filter.isNew {
+            Analytics.track(.filterUpdated)
+        }
     }
 
     func scrollToLastSelected() {
