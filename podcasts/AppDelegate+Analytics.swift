@@ -3,7 +3,7 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func setupAnalytics() {
-        guard FeatureFlag.tracksEnabled else {
+        guard FeatureFlag.tracksEnabled, !Settings.analyticsOptOut() else {
             return
         }
 
@@ -21,10 +21,5 @@ extension AppDelegate {
 
             Analytics.track(.userSignedOut, properties: ["user_initiated": userIniated])
         }
-    }
-
-    func optOutOfAnalytics() {
-        AnalyticsHelper.optedOut = true
-        Analytics.unregister()
     }
 }
