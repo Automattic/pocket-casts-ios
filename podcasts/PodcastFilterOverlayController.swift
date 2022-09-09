@@ -131,6 +131,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
         dismiss(animated: true, completion: nil)
+
+        if !filterToEdit.isNew {
+            Analytics.track(.filterUpdated)
+        }
     }
     
     func updateSwitchStatus() {
