@@ -243,6 +243,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
         
         if featuredPodcast, !hasAppearedAlready {
+            Analytics.track(.discoverFeaturedPodcastTapped)
             AnalyticsHelper.openedFeaturedPodcast()
         }
         
@@ -253,7 +254,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        Analytics.track(.podcastScreenShown)
+        Analytics.track(.podcastScreenShown, properties: ["uuid": podcast?.uuid ?? "unknown"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -530,14 +531,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         DataManager.sharedManager.save(podcast: podcast)
         ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true)
         loadLocalEpisodes(podcast: podcast, animated: true)
-        
+
         if featuredPodcast {
             AnalyticsHelper.subscribedToFeaturedPodcast()
         }
         if let listId = listUuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
         }
-
+        
         Analytics.track(.podcastScreenSubscribeTapped)
     }
     
