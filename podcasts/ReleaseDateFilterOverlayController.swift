@@ -30,15 +30,15 @@ enum ReleaseDateFilterOption: Int32 {
         case .anytime:
             return "anytime"
         case .last24hours:
-            return "24 hours"
+            return "24_hours"
         case .last3Days:
-            return "3 days"
+            return "3_days"
         case .lastWeek:
-            return "Last Week"
+            return "last_week"
         case .last2Weeks:
-            return "Last 2 weeks"
+            return "last_2_weeks"
         case .lastMonth:
-            return "Last Month"
+            return "last_month"
         }
     }
 }
