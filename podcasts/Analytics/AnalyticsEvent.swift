@@ -213,6 +213,31 @@ enum AnalyticsEvent: String {
     case skipBack
     case skipForward
 
+    // MARK: - Filters
+
+    case filterListShown
+    case filterListEditButtonToggled
+    case filterListReordered
+
+    case filterDeleted
+    case filterUpdated
+    case filterCreated
+
+    case filterShown
+
+    case filterMultiSelectEntered
+    case filterSelectAllButtonTapped
+    case filterMultiSelectExited
+
+    case filterOptionsButtonTapped
+    case filterOptionsModalOptionTapped
+    case filterSortByChanged
+    case filterEditDismissed
+
+    case filterSiriShortcutsShown
+    case filterSiriShortcutAdded
+    case filterSiriShortcutRemoved
+
     // MARK: - Podcast screen
 
     case podcastScreenShown
