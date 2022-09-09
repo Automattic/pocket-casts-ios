@@ -158,4 +158,10 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
     }
+
+    // MARK: - Page Changed
+
+    override func pageDidChange(to: Int, totalPages: Int) {
+        Analytics.track(.discoverPagedListPageChanged, properties: ["current_page": currentPage, "total_pages": totalPages, "source": "large_list"])
+    }
 }

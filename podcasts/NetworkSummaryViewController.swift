@@ -98,4 +98,10 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
             }
         }
     }
+
+    // MARK: - Page Changed
+
+    override func pageDidChange(to: Int, totalPages: Int) {
+        Analytics.track(.discoverPagedListPageChanged, properties: ["current_page": currentPage, "total_pages": totalPages, "source": "network_summary"])
+    }
 }
