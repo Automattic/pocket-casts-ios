@@ -21,7 +21,7 @@ struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
 
     var numberOfEpisodeInUpNext: Int {
-        (entry.episodes?.count ?? 1) - 1
+        (entry.upNextEpisodesCount ?? 1) - 1
     }
 
     var widgetURL: String {

@@ -7,4 +7,5 @@ struct UpNextEntry: TimelineEntry {
     @State var episodes: [WidgetEpisode]?
     @State var filterName: String?
     @State var isPlaying: Bool
+    @State var upNextEpisodesCount: Int?
 }
