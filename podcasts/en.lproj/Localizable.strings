@@ -3122,6 +3122,12 @@
 /* Call to action for a tap on a widget to open the Discover tab. */
 "widgets_now_playing_tap_discover" = "Tap to Discover";
 
+/* Title of a widget that displays the app icon */
+"widgets_app_icon_name" = "Icon";
+
+/* Description of a widget to launch the app */
+"widgets_app_icon_description" = "Launch Pocket Casts";
+
 /* Basic string used in formats like 'price / year' */
 "year" = "year";
 
