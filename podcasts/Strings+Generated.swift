@@ -2536,6 +2536,10 @@ internal enum L10n {
   internal static var whatsNewPageTwo720: String { return L10n.tr("Localizable", "whats_new_page_two_7_20") }
   /// Home Grid Syncing
   internal static var whatsNewPageTwoTitle720: String { return L10n.tr("Localizable", "whats_new_page_two_title_7_20") }
+  /// Launch Pocket Casts
+  internal static var widgetsAppIconDescription: String { return L10n.tr("Localizable", "widgets_app_icon_description") }
+  /// Icon
+  internal static var widgetsAppIconName: String { return L10n.tr("Localizable", "widgets_app_icon_name") }
   /// Check out the Discover Tab
   internal static var widgetsDiscoverPromptMsg: String { return L10n.tr("Localizable", "widgets_discover_prompt_msg") }
   /// Ears hungry for more?
