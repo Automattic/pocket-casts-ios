@@ -8,5 +8,6 @@ struct PocketCastsWidgetBundle: WidgetBundle {
         UpNextWidget()
         NowPlayingLockScreenWidget()
         AppIconWidget()
+        UpNextLockScreenWidget()
     }
 }
