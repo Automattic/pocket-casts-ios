@@ -223,6 +223,11 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/last_opened/*")
 
+        JLRoutes.global().addRoute("/show_player") { [weak self] _ -> Bool in
+            self?.openPlayerWhenReadyFromExternalEvent()
+            return true
+        }
+
         // Sonos App Link
         JLRoutes.global().addRoute("/applink/sonos/*") { [weak self] parameters -> Bool in
             guard let strongSelf = self, let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
