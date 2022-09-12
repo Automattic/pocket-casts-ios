@@ -8,7 +8,7 @@ struct UpNextLockScreenWidget: Widget {
                 UpNextLockScreenWidgetEntryView(entry: entry)
             }
             .configurationDisplayName(L10n.upNext)
-            .description("See the number of podcasts on your Up Next queue.")
+            .description(L10n.widgetsUpNextDescription)
             .supportedFamilies([.accessoryCircular])
         } else {
             return EmptyWidgetConfiguration()
