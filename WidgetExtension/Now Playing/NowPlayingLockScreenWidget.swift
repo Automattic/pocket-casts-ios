@@ -21,7 +21,7 @@ struct NowPlayingLockscreenWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
 
     var title: String {
-        entry.episode?.episodeTitle ?? L10n.widgetsNothingPlaying
+        entry.episode?.episodeTitle ?? L10n.widgetsNowPlayingTapDiscover
     }
 
     var subtitle: String {
@@ -29,7 +29,7 @@ struct NowPlayingLockscreenWidgetEntryView: View {
             return entry.isPlaying ? L10n.nowPlaying : L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration))
         }
         else {
-            return L10n.widgetsNowPlayingTapDiscover
+            return L10n.widgetsNothingPlaying
         }
     }
 
@@ -39,21 +39,33 @@ struct NowPlayingLockscreenWidgetEntryView: View {
 
     var body: some View {
         HStack {
-            Image("logo-transparent")
-
             VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.primary)
-                    .lineLimit(2)
-                    .layoutPriority(1)
+                HStack {
+                    Image("logo-transparent")
+                        .resizable()
+                        .frame(width: 16.0, height: 16.0)
 
-                Text(subtitle.localizedUppercase)
-                    .font(.caption2)
+                    Text(subtitle)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.primary)
+                        .layoutPriority(1)
+                }
+
+                Text(title)
+                    .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(Color.secondary)
+                    .foregroundColor(Color.primary)
                     .layoutPriority(1)
+                    .lineLimit(2)
+
+                // Hide the podcast name if it's not available
+                if let name = entry.episode?.podcastName {
+                    Text(name)
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.secondary)
+                }
             }
         }.widgetURL(URL(string: widgetURL))
     }
