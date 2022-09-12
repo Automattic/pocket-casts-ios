@@ -78,9 +78,10 @@ class WidgetHelper {
     
     private func publishUpNextInfo() {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) else { return }
-        
+
+        let allUpNextPlaylistEpisodes = DataManager.sharedManager.allUpNextPlaylistEpisodes()
         var upNextItems = [CommonUpNextItem]()
-        for (index, playlistEpisode) in DataManager.sharedManager.allUpNextPlaylistEpisodes().enumerated() {
+        for (index, playlistEpisode) in allUpNextPlaylistEpisodes.enumerated() {
             if index > WidgetHelper.maxUpNextToPublish { break }
             
             if let episode = DataManager.sharedManager.findBaseEpisode(uuid: playlistEpisode.episodeUuid), let upNextItem = convertToWidgetItem(episode: episode) {
@@ -91,6 +92,7 @@ class WidgetHelper {
         do {
             let serializedItems = try JSONEncoder().encode(upNextItems)
             sharedDefaults.set(serializedItems, forKey: SharedConstants.GroupUserDefaults.upNextItems)
+            sharedDefaults.set(max(allUpNextPlaylistEpisodes.count - 1, 0), forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterItems)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
             let playingStatus = PlaybackManager.shared.playing()

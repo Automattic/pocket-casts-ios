@@ -49,6 +49,14 @@ class CommonWidgetHelper {
             return nil
         }
     }
+
+    class func loadUpNextEpisodesCount() -> Int? {
+        guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let upNextCount = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItemsCount) as? Int else {
+            return nil
+        }
+
+        return upNextCount
+    }
     
     class func loadTopFilterItems() -> [CommonUpNextItem]? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let filterData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.topFilterItems) as? Data else {

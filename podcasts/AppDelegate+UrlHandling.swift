@@ -310,6 +310,14 @@ extension AppDelegate {
             }
             return true
         }
+
+        JLRoutes.global().addRoute("/upnext/*") { [weak self] _ -> Bool in
+            guard self != nil else { return false }
+
+            (UIApplication.shared.delegate as? AppDelegate)?.miniPlayer()?.upNextTapped(UIButton())
+
+            return true
+        }
         
         // Support - send IAP purchase receipt to server:
         JLRoutes.global().addRoute("/support/sendreceipt/*") { [weak self] _ -> Bool in
