@@ -7,8 +7,8 @@ struct AppIconWidget: Widget {
             return StaticConfiguration(kind: "App_Icon_Widget", provider: StaticWidgetProvider()) { entry in
                 AppIconWidgetEntryView(entry: entry)
             }
-            .configurationDisplayName("App Icon Widget")
-            .description("Launch Pocket Casts")
+            .configurationDisplayName(L10n.widgetsAppIconName)
+            .description(L10n.widgetsAppIconDescription)
             .supportedFamilies([.accessoryCircular])
         } else {
             return EmptyWidgetConfiguration()
