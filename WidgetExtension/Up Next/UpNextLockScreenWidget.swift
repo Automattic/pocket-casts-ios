@@ -30,7 +30,8 @@ struct UpNextLockScreenWidgetEntryView: View {
                 Image("up-next")
                     .resizable()
                     .foregroundColor(.white)
-                    .frame(width: 16, height: 16)
+                    .frame(width: 20, height: 20)
+                    .offset(x: -1, y: -3)
             }
         }
         .widgetURL(URL(string: "pktc://last_opened"))
