@@ -17,6 +17,7 @@ struct UpNextLockScreenWidget: Widget {
     }
 }
 
+@available(iOSApplicationExtension 16.0, *)
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
 
@@ -30,7 +31,7 @@ struct UpNextLockScreenWidgetEntryView: View {
 
     var body: some View {
         ZStack {
-            Color.black
+            AccessoryWidgetBackground()
 
             VStack {
                 HStack(spacing: 2) {
