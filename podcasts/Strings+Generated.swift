@@ -2544,6 +2544,8 @@ internal enum L10n {
   internal static var widgetsNothingPlaying: String { return L10n.tr("Localizable", "widgets_nothing_playing") }
   /// Quickly access the currently playing episode.
   internal static var widgetsNowPlayingDesc: String { return L10n.tr("Localizable", "widgets_now_playing_desc") }
+  /// Tap to Discover
+  internal static var widgetsNowPlayingTapDiscover: String { return L10n.tr("Localizable", "widgets_now_playing_tap_discover") }
   /// year
   internal static var year: String { return L10n.tr("Localizable", "year") }
   /// Yearly

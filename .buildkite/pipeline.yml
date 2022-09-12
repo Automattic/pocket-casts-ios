@@ -8,7 +8,7 @@ common_params:
         repo: automattic/pocket-casts-ios/
   # Common environment values to use with the `env` key.
   - &common_env
-    IMAGE_ID: xcode-13.4.1
+    IMAGE_ID: xcode-14.rc
   # Common agents values to use with the `agents` key.
   - &common_agents
     queue: mac
