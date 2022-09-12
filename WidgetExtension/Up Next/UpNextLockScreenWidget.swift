@@ -28,15 +28,16 @@ struct UpNextLockScreenWidgetEntryView: View {
         ZStack {
             Color.black
 
-            VStack(spacing: 0) {
-                Text("\(numberOfEpisodeInUpNext)")
-                    .font(.title)
+            VStack {
+                HStack(spacing: 2) {
+                    Text("\(numberOfEpisodeInUpNext)")
+                        .font(.title)
 
-                Image("up-next")
-                    .resizable()
-                    .foregroundColor(.white)
-                    .frame(width: 20, height: 20)
-                    .offset(x: -1, y: -3)
+                    Image("up-next")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .frame(width: 12, height: 12)
+                }
             }
         }
         .widgetURL(URL(string: "pktc://last_opened"))
