@@ -29,6 +29,10 @@ struct UpNextLockScreenWidgetEntryView: View {
         return numberOfEpisodeInUpNext != 0 ? "pktc://upnext" : "pktc://discover"
     }
 
+    var font: Font {
+        numberOfEpisodeInUpNext > 99 ? .callout : .title
+    }
+
     var body: some View {
         ZStack {
             AccessoryWidgetBackground()
@@ -36,7 +40,8 @@ struct UpNextLockScreenWidgetEntryView: View {
             VStack {
                 HStack(spacing: 2) {
                     Text("\(numberOfEpisodeInUpNext)")
-                        .font(.title)
+                        .font(font)
+                        .lineLimit(1)
 
                     Image("up-next")
                         .resizable()
@@ -52,7 +57,7 @@ struct UpNextLockScreenWidgetEntryView: View {
 @available(iOSApplicationExtension 16.0, *)
 struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
     static var previews: some View {
-        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false))
+        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }
