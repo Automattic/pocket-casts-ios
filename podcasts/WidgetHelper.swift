@@ -92,7 +92,7 @@ class WidgetHelper {
         do {
             let serializedItems = try JSONEncoder().encode(upNextItems)
             sharedDefaults.set(serializedItems, forKey: SharedConstants.GroupUserDefaults.upNextItems)
-            sharedDefaults.set(allUpNextPlaylistEpisodes.count, forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
+            sharedDefaults.set(max(allUpNextPlaylistEpisodes.count - 1, 0), forKey: SharedConstants.GroupUserDefaults.upNextItemsCount)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterItems)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.topFilterName)
             let playingStatus = PlaybackManager.shared.playing()
