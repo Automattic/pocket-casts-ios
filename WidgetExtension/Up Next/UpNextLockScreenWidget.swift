@@ -24,6 +24,10 @@ struct UpNextLockScreenWidgetEntryView: View {
         (entry.episodes?.count ?? 1) - 1
     }
 
+    var widgetURL: String {
+        return numberOfEpisodeInUpNext != 0 ? "pktc://upnext" : "pktc://discover"
+    }
+
     var body: some View {
         ZStack {
             Color.black
@@ -40,7 +44,7 @@ struct UpNextLockScreenWidgetEntryView: View {
                 }
             }
         }
-        .widgetURL(URL(string: "pktc://upnext"))
+        .widgetURL(URL(string: widgetURL))
     }
 }
 
