@@ -20,12 +20,16 @@ struct UpNextLockScreenWidget: Widget {
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
 
+    var numberOfEpisodeInUpNext: Int {
+        (entry.episodes?.count ?? 1) - 1
+    }
+
     var body: some View {
         ZStack {
             Color.black
 
             VStack(spacing: 0) {
-                Text("\(entry.episodes?.count ?? 0)")
+                Text("\(numberOfEpisodeInUpNext)")
                     .font(.title)
 
                 Image("up-next")
