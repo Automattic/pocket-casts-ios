@@ -25,7 +25,6 @@ struct AppIconWidgetEntryView: View {
             Image("logo-transparent-medium")
                 .resizable()
                 .frame(width: 55, height: 55)
-                .foregroundColor(.white)
         }
         .widgetURL(URL(string: "pktc://last_opened"))
     }
