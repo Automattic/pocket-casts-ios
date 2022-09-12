@@ -40,7 +40,7 @@ struct UpNextLockScreenWidgetEntryView: View {
                 }
             }
         }
-        .widgetURL(URL(string: "pktc://last_opened"))
+        .widgetURL(URL(string: "pktc://upnext"))
     }
 }
 
