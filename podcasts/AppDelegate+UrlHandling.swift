@@ -306,7 +306,7 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/upnext/*") { [weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/upnext/*") { [weak self] _ -> Bool in
             guard self != nil else { return false }
 
             (UIApplication.shared.delegate as? AppDelegate)?.miniPlayer()?.upNextTapped(UIButton())
