@@ -10,7 +10,8 @@ struct UpNextLockScreenWidget: Widget {
             .configurationDisplayName(L10n.upNext)
             .description(L10n.widgetsUpNextDescription)
             .supportedFamilies([.accessoryCircular])
-        } else {
+        }
+        else {
             return EmptyWidgetConfiguration()
         }
     }
