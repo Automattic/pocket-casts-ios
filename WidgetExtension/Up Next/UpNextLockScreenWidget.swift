@@ -20,14 +20,18 @@ struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
 
     var body: some View {
-        VStack(spacing: 0) {
-            Text("\(entry.episodes?.count ?? 0)")
-                .font(.title)
-            Text("Up Next".uppercased())
-                .font(.footnote)
-            Image("logo-transparent")
-                .resizable()
-                .frame(width: 12, height: 12)
+        ZStack {
+            Color.black
+
+            VStack(spacing: 0) {
+                Text("\(entry.episodes?.count ?? 0)")
+                    .font(.title)
+
+                Image("up-next")
+                    .resizable()
+                    .foregroundColor(.white)
+                    .frame(width: 16, height: 16)
+            }
         }
         .widgetURL(URL(string: "pktc://last_opened"))
     }
