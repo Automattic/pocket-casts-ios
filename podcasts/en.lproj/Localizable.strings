@@ -3128,6 +3128,9 @@
 /* Description of a widget to launch the app */
 "widgets_app_icon_description" = "Launch Pocket Casts";
 
+/* Up Next Lock Screen Widget description */
+"widgets_up_next_description" = "See the number of podcasts on your Up Next queue.";
+
 /* Basic string used in formats like 'price / year' */
 "year" = "year";
 
