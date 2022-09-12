@@ -9,6 +9,7 @@ class WidgetData: ObservableObject {
     @Published var topFilterName: String?
     @Published var upNextEpisodes: [WidgetEpisode]?
     @Published var topFilterEpisodes: [WidgetEpisode]?
+    @Published var upNextEpisodesCount: Int?
     
     func reload() {
         nowPlayingEpisode = CommonWidgetHelper.loadNowPlayingEpisode()
@@ -16,5 +17,6 @@ class WidgetData: ObservableObject {
         topFilterName = CommonWidgetHelper.loadTopFilterName()
         upNextEpisodes = CommonWidgetHelper.loadNowPlayingEpisodes()
         topFilterEpisodes = CommonWidgetHelper.loadTopFilterEpisodes()
+        upNextEpisodesCount = CommonWidgetHelper.loadUpNextEpisodesCount()
     }
 }
