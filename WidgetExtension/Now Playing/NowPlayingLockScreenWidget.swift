@@ -27,7 +27,7 @@ struct NowPlayingLockscreenWidgetEntryView: View {
         if let playingEpisode = entry.episode {
             return entry.isPlaying ? L10n.nowPlaying : L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration))
         } else {
-            return "Tap to Discover"
+            return L10n.widgetsNowPlayingTapDiscover
         }
     }
 
