@@ -223,7 +223,7 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/last_opened/*")
 
-        JLRoutes.global().addRoute("/show_player") { [weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/show_player") { [weak self] _ -> Bool in
             self?.openPlayerWhenReadyFromExternalEvent()
             return true
         }
