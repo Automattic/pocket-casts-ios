@@ -444,6 +444,7 @@
 		8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B317BA82890704400A26A13 /* TestingScreen.storyboard */; };
 		8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */; };
 		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
+		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1928,6 +1929,7 @@
 		8B317BA82890704400A26A13 /* TestingScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestingScreen.storyboard; sourceTree = "<group>"; };
 		8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLockScreenWidget.swift; sourceTree = "<group>"; };
 		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
+		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -3537,6 +3539,7 @@
 			isa = PBXGroup;
 			children = (
 				8B71828C28CF68E800B98F04 /* AppIconWidget.swift */,
+				8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */,
 			);
 			path = "App Icon";
 			sourceTree = "<group>";
@@ -6841,6 +6844,7 @@
 				4075C2AE252C06DE001C280A /* ArtworkViews.swift in Sources */,
 				4036B05325240C1E00AE08E6 /* PocketCastsWidgetBundle.swift in Sources */,
 				BD422EBD26840DAD0078B799 /* NowPlayingProvider.swift in Sources */,
+				8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */,
 				461C46CF274D9E420003D3A9 /* LocalizationHelpers.swift in Sources */,
 				BD422ECE2684198B0078B799 /* UpNextLargeWidgetView.swift in Sources */,
 				BD422EC8268416050078B799 /* UpNextEntry.swift in Sources */,
