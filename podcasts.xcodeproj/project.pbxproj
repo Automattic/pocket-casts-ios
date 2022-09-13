@@ -446,6 +446,10 @@
 		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
 		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
 		8B71829128CF755D00B98F04 /* UpNextLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */; };
+		8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
+		8BA55A0E28CA46E4002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
+		8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */; };
+		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1932,6 +1936,9 @@
 		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
 		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
 		8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextLockScreenWidget.swift; sourceTree = "<group>"; };
+		8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelper.swift; sourceTree = "<group>"; };
+		8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelperTests.swift; sourceTree = "<group>"; };
+		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -3242,6 +3249,7 @@
 			isa = PBXGroup;
 			children = (
 				C7D854F128ADD97700877E87 /* Analytics */,
+				8BA55A1128CA7404002BECC5 /* Extensions */,
 				8B317BA128906C7400A26A13 /* Helpers */,
 				8BF0BBD72891AFA8006BBECF /* Mocks */,
 				8BF0BBCF28918B36006BBECF /* Podcasts */,
@@ -3544,6 +3552,14 @@
 				8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */,
 			);
 			path = "App Icon";
+			sourceTree = "<group>";
+		};
+		8BA55A1128CA7404002BECC5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		8BE36DC928734F6500E35313 /* Modules */ = {
@@ -5688,6 +5704,7 @@
 				C72CED30289DA17F0017883A /* Adapters */,
 				C7AF5790289D87CF0089E435 /* Analytics.swift */,
 				C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */,
+				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 				C72CED2E289DA1650017883A /* String+Analytics.swift */,
 				C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */,
 			);
@@ -5707,6 +5724,7 @@
 			isa = PBXGroup;
 			children = (
 				C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */,
+				8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -6880,12 +6898,14 @@
 				8BF0BBD228918B49006BBECF /* HomeGridDataHelperTests.swift in Sources */,
 				8BF0BBDB2891B038006BBECF /* FolderBuilder.swift in Sources */,
 				8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */,
+				8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */,
 				C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
 				45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */,
 				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
 				8B317BA728906CC200A26A13 /* TestingViewController.swift in Sources */,
+				8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7041,6 +7061,7 @@
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,
 				C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */,
+				8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */,
 				BDBD2AC5202D64D700E0A79E /* OptionsPicker.swift in Sources */,
 				4041FE9D218AA4310089D4A1 /* PodcastShortcutsViewController.swift in Sources */,
 				4053A827249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift in Sources */,
@@ -7520,6 +7541,7 @@
 				BDE48A1E2410D08F00ECA6CA /* EpisodeManager.swift in Sources */,
 				BDE48A252410D25000ECA6CA /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				BDE48A1D2410D08600ECA6CA /* Constants.swift in Sources */,
+				8BA55A0E28CA46E4002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */,
 				46C7BB8C27DA612600CD6AE3 /* EpisodeListView.swift in Sources */,
 				BDE48A312410D44000ECA6CA /* ArchiveHelper.swift in Sources */,
 				46CD891527E222BE0046A9FB /* FilterEpisodeListViewModel.swift in Sources */,

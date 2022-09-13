@@ -235,3 +235,11 @@ class DiscoverViewController: PCViewController {
         noNetworkView.isHidden = false
     }
 }
+
+// MARK: - Analytics
+
+extension DiscoverViewController: PlaybackSource {
+    var playbackSource: String {
+        "discover"
+    }
+}

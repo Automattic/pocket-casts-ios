@@ -55,11 +55,13 @@ extension AppDelegate {
             guard let strongSelf = self, let shortcut = parameters["shortcut"] as? String else { return false }
             
             if shortcut == "pause" {
+                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
                 PlaybackManager.shared.pause()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPause()
             }
             else if shortcut == "play" {
+                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
                 PlaybackManager.shared.play()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPlay()

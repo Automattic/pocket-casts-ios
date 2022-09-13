@@ -1,13 +1,15 @@
 import Foundation
 
 enum AnalyticsEvent: String {
-    // App Lifecycle
+    // MARK: - App Lifecycle
+
     case applicationInstalled
     case applicationOpened
     case applicationUpdated
     case applicationClosed
 
-    // User Lifecycle
+    // MARK: - User Lifecycle
+
     case userSignedIn
     case userSignedOut
     case userSignInFailed
@@ -18,67 +20,84 @@ enum AnalyticsEvent: String {
     case userPasswordUpdated
     case userPasswordReset
 
-    // Payment Events
+    // MARK: - Payment Events
+
     case purchaseSuccessful
     case purchaseFailed
     case purchaseCancelled
 
-    // Plus Upsell Dialog
+    // MARK: - Plus Upsell Dialog
+
     case plusPromotionShown
     case plusPromotionDismissed
     case plusPromotionUpgradeButtonTapped
 
-    // Setup Account
+    // MARK: - Setup Account
+
     case setupAccountShown
     case setupAccountDismissed
     case setupAccountButtonTapped
 
-    // Sign in View
+    // MARK: - Sign in View
+
     case signInShown
     case signInDismissed
 
-    // Select Account Type
+    // MARK: - Select Account Type
+
     case selectAccountTypeShown
     case selectAccountTypeDismissed
     case selectAccountTypeNextButtonTapped
 
-    // Create Account
+    // MARK: - Create Account
+
     case createAccountShown
     case createAccountDismissed
     case createAccountNextButtonTapped
 
-    // Terms of Use
+    // MARK: - Terms of Use
+
     case termsOfUseShown
     case termsOfUseDismissed
     case termsOfUseAccepted
     case termsOfUseRejected
 
-    // Select Payment Frequency
+    // MARK: - Select Payment Frequency
+
     case selectPaymentFrequencyShown
     case selectPaymentFrequencyDismissed
     case selectPaymentFrequencyNextButtonTapped
 
-    // Confirm Payment
+    // MARK: - Confirm Payment
+
     case confirmPaymentShown
     case confirmPaymentDismissed
     case confirmPaymentConfirmButtonTapped
 
-    // Podcasts List
+    // MARK: - Podcasts List
+
     case podcastsListShown
     case podcastsListFolderButtonTapped
     case podcastsListPodcastTapped
     case podcastsListFolderTapped
     case podcastsListOptionsButtonTapped
     case podcastsListReordered
+    case podcastsListModalOptionTapped
+    case podcastsListSortOrderChanged
+    case podcastsListLayoutChanged
+    case podcastsListBadgesChanged
 
-    // Newsletter Opt In
+    // MARK: - Newsletter Opt In
+
     case newsletterOptInChanged
 
-    // Forgot Password
+    // MARK: - Forgot Password
+
     case forgotPasswordShown
     case forgotPasswordDismissed
 
-    // Account Updated View
+    // MARK: - Account Updated View
+
     case accountUpdatedShown
     case accountUpdatedDismissed
 
@@ -98,7 +117,8 @@ enum AnalyticsEvent: String {
     case statsShown
     case statsDismissed
     
-    // Folder
+    // MARK: - Folders
+
     case folderShown
     case folderCreateShown
     case folderPodcastPickerSearchPerformed
@@ -185,4 +205,50 @@ enum AnalyticsEvent: String {
     case starredMultiSelectEntered
     case starredSelectAllButtonTapped
     case starredMultiSelectExited
+
+    // MARK: - Playback
+
+    case play
+    case pause
+    case skipBack
+    case skipForward
+
+    // MARK: - Filters
+
+    case filterListShown
+    case filterListEditButtonToggled
+    case filterListReordered
+
+    case filterDeleted
+    case filterUpdated
+    case filterCreated
+
+    case filterShown
+
+    case filterMultiSelectEntered
+    case filterSelectAllButtonTapped
+    case filterMultiSelectExited
+
+    case filterOptionsButtonTapped
+    case filterOptionsModalOptionTapped
+    case filterSortByChanged
+    case filterEditDismissed
+
+    case filterSiriShortcutsShown
+    case filterSiriShortcutAdded
+    case filterSiriShortcutRemoved
+
+    // MARK: - Podcast screen
+
+    case podcastScreenShown
+    case podcastScreenFolderTapped
+    case podcastScreenSettingsTapped
+    case podcastScreenSubscribeTapped
+    case podcastScreenUnsubscribeTapped
+    case podcastScreenSearchPerformed
+    case podcastScreenSearchCleared
+    case podcastScreenOptionsTapped
+    case podcastScreenToggleArchived
+    case podcastScreenShareTapped
+    case podcastScreenToggleSummary
 }

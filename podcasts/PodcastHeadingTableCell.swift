@@ -366,6 +366,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         
         delegate.setSummaryExpanded(expanded: willBeExpanded)
         extraContentStackView.alpha = willBeExpanded ? 0 : 1
+
+        Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
+
         // on expand, wait a bit before fading in the content so it doesn't all squish
         if willBeExpanded {
             UIView.animate(withDuration: 0.2, delay: 0.10, options: [], animations: {

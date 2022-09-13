@@ -151,6 +151,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     static let headerSection = 0
     static let allEpisodesSection = 1
+
+    private var isSearching = false
     
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -250,6 +252,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
         
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
+
+        Analytics.track(.podcastScreenShown)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -347,6 +351,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
+        Analytics.track(.podcastScreenShareTapped)
     }
     
     private func loadPodcastInfo() {
@@ -506,6 +511,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             optionPicker.addAction(action: unsubscribeAction)
         }
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+
+        Analytics.track(.podcastScreenUnsubscribeTapped)
     }
     
     private func performUnsubscribe() {
@@ -530,6 +537,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let listId = listUuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
         }
+
+        Analytics.track(.podcastScreenSubscribeTapped)
     }
     
     func isSummaryExpanded() -> Bool {
@@ -574,6 +583,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let settingsController = PodcastSettingsViewController(podcast: podcast)
         settingsController.episodes = episodeInfo
         navigationController?.pushViewController(settingsController, animated: true)
+        Analytics.track(.podcastScreenSettingsTapped)
     }
     
     func manageSubscriptionTapped() {
@@ -602,6 +612,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
     
     func folderTapped() {
+        Analytics.track(.podcastScreenFolderTapped)
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
@@ -621,6 +632,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     func searchEpisodes(query: String) {
         performEpisodeSearch(query: query)
+        if !isSearching {
+            isSearching = true
+            Analytics.track(.podcastScreenSearchPerformed)
+        }
     }
     
     func clearSearch() {
@@ -628,6 +643,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         uuidsThatMatchSearch.removeAll()
         loadLocalEpisodes(podcast: podcast, animated: true)
+        isSearching = false
+        Analytics.track(.podcastScreenSearchCleared)
     }
     
     func toggleShowArchived() {
@@ -636,6 +653,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         podcast.showArchived = !podcast.showArchived
         DataManager.sharedManager.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
+
+        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
     }
     
     func showingArchived() -> Bool {
@@ -839,5 +858,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     
     func signingProcessCompleted() {
         navigationController?.popToViewController(self, animated: true)
+    }
+}
+
+// MARK: - Analytics
+
+extension PodcastViewController: PlaybackSource {
+    var playbackSource: String {
+        "podcast_screen"
     }
 }

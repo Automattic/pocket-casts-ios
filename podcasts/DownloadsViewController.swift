@@ -303,3 +303,11 @@ class DownloadsViewController: PCViewController {
         return downloadingList
     }
 }
+
+// MARK: - Analytics
+
+extension DownloadsViewController: PlaybackSource {
+    var playbackSource: String {
+        "downloads"
+    }
+}
