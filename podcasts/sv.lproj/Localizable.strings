@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-09-01 12:10:05+0000 */
+/* Translation-Revision-Date: 2022-09-12 17:21:36+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: sv_SE */
@@ -1498,7 +1498,7 @@
 "paid_podcast_next_episode_format" = "Nästa avsnitt %1$@";
 
 /* Informational label informing the user when the latest episode was released. '%1$@' is a placeholder for the latest release date. */
-"paid_podcast_release_frequency_format" = "Släpptes %1$@";
+"paid_podcast_release_frequency_format" = "Släpps %1$@";
 
 /* Prompt to get the user to sign in to see updates. This acts as the details message for a section. '
 ' is the new line character to cause a line wrap. */

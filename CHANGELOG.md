@@ -5,6 +5,9 @@
 7.22
 -----
 
+- Add "Launch App" lock screen widget for iOS 16 (#300)
+- Add "Now Playing" lock screen widget for iOS 16 (#229)
+- Add "Up Next" lock screen widget for iOS 16 (#231)
 - Fixed an issue where the timer screen would show wrong time when unlocking the phone (#211)
 - Fixed an issue where some podcasts won't play on iOS 16 (#213)
 - Fixed an issue where the plus pricing info wouldn't be updated on the account details view (#225)

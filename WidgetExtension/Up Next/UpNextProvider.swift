@@ -54,7 +54,7 @@ struct UpNextProvider: TimelineProvider {
             }
         }
         
-        return UpNextEntry(date: Date(), episodes: episodes, filterName: data.topFilterName, isPlaying: data.isPlaying)
+        return UpNextEntry(date: Date(), episodes: episodes, filterName: data.topFilterName, isPlaying: data.isPlaying, upNextEpisodesCount: data.upNextEpisodesCount)
     }
 }
 
