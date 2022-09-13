@@ -45,6 +45,7 @@ struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
 }
 
 // MARK: - Circular View
+
 @available(iOSApplicationExtension 16.0, *)
 struct UpNextCircularWidgetView: View {
     let entry: UpNextEntry
@@ -83,6 +84,7 @@ struct UpNextCircularWidgetView: View {
 }
 
 // MARK: - Rectangle View
+
 @available(iOSApplicationExtension 16.0, *)
 struct UpNextRectangularWidgetView: View {
     let entry: UpNextEntry
