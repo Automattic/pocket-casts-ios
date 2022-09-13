@@ -3126,13 +3126,10 @@
 "widgets_app_icon_name" = "Icon";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "Launch Pocket Casts";
+"widgets_app_icon_description" = "Quickly Launch Pocket Casts";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "See the number of podcasts on your Up Next queue.";
-
-/* Up Next Episode Lock Screen Widget Description */
-"widgets_up_next_episode_description" = "See the next episode that will play in your Up Next queue";
+"widgets_up_next_description" = "See the number of items in your Up Next queue or details about the next episode.";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "year";
