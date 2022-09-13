@@ -109,7 +109,7 @@ struct UpNextRectangularWidgetView: View {
                 HStack(alignment: .center) {
                     Image("up-next")
                         .resizable()
-                        .frame(width: 12.0, height: 12.0)
+                        .frame(width: 12, height: 12)
 
                     Text(L10n.upNext)
                         .font(.headline)
