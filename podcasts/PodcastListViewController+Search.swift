@@ -45,6 +45,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .titleAtoZ)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.titleAtoZ.analyticsDescription])
         }
         options.addAction(action: podcastNameAction)
         
@@ -53,6 +54,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .episodeDateNewestToOldest)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.episodeDateNewestToOldest.analyticsDescription])
         }
         options.addAction(action: releaseDateAction)
         
@@ -61,6 +63,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest.analyticsDescription])
         }
         options.addAction(action: subscribedOrder)
         
@@ -69,6 +72,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             
             Settings.setHomeFolderSortOrder(order: .custom)
             strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom.analyticsDescription])
         }
         options.addAction(action: dragAndDropAction)
         

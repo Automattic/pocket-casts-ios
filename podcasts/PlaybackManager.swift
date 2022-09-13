@@ -55,6 +55,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let playerCreateDestroyLock = NSObject()
     
     private let catchUpHelper = PlaybackCatchUpHelper()
+
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
     
     init() {
         queue = PlaybackQueue()
@@ -188,6 +190,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func play(completion: (() -> Void)? = nil) {
         guard let currEpisode = currentEpisode() else { return }
         
+        #if !os(watchOS)
+            analyticsPlaybackHelper.play()
+        #endif
+
         aboutToPlay.value = true
         
         if playerSwitchRequired() {
@@ -222,6 +228,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     
     func pause() {
         guard let episode = currentEpisode() else { return }
+
+        #if !os(watchOS)
+            analyticsPlaybackHelper.pause()
+        #endif
         
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
@@ -258,6 +268,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipBack(amount: TimeInterval) {
+        #if !os(watchOS)
+            analyticsPlaybackHelper.skipBack()
+        #endif
+
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
         seekTo(time: backTime)
@@ -269,6 +283,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipForward(amount: TimeInterval) {
+        #if !os(watchOS)
+            analyticsPlaybackHelper.skipForward()
+        #endif
+
         let forwardTime = min(currentTime() + amount, duration())
         seekTo(time: forwardTime)
         
@@ -1370,6 +1388,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
             
             FileLog.shared.addMessage("Remote control: togglePlayPauseCommand")
             strongSelf.playPause()
@@ -1379,6 +1399,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.pauseCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
             
             FileLog.shared.addMessage("Remote control: pauseCommand")
             strongSelf.pause()
@@ -1388,6 +1410,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
             
             if Settings.legacyBluetoothModeEnabled() {
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
@@ -1584,6 +1608,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                         return .success
                     }
                 }
+
+                self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
                 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipBack(amount: skipEvent.interval)
@@ -1612,6 +1638,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                         return .success
                     }
                 }
+
+                self.analyticsPlaybackHelper.currentSource = self.commandCenterSource
                 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipForward(amount: skipEvent.interval)
@@ -1841,4 +1869,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
     }
+
+    // MARK: - Analytics
+
+    private let commandCenterSource = "now_playing_widget"
 }
