@@ -442,6 +442,10 @@
 		8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */; };
 		8B317BA728906CC200A26A13 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA628906CC200A26A13 /* TestingViewController.swift */; };
 		8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B317BA82890704400A26A13 /* TestingScreen.storyboard */; };
+		8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */; };
+		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
+		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
+		8B71829128CF755D00B98F04 /* UpNextLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */; };
 		8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
 		8BA55A0E28CA46E4002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
 		8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */; };
@@ -1928,6 +1932,10 @@
 		8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
 		8B317BA628906CC200A26A13 /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
 		8B317BA82890704400A26A13 /* TestingScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestingScreen.storyboard; sourceTree = "<group>"; };
+		8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLockScreenWidget.swift; sourceTree = "<group>"; };
+		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
+		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
+		8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextLockScreenWidget.swift; sourceTree = "<group>"; };
 		8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelper.swift; sourceTree = "<group>"; };
 		8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelperTests.swift; sourceTree = "<group>"; };
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
@@ -3174,6 +3182,7 @@
 				BD422EC226840ECB0078B799 /* Data */,
 				BD422EBB26840D9B0078B799 /* Up Next */,
 				BD422EBA26840D960078B799 /* Now Playing */,
+				8B71828B28CF68D300B98F04 /* App Icon */,
 				4090979F25236BFD00CED68C /* WidgetExtension.entitlements */,
 				4090978525236B0400CED68C /* PocketCastsWidgetBundle.swift */,
 				4090975625235DFC00CED68C /* Assets.xcassets */,
@@ -3534,6 +3543,15 @@
 				8B317BA82890704400A26A13 /* TestingScreen.storyboard */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8B71828B28CF68D300B98F04 /* App Icon */ = {
+			isa = PBXGroup;
+			children = (
+				8B71828C28CF68E800B98F04 /* AppIconWidget.swift */,
+				8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */,
+			);
+			path = "App Icon";
 			sourceTree = "<group>";
 		};
 		8BA55A1128CA7404002BECC5 /* Extensions */ = {
@@ -4059,6 +4077,7 @@
 				BD422EBE26840DE20078B799 /* NowPlayingEntry.swift */,
 				4090978425236B0400CED68C /* NowPlayingWidget.swift */,
 				BD422EC026840E140078B799 /* NowPlayingEntryView.swift */,
+				8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */,
 			);
 			path = "Now Playing";
 			sourceTree = "<group>";
@@ -4076,6 +4095,7 @@
 				BD422ED126841BF10078B799 /* HungryForMoreView.swift */,
 				4090978225236B0300CED68C /* UpNextWidget.swift */,
 				BD422ED326841C340078B799 /* UpNextStyles.swift */,
+				8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */,
 			);
 			path = "Up Next";
 			sourceTree = "<group>";
@@ -6840,21 +6860,25 @@
 				BD422EBF26840DE20078B799 /* NowPlayingEntry.swift in Sources */,
 				BD422ECA2684195E0078B799 /* UpNextWidgetEntryView.swift in Sources */,
 				BD422EC426840EDD0078B799 /* WidgetData.swift in Sources */,
+				8B71829128CF755D00B98F04 /* UpNextLockScreenWidget.swift in Sources */,
 				BD422ED226841BF10078B799 /* HungryForMoreView.swift in Sources */,
 				4031466D252568970085E76B /* WidgetEpisode.swift in Sources */,
 				4075C2AE252C06DE001C280A /* ArtworkViews.swift in Sources */,
 				4036B05325240C1E00AE08E6 /* PocketCastsWidgetBundle.swift in Sources */,
 				BD422EBD26840DAD0078B799 /* NowPlayingProvider.swift in Sources */,
+				8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */,
 				461C46CF274D9E420003D3A9 /* LocalizationHelpers.swift in Sources */,
 				BD422ECE2684198B0078B799 /* UpNextLargeWidgetView.swift in Sources */,
 				BD422EC8268416050078B799 /* UpNextEntry.swift in Sources */,
 				467DF6EB26E10AFD00AC290C /* Strings+Generated.swift in Sources */,
 				4036B06E25240CC600AE08E6 /* SharedConstants.swift in Sources */,
 				467BB04726CC07C900A73BAF /* Constants.swift in Sources */,
+				8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */,
 				BD422ED026841BB40078B799 /* EpisodeView.swift in Sources */,
 				45791DE82834358200C55B68 /* CompactWhenNecessaryEpisodeView.swift in Sources */,
 				4036B06725240C2800AE08E6 /* NowPlayingWidget.swift in Sources */,
 				BD422ED426841C340078B799 /* UpNextStyles.swift in Sources */,
+				8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */,
 				BD422EC6268415830078B799 /* UpNextProvider.swift in Sources */,
 				BD422ECC268419820078B799 /* UpNextMediumWidgetView.swift in Sources */,
 				4036B05A25240C2200AE08E6 /* UpNextWidget.swift in Sources */,

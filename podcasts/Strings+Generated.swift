@@ -2536,6 +2536,10 @@ internal enum L10n {
   internal static var whatsNewPageTwo720: String { return L10n.tr("Localizable", "whats_new_page_two_7_20") }
   /// Home Grid Syncing
   internal static var whatsNewPageTwoTitle720: String { return L10n.tr("Localizable", "whats_new_page_two_title_7_20") }
+  /// Launch Pocket Casts
+  internal static var widgetsAppIconDescription: String { return L10n.tr("Localizable", "widgets_app_icon_description") }
+  /// Icon
+  internal static var widgetsAppIconName: String { return L10n.tr("Localizable", "widgets_app_icon_name") }
   /// Check out the Discover Tab
   internal static var widgetsDiscoverPromptMsg: String { return L10n.tr("Localizable", "widgets_discover_prompt_msg") }
   /// Ears hungry for more?
@@ -2544,6 +2548,10 @@ internal enum L10n {
   internal static var widgetsNothingPlaying: String { return L10n.tr("Localizable", "widgets_nothing_playing") }
   /// Quickly access the currently playing episode.
   internal static var widgetsNowPlayingDesc: String { return L10n.tr("Localizable", "widgets_now_playing_desc") }
+  /// Tap to Discover
+  internal static var widgetsNowPlayingTapDiscover: String { return L10n.tr("Localizable", "widgets_now_playing_tap_discover") }
+  /// See the number of podcasts on your Up Next queue.
+  internal static var widgetsUpNextDescription: String { return L10n.tr("Localizable", "widgets_up_next_description") }
   /// year
   internal static var year: String { return L10n.tr("Localizable", "year") }
   /// Yearly
