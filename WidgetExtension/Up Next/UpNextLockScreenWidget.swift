@@ -36,14 +36,6 @@ struct UpNextLockScreenWidgetEntryView: View {
     }
 }
 
-@available(iOSApplicationExtension 16.0, *)
-struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))
-            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
-    }
-}
-
 // MARK: - Circular View
 
 @available(iOSApplicationExtension 16.0, *)
@@ -139,5 +131,13 @@ struct UpNextRectangularWidgetView: View {
                     .foregroundColor(Color.secondary)
             }
         }.widgetURL(URL(string: widgetURL))
+    }
+}
+
+@available(iOSApplicationExtension 16.0, *)
+struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
+    static var previews: some View {
+        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))
+            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }
