@@ -10,6 +10,8 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private var loadingState = LoadingStatus.loading
     
     private var localOnly = !SyncManager.isUserLoggedIn()
+
+    let playbackTimeHelper = PlaybackTimeHelper()
     
     @IBOutlet var statsTable: UITableView! {
         didSet {
@@ -30,6 +32,16 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewWillAppear(animated)
         
         loadStats()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // If the user has listened to more than 2.5 hours the past 7 days
+        // we kindly request them to review the app
+        if playbackTimeHelper.playedUpToSumInLastSevenDays() > 2.5.hours {
+            requestReview()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
