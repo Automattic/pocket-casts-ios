@@ -174,7 +174,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDissapear()
+        refreshControl?.parentViewControllerDidDisappear()
     }
     
     override func handleThemeChanged() {

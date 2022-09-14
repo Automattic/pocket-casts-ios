@@ -147,8 +147,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDissapear()
-        noEpisodeRefreshControl?.parentViewControllerDidDissapear()
+        tableRefreshControl?.parentViewControllerDidDisappear()
+        noEpisodeRefreshControl?.parentViewControllerDidDisappear()
     }
     
     // MARK: - App Backgrounding
