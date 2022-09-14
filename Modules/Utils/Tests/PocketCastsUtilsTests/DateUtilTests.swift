@@ -19,4 +19,15 @@ final class DateUtilTests: XCTestCase {
         XCTAssertFalse(DateUtil.hasEnoughTimePassed(since: fiveMinutesAgo, time: 6.minutes))
         XCTAssertFalse(DateUtil.hasEnoughTimePassed(since: thirtySecondsAgo, time: 45.seconds))
     }
+
+    func testSevenDaysAgo() {
+        let isoDate = "2016-04-14T10:44:00+0000"
+        let dateFormatter = ISO8601DateFormatter()
+        let date = dateFormatter.date(from:isoDate)!
+
+        let sevenDaysAgo = date.sevenDaysAgo()
+
+        let sevenDaysAgoInStringFormat = dateFormatter.string(from: sevenDaysAgo!)
+        XCTAssertEqual(sevenDaysAgoInStringFormat, "2016-04-07T10:44:00Z")
+    }
 }
