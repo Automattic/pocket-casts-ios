@@ -20,7 +20,7 @@ class PlaybackTimeHelperTests: XCTestCase {
         dataManagerMock.episodesToReturn = [
             EpisodeBuilder()
                 .with(playedUpTo: 2.minutes)
-                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-1.minutes))
+                .with(lastPlaybackInteractionDate: .yesterday)
                 .build()
         ]
 
@@ -36,19 +36,18 @@ class PlaybackTimeHelperTests: XCTestCase {
             // These episodes were played in the last 7 days
             EpisodeBuilder()
                 .with(playedUpTo: 2.minutes)
-                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-1.minutes))
+                .with(lastPlaybackInteractionDate: .yesterday)
                 .build(),
 
             EpisodeBuilder()
                 .with(playedUpTo: 10.minutes)
-                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-2.minutes))
+                .with(lastPlaybackInteractionDate: .yesterday)
                 .build(),
 
             // This was played a month ago
-
             EpisodeBuilder()
                 .with(playedUpTo: 10.minutes)
-                .with(lastPlaybackInteractionDate: Calendar.current.date(byAdding: .month, value: -1, to: Date())!)
+                .with(lastPlaybackInteractionDate: .lastMonth)
                 .build()
         ]
 
@@ -87,5 +86,15 @@ class EpisodeBuilder {
 public extension Double {
     var minutes: TimeInterval {
         self * 60
+    }
+}
+
+extension Date {
+    static var yesterday: Date {
+        Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+    }
+
+    static var lastMonth: Date {
+        Calendar.current.date(byAdding: .month, value: -1, to: Date())!
     }
 }
