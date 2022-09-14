@@ -53,6 +53,6 @@ class PlaybackTimeHelperTests: XCTestCase {
 
         let playbackTime = playbackTimeHelper.playedUpToSumInLastSevenDays()
 
-        XCTAssertEqual(playbackTime, 22.minutes)
+        XCTAssertEqual(playbackTime, 12.minutes)
     }
 }
