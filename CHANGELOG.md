@@ -1,6 +1,7 @@
 7.23
 -----
 
+- Add a pull to refresh to the podcast list and profile vilew (#239)
 
 7.22
 -----
