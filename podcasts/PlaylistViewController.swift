@@ -204,8 +204,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDissapear()
-        noEpisodesRefreshControl?.parentViewControllerDidDissapear()
+        tableRefreshControl?.parentViewControllerDidDisappear()
+        noEpisodesRefreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
     }
     
@@ -272,16 +272,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         else {
             selectedRefreshControl = tableRefreshControl
         }
-        
-        guard let refreshControl = selectedRefreshControl else { return }
-        
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didPullDown(scrollAmount)
-        }
-        else if scrollAmount < 0 {
-            refreshControl.endRefreshing(false)
-        }
+
+        selectedRefreshControl?.scrollViewDidScroll(scrollView)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -293,13 +285,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         else {
             selectedRefreshControl = tableRefreshControl
         }
-        
-        guard let refreshControl = selectedRefreshControl else { return }
-        
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didEndDraggingAt(scrollAmount)
-        }
+
+        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
     }
     
     @objc func miniPlayerStatusDidChange() {
