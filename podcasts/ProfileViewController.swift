@@ -6,6 +6,8 @@ import UIKit
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
 
+    var refreshControl: PCRefreshControl?
+
     @IBOutlet var signedInView: ThemeableView! {
         didSet {
             signedInView.style = .primaryUi02
@@ -137,6 +139,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
+        setupRefreshControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,7 +152,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
+        refreshControl?.parentViewControllerDidAppear()
+
         addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshComplete))
         addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(handleDataChangedNotification))
         addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(handleDataChangedNotification))
@@ -169,6 +174,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
+        refreshControl?.parentViewControllerDidDissapear()
     }
     
     override func handleThemeChanged() {
@@ -475,5 +481,26 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 
     var displaySource: PlusUpgradeViewSource {
         .profile
+    }
+}
+
+// MARK: - Refresh Control
+
+extension ProfileViewController {
+    private func setupRefreshControl() {
+        guard let navController = navigationController else {
+            return
+        }
+
+        refreshControl = PCRefreshControl(scrollView: profileTable,
+                                          navBar: navController.navigationBar)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        refreshControl?.scrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        refreshControl?.scrollViewDidEndDragging(scrollView)
     }
 }
