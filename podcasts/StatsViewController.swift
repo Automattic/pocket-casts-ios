@@ -34,16 +34,6 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         loadStats()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // If the user has listened to more than 2.5 hours the past 7 days
-        // we kindly request them to review the app
-        if playbackTimeHelper.playedUpToSumInLastSevenDays() > 2.5.hours {
-            requestReview()
-        }
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         Analytics.track(.statsDismissed)
@@ -166,15 +156,16 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if localOnly {
             loadingState = LoadingStatus.loaded
             statsTable.reloadData()
-            
+
             return
         }
         
         loadingState = LoadingStatus.loading
         StatsManager.shared.loadRemoteStats { success in
             self.loadingState = success ? .loaded : .failed
-            DispatchQueue.main.async {
-                self.statsTable.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.statsTable.reloadData()
+                self?.requestReviewIfPossible()
             }
         }
     }
@@ -237,5 +228,18 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard mins > 0 else { return nil }
         let components = DateComponents(calendar: Calendar.current, minute: mins, second: secs)
         return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short)?.replacingOccurrences(of: ",", with: "")
+    }
+
+    private func requestReviewIfPossible() {
+        // If the user has listened to more than 2.5 hours the past 7 days
+        // And has been using the app for more than a week
+        // we kindly request them to review the app
+        if playbackTimeHelper.playedUpToSumInLastSevenDays() > 2.5.hours,
+           StatsManager.shared.statsStartedAt() > 0,
+           let lastWeek = Date().sevenDaysAgo(),
+           Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt())) < lastWeek
+        {
+            requestReview()
+        }
     }
 }
