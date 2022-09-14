@@ -9,7 +9,7 @@ class PlaybackTimeHelperTests: XCTestCase {
         let playbackTimeHelper = PlaybackTimeHelper(dataManager: dataManagerMock)
         dataManagerMock.episodesToReturn = []
 
-        let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInSeconds()
+        let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInMinutes()
 
         XCTAssertEqual(playbackTime, 0)
     }
@@ -24,7 +24,7 @@ class PlaybackTimeHelperTests: XCTestCase {
                 .build()
         ]
 
-        let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInSeconds()
+        let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInMinutes()
 
         XCTAssertEqual(playbackTime, 2)
     }
