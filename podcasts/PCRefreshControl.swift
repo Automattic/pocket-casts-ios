@@ -281,7 +281,15 @@ private extension PCRefreshControl {
     }
 
     func calculatePullDownAmount() {
-        let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
+        var amount = RefreshDefaults.pullDownAmount
+
+        if searchBar != nil {
+            amount += viewHeight
+        }
+
+        pullDownAmountForRefresh = amount
+    }
+}
 
 // MARK: - Scroll Handling
 
