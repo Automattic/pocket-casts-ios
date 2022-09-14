@@ -368,30 +368,4 @@ extension PodcastListViewController {
                                           navBar: navController.navigationBar,
                                           searchBar: searchController)
     }
-    
-    func refreshControlDidScroll(_ scrollView: UIScrollView) {
-        guard let refreshControl = refreshControl else {
-            return
-        }
-        
-        //
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didPullDown(scrollAmount)
-        }
-        else if scrollAmount < 0 {
-            refreshControl.endRefreshing(false)
-        }
-    }
-
-    func refreshControlDidEndDragging(_ scrollView: UIScrollView) {
-        guard let refreshControl = refreshControl else {
-            return
-        }
-
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didEndDraggingAt(scrollAmount)
-        }
-    }
 }
