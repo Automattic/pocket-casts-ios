@@ -25,7 +25,7 @@ final class DateUtilTests: XCTestCase {
     func testSevenDaysAgo() {
         let isoDate = "2016-04-14T10:44:00+0000"
         let dateFormatter = ISO8601DateFormatter()
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from: isoDate)!
 
         let sevenDaysAgo = date.sevenDaysAgo()
 

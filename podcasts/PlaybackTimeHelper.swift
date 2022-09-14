@@ -16,7 +16,7 @@ struct PlaybackTimeHelper {
 
         let date = Date()
         let sevenDaysAgo = date.sevenDaysAgo() ?? date
-        let lastSevenDays = sevenDaysAgo...date
+        let lastSevenDays = sevenDaysAgo ... date
 
         var totalPlaytime: Double = 0
         for episode in last1000EpisodesPlayed {
@@ -25,7 +25,8 @@ struct PlaybackTimeHelper {
             // Is the last interaction withing the last 7 days?
             if lastSevenDays.contains(lastPlaybackInteractionDate) {
                 totalPlaytime += episode.playedUpTo
-            } else {
+            }
+            else {
                 break
             }
         }
