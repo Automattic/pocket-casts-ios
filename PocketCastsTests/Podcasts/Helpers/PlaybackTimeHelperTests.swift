@@ -19,14 +19,14 @@ class PlaybackTimeHelperTests: XCTestCase {
         let playbackTimeHelper = PlaybackTimeHelper(dataManager: dataManagerMock)
         dataManagerMock.episodesToReturn = [
             EpisodeBuilder()
-                .with(playedUpTo: 120)
-                .with(lastPlaybackInteractionDate: Date())
+                .with(playedUpTo: 2.minutes)
+                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-1.minutes))
                 .build()
         ]
 
         let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInMinutes()
 
-        XCTAssertEqual(playbackTime, 2)
+        XCTAssertEqual(playbackTime, 2.minutes)
     }
 
     func testLastSevenDaysPlaytimeWhenPlayedMultipleEpisodes() {
@@ -35,26 +35,26 @@ class PlaybackTimeHelperTests: XCTestCase {
         dataManagerMock.episodesToReturn = [
             // These episodes were played in the last 7 days
             EpisodeBuilder()
-                .with(playedUpTo: 120)
-                .with(lastPlaybackInteractionDate: Date())
+                .with(playedUpTo: 2.minutes)
+                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-1.minutes))
                 .build(),
 
             EpisodeBuilder()
-                .with(playedUpTo: 1200)
-                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-5000))
+                .with(playedUpTo: 10.minutes)
+                .with(lastPlaybackInteractionDate: Date().addingTimeInterval(-2.minutes))
                 .build(),
 
             // This was played a month ago
 
             EpisodeBuilder()
-                .with(playedUpTo: 1200)
+                .with(playedUpTo: 10.minutes)
                 .with(lastPlaybackInteractionDate: Calendar.current.date(byAdding: .month, value: -1, to: Date())!)
                 .build()
         ]
 
         let playbackTime = playbackTimeHelper.playtimeLastSevenDaysInMinutes()
 
-        XCTAssertEqual(playbackTime, 22)
+        XCTAssertEqual(playbackTime, 22.minutes)
     }
 }
 
@@ -81,5 +81,11 @@ class EpisodeBuilder {
 
     func build() -> Episode {
         episode
+    }
+}
+
+public extension Double {
+    var minutes: TimeInterval {
+        self * 60
     }
 }

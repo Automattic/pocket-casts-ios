@@ -30,6 +30,6 @@ struct PlaybackTimeHelper {
             }
         }
 
-        return totalPlaytime / 60
+        return totalPlaytime
     }
 }
