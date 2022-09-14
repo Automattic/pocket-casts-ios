@@ -55,19 +55,19 @@ class PCRefreshControl: UIView {
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 45).isActive = true
+        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
         
         refreshInnerImage.image = UIImage(named: "refresh_inner")
         addSubview(refreshInnerImage)
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         
         refreshOuterImage.image = UIImage(named: "refresh_outer")
         addSubview(refreshOuterImage)
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
 
         // Recalculate some values
         // We recalculate the view height after we set the constraints so the UI appears at the bottom of the view
