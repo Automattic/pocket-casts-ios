@@ -11,7 +11,7 @@ struct PlaybackTimeHelper {
     /// It just looks at the played podcasts in the last 7 days and sums their
     /// total played up to time.
     /// This is not accurate but give us enough info to target users active in the last 7 days
-    func playtimeLastSevenDaysInMinutes() -> Double {
+    func playtimeLastSevenDaysInSeconds() -> Double {
         let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
 
         let last1000EpisodesPlayed = dataManager.findEpisodesWhere(customWhere: query, arguments: nil)
