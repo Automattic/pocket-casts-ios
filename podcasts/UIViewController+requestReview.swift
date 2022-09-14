@@ -2,6 +2,8 @@ import UIKit
 import StoreKit
 
 extension UIViewController {
+    /// Request a App Store review from the user
+    /// Right now, this method only allow requesting it once per user
     func requestReview() {
         guard Settings.reviewRequestDates().count == 0 else { return }
 
