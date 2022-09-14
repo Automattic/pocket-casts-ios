@@ -8,8 +8,8 @@ class PCRefreshControl: UIView {
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
     
-    private var pullDownAmountForRefresh = RefreshDefaults.viewHeight
-    private var viewHeight = RefreshDefaults.pullDownAmount
+    private var pullDownAmountForRefresh = RefreshDefaults.pullDownAmount
+    private var viewHeight = RefreshDefaults.viewHeight
     
     private let innerStartingAngle = -90 as CGFloat
     private let innerEndingAngle = 90 as CGFloat
@@ -163,11 +163,13 @@ class PCRefreshControl: UIView {
 
     /// Reset the height offset when the bounds of the view are set if needed
     private func resetOffsetOnBoundsChangeIfNeeded() {
-        if searchBar != nil || refreshing {
+        if searchBar != nil {
             return
         }
 
-        resetOffset()
+        if !refreshing {
+            resetOffset()
+        }
     }
     
     // MARK: - Animation
@@ -281,6 +283,23 @@ private extension PCRefreshControl {
     func calculatePullDownAmount() {
         let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
 
-        pullDownAmountForRefresh = RefreshDefaults.viewHeight + viewHeight
+// MARK: - Scroll Handling
+
+extension PCRefreshControl {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollAmount = -scrollView.contentOffset.y
+        if scrollAmount > 0 {
+            didPullDown(scrollAmount)
+        }
+        else if scrollAmount < 0 {
+            endRefreshing(false)
+        }
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView) {
+        let scrollAmount = -scrollView.contentOffset.y
+        if scrollAmount > 0 {
+            didEndDraggingAt(scrollAmount)
+        }
     }
 }
