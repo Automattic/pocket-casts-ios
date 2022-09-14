@@ -253,5 +253,6 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleSummary
 
     // MARK: - App Store Review Request
+
     case appStoreReviewRequested
 }
