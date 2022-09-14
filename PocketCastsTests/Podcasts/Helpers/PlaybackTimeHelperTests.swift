@@ -56,11 +56,3 @@ class PlaybackTimeHelperTests: XCTestCase {
         XCTAssertEqual(playbackTime, 22.minutes)
     }
 }
-
-class DataManagerMock: DataManager {
-    var episodesToReturn: [Episode] = []
-
-    override func findEpisodesWhere(customWhere: String, arguments: [Any]?) -> [Episode] {
-        return episodesToReturn
-    }
-}
