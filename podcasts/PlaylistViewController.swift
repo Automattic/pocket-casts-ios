@@ -204,8 +204,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDissapear()
-        noEpisodesRefreshControl?.parentViewControllerDidDissapear()
+        tableRefreshControl?.parentViewControllerDidDisappear()
+        noEpisodesRefreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
     }
     

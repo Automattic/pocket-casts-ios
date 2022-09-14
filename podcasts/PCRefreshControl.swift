@@ -84,7 +84,7 @@ class PCRefreshControl: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func parentViewControllerDidDissapear() {
+    func parentViewControllerDidDisappear() {
         parentViewVisible = false
         
         let notifCenter = NotificationCenter.default

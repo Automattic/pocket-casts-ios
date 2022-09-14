@@ -126,7 +126,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        refreshControl?.parentViewControllerDidDissapear()
+        refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
     }
