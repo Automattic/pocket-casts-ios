@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/freddi-kit/fastlane.git
-  revision: 38f23ee3775e0fdf62c5aee013c6bc9842223ba9
+  remote: https://github.com/leandroalonso/fastlane.git
+  revision: a2ea2fbd6fafce6b38af1dc35b68df63b50fdc1d
   branch: altool-upload
   specs:
     fastlane (2.209.1)
