@@ -82,9 +82,3 @@ class EpisodeBuilder {
         episode
     }
 }
-
-public extension Double {
-    var minutes: TimeInterval {
-        self * 60
-    }
-}
