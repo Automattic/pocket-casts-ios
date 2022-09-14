@@ -70,7 +70,8 @@ class PCRefreshControl: UIView {
         refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
 
         // Recalculate some values
-        // We recalculate the view height after we set the constraints so the UI appears at the bottom of the view
+        // We recalculate the view height after we set the constraints so the UI gets pinned to the bottom of the view
+        // if the height expands
         calculateViewHeight()
         calculatePullDownAmount()
     }
