@@ -147,8 +147,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDissapear()
-        noEpisodeRefreshControl?.parentViewControllerDidDissapear()
+        tableRefreshControl?.parentViewControllerDidDisappear()
+        noEpisodeRefreshControl?.parentViewControllerDidDisappear()
     }
     
     // MARK: - App Backgrounding
@@ -344,16 +344,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         else {
             selectedRefreshControl = tableRefreshControl
         }
-        
-        guard let refreshControl = selectedRefreshControl else { return }
-        
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didPullDown(scrollAmount)
-        }
-        else if scrollAmount < 0 {
-            refreshControl.endRefreshing(false)
-        }
+
+        selectedRefreshControl?.scrollViewDidScroll(scrollView)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -364,13 +356,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         else {
             selectedRefreshControl = tableRefreshControl
         }
-        
-        guard let refreshControl = selectedRefreshControl else { return }
-        
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            refreshControl.didEndDraggingAt(scrollAmount)
-        }
+
+        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
     }
     
     override func handleThemeChanged() {

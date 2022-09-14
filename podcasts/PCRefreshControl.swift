@@ -8,35 +8,35 @@ class PCRefreshControl: UIView {
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
     
-    private let pullDownAmountForRefresh = 80 as CGFloat
-    private let viewHeight = 80 as CGFloat
+    private var pullDownAmountForRefresh = RefreshDefaults.pullDownAmount
+    private var viewHeight = RefreshDefaults.viewHeight
     
     private let innerStartingAngle = -90 as CGFloat
     private let innerEndingAngle = 90 as CGFloat
-    
-    private weak var scrollView: UIScrollView?
-    private weak var navBar: UINavigationBar?
     private var innerRotationAngle = 0 as CGFloat
     private var outerRotationAngle = 0 as CGFloat
-    
+
+    private weak var scrollView: UIScrollView?
+    private weak var searchBar: PCSearchBarController?
+    private weak var navBar: UINavigationBar?
+
     var parentViewVisible = false
     
     override var bounds: CGRect {
         didSet {
-            if !refreshing {
-                resetOffset()
-            }
+            resetOffsetOnBoundsChangeIfNeeded()
         }
     }
-    
-    @objc init(scrollView: UIScrollView, navBar: UINavigationBar) {
+
+    init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil) {
         super.init(frame: CGRect.zero)
         
         clipsToBounds = true
         backgroundColor = UIColor.clear
         self.scrollView = scrollView
         self.navBar = navBar
-        
+        self.searchBar = searchBar
+
         scrollView.addSubview(self)
         translatesAutoresizingMaskIntoConstraints = false
         leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
@@ -55,19 +55,25 @@ class PCRefreshControl: UIView {
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 45).isActive = true
+        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
         
         refreshInnerImage.image = UIImage(named: "refresh_inner")
         addSubview(refreshInnerImage)
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         
         refreshOuterImage.image = UIImage(named: "refresh_outer")
         addSubview(refreshOuterImage)
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+
+        // Recalculate some values
+        // We recalculate the view height after we set the constraints so the UI gets pinned to the bottom of the view
+        // if the height expands
+        calculateViewHeight()
+        calculatePullDownAmount()
     }
     
     deinit {
@@ -79,7 +85,7 @@ class PCRefreshControl: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func parentViewControllerDidDissapear() {
+    func parentViewControllerDidDisappear() {
         parentViewVisible = false
         
         let notifCenter = NotificationCenter.default
@@ -147,8 +153,23 @@ class PCRefreshControl: UIView {
     }
     
     func resetOffset() {
-        if let scrollView = scrollView {
-            scrollView.contentInset = UIEdgeInsets(top: 0, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
+        guard let scrollView = scrollView else {
+            return
+        }
+
+        // After refreshing we'll reset the top offer to the height of the search bar if it's available
+        let topOffset = searchBar != nil ? PCSearchBarController.defaultHeight : 0
+        scrollView.contentInset = UIEdgeInsets(top: topOffset, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
+    }
+
+    /// Reset the height offset when the bounds of the view are set if needed
+    private func resetOffsetOnBoundsChangeIfNeeded() {
+        if searchBar != nil {
+            return
+        }
+
+        if !refreshing {
+            resetOffset()
         }
     }
     
@@ -244,5 +265,50 @@ class PCRefreshControl: UIView {
     
     @objc func refreshEndTimerFired() {
         endRefreshing(parentViewVisible)
+    }
+
+    private enum RefreshDefaults {
+        static let viewHeight: CGFloat = 80
+        static let pullDownAmount: CGFloat = 80
+    }
+}
+
+// MARK: - Calculations
+
+private extension PCRefreshControl {
+    func calculateViewHeight() {
+        let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
+        viewHeight = RefreshDefaults.viewHeight + searchHeight
+    }
+
+    func calculatePullDownAmount() {
+        var amount = RefreshDefaults.pullDownAmount
+
+        if searchBar != nil {
+            amount += viewHeight
+        }
+
+        pullDownAmountForRefresh = amount
+    }
+}
+
+// MARK: - Scroll Handling
+
+extension PCRefreshControl {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollAmount = -scrollView.contentOffset.y
+        if scrollAmount > 0 {
+            didPullDown(scrollAmount)
+        }
+        else if scrollAmount < 0 {
+            endRefreshing(false)
+        }
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView) {
+        let scrollAmount = -scrollView.contentOffset.y
+        if scrollAmount > 0 {
+            didEndDraggingAt(scrollAmount)
+        }
     }
 }

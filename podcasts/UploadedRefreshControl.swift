@@ -10,7 +10,7 @@ class UploadedRefreshControl: PCRefreshControl {
         notifCenter.addObserver(self, selector: #selector(userEpisodestRefreshFailed), name: ServerNotifications.userEpisodesRefreshFailed, object: nil)
     }
     
-    override func parentViewControllerDidDissapear() {
+    override func parentViewControllerDidDisappear() {
         parentViewVisible = false
         
         let notifCenter = NotificationCenter.default

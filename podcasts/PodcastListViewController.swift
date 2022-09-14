@@ -5,7 +5,8 @@ import UIKit
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
-    
+    var refreshControl: PCRefreshControl?
+
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
@@ -70,7 +71,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         
         title = L10n.podcastsPlural
         setupSearchBar()
-        
+        setupRefreshControl()
+                
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
@@ -80,7 +82,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
+        refreshControl?.parentViewControllerDidAppear()
+
         miniPlayerStatusDidChange()
         refreshGridItems()
         addEventObservers()
@@ -122,7 +126,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
     }
@@ -349,5 +353,19 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         options.addAction(action: unplayedCountAction)
         
         options.show(statusBarStyle: preferredStatusBarStyle)
+    }
+}
+
+// MARK: - Refresh Control
+
+extension PodcastListViewController {
+    private func setupRefreshControl() {
+        guard let navController = navigationController else {
+            return
+        }
+        
+        refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
+                                          navBar: navController.navigationBar,
+                                          searchBar: searchController)
     }
 }
