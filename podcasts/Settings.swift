@@ -651,6 +651,18 @@ class Settings: NSObject {
         
         return isEnabled
     }
+
+    // MARK: - App Store Review Requests
+
+    class func addReviewRequested() {
+        var reviewRequestDates = Self.reviewRequestDates()
+        reviewRequestDates.append(Date())
+        UserDefaults.standard.set(reviewRequestDates, forKey: Constants.UserDefaults.reviewRequestDates)
+    }
+
+    class func reviewRequestDates() -> [Date] {
+        UserDefaults.standard.array(forKey: Constants.UserDefaults.reviewRequestDates) as? [Date] ?? [Date]()
+    }
     
     // MARK: - Variables that are loaded/changed through Firebase
     
