@@ -22,7 +22,7 @@ struct PlaybackTimeHelper {
         for episode in last1000EpisodesPlayed {
             guard let lastPlaybackInteractionDate = episode.lastPlaybackInteractionDate else { continue }
 
-            // Is the last interaction withing the last 7 days?
+            // Is the last interaction within the last 7 days?
             if lastSevenDays.contains(lastPlaybackInteractionDate) {
                 totalPlaytime += episode.playedUpTo
             }
