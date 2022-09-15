@@ -3262,15 +3262,10 @@
 		45ECEF7C27E910E300C65030 /* PocketCastsTests */ = {
 			isa = PBXGroup;
 			children = (
-				C7D854F128ADD97700877E87 /* Analytics */,
 				8BA55A1128CA7404002BECC5 /* Extensions */,
 				8B317BA128906C7400A26A13 /* Helpers */,
 				8BF0BBD72891AFA8006BBECF /* Mocks */,
-				8BF0BBCF28918B36006BBECF /* Podcasts */,
-				8BF1C61B2881F049007E80BF /* Folders */,
-				2F63CE9428809E5A00A34B51 /* ThemeTests.swift */,
-				45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */,
-				C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */,
+				8B47542C28D36D5800BC89F7 /* Tests */,
 				3FB86431288968A1003A86BE /* UnitTests.xctestplan */,
 			);
 			path = PocketCastsTests;
@@ -3557,6 +3552,19 @@
 				8B317BA82890704400A26A13 /* TestingScreen.storyboard */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8B47542C28D36D5800BC89F7 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C7D854F128ADD97700877E87 /* Analytics */,
+				8BF0BBCF28918B36006BBECF /* Podcasts */,
+				8BF1C61B2881F049007E80BF /* Folders */,
+				2F63CE9428809E5A00A34B51 /* ThemeTests.swift */,
+				45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */,
+				C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		8B71828B28CF68D300B98F04 /* App Icon */ = {
