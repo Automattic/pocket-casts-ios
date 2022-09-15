@@ -1,4 +1,16 @@
-# Pocket Casts iOS
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/7040243/190481901-1b47101c-da98-400f-b92b-bca9e66f4c8c.svg" />
+</p>
+
+<p align="center">
+    <a href="https://buildkite.com/automattic/pocket-casts-ios"><img src="https://badge.buildkite.com/6c995de3d1584006341cc4dfda1312619f375385f5c0319dfe.svg?branch=trunk" /></a>
+    <a href="https://github.com/Automattic/pocket-casts-ios/blob/trunk/LICENSE.md"><img src="https://img.shields.io/badge/license-MPL-black" /></a>
+    <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
+</p>
+
+<p align="center">
+    Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners.
+</p>
 
 ## Setup
 
