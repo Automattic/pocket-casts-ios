@@ -8,6 +8,8 @@
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
 </p>
 
+Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners.
+
 ## Setup
 
 If you don't already have it, you need to install Bundler:
