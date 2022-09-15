@@ -17,7 +17,7 @@ extension UIViewController {
             {
                 SKStoreReviewController.requestReview(in: windowScene)
                 Settings.addReviewRequested()
-                Analytics.track(.appStoreReviewRequested, properties: ["from": NSStringFromClass(self.classForCoder)])
+                Analytics.track(.appStoreReviewRequested, properties: ["source": NSStringFromClass(self.classForCoder)])
             }
         }
     }
