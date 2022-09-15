@@ -136,6 +136,8 @@ struct Constants {
         static let themeKey = "theme"
 
         static let lastRunVersion = "lastRunVersion"
+
+        static let reviewRequestDates = "reviewRequestDates"
     }
     
     enum Values {
