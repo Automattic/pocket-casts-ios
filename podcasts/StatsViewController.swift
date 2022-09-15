@@ -239,7 +239,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
            let lastWeek = Date().sevenDaysAgo(),
            Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt())) < lastWeek
         {
-            requestReview()
+            requestReview(delay: 1)
         }
     }
 }
