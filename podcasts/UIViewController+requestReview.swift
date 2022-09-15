@@ -9,9 +9,9 @@ extension UIViewController {
 
         Task { @MainActor [weak self] in
             guard let self else { return }
-            // Delay for two seconds to avoid interrupting the person using the app.
+            // Delay for one second to avoid interrupting the person using the app.
             // Use the equation n * 10^9 to convert seconds to nanoseconds.
-            try? await Task.sleep(nanoseconds: UInt64(2e9))
+            try? await Task.sleep(nanoseconds: UInt64(1e9))
             if let windowScene = self.view.window?.windowScene,
                self.navigationController?.topViewController == self
             {
