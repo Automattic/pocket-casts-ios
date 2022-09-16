@@ -3379,6 +3379,12 @@
 /* Title for page two of the 7.20 what's new dialog. */
 "whats_new_page_two_title_7_20" = "主畫面網格同步";
 
+/* Description of a widget to launch the app */
+"widgets_app_icon_description" = "";
+
+/* Title of a widget that displays the app icon */
+"widgets_app_icon_name" = "";
+
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "查看「探索」分頁";
 
@@ -3390,6 +3396,12 @@
 
 /* Description for the now playing widget. */
 "widgets_now_playing_desc" = "快速存取目前正在播放的單集。";
+
+/* Call to action for a tap on a widget to open the Discover tab. */
+"widgets_now_playing_tap_discover" = "";
+
+/* Up Next Lock Screen Widget description */
+"widgets_up_next_description" = "";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "年";
