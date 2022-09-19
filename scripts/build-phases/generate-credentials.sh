@@ -42,6 +42,5 @@ else
     ## Copy private GoogleService-Info.plist
     ##
     echo ">> Copying Firebase Credentials from ${FIREBASE_SECRETS_PATH}"
-    cp -v "$FIREBASE_SECRETS_PATH" "$FIREBASE_OUTPUT_PATH"
-    sync -f ${FIREBASE_OUTPUT_PATH}
+    echo $(<${FIREBASE_SECRETS_PATH}) > "${FIREBASE_OUTPUT_PATH}"
 fi
