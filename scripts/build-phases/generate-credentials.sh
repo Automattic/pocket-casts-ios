@@ -39,6 +39,11 @@ else
     echo ">> Generating Credentials ${CREDS_OUTPUT_PATH}"
     ruby ${SCRIPT_PATH} -i ${CREDS_INPUT_PATH} -s ${SECRETS_PATH} > "${CREDS_OUTPUT_PATH}"
 
+    if [ ! -f $FIREBASE_SECRETS_PATH ]; then
+        echo "error: $FIREBASE_SECRETS_PATH not found! Please run \`bundle exec fastlane run configure_apply\`."
+        exit 1
+    fi
+
     ## Copy private GoogleService-Info.plist
     ##
     echo ">> Copying Firebase Credentials from ${FIREBASE_SECRETS_PATH}"
