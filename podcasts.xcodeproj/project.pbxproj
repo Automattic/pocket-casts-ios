@@ -6722,6 +6722,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Credentials/replace_secrets.rb",
+				"$(SRCROOT)/GoogleService-Info.plist",
 			);
 			name = GenerateCredentials;
 			outputFileListPaths = (
