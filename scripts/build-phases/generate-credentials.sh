@@ -7,6 +7,7 @@ SCRIPT_PATH=${SOURCE_ROOT}/podcasts/Credentials/replace_secrets.rb
 
 CREDS_INPUT_PATH=${SOURCE_ROOT}/podcasts/Credentials/ApiCredentials.tpl
 LOCAL_SECRETS_FILE="${SRCROOT}/podcasts/Credentials/LocalApiCredentials.swift"
+LOCAL_FIREBASE_PLIST="${SRCROOT}/podcasts/Credentials/mock-GoogleService-Info.plist"
 CREDS_OUTPUT_PATH=${DERIVED_PATH}/ApiCredentials.swift
 
 FIREBASE_INPUT_PATH=~/.mobile-secrets/iOS/pocket-casts/GoogleService-Info.plist
@@ -17,6 +18,8 @@ if [ -f "$LOCAL_SECRETS_FILE" ]; then
     echo "warning: Using local Secrets from $LOCAL_SECRETS_FILE. If you are an external contributor, this is expected and you can ignore this warning. If you are an internal contributor, make sure to use our shared credentials instead."
     echo "Applying Local Secrets"
     cp -v "$LOCAL_SECRETS_FILE" "${CREDS_OUTPUT_PATH}"
+    echo "Copying mock GoogleService-Info.plist"
+    cp -v "$LOCAL_FIREBASE_PLIST" "$FIREBASE_OUTPUT_PATH"
     exit 0
 fi
 
