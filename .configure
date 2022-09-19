@@ -22,6 +22,11 @@
       "file": "shared/google_cloud_keys.json",
       "destination": "~/.configure/pocketcasts-ios/secrets/google_cloud_keys.json",
       "encrypt": true
+    },
+    {
+      "file": "iOS/pocket-casts/GoogleService-Info.plist",
+      "destination": "~/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist",
+      "encrypt": true
     }
   ],
   "file_dependencies": [
