@@ -18,7 +18,7 @@ if [ -f "$LOCAL_SECRETS_FILE" ]; then
     echo "Applying Local Secrets"
     cp -v "$LOCAL_SECRETS_FILE" "${CREDS_OUTPUT_PATH}"
     echo "Copying mock GoogleService-Info.plist"
-    cp -v "$LOCAL_FIREBASE_PLIST" "$FIREBASE_OUTPUT_PATH"
+    echo $(<${LOCAL_FIREBASE_PLIST}) > "${FIREBASE_OUTPUT_PATH}"
     exit 0
 fi
 
