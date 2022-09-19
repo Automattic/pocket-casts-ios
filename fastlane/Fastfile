@@ -80,8 +80,6 @@ platform :ios do
   lane :test do
     load_ci_spm_cache
 
-    configure_apply
-
     run_tests(scheme: 'pocketcasts')
 
     save_ci_spm_cache
