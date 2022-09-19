@@ -6728,6 +6728,7 @@
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/../DerivedSources/ApiCredentials.swift",
+				"$(BUILD_DIR)/podcasts/GoogleService-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -9,6 +9,9 @@ CREDS_INPUT_PATH=${SOURCE_ROOT}/podcasts/Credentials/ApiCredentials.tpl
 LOCAL_SECRETS_FILE="${SRCROOT}/podcasts/Credentials/LocalApiCredentials.swift"
 CREDS_OUTPUT_PATH=${DERIVED_PATH}/ApiCredentials.swift
 
+FIREBASE_INPUT_PATH=~/.mobile-secrets/iOS/pocket-casts/GoogleService-Info.plist
+FIREBASE_OUTPUT_PATH=${SOURCE_ROOT}/podcasts/GoogleService-Info.plist
+
 # If the developer has a local secrets file, use it
 if [ -f "$LOCAL_SECRETS_FILE" ]; then
     echo "warning: Using local Secrets from $LOCAL_SECRETS_FILE. If you are an external contributor, this is expected and you can ignore this warning. If you are an internal contributor, make sure to use our shared credentials instead."
@@ -33,4 +36,8 @@ else
     ##
     echo ">> Generating Credentials ${CREDS_OUTPUT_PATH}"
     ruby ${SCRIPT_PATH} -i ${CREDS_INPUT_PATH} -s ${SECRETS_PATH} > "${CREDS_OUTPUT_PATH}"
+
+    ## Copy private GoogleService-Info.plist
+    ##
+    cp -v "$FIREBASE_INPUT_PATH" "$FIREBASE_OUTPUT_PATH"
 fi
