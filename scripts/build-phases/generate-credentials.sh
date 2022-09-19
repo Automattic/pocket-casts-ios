@@ -10,7 +10,6 @@ LOCAL_SECRETS_FILE="${SRCROOT}/podcasts/Credentials/LocalApiCredentials.swift"
 LOCAL_FIREBASE_PLIST="${SRCROOT}/podcasts/Credentials/mock-GoogleService-Info.plist"
 CREDS_OUTPUT_PATH=${DERIVED_PATH}/ApiCredentials.swift
 
-FIREBASE_INPUT_PATH=~/.mobile-secrets/iOS/pocket-casts/GoogleService-Info.plist
 FIREBASE_OUTPUT_PATH=${SOURCE_ROOT}/podcasts/GoogleService-Info.plist
 
 # If the developer has a local secrets file, use it
@@ -42,5 +41,6 @@ else
 
     ## Copy private GoogleService-Info.plist
     ##
-    cp -v "$FIREBASE_INPUT_PATH" "$FIREBASE_OUTPUT_PATH"
+    echo ">> Copying Firebase Credentials from ${FIREBASE_SECRETS_PATH}"
+    cp -v "$FIREBASE_SECRETS_PATH" "$FIREBASE_OUTPUT_PATH"
 fi
