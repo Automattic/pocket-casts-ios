@@ -10,7 +10,7 @@ LOCAL_SECRETS_FILE="${SRCROOT}/podcasts/Credentials/LocalApiCredentials.swift"
 LOCAL_FIREBASE_PLIST="${SRCROOT}/podcasts/Credentials/mock-GoogleService-Info.plist"
 CREDS_OUTPUT_PATH=${DERIVED_PATH}/ApiCredentials.swift
 
-FIREBASE_OUTPUT_PATH=${SOURCE_ROOT}/podcasts/GoogleService-Info.plist
+FIREBASE_OUTPUT_PATH=${DERIVED_PATH}/GoogleService-Info.plist
 
 # If the developer has a local secrets file, use it
 if [ -f "$LOCAL_SECRETS_FILE" ]; then
