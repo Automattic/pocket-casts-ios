@@ -437,6 +437,11 @@
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
+		8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B317BA028906A8900A26A13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317B9F28906A8900A26A13 /* main.swift */; };
 		8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */; };
 		8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */; };
@@ -617,11 +622,6 @@
 		BD240C45231F471B00FB2CDD /* PCSearchBarController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD240C44231F471B00FB2CDD /* PCSearchBarController+Animation.swift */; };
 		BD240C47231F475500FB2CDD /* PCSearchBarController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD240C46231F475500FB2CDD /* PCSearchBarController+Scrolling.swift */; };
 		BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD24E6F220E3474600A712E3 /* ArchiveHelper.swift */; };
-		BD24EE9C209379E700C63C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */; };
-		BD24EE9E209379E700C63C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */; };
-		BD24EE9F209379E700C63C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */; };
-		BD24EEA0209379E700C63C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */; };
-		BD24EEA1209379E700C63C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */; };
 		BD26AFD427BDFD18008CC973 /* Folder+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26AFD327BDFD18008CC973 /* Folder+Formatting.swift */; };
 		BD26AFD527BDFD18008CC973 /* Folder+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26AFD327BDFD18008CC973 /* Folder+Formatting.swift */; };
 		BD26AFD727BE09E8008CC973 /* EditFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26AFD627BE09E8008CC973 /* EditFolderView.swift */; };
@@ -1934,6 +1934,7 @@
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B317B9F28906A8900A26A13 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
@@ -2108,7 +2109,6 @@
 		BD240C44231F471B00FB2CDD /* PCSearchBarController+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Animation.swift"; sourceTree = "<group>"; };
 		BD240C46231F475500FB2CDD /* PCSearchBarController+Scrolling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Scrolling.swift"; sourceTree = "<group>"; };
 		BD24E6F220E3474600A712E3 /* ArchiveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveHelper.swift; sourceTree = "<group>"; };
-		BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD26AFD327BDFD18008CC973 /* Folder+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Formatting.swift"; sourceTree = "<group>"; };
 		BD26AFD627BE09E8008CC973 /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		BD27B8C42756F486007A0EA7 /* UIColor+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -3335,6 +3335,7 @@
 		462EE0B227024FF3003D67DC /* DerivedSources */ = {
 			isa = PBXGroup;
 			children = (
+				8B10E78528D908A900702C54 /* GoogleService-Info.plist */,
 				462EE0B427024FF3003D67DC /* ApiCredentials.swift */,
 			);
 			name = DerivedSources;
@@ -5206,7 +5207,6 @@
 				404A080924E4C78000308722 /* SceneDelegate.swift */,
 				8B317B9F28906A8900A26A13 /* main.swift */,
 				BD2063301B5351D500DBB592 /* podcasts-Bridging-Header.h */,
-				BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */,
 				BD056F0E1F6F8BE300AF8260 /* Main.storyboard */,
 				BD40D7BC19C1A08D00FB8023 /* Launch Screen.xib */,
 				460C375026D83171008B3609 /* Resources */,
@@ -6218,7 +6218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD24EE9E209379E700C63C85 /* GoogleService-Info.plist in Resources */,
+				8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6429,7 +6429,6 @@
 				BD96F4761CC9FEB900AB09B0 /* ForgotPasswordViewController.xib in Resources */,
 				BDBCE6D5244E7755004FFE13 /* AppIcon-Radioactive20x20~ipad.png in Resources */,
 				BDB1E4FF1B8C5C2B009AD30F /* CategorySummaryViewController.xib in Resources */,
-				BD24EE9C209379E700C63C85 /* GoogleService-Info.plist in Resources */,
 				BDEED1541EB06E26003FE87D /* Carplay.xcassets in Resources */,
 				40F1492D218BCC4F008F54EA /* FilterShortcutsViewController.xib in Resources */,
 				BDBCE6C6244E7755004FFE13 /* AppIcon-Radioactive29x29@3x.png in Resources */,
@@ -6454,6 +6453,7 @@
 				BDA003061F7B318B00DCB4AE /* AppIcon60x60@2x~car.png in Resources */,
 				40D1EF9922DC38E2000B9291 /* CustomStorage.xcassets in Resources */,
 				407B21E82231F6A300B4E492 /* UploadedSettingsViewController.xib in Resources */,
+				8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */,
 				BDBCE6D1244E7755004FFE13 /* AppIcon-Radioactive20x20@2x.png in Resources */,
 				4029E3E52293AD410003BEEB /* ChangePasswordViewController.xib in Resources */,
 				BD6B665A245BC24C00CF5245 /* AppIcon-Pocket-Cats83.5x83.5@2x~ipad.png in Resources */,
@@ -6684,9 +6684,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
+				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
 				463538A326E16A2C00BA9D35 /* Localizable.strings in Resources */,
 				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
-				BD24EEA0209379E700C63C85 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6696,7 +6696,7 @@
 			files = (
 				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
-				BD24EEA1209379E700C63C85 /* GoogleService-Info.plist in Resources */,
+				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6706,7 +6706,7 @@
 			files = (
 				BDEED1561EB07C7D003FE87D /* Assets.xcassets in Resources */,
 				BDEFBA1D1E6D3C2300B9024B /* MainInterface.storyboard in Resources */,
-				BD24EE9F209379E700C63C85 /* GoogleService-Info.plist in Resources */,
+				8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6728,6 +6728,7 @@
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/../DerivedSources/ApiCredentials.swift",
+				"$(BUILT_PRODUCTS_DIR)/../DerivedSources/GoogleService-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -8606,6 +8607,7 @@
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -8909,6 +8911,7 @@
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -8968,6 +8971,7 @@
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
