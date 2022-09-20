@@ -95,8 +95,14 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         title = L10n.signIn
         mainButton.accessibilityLabel = L10n.signIn
         updateButtonState()
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
+
+        if dismissOnCancel {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeTapped))
+        }
+        else {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
+        }
+
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
