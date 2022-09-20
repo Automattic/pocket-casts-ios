@@ -3059,21 +3059,6 @@
 /* Text for a link that goes to our blog where people can read more about the current update */
 "whats_new_blog_more_link_text" = "Read more about this update on our blog";
 
-/* This is for an iOS permission prompt for adding custom images to a file */
-"camera_plist_description" = "This allows you to add custom images to your files";
-
-/* This is for an iOS permission prompt for bluetooth access */
-"bluetooth_plist_description" = "Pocket Casts needs to access your bluetooth in order to detect nearby Google Cast devices.";
-
-/* This is for an iOS permission prompt for network access. Please note that "Google Cast" should not be translated and is a product name */
-"network_plist_description" = "Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.";
-
-/* This is for an iOS permission prompt for microphone access. Please note that "Google Cast" should not be translated and is a product name */
-"microphone_plist_description" = "Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.";
-
-/* This is for an iOS permission prompt for photo saving access */
-"photo_plist_description" = "Pocket Casts needs permission to save this image to your photo library.";
-
 /* Promotional information for Pocket Casts Plus. Please note that "Pocket Casts Plus" should not be translated because it's a product name */
 "plus_promo_paragraph" = "Get Pocket Casts Plus to unlock this feature, plus lots more!";
 

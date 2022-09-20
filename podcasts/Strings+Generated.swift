@@ -214,16 +214,12 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
-  /// Pocket Casts needs to access your bluetooth in order to detect nearby Google Cast devices.
-  internal static var bluetoothPlistDescription: String { return L10n.tr("Localizable", "bluetooth_plist_description") }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.
   internal static func bulkDownloadMaxFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "bulk_download_max_format", String(describing: p1))
   }
-  /// This allows you to add custom images to your files
-  internal static var cameraPlistDescription: String { return L10n.tr("Localizable", "camera_plist_description") }
   /// Cancel
   internal static var cancel: String { return L10n.tr("Localizable", "cancel") }
   /// Cancel Download
@@ -949,8 +945,6 @@ internal enum L10n {
   internal static var markPlayedShort: String { return L10n.tr("Localizable", "mark_played_short") }
   /// Mark Unplayed
   internal static var markUnplayedShort: String { return L10n.tr("Localizable", "mark_unplayed_short") }
-  /// Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.
-  internal static var microphonePlistDescription: String { return L10n.tr("Localizable", "microphone_plist_description") }
   /// Close And Clear Up Next
   internal static var miniPlayerClose: String { return L10n.tr("Localizable", "mini_player_close") }
   /// Minute listened
@@ -1051,8 +1045,6 @@ internal enum L10n {
   internal static var multiSelectUnstarringEpisodesSingular: String { return L10n.tr("Localizable", "multi_select_unstarring_episodes_singular") }
   /// Name
   internal static var name: String { return L10n.tr("Localizable", "name") }
-  /// Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.
-  internal static var networkPlistDescription: String { return L10n.tr("Localizable", "network_plist_description") }
   /// New Email Address
   internal static var newEmailAddressPrompt: String { return L10n.tr("Localizable", "new_email_address_prompt") }
   /// New episodes
@@ -1156,8 +1148,6 @@ internal enum L10n {
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
   /// Phone
   internal static var phone: String { return L10n.tr("Localizable", "phone") }
-  /// Pocket Casts needs permission to save this image to your photo library.
-  internal static var photoPlistDescription: String { return L10n.tr("Localizable", "photo_plist_description") }
   /// Play
   internal static var play: String { return L10n.tr("Localizable", "play") }
   /// Play All
