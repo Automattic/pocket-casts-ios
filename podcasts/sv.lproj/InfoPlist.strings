@@ -1,6 +1,6 @@
-NSCameraUsageDescription = "Detta gör det möjligt att lägga till anpassade bilder till dina filer";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts behöver åtkomst till din Bluetooth för att detektera Google Cast-enheter som finns i närheten.";
-NSLocalNetworkUsageDescription = "Pocket Casts använder detta för att hitta Google Cast-enheter i ditt nätverk. Om du inte använder denna funktion står det dig fritt att säga nej.";
-NSMicrophoneUsageDescription = "Pocket Casts behöver åtkomst till din mikrofon för att detektera Google Cast-enheter som finns i närheten.";
-NSPhotoLibraryUsageDescription = "Pocket Casts behöver tillåtelse att spara den här bilden i ditt fotobibliotek.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts behöver tillåtelse att spara den här bilden i ditt fotobibliotek.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict/>
+</plist>
