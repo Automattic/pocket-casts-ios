@@ -9404,8 +9404,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.10.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.0;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
