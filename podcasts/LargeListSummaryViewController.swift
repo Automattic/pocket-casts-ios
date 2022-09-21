@@ -162,8 +162,12 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     // MARK: - Page Changed
 
     override func pageDidChange(to currentPage: Int, totalPages: Int) {
+        guard let item else {
+            return
+        }
+        
         Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
                                                                     "total_pages": totalPages,
-                                                                    "list_id": item?.uuid ?? "none"])
+                                                                    "list_id": item.inferredListId])
     }
 }
