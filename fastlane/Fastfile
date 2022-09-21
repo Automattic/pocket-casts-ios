@@ -178,10 +178,13 @@ platform :ios do
   desc 'Executes the initial steps needed during code freeze'
   lane :code_freeze do |options|
     start_code_freeze(options)
+
+    check_prs
+
     complete_code_freeze(options)
   end
 
-  desc 'Go through PRs and check their milestones, leaving a message if the milestone will be frozen'
+  desc 'Go through PRs and check their milestones, leaving a message if the milestone is being frozen'
   lane :check_prs do
     version = ios_get_app_version
 
@@ -196,12 +199,12 @@ platform :ios do
     )
 
     result[:json].each do |pr|
-      if pr["milestone"] != nil && pr["milestone"]["title"] == version
+      if pr["milestone"] != nil && pr["milestone"]["title"].include? version
         comment_on_pr(
             project: GHHELPER_REPO,
             pr_number: pr["number"],
-            body: "#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
-            reuse_identifier: "nil"
+            body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+            reuse_identifier: "code-freeze-in-progress"
           )
       end
     end
