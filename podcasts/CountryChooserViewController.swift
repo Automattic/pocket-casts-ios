@@ -5,8 +5,16 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     private static let cellId = "CountryCell"
     
     var regions = [DiscoverRegion]()
-    var selectedRegion = ""
-    
+    var selectedRegion = "" {
+        didSet {
+            if originalRegion == nil {
+                originalRegion = selectedRegion
+            }
+        }
+    }
+
+    var originalRegion: String?
+
     @IBOutlet var countriesTable: UITableView! {
         didSet {
             countriesTable.applyInsetForMiniPlayer()
@@ -20,6 +28,14 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         title = L10n.discoverSelectRegion
         
         countriesTable.reloadData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if selectedRegion != originalRegion {
+            Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
+        }
     }
     
     // MARK: - UITableView Methods
@@ -41,9 +57,6 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         let region = regions[indexPath.row]
         selectedRegion = region.code
         Settings.setDiscoverRegion(region: selectedRegion)
-
-        Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
-
         countriesTable.reloadData()
     }
     
