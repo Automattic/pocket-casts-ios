@@ -1,3 +1,3 @@
 
-- Fixed an issue where the timer screen would show wrong time when unlocking the phone (#211)
+- Add a pull to refresh to the podcast list and profile view (#239)
 
