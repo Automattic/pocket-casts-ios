@@ -10,9 +10,6 @@ class BackgroundSignOutListener {
 
     private var canShowSignOut = true
 
-    /// Allow the alert action to be tested
-    var alertAction = UIAlertAction.self
-
     init(notificationCenter: NotificationCenter = NotificationCenter.default, presentingViewController: UIViewController,
          navigationManager: NavigationManager = NavigationManager.sharedManager)
     {
@@ -25,6 +22,11 @@ class BackgroundSignOutListener {
 
     deinit {
         removeNotificationObservers()
+    }
+
+    func showSignIn() {
+        canShowSignOut = true
+        navigationManager.navigateTo(NavigationManager.signInPage, data: nil)
     }
 }
 
@@ -69,9 +71,8 @@ private extension BackgroundSignOutListener {
 
         let alert = UIAlertController(title: L10n.accountSignedOutAlertTitle, message: L10n.accountSignedOutAlertMessage, preferredStyle: .alert)
 
-        let okAction = alertAction.make(title: L10n.signIn, style: .default, handler: { [weak self] _ in
-            self?.canShowSignOut = true
-            self?.navigationManager.navigateTo(NavigationManager.signInPage, data: nil)
+        let okAction = UIAlertAction(title: L10n.signIn, style: .default, handler: { [weak self] _ in
+            self?.showSignIn()
         })
 
         alert.addAction(okAction)
