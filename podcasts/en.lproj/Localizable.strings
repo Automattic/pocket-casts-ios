@@ -124,6 +124,12 @@
 /* Welcome message presented after a user has signed up for Pocket Casts Plus */
 "account_welcome_plus" = "Welcome to Pocket Casts Plus!";
 
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "You've been signed out.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "We're really sorry about it too. 😥 \n\nTap the button below to sign into your Pocket Casts account again.";
+
 /* A common string used throughout the app. Title for the prompt to add an episode to the up next queue. */
 "add_to_up_next" = "Add to Up Next";
 
