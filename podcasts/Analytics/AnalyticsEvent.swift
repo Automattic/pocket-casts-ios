@@ -255,4 +255,7 @@ enum AnalyticsEvent: String {
     // MARK: - App Store Review Request
 
     case appStoreReviewRequested
+
+    // MARK: - Signed out alert
+    case signedOutAlertShown
 }

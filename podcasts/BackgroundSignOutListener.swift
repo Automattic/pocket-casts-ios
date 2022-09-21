@@ -65,6 +65,8 @@ private extension BackgroundSignOutListener {
 
         canShowSignOut = false
 
+        Analytics.track(.signedOutAlertShown)
+
         let alert = UIAlertController(title: L10n.accountSignedOutAlertTitle, message: L10n.accountSignedOutAlertMessage, preferredStyle: .alert)
 
         let okAction = alertAction.make(title: L10n.signIn, style: .default, handler: { [weak self] _ in
