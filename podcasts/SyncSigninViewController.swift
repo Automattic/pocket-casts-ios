@@ -97,7 +97,9 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         updateButtonState()
 
         if dismissOnCancel {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeTapped))
+            let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
+            closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
+            navigationItem.leftBarButtonItem = closeButton
         }
         else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
