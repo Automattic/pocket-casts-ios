@@ -28,7 +28,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         collectionView.backgroundColor = UIColor.clear
         
         cellSpacing = 16 as CGFloat
-        numVisibleColoumns = 2
+        numVisibleColumns = 2
         isPeekEnabled = true
         
         let gridLayout = collectionView.collectionViewLayout as! GridLayout

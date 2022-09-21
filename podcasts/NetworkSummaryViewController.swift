@@ -20,7 +20,7 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
         collectionView.register(UINib(nibName: "NetworkCell", bundle: nil), forCellWithReuseIdentifier: NetworkSummaryViewController.cellId)
         
         cellSpacing = 16 as CGFloat
-        numVisibleColoumns = 2
+        numVisibleColumns = 2
         peekWidth = 20
         isPeekEnabled = true
         

@@ -17,12 +17,12 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
     private(set) var currentPage: Int = 0
 
     var cellSpacing = 0 as CGFloat
-    var numVisibleColoumns = 1 as CGFloat
+    var numVisibleColumns = 1 as CGFloat
     var peekWidth = 8 as CGFloat
     var cellWidth: CGFloat {
         let widthAvailable = view.bounds.width
         let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
-        return min(maxWidth, (widthAvailable - peekWidth - (cellSpacing * (numVisibleColoumns + 1))) / numVisibleColoumns)
+        return min(maxWidth, (widthAvailable - peekWidth - (cellSpacing * (numVisibleColumns + 1))) / numVisibleColumns)
     }
     
     // this is a sensible default for all the current places in the app, though children can override this value if they choose to
@@ -43,10 +43,10 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         let target = targetContentOffset.pointee
         let currentScrollDistance = target.x - currentScrollOffset.x
         let coefficent = Int(max(-1, min(currentScrollDistance / scrollThreshold, 1)))
-        let currentIndex = Int(round(currentScrollOffset.x / ((cellWidth + cellSpacing) * numVisibleColoumns)))
+        let currentIndex = Int(round(currentScrollOffset.x / ((cellWidth + cellSpacing) * numVisibleColumns)))
         let adjacentItemIndex = currentIndex + coefficent
         let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
-        let adjacentItemOffsetX = adjacentItemIndexFloat * (cellWidth + cellSpacing) * numVisibleColoumns
+        let adjacentItemOffsetX = adjacentItemIndexFloat * (cellWidth + cellSpacing) * numVisibleColumns
         targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
     }
 
