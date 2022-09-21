@@ -1,93 +1,101 @@
-﻿"0EmR82" = "用 ${playbackSpeed} 的速度播放";
-
-"0YXvyS" = "上一個";
-
-"1uT6VF" = "媒體搜尋";
-
-"3aWmex" = "段落";
-
-"5yWeuV" = "用 ${playbackSpeed} 的速度播放";
-
-"CXbd65" = "設定睡眠計時器";
-
-"E6Nzn4-No0K9w" = "繼續播放 Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "不繼續播放 Pocket Casts";
-
-"ErAaNp" = "重複模式";
-
-"EwNFJ5" = "延長睡眠計時器";
-
-"G0iCil" = "無法跳過段落";
-
-"G3J6fP" = "播放 Podcast";
-
-"IyhbAH" = "開啟篩選器";
-
-"LdrEPN" = "播放媒體的要求";
-
-"MbU5ep" = "隨機播放 ${mediaContainer}";
-
-"No0K9w" = "繼續播放";
-
-"Ntulol" = "跳過段落";
-
-"OJvsVr" = "將睡眠計時器延長 5 分鐘";
-
-"Pk1Fkx" = "不繼續播放";
-
-"QektJm" = "開啟篩選器";
-
-"QqdHiR" = "已隨機播放";
-
-"RvX3Zd" = "播放速度";
-
-"WEjMGd" = "播放 ${mediaContainer}";
-
-"Wj0EAI" = "略過";
-
-"WktFNa" = "已隨機播放";
-
-"YYfsKp" = "播放 ${mediaContainer}";
-
-"bVm1vW" = "設定睡眠計時器";
-
-"cV2HLF" = "佇列位置";
-
-"cfJexL" = "項目";
-
-"dBTobY" = "跳過段落";
-
-"emhqzv" = "Podcast 不支援段落";
-
-"gD0dlx" = "下一個";
-
-"iQo0yQ-0YXvyS" = "上一節";
-
-"iQo0yQ-Wj0EAI" = "跳過段落";
-
-"iQo0yQ-gD0dlx" = "下一節";
-
-"mCAocc" = "未隨機播放";
-
-"nAv25k" = "隨機播放 ${mediaContainer}";
-
-"nNozW1" = "隨機播放 ${mediaContainer}";
-
-"nR0neu" = "睡眠計時器";
-
-"ny98Lo" = "延長睡眠計時器";
-
-"o6CuZu" = "繼續播放 ${mediaContainer}";
-
-"q8QY8B" = "用 ${playbackSpeed} 的速度播放 ${mediaContainer}";
-
-"rnkZnd" = "跳過段落";
-
-"rvNMpm" = "繼續播放";
-
-"sLPQxZ" = "播放 ${mediaContainer}";
-
-"xdnqvn" = "Container";
-
-"zvlpk3" = "已跳過段落";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>用 ${playbackSpeed} 的速度播放</string>
+    <key>0YXvyS</key>
+    <string>上一個</string>
+    <key>1uT6VF</key>
+    <string>媒體搜尋</string>
+    <key>3aWmex</key>
+    <string>段落</string>
+    <key>5yWeuV</key>
+    <string>用 ${playbackSpeed} 的速度播放</string>
+    <key>CXbd65</key>
+    <string>設定睡眠計時器</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>繼續播放 Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>不繼續播放 Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>重複模式</string>
+    <key>EwNFJ5</key>
+    <string>延長睡眠計時器</string>
+    <key>G0iCil</key>
+    <string>無法跳過段落</string>
+    <key>G3J6fP</key>
+    <string>播放 Podcast</string>
+    <key>IyhbAH</key>
+    <string>開啟篩選器</string>
+    <key>LdrEPN</key>
+    <string>播放媒體的要求</string>
+    <key>MbU5ep</key>
+    <string>隨機播放 ${mediaContainer}</string>
+    <key>No0K9w</key>
+    <string>繼續播放</string>
+    <key>Ntulol</key>
+    <string>跳過段落</string>
+    <key>OJvsVr</key>
+    <string>將睡眠計時器延長 5 分鐘</string>
+    <key>Pk1Fkx</key>
+    <string>不繼續播放</string>
+    <key>QektJm</key>
+    <string>開啟篩選器</string>
+    <key>QqdHiR</key>
+    <string>已隨機播放</string>
+    <key>RvX3Zd</key>
+    <string>播放速度</string>
+    <key>WEjMGd</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>略過</string>
+    <key>WktFNa</key>
+    <string>已隨機播放</string>
+    <key>YYfsKp</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>設定睡眠計時器</string>
+    <key>cV2HLF</key>
+    <string>佇列位置</string>
+    <key>cfJexL</key>
+    <string>項目</string>
+    <key>dBTobY</key>
+    <string>跳過段落</string>
+    <key>emhqzv</key>
+    <string>Podcast 不支援段落</string>
+    <key>gD0dlx</key>
+    <string>下一個</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>上一節</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>跳過段落</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>下一節</string>
+    <key>mCAocc</key>
+    <string>未隨機播放</string>
+    <key>nAv25k</key>
+    <string>隨機播放 ${mediaContainer}</string>
+    <key>nNozW1</key>
+    <string>隨機播放 ${mediaContainer}</string>
+    <key>nR0neu</key>
+    <string>睡眠計時器</string>
+    <key>ny98Lo</key>
+    <string>延長睡眠計時器</string>
+    <key>o6CuZu</key>
+    <string>繼續播放 ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>用 ${playbackSpeed} 的速度播放 ${mediaContainer}</string>
+    <key>rnkZnd</key>
+    <string>跳過段落</string>
+    <key>rvNMpm</key>
+    <string>繼續播放</string>
+    <key>sLPQxZ</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Container</string>
+    <key>zvlpk3</key>
+    <string>已跳過段落</string>
+  </dict>
+</plist>

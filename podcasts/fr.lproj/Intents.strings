@@ -1,93 +1,101 @@
-﻿"0EmR82" = "Ouvrir le filtre ${filterName}";
-
-"0YXvyS" = "Précédent";
-
-"1uT6VF" = "Recherche média";
-
-"3aWmex" = "Chapitre";
-
-"5yWeuV" = "Lire à ${playbackSpeed}";
-
-"CXbd65" = "Définir un délai de mise en veille";
-
-"E6Nzn4-No0K9w" = "reprendre Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "ne pas reprendre Pocket Casts";
-
-"ErAaNp" = "Mode répétition";
-
-"EwNFJ5" = "Retarder la mise en veille";
-
-"G0iCil" = "Impossible de sauter le chapitre";
-
-"G3J6fP" = "Lire le podcast";
-
-"IyhbAH" = "Ouvrir le filtre";
-
-"LdrEPN" = "Une demande pour lire un média";
-
-"MbU5ep" = "Lire ${mediaItems} en mode aléatoire";
-
-"No0K9w" = "reprendre";
-
-"Ntulol" = "Sauter le chapitre";
-
-"OJvsVr" = "Retarder la mise en veille de 5 minutes";
-
-"Pk1Fkx" = "ne pas reprendre";
-
-"QektJm" = "Ouvrir le filtre";
-
-"QqdHiR" = "aléatoire";
-
-"RvX3Zd" = "Vitesse de lecture";
-
-"WEjMGd" = "Lire ${mediaContainer}";
-
-"Wj0EAI" = "Sauter";
-
-"WktFNa" = "Aléatoire";
-
-"YYfsKp" = "Lire ${mediaContainer}";
-
-"bVm1vW" = "Définir un délai de mise en veille";
-
-"cV2HLF" = "Ajouter l’emplacement à la file d’attente";
-
-"cfJexL" = "Articles";
-
-"dBTobY" = "Sauter le chapitre";
-
-"emhqzv" = "Le podcast ne prend pas en charge les chapitres";
-
-"gD0dlx" = "Suivant";
-
-"iQo0yQ-0YXvyS" = "Chapitre précédent";
-
-"iQo0yQ-Wj0EAI" = "Sauter le chapitre";
-
-"iQo0yQ-gD0dlx" = "Chapitre suivant";
-
-"mCAocc" = "non aléatoire";
-
-"nAv25k" = "Lire ${mediaContainer} en mode aléatoire";
-
-"nNozW1" = "Lire ${mediaContainer} en mode aléatoire";
-
-"nR0neu" = "Mise en veille";
-
-"ny98Lo" = "Retarder la mise en veille";
-
-"o6CuZu" = "Reprendre ${mediaContainer}";
-
-"q8QY8B" = "Lire ${mediaItems} à ${playbackSpeed}";
-
-"rnkZnd" = "Sauter le chapitre";
-
-"rvNMpm" = "Reprendre";
-
-"sLPQxZ" = "Lire ${mediaContainer}";
-
-"xdnqvn" = "Conteneur";
-
-"zvlpk3" = "Chapitre sauté";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>Ouvrir le filtre ${filterName}</string>
+    <key>0YXvyS</key>
+    <string>Précédent</string>
+    <key>1uT6VF</key>
+    <string>Recherche média</string>
+    <key>3aWmex</key>
+    <string>Chapitre</string>
+    <key>5yWeuV</key>
+    <string>Lire à ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Définir un délai de mise en veille</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>reprendre Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>ne pas reprendre Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>Mode répétition</string>
+    <key>EwNFJ5</key>
+    <string>Retarder la mise en veille</string>
+    <key>G0iCil</key>
+    <string>Impossible de sauter le chapitre</string>
+    <key>G3J6fP</key>
+    <string>Lire le podcast</string>
+    <key>IyhbAH</key>
+    <string>Ouvrir le filtre</string>
+    <key>LdrEPN</key>
+    <string>Une demande pour lire un média</string>
+    <key>MbU5ep</key>
+    <string>Lire ${mediaItems} en mode aléatoire</string>
+    <key>No0K9w</key>
+    <string>reprendre</string>
+    <key>Ntulol</key>
+    <string>Sauter le chapitre</string>
+    <key>OJvsVr</key>
+    <string>Retarder la mise en veille de 5 minutes</string>
+    <key>Pk1Fkx</key>
+    <string>ne pas reprendre</string>
+    <key>QektJm</key>
+    <string>Ouvrir le filtre</string>
+    <key>QqdHiR</key>
+    <string>aléatoire</string>
+    <key>RvX3Zd</key>
+    <string>Vitesse de lecture</string>
+    <key>WEjMGd</key>
+    <string>Lire ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>Sauter</string>
+    <key>WktFNa</key>
+    <string>Aléatoire</string>
+    <key>YYfsKp</key>
+    <string>Lire ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>Définir un délai de mise en veille</string>
+    <key>cV2HLF</key>
+    <string>Ajouter l’emplacement à la file d’attente</string>
+    <key>cfJexL</key>
+    <string>Articles</string>
+    <key>dBTobY</key>
+    <string>Sauter le chapitre</string>
+    <key>emhqzv</key>
+    <string>Le podcast ne prend pas en charge les chapitres</string>
+    <key>gD0dlx</key>
+    <string>Suivant</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Chapitre précédent</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Sauter le chapitre</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Chapitre suivant</string>
+    <key>mCAocc</key>
+    <string>non aléatoire</string>
+    <key>nAv25k</key>
+    <string>Lire ${mediaContainer} en mode aléatoire</string>
+    <key>nNozW1</key>
+    <string>Lire ${mediaContainer} en mode aléatoire</string>
+    <key>nR0neu</key>
+    <string>Mise en veille</string>
+    <key>ny98Lo</key>
+    <string>Retarder la mise en veille</string>
+    <key>o6CuZu</key>
+    <string>Reprendre ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>Lire ${mediaItems} à ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Sauter le chapitre</string>
+    <key>rvNMpm</key>
+    <string>Reprendre</string>
+    <key>sLPQxZ</key>
+    <string>Lire ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Conteneur</string>
+    <key>zvlpk3</key>
+    <string>Chapitre sauté</string>
+  </dict>
+</plist>

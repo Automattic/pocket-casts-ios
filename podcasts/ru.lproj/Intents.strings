@@ -1,93 +1,101 @@
-﻿"0EmR82" = "Открыть фильтр ${filterName}";
-
-"0YXvyS" = "Назад";
-
-"1uT6VF" = "Поиск медиафайлов";
-
-"3aWmex" = "Глава";
-
-"5yWeuV" = "Воспроизвести со скоростью ${playbackSpeed}";
-
-"CXbd65" = "Установить таймер сна";
-
-"E6Nzn4-No0K9w" = "возобновить Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "не возобновлять Pocket Casts";
-
-"ErAaNp" = "Режим повтора";
-
-"EwNFJ5" = "Отложить таймер сна";
-
-"G0iCil" = "Невозможно пропустить главу";
-
-"G3J6fP" = "Воспроизвести подкаст";
-
-"IyhbAH" = "Открыть фильтр";
-
-"LdrEPN" = "Запрос на воспроизведение медиафайла";
-
-"MbU5ep" = "Перемешать ${mediaContainer}";
-
-"No0K9w" = "возобновить";
-
-"Ntulol" = "Пропустить главу";
-
-"OJvsVr" = "Отложить таймер сна на 5 мин.";
-
-"Pk1Fkx" = "не возобновлять";
-
-"QektJm" = "Открыть фильтр";
-
-"QqdHiR" = "в случайном порядке";
-
-"RvX3Zd" = "Скорость воспроизведения";
-
-"WEjMGd" = "Воспроизвести ${mediaContainer}";
-
-"Wj0EAI" = "Пропустить";
-
-"WktFNa" = "В случайном порядке";
-
-"YYfsKp" = "Воспроизвести ${mediaContainer}";
-
-"bVm1vW" = "Установить таймер сна";
-
-"cV2HLF" = "Расположение очереди";
-
-"cfJexL" = "Позиции";
-
-"dBTobY" = "Пропустить главу";
-
-"emhqzv" = "В этом подкасте не поддерживаются главы";
-
-"gD0dlx" = "Следующая";
-
-"iQo0yQ-0YXvyS" = "Предыдущая глава";
-
-"iQo0yQ-Wj0EAI" = "Пропустить главу";
-
-"iQo0yQ-gD0dlx" = "Следующая глава";
-
-"mCAocc" = "подряд";
-
-"nAv25k" = "Перемешать ${mediaContainer}";
-
-"nNozW1" = "Перемешать ${mediaContainer}";
-
-"nR0neu" = "Таймер сна";
-
-"ny98Lo" = "Отложить таймер сна";
-
-"o6CuZu" = "Возобновить ${mediaContainer}";
-
-"q8QY8B" = "Воспроизвести ${mediaItems} со скоростью ${playbackSpeed}";
-
-"rnkZnd" = "Пропустить главу";
-
-"rvNMpm" = "Резюме";
-
-"sLPQxZ" = "Воспроизвести ${mediaContainer}";
-
-"xdnqvn" = "Контейнер";
-
-"zvlpk3" = "Пропущенная глава";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>Открыть фильтр ${filterName}</string>
+    <key>0YXvyS</key>
+    <string>Назад</string>
+    <key>1uT6VF</key>
+    <string>Поиск медиафайлов</string>
+    <key>3aWmex</key>
+    <string>Глава</string>
+    <key>5yWeuV</key>
+    <string>Воспроизвести со скоростью ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Установить таймер сна</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>возобновить Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>не возобновлять Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>Режим повтора</string>
+    <key>EwNFJ5</key>
+    <string>Отложить таймер сна</string>
+    <key>G0iCil</key>
+    <string>Невозможно пропустить главу</string>
+    <key>G3J6fP</key>
+    <string>Воспроизвести подкаст</string>
+    <key>IyhbAH</key>
+    <string>Открыть фильтр</string>
+    <key>LdrEPN</key>
+    <string>Запрос на воспроизведение медиафайла</string>
+    <key>MbU5ep</key>
+    <string>Перемешать ${mediaContainer}</string>
+    <key>No0K9w</key>
+    <string>возобновить</string>
+    <key>Ntulol</key>
+    <string>Пропустить главу</string>
+    <key>OJvsVr</key>
+    <string>Отложить таймер сна на 5 мин.</string>
+    <key>Pk1Fkx</key>
+    <string>не возобновлять</string>
+    <key>QektJm</key>
+    <string>Открыть фильтр</string>
+    <key>QqdHiR</key>
+    <string>в случайном порядке</string>
+    <key>RvX3Zd</key>
+    <string>Скорость воспроизведения</string>
+    <key>WEjMGd</key>
+    <string>Воспроизвести ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>Пропустить</string>
+    <key>WktFNa</key>
+    <string>В случайном порядке</string>
+    <key>YYfsKp</key>
+    <string>Воспроизвести ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>Установить таймер сна</string>
+    <key>cV2HLF</key>
+    <string>Расположение очереди</string>
+    <key>cfJexL</key>
+    <string>Позиции</string>
+    <key>dBTobY</key>
+    <string>Пропустить главу</string>
+    <key>emhqzv</key>
+    <string>В этом подкасте не поддерживаются главы</string>
+    <key>gD0dlx</key>
+    <string>Следующая</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Предыдущая глава</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Пропустить главу</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Следующая глава</string>
+    <key>mCAocc</key>
+    <string>подряд</string>
+    <key>nAv25k</key>
+    <string>Перемешать ${mediaContainer}</string>
+    <key>nNozW1</key>
+    <string>Перемешать ${mediaContainer}</string>
+    <key>nR0neu</key>
+    <string>Таймер сна</string>
+    <key>ny98Lo</key>
+    <string>Отложить таймер сна</string>
+    <key>o6CuZu</key>
+    <string>Возобновить ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>Воспроизвести ${mediaItems} со скоростью ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Пропустить главу</string>
+    <key>rvNMpm</key>
+    <string>Резюме</string>
+    <key>sLPQxZ</key>
+    <string>Воспроизвести ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Контейнер</string>
+    <key>zvlpk3</key>
+    <string>Пропущенная глава</string>
+  </dict>
+</plist>

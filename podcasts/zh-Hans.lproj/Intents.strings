@@ -1,93 +1,101 @@
-﻿"0EmR82" = "打开 ${filterName} 筛选器";
-
-"0YXvyS" = "上一章";
-
-"1uT6VF" = "媒体搜索";
-
-"3aWmex" = "章节";
-
-"5yWeuV" = "以 ${playbackSpeed} 速度播放";
-
-"CXbd65" = "设置睡眠计时器";
-
-"E6Nzn4-No0K9w" = "恢复 Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "不恢复 Pocket Casts";
-
-"ErAaNp" = "循环模式";
-
-"EwNFJ5" = "延长睡眠计时器";
-
-"G0iCil" = "无法跳过章节";
-
-"G3J6fP" = "播放播客";
-
-"IyhbAH" = "打开过滤器";
-
-"LdrEPN" = "播放媒体的请求";
-
-"MbU5ep" = "随机播放 ${mediaItems}";
-
-"No0K9w" = "恢复";
-
-"Ntulol" = "跳过章节";
-
-"OJvsVr" = "将睡眠计时器延长 5 分钟";
-
-"Pk1Fkx" = "不恢复";
-
-"QektJm" = "打开过滤器";
-
-"QqdHiR" = "随机";
-
-"RvX3Zd" = "播放速度";
-
-"WEjMGd" = "播放 ${mediaContainer}";
-
-"Wj0EAI" = "跳过";
-
-"WktFNa" = "随机";
-
-"YYfsKp" = "播放 ${mediaContainer}";
-
-"bVm1vW" = "设置睡眠计时器";
-
-"cV2HLF" = "队列位置";
-
-"cfJexL" = "项目";
-
-"dBTobY" = "跳过章节";
-
-"emhqzv" = "播客不支持章节";
-
-"gD0dlx" = "下一章";
-
-"iQo0yQ-0YXvyS" = "上一章";
-
-"iQo0yQ-Wj0EAI" = "跳过章节";
-
-"iQo0yQ-gD0dlx" = "下一章";
-
-"mCAocc" = "非随机";
-
-"nAv25k" = "随机播放 ${mediaContainer}";
-
-"nNozW1" = "随机播放 ${mediaContainer}";
-
-"nR0neu" = "睡眠计时器";
-
-"ny98Lo" = "延长睡眠计时器";
-
-"o6CuZu" = "继续播放 ${mediaContainer}";
-
-"q8QY8B" = "以 ${playbackSpeed} 速度播放 ${mediaItems}";
-
-"rnkZnd" = "跳过章节";
-
-"rvNMpm" = "恢复";
-
-"sLPQxZ" = "播放 ${mediaContainer}";
-
-"xdnqvn" = "容器";
-
-"zvlpk3" = "跳过的章节";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>打开 ${filterName} 筛选器</string>
+    <key>0YXvyS</key>
+    <string>上一章</string>
+    <key>1uT6VF</key>
+    <string>媒体搜索</string>
+    <key>3aWmex</key>
+    <string>章节</string>
+    <key>5yWeuV</key>
+    <string>以 ${playbackSpeed} 速度播放</string>
+    <key>CXbd65</key>
+    <string>设置睡眠计时器</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>恢复 Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>不恢复 Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>循环模式</string>
+    <key>EwNFJ5</key>
+    <string>延长睡眠计时器</string>
+    <key>G0iCil</key>
+    <string>无法跳过章节</string>
+    <key>G3J6fP</key>
+    <string>播放播客</string>
+    <key>IyhbAH</key>
+    <string>打开过滤器</string>
+    <key>LdrEPN</key>
+    <string>播放媒体的请求</string>
+    <key>MbU5ep</key>
+    <string>随机播放 ${mediaItems}</string>
+    <key>No0K9w</key>
+    <string>恢复</string>
+    <key>Ntulol</key>
+    <string>跳过章节</string>
+    <key>OJvsVr</key>
+    <string>将睡眠计时器延长 5 分钟</string>
+    <key>Pk1Fkx</key>
+    <string>不恢复</string>
+    <key>QektJm</key>
+    <string>打开过滤器</string>
+    <key>QqdHiR</key>
+    <string>随机</string>
+    <key>RvX3Zd</key>
+    <string>播放速度</string>
+    <key>WEjMGd</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>跳过</string>
+    <key>WktFNa</key>
+    <string>随机</string>
+    <key>YYfsKp</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>设置睡眠计时器</string>
+    <key>cV2HLF</key>
+    <string>队列位置</string>
+    <key>cfJexL</key>
+    <string>项目</string>
+    <key>dBTobY</key>
+    <string>跳过章节</string>
+    <key>emhqzv</key>
+    <string>播客不支持章节</string>
+    <key>gD0dlx</key>
+    <string>下一章</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>上一章</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>跳过章节</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>下一章</string>
+    <key>mCAocc</key>
+    <string>非随机</string>
+    <key>nAv25k</key>
+    <string>随机播放 ${mediaContainer}</string>
+    <key>nNozW1</key>
+    <string>随机播放 ${mediaContainer}</string>
+    <key>nR0neu</key>
+    <string>睡眠计时器</string>
+    <key>ny98Lo</key>
+    <string>延长睡眠计时器</string>
+    <key>o6CuZu</key>
+    <string>继续播放 ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>以 ${playbackSpeed} 速度播放 ${mediaItems}</string>
+    <key>rnkZnd</key>
+    <string>跳过章节</string>
+    <key>rvNMpm</key>
+    <string>恢复</string>
+    <key>sLPQxZ</key>
+    <string>播放 ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>容器</string>
+    <key>zvlpk3</key>
+    <string>跳过的章节</string>
+  </dict>
+</plist>

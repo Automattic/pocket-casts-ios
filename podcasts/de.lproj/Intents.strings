@@ -1,93 +1,101 @@
-﻿"0EmR82" = "${filterName}-Filter öffnen";
-
-"0YXvyS" = "Vorheriges";
-
-"1uT6VF" = "Mediensuche";
-
-"3aWmex" = "Kapitel";
-
-"5yWeuV" = "Mit ${playbackSpeed} wiedergeben";
-
-"CXbd65" = "Schlummerfunktion einstellen";
-
-"E6Nzn4-No0K9w" = "Pocket Casts fortsetzen";
-
-"E6Nzn4-Pk1Fkx" = "Pocket Casts nicht fortsetzen";
-
-"ErAaNp" = "Wiederholungsmodus";
-
-"EwNFJ5" = "Schlummerfunktion verlängern";
-
-"G0iCil" = "Kapitel konnte nicht übersprungen werden";
-
-"G3J6fP" = "Podcast abspielen";
-
-"IyhbAH" = "Filter öffnen";
-
-"LdrEPN" = "Eine Anfrage zur Wiedergabe von Medien";
-
-"MbU5ep" = "${mediaItems} zufällig abspielen";
-
-"No0K9w" = "fortsetzen";
-
-"Ntulol" = "Kapitel überspringen";
-
-"OJvsVr" = "Schlummerfunktion um 5 Minuten verlängern";
-
-"Pk1Fkx" = "nicht fortsetzen";
-
-"QektJm" = "Filter öffnen";
-
-"QqdHiR" = "zufällig";
-
-"RvX3Zd" = "Wiedergabegeschwindigkeit";
-
-"WEjMGd" = "${mediaContainer} abspielen";
-
-"Wj0EAI" = "Überspringen";
-
-"WktFNa" = "Zufällig";
-
-"YYfsKp" = "${mediaContainer} abspielen";
-
-"bVm1vW" = "Schlummerfunktion einstellen";
-
-"cV2HLF" = "Ort der Warteschlange";
-
-"cfJexL" = "Elemente";
-
-"dBTobY" = "Kapitel überspringen";
-
-"emhqzv" = "Podcast unterstützt keine Kapitel";
-
-"gD0dlx" = "Weiter";
-
-"iQo0yQ-0YXvyS" = "Voriges Kapitel";
-
-"iQo0yQ-Wj0EAI" = "Kapitel überspringen";
-
-"iQo0yQ-gD0dlx" = "Nächstes Kapitel";
-
-"mCAocc" = "nicht zufällig";
-
-"nAv25k" = "${mediaContainer} zufällig abspielen";
-
-"nNozW1" = "${mediaContainer} zufällig abspielen";
-
-"nR0neu" = "Schlummerfunktion";
-
-"ny98Lo" = "Schlummerfunktion verlängern";
-
-"o6CuZu" = "${mediaContainer} fortsetzen";
-
-"q8QY8B" = "${mediaItems} mit ${playbackSpeed} wiedergeben";
-
-"rnkZnd" = "Kapitel überspringen";
-
-"rvNMpm" = "Fortsetzen";
-
-"sLPQxZ" = "${mediaContainer} wiedergeben";
-
-"xdnqvn" = "Container";
-
-"zvlpk3" = "Übersprungenes Kapitel";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>${filterName}-Filter öffnen</string>
+    <key>0YXvyS</key>
+    <string>Vorheriges</string>
+    <key>1uT6VF</key>
+    <string>Mediensuche</string>
+    <key>3aWmex</key>
+    <string>Kapitel</string>
+    <key>5yWeuV</key>
+    <string>Mit ${playbackSpeed} wiedergeben</string>
+    <key>CXbd65</key>
+    <string>Schlummerfunktion einstellen</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>Pocket Casts fortsetzen</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>Pocket Casts nicht fortsetzen</string>
+    <key>ErAaNp</key>
+    <string>Wiederholungsmodus</string>
+    <key>EwNFJ5</key>
+    <string>Schlummerfunktion verlängern</string>
+    <key>G0iCil</key>
+    <string>Kapitel konnte nicht übersprungen werden</string>
+    <key>G3J6fP</key>
+    <string>Podcast abspielen</string>
+    <key>IyhbAH</key>
+    <string>Filter öffnen</string>
+    <key>LdrEPN</key>
+    <string>Eine Anfrage zur Wiedergabe von Medien</string>
+    <key>MbU5ep</key>
+    <string>${mediaItems} zufällig abspielen</string>
+    <key>No0K9w</key>
+    <string>fortsetzen</string>
+    <key>Ntulol</key>
+    <string>Kapitel überspringen</string>
+    <key>OJvsVr</key>
+    <string>Schlummerfunktion um 5 Minuten verlängern</string>
+    <key>Pk1Fkx</key>
+    <string>nicht fortsetzen</string>
+    <key>QektJm</key>
+    <string>Filter öffnen</string>
+    <key>QqdHiR</key>
+    <string>zufällig</string>
+    <key>RvX3Zd</key>
+    <string>Wiedergabegeschwindigkeit</string>
+    <key>WEjMGd</key>
+    <string>${mediaContainer} abspielen</string>
+    <key>Wj0EAI</key>
+    <string>Überspringen</string>
+    <key>WktFNa</key>
+    <string>Zufällig</string>
+    <key>YYfsKp</key>
+    <string>${mediaContainer} abspielen</string>
+    <key>bVm1vW</key>
+    <string>Schlummerfunktion einstellen</string>
+    <key>cV2HLF</key>
+    <string>Ort der Warteschlange</string>
+    <key>cfJexL</key>
+    <string>Elemente</string>
+    <key>dBTobY</key>
+    <string>Kapitel überspringen</string>
+    <key>emhqzv</key>
+    <string>Podcast unterstützt keine Kapitel</string>
+    <key>gD0dlx</key>
+    <string>Weiter</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Voriges Kapitel</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Kapitel überspringen</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Nächstes Kapitel</string>
+    <key>mCAocc</key>
+    <string>nicht zufällig</string>
+    <key>nAv25k</key>
+    <string>${mediaContainer} zufällig abspielen</string>
+    <key>nNozW1</key>
+    <string>${mediaContainer} zufällig abspielen</string>
+    <key>nR0neu</key>
+    <string>Schlummerfunktion</string>
+    <key>ny98Lo</key>
+    <string>Schlummerfunktion verlängern</string>
+    <key>o6CuZu</key>
+    <string>${mediaContainer} fortsetzen</string>
+    <key>q8QY8B</key>
+    <string>${mediaItems} mit ${playbackSpeed} wiedergeben</string>
+    <key>rnkZnd</key>
+    <string>Kapitel überspringen</string>
+    <key>rvNMpm</key>
+    <string>Fortsetzen</string>
+    <key>sLPQxZ</key>
+    <string>${mediaContainer} wiedergeben</string>
+    <key>xdnqvn</key>
+    <string>Container</string>
+    <key>zvlpk3</key>
+    <string>Übersprungenes Kapitel</string>
+  </dict>
+</plist>
