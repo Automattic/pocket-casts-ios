@@ -51,20 +51,21 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(round(collectionView.contentOffset.x / collectionView.frame.width)) + 1
-
+        let currentPage = Int(ceil(collectionView.contentOffset.x / collectionView.frame.width)) + 1
         guard currentPage != self.currentPage else {
             return
         }
 
         self.currentPage = currentPage
-        let total = Int(CGFloat(collectionView.numberOfItems(inSection: 0)) / numVisibleColoumns)
-        print(currentPage, total)
 
+        // Calculate the total number of pages
+        // We round the value up in case of an odd number of items which can result in a half page
+        let numberOfItems = CGFloat(collectionView.numberOfItems(inSection: 0))
+        let total = Int(ceil(numberOfItems / numVisibleColumns))
         pageDidChange(to: currentPage, totalPages: total)
     }
-
-    func pageDidChange(to: Int, totalPages: Int) {
-        // Subclasses can override
+    
+    func pageDidChange(to currentPage: Int, totalPages: Int) {
+        /* Subclasses can override this */
     }
 }
