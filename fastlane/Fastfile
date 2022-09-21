@@ -191,22 +191,22 @@ platform :ios do
     UI.message("Checking open PRs pointing to #{version} milestone...")
 
     result = github_api(
-      server_url: "https://api.github.com",
-      api_token: ENV["GITHUB_TOKEN"],
-      http_method: "GET",
+      server_url: 'https://api.github.com',
+      api_token: ENV.fetch('GITHUB_TOKEN'),
+      http_method: 'GET',
       path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: { ref: "master" }
+      body: { ref: 'master' }
     )
 
     result[:json].each do |pr|
-      if pr["milestone"] != nil && pr["milestone"]["title"].include?(version)
-        comment_on_pr(
-            project: GHHELPER_REPO,
-            pr_number: pr["number"],
-            body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
-            reuse_identifier: "code-freeze-in-progress"
-          )
-      end
+      next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
+
+      comment_on_pr(
+        project: GHHELPER_REPO,
+        pr_number: pr['number'],
+        body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+        reuse_identifier: 'code-freeze-in-progress'
+      )
     end
   end
 
@@ -350,10 +350,14 @@ platform :ios do
     version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
     set_github_release(
       repository_name: GHHELPER_REPO,
-      api_token: ENV["GITHUB_TOKEN"],
+      api_token: ENV.fetch('GITHUB_TOKEN'),
       name: version,
       tag_name: version,
-      description: (File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt')) rescue "No changelog provided"),
+      description: begin
+        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
+      rescue StandardError
+        'No changelog provided'
+      end,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
       upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
@@ -361,25 +365,26 @@ platform :ios do
     )
 
     # TODO: move this to a GH action
-    UI.message("Opening PR to merge changes to trunk...")
+    UI.message('Opening PR to merge changes to trunk...')
     github_api(
-      server_url: "https://api.github.com",
-      api_token: ENV["GITHUB_TOKEN"],
-      http_method: "POST",
+      server_url: 'https://api.github.com',
+      api_token: ENV.fetch('GITHUB_TOKEN'),
+      http_method: 'POST',
       path: "/repos/#{GHHELPER_REPO}/pulls",
       body: {
         title: "Release: Merge changes from #{ios_get_app_version} code freeze into `trunk`",
         body: "Merge changes from #{ios_get_app_version} to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
         head: "merge/release-#{ios_get_app_version}-into-trunk",
-        base: "trunk" }
+        base: 'trunk'
+      }
     )
 
-    is_code_freeze_build = version.split(".")[3] == "0"
+    is_code_freeze_build = version.split('.')[3] == '0'
     if is_code_freeze_build
       slack(
         pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
         default_payloads: [],
-        slack_url: ENV["SLACK_WEBHOOK"],
+        slack_url: ENV.fetch('SLACK_WEBHOOK'),
         fail_on_error: false
       )
     end
