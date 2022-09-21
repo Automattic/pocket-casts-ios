@@ -210,7 +210,8 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         if listId == nil, let source = item?.source {
             if source.contains("trending") {
                 listId = "trending"
-            } else if source.contains("popular") {
+            }
+            else if source.contains("popular") {
                 listId = "popular"
             }
         }
@@ -218,7 +219,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         Analytics.track(.discoverSmallListPageChanged, properties: ["current_page": currentPage + 1,
                                                                     "total_pages": totalPages,
                                                                     "list_id": listId ?? "none"])
-   }
+    }
     
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
