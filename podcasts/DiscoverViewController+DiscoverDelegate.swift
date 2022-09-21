@@ -27,7 +27,7 @@ extension DiscoverViewController: DiscoverDelegate {
             AnalyticsHelper.listShowAllTapped(listId: listId)
         }
         else {
-            Analytics.track(.discoverShowAllTapped)
+            Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
 
         if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" {
