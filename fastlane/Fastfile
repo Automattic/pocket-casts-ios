@@ -316,12 +316,14 @@ platform :ios do
     zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
-    create_release(
-      repository: GHHELPER_REPO,
-      version: version,
-      release_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt'),
-      release_assets: archive_zip_path.to_s,
-      prerelease: options[:beta_release]
+    set_github_release(
+      repository_name: GHHELPER_REPO,
+      name: version,
+      tag_name: version,
+      description: (File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt')) rescue "No changelog provided"),
+      commitish: Git.open(Dir.pwd).log.first.sha,
+      upload_assets: [archive_zip_path.to_s],
+      is_draft: !options[:beta_release]
     )
 
     FileUtils.rm_rf(archive_zip_path)
