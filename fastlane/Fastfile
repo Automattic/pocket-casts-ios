@@ -357,7 +357,7 @@ platform :ios do
       is_prerelease: options[:beta_release]
     )
 
-    # TODO: Go through PRs and add a comment
+    # TODO: Open PR
 
     # TODO: Send Slack message
 
