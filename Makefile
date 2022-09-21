@@ -16,7 +16,7 @@ swiftformat: ## Run swiftformat
 	./Pods/SwiftFormat/CommandLineTool/swiftformat --commas inline --stripunusedargs closure-only --elseposition next-line --trimwhitespace nonblank-lines --swiftversion 5 podcasts PodcastsIntents Modules fastlane "Pocket Casts Watch App Extension" "WidgetExtension" PocketCastsTests --exclude podcasts/Strings+Generated.swift --exclude fastlane/SnapshotHelper.swift --exclude **/Protobuffer/*.swift
 
 upload_dsyms: ## Upload dSYMs
-	./scripts/upload-symbols -gsp ./podcasts/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip
+	./scripts/upload-symbols -gsp $(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip
 
 install_dependencies: ## Install dependencies to run this project
 	bundle install
