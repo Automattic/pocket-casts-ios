@@ -35,19 +35,9 @@ final class BackgroundSignOutListenerTests: XCTestCase {
         XCTAssertEqual(presentingController.presentCount, 1)
     }
 
-    func testSignedOutAlertButtonOpensSignIn() throws {
-        signOutListener.alertAction = MockUIAlertAction.self
-
-        // "Show" the sign out alert
-        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
-
-        // Trigger the alert action handler
-        let alertController = presentingController.presentedController as! UIAlertController
-        let action = alertController.actions.first as! MockUIAlertAction
-        let handler = try XCTUnwrap(action.mockHandler)
-
-        // Manually trigger the action
-        handler(action)
+    func testSignOutAlertActionWillOpenSignIn() {
+        // Trigger the show sign in action
+        signOutListener.showSignIn()
 
         XCTAssertEqual(NavigationManager.signInPage, navigationManager.navigatedPlace)
     }
