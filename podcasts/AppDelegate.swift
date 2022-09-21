@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var lenticularFilter: LenticularFilter = .init()
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
+    private var backgroundSignOutListener: BackgroundSignOutListener?
+
     // MARK: - App Lifecycle
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -79,7 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
-        
+
+        setupSignOutListener()
         return true
     }
     
@@ -101,6 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func handleBecomeActive() {
+        setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
 
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
@@ -338,5 +342,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func setupSecrets() {
         ServerCredentials.sharing = ApiCredentials.sharingServerSecret
+    }
+
+    private func setupSignOutListener() {
+        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
+            return
+        }
+
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
     }
 }
