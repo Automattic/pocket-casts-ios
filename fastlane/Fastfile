@@ -328,6 +328,10 @@ platform :ios do
       is_prerelease: options[:beta_release]
     )
 
+    # TODO: Go through PRs and add a comment
+
+    # TODO: Send Slack message
+
     FileUtils.rm_rf(archive_zip_path)
   end
 
