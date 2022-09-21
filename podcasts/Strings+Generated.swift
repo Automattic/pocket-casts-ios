@@ -114,7 +114,7 @@ internal enum L10n {
   }
   /// You can sign in again to regain access.
   internal static var accountSignOutSupporterSubtitle: String { return L10n.tr("Localizable", "account_sign_out_supporter_subtitle") }
-  /// We're really sorry about it too. 😥 
+  /// Turns out, if you type Google into Google, you can break the internet. 🫢 
   /// 
   /// Tap the button below to sign into your Pocket Casts account again.
   internal static var accountSignedOutAlertMessage: String { return L10n.tr("Localizable", "account_signed_out_alert_message") }

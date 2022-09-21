@@ -128,7 +128,7 @@
 "account_signed_out_alert_title" = "You've been signed out.";
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
-"account_signed_out_alert_message" = "We're really sorry about it too. 😥 \n\nTap the button below to sign into your Pocket Casts account again.";
+"account_signed_out_alert_message" = "Turns out, if you type Google into Google, you can break the internet. 🫢 \n\nTap the button below to sign into your Pocket Casts account again.";
 
 /* A common string used throughout the app. Title for the prompt to add an episode to the up next queue. */
 "add_to_up_next" = "Add to Up Next";
