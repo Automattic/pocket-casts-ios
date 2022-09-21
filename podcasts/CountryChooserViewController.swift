@@ -41,7 +41,9 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         let region = regions[indexPath.row]
         selectedRegion = region.code
         Settings.setDiscoverRegion(region: selectedRegion)
-        
+
+        Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
+
         countriesTable.reloadData()
     }
     

@@ -278,4 +278,6 @@ enum AnalyticsEvent: String {
     case discoverSmallListPageChanged
     case discoverLargeListPageChanged
     case discoverNetworkListPageChanged
+
+    case discoverRegionChanged
 }
