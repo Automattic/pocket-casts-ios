@@ -32,8 +32,7 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
-FROZEN_STRINGS_ROOT_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'app-localization')
-FROZEN_STRINGS_PATH = File.join(FROZEN_STRINGS_ROOT_FOLDER, 'Frozen.strings')
+FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
 
 EN_LPROJ_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'en.lproj')
 
@@ -479,7 +478,7 @@ platform :ios do
     # Notice that we don't need to track the files we'll download here in Git,
     # because the content they carry will be read and ported into the
     # appropriate individual localization files next.
-    download_dir = File.join(FROZEN_STRINGS_ROOT_FOLDER, 'downloads')
+    download_dir = File.join(FASTLANE_FOLDER, 'app-localization-downloads')
     ios_download_strings_files_from_glotpress(
       project_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       locales: GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES,
