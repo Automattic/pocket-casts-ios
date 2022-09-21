@@ -176,7 +176,7 @@ platform :ios do
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   #
   desc 'Executes the initial steps needed during code freeze'
-  lane :start_code_freeze do |options|
+  lane :code_freeze do |options|
     start_code_freeze(options)
     complete_code_freeze(options)
   end
