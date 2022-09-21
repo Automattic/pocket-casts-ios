@@ -376,11 +376,17 @@ platform :ios do
         body: "Merge changes from #{ios_get_app_version} to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
         head: "merge/release-#{ios_get_app_version}-into-trunk",
         base: 'trunk'
+      },
+      error_handlers: {
+        '*' => proc do |result|
+          UI.message("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
+        end
       }
     )
 
     is_code_freeze_build = version.split('.')[3] == '0'
     if is_code_freeze_build
+      UI.message('Sending message to Slack...')
       slack(
         pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
         default_payloads: [],
