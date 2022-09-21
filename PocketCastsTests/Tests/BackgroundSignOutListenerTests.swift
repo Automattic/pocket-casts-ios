@@ -35,8 +35,7 @@ final class BackgroundSignOutListenerTests: XCTestCase {
         XCTAssertEqual(presentingController.presentCount, 1)
     }
 
-    func testSignOutAlertActionWillOpenSignIn() {
-        // Trigger the show sign in action
+    func testSignOutAlertActionWillOpenSignIn() throws {
         signOutListener.showSignIn()
 
         XCTAssertEqual(NavigationManager.signInPage, navigationManager.navigatedPlace)
