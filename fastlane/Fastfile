@@ -360,7 +360,19 @@ platform :ios do
       is_prerelease: options[:beta_release]
     )
 
-    # TODO: Open PR
+    # TODO: move this to a GH action
+    UI.message("Opening PR to merge changes to trunk...")
+    github_api(
+      server_url: "https://api.github.com",
+      api_token: ENV["GITHUB_TOKEN"],
+      http_method: "POST",
+      path: "/repos/#{GHHELPER_REPO}/pulls",
+      body: {
+        title: "Release: Merge changes from #{ios_get_app_version} code freeze into `trunk`",
+        body: "Merge changes from #{ios_get_app_version} to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
+        head: "merge/release-#{ios_get_app_version}-into-trunk",
+        base: "trunk" }
+    )
 
     # TODO: Send Slack message
 
