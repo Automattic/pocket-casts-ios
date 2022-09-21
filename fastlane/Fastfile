@@ -181,6 +181,32 @@ platform :ios do
     complete_code_freeze(options)
   end
 
+  desc 'Go through PRs and check their milestones, leaving a message if the milestone will be frozen'
+  lane :check_prs do
+    version = ios_get_app_version
+
+    UI.message("Checking open PRs pointing to #{version} milestone...")
+
+    result = github_api(
+      server_url: "https://api.github.com",
+      api_token: ENV["GITHUB_TOKEN"],
+      http_method: "GET",
+      path: "/repos/#{GHHELPER_REPO}/pulls",
+      body: { ref: "master" }
+    )
+
+    result[:json].each do |pr|
+      if pr["milestone"] != nil && pr["milestone"]["title"] == version
+        comment_on_pr(
+            project: GHHELPER_REPO,
+            pr_number: pr["number"],
+            body: "#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+            reuse_identifier: "nil"
+          )
+      end
+    end
+  end
+
   # Executes the initial steps of the code freeze
   #
   # - Cuts a new release branch
