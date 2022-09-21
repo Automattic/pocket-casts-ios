@@ -374,7 +374,12 @@ platform :ios do
         base: "trunk" }
     )
 
-    # TODO: Send Slack message
+    slack(
+      pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
+      default_payloads: [],
+      slack_url: ENV["SLACK_WEBHOOK"],
+      fail_on_error: false
+    )
 
     FileUtils.rm_rf(archive_zip_path)
   end
