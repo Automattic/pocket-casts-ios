@@ -35,10 +35,23 @@ final class BackgroundSignOutListenerTests: XCTestCase {
         XCTAssertEqual(presentingController.presentCount, 1)
     }
 
-    func testSignOutAlertActionWillOpenSignIn() throws {
+    func testSignOutAlertActionWillOpenSignIn() {
         signOutListener.showSignIn()
 
         XCTAssertEqual(NavigationManager.signInPage, navigationManager.navigatedPlace)
+    }
+
+    func testSignOutAlertCanShowAgain() {
+        // Trigger the initial sign out alert
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        XCTAssertEqual(presentingController.presentCount, 1)
+
+        // Trigger the dismiss action
+        signOutListener.showSignIn()
+
+        // Verify the alert can show again after dismissing the alert
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        XCTAssertEqual(presentingController.presentCount, 2)
     }
 
     private enum TestConstants {
