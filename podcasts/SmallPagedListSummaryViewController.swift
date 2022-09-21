@@ -199,8 +199,26 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage
 
-        Analytics.track(.discoverPagedListPageChanged, properties: ["current_page": currentPage + 1, "total_pages": pageControl.numberOfPages, "source": "network_summary"])
+        pageDidChange(to: currentPage, totalPages: pageControl.numberOfPages)
     }
+
+    override func pageDidChange(to currentPage: Int, totalPages: Int) {
+        var listId = item?.uuid
+
+        // This view can be used to display the trending/popular lists but the uuid will be nil
+        // this will do some basic inferring from the list URL to determine which to use
+        if listId == nil, let source = item?.source {
+            if source.contains("trending") {
+                listId = "trending"
+            } else if source.contains("popular") {
+                listId = "popular"
+            }
+        }
+
+        Analytics.track(.discoverSmallListPageChanged, properties: ["current_page": currentPage + 1,
+                                                                    "total_pages": totalPages,
+                                                                    "list_id": listId ?? "none"])
+   }
     
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate

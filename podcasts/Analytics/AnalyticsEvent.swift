@@ -274,5 +274,8 @@ enum AnalyticsEvent: String {
     case discoverListPodcastTapped
     case discoverListPodcastSubscribed
 
-    case discoverPagedListPageChanged
+    case discoverFeaturedSummaryPageChanged
+    case discoverSmallListPageChanged
+    case discoverLargeListPageChanged
+    case discoverNetworkListPageChanged
 }
