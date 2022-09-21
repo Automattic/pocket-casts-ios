@@ -362,9 +362,10 @@ platform :ios do
     ios_betabuild_prechecks(options)
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
+
     ios_bump_version_beta
-    version = ios_get_app_version
-    trigger_beta_build(branch_to_build: "release/#{version}")
+
+    trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
   end
 
   # Sets the stage to start working on a hotfix
