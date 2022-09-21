@@ -96,7 +96,7 @@ class AnalyticsHelper {
     
     class func podcastEpisodePlayedFromList(listId: String, podcastUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
-        Analytics.track(.discoverListEpisodePlay)
+        Analytics.track(.discoverListEpisodePlay, properties: properties)
         logEvent("discover_list_episode_play", parameters: properties)
     }
     
