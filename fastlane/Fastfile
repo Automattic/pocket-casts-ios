@@ -374,12 +374,15 @@ platform :ios do
         base: "trunk" }
     )
 
-    slack(
-      pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
-      default_payloads: [],
-      slack_url: ENV["SLACK_WEBHOOK"],
-      fail_on_error: false
-    )
+    is_code_freeze_build = version.split(".")[3] == "0"
+    if is_code_freeze_build
+      slack(
+        pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
+        default_payloads: [],
+        slack_url: ENV["SLACK_WEBHOOK"],
+        fail_on_error: false
+      )
+    end
 
     FileUtils.rm_rf(archive_zip_path)
   end
