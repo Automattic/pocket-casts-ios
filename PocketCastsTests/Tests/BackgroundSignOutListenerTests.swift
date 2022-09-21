@@ -3,50 +3,43 @@ import XCTest
 
 final class BackgroundSignOutListenerTests: XCTestCase {
     private var signOutListener: BackgroundSignOutListener!
+    private var notificationCenter: NotificationCenter!
+    private var presentingController: MockPresentingViewController!
+    private var navigationManager: MockNavigationManager!
+
+    override func setUp() {
+        notificationCenter = NotificationCenter()
+        presentingController = MockPresentingViewController()
+        navigationManager = MockNavigationManager()
+
+        signOutListener = BackgroundSignOutListener(notificationCenter: notificationCenter,
+                                                    presentingViewController: presentingController,
+                                                    navigationManager: navigationManager)
+    }
 
     func testSignOutAlertShowsWhenNotUserInitiated() {
-        let center = NotificationCenter()
-        let presentingController = MockPresentingViewController()
-        let listener = BackgroundSignOutListener(notificationCenter: center, presentingViewController: presentingController)
-
-        center.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
 
         XCTAssertTrue(presentingController.didPresent)
     }
 
     func testAlertDoesNotShowWhenUserInitiated() {
-        let center = NotificationCenter()
-        let presentingController = MockPresentingViewController()
-        let listener = BackgroundSignOutListener(notificationCenter: center, presentingViewController: presentingController)
-
-        center.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": true])
-
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": true])
         XCTAssertFalse(presentingController.didPresent)
     }
 
     func testSignOutAlertDoesNotShowMoreThanOnce() {
-        let center = NotificationCenter()
-        let presentingController = MockPresentingViewController()
-        _ = BackgroundSignOutListener(notificationCenter: center, presentingViewController: presentingController)
-
-        center.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
-        center.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
 
         XCTAssertEqual(presentingController.presentCount, 1)
     }
 
     func testSignedOutAlertButtonOpensSignIn() throws {
-        let center = NotificationCenter()
-        let navigationManager = MockNavigationManager()
-        let presentingController = MockPresentingViewController()
-        let listener = BackgroundSignOutListener(notificationCenter: center,
-                                                 presentingViewController: presentingController,
-                                                 navigationManager: navigationManager)
-
-        listener.alertAction = MockUIAlertAction.self
+        signOutListener.alertAction = MockUIAlertAction.self
 
         // "Show" the sign out alert
-        center.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
+        notificationCenter.post(name: TestConstants.signOutNotification, object: nil, userInfo: ["user_initiated": false])
 
         // Trigger the alert action handler
         let alertController = presentingController.presentedController as! UIAlertController
