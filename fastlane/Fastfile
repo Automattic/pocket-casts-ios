@@ -325,22 +325,23 @@ platform :ios do
 
     configure_code_signing
 
-    gym(
-      scheme: 'pocketcasts',
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      export_options: { method: 'app-store' }
-    )
+    # TESTING, DO NOT UPLOAD TO APP STORE CONNECT
+    # gym(
+    #   scheme: 'pocketcasts',
+    #   include_bitcode: false,
+    #   include_symbols: true,
+    #   clean: true,
+    #   export_options: { method: 'app-store' }
+    # )
 
-    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
-    testflight(
-      skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID,
-      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
-    )
+    # secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
+    # testflight(
+    #   skip_waiting_for_build_processing: true,
+    #   team_id: TEAM_ID,
+    #   api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
+    # )
 
-    sh 'cd .. && make upload_dsyms'
+    # sh 'cd .. && make upload_dsyms'
 
     next unless options[:create_release]
 
