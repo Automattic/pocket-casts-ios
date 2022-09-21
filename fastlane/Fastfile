@@ -345,8 +345,8 @@ platform :ios do
 
     next unless options[:create_release]
 
-    archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
-    zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
+    # archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
+    # zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
     set_github_release(
@@ -360,7 +360,6 @@ platform :ios do
         'No changelog provided'
       end,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
-      upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
       is_prerelease: options[:beta_release]
     )
