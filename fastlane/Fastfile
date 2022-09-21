@@ -165,6 +165,22 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
+  # Executes the code freeze
+  #
+  # - Call start_code_freeze
+  # - Call complete_code_freeze
+  # - Go over PRs with the current milestone and add a comment to move them to the next
+  # - Open a PR targeting trunk
+  # - Send a message to Slack channel confirming the code freeze was finished
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  #
+  desc 'Executes the initial steps needed during code freeze'
+  lane :start_code_freeze do |options|
+    start_code_freeze(options)
+    complete_code_freeze(options)
+  end
+
   # Executes the initial steps of the code freeze
   #
   # - Cuts a new release branch
