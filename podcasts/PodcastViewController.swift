@@ -533,6 +533,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         loadLocalEpisodes(podcast: podcast, animated: true)
 
         if featuredPodcast {
+            Analytics.track(.discoverFeaturedPodcastSubscribed, properties: ["podcast_uuid": podcast.uuid])
             AnalyticsHelper.subscribedToFeaturedPodcast()
         }
         if let listId = listUuid {
