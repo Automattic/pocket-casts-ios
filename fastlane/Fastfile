@@ -470,9 +470,14 @@ platform :ios do
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
+    # Set up branches to merge
+    version = ios_get_app_version
+    build_version = ios_get_build_version
+    create_merge_release_branch(version: version, build_version: build_version)
+
+    # Push and trigger build
     after_confirming_push do
       ios_finalize_prechecks(options)
-      version = ios_get_app_version
       trigger_release_build(branch_to_build: "release/#{version}")
     end
   end
