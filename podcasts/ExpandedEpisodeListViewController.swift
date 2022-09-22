@@ -83,7 +83,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
             AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         }
 
-        DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
+        DiscoverEpisodeViewModel.loadPodcast(podcastUuid, ensureEpisodeUuid: episodeUuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
                 guard let podcast = podcast else { return }

@@ -9,6 +9,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
     private enum ClientError: Swift.Error {
         case noPodcastUuid
         case podcastNotFound
+        case episodeNotFound
     }
 
     weak var delegate: DiscoverDelegate?
@@ -98,7 +99,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
         let listId = discoverItem?.uuid ?? listId
 
-        DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
+        DiscoverEpisodeViewModel.loadPodcast(podcastUuid, ensureEpisodeUuid: episodeUuid)
             .sink { [unowned self] _ in
                 // We don't need the fetched podcast but we want to make sure the episode is available.
 
@@ -124,7 +125,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
             AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         }
 
-        DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
+        DiscoverEpisodeViewModel.loadPodcast(podcastUuid, ensureEpisodeUuid: episode.uuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
                 guard let podcast = podcast else { return }
@@ -135,9 +136,28 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
     // MARK: Static helpers
 
-    static func loadPodcast(_ podcastUUID: String) -> AnyPublisher<Podcast?, Never> {
+    static func loadPodcast(_ podcastUUID: String, ensureEpisodeUuid: String? = nil) -> AnyPublisher<Podcast?, Never> {
         Future<Podcast?, ClientError> { promise in
             if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
+                // if we are loading this podcast to access a specific episode, check if it exists, if not refresh the episode list as well
+                if let episodeUuid = ensureEpisodeUuid {
+                    var episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+
+                    if nil == episode {
+                        ServerPodcastManager.shared.updatePodcastIfRequired(podcast: existingPodcast) { _ in
+                            let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+
+                            if nil == episode {
+                                promise(.failure(.episodeNotFound))
+                            }
+                            else {
+                                promise(.success(existingPodcast))
+                            }
+                        }
+                        return
+                    }
+                }
+
                 promise(.success(existingPodcast))
                 return
             }
