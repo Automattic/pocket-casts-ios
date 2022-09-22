@@ -179,15 +179,14 @@ platform :ios do
   lane :code_freeze do |options|
     start_code_freeze(options)
 
-    check_prs
+    comment_on_prs(milestone: ios_get_app_version)
 
     complete_code_freeze(options)
   end
 
-  desc 'Go through PRs and check their milestones, leaving a message if the milestone is being frozen'
-  lane :check_prs do
-    version = ios_get_app_version
-
+  # Go through PRs and check their milestones, leaving a message if the target milestone is being frozen
+  def comment_on_prs(milestone:)
+    version = milestone
     UI.message("Checking open PRs pointing to #{version} milestone...")
 
     result = github_api(
@@ -195,18 +194,23 @@ platform :ios do
       api_token: ENV.fetch('GITHUB_TOKEN'),
       http_method: 'GET',
       path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: { ref: 'master' }
-    )
-
-    result[:json].each do |pr|
-      next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
-
-      comment_on_pr(
-        project: GHHELPER_REPO,
-        pr_number: pr['number'],
-        body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
-        reuse_identifier: 'code-freeze-in-progress'
-      )
+      body: { ref: 'master' },
+      error_handlers: {
+        '*' => proc do |_result|
+          UI.message("⚠️ Failed checking opened PRs, skipping this step.")
+        end
+      }
+    ) do |result|
+      result[:json].each do |pr|
+        next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
+  
+        comment_on_pr(
+          project: GHHELPER_REPO,
+          pr_number: pr['number'],
+          body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+          reuse_identifier: 'code-freeze-in-progress'
+        )
+      end
     end
   end
 
