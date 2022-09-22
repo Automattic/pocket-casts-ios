@@ -77,10 +77,10 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
             categoryPodcastsController.registerDiscoverDelegate(delegate)
             delegate.navController()?.pushViewController(categoryPodcastsController, animated: true)
 
-            if let categoryId = category.id, let catgoryName = category.name {
+            if let categoryId = category.id, let categoryName = category.name {
                 AnalyticsHelper.openedCategory(categoryId: categoryId, region: regionCode)
                 
-                Analytics.track(.discoverCategoryShown, properties: ["name": catgoryName, "region": regionCode, "id": categoryId])
+                Analytics.track(.discoverCategoryShown, properties: ["name": categoryName, "region": regionCode, "id": categoryId])
             }
         }
         tableView.deselectRow(at: indexPath, animated: false)
