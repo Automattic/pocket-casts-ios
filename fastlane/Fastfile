@@ -272,21 +272,21 @@ platform :ios do
 
     version = ios_get_app_version
 
-    create_merge_release_branch(version: version)
+    create_merge_release_branch(version: version, build_version: ios_get_build_version)
 
     after_confirming_push do
-      push_release_branches(version: version)
+      push_release_branches(version: version, build_version: ios_get_build_version)
       trigger_beta_build(branch_to_build: "release/#{version}")
     end
   end
 
   # TODO: move this to an action
-  def create_merge_release_branch(version:)
-    Fastlane::Helper::GitHelper.create_branch("merge/release-#{version}-into-trunk", from: "release/#{version}")
+  def create_merge_release_branch(version:, build_version:)
+    Fastlane::Helper::GitHelper.create_branch("merge/release-#{build_version}-into-trunk", from: "release/#{version}")
   end
 
-  def push_release_branches(version:)
-    push_to_git_remote(local_branch: "merge/release-#{version}-into-trunk", remote_branch: "merge/release-#{version}-into-trunk", tags: false)
+  def push_release_branches(version:, build_version:)
+    push_to_git_remote(local_branch: "merge/release-#{build_version}-into-trunk", remote_branch: "merge/release-#{build_version}-into-trunk", tags: false)
     push_to_git_remote(local_branch: "release/#{version}", remote_branch: "release/#{version}", tags: false)
   end
 
@@ -440,8 +440,8 @@ platform :ios do
     lint_localizations
     ios_bump_version_beta
     version = ios_get_app_version
-    create_merge_release_branch(version: version)
-    push_release_branches(version: version)
+    create_merge_release_branch(version: version, build_version: ios_get_build_version)
+    push_release_branches(version: version, build_version: ios_get_build_version)
     trigger_beta_build(branch_to_build: "release/#{version}")
   end
 
@@ -833,7 +833,7 @@ inal copy, and try again.")
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_release_branches(version: ios_get_app_version)
+      push_release_branches(version: ios_get_app_version, build_version: ios_get_build_version)
       yield
     else
       UI.message('Aborting push as requested.')
