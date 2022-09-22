@@ -401,16 +401,20 @@ platform :ios do
       }
     )
 
-    is_code_freeze_build = version.split('.')[3] == '0'
+    is_code_freeze_build = options[:beta_release] && version.split('.')[3] == '0'
     if is_code_freeze_build
-      UI.message('Sending message to Slack...')
-      slack(
-        pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
-        default_payloads: [],
-        slack_url: ENV.fetch('SLACK_WEBHOOK'),
-        fail_on_error: false
-      )
+      message = ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>."
+    elsif options[:beta_release]
+      message = ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{version}*> beta has been submitted to Apple.\nPlease distribute #{version} to testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
     end
+
+    UI.message('Sending message to Slack...')
+    slack(
+      pretext: message,
+      default_payloads: [],
+      slack_url: ENV.fetch('SLACK_WEBHOOK'),
+      fail_on_error: false
+    )
 
     FileUtils.rm_rf(archive_zip_path)
   end
