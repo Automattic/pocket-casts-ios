@@ -27,13 +27,6 @@ class Analytics {
             $0.track(name: event.eventName, properties: properties)
         }
     }
-
-    /// Tracks a string manually, this shouldn't be used unless absolutely needed
-    static func track(_ string: String, properties: [AnyHashable: Any]? = nil) {
-        Self.shared.adapters?.forEach {
-            $0.track(name: string, properties: properties)
-        }
-    }
 }
 
 // MARK: - Dynamic Event Name

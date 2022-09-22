@@ -10,14 +10,8 @@ class AnalyticsHelper {
     static var optedOut: Bool = false
 
     class func openedCategory(categoryId: Int, region: String) {
-        let properties: [String: Any] = ["id": categoryId, "region": region]
-        Analytics.track(.categoryOpen, properties: properties)
-        logEvent("category_open", parameters: properties)
-
-        // Track page open
-        let eventName = "category_page_open_\(categoryId)"
-        Analytics.track(eventName)
-        logEvent(eventName, parameters: nil)
+        logEvent("category_open", parameters: ["id": categoryId, "region": region])
+        logEvent("category_page_open_\(categoryId)", parameters: nil)
     }
     
     class func openedFeaturedPodcast() {
