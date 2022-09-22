@@ -144,7 +144,7 @@ enum AnalyticsEvent: String {
 
     // MARK: - Tab Bar Items
 
-    case podcastTabOpened
+    case podcastsTabOpened
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
