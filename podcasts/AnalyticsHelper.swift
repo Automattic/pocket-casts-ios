@@ -13,6 +13,11 @@ class AnalyticsHelper {
         let properties: [String: Any] = ["id": categoryId, "region": region]
         Analytics.track(.categoryOpen, properties: properties)
         logEvent("category_open", parameters: properties)
+
+        // Track page open
+        let eventName = "category_page_open_\(categoryId)"
+        Analytics.track(eventName)
+        logEvent(eventName, parameters: nil)
     }
     
     class func openedFeaturedPodcast() {
