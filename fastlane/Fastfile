@@ -378,7 +378,7 @@ platform :ios do
         base: 'trunk'
       },
       error_handlers: {
-        '*' => proc do |result|
+        '*' => proc do |_result|
           UI.message("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
         end
       }
