@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-08-08 17:54:03+0000 */
+/* Translation-Revision-Date: 2022-09-20 09:54:21+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: it */
@@ -149,6 +149,12 @@
 
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "Puoi accedere di nuovo per recuperare l'accesso.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Account Pocket Casts";
@@ -3380,10 +3386,10 @@
 "whats_new_page_two_title_7_20" = "Sincronizzazione della griglia della home";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "";
+"widgets_app_icon_description" = "Avvio rapido di Pocket Casts";
 
 /* Title of a widget that displays the app icon */
-"widgets_app_icon_name" = "";
+"widgets_app_icon_name" = "Icona";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "Accedi alla scheda Scopri";
@@ -3398,10 +3404,10 @@
 "widgets_now_playing_desc" = "Accedi rapidamente all'episodio in riproduzione.";
 
 /* Call to action for a tap on a widget to open the Discover tab. */
-"widgets_now_playing_tap_discover" = "";
+"widgets_now_playing_tap_discover" = "Tocca per Scopri";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "";
+"widgets_up_next_description" = "Visualizza il numero di elementi nella coda Successivo o i dettagli sul successivo episodio.";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "anno";
