@@ -178,9 +178,7 @@ platform :ios do
   desc 'Executes the initial steps needed during code freeze'
   lane :code_freeze do |options|
     start_code_freeze(options)
-
     comment_on_prs(milestone: ios_get_app_version)
-
     complete_code_freeze(options)
   end
 
