@@ -212,6 +212,21 @@ platform :ios do
       end
     end
   end
+
+  def slack_message(version:, build_number:, is_beta:)
+    build_number_split = build_number.split('.')
+    if is_beta
+      if (build_number_split[3] || '0') == '0'
+        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{build_number}|*#{version}*> code freeze is completed.\nPlease submit #{build_number} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
+      else
+        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{build_number}|*#{build_number}*> beta has been submitted to Apple.\nPlease distribute #{version} to testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
+      end
+    elsif (build_number_split[2] || '0').to_i.positive?
+      ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}%7C*#{version}*> hotfix has been uploaded to Apple.\nPlease submit it for review on <https://appstoreconnect.apple.com/apps/414834813/appstore/ios/version/deliverable%7CApp Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into%7Cmerge the PR>."
+    else
+      ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}%7C*#{version}*> final build has been uploaded to Apple.\nPlease submit it for review on <https://appstoreconnect.apple.com/apps/414834813/appstore/ios/version/deliverable%7CApp Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into%7Cmerge the PR>."
+    end
+  end
   # rubocop:enable Metrics/MethodLength
 
   # Executes the initial steps of the code freeze
@@ -410,23 +425,6 @@ platform :ios do
     )
 
     FileUtils.rm_rf(archive_zip_path)
-  end
-
-  def slack_message(version:, build_number:, is_beta:)
-    build_number_split = build_number.split('.')
-    if is_beta
-      if build_number_split[3] || '0' == '0'
-        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{build_number}|*#{version}*> code freeze is completed.\nPlease submit #{build_number} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
-      else
-        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{build_number}|*#{build_number}*> beta has been submitted to Apple.\nPlease distribute #{version} to testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
-      end
-    else
-      if (build_number_split[2] || '0').to_i > 0
-        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}%7C*#{version}*> hotfix has been uploaded to Apple.\nPlease submit it for review on <https://appstoreconnect.apple.com/apps/414834813/appstore/ios/version/deliverable%7CApp Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into%7Cmerge the PR>."
-      else
-        ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}%7C*#{version}*> final build has been uploaded to Apple.\nPlease submit it for review on <https://appstoreconnect.apple.com/apps/414834813/appstore/ios/version/deliverable%7CApp Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into%7Cmerge the PR>."
-      end
-    end
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
