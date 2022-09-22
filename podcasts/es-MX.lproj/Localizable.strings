@@ -150,6 +150,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "Puedes iniciar sesión de nuevo para recuperar el acceso.";
 
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "";
+
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Cuenta de Pocket Casts";
 
@@ -3380,10 +3386,10 @@
 "whats_new_page_two_title_7_20" = "Sincronización de la red doméstica";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "";
+"widgets_app_icon_description" = "Iniciar rápidamente Pocket Casts";
 
 /* Title of a widget that displays the app icon */
-"widgets_app_icon_name" = "";
+"widgets_app_icon_name" = "Icono";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "Echa un vistazo a la pestaña Descubrir";
@@ -3398,10 +3404,10 @@
 "widgets_now_playing_desc" = "Accede rápidamente al episodio que se está reproduciendo actualmente.";
 
 /* Call to action for a tap on a widget to open the Discover tab. */
-"widgets_now_playing_tap_discover" = "";
+"widgets_now_playing_tap_discover" = "Toca para descubrir";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "";
+"widgets_up_next_description" = "Consulta el número de episodios en cola en la sección A continuación u obtén información sobre el siguiente episodio.";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "año";

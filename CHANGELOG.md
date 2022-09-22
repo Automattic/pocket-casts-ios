@@ -1,7 +1,12 @@
+7.24
+-----
+
+
 7.23
 -----
 
 - Add a pull to refresh to the podcast list and profile view (#239)
+- Add a helpful alert if the user is signed out in the background (#251)
 
 7.22
 -----

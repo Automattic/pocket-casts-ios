@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-08-09 09:54:15+0000 */
+/* Translation-Revision-Date: 2022-09-19 14:54:03+0000 */
 /* Plural-Forms: nplurals=1; plural=0; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: zh_CN */
@@ -149,6 +149,12 @@
 
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "您可以再次登录以重新获得访问权限。";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Pocket Casts 账户";
@@ -3380,10 +3386,10 @@
 "whats_new_page_two_title_7_20" = "主网格同步";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "";
+"widgets_app_icon_description" = "快速启动 Pocket Casts";
 
 /* Title of a widget that displays the app icon */
-"widgets_app_icon_name" = "";
+"widgets_app_icon_name" = "图标";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "查看“发现”选项卡";
@@ -3398,10 +3404,10 @@
 "widgets_now_playing_desc" = "快速访问当前正在播放的剧集。";
 
 /* Call to action for a tap on a widget to open the Discover tab. */
-"widgets_now_playing_tap_discover" = "";
+"widgets_now_playing_tap_discover" = "轻点以发现";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "";
+"widgets_up_next_description" = "查看您的“接下来播放”队列中的项目数量或有关下一集的详细信息。";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "年";

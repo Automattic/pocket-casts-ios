@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-08-08 13:54:03+0000 */
+/* Translation-Revision-Date: 2022-09-19 14:54:03+0000 */
 /* Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: ru */
@@ -149,6 +149,12 @@
 
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "Чтобы восстановить доступ, вы можете снова войти в систему.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Учетная запись Pocket Casts";
@@ -3380,10 +3386,10 @@
 "whats_new_page_two_title_7_20" = "Синхронизация структуры домашней страницы";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "";
+"widgets_app_icon_description" = "Быстрый запуск Pocket Casts";
 
 /* Title of a widget that displays the app icon */
-"widgets_app_icon_name" = "";
+"widgets_app_icon_name" = "Иконка";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "Проверьте вкладку «Поиск»";
@@ -3398,10 +3404,10 @@
 "widgets_now_playing_desc" = "Быстрый переход к выпуску, который сейчас воспроизводится.";
 
 /* Call to action for a tap on a widget to open the Discover tab. */
-"widgets_now_playing_tap_discover" = "";
+"widgets_now_playing_tap_discover" = "Коснитесь, чтобы узнать больше";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "";
+"widgets_up_next_description" = "Количество элементов можно увидеть в очереди «Следующие» или в сведениях о следующем эпизоде.";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "год";

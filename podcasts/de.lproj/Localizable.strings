@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-08-09 11:54:03+0000 */
+/* Translation-Revision-Date: 2022-09-19 12:54:05+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: de */
@@ -149,6 +149,12 @@
 
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "Du kannst dich anmelden, um wieder Zugriff zu erhalten.";
+
+/* Message/Body of an alert that explains that the user should tap a button and sign in again */
+"account_signed_out_alert_message" = "";
+
+/* Title of an alert that informs the user that they have been signed out of their account */
+"account_signed_out_alert_title" = "";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Pocket Casts-Konto";
@@ -3380,10 +3386,10 @@
 "whats_new_page_two_title_7_20" = "Synchronisierung des Startbildschirms";
 
 /* Description of a widget to launch the app */
-"widgets_app_icon_description" = "";
+"widgets_app_icon_description" = "Starte Pocket Casts schnell";
 
 /* Title of a widget that displays the app icon */
-"widgets_app_icon_name" = "";
+"widgets_app_icon_name" = "Icon";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
 "widgets_discover_prompt_msg" = "Sieh dir den „Entdecken“-Tab an";
@@ -3398,10 +3404,10 @@
 "widgets_now_playing_desc" = "Greife schnell auf die aktuell abgespielte Folge zu.";
 
 /* Call to action for a tap on a widget to open the Discover tab. */
-"widgets_now_playing_tap_discover" = "";
+"widgets_now_playing_tap_discover" = "Zum Entdecken tippen";
 
 /* Up Next Lock Screen Widget description */
-"widgets_up_next_description" = "";
+"widgets_up_next_description" = "Sieh dir in deiner „Als Nächstes\"-Warteschlange die Anzahl der Elemente oder Details zur nächsten Folge an.";
 
 /* Basic string used in formats like 'price / year' */
 "year" = "Jahr";
