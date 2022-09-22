@@ -335,6 +335,11 @@ platform :ios do
     create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: version)
 
+    # Set up branches to merge
+    build_version = ios_get_build_version
+    create_merge_release_branch(version: version, build_version: build_version)
+    push_release_branches(version: version, build_version: build_version)
+
     # Start the build
     trigger_release_build(branch_to_build: "release/#{version}")
   end
