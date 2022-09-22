@@ -257,13 +257,24 @@ platform :ios do
     # For Pocket Casts the strings are grab on a weekly basis from `trunk`
     # generate_strings_file_for_glotpress
 
-    Fastlane::Helper::GitHelper.create_branch("merge/release-#{ios_get_app_version}-into-trunk", from: "release/#{ios_get_app_version}")
+    version = ios_get_app_version
+
+    create_merge_release_branch(version: version)
 
     after_confirming_push do
-      push_to_git_remote(local_branch: "merge/release-#{ios_get_app_version}-into-trunk", remote_branch: "merge/release-#{ios_get_app_version}-into-trunk", tags: false)
-      push_to_git_remote(local_branch: "release/#{ios_get_app_version}", remote_branch: "release/#{ios_get_app_version}", tags: false)
-      trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
+      push_release_branches(version: version)
+      trigger_beta_build(branch_to_build: "release/#{version}")
     end
+  end
+
+  # TODO: move this to an action
+  def create_merge_release_branch(version:)
+    Fastlane::Helper::GitHelper.create_branch("merge/release-#{version}-into-trunk", from: "release/#{version}")
+  end
+
+  def push_release_branches(version:)
+    push_to_git_remote(local_branch: "merge/release-#{version}-into-trunk", remote_branch: "merge/release-#{version}-into-trunk", tags: false)
+    push_to_git_remote(local_branch: "release/#{version}", remote_branch: "release/#{version}", tags: false)
   end
 
   # Triggers a beta build on CI
@@ -808,8 +819,7 @@ inal copy, and try again.")
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_to_git_remote(local_branch: "merge/release-#{ios_get_app_version}-into-trunk", remote_branch: "merge/release-#{ios_get_app_version}-into-trunk", tags: false)
-      push_to_git_remote(local_branch: "release/#{ios_get_app_version}", remote_branch: "release/#{ios_get_app_version}", tags: false)
+      push_release_branches(version: ios_get_app_version)
       yield
     else
       UI.message('Aborting push as requested.')
