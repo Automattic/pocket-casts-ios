@@ -47,6 +47,8 @@ class DiscoverViewController: PCViewController {
         super.viewDidAppear(animated)
         
         AnalyticsHelper.navigatedToDiscover()
+        Analytics.track(.discoverShown)
+
         reloadIfRequired()
         
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequested), name: Constants.Notifications.searchRequested, object: nil)

@@ -28,7 +28,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         collectionView.backgroundColor = UIColor.clear
         
         cellSpacing = 16 as CGFloat
-        numVisibleColoumns = 2
+        numVisibleColumns = 2
         isPeekEnabled = true
         
         let gridLayout = collectionView.collectionViewLayout as! GridLayout
@@ -157,5 +157,17 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         guard let delegate = delegate, let item = item else { return }
         
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+    }
+
+    // MARK: - Page Changed
+
+    override func pageDidChange(to currentPage: Int, totalPages: Int) {
+        guard let item else {
+            return
+        }
+        
+        Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
+                                                                    "total_pages": totalPages,
+                                                                    "list_id": item.inferredListId])
     }
 }

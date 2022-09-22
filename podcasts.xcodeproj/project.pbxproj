@@ -1308,9 +1308,13 @@
 		C7C4CAEB28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
 		C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */; };
 		C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
+		C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
+		C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
+		C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
+		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2793,6 +2797,7 @@
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
 		C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListener.swift; sourceTree = "<group>"; };
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
+		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
 		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
@@ -5685,6 +5690,7 @@
 				463538AD26E8F4AE00BA9D35 /* Server+Strings.swift */,
 				46851BB62790D5E00065C8B2 /* PodcastCollectionColors+Helpers.swift */,
 				8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */,
+				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -7187,6 +7193,7 @@
 				40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */,
 				4041FEA4218FE6A70089D4A1 /* PodcastSettingsViewController+VoiceShortcuts.swift in Sources */,
 				400A3EFE22729B85007361C7 /* SelectAccountTypeViewController.swift in Sources */,
+				C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */,
 				462EE0B827024FF3003D67DC /* ApiCredentials.swift in Sources */,
 				BD93FDAD20159CF600F6EF55 /* FilterNameCell.swift in Sources */,
 				C7C4CAEB28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift in Sources */,
@@ -7631,6 +7638,8 @@
 				BDD3017C1EFB9356004A9972 /* NotificationController.swift in Sources */,
 				BDE48A262410D27300ECA6CA /* Podcast+Formatting.swift in Sources */,
 				C7AF578C289C60C80089E435 /* FeatureFlag.swift in Sources */,
+				C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */,
+				C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */,
 				46C7BB8827DA60E000CD6AE3 /* DownloadListView.swift in Sources */,
 				BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */,
 				46703E1427BEF79C00DD7998 /* PreviewHelpers.swift in Sources */,
@@ -7648,6 +7657,7 @@
 				46DE81E327E1244B00B696B9 /* OrderPickerToolbar.swift in Sources */,
 				4649404327D94757007F29C8 /* EpisodeViewModel.swift in Sources */,
 				46D88AB927DF97ED00F3BC43 /* PodcastsListViewModel.swift in Sources */,
+				C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */,
 				BDE48A282410D27300ECA6CA /* UserEpisode+Formatting.swift in Sources */,
 				BDE48A422410D92A00ECA6CA /* EpisodeFilter+Formatting.swift in Sources */,
 				BDE48A2C2410D2ED00ECA6CA /* EpisodeFileSizeUpdater.swift in Sources */,
