@@ -165,51 +165,6 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
-  # Executes the code freeze
-  #
-  # - Call start_code_freeze
-  # - Call complete_code_freeze
-  # - Go over PRs with the current milestone and add a comment to move them to the next
-  # - Open a PR targeting trunk
-  # - Send a message to Slack channel confirming the code freeze was finished
-  #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  #
-  desc 'Executes the initial steps needed during code freeze'
-  lane :code_freeze do |options|
-    start_code_freeze(options)
-
-    check_prs
-
-    complete_code_freeze(options)
-  end
-
-  desc 'Go through PRs and check their milestones, leaving a message if the milestone is being frozen'
-  lane :check_prs do
-    version = ios_get_app_version
-
-    UI.message("Checking open PRs pointing to #{version} milestone...")
-
-    result = github_api(
-      server_url: 'https://api.github.com',
-      api_token: ENV.fetch('GITHUB_TOKEN'),
-      http_method: 'GET',
-      path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: { ref: 'master' }
-    )
-
-    result[:json].each do |pr|
-      next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
-
-      comment_on_pr(
-        project: GHHELPER_REPO,
-        pr_number: pr['number'],
-        body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
-        reuse_identifier: 'code-freeze-in-progress'
-      )
-    end
-  end
-
   # Executes the initial steps of the code freeze
   #
   # - Cuts a new release branch
@@ -219,7 +174,7 @@ platform :ios do
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   #
   desc 'Executes the initial steps needed during code freeze'
-  lane :start_code_freeze do |options|
+  lane :code_freeze do |options|
     ios_codefreeze_prechecks(options)
 
     ios_bump_version_release(skip_deliver: true, skip_glotpress: true)
@@ -251,11 +206,8 @@ platform :ios do
     # For Pocket Casts the strings are grab on a weekly basis from `trunk`
     # generate_strings_file_for_glotpress
 
-    Fastlane::Helper::GitHelper.create_branch("merge/release-#{ios_get_app_version}-into-trunk", from: "release/#{ios_get_app_version}")
-
     after_confirming_push do
-      push_to_git_remote(local_branch: "merge/release-#{ios_get_app_version}-into-trunk", remote_branch: "merge/release-#{ios_get_app_version}-into-trunk", tags: false)
-      push_to_git_remote(local_branch: "release/#{ios_get_app_version}", remote_branch: "release/#{ios_get_app_version}", tags: false)
+      push_to_git_remote(tags: false)
       trigger_beta_build(branch_to_build: "release/#{ios_get_app_version}")
     end
   end
@@ -348,46 +300,13 @@ platform :ios do
     zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
-    set_github_release(
-      repository_name: GHHELPER_REPO,
-      api_token: ENV.fetch('GITHUB_TOKEN'),
-      name: version,
-      tag_name: version,
-      description: begin
-        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
-      rescue StandardError
-        'No changelog provided'
-      end,
-      commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
-      upload_assets: [archive_zip_path.to_s],
-      is_draft: !options[:beta_release],
-      is_prerelease: options[:beta_release]
+    create_release(
+      repository: GHHELPER_REPO,
+      version: version,
+      release_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt'),
+      release_assets: archive_zip_path.to_s,
+      prerelease: options[:beta_release]
     )
-
-    # TODO: move this to a GH action
-    UI.message('Opening PR to merge changes to trunk...')
-    github_api(
-      server_url: 'https://api.github.com',
-      api_token: ENV.fetch('GITHUB_TOKEN'),
-      http_method: 'POST',
-      path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: {
-        title: "Release: Merge changes from #{ios_get_app_version} code freeze into `trunk`",
-        body: "Merge changes from #{ios_get_app_version} to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: "merge/release-#{ios_get_app_version}-into-trunk",
-        base: 'trunk'
-      }
-    )
-
-    is_code_freeze_build = version.split('.')[3] == '0'
-    if is_code_freeze_build
-      slack(
-        pretext: ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>.",
-        default_payloads: [],
-        slack_url: ENV.fetch('SLACK_WEBHOOK'),
-        fail_on_error: false
-      )
-    end
 
     FileUtils.rm_rf(archive_zip_path)
   end
@@ -796,8 +715,7 @@ inal copy, and try again.")
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_to_git_remote(local_branch: "merge/release-#{ios_get_app_version}-into-trunk", remote_branch: "merge/release-#{ios_get_app_version}-into-trunk", tags: false)
-      push_to_git_remote(local_branch: "release/#{ios_get_app_version}", remote_branch: "release/#{ios_get_app_version}", tags: false)
+      push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
