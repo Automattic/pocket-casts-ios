@@ -6,4 +6,7 @@ enum FeatureFlag {
 
     /// Whether the Tracks analytics are enabled
     static let tracksEnabled = false
+
+    /// Whether logging of Firebase events in console is enabled
+    static let firebaseLoggingEnabled = false
 }

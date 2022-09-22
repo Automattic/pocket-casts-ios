@@ -374,21 +374,23 @@ class AnalyticsHelper {
 
 private extension AnalyticsHelper {
     static let logger = Logger()
-
+    
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // Don't track anything if the user has opted out
         if Self.optedOut { return }
-
+        
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
-
+        
             Firebase.Analytics.logEvent(name, parameters: parameters)
-
-            if let parameters = parameters {
-                logger.debug("🟢 Tracked: \(name) \(parameters)")
-            }
-            else {
-                logger.debug("🟢 Tracked: \(name)")
+        
+            if FeatureFlag.firebaseLoggingEnabled {
+                if let parameters = parameters {
+                    logger.debug("🟢 Tracked: \(name) \(parameters)")
+                }
+                else {
+                    logger.debug("🟢 Tracked: \(name)")
+                }
             }
         #endif
     }
