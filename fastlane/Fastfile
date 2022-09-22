@@ -428,6 +428,8 @@ platform :ios do
     lint_localizations
     ios_bump_version_beta
     version = ios_get_app_version
+    create_merge_release_branch(version: version)
+    push_release_branches(version: version)
     trigger_beta_build(branch_to_build: "release/#{version}")
   end
 
