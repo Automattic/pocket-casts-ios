@@ -365,6 +365,8 @@ platform :ios do
     zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
+
+    UI.message("Creating #{version} release on GitHub...")
     set_github_release(
       repository_name: GHHELPER_REPO,
       api_token: ENV.fetch('GITHUB_TOKEN'),
