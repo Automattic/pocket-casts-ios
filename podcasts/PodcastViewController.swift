@@ -243,7 +243,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
         
         if featuredPodcast, !hasAppearedAlready {
-            Analytics.track(.discoverFeaturedPodcastTapped)
+            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcast?.uuid ?? "unknown"])
             AnalyticsHelper.openedFeaturedPodcast()
         }
         
