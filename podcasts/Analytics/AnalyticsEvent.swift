@@ -282,4 +282,7 @@ enum AnalyticsEvent: String {
 
     case discoverRegionChanged
     case discoverCollectionLinkTapped
+
+    case categoryOpen
+    // dynamically tracked: category_page_open_{CategoryId}
 }
