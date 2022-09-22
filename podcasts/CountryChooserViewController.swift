@@ -5,15 +5,10 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     private static let cellId = "CountryCell"
     
     var regions = [DiscoverRegion]()
-    var selectedRegion = "" {
-        didSet {
-            if originalRegion == nil {
-                originalRegion = selectedRegion
-            }
-        }
-    }
+    var selectedRegion = ""
 
-    var originalRegion: String?
+    /// Whether the user changed their region or not
+    var didChangeRegion = false
 
     @IBOutlet var countriesTable: UITableView! {
         didSet {
@@ -33,7 +28,7 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if selectedRegion != originalRegion {
+        if didChangeRegion {
             Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
         }
     }
@@ -54,6 +49,7 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didChangeRegion = true
         let region = regions[indexPath.row]
         selectedRegion = region.code
         Settings.setDiscoverRegion(region: selectedRegion)
