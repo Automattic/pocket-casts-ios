@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
 
-let isRunningTests = NSClassFromString("XCTestCase") != nil
-let appDelegateClass = isRunningTests ? "TestingAppDelegate" : NSStringFromClass(AppDelegate.self)
+let appDelegateClass = NSStringFromClass(AppDelegate.self)
 
 UIApplicationMain(
     CommandLine.argc,
