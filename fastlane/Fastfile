@@ -206,7 +206,7 @@ platform :ios do
         comment_on_pr(
           project: GHHELPER_REPO,
           pr_number: pr['number'],
-          body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+          body: "\nThis PR is targeting #{version} which is entering code freeze. If this needs to be included in the #{version} release please merge it into `release/#{version}` if not please move it to the next milestone.",
           reuse_identifier: 'code-freeze-in-progress'
         )
       end
