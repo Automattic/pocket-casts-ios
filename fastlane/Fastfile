@@ -69,7 +69,10 @@ before_all do
   # Temporary: copy the Firebase plist file
   firebase_output_path = "#{PROJECT_ROOT_FOLDER}/podcasts/GoogleService-Info.plist"
   firebase_plist_location = ENV.fetch('FIREBASE_PLIST_GIST')
-  sh("rm -rf #{firebase_output_path} && curl #{firebase_plist_location} --output #{firebase_output_path}")
+  sh(
+    command: "rm -rf #{firebase_output_path} && curl #{firebase_plist_location} --output #{firebase_output_path}",
+    log: false
+  )
 end
 
 error do |_lane, _exception|
