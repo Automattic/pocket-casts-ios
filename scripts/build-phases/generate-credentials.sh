@@ -41,7 +41,7 @@ else
 
     ## Copy private GoogleService-Info.plist if it doesn't exist
     ##
-    if [ ! -f $SECRETS_PATH ]; then
+    if [ ! -f $FIREBASE_OUTPUT_PATH ]; then
         echo ">> Firebase plist not found, copying it..."
         echo $(<${FIREBASE_SECRETS_PATH}) > "${FIREBASE_OUTPUT_PATH}"
     fi
