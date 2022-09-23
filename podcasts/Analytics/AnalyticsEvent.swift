@@ -282,4 +282,23 @@ enum AnalyticsEvent: String {
 
     case discoverRegionChanged
     case discoverCollectionLinkTapped
+
+    // MARK: - Mini Player
+
+    case miniPlayerLongPressMenuShown
+    case miniPlayerLongPressMenuOptionTapped
+    case miniPlayerLongPressMenuDismissed
+
+    // MARK: - Up Next
+
+    case upNextShown
+    case upNextQueueCleared
+    case upNextNowPlayingTapped
+    case upNextQueueEpisodeTapped
+    case upNextQueueEpisodeLongPressed
+    case upNextMultiSelectEntered
+    case upNextSelectAllButtonTapped
+    case upNextMultiSelectExited
+    case upNextQueueReordered
+    case upNextDismissed
 }
