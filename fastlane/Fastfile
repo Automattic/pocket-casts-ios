@@ -65,6 +65,11 @@ before_all do
   # but it has such a negligible overhead that it's worth running it here to
   # keep the individual lanes cleaner.
   configure_apply
+
+  # Temporary: copy the Firebase plist file
+  firebase_output_path = "#{PROJECT_ROOT_FOLDER}/podcasts/GoogleService-Info.plist"
+  firebase_plist_location = ENV.fetch('FIREBASE_PLIST_GIST')
+  sh("rm -rf #{firebase_output_path} && curl #{firebase_plist_location} --output #{firebase_output_path}")
 end
 
 error do |_lane, _exception|
