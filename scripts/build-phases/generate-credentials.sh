@@ -10,7 +10,7 @@ LOCAL_SECRETS_FILE="${SRCROOT}/podcasts/Credentials/LocalApiCredentials.swift"
 LOCAL_FIREBASE_PLIST="${SRCROOT}/podcasts/Credentials/mock-GoogleService-Info.plist"
 CREDS_OUTPUT_PATH=${DERIVED_PATH}/ApiCredentials.swift
 
-FIREBASE_OUTPUT_PATH=${DERIVED_PATH}/GoogleService-Info.plist
+FIREBASE_OUTPUT_PATH=${SOURCE_ROOT}/podcasts/GoogleService-Info.plist
 
 # If the developer has a local secrets file, use it
 if [ -f "$LOCAL_SECRETS_FILE" ]; then
@@ -38,9 +38,4 @@ else
     ##
     echo ">> Generating Credentials ${CREDS_OUTPUT_PATH}"
     ruby ${SCRIPT_PATH} -i ${CREDS_INPUT_PATH} -s ${SECRETS_PATH} > "${CREDS_OUTPUT_PATH}"
-
-    ## Copy private GoogleService-Info.plist
-    ##
-    echo ">> Copying Firebase Credentials from ${FIREBASE_SECRETS_PATH}"
-    echo $(<${FIREBASE_SECRETS_PATH}) > "${FIREBASE_OUTPUT_PATH}"
 fi
