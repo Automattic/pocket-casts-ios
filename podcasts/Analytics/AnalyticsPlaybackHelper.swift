@@ -25,19 +25,19 @@ class AnalyticsPlaybackHelper {
         }
 
         func play() {
-            track(.play)
+            track(.playbackPlay)
         }
 
         func pause() {
-            track(.pause)
+            track(.playbackPause)
         }
 
         func skipBack() {
-            track(.skipBack)
+            track(.playbackSkipBack)
         }
 
         func skipForward() {
-            track(.skipForward)
+            track(.playbackSkipForward)
         }
 
         private func track(_ event: AnalyticsEvent) {
