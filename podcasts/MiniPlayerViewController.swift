@@ -59,7 +59,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func upNextTapped(_ sender: Any) {
-        upNextViewController = UpNextViewController()
+        upNextViewController = UpNextViewController(source: "mini_player")
         guard let upNextController = upNextViewController else { return }
         
         let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
