@@ -65,6 +65,11 @@ before_all do
   # but it has such a negligible overhead that it's worth running it here to
   # keep the individual lanes cleaner.
   configure_apply
+
+  # Copy the Firebase plist file
+  firebase_plist_path = File.join(SECRETS_FOLDER, 'GoogleService-Info.plist')
+  firebase_output_path = "#{PROJECT_ROOT_FOLDER}/podcasts/GoogleService-Info.plist"
+  sh("cp -v #{firebase_plist_path} #{firebase_output_path}")
 end
 
 platform :ios do
