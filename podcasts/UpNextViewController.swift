@@ -29,10 +29,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()
-                    Analytics.track(.upNextMultiSelectExited)
+                    Analytics.track(.upNextMultiSelectExited, properties: ["source": self.source])
                 }
                 else {
-                    Analytics.track(.upNextMultiSelectEntered)
+                    Analytics.track(.upNextMultiSelectEntered, properties: ["source": self.source])
                 }
                 
                 self.upNextTable.reloadData()
@@ -182,7 +182,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     private func performClearAll() {
         PlaybackManager.shared.queue.clearUpNextList()
         upNextTable.reloadData()
-        Analytics.track(.upNextQueueCleared)
+        Analytics.track(.upNextQueueCleared, properties: ["source": source])
     }
     
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
@@ -235,7 +235,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
-        Analytics.track(.upNextSelectAllButtonTapped, properties: ["select_all": true])
+        Analytics.track(.upNextSelectAllButtonTapped, properties: ["source": source, "select_all": true])
         updateNavBarButtons()
     }
     
@@ -245,7 +245,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func deselectAllTapped() {
         upNextTable.deselectAll()
-        Analytics.track(.upNextSelectAllButtonTapped, properties: ["select_all": false])
+        Analytics.track(.upNextSelectAllButtonTapped, properties: ["source": source, "select_all": false])
     }
     
     func updateNavBarButtons() {
