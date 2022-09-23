@@ -208,10 +208,10 @@ enum AnalyticsEvent: String {
 
     // MARK: - Playback
 
-    case play
-    case pause
-    case skipBack
-    case skipForward
+    case playbackPlay
+    case playbackPause
+    case playbackSkipBack
+    case playbackSkipForward
 
     // MARK: - Filters
 
