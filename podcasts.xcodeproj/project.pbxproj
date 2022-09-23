@@ -1940,7 +1940,6 @@
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
-		BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B317B9F28906A8900A26A13 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
@@ -2115,6 +2114,7 @@
 		BD240C44231F471B00FB2CDD /* PCSearchBarController+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Animation.swift"; sourceTree = "<group>"; };
 		BD240C46231F475500FB2CDD /* PCSearchBarController+Scrolling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Scrolling.swift"; sourceTree = "<group>"; };
 		BD24E6F220E3474600A712E3 /* ArchiveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveHelper.swift; sourceTree = "<group>"; };
+		BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD26AFD327BDFD18008CC973 /* Folder+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Formatting.swift"; sourceTree = "<group>"; };
 		BD26AFD627BE09E8008CC973 /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		BD27B8C42756F486007A0EA7 /* UIColor+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -5217,6 +5217,7 @@
 				404A080924E4C78000308722 /* SceneDelegate.swift */,
 				8B317B9F28906A8900A26A13 /* main.swift */,
 				BD2063301B5351D500DBB592 /* podcasts-Bridging-Header.h */,
+				BD24EE9B209379E700C63C85 /* GoogleService-Info.plist */,
 				BD056F0E1F6F8BE300AF8260 /* Main.storyboard */,
 				BD40D7BC19C1A08D00FB8023 /* Launch Screen.xib */,
 				460C375026D83171008B3609 /* Resources */,
@@ -6707,7 +6708,6 @@
 			files = (
 				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
-				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 				BD24EEA1209379E700C63C85 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
