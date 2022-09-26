@@ -121,7 +121,10 @@ platform :ios do
   lane :test do
     load_ci_spm_cache
 
-    run_tests(scheme: 'pocketcasts')
+    run_tests(
+      scheme: 'pocketcasts',
+      cloned_source_packages_path: SPM_CACHE_FOLDER
+    )
 
     save_ci_spm_cache
   end
