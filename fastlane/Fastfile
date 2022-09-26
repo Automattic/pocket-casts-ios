@@ -201,7 +201,8 @@ platform :ios do
       }
     ) do |result|
       result[:json].each do |pr|
-        next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
+        next if pr['milestone'].nil?
+        next unless pr['milestone']['title'].include?(version)
 
         comment_on_pr(
           project: GHHELPER_REPO,
