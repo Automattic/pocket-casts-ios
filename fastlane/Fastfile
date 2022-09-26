@@ -293,31 +293,6 @@ platform :ios do
       clean: true,
       export_options: { method: 'app-store' }
     )
-
-    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
-    testflight(
-      skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID,
-      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
-    )
-
-    sh 'cd .. && make upload_dsyms'
-
-    next unless options[:create_release]
-
-    archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
-    zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
-
-    version = options[:beta_release] ? ios_get_build_version : ios_get_app_version
-    create_release(
-      repository: GHHELPER_REPO,
-      version: version,
-      release_notes_file_path: File.join(RESOURCES_FOLDER, 'release_notes.txt'),
-      release_assets: archive_zip_path.to_s,
-      prerelease: options[:beta_release]
-    )
-
-    FileUtils.rm_rf(archive_zip_path)
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI

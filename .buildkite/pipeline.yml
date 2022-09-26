@@ -15,13 +15,7 @@ common_params:
 
 steps:
   - label: Build and Test
-    command: .buildkite/commands/build.sh
-    agents: *common_agents
-    env: *common_env
-    plugins: *common_plugins
-
-  - label: Lints via Danger
-    command: .buildkite/commands/danger.sh
+    command: .buildkite/commands/release-build.sh
     agents: *common_agents
     env: *common_env
     plugins: *common_plugins
