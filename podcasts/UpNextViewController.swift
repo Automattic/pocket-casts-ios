@@ -278,3 +278,28 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         .portrait
     }
 }
+
+// MARK: - Analytics
+
+enum UpNextViewSource: String, CustomStringConvertible {
+    case miniPlayer
+    case nowPlaying
+    case player
+    case lockScreenWidget
+    case unknown
+
+    var description: String {
+        switch self {
+        case .miniPlayer:
+            return "mini_player"
+        case .nowPlaying:
+            return "now_playing"
+        case .player:
+            return "player"
+        case .lockScreenWidget:
+            return "lock_screen_widget"
+        case .unknown:
+            return "unknown"
+        }
+    }
+}
