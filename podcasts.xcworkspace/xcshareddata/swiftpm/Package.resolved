@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
           "branch": null,
-          "revision": "bec54cc1de533b5379c1d4da26bbe099a0ffbb9c",
-          "version": "0.10.1"
+          "revision": "8e672c40b33aaa214f05ffe80bfe9d4b1b4fab17",
+          "version": "0.13.0"
         }
       },
       {
@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "946cbb6daccedf40d652a12138f78e96f660e1ad",
-          "version": "6.2.1"
+          "revision": "199000acd6a0a3f9c8e0bff03ef233f930993c71",
+          "version": "7.25.1"
         }
       },
       {
@@ -222,8 +222,8 @@
         "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
         "state": {
           "branch": null,
-          "revision": "5474689e0bc639ff3edef71fe8a9a6943d6f3966",
-          "version": "1.7.1"
+          "revision": "5815e06b9ab916af6e2729b637efcdced887d8b9",
+          "version": "2.1.0"
         }
       }
     ]
