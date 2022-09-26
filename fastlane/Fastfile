@@ -196,7 +196,7 @@ platform :ios do
       body: { ref: 'master' },
       error_handlers: {
         '*' => proc do |_result|
-          UI.message('⚠️ Failed checking opened PRs, skipping this step.')
+          UI.message('⚠️ Failed checking open PRs, skipping this step.')
         end
       }
     ) do |result|
