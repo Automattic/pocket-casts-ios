@@ -417,7 +417,7 @@ platform :ios do
       },
       error_handlers: {
         '*' => proc do |_result|
-          UI.message("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
+          UI.important("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
         end
       }
     )
