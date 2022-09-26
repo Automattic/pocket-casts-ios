@@ -276,7 +276,6 @@ platform :ios do
     create_merge_release_branch(version: version, build_version: ios_get_build_version)
 
     after_confirming_push_release_branches do
-      push_release_branches(version: version, build_version: ios_get_build_version)
       trigger_beta_build(branch_to_build: "release/#{version}")
     end
   end
