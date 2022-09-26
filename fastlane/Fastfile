@@ -32,6 +32,8 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
+SCHEME = 'pocketcasts'
+
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
 
 EN_LPROJ_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'en.lproj')
@@ -122,7 +124,7 @@ platform :ios do
     load_ci_spm_cache
 
     run_tests(
-      scheme: 'pocketcasts',
+      scheme: SCHEME,
       cloned_source_packages_path: SPM_CACHE_FOLDER
     )
 
@@ -135,7 +137,7 @@ platform :ios do
 
     configure_code_signing
 
-    gym(scheme: 'pocketcasts',
+    gym(scheme: SCHEME,
         include_bitcode: false,
         include_symbols: true,
         clean: true)
@@ -162,7 +164,7 @@ platform :ios do
     load_ci_spm_cache
 
     gym(
-      scheme: 'pocketcasts',
+      scheme: SCHEME,
       include_bitcode: false,
       cloned_source_packages_path: SPM_CACHE_FOLDER,
       clean: true
@@ -321,7 +323,7 @@ platform :ios do
     configure_code_signing
 
     gym(
-      scheme: 'pocketcasts',
+      scheme: SCHEME,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
