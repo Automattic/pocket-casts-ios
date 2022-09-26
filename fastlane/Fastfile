@@ -286,8 +286,9 @@ platform :ios do
   end
 
   def push_release_branches(version:, build_version:)
-    push_to_git_remote(local_branch: "merge/release-#{build_version}-into-trunk", remote_branch: "merge/release-#{build_version}-into-trunk", tags: false)
-    push_to_git_remote(local_branch: "release/#{version}", remote_branch: "release/#{version}", tags: false)
+    ["merge/release-#{build_version}-into-trunk", "release/#{version}"].each do |branch_name|
+      push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
+    end
   end
 
   # Triggers a beta build on CI
