@@ -276,6 +276,13 @@ platform :ios do
     ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
     ios_build_preflight unless options[:skip_prechecks]
 
+    # Notice that there is no matching call to `save_ci_spm_cache`.
+    #
+    # This lane builds the app for distr and we assume that the cache for the
+    # HEAD the codebase is at will have already been generated during
+    # development.
+    load_ci_spm_cache
+
     configure_code_signing
 
     build_app(
