@@ -131,25 +131,6 @@ platform :ios do
     save_ci_spm_cache
   end
 
-  desc 'Build the project only'
-  lane :build do
-    # CI has its own mechanism to setup the Ruby gems and CocoaPods
-    unless is_ci
-      bundle_install
-      cocoapods
-    end
-
-    configure_code_signing
-    load_ci_spm_cache
-
-    build_pocketcasts
-
-    clean_build_artifacts
-    sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
-
-    save_ci_spm_cache
-  end
-
   desc 'This lane downloads and configures the code signing certificates and profiles.'
   lane :configure_code_signing do
     match(
