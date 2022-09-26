@@ -175,7 +175,7 @@ platform :ios do
   #
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   #
-  desc 'Executes the initial steps needed during code freeze'
+  desc 'Executes all the code freeze steps'
   lane :code_freeze do |options|
     start_code_freeze(options)
     comment_on_prs(milestone: ios_get_app_version)
