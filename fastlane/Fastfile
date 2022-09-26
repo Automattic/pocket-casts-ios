@@ -477,9 +477,9 @@ platform :ios do
 
   desc 'Downloads localized `.strings` from GlotPress'
   lane :download_localized_strings_from_glotpress do
-    # Use "Frozen" in the file name to make it explicit these are not to be
-    # copied as-is in the `*.lproj/Localizable.strings`
-    table_basename = 'Frozen'
+    # Use the same name as the frozen strings source to make it explicit these
+    # are not to be copied as-is in the `*.lproj/Localizable.strings`
+    table_basename = basename_without_extension(path: FROZEN_STRINGS_PATH)
 
     # Notice that we don't need to track the files we'll download here in Git,
     # because the content they carry will be read and ported into the
@@ -822,5 +822,9 @@ inal copy, and try again.")
     else
       UI.message('Aborting push as requested.')
     end
+  end
+
+  def basename_without_extension(path:)
+    File.basename(path, '.*')
   end
 end
