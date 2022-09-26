@@ -275,7 +275,7 @@ platform :ios do
 
     create_merge_release_branch(version: version, build_version: ios_get_build_version)
 
-    after_confirming_push do
+    after_confirming_push_release_branches do
       push_release_branches(version: version, build_version: ios_get_build_version)
       trigger_beta_build(branch_to_build: "release/#{version}")
     end
@@ -477,7 +477,7 @@ platform :ios do
     create_merge_release_branch(version: version, build_version: build_version)
 
     # Push and trigger build
-    after_confirming_push do
+    after_confirming_push_release_branches do
       ios_finalize_prechecks(options)
       trigger_release_build(branch_to_build: "release/#{version}")
     end
@@ -842,7 +842,7 @@ inal copy, and try again.")
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 
-  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
+  def after_confirming_push_release_branches(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
       push_release_branches(version: ios_get_app_version, build_version: ios_get_build_version)
       yield
