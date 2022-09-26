@@ -324,7 +324,7 @@ platform :ios do
     Fastlane::Helper::GitHelper.create_branch("merge/release-#{build_version}-into-trunk", from: release_branch_name)
   end
 
-  def push_release_branches(version:, build_version:)
+  def push_release_branches(build_version:)
     ["merge/release-#{build_version}-into-trunk", release_branch_name].each do |branch_name|
       push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
     end
@@ -382,7 +382,7 @@ platform :ios do
     # Set up branches to merge
     build_version = ios_get_build_version
     create_merge_release_branch(build_version: build_version)
-    push_release_branches(version: version, build_version: build_version)
+    push_release_branches(build_version: build_version)
 
     # Start the build
     trigger_release_build(branch_to_build: release_branch_name)
@@ -496,7 +496,7 @@ platform :ios do
     ios_bump_version_beta
     version = ios_get_app_version
     create_merge_release_branch(build_version: ios_get_build_version)
-    push_release_branches(version: version, build_version: ios_get_build_version)
+    push_release_branches(build_version: ios_get_build_version)
     trigger_beta_build(branch_to_build: release_branch_name)
   end
 
@@ -949,7 +949,7 @@ inal copy, and try again.")
 
   def after_confirming_push_release_branches(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_release_branches(version: ios_get_app_version, build_version: ios_get_build_version)
+      push_release_branches(build_version: ios_get_build_version)
       yield
     else
       UI.message('Aborting push as requested.')
