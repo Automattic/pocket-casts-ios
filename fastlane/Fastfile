@@ -193,7 +193,6 @@ platform :ios do
       api_token: ENV.fetch('GITHUB_TOKEN'),
       http_method: 'GET',
       path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: { ref: 'master' },
       error_handlers: {
         '*' => proc do |_result|
           UI.important('⚠️ Failed checking open PRs, skipping this step.')
