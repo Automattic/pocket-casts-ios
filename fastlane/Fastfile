@@ -137,10 +137,7 @@ platform :ios do
 
     configure_code_signing
 
-    gym(scheme: SCHEME,
-        include_bitcode: false,
-        include_symbols: true,
-        clean: true)
+    build_pocketcasts
 
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
     pilot(skip_submission: true,
@@ -163,12 +160,8 @@ platform :ios do
     configure_code_signing
     load_ci_spm_cache
 
-    gym(
-      scheme: SCHEME,
-      include_bitcode: false,
-      cloned_source_packages_path: SPM_CACHE_FOLDER,
-      clean: true
-    )
+    build_pocketcasts
+
     clean_build_artifacts
     sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
 
@@ -322,11 +315,7 @@ platform :ios do
 
     configure_code_signing
 
-    gym(
-      scheme: SCHEME,
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
+    build_pocketcasts(
       export_options: { method: 'app-store' }
     )
 
@@ -354,6 +343,18 @@ platform :ios do
     )
 
     FileUtils.rm_rf(archive_zip_path)
+  end
+
+  def build_pocketcasts(additional_options = {})
+    gym(
+      scheme: SCHEME,
+      include_bitcode: false,
+      include_symbols: true,
+      cloned_source_packages_path: SPM_CACHE_FOLDER,
+      clean: true,
+      # Double splat additional options at the end to override existing ones, if any
+      **additional_options
+    )
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
