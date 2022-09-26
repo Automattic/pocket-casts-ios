@@ -281,7 +281,6 @@ platform :ios do
     end
   end
 
-  # TODO: move this to an action
   def create_merge_release_branch(version:, build_version:)
     Fastlane::Helper::GitHelper.create_branch("merge/release-#{build_version}-into-trunk", from: "release/#{version}")
   end
