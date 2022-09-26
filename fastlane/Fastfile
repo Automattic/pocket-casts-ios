@@ -410,7 +410,7 @@ platform :ios do
       http_method: 'POST',
       path: "/repos/#{GHHELPER_REPO}/pulls",
       body: {
-        title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} code freeze into `trunk`",
+        title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} into `trunk`",
         body: "Merge changes from #{ios_get_app_version} (#{ios_get_build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
         head: "merge/release-#{ios_get_app_version}-into-trunk",
         base: 'trunk'
