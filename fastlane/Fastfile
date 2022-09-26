@@ -313,16 +313,14 @@ platform :ios do
     ios_completecodefreeze_prechecks(options)
     generate_strings_file_for_glotpress
 
-    version = ios_get_app_version
-
-    create_merge_release_branch(version: version, build_version: ios_get_build_version)
+    create_merge_release_branch(build_version: ios_get_build_version)
 
     after_confirming_push_release_branches do
       trigger_beta_build(branch_to_build: release_branch_name)
     end
   end
 
-  def create_merge_release_branch(version:, build_version:)
+  def create_merge_release_branch(build_version:)
     Fastlane::Helper::GitHelper.create_branch("merge/release-#{build_version}-into-trunk", from: release_branch_name)
   end
 
@@ -383,7 +381,7 @@ platform :ios do
 
     # Set up branches to merge
     build_version = ios_get_build_version
-    create_merge_release_branch(version: version, build_version: build_version)
+    create_merge_release_branch(build_version: build_version)
     push_release_branches(version: version, build_version: build_version)
 
     # Start the build
@@ -497,7 +495,7 @@ platform :ios do
 
     ios_bump_version_beta
     version = ios_get_app_version
-    create_merge_release_branch(version: version, build_version: ios_get_build_version)
+    create_merge_release_branch(build_version: ios_get_build_version)
     push_release_branches(version: version, build_version: ios_get_build_version)
     trigger_beta_build(branch_to_build: release_branch_name)
   end
@@ -525,7 +523,7 @@ platform :ios do
     # Set up branches to merge
     version = ios_get_app_version
     build_version = ios_get_build_version
-    create_merge_release_branch(version: version, build_version: build_version)
+    create_merge_release_branch(build_version: build_version)
 
     # Push and trigger build
     after_confirming_push_release_branches do
