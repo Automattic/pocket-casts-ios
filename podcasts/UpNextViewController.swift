@@ -297,7 +297,5 @@ enum UpNextViewSource: String, CustomStringConvertible {
     case lockScreenWidget = "lock_screen_widget"
     case unknown
 
-    var description: String {
-        return rawValue
-    }
+    var description: String { rawValue }
 }
