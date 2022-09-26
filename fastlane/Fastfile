@@ -19,6 +19,8 @@ SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
+SCHEME = 'pocketcasts'
+
 TEAM_ID = 'PZYM8XX95Q'
 
 APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
@@ -122,7 +124,7 @@ platform :ios do
   desc 'Run the unit tests'
   lane :test do
     run_tests(
-      scheme: 'pocketcasts'
+      scheme: SCHEME
     )
   end
 
@@ -137,7 +139,7 @@ platform :ios do
     configure_code_signing
 
     gym(
-      scheme: 'pocketcasts',
+      scheme: SCHEME,
       include_bitcode: false,
       clean: true
     )
@@ -362,7 +364,7 @@ platform :ios do
     configure_code_signing
 
     gym(
-      scheme: 'pocketcasts',
+      scheme: SCHEME,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
