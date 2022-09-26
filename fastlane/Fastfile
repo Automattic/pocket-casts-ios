@@ -344,7 +344,11 @@ platform :ios do
     sentry_check_cli_installed
     configure_code_signing
 
-    build_pocketcasts(
+    build_app(
+      scheme: SCHEME,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
       export_options: {
         method: 'app-store',
         manageAppVersionAndBuildNumber: false
@@ -413,17 +417,6 @@ platform :ios do
     )
 
     FileUtils.rm_rf(archive_zip_path)
-  end
-
-  def build_pocketcasts(additional_options = {})
-    build_app(
-      scheme: SCHEME,
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      # Double splat additional options at the end to override existing ones, if any
-      **additional_options
-    )
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
