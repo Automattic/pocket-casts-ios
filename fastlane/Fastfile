@@ -432,7 +432,7 @@ platform :ios do
   end
 
   def build_pocketcasts(additional_options = {})
-    gym(
+    build_app(
       scheme: SCHEME,
       include_bitcode: false,
       include_symbols: true,
