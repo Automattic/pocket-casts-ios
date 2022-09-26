@@ -494,7 +494,6 @@ platform :ios do
     lint_localizations
 
     ios_bump_version_beta
-    version = ios_get_app_version
     create_merge_release_branch(build_version: ios_get_build_version)
     push_release_branches(build_version: ios_get_build_version)
     trigger_beta_build(branch_to_build: release_branch_name)
@@ -521,7 +520,6 @@ platform :ios do
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
     # Set up branches to merge
-    version = ios_get_app_version
     build_version = ios_get_build_version
     create_merge_release_branch(build_version: build_version)
 
