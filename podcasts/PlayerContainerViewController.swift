@@ -51,7 +51,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
     
-    private lazy var upNextViewController = UpNextViewController(source: "player")
+    private lazy var upNextViewController = UpNextViewController(source: .player)
     
     @IBOutlet var closeBtn: ThemeableUIButton! {
         didSet {
