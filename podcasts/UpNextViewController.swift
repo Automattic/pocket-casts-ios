@@ -23,12 +23,20 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var isMultiSelectEnabled = false {
         didSet {
+            let didChange = oldValue != isMultiSelectEnabled
+
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.updateNavBarButtons()
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()
+                    if didChange {
+                        self.track(.upNextMultiSelectExited)
+                    }
+                }
+                else {
+                    self.track(.upNextMultiSelectEntered)
                 }
                 
                 self.upNextTable.reloadData()
@@ -87,9 +95,23 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         
         return longPressRecognizer
     }()
-    
+
+    let source: UpNextViewSource
+
+    init(source: UpNextViewSource) {
+        self.source = source
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        track(.upNextShown, properties: ["source": source])
+
         title = L10n.upNext
         
         (view as? ThemeableView)?.style = .primaryUi04
@@ -132,6 +154,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        track(.upNextDismissed)
+    }
     
     @objc func clearQueueTapped() {
         let queueCount = PlaybackManager.shared.queue.upNextCount()
@@ -158,6 +186,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     private func performClearAll() {
         PlaybackManager.shared.queue.clearUpNextList()
         upNextTable.reloadData()
+        track(.upNextQueueCleared)
     }
     
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
@@ -209,6 +238,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func selectAllTapped() {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
+
+        track(.upNextSelectAllButtonTapped, properties: ["select_all": true])
         updateNavBarButtons()
     }
     
@@ -218,6 +249,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func deselectAllTapped() {
         upNextTable.deselectAll()
+        track(.upNextSelectAllButtonTapped, properties: ["select_all": false])
     }
     
     func updateNavBarButtons() {
@@ -245,4 +277,25 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
+}
+
+// MARK: - Analytics
+
+extension UpNextViewController {
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
+        let defaultProperties: [String: Any] = ["source": source.description]
+        let props = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+
+        Analytics.track(event, properties: props)
+    }
+}
+
+enum UpNextViewSource: String, CustomStringConvertible {
+    case miniPlayer = "mini_player"
+    case nowPlaying = "now_playing"
+    case player
+    case lockScreenWidget = "lock_screen_widget"
+    case unknown
+
+    var description: String { rawValue }
 }

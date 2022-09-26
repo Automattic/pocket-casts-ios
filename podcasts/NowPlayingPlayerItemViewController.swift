@@ -146,11 +146,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
     
-    private lazy var upNextController: UpNextViewController = {
-        let controller = UpNextViewController()
-        
-        return controller
-    }()
+    private lazy var upNextController = UpNextViewController(source: .nowPlaying)
     
     lazy var upNextViewController: UIViewController = {
         let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)

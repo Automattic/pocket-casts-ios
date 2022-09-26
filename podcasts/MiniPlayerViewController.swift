@@ -59,12 +59,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func upNextTapped(_ sender: Any) {
-        upNextViewController = UpNextViewController()
-        guard let upNextController = upNextViewController else { return }
-        
-        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
-        navWrapper.modalPresentationStyle = .formSheet
-        rootViewController()?.present(navWrapper, animated: true, completion: nil)
+        showUpNext(from: .miniPlayer)
     }
     
     @IBAction func skipBackTapped(_ sender: Any) {
@@ -310,5 +305,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         else {
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
+    }
+
+    func showUpNext(from source: UpNextViewSource) {
+        upNextViewController = UpNextViewController(source: source)
+        guard let upNextController = upNextViewController else { return }
+
+        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        navWrapper.modalPresentationStyle = .formSheet
+        rootViewController()?.present(navWrapper, animated: true, completion: nil)
     }
 }
