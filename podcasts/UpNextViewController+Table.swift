@@ -127,7 +127,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             let section = tableData()[indexPath.section]
             
             if section == .nowPlayingSection {
-                Analytics.track(.upNextNowPlayingTapped, properties: ["source": source])
+                track(.upNextNowPlayingTapped)
 
                 dismiss(animated: true, completion: {
                     if let miniPlayer = UIApplication.shared.appDelegate()?.miniPlayer(), miniPlayer.playerOpenState == .closed {
@@ -142,7 +142,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
             let playOnTap = Settings.playUpNextOnTap()
 
-            Analytics.track(.upNextQueueEpisodeTapped, properties: ["source": source, "will_play": playOnTap])
+            track(.upNextQueueEpisodeTapped, properties: ["will_play": playOnTap])
 
             if playOnTap {
                 AnalyticsPlaybackHelper.shared.currentSource = "up_next"
@@ -188,7 +188,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         let slots = abs(destinationIndexPath.row - sourceIndexPath.row)
         let isTop = destinationIndexPath.row == 0
 
-        Analytics.track(.upNextQueueReordered, properties: ["source": source, "direction": didMoveUp ? "up" : "down", "slots": slots, "is_top": isTop])
+        track(.upNextQueueReordered, properties: ["direction": didMoveUp ? "up" : "down", "slots": slots, "is_next": isTop])
     }
     
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
@@ -302,11 +302,11 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             else if !Settings.playUpNextOnTap() {
                 AnalyticsPlaybackHelper.shared.currentSource = "up_next"
                 PlaybackActionHelper.play(episode: episode)
-                Analytics.track(.upNextQueueEpisodeLongPressed, properties: ["source": source, "will_play": true])
+                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])
             }
             else {
                 showEpisodeDetailViewController(for: episode)
-                Analytics.track(.upNextQueueEpisodeLongPressed, properties: ["source": source, "will_play": false])
+                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": false])
             }
         }
     }

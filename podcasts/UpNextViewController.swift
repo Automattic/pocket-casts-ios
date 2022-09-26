@@ -32,11 +32,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()
                     if didChange {
-                        Analytics.track(.upNextMultiSelectExited, properties: ["source": self.source])
+                        self.track(.upNextMultiSelectExited)
                     }
                 }
                 else {
-                    Analytics.track(.upNextMultiSelectEntered, properties: ["source": self.source])
+                    self.track(.upNextMultiSelectEntered)
                 }
                 
                 self.upNextTable.reloadData()
@@ -96,9 +96,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         return longPressRecognizer
     }()
 
-    let source: String
+    let source: UpNextViewSource
 
-    init(source: String) {
+    init(source: UpNextViewSource) {
         self.source = source
         super.init(nibName: nil, bundle: nil)
     }
@@ -110,7 +110,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Analytics.track(.upNextShown, properties: ["source": source])
+        track(.upNextShown, properties: ["source": source])
 
         title = L10n.upNext
         
@@ -158,7 +158,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        Analytics.track(.upNextDismissed, properties: ["source": source])
+        track(.upNextDismissed)
     }
     
     @objc func clearQueueTapped() {
@@ -186,7 +186,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     private func performClearAll() {
         PlaybackManager.shared.queue.clearUpNextList()
         upNextTable.reloadData()
-        Analytics.track(.upNextQueueCleared, properties: ["source": source])
+        track(.upNextQueueCleared)
     }
     
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
@@ -239,7 +239,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
-        Analytics.track(.upNextSelectAllButtonTapped, properties: ["source": source, "select_all": true])
+        track(.upNextSelectAllButtonTapped, properties: ["select_all": true])
         updateNavBarButtons()
     }
     
@@ -249,7 +249,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func deselectAllTapped() {
         upNextTable.deselectAll()
-        Analytics.track(.upNextSelectAllButtonTapped, properties: ["source": source, "select_all": false])
+        track(.upNextSelectAllButtonTapped, properties: ["select_all": false])
     }
     
     func updateNavBarButtons() {
