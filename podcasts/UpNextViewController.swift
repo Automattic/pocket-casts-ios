@@ -291,24 +291,13 @@ extension UpNextViewController {
 }
 
 enum UpNextViewSource: String, CustomStringConvertible {
-    case miniPlayer
-    case nowPlaying
+    case miniPlayer = "mini_player"
+    case nowPlaying = "now_playing"
     case player
-    case lockScreenWidget
+    case lockScreenWidget = "lock_screen_widget"
     case unknown
 
     var description: String {
-        switch self {
-        case .miniPlayer:
-            return "mini_player"
-        case .nowPlaying:
-            return "now_playing"
-        case .player:
-            return "player"
-        case .lockScreenWidget:
-            return "lock_screen_widget"
-        case .unknown:
-            return "unknown"
-        }
+        return rawValue
     }
 }
