@@ -72,7 +72,9 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
         
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-        
+
+        Analytics.track(.playerShelfButtonTapped, properties: ["button": action.analyticsDescription, "from": "overflow_menu"])
+
         dismiss(animated: true) {
             switch action {
             case .starEpisode:
