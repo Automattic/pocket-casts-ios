@@ -175,7 +175,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     private var lastBoundsAdjustedFor = CGRect.zero
 
-    private var playbackSource: String {
+    var playbackSource: String {
         "player"
     }
 
