@@ -341,7 +341,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
         seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
-    
+
+    func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
+        analyticsPlaybackHelper.currentSource = "sync"
+        seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
+    }
+
     func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
         
@@ -349,7 +354,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         if !playingEpisode.inProgress() {
             DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: playingEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
         }
-        
+
+        let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
         if let player = player {
@@ -386,6 +392,10 @@ class PlaybackManager: ServerPlaybackDelegate {
                 play()
             }
         }
+
+        #if !os(watchOS)
+            analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
+        #endif
     }
     
     func currentTime() -> TimeInterval {
@@ -1514,7 +1524,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-            
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
+
             if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
                 if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
                     FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")

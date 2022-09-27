@@ -12,6 +12,9 @@ class AnalyticsPlaybackHelper {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: String?
 
+    /// Whether to ignore the next seek event
+    private var ignoreNextSeek = false
+
     private init() {}
 
     #if !os(watchOS)
@@ -33,11 +36,28 @@ class AnalyticsPlaybackHelper {
         }
 
         func skipBack() {
+            ignoreNextSeek = true
             track(.playbackSkipBack)
         }
 
         func skipForward() {
+            ignoreNextSeek = true
             track(.playbackSkipForward)
+        }
+
+        func seek(from: TimeInterval, to: TimeInterval, duration: TimeInterval) {
+            // Currently ignore a seek event that is triggered by a sync process
+            // Using the skip buttons triggers a seek, ignore this as well
+            guard currentSource != "sync", ignoreNextSeek == false else {
+                ignoreNextSeek = false
+                return
+            }
+
+            // Use percents to relativize the seeking across any duration episode
+            let seekFrom = Int((from / duration) * 100)
+            let seekPercent = Int((to / duration) * 100)
+
+            track(.playbackSeek, properties: ["seek_to_percent": seekPercent, "seek_from_percent": seekFrom])
         }
 
         func playbackSpeedChanged(to speed: Double) {
