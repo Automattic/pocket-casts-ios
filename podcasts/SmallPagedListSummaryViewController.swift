@@ -144,7 +144,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         podcasts.count > maxFeaturedItems ? maxFeaturedItems : podcasts.count
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCurrentPage()
     }
     
@@ -198,6 +198,18 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage
+
+        pageDidChange(to: currentPage, totalPages: pageControl.numberOfPages)
+    }
+
+    override func pageDidChange(to currentPage: Int, totalPages: Int) {
+        guard let item else {
+            return
+        }
+
+        Analytics.track(.discoverSmallListPageChanged, properties: ["current_page": currentPage + 1,
+                                                                    "total_pages": totalPages,
+                                                                    "list_id": item.inferredListId])
     }
     
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {

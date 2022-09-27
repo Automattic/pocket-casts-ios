@@ -208,10 +208,10 @@ enum AnalyticsEvent: String {
 
     // MARK: - Playback
 
-    case play
-    case pause
-    case skipBack
-    case skipForward
+    case playbackPlay
+    case playbackPause
+    case playbackSkipBack
+    case playbackSkipForward
 
     // MARK: - Filters
 
@@ -259,4 +259,46 @@ enum AnalyticsEvent: String {
     // MARK: - Signed out alert
 
     case signedOutAlertShown
+
+    // MARK: - Discover
+
+    case discoverShown
+    case discoverCategoryShown
+    case discoverFeaturedPodcastTapped
+    case discoverFeaturedPodcastSubscribed
+    case discoverShowAllTapped
+
+    case discoverListImpression
+    case discoverListShowAllTapped
+    case discoverListEpisodeTapped
+    case discoverListEpisodePlay
+    case discoverListPodcastTapped
+    case discoverListPodcastSubscribed
+
+    case discoverFeaturedPageChanged
+    case discoverSmallListPageChanged
+    case discoverLargeListPageChanged
+    case discoverNetworkListPageChanged
+
+    case discoverRegionChanged
+    case discoverCollectionLinkTapped
+
+    // MARK: - Mini Player
+
+    case miniPlayerLongPressMenuShown
+    case miniPlayerLongPressMenuOptionTapped
+    case miniPlayerLongPressMenuDismissed
+
+    // MARK: - Up Next
+
+    case upNextShown
+    case upNextQueueCleared
+    case upNextNowPlayingTapped
+    case upNextQueueEpisodeTapped
+    case upNextQueueEpisodeLongPressed
+    case upNextMultiSelectEntered
+    case upNextSelectAllButtonTapped
+    case upNextMultiSelectExited
+    case upNextQueueReordered
+    case upNextDismissed
 }

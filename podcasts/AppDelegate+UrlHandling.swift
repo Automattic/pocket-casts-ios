@@ -313,10 +313,14 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/upnext/*") { [weak self] _ -> Bool in
-            guard self != nil else { return false }
+        JLRoutes.global().addRoute("/upnext/*") { [weak self] paramDict -> Bool in
+            var source: UpNextViewSource = .unknown
 
-            (UIApplication.shared.delegate as? AppDelegate)?.miniPlayer()?.upNextTapped(UIButton())
+            if let sourceString = paramDict["source"] as? String {
+                source = UpNextViewSource(rawValue: sourceString) ?? .unknown
+            }
+
+            self?.miniPlayer()?.showUpNext(from: source)
 
             return true
         }

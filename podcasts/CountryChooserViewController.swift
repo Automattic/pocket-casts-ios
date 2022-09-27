@@ -6,7 +6,10 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     
     var regions = [DiscoverRegion]()
     var selectedRegion = ""
-    
+
+    /// Whether the user changed their region or not
+    var didChangeRegion = false
+
     @IBOutlet var countriesTable: UITableView! {
         didSet {
             countriesTable.applyInsetForMiniPlayer()
@@ -20,6 +23,14 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         title = L10n.discoverSelectRegion
         
         countriesTable.reloadData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if didChangeRegion {
+            Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
+        }
     }
     
     // MARK: - UITableView Methods
@@ -38,10 +49,10 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didChangeRegion = true
         let region = regions[indexPath.row]
         selectedRegion = region.code
         Settings.setDiscoverRegion(region: selectedRegion)
-        
         countriesTable.reloadData()
     }
     

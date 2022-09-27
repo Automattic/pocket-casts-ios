@@ -98,7 +98,9 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     
     func linkTapped() {
         guard let link = podcastCollection?.webUrl, let url = URL(string: link) else { return }
-        
+
+        Analytics.track(.discoverCollectionLinkTapped, properties: ["list_id": item.inferredListId])
+
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
