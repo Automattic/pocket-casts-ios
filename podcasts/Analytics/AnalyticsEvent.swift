@@ -313,5 +313,4 @@ enum AnalyticsEvent: String {
     
     case playerChapterSkipBackTapped
     case playerChapterSkipForwardTapped
-
 }
