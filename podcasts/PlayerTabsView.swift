@@ -247,3 +247,21 @@ class PlayerTabsView: UIView {
         }
     }
 }
+
+// MARK: - Private: Analytics
+
+private extension PlayerTabsView {
+    func trackTabChanged(tab: PlayerTabs) {
+        let tabName: String
+        switch tab {
+        case .nowPlaying:
+            tabName = "now_playing"
+        case .showNotes:
+            tabName = "show_notes"
+        case .chapters:
+            tabName = "chapters"
+        }
+
+        Analytics.track(.playerTabSelected, properties: ["tab": tabName])
+    }
+}
