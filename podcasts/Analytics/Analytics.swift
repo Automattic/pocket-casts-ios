@@ -39,11 +39,12 @@ extension Analytics {
     }
 
     func optInOfAnalytics() {
-        Settings.setAnalytics(optOut: false)
-        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-        Analytics.track(.analyticsOptIn)
+        #if !os(watchOS)
+            Settings.setAnalytics(optOut: false)
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            Analytics.track(.analyticsOptIn)
+        #endif
     }
-
 }
 
 // MARK: - Dynamic Event Name
