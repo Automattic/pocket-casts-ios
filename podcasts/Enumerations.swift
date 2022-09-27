@@ -123,7 +123,7 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, CaseIterable {
+enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
     case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive
     
     func title(episode: BaseEpisode? = nil) -> String {
@@ -228,6 +228,29 @@ enum PlayerAction: Int, CaseIterable {
             return episode is Episode
         default:
             return true
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+        case .effects:
+            return "playback_effects"
+        case .sleepTimer:
+            return "sleep_timer"
+        case .routePicker:
+            return "route_picker"
+        case .starEpisode:
+            return "star_episode"
+        case .shareEpisode:
+            return "share_episode"
+        case .goToPodcast:
+            return "go_to_podcast"
+        case .chromecast:
+            return "chromecast"
+        case .markPlayed:
+            return "mark_as_played"
+        case .archive:
+            return "archive"
         }
     }
 }
