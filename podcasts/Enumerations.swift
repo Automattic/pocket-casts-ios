@@ -1,6 +1,6 @@
 import Foundation
 import PocketCastsDataModel
-enum LibraryType: Int {
+enum LibraryType: Int, AnalyticsDescribable {
     case fourByFour = 1, threeByThree = 2, list = 3
 
     var analyticsDescription: String {
@@ -15,7 +15,7 @@ enum LibraryType: Int {
     }
 }
 
-enum BadgeType: Int {
+enum BadgeType: Int, AnalyticsDescribable {
     case off = 0, latestEpisode, allUnplayed
 
     var description: String {
@@ -70,7 +70,7 @@ enum PodcastEpisodeSortOrder: Int32, CaseIterable {
     }
 }
 
-enum LibrarySort: Int, CaseIterable {
+enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
     case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
 
     var description: String {

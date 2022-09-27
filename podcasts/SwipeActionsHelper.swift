@@ -108,7 +108,7 @@ enum SwipeActionsHelper {
         handler.actionPerformed(willBeRemoved: willBeRemoved)
     }
 
-    private enum SwipeActions: String {
+    private enum SwipeActions: String, AnalyticsDescribable {
         case upNextRemove
         case upNextAddTop
         case upNextAddBottom
