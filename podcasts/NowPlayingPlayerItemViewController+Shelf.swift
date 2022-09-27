@@ -211,30 +211,37 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
     
     @objc private func sleepBtnTapped(_ sender: UIButton) {
+        shelfButtonTapped(.sleepTimer)
         showSleepPanel()
     }
     
     @objc private func effectsBtnTapped(_ sender: UIButton) {
+        shelfButtonTapped(.effects)
         showEffectsPanel()
     }
     
     @objc private func starTapped(_ sender: UIButton) {
+        shelfButtonTapped(.starEpisode)
         performStarAction(starBtn: sender)
     }
     
     @objc private func goToTapped(_ sender: UIButton) {
+        shelfButtonTapped(.goToPodcast)
         goToTapped()
     }
     
     @objc private func markPlayedTapped(_ sender: UIButton) {
+        shelfButtonTapped(.markPlayed)
         markPlayed()
     }
     
     @objc private func archiveTapped(_ sender: UIButton) {
+        shelfButtonTapped(.archive)
         archiveTapped()
     }
     
     @objc private func shareTapped(_ sender: UIButton) {
+        shelfButtonTapped(.shareEpisode)
         shareEpisode(sender: sender)
     }
     

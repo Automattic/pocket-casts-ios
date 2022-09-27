@@ -303,6 +303,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @objc func googleCastTapped() {
+        shelfButtonTapped(.chromecast)
+
         let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)
