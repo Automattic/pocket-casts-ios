@@ -29,3 +29,6 @@ fastlane/app-localization-downloads/*.lproj
 
 # Do not commit ApiCredentials.swift
 podcasts/Credentials/LocalApiCredentials.swift
+
+# SwiftLint Remote Config Cache
+.swiftlint/RemoteConfigCache

@@ -15,6 +15,9 @@ generate_colors: ## Generate colors and themes based on themes.csv
 swiftformat: ## Run swiftformat
 	./Pods/SwiftFormat/CommandLineTool/swiftformat .
 
+swiftlint: ## Run SwiftLint
+	./Pods/SwiftLint/swiftlint
+
 upload_dsyms: ## Upload dSYMs
 	./scripts/upload-symbols -gsp $(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip
 
