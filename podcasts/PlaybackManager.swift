@@ -354,7 +354,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         if !playingEpisode.inProgress() {
             DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: playingEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
         }
-        
+
+        let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
         if let player = player {
@@ -391,6 +392,10 @@ class PlaybackManager: ServerPlaybackDelegate {
                 play()
             }
         }
+
+        #if !os(watchOS)
+            analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
+        #endif
     }
     
     func currentTime() -> TimeInterval {
