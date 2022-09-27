@@ -145,10 +145,16 @@ class EffectsViewController: SimpleNotificationsViewController {
             customEffectsToVolumeBoostConstraint.isActive = false
         }
     }
-    
+
+    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
+
+    private var playbackSource: String {
+        "player_playback_effects"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         updateColors()
         updateControls()
         if let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() {
