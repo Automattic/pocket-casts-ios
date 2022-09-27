@@ -109,13 +109,18 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         let rowsInShelfSection = tableView.numberOfRows(inSection: 0) // if you're moving out of the shortcuts section, the amount of items in there can change
         let fromRow = sourceIndexPath.row + (sourceIndexPath.section * Constants.Limits.maxShelfActions)
         let toRow = destinationIndexPath.row + (destinationIndexPath.section * rowsInShelfSection)
-        
+
         let action = allActions.remove(at: fromRow)
         allActions.insert(action, at: toRow)
         Settings.updatePlayerActions(allActions)
         
         updateAvailableActions()
-        
+
+        let fromName = sourceIndexPath.section == 0 ? "shelf" : "overflow_menu"
+        let toName = destinationIndexPath.section == 0 ? "shelf" : "overflow_menu"
+
+        Analytics.track(.playerShelfOverflowMenuRearrangeActionMoved, properties: ["action": action.analyticsDescription, "moved_from": fromName, "moved_to": toName, "position": destinationIndexPath.row])
+
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {
             DispatchQueue.main.async {
