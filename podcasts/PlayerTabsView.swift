@@ -5,7 +5,7 @@ protocol PlayerTabDelegate: AnyObject {
     func didSwitchToTab(index: Int)
 }
 
-enum PlayerTabs {
+enum PlayerTabs: Int {
     case nowPlaying
     case showNotes
     case chapters
