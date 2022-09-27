@@ -40,21 +40,44 @@ class AnalyticsPlaybackHelper {
             track(.playbackSkipForward)
         }
 
-        private func track(_ event: AnalyticsEvent) {
+        func playbackSpeedChanged(to speed: Double) {
+            track(.playbackEffectSpeedChanged, properties: ["speed": speed])
+        }
+
+        func trimSilenceToggled(enabled: Bool) {
+            track(.playbackEffectTrimSilenceToggled, properties: ["enabled": enabled])
+        }
+
+        func trimSilenceAmountChanged(amount: TrimSilenceAmount) {
+            track(.playbackEffectTrimSilenceAmountChanged, properties: ["amount": amount.analyticsDescription])
+        }
+
+        func volumeBoostToggled(enabled: Bool) {
+            track(.playbackEffectVolumeBoostToggled, properties: ["enabled": enabled])
+        }
+
+    #endif
+}
+
+private extension AnalyticsPlaybackHelper {
+    #if !os(watchOS)
+        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else {
                     return
                 }
-
-                Analytics.track(event, properties: ["source": self.currentPlaybackSource])
+            
+                let defaultProperties: [String: Any] = ["source": self.currentPlaybackSource]
+                let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+                Analytics.track(event, properties: mergedProperties)
             }
         }
-
-        private func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+    
+        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }
-
+        
             if let nav = base as? UINavigationController {
                 return getTopViewController(base: nav.visibleViewController)
             }

@@ -701,6 +701,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed - 0.1
         changeEffects(playbackEffects)
     }
+
+    func toggleDefinedPlaybackSpeed() {
+        let playbackEffects = effects()
+        playbackEffects.toggleDefinedSpeedInterval()
+
+        changeEffects(playbackEffects)
+    }
     
     func increasePlaybackSpeed() {
         let playbackEffects = effects()
