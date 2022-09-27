@@ -359,14 +359,18 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func shareEpisode(source: UIView, episode: Episode, fromTime: TimeInterval) {
         guard let buttonSuperview = source.superview else { return }
-        
+
+        let type = fromTime == 0 ? "episode" : "current_position"
+
+        Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
         let sourceRect = buttonSuperview.convert(source.frame, to: view)
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
     
     private func sharePodcast(source: UIView, podcast: Podcast?) {
         guard let buttonSuperview = source.superview, let podcast = podcast else { return }
-        
+
+        Analytics.track(.podcastShared, properties: ["type": "podcast", "source": "player"])
         let sourceRect = buttonSuperview.convert(source.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
