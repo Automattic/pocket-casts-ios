@@ -343,6 +343,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
+        analyticsPlaybackHelper.currentSource = "sync"
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
