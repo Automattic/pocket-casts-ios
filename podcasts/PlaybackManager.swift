@@ -1530,7 +1530,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-            
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
+
             if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
                 if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
                     FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
