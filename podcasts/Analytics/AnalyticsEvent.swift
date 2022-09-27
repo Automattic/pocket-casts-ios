@@ -311,6 +311,6 @@ enum AnalyticsEvent: String {
     case playerShowNotesLinkTapped
     case playerChapterSelected
     
-    case playerChapterSkipBackTapped
-    case playerChapterSkipForwardTapped
+    case playerPreviousChapterTapped
+    case playerNextChapterTapped
 }
