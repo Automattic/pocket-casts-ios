@@ -283,19 +283,19 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension UpNextViewController {
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        let defaultProperties: [String: Any] = ["source": source.description]
+        let defaultProperties: [String: Any] = ["source": source]
         let props = defaultProperties.merging(properties ?? [:]) { current, _ in current }
 
         Analytics.track(event, properties: props)
     }
 }
 
-enum UpNextViewSource: String, CustomStringConvertible {
+enum UpNextViewSource: String, AnalyticsDescribable {
     case miniPlayer = "mini_player"
     case nowPlaying = "now_playing"
     case player
     case lockScreenWidget = "lock_screen_widget"
     case unknown
 
-    var description: String { rawValue }
+    var analyticsDescription: String { rawValue }
 }
