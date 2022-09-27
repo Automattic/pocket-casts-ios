@@ -1,5 +1,15 @@
+# Configurations (options)
+#
+# Use `swiftformat --options` to see all available options.
+# Some options apply to multiple rules, use `swiftformat --ruleinfo NAME` to
+# learn about each rule.
 --commas inline
 --stripunusedargs closure-only
---elseposition next-line
---trimwhitespace nonblank-lines
+
+# Comma separated list of disabled rules.
+#
+# Use `swiftformat --rules` to get a list of rules.
+--disable wrapMultilineStatementBraces
+
+# Comma separated list of excluded files or paths.
 --exclude podcasts/Strings+Generated.swift,fastlane/SnapshotHelper.swift,**/Protobuffer/*.swift,DerivedData,vendor/spm
