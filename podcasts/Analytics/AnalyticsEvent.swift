@@ -326,4 +326,17 @@ enum AnalyticsEvent: String {
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
 
+    // MARK: - Player: Shelf
+
+    case playerShelfButtonTapped
+    case playerShelfOverflowMenuShown
+    case playerShelfOverflowMenuRearrangeStarted
+    case playerShelfOverflowMenuRearrangeActionMoved
+    case playerShelfOverflowMenuRearrangeFinished
+
+    // MARK: - Episode Events
+
+    case episodeStarred
+    case episodeArchived
+    case podcastShared
 }
