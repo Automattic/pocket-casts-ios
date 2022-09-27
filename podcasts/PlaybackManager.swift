@@ -700,10 +700,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed - 0.1
         changeEffects(playbackEffects)
-        
-        #if !os(watchOS)
-            analyticsPlaybackHelper.playbackSpeedChanged(to: playbackEffects.playbackSpeed)
-        #endif
     }
 
     func toggleDefinedPlaybackSpeed() {
@@ -711,10 +707,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         playbackEffects.toggleDefinedSpeedInterval()
 
         changeEffects(playbackEffects)
-
-        #if !os(watchOS)
-            analyticsPlaybackHelper.playbackSpeedChanged(to: playbackEffects.playbackSpeed)
-        #endif
     }
     
     func increasePlaybackSpeed() {
@@ -723,10 +715,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
-
-        #if !os(watchOS)
-            analyticsPlaybackHelper.playbackSpeedChanged(to: playbackEffects.playbackSpeed)
-        #endif
     }
     
     func effectsChangedExternally() {

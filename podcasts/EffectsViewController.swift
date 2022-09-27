@@ -152,6 +152,8 @@ class EffectsViewController: SimpleNotificationsViewController {
         "player_playback_effects"
     }
 
+    private var didChangePlaybackSpeed: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -196,14 +198,27 @@ class EffectsViewController: SimpleNotificationsViewController {
         
         removeAllCustomObservers()
     }
-    
-    @IBAction func minusTapped(_ sender: Any) {
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        guard didChangePlaybackSpeed else {
+            return
+        }
+
         analyticsPlaybackHelper.currentSource = playbackSource
+
+        let speed = PlaybackManager.shared.effects().playbackSpeed
+        AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: speed)
+    }
+
+    @IBAction func minusTapped(_ sender: Any) {
+        didChangePlaybackSpeed = true
         PlaybackManager.shared.decreasePlaybackSpeed()
     }
     
     @IBAction func plusTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
+        didChangePlaybackSpeed = true
         PlaybackManager.shared.increasePlaybackSpeed()
     }
     
@@ -298,8 +313,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
     
     private func speedTapped() {
-        analyticsPlaybackHelper.currentSource = playbackSource
-
+        didChangePlaybackSpeed = true
         PlaybackManager.shared.toggleDefinedPlaybackSpeed()
     }
     
