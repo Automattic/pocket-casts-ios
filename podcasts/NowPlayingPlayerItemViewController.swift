@@ -161,7 +161,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
@@ -169,6 +169,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.inactiveTintColor = ThemeColor.playerContrast02()
         chromecastBtn.addTarget(self, action: #selector(googleCastTapped), for: .touchUpInside)
         chromecastBtn.isPointerInteractionEnabled = true
+
+        routePicker.delegate = self
     }
     
     private var lastBoundsAdjustedFor = CGRect.zero

@@ -149,10 +149,17 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
     
     func routePickerTapped() {
+        // This is a bit hacky, but since when the button is located in the shelf, this action is not called
+        // we have no way of knowing whether the picker was opened. So we're relying on the willShow delegate method
+        // since we don't want to double the events up, we'll unregister the delegate while we show the
+        // picker from the overflow menu, then set the delegate again after.
+        routePicker.delegate = nil
+
         // not super happy with this solution but there doesn't appear to be a public API to pop this dialog up...
         if let routePickerButton = routePicker.subviews.first(where: { $0 is UIButton }) as? UIButton {
             routePickerButton.sendActions(for: .touchUpInside)
         }
+        routePicker.delegate = self
     }
     
     func shareTapped() {
@@ -383,5 +390,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 extension NowPlayingPlayerItemViewController {
     func shelfButtonTapped(_ button: PlayerAction) {
         Analytics.track(.playerShelfButtonTapped, properties: ["button": button.analyticsDescription, "from": "shelf"])
+    }
+}
+
+extension NowPlayingPlayerItemViewController: AVRoutePickerViewDelegate {
+    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
+        shelfButtonTapped(.routePicker)
     }
 }
