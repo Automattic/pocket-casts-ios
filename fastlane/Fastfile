@@ -323,20 +323,8 @@ platform :ios do
     ios_completecodefreeze_prechecks(options)
     generate_strings_file_for_glotpress
 
-    create_merge_release_branch(build_version: ios_get_build_version)
-
-    after_confirming_push_release_branches do
+    after_confirming_push do
       trigger_beta_build(branch_to_build: release_branch_name)
-    end
-  end
-
-  def create_merge_release_branch(build_version:)
-    Fastlane::Helper::GitHelper.create_branch("merge/release-#{build_version}-into-trunk", from: release_branch_name)
-  end
-
-  def push_release_branches(build_version:)
-    ["merge/release-#{build_version}-into-trunk", release_branch_name].each do |branch_name|
-      push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
     end
   end
 
@@ -388,11 +376,6 @@ platform :ios do
     setfrozentag(repository: GHHELPER_REPO, milestone: version, freeze: false)
     create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: version)
-
-    # Set up branches to merge
-    build_version = ios_get_build_version
-    create_merge_release_branch(build_version: build_version)
-    push_release_branches(build_version: build_version)
 
     # Start the build
     trigger_release_build(branch_to_build: release_branch_name)
@@ -465,7 +448,7 @@ platform :ios do
       body: {
         title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} into `trunk`",
         body: "Merge changes from #{ios_get_app_version} (#{ios_get_build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: "merge/release-#{ios_get_app_version}-into-trunk",
+        head: release_branch_name,
         base: 'trunk'
       },
       error_handlers: {
@@ -504,8 +487,7 @@ platform :ios do
     lint_localizations
 
     ios_bump_version_beta
-    create_merge_release_branch(build_version: ios_get_build_version)
-    push_release_branches(build_version: ios_get_build_version)
+
     trigger_beta_build(branch_to_build: release_branch_name)
   end
 
@@ -529,12 +511,8 @@ platform :ios do
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
-    # Set up branches to merge
-    build_version = ios_get_build_version
-    create_merge_release_branch(build_version: build_version)
-
     # Push and trigger build
-    after_confirming_push_release_branches do
+    after_confirming_push do
       ios_finalize_prechecks(options)
       trigger_release_build(branch_to_build: release_branch_name)
     end
@@ -955,9 +933,9 @@ inal copy, and try again.")
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 
-  def after_confirming_push_release_branches(message: 'Push changes to the remote and trigger the build?')
+  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_release_branches(build_version: ios_get_build_version)
+      push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
