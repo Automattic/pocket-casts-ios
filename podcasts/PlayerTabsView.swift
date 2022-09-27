@@ -41,7 +41,11 @@ class PlayerTabsView: UIView {
     var currentTab = 0 {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
-            
+
+            if oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) {
+                trackTabChanged(tab: tab)
+            }
+
             if currentTab == 1 {
                 AnalyticsHelper.playerShowNotesOpened()
             }
