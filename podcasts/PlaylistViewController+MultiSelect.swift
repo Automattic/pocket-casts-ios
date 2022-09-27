@@ -69,8 +69,7 @@ extension PlaylistViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             tableView.selectAll()
-        }
-        else {
+        } else {
             tableView.deselectAll()
         }
         updateSelectAllBtn()

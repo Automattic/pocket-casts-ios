@@ -32,8 +32,7 @@ extension URLResponse {
         // Split into parts ["max-age", "604800"]
         if let value = directives.map({ $0.split(separator: "=") }).first(where: { $0.first == "max-age" })?.last {
             return Int(String(value))
-        }
-        else {
+        } else {
             return nil
         }
     }

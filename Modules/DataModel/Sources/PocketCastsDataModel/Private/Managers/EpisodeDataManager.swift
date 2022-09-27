@@ -62,8 +62,7 @@ class EpisodeDataManager {
                 if resultSet.next() {
                     found = true
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeExists error: \(error)")
             }
         }
@@ -116,8 +115,7 @@ class EpisodeDataManager {
                 if resultSet.next() {
                     episode = self.createEpisodeFrom(resultSet: resultSet)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
             }
         }
@@ -136,8 +134,7 @@ class EpisodeDataManager {
                     let episode = self.createEpisodeFrom(resultSet: resultSet)
                     episodes.append(episode)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
             }
         }
@@ -156,8 +153,7 @@ class EpisodeDataManager {
                 if resultSet.next() {
                     count = Int(resultSet.int(forColumn: "Count"))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
             }
         }
@@ -188,13 +184,11 @@ class EpisodeDataManager {
                 if episode.id == 0 {
                     episode.id = DBUtils.generateUniqueId()
                     try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                }
-                else {
+                } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
             }
         }
@@ -209,16 +203,14 @@ class EpisodeDataManager {
                     if episode.id == 0 {
                         episode.id = DBUtils.generateUniqueId()
                         try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                    }
-                    else {
+                    } else {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                         try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
                     }
                 }
                 
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
             }
         }
@@ -255,8 +247,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkSetStarred error: \(error)")
             }
         }
@@ -285,8 +276,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkUserFileDelete error: \(error)")
             }
         }
@@ -347,8 +337,7 @@ class EpisodeDataManager {
                 }
                 
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveBulkEpisodeSyncInfo error: \(error)")
             }
         }
@@ -369,8 +358,7 @@ class EpisodeDataManager {
                 if resultSet.next() {
                     frameCount = resultSet.longLongInt(forColumn: "cachedFrameCount")
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.findFrameCount error: \(error)")
             }
         }
@@ -421,8 +409,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", values: [SyncStatus.synced.rawValue])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllEpisodePlaybackHistorySynced error: \(error)")
             }
         }
@@ -432,8 +419,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate <= ?", values: [date])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.clearEpisodePlaybackInteractionDatesBefore error: \(error)")
             }
         }
@@ -443,8 +429,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate > 0", values: [])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.clearAllEpisodePlaybackInteractions error: \(error)")
             }
         }
@@ -510,8 +495,7 @@ class EpisodeDataManager {
         fields.append("starredModified")
         if let starredModified = starredModified {
             values.append(starredModified)
-        }
-        else {
+        } else {
             let starredModifiedValue = starred ? DBUtils.currentUTCTimeInMillis() : 0
             values.append(starredModifiedValue)
         }
@@ -613,8 +597,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE uuid = ?", values: [episodeUuid])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.delete error: \(error)")
             }
         }
@@ -624,8 +607,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [podcastId])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.deleteAllEpisodesInPodcast error: \(error)")
             }
         }
@@ -643,8 +625,7 @@ class EpisodeDataManager {
                 }
                 
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
             }
         }
@@ -680,8 +661,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsPlayed error: \(error)")
             }
         }
@@ -714,8 +694,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsUnPlayed error: \(error)")
             }
         }
@@ -765,8 +744,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkArchive error: \(error)")
             }
         }
@@ -802,8 +780,7 @@ class EpisodeDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkUnarchive error: \(error)")
             }
         }
@@ -815,8 +792,7 @@ class EpisodeDataManager {
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                 let idColumn = useId ? "id" : "uuid"
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE \(idColumn) = ?", values: values)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save fields error: \(error)")
             }
         }
@@ -826,8 +802,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE id = ?", values: [value, episodeId])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save field by id error: \(error)")
             }
         }
@@ -837,8 +812,7 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ?", values: [value, episodeUuid])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save field by uuid error: \(error)")
             }
         }
@@ -850,8 +824,7 @@ class EpisodeDataManager {
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
                 saved = (db.changes > 0)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
             }
         }
@@ -867,8 +840,7 @@ class EpisodeDataManager {
                     query += " WHERE \(whereClause)"
                 }
                 try db.executeUpdate(query, values: values)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.updateAll error: \(error)")
             }
         }

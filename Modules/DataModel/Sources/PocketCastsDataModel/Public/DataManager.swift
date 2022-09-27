@@ -371,8 +371,7 @@ public class DataManager {
     public func save(episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.save(episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.save(episode: episode, dbQueue: dbQueue)
         }
     }
@@ -417,8 +416,7 @@ public class DataManager {
         
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         }
     }
@@ -426,8 +424,7 @@ public class DataManager {
     public func saveEpisode(playingStatus: PlayingStatus, episode: BaseEpisode, updateSyncFlag: Bool) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(playingStatus: playingStatus, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(playingStatus: playingStatus, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         }
     }
@@ -455,8 +452,7 @@ public class DataManager {
     public func saveFrameCount(episode: BaseEpisode, frameCount: Int64) {
         if let episode = episode as? Episode {
             episodeManager.saveFrameCount(episodeId: episode.id, frameCount: frameCount, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveFrameCount(episodeId: episode.id, frameCount: frameCount, dbQueue: dbQueue)
         }
     }
@@ -477,8 +473,7 @@ public class DataManager {
     public func saveEpisode(duration: Double, episode: BaseEpisode, updateSyncFlag: Bool) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(duration: duration, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(duration: duration, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -486,8 +481,7 @@ public class DataManager {
     public func saveEpisode(playbackError: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(playbackError: playbackError, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(playbackError: playbackError, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -499,8 +493,7 @@ public class DataManager {
     public func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, lastDownloadAttemptDate: lastDownloadAttemptDate, autoDownloadStatus: autoDownloadStatus, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, lastDownloadAttemptDate: lastDownloadAttemptDate, autoDownloadStatus: autoDownloadStatus, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -508,8 +501,7 @@ public class DataManager {
     public func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, downloadError: downloadError, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, downloadError: downloadError, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -517,8 +509,7 @@ public class DataManager {
     public func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(autoDownloadStatus: autoDownloadStatus, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(autoDownloadStatus: autoDownloadStatus, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -526,8 +517,7 @@ public class DataManager {
     public func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -535,8 +525,7 @@ public class DataManager {
     public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -544,8 +533,7 @@ public class DataManager {
     public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
         }
     }
@@ -584,8 +572,7 @@ public class DataManager {
     public func clearDownloadTaskId(episode: BaseEpisode) {
         if let episode = episode as? Episode {
             episodeManager.clearDownloadTaskId(episode: episode, dbQueue: dbQueue)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             userEpisodeManager.clearDownloadTaskId(episode: episode, dbQueue: dbQueue)
         }
     }
@@ -793,8 +780,7 @@ public class DataManager {
         
         if markAsDeleted {
             folderManager.markFolderAsDeleted(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis(), dbQueue: dbQueue)
-        }
-        else {
+        } else {
             folderManager.delete(folderUuid: folderUuid, dbQueue: dbQueue)
         }
     }
@@ -837,8 +823,7 @@ public class DataManager {
                     count = resultSet.long(forColumnIndex: 0)
                 }
                 resultSet.close()
-            }
-            catch {}
+            } catch {}
         }
         
         return count
@@ -862,8 +847,7 @@ public class DataManager {
     private static func ensureDbFolderExists() {
         do {
             try FileManager.default.createDirectory(atPath: pathToDbFolder(), withIntermediateDirectories: true, attributes: nil)
-        }
-        catch {
+        } catch {
             print("Unable to create database folder")
         }
     }
@@ -879,8 +863,7 @@ public class DataManager {
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
             podcast.pushEnabled = true
-        }
-        else {
+        } else {
             podcast.pushEnabled = false
         }
         

@@ -22,12 +22,10 @@ struct UserEpisodeManager {
                     let filePath = episode.urlForImage()
                     try artwork.jpegData(compressionQuality: 1)?.write(to: filePath)
                     episode.hasCustomImage = true
-                }
-                catch {
+                } catch {
                     throw error
                 }
-            }
-            else {
+            } else {
                 episode.imageColor = Int32(color)
                 episode.hasCustomImage = false
             }
@@ -54,8 +52,7 @@ struct UserEpisodeManager {
     static func uploadUserEpisode(userEpisode: UserEpisode) {
         if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToWifi() {
             UploadManager.shared.queueForLaterUpload(episodeUuid: userEpisode.uuid, fireNotification: true)
-        }
-        else {
+        } else {
             UploadManager.shared.addToQueue(episodeUuid: userEpisode.uuid)
         }
     }
@@ -101,8 +98,7 @@ struct UserEpisodeManager {
         if !userEpisode.uploaded() {
             DataManager.sharedManager.delete(userEpisodeUuid: userEpisode.uuid)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.userEpisodeDeleted, object: userEpisode.uuid)
-        }
-        else {
+        } else {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: userEpisode.uuid)
         }
     }
@@ -204,8 +200,7 @@ struct UserEpisodeManager {
                         do {
                             try artwork.jpegData(compressionQuality: 1)?.write(to: filePath)
                             episode.imageModified = TimeFormatter.currentUTCTimeInMillis()
-                        }
-                        catch {
+                        } catch {
                             //   throw error
                             print("failed to save artowrk")
                         }
@@ -216,8 +211,7 @@ struct UserEpisodeManager {
                     if episode.uploaded() {
                         if artwork != nil {
                             UploadManager.shared.uploadImageFor(episode: episode, session: nil)
-                        }
-                        else {
+                        } else {
                             ApiServerHandler.shared.uploadImageDelete(episode: episode, completion: { success in
                                 print("Server image delete result \(String(describing: success))")
                                 // TODO: handle failure to remove image
@@ -226,8 +220,7 @@ struct UserEpisodeManager {
                     }
                     completion()
                 })
-            }
-            catch {
+            } catch {
                 throw error
             }
         }
@@ -242,8 +235,7 @@ struct UserEpisodeManager {
                 if episode.uploaded() || episode.uploadFailed() {
                     DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: episode)
                 }
-            }
-            else {
+            } else {
                 DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: true)
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
                 DataManager.sharedManager.delete(userEpisodeUuid: episode.uuid)
@@ -277,25 +269,20 @@ struct UserEpisodeManager {
             var actions: [OptionAction]
             if episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
                 actions = [deleteDeviceAction, deleteEverywhereAction]
-            }
-            else if episode.downloaded(pathFinder: DownloadManager.shared), !episode.uploaded() {
+            } else if episode.downloaded(pathFinder: DownloadManager.shared), !episode.uploaded() {
                 actions = [deleteDeviceAction]
-            }
-            else if !episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
+            } else if !episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
                 actions = [deleteCloudAction]
-            }
-            else {
+            } else {
                 actions = [deleteDeviceAction]
             }
             
             let title: String
             if episode.uploaded(), !episode.downloaded(pathFinder: DownloadManager.shared) {
                 title = L10n.deleteFromCloud
-            }
-            else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
+            } else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
                 title = L10n.deleteFromDevice
-            }
-            else {
+            } else {
                 title = L10n.deleteFile
             }
             optionPicker.addDescriptiveActions(title: title, message: L10n.deleteFileMessage, icon: "delete-red", actions: actions)

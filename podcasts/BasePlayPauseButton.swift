@@ -18,11 +18,9 @@ class BasePlayPauseButton: UIButton {
             if currentState == .notSet {
                 currentState = isPlaying ? .playing : .paused
                 animationView.currentProgress = isPlaying ? 0 : 0.5
-            }
-            else if isPlaying {
+            } else if isPlaying {
                 animateToPlaying()
-            }
-            else {
+            } else {
                 animateToPaused()
             }
 
@@ -83,8 +81,7 @@ class BasePlayPauseButton: UIButton {
                     self?.animationView.currentProgress = to
                 }
             }
-        }
-        else {
+        } else {
             animationView.currentProgress = to
         }
     }

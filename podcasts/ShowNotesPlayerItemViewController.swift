@@ -192,11 +192,9 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                     PlaybackManager.shared.seekTo(time: timeToSkipTo)
                 })
             }
-        }
-        else if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+        } else if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        else {
+        } else {
             if URLHelper.isValidScheme(url.scheme) {
                 let config = SFSafariViewController.Configuration()
                 config.entersReaderIfAvailable = false
@@ -204,8 +202,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 safariViewController?.delegate = self
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 SceneHelper.rootViewController()?.present(safariViewController!, animated: true, completion: nil)
-            }
-            else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
+            } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }

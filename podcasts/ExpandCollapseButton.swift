@@ -22,8 +22,7 @@ class ExpandCollapseButton: UIButton {
             rotateAnimation.toValue = finalRotation
             
             layer.add(rotateAnimation, forKey: "arrowSpin")
-        }
-        else {
+        } else {
             transform = CGAffineTransform(rotationAngle: finalRotation)
         }
     }

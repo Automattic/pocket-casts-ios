@@ -171,8 +171,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         if !PlaybackManager.shared.effects().trimSilence.isEnabled() {
             let additionalHeightRequired: CGFloat = view.bounds.width < 340 ? 100 : 50
             preferredContentSize = CGSize(width: computedSize.width, height: computedSize.height + additionalHeightRequired)
-        }
-        else {
+        } else {
             preferredContentSize = computedSize
         }
     }
@@ -203,8 +202,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         let effects = PlaybackManager.shared.effects()
         if sender.isOn {
             effects.trimSilence = .low
-        }
-        else {
+        } else {
             effects.trimSilence = .off
         }
         
@@ -272,8 +270,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         let timeSaved = StatsManager.shared.timeSavedDynamicSpeedInclusive()
         if timeSaved < 60 {
             trimSilenceDescription.text = L10n.playerEffectsTrimSilenceDetails
-        }
-        else {
+        } else {
             let timeFormatted = DateFormatHelper.sharedHelper.longElapsedTime(timeSaved)
             trimSilenceDescription.text = L10n.playerEffectsTrimSilenceProgress(timeFormatted)
         }
@@ -327,11 +324,9 @@ class EffectsViewController: SimpleNotificationsViewController {
     private func trimSilenceIndexToAmount(_ index: Int) -> TrimSilenceAmount {
         if index == 1 {
             return .medium
-        }
-        else if index == 2 {
+        } else if index == 2 {
             return .high
-        }
-        else {
+        } else {
             return .low
         }
     }

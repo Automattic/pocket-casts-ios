@@ -1,4 +1,3 @@
-
 import IntentsUI
 
 // As an example, this extension's Info.plist has been configured to handle interactions for INSendMessageIntent.

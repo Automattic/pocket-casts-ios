@@ -71,8 +71,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
         if identifier == Constants.IapProducts.monthly.rawValue {
             return L10n.month
-        }
-        else if identifier == Constants.IapProducts.yearly.rawValue {
+        } else if identifier == Constants.IapProducts.yearly.rawValue {
             return L10n.year
         }
         return ""
@@ -88,8 +87,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             updateTrialEligibility()
 
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsUpdated)
-        }
-        else {
+        } else {
             let invalid = response.invalidProductIdentifiers
             for i in invalid {
                 FileLog.shared.addMessage("IAPHelper Invalid appstore identifier \(i)")
@@ -267,8 +265,7 @@ extension IapHelper: SKPaymentTransactionObserver {
                     if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled)
                         purchaseWasCancelled(product, error: e)
-                    }
-                    else { // report error to user
+                    } else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed)
                         purchaseFailed(product, error: e)
                     }
@@ -280,8 +277,7 @@ extension IapHelper: SKPaymentTransactionObserver {
                 default:
                     break
                 }
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("IAPHelper mark non-subscription transaction as finished")
                 queue.finishTransaction(transaction)
             }
@@ -294,8 +290,7 @@ extension IapHelper: SKPaymentTransactionObserver {
             ApiServerHandler.shared.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("IAPHelper successfully validated receipt")
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("IAPHelper failed to validate receipt, but as the AppStore purchase was successful mark as Plus user on this device")
                 }
             })

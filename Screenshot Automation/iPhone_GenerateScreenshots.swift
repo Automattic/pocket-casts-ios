@@ -42,7 +42,7 @@ class iPhone_GenerateScreenshots: GenerateScreenshots {
         }
 
         // Wait for the episode to download
-        let _ = app.buttons["Remove Download"].waitForExistence(timeout: 120)
+        _ = app.buttons["Remove Download"].waitForExistence(timeout: 120)
 
         // Background the app to make sure CoreData saves
         safari.launch()

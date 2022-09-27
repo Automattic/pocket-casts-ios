@@ -59,8 +59,7 @@ class PodcastImageView: UIView {
             shadowView?.layer.cornerRadius = 8
             
             imageView?.layer.cornerRadius = 8
-        }
-        else {
+        } else {
             shadowView?.layer.shadowColor = UIColor.black.cgColor
             shadowView?.layer.shadowOffset = CGSize(width: 0, height: 1)
             shadowView?.layer.shadowOpacity = 0.1
@@ -96,8 +95,7 @@ class PodcastImageView: UIView {
             shadowView.layer.add(pathAnimation, forKey: "shadowPath")
             
             CATransaction.commit()
-        }
-        else {
+        } else {
             shadowView.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         }
     }

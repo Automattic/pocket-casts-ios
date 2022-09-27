@@ -20,8 +20,7 @@ class ZendeskSupportService {
         let request: URLRequest
         do {
             request = try generateSupportRequest(supportRequest)
-        }
-        catch {
+        } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
 

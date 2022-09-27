@@ -16,12 +16,10 @@ struct PlaybackCatchUpHelper {
             if DateUtil.hasEnoughTimePassed(since: lastPauseTime, time: 24.hours) {
                 FileLog.shared.addMessage("More than 24 hours since this episode was paused, jumping back 30 seconds")
                 return max(0, episode.playedUpTo - 30.seconds)
-            }
-            else if DateUtil.hasEnoughTimePassed(since: lastPauseTime, time: 1.hour) {
+            } else if DateUtil.hasEnoughTimePassed(since: lastPauseTime, time: 1.hour) {
                 FileLog.shared.addMessage("More than 1 hour since this episode was paused, jumping back 15 seconds")
                 return max(0, episode.playedUpTo - 15.seconds)
-            }
-            else if DateUtil.hasEnoughTimePassed(since: lastPauseTime, time: 5.minutes) {
+            } else if DateUtil.hasEnoughTimePassed(since: lastPauseTime, time: 5.minutes) {
                 FileLog.shared.addMessage("More than 5 minutes since this episode was paused, jumping back 10 seconds")
                 return max(0, episode.playedUpTo - 10.seconds)
             }

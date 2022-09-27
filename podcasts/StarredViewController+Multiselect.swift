@@ -57,8 +57,7 @@ extension StarredViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             starredTable.selectAll()
-        }
-        else {
+        } else {
             starredTable.deselectAll()
         }
         updateSelectAllBtn()

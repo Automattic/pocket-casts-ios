@@ -24,8 +24,7 @@ class CancelSubscriptionTask: ApiBaseTask {
             let (_, httpStatus) = postToServer(url: url, token: token, data: data)
             
             completion?(httpStatus == ServerConstants.HttpConstants.ok)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("CancelSubscriptionTask: Protobuf Encoding failed \(error.localizedDescription)")
             completion?(false)
         }

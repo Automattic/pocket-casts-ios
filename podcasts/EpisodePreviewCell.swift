@@ -21,8 +21,7 @@ class EpisodePreviewCell: ThemeableCell {
         episodeTitle.text = episode.title
         if let userEpisode = episode as? UserEpisode {
             episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-        }
-        else {
+        } else {
             episodeImage.setPodcast(uuid: episode.parentIdentifier(), size: .list)
         }
         EpisodeDateHelper.setDate(episode: episode, on: dateLabel, tintColor: nil)

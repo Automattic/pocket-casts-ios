@@ -124,8 +124,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 imageBackgroundView.backgroundColor = AppTheme.embeddedArtworkColor()
                 addCustomImageButton.setTitle(L10n.fileUploadRemoveImage, for: .normal)
                 colorPickerView.reloadData()
-            }
-            else {
+            } else {
                 addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
             }
         }
@@ -145,8 +144,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                         self.fileImageView.backgroundColor = AppTheme.userEpisodeColor(number: self.selectedColorIndex)
                     }
                 })
-            }
-            else {
+            } else {
                 if let artworkImage = artwork {
                     fileImageView.image = artworkImage.kf.scaled(to: 680)
                     fileImageView.contentMode = .scaleAspectFit
@@ -200,8 +198,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 ImageManager.sharedManager.imageForEpisode(episode, size: .list) { [weak self] image in
                     self?.artwork = image
                 }
-            }
-            else {
+            } else {
                 selectedColorIndex = Int(episode.imageColor) - 1
                 artwork = nil
             }
@@ -217,8 +214,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             setupScrollViewOffset()
             setupUserAccess()
-        }
-        else {
+        } else {
             guard FileTypeUtil.isSupportedUserFileType(fileName: fileUrl.absoluteString) else {
                 showError(message: L10n.fileUploadSupportError)
                 return
@@ -236,8 +232,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 setupFileDetails()
                 imageSaveErrorLabel.isHidden = true
                 setupScrollViewOffset()
-            }
-            else {
+            } else {
                 showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
             }
         }
@@ -287,8 +282,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 let resources = try self.destinationUrl.resourceValues(forKeys: [.fileSizeKey])
                 self.fileSize = resources.fileSize ?? 0
                 self.sizeLabel.text = SizeFormatter.shared.defaultFormat(bytes: Int64(self.fileSize))
-            }
-            catch {}
+            } catch {}
         }
     }
     
@@ -302,8 +296,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.addCustomlock.isHidden = true
                 self.lockView.isHidden = true
                 self.addCustomImageButton.alpha = 1
-            }
-            else {
+            } else {
                 self.addCustomImageButton.setTitle(L10n.fileUploadAddImage, for: .normal)
                 self.addCustomImageButton.isEnabled = true
                 self.addCustomlock.isHidden = false
@@ -312,8 +305,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 if self.embeddedImage == nil {
                     self.customiseArtworkView.addGestureRecognizer(self.lockedArtworkTapGesture)
                     self.customiseArtworkView.alpha = 0.3
-                }
-                else {
+                } else {
                     self.customiseArtworkView.removeGestureRecognizer(self.lockedArtworkTapGesture)
                     self.customiseArtworkView.alpha = 1
                     self.addCustomImageButton.alpha = 0.3
@@ -331,8 +323,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 do { try FileManager.default.removeItem(at: destinationUrl) } catch {}
             }
             dismiss(animated: true, completion: nil)
-        }
-        else {
+        } else {
             navigationController?.popViewController(animated: true)
         }
     }
@@ -354,24 +345,20 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                         }
                         WidgetHelper.shared.updateCustomImage(userEpisode: episodeToEdit)
                     })
-                }
-                catch {
+                } catch {
                     imageSaveErrorLabel.isHidden = false
                     return
                 }
-            }
-            else {
+            } else {
                 UserEpisodeManager.updateUserEpisode(uuid: episodeToEdit.uuid, title: name, color: selectedColor)
                 
                 navigationController?.popViewController(animated: true)
             }
-        }
-        else {
+        } else {
             do {
                 _ = try UserEpisodeManager.addUserEpisode(uuid: uuid, title: name, localFileUrl: destinationUrl, artwork: artwork, color: selectedColor, fileSize: fileSize, duration: duration)
                 dismiss(animated: true, completion: nil)
-            }
-            catch {
+            } catch {
                 imageSaveErrorLabel.isHidden = false
             }
         }
@@ -398,15 +385,13 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             default:
                 showAddImagePicker(hasCameraAccess: false)
             }
-        }
-        else { // remove image
+        } else { // remove image
             artwork = nil
             artworkNeedsUpdating = true
             colorPickerView.reloadData()
             if selectedColorIndex > 0 {
                 selectedColorIndex = selectedColorIndex - 1
-            }
-            else {
+            } else {
                 selectedColorIndex = 0
             }
             colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
@@ -466,8 +451,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             name = typedText
             nameLabel.style = .primaryText02
             navigationItem.rightBarButtonItem?.isEnabled = true
-        }
-        else {
+        } else {
             navigationItem.rightBarButtonItem?.isEnabled = false
             nameLabel.text = L10n.fileUploadNameRequired
             nameLabel.style = .support05

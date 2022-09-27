@@ -21,11 +21,9 @@ class NavigationManager {
 
         if interfaceType == .nowPlaying {
             navigateToNowPlaying(source: SourceManager.shared.currentSource(), fromLaunchEvent: true)
-        }
-        else if let interfaceType = interfaceType {
+        } else if let interfaceType = interfaceType {
             navigateTo(interfaceType, context: context)
-        }
-        else {
+        } else {
             var topController = topMostController()
             
             if (topController as? PCInterfaceController)?.restoreName() != InterfaceController.controllerRestoreName {
@@ -64,8 +62,7 @@ class NavigationManager {
         var topController = topMostController()
         if let topController = topController as? WatchHostingController,
            topController.controllerType == .nowPlaying,
-           source == SourceManager.shared.currentSource()
-        {
+           source == SourceManager.shared.currentSource() {
             navigatingToNowPlaying = false
             return
         }
@@ -87,8 +84,7 @@ class NavigationManager {
                 topController?.pushController(forType: .nowPlaying)
                 self.navigatingToNowPlaying = false
             }
-        }
-        else {
+        } else {
             topController = topMostController()
             topController?.pushController(forType: .nowPlaying)
             navigatingToNowPlaying = false

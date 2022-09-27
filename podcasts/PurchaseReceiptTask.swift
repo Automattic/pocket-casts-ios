@@ -48,12 +48,10 @@ class PurchaseReceiptTask: ApiBaseTask {
                 completion?(true)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.subscriptionStatusChanged)
                 FileLog.shared.addMessage("Receipt sent to server, got subscription status \n \(status)")
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Purchase receipt status failed")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Protobuf Encoding failed")
         }
     }

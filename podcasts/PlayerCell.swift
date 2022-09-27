@@ -98,8 +98,7 @@ class PlayerCell: SwipeTableViewCell {
         episodeTitle.text = episode.displayableTitle()
         if let episode = episode as? Episode {
             podcastImage.setPodcast(uuid: episode.podcastUuid, size: .list)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             podcastImage.setUserEpisode(uuid: episode.uuid, size: .list)
         }
         updateDownloadStatus()
@@ -119,8 +118,7 @@ class PlayerCell: SwipeTableViewCell {
         var desc = [heading, subtitle, title, info]
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             desc.append(L10n.statusDownloaded)
-        }
-        else if let playbackError = episode.playbackErrorDetails {
+        } else if let playbackError = episode.playbackErrorDetails {
             desc.append(playbackError)
         }
 
@@ -161,22 +159,19 @@ class PlayerCell: SwipeTableViewCell {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
             episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
-        }
-        else if episode.downloading() {
+        } else if episode.downloading() {
             if !downloadingIndicator.isAnimating {
                 downloadingIndicator.startAnimating()
                 downloadingIndicator.isHidden = false
                 downloadedIndicator.isHidden = true
             }
             episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
-        }
-        else if episode.downloaded(pathFinder: DownloadManager.shared) {
+        } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = false
             episodeInfo.text = episode.displayableTimeLeft()
-        }
-        else {
+        } else {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
             episodeInfo.text = episode.displayableTimeLeft()
@@ -194,8 +189,7 @@ class PlayerCell: SwipeTableViewCell {
     private func setHighlightedState(_ highlighted: Bool) {
         if highlighted {
             updateBgColor(AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride))
-        }
-        else {
+        } else {
             updateBgColor(AppTheme.colorForStyle(style, themeOverride: themeOverride))
         }
     }
@@ -242,8 +236,7 @@ class PlayerCell: SwipeTableViewCell {
                     self.setHighlightedState(false)
                 }
             })
-        }
-        else {
+        } else {
             selectViewLeadingConstraint.constant = show ? 20 : -24
             showTick = false
             selectView.layer.borderWidth = show ? 2 : 0

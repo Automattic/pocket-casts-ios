@@ -37,12 +37,10 @@ class BadgeHelper {
         
         if badgeSetting == .off || !pushOn {
             clearBadge(clearNotificationsToo: false)
-        }
-        else if badgeSetting == .totalUnplayed {
+        } else if badgeSetting == .totalUnplayed {
             let unplayedCount = DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0", values: nil)
             setBadgeTo(unplayedCount)
-        }
-        else if badgeSetting == .newSinceLastOpened {
+        } else if badgeSetting == .newSinceLastOpened {
             guard let lastClosedDate = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastAppCloseDate) as? Date else {
                 clearBadge(clearNotificationsToo: false)
                 
@@ -51,8 +49,7 @@ class BadgeHelper {
             
             let newCount = DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0 AND e.addedDate > ?", values: [lastClosedDate])
             setBadgeTo(newCount)
-        }
-        else if badgeSetting == .filterCount {
+        } else if badgeSetting == .filterCount {
             guard let filterId = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid) else {
                 UserDefaults.standard.set(AppBadge.off.rawValue, forKey: Constants.UserDefaults.appBadge)
                 

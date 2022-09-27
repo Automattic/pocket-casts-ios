@@ -57,8 +57,7 @@ extension DownloadsViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             downloadsTable.selectAll()
-        }
-        else {
+        } else {
             downloadsTable.deselectAll()
         }
         updateSelectAllBtn()

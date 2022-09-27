@@ -43,8 +43,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         stackBgView.anchorToAllSidesOf(view: stackView)
         if let theme = themeOverride {
             stackBgView.backgroundColor = AppTheme.optionPickerBackgroundColor(for: theme)
-        }
-        else {
+        } else {
             stackBgView.backgroundColor = AppTheme.optionPickerBackgroundColor()
         }
         

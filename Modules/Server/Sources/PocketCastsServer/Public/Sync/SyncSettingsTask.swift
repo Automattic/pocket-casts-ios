@@ -31,12 +31,10 @@ class SyncSettingsTask: ApiBaseTask {
             
             if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("SyncSettingsTask Unable to sync with server got status \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SyncSettingsTask Protobuf Encoding failed")
         }
     }
@@ -78,8 +76,7 @@ class SyncSettingsTask: ApiBaseTask {
             ServerSettings.marketingOptInSynced()
             ServerSettings.setHomeGridSortOrderSynced()
             SubscriptionHelper.subscriptionGiftAcknowledgementSynced()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SyncSettingsTask decoding response failed \(error.localizedDescription)")
         }
     }

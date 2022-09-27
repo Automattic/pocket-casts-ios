@@ -180,15 +180,13 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
                     paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
                     upgradeView.isHidden = true
-                }
-                else if SubscriptionHelper.subscriptionType() == .supporter {
+                } else if SubscriptionHelper.subscriptionType() == .supporter {
                     accountDetailsLabel.style = .support02
                     accountDetailsLabel.text = L10n.supporter
                     paymentExpiryLabel.text = L10n.supporterContributionsSubtitle
                     upgradeView.isHidden = true
                 }
-            }
-            else { // Gifted account
+            } else { // Gifted account
                 if SubscriptionHelper.subscriptionPlatform() == .gift {
                     if SubscriptionHelper.hasLifetimeGift() {
                         hideExpiryDate = true
@@ -197,20 +195,17 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                         paymentExpiryLabel.text = L10n.plusLifetimeMembership
                         paymentExpiryLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
                         paymentExpiryLabel.style = .support02
-                    }
-                    else {
+                    } else {
                         let freeTime = Double(SubscriptionHelper.subscriptionGiftDays()).days
                         let freeTimeStr = DateFormatHelper.sharedHelper.shortTimeRemaining(freeTime).capitalized
                         accountDetailsLabel.text = L10n.plusFreeMembershipFormat(freeTimeStr)
                         hideExpiryDate = false
                     }
-                }
-                else {
+                } else {
                     if SubscriptionHelper.subscriptionType() == .plus {
                         accountDetailsLabel.text = L10n.plusPaymentCanceled
                         hideExpiryDate = false
-                    }
-                    else if SubscriptionHelper.subscriptionType() == .supporter {
+                    } else if SubscriptionHelper.subscriptionType() == .supporter {
                         accountDetailsLabel.style = .support05
                         accountDetailsLabel.text = L10n.supporterPaymentCanceled
                         upgradeView.isHidden = true
@@ -235,20 +230,17 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     if expiryTime < 15.days {
                         paymentExpiryLabel.style = .support05
                         upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
-                    }
-                    else if expiryTime < 30.days {
+                    } else if expiryTime < 30.days {
                         paymentExpiryLabel.style = .support08
                         upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
-                    }
-                    else {
+                    } else {
                         paymentExpiryLabel.style = .primaryText02
                         upgradeView.isHidden = true
                     }
                 }
                 profileView.secondsTillExpiry = expiryTime
             }
-        }
-        else {
+        } else {
             // Free Account
             accountTypeLabel.text = L10n.pocketCasts
             accountDetailsLabel.text = nil

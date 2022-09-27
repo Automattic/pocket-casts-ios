@@ -90,8 +90,7 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         if filterFinished || filterUnplayed || filterPartiallyPlayed {
             saveButton.isEnabled = true
             saveButton.backgroundColor = filterToEdit.playlistColor()
-        }
-        else {
+        } else {
             saveButton.isEnabled = false
             saveButton.backgroundColor = AppTheme.disabledButtonColor()
         }

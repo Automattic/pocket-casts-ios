@@ -24,7 +24,7 @@ class MessageSupportViewModel: ObservableObject {
 
     @Published var isValid = false
     @Published var isWorking = false
-    @Published var completion: Completion? = nil
+    @Published var completion: Completion?
 
     // MARK: Error Handling
 

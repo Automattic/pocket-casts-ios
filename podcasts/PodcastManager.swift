@@ -59,14 +59,11 @@ class PodcastManager: NSObject {
     func allPodcastsSorted(in sortOrder: LibrarySort, reloadFromDatabase: Bool = false) -> [Podcast] {
         if sortOrder == .titleAtoZ {
             return DataManager.sharedManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase)
-        }
-        else if sortOrder == .episodeDateNewestToOldest {
+        } else if sortOrder == .episodeDateNewestToOldest {
             return DataManager.sharedManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase)
-        }
-        else if sortOrder == .dateAddedNewestToOldest {
+        } else if sortOrder == .dateAddedNewestToOldest {
             return DataManager.sharedManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase)
-        }
-        else {
+        } else {
             return DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: reloadFromDatabase)
         }
     }
@@ -137,8 +134,7 @@ class PodcastManager: NSObject {
             
             if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
                 DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-            }
-            else {
+            } else {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
             }
         }

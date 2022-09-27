@@ -60,8 +60,7 @@ extension PodcastViewController {
         if shouldSelectAll {
             guard let allObjects = episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
             episodesTable.selectAllBelow(indexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
-        }
-        else {
+        } else {
             episodesTable.deselectAll()
             if selectedEpisodes.count != 0 { // special case where hidden (archived) episodes are selected
                 selectedEpisodes.removeAll()
@@ -78,8 +77,7 @@ extension PodcastViewController {
         let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
         if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) {
             multiSelectAllBtn.setTitle(L10n.selectAll, for: .normal)
-        }
-        else {
+        } else {
             multiSelectAllBtn.setTitle(L10n.deselectAll, for: .normal)
         }
     }

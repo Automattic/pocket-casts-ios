@@ -22,8 +22,7 @@ class NowPlayingRowController: NSObject {
         if isPlaying {
             icon.setImageNamed("nowplaying")
             icon.startAnimating()
-        }
-        else {
+        } else {
             icon.stopAnimating()
             icon.setImageNamed("notplaying")
         }

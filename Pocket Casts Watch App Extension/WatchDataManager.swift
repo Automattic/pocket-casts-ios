@@ -139,8 +139,7 @@ class WatchDataManager {
             episode.populateFromMap(episodeMap)
             
             return episode
-        }
-        else {
+        } else {
             let userEpisode = UserEpisode()
             userEpisode.populateFromMap(episodeMap)
             

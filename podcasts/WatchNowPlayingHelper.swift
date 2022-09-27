@@ -17,8 +17,7 @@ class WatchNowPlayingHelper {
         if title == nowPlayingTitle {
             let nowPlayingInfo = WatchNowPlayingHelper.addUpToInformationToNowPlaying(currNowPlaying as [String: AnyObject], duration: duration, upTo: upTo, playbackRate: playbackRate)
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        }
-        else {
+        } else {
             setAllNowPlayingInfo(for: episode, duration: duration, upTo: upTo, playbackRate: playbackRate)
         }
     }
@@ -72,8 +71,7 @@ class WatchNowPlayingHelper {
         if let playbackRate = playbackRate {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: playbackRate)
             nowPlayingClone[MPNowPlayingInfoPropertyDefaultPlaybackRate] = NSNumber(value: playbackRate)
-        }
-        else {
+        } else {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: 0)
         }
         

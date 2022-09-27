@@ -138,8 +138,7 @@ class CustomSegmentedControl: UIControl {
                 iconView.anchorToAllSidesOf(view: actionView)
                 
                 itemViews.append(iconView)
-            }
-            else {
+            } else {
                 let label = UILabel()
                 label.text = action.title
                 label.textAlignment = .center
@@ -179,8 +178,7 @@ class CustomSegmentedControl: UIControl {
         for (index, actionView) in actionViews.enumerated() {
             if index == selectedIndex {
                 actionView.accessibilityTraits = [.button, .selected]
-            }
-            else {
+            } else {
                 actionView.accessibilityTraits = [.button]
             }
         }
@@ -196,11 +194,9 @@ class CustomSegmentedControl: UIControl {
         // Joe requested that the lines don't show up next to the selected item, so handle hiding them hear
         if selectedIndex == 0 {
             separatorViews.first?.backgroundColor = UIColor.clear
-        }
-        else if selectedIndex == (actionViews.count - 1) {
+        } else if selectedIndex == (actionViews.count - 1) {
             separatorViews.last?.backgroundColor = UIColor.clear
-        }
-        else {
+        } else {
             separatorViews[safe: selectedIndex - 1]?.backgroundColor = UIColor.clear
             separatorViews[safe: selectedIndex]?.backgroundColor = UIColor.clear
         }
@@ -209,8 +205,7 @@ class CustomSegmentedControl: UIControl {
             let color = selectedIndex == index ? selectedItemColor : unselectedItemColor
             if let itemView = itemView as? UILabel {
                 itemView.textColor = color
-            }
-            else {
+            } else {
                 itemView.tintColor = color
             }
         }

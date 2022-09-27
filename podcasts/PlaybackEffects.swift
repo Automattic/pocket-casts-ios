@@ -67,11 +67,9 @@ class PlaybackEffects {
     func toggleDefinedSpeedInterval() {
         if playbackSpeed < 1 || playbackSpeed >= 2 {
             playbackSpeed = 1
-        }
-        else if playbackSpeed < 1.5 {
+        } else if playbackSpeed < 1.5 {
             playbackSpeed = 1.5
-        }
-        else if playbackSpeed < 2 {
+        } else if playbackSpeed < 2 {
             playbackSpeed = 2
         }
     }

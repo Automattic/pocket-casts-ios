@@ -43,8 +43,7 @@ class ShiftyLoadingAlert {
                     completion()
                 }
             }
-        }
-        else {
+        } else {
             let indeterminantIndicator = AngularActivityIndicator(size: CGSize(width: indicatorSize, height: indicatorSize), lineWidth: 2.0, duration: 1.0)
             indeterminantIndicator.color = UIColor(red: 100 / 255, green: 100 / 255, blue: 100 / 255, alpha: 1.0)
             alertController!.view.addSubview(indeterminantIndicator)

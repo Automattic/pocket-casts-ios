@@ -17,8 +17,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
             connectBtn.buttonTapped = { [weak self] in
                 if SyncManager.isUserLoggedIn() {
                     self?.connectWithSonos()
-                }
-                else {
+                } else {
                     self?.signIntoPocketCasts(signInMode: true)
                 }
             }
@@ -52,8 +51,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
             mainMessage.text = L10n.sonosConnectionPrivacyNotice
             connectBtn.buttonTitle = L10n.sonosConnectAction
             createBtn.isHidden = true
-        }
-        else {
+        } else {
             mainMessage.text = L10n.sonosConnectionSignInPrompt
             connectBtn.buttonTitle = L10n.signIn.localizedUppercase
             createBtn.isHidden = false
@@ -81,8 +79,7 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
                 let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 if let url = URL(string: fullUrl) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-                else {
+                } else {
                     strongSelf.connectBtn.buttonTitle = L10n.retry.localizedUppercase
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAppMissing, from: self)
                 }

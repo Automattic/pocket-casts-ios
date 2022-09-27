@@ -1,8 +1,8 @@
 import Foundation
 
 public struct ImportOpmlResponse: Decodable {
-    public var status: String? = nil
-    public var message: String? = nil
+    public var status: String?
+    public var message: String?
     public var result: ImportOpmlResult?
     
     public func success() -> Bool {
@@ -30,8 +30,8 @@ public struct ImportOpmlResult: Decodable {
 }
 
 public struct ExportPodcastsResponse: Decodable {
-    public var status: String? = nil
-    public var message: String? = nil
+    public var status: String?
+    public var message: String?
     public var result: [String: String]?
     
     public func success() -> Bool {
@@ -47,9 +47,9 @@ public struct ExportPodcastsResponse: Decodable {
 }
 
 public struct ShareListResponse: Decodable {
-    public var status: String? = nil
-    public var message: String? = nil
-    public var result: ShareListResult? = nil
+    public var status: String?
+    public var message: String?
+    public var result: ShareListResult?
     
     public func success() -> Bool {
         status == "ok"
@@ -125,9 +125,9 @@ public struct RefreshEpisode: Decodable {
 }
 
 public struct PodcastSearchResponse: Decodable {
-    public var status: String? = nil
-    public var message: String? = nil
-    public var result: SearchResult? = nil
+    public var status: String?
+    public var message: String?
+    public var result: SearchResult?
     
     public func success() -> Bool {
         status == "ok"

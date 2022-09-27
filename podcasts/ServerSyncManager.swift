@@ -80,8 +80,7 @@ class ServerSyncManager: ServerSyncDelegate {
         for episode in episodes {
             if isWiFiConnected || !autoDownloadsRequireWifi {
                 DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-            }
-            else {
+            } else {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
             }
         }

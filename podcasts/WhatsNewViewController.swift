@@ -5,8 +5,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         didSet {
             if hideShadow {
                 shadowView.layer.shadowRadius = 0
-            }
-            else {
+            } else {
                 shadowView.layer.masksToBounds = false
                 shadowView.layer.shadowColor = AppTheme.appearanceShadowColor().cgColor
                 shadowView.layer.shadowOffset = CGSize(width: 0, height: -2)
@@ -110,8 +109,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         if nextPage <= pageControl.numberOfPages - 1 {
             let offset = CGFloat(nextPage) * scrollView.bounds.width
             scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
-        }
-        else {
+        } else {
             close()
         }
     }
@@ -156,8 +154,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
     private func updateButtonText() {
         if pageControl.currentPage == pageControl.numberOfPages - 1 {
             nextButton.setTitle(L10n.done, for: .normal)
-        }
-        else {
+        } else {
             nextButton.setTitle(L10n.next, for: .normal)
         }
     }

@@ -9,8 +9,7 @@ class TopLevelSettingsCell: ThemeableCell {
         didSet {
             if showsDisclosureIndicator {
                 accessoryView = TintableImageView(image: UIImage(named: "chevron"))
-            }
-            else {
+            } else {
                 accessoryView = nil
             }
         }

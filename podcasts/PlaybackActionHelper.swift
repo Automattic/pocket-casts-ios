@@ -16,8 +16,7 @@ class PlaybackActionHelper {
             NetworkUtils.shared.streamEpisodeRequested({
                 performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
             }, disallowed: nil)
-        }
-        else {
+        } else {
             performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
         }
     }
@@ -36,8 +35,7 @@ class PlaybackActionHelper {
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-            }
-            else {
+            } else {
                 DownloadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
@@ -51,8 +49,7 @@ class PlaybackActionHelper {
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: autoDownloadStatus, { later in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: autoDownloadStatus)
-            }
-            else {
+            } else {
                 DownloadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
@@ -62,8 +59,7 @@ class PlaybackActionHelper {
         NetworkUtils.shared.uploadEpisodeRequested({ later in
             if later {
                 UploadManager.shared.queueForLaterUpload(episodeUuid: episodeUuid, fireNotification: true)
-            }
-            else {
+            } else {
                 UploadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
@@ -76,8 +72,7 @@ class PlaybackActionHelper {
     private class func performPlay(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.play()
-        }
-        else {
+        } else {
             if episode.archived, let episode = episode as? Episode {
                 DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
             }
@@ -93,16 +88,14 @@ class PlaybackActionHelper {
                     
                     PlaybackManager.shared.load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
                 }
-            }
-            else {
+            } else {
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }
         
         if let filterUuid = filterUuid {
             SiriShortcutsManager.shared.donateFilterPlayed(filterUuid: filterUuid)
-        }
-        else if let podcastUuid = podcastUuid {
+        } else if let podcastUuid = podcastUuid {
             SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
         }
     }

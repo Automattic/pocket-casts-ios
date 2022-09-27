@@ -75,8 +75,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 let itemHeight = itemWidth + 60
                 return CGSize(width: itemWidth, height: itemHeight)
             }
-        }
-        else {
+        } else {
             switch cellStyle {
             case .descriptive_list:
                 let numColumns = floor(viewWidth / (descriptiveListPreferredMaxWidth + descriptiveListSpacing))

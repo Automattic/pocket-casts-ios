@@ -50,8 +50,7 @@ class PodcastSearchCell: ThemeableCell {
     func populateForm(podcastInfo: PodcastInfo) {
         if let uuid = podcastInfo.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .list)
-        }
-        else {
+        } else {
             podcastImage.clearArtwork()
         }
         podcastName.text = podcastInfo.title

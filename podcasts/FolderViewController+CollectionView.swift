@@ -36,8 +36,7 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if libraryType == .list {
             let castCell = cell as! PodcastListCell
             castCell.populateFrom(podcast, badgeType: badgeType)
-        }
-        else {
+        } else {
             let castCell = cell as! PodcastGridCell
             castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
         }

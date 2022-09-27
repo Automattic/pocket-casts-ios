@@ -22,8 +22,7 @@ class UpNextChangesDataManager {
                 if resultSet.next() {
                     replaceAction = self.createFrom(resultSet: resultSet)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextChangesDataManager.findReplaceAction error: \(error)")
             }
         }
@@ -42,8 +41,7 @@ class UpNextChangesDataManager {
                     let action = self.createFrom(resultSet: resultSet)
                     allUpdateActions.append(action)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextChangesDataManager.findUpdateActions error: \(error)")
             }
         }
@@ -81,8 +79,7 @@ class UpNextChangesDataManager {
                 upNextRemove.uuids = episodeList.joined(separator: ",")
                 upNextRemove.utcTime = DBUtils.currentUTCTimeInMillis()
                 try db.executeUpdate("INSERT INTO \(DataManager.upNextChangesTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(upNextChanges: upNextRemove))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextChangesDataManager.saveReplace error: \(error)")
             }
         }
@@ -100,8 +97,7 @@ class UpNextChangesDataManager {
                 upNextRemove.uuid = episodeUuid
                 upNextRemove.utcTime = DBUtils.currentUTCTimeInMillis()
                 try db.executeUpdate("INSERT INTO \(DataManager.upNextChangesTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(upNextChanges: upNextRemove))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextChangesDataManager.saveUpdate error: \(error)")
             }
         }
@@ -113,8 +109,7 @@ class UpNextChangesDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) where utcTime <= ?", values: [utcTime])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextChangesDataManager.deleteChangesOlderThan error: \(error)")
             }
         }

@@ -44,8 +44,7 @@ class TracksAdapter: AnalyticsAdapter {
 
     init(userDefaults: UserDefaults = .standard,
          subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
-         notificationCenter: NotificationCenter = .default)
-    {
+         notificationCenter: NotificationCenter = .default) {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter

@@ -178,8 +178,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         if currentlyPlaying {
             PlaybackManager.shared.pause()
             stopHideControlsTimer()
-        }
-        else {
+        } else {
             PlaybackManager.shared.play()
             startHideControlsTimer()
         }
@@ -218,8 +217,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         
         if pipController.isPictureInPictureActive {
             pipController.stopPictureInPicture()
-        }
-        else {
+        } else {
             pipController.startPictureInPicture()
         }
     }
@@ -229,8 +227,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             pipController = AVPictureInPictureController(playerLayer: videoPlayerView.playerLayer)
             pipController?.delegate = self
             pipButton.isHidden = false
-        }
-        else {
+        } else {
             pipButton.isHidden = true
         }
     }
@@ -387,18 +384,15 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             closeToViewTopConstraint.constant = closeFileStackView.frame.minY
             closeToSafeTopConstraint.isActive = false
             closeToViewTopConstraint.isActive = true
-        }
-        else if sender.state == UIGestureRecognizer.State.changed {
+        } else if sender.state == UIGestureRecognizer.State.changed {
             if touchPoint.y - initialTouchPoint.y > 0 {
                 view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: view.frame.size.width, height: view.frame.size.height)
             }
-        }
-        else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
             if touchPoint.y - initialTouchPoint.y > VideoViewController.pullDownThreshold {
                 videoPlayerView.isHidden = true
                 dismiss(animated: true, completion: nil)
-            }
-            else {
+            } else {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
                     

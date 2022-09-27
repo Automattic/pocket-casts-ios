@@ -52,11 +52,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let identifier = urlSessionTask.sessionIdentifier
                 if identifier == DownloadManager.cellBackgroundSessionId {
                     DownloadManager.shared.processBackgroundTaskCallback(task: urlSessionTask)
-                }
-                else if identifier.startsWith(string: BackgroundSyncManager.sessionIdPrefix) {
+                } else if identifier.startsWith(string: BackgroundSyncManager.sessionIdPrefix) {
                     BackgroundSyncManager.shared.processBackgroundTaskCallback(task: urlSessionTask, identifier: identifier)
-                }
-                else {
+                } else {
                     urlSessionTask.setTaskCompletedWithSnapshot(true)
                 }
             default:
@@ -74,8 +72,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         if !haveAttemptedStateRestore {
             haveAttemptedStateRestore = true
             NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
-        }
-        else {
+        } else {
             // if we have a page we're meant to restore to, but are somehow still on the SourceInterfaceController, restore to that state again
             let visibleController = WKExtension.shared().visibleInterfaceController ?? WKExtension.shared().rootInterfaceController
             if visibleController is SourceInterfaceController {

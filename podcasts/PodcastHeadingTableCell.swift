@@ -194,21 +194,18 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                     supportDate.text = L10n.nextPaymentFormat(expiryDateStr)
                     supportMessage.style = .support02
                     supportMessageHeart.tintColor = ThemeColor.support02()
-                }
-                else {
+                } else {
                     supportDate.text = podcast.displayableExpiryLanguage(expiryDate: expiryDate)
                     supportMessage.style = .primaryText02
                     supportMessageHeart.tintColor = ThemeColor.primaryText02()
                 }
-            }
-            else {
+            } else {
                 supportMessage.style = .primaryText02
                 
                 if SyncManager.isUserLoggedIn() {
                     supportDate.text = L10n.paidPodcastGenericError
                     manageSupportBtn.setTitle(L10n.paidPodcastManage, for: .normal)
-                }
-                else {
+                } else {
                     supportDate.text = L10n.paidPodcastSigninPromptTitle
                     manageSupportBtn.setTitle(L10n.signIn, for: .normal)
                     supporterBadge.image = UIImage(named: "podcast-supporter-warning")
@@ -263,8 +260,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if expanded, let podcastAuthor = podcast.author {
             author.text = podcastAuthor
             authorView.isHidden = false
-        }
-        else {
+        } else {
             authorView.isHidden = true
         }
         
@@ -272,37 +268,32 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             if host.startsWith(string: "www.") {
                 let wwwIndex = host.index(host.startIndex, offsetBy: 4)
                 link.text = String(host[wwwIndex...])
-            }
-            else {
+            } else {
                 link.text = host
             }
             linkView.isHidden = false
-        }
-        else {
+        } else {
             linkView.isHidden = true
         }
         
         if expanded, let frequency = podcast.displayableFrequency() {
             schedule.text = L10n.paidPodcastReleaseFrequencyFormat(frequency)
             scheduleView.isHidden = false
-        }
-        else {
+        } else {
             scheduleView.isHidden = true
         }
         
         if expanded, let estimatedDate = podcast.displayableNextEpisodeDate() {
             nextEpisode.text = L10n.paidPodcastNextEpisodeFormat(estimatedDate)
             nextEpisodeView.isHidden = false
-        }
-        else {
+        } else {
             nextEpisodeView.isHidden = true
         }
         
         contentView.removeConstraint(contentViewBottomConstraint)
         if expanded {
             contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
-        }
-        else {
+        } else {
             contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
         }
         contentView.addConstraint(contentViewBottomConstraint)
@@ -323,8 +314,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             settingsBtn.alpha = 1
             settingsButtonTrailingConstraint.constant = 48
             subscribeButtonWidthConstraint.constant = 32
-        }
-        else {
+        } else {
             subscribeButtonWidthConstraint.constant = tableViewWidth < 350 ? 120 : 147
             folderButton.isHidden = true
             settingsBtn.isHidden = true
@@ -382,8 +372,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             
             updateLayout()
             superview?.layoutIfNeeded()
-        }
-        else {
+        } else {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.extraContentStackView.alpha = 0
                 self.podcastImageHeightConstraint.constant = self.artworkSize()
@@ -434,8 +423,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         
         if podcast.isSubscribed() {
             delegate.unsubscribe()
-        }
-        else {
+        } else {
             delegate.subscribe()
             animateToSubscribed()
             toggleExpanded(delegate: delegate)
@@ -475,11 +463,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if gesture.state == .began {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
-        }
-        else if gesture.state == .ended {
+        } else if gesture.state == .ended {
             subscribeButtonTapped()
-        }
-        else if gesture.state == .cancelled {
+        } else if gesture.state == .cancelled {
             subscribeButton.isHighlighted = false
             subscribeButton.setBackgroundColors()
         }
@@ -489,13 +475,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if gesture.state == .began {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
-        }
-        else if gesture.state == .ended {
+        } else if gesture.state == .ended {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
             subscribeButtonTapped()
-        }
-        else if gesture.state == .cancelled {
+        } else if gesture.state == .cancelled {
             subscribeButton.isHighlighted = false
         }
     }

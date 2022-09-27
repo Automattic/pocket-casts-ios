@@ -48,8 +48,7 @@ struct PodcastPickerRow: View {
                         .frame(width: 24, height: 24)
                     Image("small-tick")
                         .foregroundColor(ThemeColor.primaryInteractive02(for: theme.activeTheme).color)
-                }
-                else {
+                } else {
                     RoundedRectangle(cornerRadius: 6)
                         .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: 2)
                         .frame(width: 24, height: 24)

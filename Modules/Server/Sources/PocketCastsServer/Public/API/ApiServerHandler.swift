@@ -22,8 +22,7 @@ public class ApiServerHandler {
         if let episode = episode as? Episode {
             let saveOperation = PositionSyncTask(upTo: time, duration: duration, episode: episode)
             shared.apiQueue.addOperation(saveOperation)
-        }
-        else if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
+        } else if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
             shared.uploadSingleFileUpdateRequest(episode: userEpisode, completion: { _ in })
         }
     }
@@ -32,8 +31,7 @@ public class ApiServerHandler {
         if let episode = episode as? Episode {
             let saveOperation = PositionSyncTask(upTo: episode.playedUpTo, duration: episode.duration, episode: episode)
             apiQueue.addOperation(saveOperation)
-        }
-        else if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
+        } else if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
             uploadSingleFileUpdateRequest(episode: userEpisode, completion: { _ in })
         }
     }

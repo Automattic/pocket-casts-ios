@@ -108,8 +108,7 @@ public class SubscriptionHelper: NSObject {
         do {
             let data = try PropertyListEncoder().encode(value)
             UserDefaults.standard.set(data, forKey: ServerConstants.UserDefaults.subscriptionPodcasts)
-        }
-        catch {
+        } catch {
             print("failed to encode subscription podcasts")
         }
     }
@@ -146,8 +145,7 @@ public class SubscriptionHelper: NSObject {
                 bundles.remove(at: existingIndex)
                 existingBundle.podcasts.append(subscription)
                 bundles.insert(existingBundle, at: existingIndex)
-            }
-            else {
+            } else {
                 let newBundle = BundleSubscription(bundleUuid: subscription.bundleUuid, podcasts: [subscription])
                 bundles.append(newBundle)
             }

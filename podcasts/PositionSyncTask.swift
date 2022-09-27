@@ -32,12 +32,10 @@ class PositionSyncTask: ApiBaseTask {
             
             if httpStatus == Server.HttpConstants.ok {
                 FileLog.shared.addMessage("Sent position \(upToAsInt) status \(episode.playingStatus) for episode \(episode.optimisedTitle()) to server")
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("Save position failed \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("PositionSyncTask: Protobuf Encoding failed")
         }
     }

@@ -44,12 +44,10 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             let item = localResults[indexPath.row]
             if let podcast = item.podcast {
                 cell.populateFrom(podcast: podcast)
-            }
-            else if let folder = item.folder {
+            } else if let folder = item.folder {
                 cell.populateFrom(folder: folder)
             }
-        }
-        else {
+        } else {
             let podcastHeader = remoteResults[indexPath.row]
             cell.populateForm(podcastInfo: podcastHeader)
         }
@@ -61,12 +59,10 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             let item = localResults[indexPath.row]
             if let podcast = item.podcast {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-            }
-            else if let folder = item.folder {
+            } else if let folder = item.folder {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
             }
-        }
-        else if indexPath.section == remoteSection {
+        } else if indexPath.section == remoteSection {
             let podcastHeader = remoteResults[indexPath.row]
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
         }

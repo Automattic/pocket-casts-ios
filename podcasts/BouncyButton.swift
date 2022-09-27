@@ -61,8 +61,7 @@ class BouncyButton: UIButton {
                         self.transform = CGAffineTransform.identity
                     }, completion: nil)
                 }
-            }
-            else {
+            } else {
                 setImage(onImage, for: UIControl.State())
             }
         }
@@ -71,8 +70,7 @@ class BouncyButton: UIButton {
     private func updateAccessibilityLabel() {
         if currentlyOn, let onLabel = onAccessibilityLabel {
             accessibilityLabel = onLabel
-        }
-        else if !currentlyOn, let offLabel = offAccessibilityLabel {
+        } else if !currentlyOn, let offLabel = offAccessibilityLabel {
             accessibilityLabel = offLabel
         }
     }

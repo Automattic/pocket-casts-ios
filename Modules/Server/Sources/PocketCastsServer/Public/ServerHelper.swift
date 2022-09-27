@@ -76,8 +76,7 @@ public class ServerHelper: NSObject {
             refreshResponse.result = refreshResult
             
             return refreshResponse
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Unable to decode refresh response \(error.localizedDescription)")
             return PodcastRefreshResponse.failedResponse()
         }
@@ -104,8 +103,7 @@ public class ServerHelper: NSObject {
         do {
             let dataToSend = try JSONEncoder().encode(params)
             request.httpBody = dataToSend
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Encoding JSON request failed \(error.localizedDescription)")
             return nil
         }

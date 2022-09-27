@@ -45,8 +45,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
             if selectedPlayListEpisodes.count == 0 {
                 upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            }
-            else {
+            } else {
                 upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
             }
             updateNavBarButtons()
@@ -138,8 +137,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if queueCount <= Constants.Limits.upNextClearWithoutWarning {
             performClearAll()
-        }
-        else {
+        } else {
             let clearOptions = OptionsPicker(title: nil, themeOverride: .dark)
             let actionLabel = L10n.queueClearEpisodeQueuePlural(queueCount.localized())
             let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
@@ -168,8 +166,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             episodeController.modalPresentationStyle = .formSheet
             episodeController.themeOverride = themeOverride
             present(episodeController, animated: true, completion: nil)
-        }
-        else if let userEpisode = episode as? UserEpisode {
+        } else if let userEpisode = episode as? UserEpisode {
             if let fullEpisode = DataManager.sharedManager.findUserEpisode(uuid: userEpisode.uuid) {
                 userEpisodeDetailVC = UserEpisodeDetailViewController(episode: fullEpisode)
                 userEpisodeDetailVC?.delegate = self
@@ -224,17 +221,14 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
-            }
-            else {
+            } else {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
             }
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
-        }
-        else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
+        } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-        }
-        else {
+        } else {
             navigationItem.rightBarButtonItem = nil
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
         }

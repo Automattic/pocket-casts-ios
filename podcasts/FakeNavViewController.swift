@@ -91,8 +91,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if displayMode == .navController, showNavBarOnHide {
             if let navController = navigationController {
                 navController.setNavigationBarHidden(false, animated: true)
-            }
-            else {
+            } else {
                 // there's a case when iOS pops a tab that it takes away our navigationController earlier than normal, handle that here
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.unhideNavBarRequested)
             }
@@ -150,8 +149,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                 fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 5),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
-        }
-        else {
+        } else {
             let previousButton = rightActionButtons.last!
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
@@ -182,8 +180,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if navigationTitleSetOnScroll {
             if scrolledToY > scrollPointToChangeTitle, fakeNavTitle.text == nil {
                 changeTitleAnimated(navTitle)
-            }
-            else if scrolledToY < scrollPointToChangeTitle, fakeNavTitle.text != nil {
+            } else if scrolledToY < scrollPointToChangeTitle, fakeNavTitle.text != nil {
                 changeTitleAnimated(nil)
             }
         }

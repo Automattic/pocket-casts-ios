@@ -75,8 +75,7 @@ class CategorySponsoredCell: ThemeableCell {
         if let podcastUuid = discoverPromotion?.podcast_uuid {
             if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
-            }
-            else {
+            } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }
             }
         }

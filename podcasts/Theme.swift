@@ -168,8 +168,7 @@ class Theme: ObservableObject {
             if !systemIsDark {
                 Theme.sharedTheme.activeTheme = preferredType
             }
-        }
-        else {
+        } else {
             Theme.sharedTheme.activeTheme = preferredType
         }
     }

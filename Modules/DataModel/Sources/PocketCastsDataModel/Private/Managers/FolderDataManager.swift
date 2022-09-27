@@ -46,12 +46,10 @@ class FolderDataManager {
                 if cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
-                }
-                else {
+                } else {
                     try db.executeUpdate("INSERT INTO \(DataManager.folderTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(folder))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
             }
         }
@@ -74,8 +72,7 @@ class FolderDataManager {
                 for folders in folders {
                     try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET sortOrder = ?, syncModified = ? WHERE uuid = ?", values: [folders.sortOrder, syncModified, folders.uuid])
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("FolderDataManager.saveSortOrders error: \(error)")
             }
         }
@@ -130,8 +127,7 @@ class FolderDataManager {
                 cachedFolderQueue.sync {
                     cachedFolders = newFolders
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("FolderDataManager.cacheFolders error: \(error)")
             }
         }

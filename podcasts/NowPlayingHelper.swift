@@ -18,8 +18,7 @@ class NowPlayingHelper {
         if title == nowPlayingTitle {
             let nowPlayingInfo = NowPlayingHelper.addUpToInformationToNowPlaying(currNowPlaying as [String: AnyObject], duration: duration, upTo: upTo, playbackRate: playbackRate)
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        }
-        else {
+        } else {
             setAllNowPlayingInfo(for: episode, currentChapter: currentChapter, duration: duration, upTo: upTo, playbackRate: playbackRate)
         }
     }
@@ -96,12 +95,10 @@ class NowPlayingHelper {
             // genre
             if let podcastCategory = parentPodcast.podcastCategory, podcastCategory.count > 0 {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = podcastCategory as NSString
-            }
-            else {
+            } else {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = "Podcast" as NSString
             }
-        }
-        else {
+        } else {
             nowPlayingInfo[MPMediaItemPropertyArtist] = "PocketCasts" as NSString
             nowPlayingInfo[MPMediaItemPropertyComposer] = "PocketCasts" as NSString
             nowPlayingInfo[MPMediaItemPropertyGenre] = "Podcast" as NSString
@@ -118,8 +115,7 @@ class NowPlayingHelper {
         if let playbackRate = playbackRate {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: playbackRate)
             nowPlayingClone[MPNowPlayingInfoPropertyDefaultPlaybackRate] = NSNumber(value: playbackRate)
-        }
-        else {
+        } else {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: 0)
         }
         

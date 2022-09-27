@@ -1,4 +1,3 @@
-
 import UIKit
 
 class PodcastSupporterCell: ThemeableCell {
@@ -57,8 +56,7 @@ class PodcastSupporterCell: ThemeableCell {
             heartView.isHidden = isLoading
             if isLoading {
                 loadingIndicator.startAnimating()
-            }
-            else {
+            } else {
                 loadingIndicator.stopAnimating()
             }
         }

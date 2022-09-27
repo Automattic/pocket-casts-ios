@@ -84,8 +84,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
         if let headerUuid = discoverPodcast?.uuid {
             if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
-            }
-            else {
+            } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }
             }
         }
@@ -98,8 +97,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
         
         if discoverPodcast.iTunesOnly() {
             ServerPodcastManager.shared.addFromiTunesId(Int(discoverPodcast.iTunesId!)!, subscribe: true, completion: nil)
-        }
-        else if let uuid = discoverPodcast.uuid {
+        } else if let uuid = discoverPodcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
     }

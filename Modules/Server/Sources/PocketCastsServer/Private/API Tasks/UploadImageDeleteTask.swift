@@ -30,8 +30,7 @@ class UploadImageDeleteTask: ApiBaseTask {
             
             FileLog.shared.addMessage("Uploaded image file delete request successful")
             completion?(true)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("FileDeleteRequest encoding failed \(error.localizedDescription)")
             completion?(false)
         }

@@ -41,12 +41,10 @@ class UnplayedSashOverlayView: UIView {
             badgeLabel.isHidden = false
             if badgeType == .latestEpisode {
                 badgeLabel.text = "●"
-            }
-            else {
+            } else {
                 badgeLabel.text = count < 99 ? "\(count)" : "99"
             }
-        }
-        else {
+        } else {
             bgImage.isHidden = true
             badgeLabel.isHidden = true
         }
@@ -56,8 +54,7 @@ class UnplayedSashOverlayView: UIView {
         if libraryType == .fourByFour {
             bgImage.image = UIImage(named: "badge4x4")
             bgImageHeightConstraint.constant = 33
-        }
-        else {
+        } else {
             bgImage.image = UIImage(named: "badge3x3")
             bgImageHeightConstraint.constant = 42
         }

@@ -41,23 +41,17 @@ class ReleaseDateFilterViewController: FilterSettingsViewController, UITableView
     func timeToFilterLenght(filterName: String) -> Int32 {
         if filterName.caseInsensitiveCompare("Anytime") == .orderedSame {
             return 0
-        }
-        else if filterName.caseInsensitiveCompare("Last 24 hours") == .orderedSame {
+        } else if filterName.caseInsensitiveCompare("Last 24 hours") == .orderedSame {
             return 24
-        }
-        else if filterName.caseInsensitiveCompare("Last 3 days") == .orderedSame {
+        } else if filterName.caseInsensitiveCompare("Last 3 days") == .orderedSame {
             return (24 * 3)
-        }
-        else if filterName.caseInsensitiveCompare("Last week") == .orderedSame {
+        } else if filterName.caseInsensitiveCompare("Last week") == .orderedSame {
             return (24 * 7)
-        }
-        else if filterName.caseInsensitiveCompare("Last 2 weeks") == .orderedSame {
+        } else if filterName.caseInsensitiveCompare("Last 2 weeks") == .orderedSame {
             return (24 * 14)
-        }
-        else if filterName.caseInsensitiveCompare("Last month") == .orderedSame {
+        } else if filterName.caseInsensitiveCompare("Last month") == .orderedSame {
             return (24 * 31)
-        }
-        else {
+        } else {
             // fallback in case another client sets some weird amount of hours
             return filterToEdit.filterHours
         }
@@ -69,20 +63,15 @@ class ReleaseDateFilterViewController: FilterSettingsViewController, UITableView
         }
         if filterToEdit.filterHours == 24 {
             selectedValue = 0
-        }
-        else if filterToEdit.filterHours == (24 * 3) {
+        } else if filterToEdit.filterHours == (24 * 3) {
             selectedValue = 1
-        }
-        else if filterToEdit.filterHours == (24 * 7) {
+        } else if filterToEdit.filterHours == (24 * 7) {
             selectedValue = 2
-        }
-        else if filterToEdit.filterHours == (24 * 14) {
+        } else if filterToEdit.filterHours == (24 * 14) {
             selectedValue = 3
-        }
-        else if filterToEdit.filterHours == (24 * 31) {
+        } else if filterToEdit.filterHours == (24 * 31) {
             selectedValue = 4
-        }
-        else {
+        } else {
             // fallback in case another client sets some weird amount of hours
             // TODO: return "\(filterHours) hours";
             selectedValue = 0

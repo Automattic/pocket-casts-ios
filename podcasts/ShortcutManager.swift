@@ -58,8 +58,7 @@ class ShortcutManager: CustomObserver {
                         userInfo: ["url": "pktc://shortcuts/pause" as NSSecureCoding]
                     )
                 )
-            }
-            else {
+            } else {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
@@ -70,8 +69,7 @@ class ShortcutManager: CustomObserver {
                     )
                 )
             }
-        }
-        else {
+        } else {
             // discover
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(

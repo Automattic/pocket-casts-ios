@@ -132,8 +132,7 @@ class SelectAccountTypeViewController: UIViewController {
                 plusRadioButton.isSelected = false
                 freeBorderView.isSelected = true
                 plusBorderView.isSelected = false
-            }
-            else {
+            } else {
                 freeRadioButton.isSelected = false
                 plusRadioButton.isSelected = true
                 freeBorderView.isSelected = false
@@ -177,8 +176,7 @@ class SelectAccountTypeViewController: UIViewController {
         if isFreeAccount {
             let enailVC = NewEmailViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(enailVC, animated: true)
-        }
-        else {
+        } else {
             let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(termsOfUseVC, animated: true)
         }
@@ -255,8 +253,7 @@ private extension SelectAccountTypeViewController {
             plusPriceLabel.text = monthlyPrice
             plusPaymentFreqLabel.text = L10n.plusPerMonth
             nextButton.isEnabled = true
-        }
-        else {
+        } else {
             #if targetEnvironment(simulator)
                 nextButton.isEnabled = true
 

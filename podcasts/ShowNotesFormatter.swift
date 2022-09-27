@@ -1,4 +1,3 @@
-
 import Foundation
 
 class ShowNotesFormatter {
@@ -40,8 +39,7 @@ class ShowNotesFormatter {
         if let startRange = bodyStartRange, let endRange = bodyEndRange {
             let rangeToKeep = Range(uncheckedBounds: (lower: startRange.upperBound, upper: endRange.lowerBound))
             return String(string[rangeToKeep])
-        }
-        else {
+        } else {
             return string.replacingOccurrences(of: "<body>", with: "").replacingOccurrences(of: "</body>", with: "").replacingOccurrences(of: "<html>", with: "").replacingOccurrences(of: "</html>", with: "")
         }
     }
@@ -50,8 +48,7 @@ class ShowNotesFormatter {
         let hideImagesInShowNotes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.hideImagesInShowNotes)
         if hideImagesInShowNotes {
             return "img { display: none; } html { -webkit-text-size-adjust: none; }"
-        }
-        else {
+        } else {
             return "img { width: auto !important; height: auto !important; max-width:100%; max-height: auto; padding-bottom: 10px; padding-top: 10px; display: block; } img[src*=\"coverart\" i] { display: none; } html { -webkit-text-size-adjust: none; } img[src*='feeds.feedburner.com'] { display: none; }"
         }
     }

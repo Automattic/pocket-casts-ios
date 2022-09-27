@@ -178,8 +178,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         cell.isLocked = !SubscriptionHelper.hasActiveSubscription() && indexPath.item > 7
         if UIApplication.shared.alternateIconName != nil {
             cell.isCellSelected = selectedIcon().rawValue == indexPath.item
-        }
-        else {
+        } else {
             cell.isCellSelected = indexPath.item == 0
         }
         
@@ -198,8 +197,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             collectionView.deselectItem(at: indexPath, animated: true)
 
             NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
-        }
-        else {
+        } else {
             delegate?.changeIcon(name: IconType(rawValue: indexPath.row)?.iconName)
             collectionView.reloadData()
         }

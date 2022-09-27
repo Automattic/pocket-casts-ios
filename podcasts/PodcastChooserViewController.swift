@@ -77,19 +77,16 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
             // to support things like playlist editting that need to know about all/none selected events send a different event when it gets to 0
             if selectedUuids.count == 0, allowSelectAll {
                 delegate?.bulkSelectionChange(selected: false)
-            }
-            else {
+            } else {
                 delegate?.podcastUnselected(podcast: podcastUuid)
             }
-        }
-        else {
+        } else {
             selectedUuids.append(podcastUuid)
             
             // to support things like playlist editting that need to know about all/none selected events send a different event when all are manually selected
             if selectedUuids.count == allPodcasts.count, allowSelectAll {
                 delegate?.bulkSelectionChange(selected: true)
-            }
-            else {
+            } else {
                 delegate?.podcastSelected(podcast: podcastUuid)
             }
         }
@@ -117,8 +114,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         if shouldSelectAll() {
             selectedUuids = allPodcasts.map(\.uuid)
             delegate?.bulkSelectionChange(selected: true)
-        }
-        else {
+        } else {
             selectedUuids.removeAll()
             delegate?.bulkSelectionChange(selected: false)
         }

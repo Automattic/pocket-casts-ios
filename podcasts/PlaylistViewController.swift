@@ -102,8 +102,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                         self.tableView.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                }
-                else {
+                } else {
                     Analytics.track(.filterMultiSelectExited)
                     if self.shouldShowChipsAfterMulitSelect {
                         self.showFilterChips()
@@ -268,8 +267,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         let selectedRefreshControl: PCRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodesRefreshControl
-        }
-        else {
+        } else {
             selectedRefreshControl = tableRefreshControl
         }
 
@@ -281,8 +279,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         let selectedRefreshControl: PCRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodesRefreshControl
-        }
-        else {
+        } else {
             selectedRefreshControl = tableRefreshControl
         }
 
@@ -351,8 +348,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             
             if NetworkUtils.shared.isConnectedToWifi() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-            }
-            else {
+            } else {
                 downloadAction.destructive = true
                 
                 let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
@@ -441,8 +437,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     private func toggleFilterChipHideShow() {
         if !isChipHidden {
             hideFilterChips()
-        }
-        else {
+        } else {
             showFilterChips()
         }
     }
@@ -491,8 +486,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 strongSelf.tableView.reload(using: changeSet, with: .none, setData: { data in
                     strongSelf.episodes = data
                 })
-            }
-            else {
+            } else {
                 strongSelf.episodes = newData
                 strongSelf.tableView.reloadData()
             }

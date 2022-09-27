@@ -63,8 +63,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 cell.titleLabel.text = L10n.inProgress
                 cell.setSelectedState(deleteInProgress)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
@@ -72,8 +71,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            }
-            else if indexPath.row == 2 {
+            } else if indexPath.row == 2 {
                 cell.titleLabel.text = L10n.statusPlayed
                 cell.setSelectedState(deletePlayed)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
@@ -81,8 +79,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            }
-            else if indexPath.row == 3 {
+            } else if indexPath.row == 3 {
                 cell.titleLabel.text = L10n.settingsStorageDownloadsStarred
                 cell.setSelectedState(includeStarred)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
@@ -90,8 +87,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             }
             
             return cell
-        }
-        else if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
             
             cell.statName.text = L10n.statsTotal
@@ -102,8 +98,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             cell.statValue.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
             
             return cell
-        }
-        else {
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! DestructiveButtonCell
             cell.buttonTitle.text = L10n.cleanUp
             cell.buttonTitle.textColor = canDeleteAnything() ? UIColor(hex: "#FC0000") : UIColor(hex: "#C8C8C8")

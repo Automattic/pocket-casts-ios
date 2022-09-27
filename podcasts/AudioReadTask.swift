@@ -72,14 +72,12 @@ class AudioReadTask {
                                 self.scheduleForPlayback(buffer: buffer)
                             }
                         }
-                    }
-                    catch {
+                    } catch {
                         self.bufferManager.readErrorOccurred.value = true
                         FileLog.shared.addMessage("Audio Read failed (Swift): \(error.localizedDescription)")
                     }
                 }
-            }
-            catch {
+            } catch {
                 self.bufferManager.readErrorOccurred.value = true
                 FileLog.shared.addMessage("Audio Read failed (obj-c): \(error.localizedDescription)")
             }
@@ -128,8 +126,7 @@ class AudioReadTask {
             bufferManager.readToEOFSuccessfully.value = true
             
             seekedToEnd = true
-        }
-        else {
+        } else {
             currentFramePosition = positionRequired.framePosition
             audioFile.framePosition = currentFramePosition
             bufferManager.aboutToSeek()
@@ -168,8 +165,7 @@ class AudioReadTask {
         let audioPCMBuffer = AVAudioPCMBuffer(pcmFormat: outputFormat, frameCapacity: bufferLength)
         do {
             try audioFile.read(into: audioPCMBuffer!)
-        }
-        catch {
+        } catch {
             objc_sync_exit(lock)
             throw PlaybackError.errorDuringPlayback
         }
@@ -203,13 +199,11 @@ class AudioReadTask {
            let audioPCMBuffer = audioPCMBuffer,
            audioPCMBuffer.audioBufferList.pointee.mNumberBuffers == 1,
            let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2),
-           let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer.frameCapacity)
-        {
+           let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer.frameCapacity) {
             let converter = AVAudioConverter(from: audioFile.processingFormat, to: twoChannelsFormat)
             try? converter?.convert(to: twoChannnelBuffer, from: audioPCMBuffer)
             audioBuffer = BufferedAudio(audioBuffer: twoChannnelBuffer, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
-        }
-        else {
+        } else {
             audioBuffer = BufferedAudio(audioBuffer: audioPCMBuffer!, framePosition: currentFramePosition, shouldFadeOut: false, shouldFadeIn: fadeInNextFrame)
         }
         
@@ -229,16 +223,14 @@ class AudioReadTask {
             if timeLeft <= 5 {
                 // don't trim silence from the last 5 seconds
                 rms = 1
-            }
-            else {
+            } else {
                 rms = (channelCount == 1) ? calculateRms(bufferListPointer[0]) : calculateStereoRms(bufferListPointer[0], rightBuffer: bufferListPointer[1])
             }
             
             if rms > minRMS, !foundGap {
                 // the RMS is higher than our minimum and we aren't currently in a gap, just play it
                 buffers.append(audioBuffer)
-            }
-            else if foundGap, rms > minRMS || buffersSavedDuringGap.count() > maxSilenceAmountToSave {
+            } else if foundGap, rms > minRMS || buffersSavedDuringGap.count() > maxSilenceAmountToSave {
                 foundGap = false
                 // we've come to the end of a gap (or we've had a suspiscious amount of gap), piece back together the audio
                 if buffersSavedDuringGap.count() < minGapSizeInFrames {
@@ -248,13 +240,11 @@ class AudioReadTask {
                     }
                     
                     buffers.append(audioBuffer)
-                }
-                else {
+                } else {
                     for index in 0 ... amountOfSilentFramesToReInsert {
                         if index < amountOfSilentFramesToReInsert {
                             buffers.append(buffersSavedDuringGap.pop()!)
-                        }
-                        else {
+                        } else {
                             // fade out the last frame to avoid a jarring re-attach
                             let buffer = buffersSavedDuringGap.pop()!
                             AudioUtils.fadeAudio(buffer, fadeOut: true, channelCount: channelCount)
@@ -277,18 +267,15 @@ class AudioReadTask {
                     AudioUtils.fadeAudio(audioBuffer, fadeOut: false, channelCount: channelCount)
                     buffers.append(audioBuffer)
                 }
-            }
-            else if rms < minRMS, !foundGap {
+            } else if rms < minRMS, !foundGap {
                 // we are at the start of a gap, save this clip and keep going
                 foundGap = true
                 buffersSavedDuringGap.push(audioBuffer)
-            }
-            else if rms < minRMS, foundGap {
+            } else if rms < minRMS, foundGap {
                 // we are inside a gap we've already found
                 buffersSavedDuringGap.push(audioBuffer)
             }
-        }
-        else {
+        } else {
             buffers.append(audioBuffer)
         }
         

@@ -116,11 +116,9 @@ public class DateFormatHelper: NSObject {
         
         if !date.isCurrentYear() {
             return fullDateFormatter.string(from: date)
-        }
-        else if abs(date.timeIntervalSinceNow) > 6.days {
+        } else if abs(date.timeIntervalSinceNow) > 6.days {
             return monthDayFormatter.string(from: date)
-        }
-        else {
+        } else {
             return justDayFormatter.string(from: date)
         }
     }

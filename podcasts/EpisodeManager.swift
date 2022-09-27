@@ -17,8 +17,7 @@ class EpisodeManager: NSObject {
         if shouldArchiveOnCompletion(episode: episode) {
             if let episode = episode as? Episode {
                 archiveEpisode(episode: episode, fireNotification: false)
-            }
-            else if let episode = episode as? UserEpisode {
+            } else if let episode = episode as? UserEpisode {
                 if Settings.userEpisodeRemoveFileAfterPlaying() {
                     UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                 }
@@ -52,14 +51,12 @@ class EpisodeManager: NSObject {
          
             if let userEpisode = baseEpisode as? UserEpisode {
                 userEpisodeToMarkAsPlayed.append(userEpisode)
-            }
-            else if let episode = baseEpisode as? Episode {
+            } else if let episode = baseEpisode as? Episode {
                 if shouldArchiveOnCompletion(episode: episode) {
                     episodesToArchive.append(episode)
                     
                     deleteFilesForEpisode(episode)
-                }
-                else {
+                } else {
                     episodesToMarkAsPlayed.append(episode)
                 }
             }
@@ -330,11 +327,9 @@ class EpisodeManager: NSObject {
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if episode.downloaded(pathFinder: DownloadManager.shared), !streamingOnly {
             return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
-        }
-        else if let episode = episode as? Episode, let url = episode.downloadUrl {
+        } else if let episode = episode as? Episode, let url = episode.downloadUrl {
             return URL(string: url)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             if let token = ServerSettings.syncingV2Token(), episode.uploadStatus != UploadStatus.missing.rawValue {
                 return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)")
             }
@@ -350,8 +345,7 @@ class EpisodeManager: NSObject {
             }
             
             return Settings.autoArchivePlayedAfter() == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
-        }
-        else if let _ = episode as? UserEpisode {
+        } else if let _ = episode as? UserEpisode {
             return Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
         }
         
@@ -366,8 +360,7 @@ class EpisodeManager: NSObject {
             do {
                 let fileDict = try fileManager.attributesOfItem(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
                 fileSize += fileDict[.size] as? UInt64 ?? 0
-            }
-            catch {}
+            } catch {}
         }
         
         return fileSize
@@ -407,20 +400,17 @@ class EpisodeManager: NSObject {
         // remove the download file
         do {
             try fileManager.removeItem(atPath: downloadManager.pathForEpisode(episode))
-        }
-        catch {}
+        } catch {}
         
         // remove any cached bufferring file
         do {
             try fileManager.removeItem(atPath: downloadManager.streamingBufferPathForEpisode(episode))
-        }
-        catch {}
+        } catch {}
         
         // and any temporary file in case that exists too
         do {
             try fileManager.removeItem(atPath: downloadManager.tempPathForEpisode(episode))
-        }
-        catch {}
+        } catch {}
     }
     
     class func removeDownloadForEpisodes(_ episodes: [BaseEpisode]) {
@@ -437,8 +427,7 @@ class EpisodeManager: NSObject {
             deleteFilesForEpisode(episode)
             if let userEpisode = episode as? UserEpisode, !userEpisode.uploaded() {
                 userEpisodeUuidsToDelete.append(userEpisode.uuid)
-            }
-            else {
+            } else {
                 episodesToMarkAsNotDownloaded.append(episode)
             }
         }

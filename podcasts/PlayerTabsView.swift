@@ -44,8 +44,7 @@ class PlayerTabsView: UIView {
             
             if currentTab == 1 {
                 AnalyticsHelper.playerShowNotesOpened()
-            }
-            else if currentTab == 2 {
+            } else if currentTab == 2 {
                 AnalyticsHelper.chaptersOpened()
             }
         }
@@ -237,12 +236,10 @@ class PlayerTabsView: UIView {
             let width = tabRect.width - min(tabRect.width * 0.9, (leadingEdgePullDistance + trailingEdgePullDistance) / 3)
             if leadingEdgePullDistance > 0 {
                 return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
-            }
-            else {
+            } else {
                 return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
             }
-        }
-        else {
+        } else {
             return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
         }
     }

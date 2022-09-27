@@ -1,4 +1,3 @@
-
 import UIKit
 
 class ProgressLineLayer: CALayer {
@@ -17,8 +16,7 @@ class ProgressLineLayer: CALayer {
         didSet {
             if shouldAnimate {
                 startAnimating()
-            }
-            else {
+            } else {
                 stopAnimating()
             }
         }
@@ -122,8 +120,7 @@ class ProgressLineLayer: CALayer {
         // draw the buffering line
         if shouldAnimate {
             drawRoundedLine(rect: progressAnimationRect, color: bufferingColor, context: ctx)
-        }
-        else if bufferRect.size.width > 0 {
+        } else if bufferRect.size.width > 0 {
             drawRoundedLine(rect: bufferRect, color: bufferingColor, context: ctx)
         }
         

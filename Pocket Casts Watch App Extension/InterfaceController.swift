@@ -97,8 +97,7 @@ class InterfaceController: PCInterfaceController {
     override func populateTitle() {
         if SourceManager.shared.isPhone() {
             setTitle(L10n.phone.prefixSourceUnicode)
-        }
-        else {
+        } else {
             setTitle(L10n.watch.prefixSourceUnicode)
         }
     }

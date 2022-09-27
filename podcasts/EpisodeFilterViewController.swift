@@ -26,18 +26,15 @@ class EpisodeFilterViewController: FilterSettingsViewController, UITableViewData
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Unplayed"
                 cell.accessoryType = .checkmark // filterToEdit.filterUnplayed?   .checkmark : .non
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 cell.textLabel?.text = "In Progress"
                 cell.accessoryType = .checkmark
             }
-        }
-        else if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Downloaded"
                 cell.accessoryType = .checkmark
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 cell.textLabel?.text = "Not Downloaded"
                 cell.accessoryType = .checkmark
             }

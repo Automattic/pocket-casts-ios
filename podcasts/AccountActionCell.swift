@@ -1,4 +1,3 @@
-
 import UIKit
 
 class AccountActionCell: ThemeableCell {
@@ -43,8 +42,7 @@ class AccountActionCell: ThemeableCell {
             if showsDisclosureIndicator {
                 accessoryView = TintableImageView(image: UIImage(named: "chevron"))
                 updateColor()
-            }
-            else {
+            } else {
                 accessoryView = nil
             }
         }

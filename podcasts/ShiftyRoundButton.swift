@@ -1,4 +1,3 @@
-
 import UIKit
 
 class ShiftyRoundButton: UIView {
@@ -27,8 +26,7 @@ class ShiftyRoundButton: UIView {
                 textLayer.foregroundColor = UIColor.white.cgColor
                 shapeLayer.strokeColor = strokeColor.cgColor
                 accessibilityHint = nil
-            }
-            else {
+            } else {
                 textLayer.foregroundColor = UIColor.white.withAlphaComponent(0.5).cgColor
                 shapeLayer.strokeColor = disabledFillColor.cgColor
                 accessibilityHint = L10n.accessibilityDisabled

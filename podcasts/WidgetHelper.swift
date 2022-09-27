@@ -1,4 +1,3 @@
-
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -99,8 +98,7 @@ class WidgetHelper {
             sharedDefaults.set(playingStatus, forKey: SharedConstants.GroupUserDefaults.isPlaying)
             
             sharedDefaults.synchronize()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Unable to encode data for Up Next Widget: \(error.localizedDescription)")
         }
     }
@@ -130,8 +128,7 @@ class WidgetHelper {
             sharedDefaults.set(false, forKey: SharedConstants.GroupUserDefaults.isPlaying)
             sharedDefaults.removeObject(forKey: SharedConstants.GroupUserDefaults.upNextItems)
             sharedDefaults.synchronize()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Unable to encode top filter data  Widget: \(error.localizedDescription)")
         }
     }
@@ -151,8 +148,7 @@ class WidgetHelper {
        
         if let episode = episode as? Episode {
             imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 130)
-        }
-        else if let userEpisode = episode as? UserEpisode {
+        } else if let userEpisode = episode as? UserEpisode {
             imageUrl = userEpisodeImageString(userEpisode)
         }
     
@@ -178,8 +174,7 @@ class WidgetHelper {
         if fileManager.fileExists(atPath: sharedPath.path) {
             do {
                 try fileManager.removeItem(atPath: sharedPath.path)
-            }
-            catch {}
+            } catch {}
         }
         updateSharedUpNext()
     }
@@ -210,13 +205,11 @@ class WidgetHelper {
                 try fileManager.createDirectory(at: sharedDirectory, withIntermediateDirectories: false, attributes: nil)
             }
             if !fileManager.fileExists(atPath: sharedPath.path),
-               let customImage = UIImage(contentsOfFile: path.path), let downsized = customImage.resized(to: CGSize(width: 280, height: 280))
-            {
+               let customImage = UIImage(contentsOfFile: path.path), let downsized = customImage.resized(to: CGSize(width: 280, height: 280)) {
                 try downsized.jpegData(compressionQuality: 1)?.write(to: sharedPath)
             }
             return sharedPath.absoluteString
-        }
-        catch let error as NSError {
+        } catch let error as NSError {
             FileLog.shared.addMessage("Failed to copy custom file image to app group \(error.localizedDescription)")
         }
         return ""
@@ -245,8 +238,7 @@ class WidgetHelper {
                     try fileManager.removeItem(atPath: file.path)
                 }
             }
-        }
-        catch let error as NSError {
+        } catch let error as NSError {
             FileLog.shared.addMessage("Failed to clean up custom images from app group: \(error.localizedDescription)")
         }
     }

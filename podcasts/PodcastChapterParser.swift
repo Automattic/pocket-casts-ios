@@ -47,8 +47,7 @@ class PodcastChapterParser {
                     
                     completion(parsedChapters)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Encountered crash while trying to parse chapters \(error)")
             }
         }

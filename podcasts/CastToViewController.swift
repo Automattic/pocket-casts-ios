@@ -63,8 +63,7 @@ class CastToViewController: PCViewController {
             volumeSlider.value = GoogleCastManager.sharedManager.currentVolume()
             updatePlayingDetails()
             GoogleCastManager.sharedManager.requestMultizoneUpdate()
-        }
-        else {
+        } else {
             title = L10n.chromecastCastTo
             castTable.isHidden = false
             connectedView.isHidden = true

@@ -22,8 +22,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             }
             
             return allActions.count - Constants.Limits.maxShelfActions
-        }
-        else {
+        } else {
             return extraActions.count
         }
     }
@@ -40,8 +39,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             if action != .routePicker {
                 cell.actionIcon.image = UIImage(named: action.iconName(episode: playingEpisode))
                 cell.customViewContainer.removeAllSubviews()
-            }
-            else if let routePickerView = playerActionsDelegate?.sharedRoutePicker(largeSize: false) {
+            } else if let routePickerView = playerActionsDelegate?.sharedRoutePicker(largeSize: false) {
                 cell.customViewContainer.addSubview(routePickerView)
                 routePickerView.anchorToAllSidesOf(view: cell.customViewContainer)
                 
@@ -50,12 +48,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             
             if (action == .effects && PlaybackManager.shared.effects().effectsEnabled()) || (action == .sleepTimer && PlaybackManager.shared.sleepTimerActive()) || (action == .starEpisode && playingEpisode.keepEpisode) {
                 cell.actionIcon.tintColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
-            }
-            else {
+            } else {
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
             }
-        }
-        else {
+        } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
             cell.customViewContainer.removeAllSubviews()
@@ -149,8 +145,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         let headerView: SettingsTableHeader
         if section == ShelfActionsViewController.shortcutSection {
             headerView = SettingsTableHeader(frame: headerFrame, title: L10n.playerOptionsShortcutOnPlayer)
-        }
-        else {
+        } else {
             headerView = SettingsTableHeader(frame: headerFrame, title: L10n.settingsInMenu)
         }
         headerView.titleLabel.style = .playerContrast02
@@ -167,8 +162,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         let action: PlayerAction
         if isEditing {
             action = allActions[indexPath.row + (indexPath.section == ShelfActionsViewController.menuSection ? Constants.Limits.maxShelfActions : 0)]
-        }
-        else {
+        } else {
             action = extraActions[indexPath.row]
         }
         

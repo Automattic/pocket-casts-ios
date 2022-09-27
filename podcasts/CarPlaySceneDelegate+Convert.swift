@@ -11,15 +11,12 @@ extension CarPlaySceneDelegate {
             
             if episode.unplayed() {
                 item.playbackProgress = 0
-            }
-            else if episode.played() {
+            } else if episode.played() {
                 item.playbackProgress = 1.0
-            }
-            else {
+            } else {
                 if episode.duration > 0 {
                     item.playbackProgress = CGFloat(min(1.0, episode.playedUpTo / episode.duration))
-                }
-                else {
+                } else {
                     item.playbackProgress = 0.5
                 }
             }

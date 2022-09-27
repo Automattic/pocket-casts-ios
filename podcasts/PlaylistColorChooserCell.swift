@@ -53,8 +53,7 @@ class PlaylistColorChooserCell: ThemeableCell {
                 tickView.tintColor = UIColor.white
                 containerView.addSubview(tickView)
                 colorView.transform = CGAffineTransform(scaleX: 1.14, y: 1.14)
-            }
-            else {
+            } else {
                 colorView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }
             

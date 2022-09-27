@@ -72,8 +72,7 @@ class EpisodeListHeaderView: UIView {
         if let linkTitle = collection.webTitle, collection.webUrl != nil {
             linkView.isHidden = false
             linkLabel.text = linkTitle
-        }
-        else {
+        } else {
             linkView.isHidden = true
         }
 

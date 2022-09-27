@@ -63,8 +63,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         if error.code == NSURLErrorCancelled {
             if !episode.downloadFailed() {
                 // already handled this error, since we failed the download ourselves
-            }
-            else {
+            } else {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
             }
             
@@ -90,8 +89,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
                 message = L10n.downloadErrorContactAuthorVersion2
-            }
-            else {
+            } else {
                 message = L10n.downloadErrorStatusCode(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))
             }
             
@@ -114,8 +112,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 
                 return
             }
-        }
-        catch {}
+        } catch {}
         
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
@@ -130,8 +127,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
-        }
-        catch {
+        } catch {
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace)
         }
     }

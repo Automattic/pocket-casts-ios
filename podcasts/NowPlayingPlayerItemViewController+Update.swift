@@ -38,8 +38,7 @@ extension NowPlayingPlayerItemViewController {
                 floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
                 episodeImage.alpha = CGFloat.leastNonzeroMagnitude
             }
-        }
-        else {
+        } else {
             floatingVideoView.player = nil
             floatingVideoView.isHidden = true
             episodeImage.alpha = 1.0
@@ -108,14 +107,12 @@ extension NowPlayingPlayerItemViewController {
                 showingCustomImage = true
                 episodeImage.image = image
                 episodeImage.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
-            }
-            else if showingCustomImage {
+            } else if showingCustomImage {
                 showingCustomImage = false
                 ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
                 episodeImage.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
-        }
-        else {
+        } else {
             episodeInfoView.isHidden = false
             chapterInfoView.isHidden = true
             episodeName.text = playingEpisode.displayableTitle()
@@ -172,8 +169,7 @@ extension NowPlayingPlayerItemViewController {
             chapterSkipFwdBtn.isHidden = false
             chapterCounter.isHidden = false
             chapterTimeLeftLabel.isHidden = false
-        }
-        else {
+        } else {
             chapterSkipBackBtn.isHidden = true
             chapterSkipFwdBtn.isHidden = true
             chapterCounter.isHidden = true

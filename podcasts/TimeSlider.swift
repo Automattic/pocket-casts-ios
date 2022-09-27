@@ -131,11 +131,9 @@ class TimeSlider: UIView {
             
             if touchPoint.x < sidePadding + (timeLayer().knobRect.width / 2) {
                 currentTime = 0
-            }
-            else if touchPoint.x > (bounds.width - (timeLayer().knobRect.width / 2) - sidePadding) {
+            } else if touchPoint.x > (bounds.width - (timeLayer().knobRect.width / 2) - sidePadding) {
                 currentTime = totalDuration
-            }
-            else {
+            } else {
                 let percentage = TimeInterval((touchPoint.x - sidePadding) / (bounds.width - (sidePadding * 2)))
                 currentTime = totalDuration * percentage
             }

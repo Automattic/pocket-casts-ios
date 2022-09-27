@@ -46,13 +46,11 @@ class RetrieveEpisodesTask: ApiBaseTask {
                 }
                 
                 completion?(convertedEpisodes)
-            }
-            catch {
+            } catch {
                 print("Decoding episodes failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("retrieve episodes failed \(error.localizedDescription)")
             completion?(nil)
         }

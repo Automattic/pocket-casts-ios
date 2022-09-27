@@ -45,13 +45,11 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                         try SJCommonUtils.catchException {
                             tableView.deleteRows(at: [indexPath], with: .automatic)
                         }
-                    }
-                    catch {
+                    } catch {
                         FileLog.shared.addMessage("Caught Objective-C exception while trying to remove an Up Next row by swiping, reloading table instead")
                         tableView.reloadData()
                     }
-                }
-                else {
+                } else {
                     tableView.reloadData() // if they delete the very last episode, reload the table to get the empty up next cell
                 }
                 self.changedViaSwipeToRemove = false
@@ -83,8 +81,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             try SJCommonUtils.catchException {
                 tableView.moveRow(at: at, to: to)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Caught Objective-C exception while trying to move an Up Next row, reloading table instead")
             tableView.reloadData()
         }

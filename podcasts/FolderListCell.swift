@@ -40,15 +40,13 @@ class FolderListCell: ThemeableCollectionCell {
             unplayedBadge.showsNumber = true
             unplayedBadge.unplayedCount = folder.cachedUnreadCount > 99 ? 99 : folder.cachedUnreadCount
             unplayedBadge.isHidden = folder.cachedUnreadCount == 0
-        }
-        else if badgeType == .latestEpisode {
+        } else if badgeType == .latestEpisode {
             unplayedHeight.constant = 12
             unplayedBadge.layoutIfNeeded()
             
             unplayedBadge.showsNumber = false
             unplayedBadge.isHidden = folder.cachedUnreadCount == 0
-        }
-        else {
+        } else {
             unplayedBadge.isHidden = true
         }
     }

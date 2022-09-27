@@ -58,8 +58,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
                     cell?.showTick = true
                 }
             }
-        }
-        else {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
             let episode = uploadedEpisodes[indexPath.row]
             userEpisodeDetailVC = UserEpisodeDetailViewController(episodeUuid: episode.uuid)
@@ -112,8 +111,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
                 optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else {
+            } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
             }

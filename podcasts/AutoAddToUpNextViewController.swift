@@ -93,8 +93,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
                 podcastSelectViewController.selectedUuids = allPodcasts.filter { $0.autoAddToUpNextOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectViewController, animated: true)
             }
-        }
-        else {
+        } else {
             let podcast = autoDownloadPodcasts[indexPath.row]
             let options = OptionsPicker(title: L10n.autoAdd)
             addActionForPodcast(podcast: podcast, setting: .addFirst, label: L10n.top, to: options)
@@ -122,8 +121,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         let explanationStr: String
         if onLimitReached == .addToTopOnly {
             explanationStr = L10n.settingsAutoAddLimitSubtitleTop(autoAddLimit.localized())
-        }
-        else {
+        } else {
             explanationStr = L10n.settingsAutoAddLimitSubtitleStop(autoAddLimit.localized())
         }
         

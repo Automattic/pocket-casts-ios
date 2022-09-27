@@ -24,8 +24,7 @@ class ActionIconButton: UIButton {
             let size = (text as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 13)])
             let lines = size.width / contentRect.width
             height = ceil(lines) * size.height
-        }
-        else {
+        } else {
             height = rect.height
         }
         let imageSize: CGFloat = imageView?.image?.size.height ?? 24

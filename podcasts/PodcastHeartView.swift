@@ -57,8 +57,7 @@ class PodcastHeartView: UIView {
         
         if bounds.width > 50 {
             heartImageView = TintableImageView(image: UIImage(named: "supporter-heart-largest"))
-        }
-        else {
+        } else {
             heartImageView = TintableImageView(image: UIImage(named: "supporter-heart"))
         }
         heartImageView.backgroundColor = UIColor.clear

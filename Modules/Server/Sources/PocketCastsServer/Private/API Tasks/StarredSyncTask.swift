@@ -25,12 +25,10 @@ class StarredSyncTask: ApiBaseTask {
             
             if httpStatus == ServerConstants.HttpConstants.ok {
                 DataManager.sharedManager.clearKeepEpisodeModified(episode: episode)
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("Save star failed \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("StarredSyncTask: Protobuf Encoding failed \(error.localizedDescription)")
         }
     }

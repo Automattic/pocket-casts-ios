@@ -1,4 +1,3 @@
-
 import UIKit
 import UserNotifications
 import UserNotificationsUI
@@ -30,25 +29,21 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                     podcastImage.image = UIImage(data: data)
                     attachment.url.stopAccessingSecurityScopedResource()
                 }
-            }
-            catch {}
-        }
-        else {
+            } catch {}
+        } else {
             podcastImage.image = UIImage(named: "no-artwork")
         }
         
         if let description = notification.request.content.userInfo["episode_desc"] as? String {
             episodeDescription.text = description
-        }
-        else {
+        } else {
             episodeDescription.text = nil
         }
         
         if let length = notification.request.content.userInfo["episode_length"] as? Int, length > 0 {
             // the length is in seconds, so let's format it
             episodeLength.text = timeFormatter?.string(from: TimeInterval(length))
-        }
-        else {
+        } else {
             episodeLength.text = nil
         }
     }

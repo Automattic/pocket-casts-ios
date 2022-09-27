@@ -99,8 +99,7 @@ class ShelfActionsViewController: UIViewController {
         let newSize: CGSize
         if actionsTable.isEditing {
             newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-        }
-        else {
+        } else {
             let baseSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             let adjustedSize = CGSize(width: baseSize.width, height: baseSize.height + CGFloat(extraActions.count * 72))
             newSize = adjustedSize
@@ -110,8 +109,7 @@ class ShelfActionsViewController: UIViewController {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.preferredContentSize = newSize
             }
-        }
-        else {
+        } else {
             preferredContentSize = newSize
         }
     }

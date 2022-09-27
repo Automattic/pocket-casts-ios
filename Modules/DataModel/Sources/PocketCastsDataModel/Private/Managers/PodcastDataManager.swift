@@ -136,8 +136,7 @@ class PodcastDataManager {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
                     allPodcasts.append(podcast)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.allPodcastsOrderedByNewestEpisodes error: \(error)")
             }
         }
@@ -188,8 +187,7 @@ class PodcastDataManager {
         allPodcastsInFolder.sort { podcast1, podcast2 in
             if sortOrder == .dateAddedNewestToOldest {
                 return addedDateSort(p1: podcast1, p2: podcast2)
-            }
-            else if sortOrder == .titleAtoZ {
+            } else if sortOrder == .titleAtoZ {
                 return titleSort(p1: podcast1, p2: podcast2)
             }
             
@@ -285,8 +283,7 @@ class PodcastDataManager {
                     
                     counts[uuid] = count
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.unfinishedCounts error: \(error)")
             }
         }
@@ -302,13 +299,11 @@ class PodcastDataManager {
                 if podcast.id == 0 {
                     podcast.id = DBUtils.generateUniqueId()
                     try db.executeUpdate("INSERT INTO \(DataManager.podcastTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(podcast: podcast))
-                }
-                else {
+                } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
             }
         }
@@ -325,8 +320,7 @@ class PodcastDataManager {
                 if podcastUuids.count > 0 {
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid IN (\(DataHelper.convertArrayToInString(podcastUuids)))", values: [folderUuid])
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.bulkSetFolderUuid error: \(error)")
             }
         }
@@ -405,8 +399,7 @@ class PodcastDataManager {
                     query += " WHERE subscribed = 1"
                 }
                 try db.executeUpdate(query, values: [value])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
         }
@@ -420,8 +413,7 @@ class PodcastDataManager {
                 for podcast in podcasts {
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE id = ?", values: [podcast.sortOrder, podcast.id])
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.saveSortOrders error: \(error)")
             }
         }
@@ -479,8 +471,7 @@ class PodcastDataManager {
                 cachedPodcastsQueue.sync {
                     cachedPodcasts = newPodcasts
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.cachePodcasts error: \(error)")
             }
         }

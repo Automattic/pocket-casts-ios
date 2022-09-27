@@ -14,8 +14,7 @@ struct FolderPreviewWrapper: UIViewRepresentable {
         
         if let folderUuid = model.folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
             folderView.populateFrom(folder: folder)
-        }
-        else {
+        } else {
             folderView.populateFrom(model: model)
         }
     }

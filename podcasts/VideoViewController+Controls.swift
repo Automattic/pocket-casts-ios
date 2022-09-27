@@ -1,4 +1,3 @@
-
 extension VideoViewController {
     private static let controlHideTime = 3.seconds
     
@@ -45,8 +44,7 @@ extension VideoViewController {
     private func toggleVideoControls() {
         if controlsShowing {
             hideVideoControls()
-        }
-        else {
+        } else {
             showVideoControls()
             if PlaybackManager.shared.playing() { startHideControlsTimer() }
         }

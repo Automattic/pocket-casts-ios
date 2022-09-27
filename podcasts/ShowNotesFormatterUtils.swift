@@ -12,7 +12,7 @@ class ShowNotesFormatterUtils {
             let aTagRegex = try NSRegularExpression(pattern: ShowNotesFormatterUtils.regexATagPattern)
             var aTagPlaceholderMap = [String: String]()
 
-            aTagRegex.enumerateMatches(in: outString, options: [], range: NSMakeRange(0, outString.count)) { match, _, _ in
+            aTagRegex.enumerateMatches(in: outString, options: [], range: NSRange(location: 0, length: outString.count)) { match, _, _ in
                 if let match = match, let rangeOfMatch = Range(match.range, in: outString) {
                     let link = String(outString[rangeOfMatch])
                     let placeholderCount = aTagPlaceholderMap.count
@@ -26,15 +26,14 @@ class ShowNotesFormatterUtils {
             }
 
             let timestampRegex = try NSRegularExpression(pattern: ShowNotesFormatterUtils.regexTimePattern)
-            outString = timestampRegex.stringByReplacingMatches(in: outString, options: [], range: NSMakeRange(0, outString.count), withTemplate: ShowNotesFormatterUtils.playerTimePattern)
+            outString = timestampRegex.stringByReplacingMatches(in: outString, options: [], range: NSRange(location: 0, length: outString.count), withTemplate: ShowNotesFormatterUtils.playerTimePattern)
 
             for (placeholder, link) in aTagPlaceholderMap {
                 outString = outString.replacingOccurrences(of: placeholder, with: link)
             }
 
             return outString
-        }
-        catch {
+        } catch {
             return stringWithTimes
         }
     }

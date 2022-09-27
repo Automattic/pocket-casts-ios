@@ -91,8 +91,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 #if !os(watchOS)
                     SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
                 #endif
-            }
-            catch {}
+            } catch {}
         }
     }
     
@@ -103,8 +102,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
             try fileManager.moveItem(at: url, to: destinationUrl)
             return destinationUrl
-        }
-        catch {
+        } catch {
             return nil
         }
     }
@@ -159,8 +157,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
-            }
-            catch {
+            } catch {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
             }
             
@@ -188,8 +185,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 
                 strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
             }
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { url in
                 guard let url = url else {
                     DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
@@ -379,8 +375,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             if let data = data, data.count > 0, let tempFilePath = self?.tempPathForEpisode(episode) {
                 do {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
-                }
-                catch {
+                } catch {
                     FileLog.shared.addMessage("Failed to save resume data \(error.localizedDescription)")
                 }
             }
@@ -402,14 +397,12 @@ class DownloadManager: NSObject, FilePathProtocol {
             if fileManager.fileExists(atPath: tempFilePath) {
                 if previousDownloadFailed {
                     try fileManager.removeItem(atPath: tempFilePath)
-                }
-                else {
+                } else {
                     let resumeData = try Data(contentsOf: URL(fileURLWithPath: tempFilePath))
                     downloadTask = session.downloadTask(withResumeData: resumeData)
                 }
             }
-        }
-        catch {
+        } catch {
             // something went wrong, just start a new download
             downloadTask = nil
         }
@@ -420,8 +413,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadTask = session.downloadTask(with: request)
             if estimatedBytes > 0 {
                 downloadTask?.countOfBytesClientExpectsToReceive = estimatedBytes
-            }
-            else {
+            } else {
                 // if there's no known size for this file, and we're on watchOS, specify 20MB's so the scheduler knows it's going to be a decent size download
                 #if os(watchOS)
                     downloadTask?.countOfBytesClientExpectsToReceive = Int64(20.megabytes)

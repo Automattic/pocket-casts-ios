@@ -84,8 +84,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         
         if rowType == .appIcon {
             return 188
-        }
-        else if rowType == .plusCallout {
+        } else if rowType == .plusCallout {
             return 161
         }
         
@@ -152,13 +151,11 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         if row == .refreshArtwork {
             SJUIUtils.showAlert(title: L10n.appearanceRefreshAllArtworkConfTitle, message: L10n.appearanceRefreshAllArtworkConfMsg, from: self)
             refreshAllPodcastArtwork()
-        }
-        else if row == .lightTheme {
+        } else if row == .lightTheme {
             presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
                 Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
             }
-        }
-        else if row == .darkTheme {
+        } else if row == .darkTheme {
             presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { [weak self] theme in
                 Theme.setPreferredDarkTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
             }
@@ -194,12 +191,9 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         
         if firstItem == .themeOption {
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceThemeHeader)
-        }
-        else if firstItem == .appIcon {
+        } else if firstItem == .appIcon {
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceAppIconHeader)
-        }
-        
-        else if firstItem == .refreshArtwork {
+        } else if firstItem == .refreshArtwork {
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
         }
         
@@ -240,8 +234,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         
         if sender.isOn {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.followSystemThemeTurnedOn)
-        }
-        else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
+        } else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
             Theme.sharedTheme.activeTheme = Theme.preferredLightTheme()
         }
     }
@@ -254,8 +247,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         var newTableData: [[TableRow]]
         if Settings.shouldFollowSystemTheme() {
             newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
-        }
-        else {
+        } else {
             newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
         }
 

@@ -57,8 +57,7 @@ extension UploadedViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             uploadsTable.selectAll()
-        }
-        else {
+        } else {
             uploadsTable.deselectAll()
         }
         updateSelectAllBtn()

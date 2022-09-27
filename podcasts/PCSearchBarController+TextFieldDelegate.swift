@@ -28,8 +28,7 @@ extension PCSearchBarController: UITextFieldDelegate {
             clearSearchBtn.isHidden = false
             searchDelegate?.searchTermChanged(searchTerm)
             resetSearchTimer()
-        }
-        else {
+        } else {
             clearSearchBtn.isHidden = true
             cancelSearchTimer()
             searchDelegate?.searchWasCleared()

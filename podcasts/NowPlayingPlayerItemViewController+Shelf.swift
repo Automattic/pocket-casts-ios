@@ -162,8 +162,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     func goToTapped() {
         if PlaybackManager.shared.currentEpisode() is Episode {
             goToPodcast()
-        }
-        else if PlaybackManager.shared.currentEpisode() is UserEpisode {
+        } else if PlaybackManager.shared.currentEpisode() is UserEpisode {
             goToFiles()
         }
     }
@@ -179,8 +178,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     func archiveTapped() {
         if PlaybackManager.shared.currentEpisode() is UserEpisode {
             delete()
-        }
-        else {
+        } else {
             archive()
         }
     }
@@ -191,8 +189,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         
         if largeSize {
             routePicker.layer.transform = CATransform3DMakeScale(1.3, 1.3, 1)
-        }
-        else {
+        } else {
             routePicker.layer.transform = CATransform3DIdentity
         }
         

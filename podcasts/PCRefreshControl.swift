@@ -136,8 +136,7 @@ class PCRefreshControl: UIView {
                 self.endRefreshAnimation()
                 self.refreshing = false
             })
-        }
-        else {
+        } else {
             resetOffset()
             endRefreshAnimation()
             refreshing = false
@@ -208,8 +207,7 @@ class PCRefreshControl: UIView {
         let adjustedAmount = min(pullDownAmountForRefresh, amount)
         if adjustedAmount < pullDownAmountForRefresh {
             refreshLabel.text = L10n.refreshControlPullToRefresh
-        }
-        else {
+        } else {
             refreshLabel.text = L10n.refreshControlReleaseToRefresh
         }
         
@@ -299,8 +297,7 @@ extension PCRefreshControl {
         let scrollAmount = -scrollView.contentOffset.y
         if scrollAmount > 0 {
             didPullDown(scrollAmount)
-        }
-        else if scrollAmount < 0 {
+        } else if scrollAmount < 0 {
             endRefreshing(false)
         }
     }

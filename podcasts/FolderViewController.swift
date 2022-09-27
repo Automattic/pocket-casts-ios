@@ -218,8 +218,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     @objc private func miniPlayerStatusDidChange() {
         if PlaybackManager.shared.currentEpisode() != nil {
             mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        }
-        else {
+        } else {
             mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: 0, right: 0)
         }
     }
@@ -235,13 +234,11 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             for podcast in podcasts {
                 podcast.cachedUnreadCount = Int(podcastCounts[podcast.uuid] ?? 0)
             }
-        }
-        else if badgeType == .latestEpisode {
+        } else if badgeType == .latestEpisode {
             for podcast in podcasts {
                 if let latestEpisode = DataManager.sharedManager.findLatestEpisode(podcast: podcast) {
                     podcast.cachedUnreadCount = latestEpisode.unplayed() && !latestEpisode.archived ? 1 : 0
-                }
-                else {
+                } else {
                     podcast.cachedUnreadCount = 0
                 }
             }

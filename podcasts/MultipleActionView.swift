@@ -44,8 +44,7 @@ class MultipleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
-        }
-        else {
+        } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)

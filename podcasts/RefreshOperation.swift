@@ -70,16 +70,14 @@ class RefreshOperation: Operation {
                 let syncResult = syncTask.status
                 if syncResult == .failed || syncResult == .cancelled {
                     completionHandler?(.failed)
-                }
-                else {
+                } else {
                     // however we use the refresh to indicate to iOS whether we found new stuff or not
                     completionHandler?(refreshResult == .successNewData ? .newData : .noData)
                     FileLog.shared.addMessage("Sync succeeded")
                     NotificationsHelper.shared.fireSyncCompleted()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
                 }
-            }
-            else { // no sync required, we're done
+            } else { // no sync required, we're done
                 completionHandler?(refreshResult == .successNewData ? .newData : .noData)
             }
             

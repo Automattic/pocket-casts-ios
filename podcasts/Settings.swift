@@ -216,8 +216,7 @@ class Settings: NSObject {
         var userRegion: String?
         if let savedRegion = UserDefaults.standard.string(forKey: chartRegion) {
             userRegion = savedRegion.lowercased()
-        }
-        else if let region = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
+        } else if let region = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
             userRegion = region.lowercased()
         }
         

@@ -26,12 +26,10 @@ struct EpisodeDateHelper {
 
             if episode.isBonus() {
                 setRowTitle(dateText: episodeDate, episode: episode, label: label, tintColor: tintColor, indicatorText: L10n.episodeIndicatorBonus.localizedUppercase)
-            }
-            else if episode.isTrailer() {
+            } else if episode.isTrailer() {
                 let indicator = seasonTrailerText(episode.seasonNumber).localizedUppercase
                 setRowTitle(dateText: episodeDate, episode: episode, label: label, tintColor: tintColor, indicatorText: indicator)
-            }
-            else {
+            } else {
                 setRowTitle(dateText: episodeDate, episode: episode, label: label, tintColor: tintColor)
             }
         }
@@ -71,8 +69,7 @@ struct EpisodeDateHelper {
 
             if episode.isBonus() {
                 return rowTitle(dateText: episodeDate, episode: episode, indicatorText: L10n.episodeIndicatorBonus)
-            }
-            else if episode.isTrailer() {
+            } else if episode.isTrailer() {
                 let indicator = seasonTrailerText(episode.seasonNumber)
                 return rowTitle(dateText: episodeDate, episode: episode, indicatorText: indicator)
             }

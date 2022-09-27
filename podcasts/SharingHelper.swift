@@ -112,8 +112,7 @@ class SharingHelper: NSObject {
         if shareTime > 0 {
             AnalyticsHelper.sharedEpisodeWithTimestamp()
             sharingUrl += "?t=\(round(episode.playedUpTo))"
-        }
-        else {
+        } else {
             AnalyticsHelper.sharedEpisode()
         }
         

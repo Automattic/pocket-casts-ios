@@ -47,8 +47,7 @@ class PromotionAcknowledgementViewController: UIViewController {
         
         if let message = serverMessage {
             descriptionLabel.text = message + "\n" + L10n.plusAccountTrialDetails
-        }
-        else {
+        } else {
             descriptionLabel.text = L10n.plusAccountTrialDetails
         }
     }

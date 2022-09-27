@@ -67,8 +67,7 @@ struct PodcastPickerView: View {
         
         if selectedPodcasts.contains(podcast.uuid) {
             str += " \(L10n.statusSelected)"
-        }
-        else {
+        } else {
             str += " \(L10n.statusNotSelected)"
         }
         

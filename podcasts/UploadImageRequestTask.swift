@@ -26,8 +26,7 @@ class UploadImageRequestTask: ApiBaseTask {
         do {
             let resources = try fileURL.resourceValues(forKeys: [.fileSizeKey])
             fileSize = resources.fileSize ?? 0
-        }
-        catch {
+        } catch {
             completion?(nil)
             return
         }
@@ -50,12 +49,10 @@ class UploadImageRequestTask: ApiBaseTask {
                 let uploadResponse = try Files_ImageUploadResponse(serializedData: responseData)
                 FileLog.shared.addMessage("Upload image request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload image request response failed")
             }
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }

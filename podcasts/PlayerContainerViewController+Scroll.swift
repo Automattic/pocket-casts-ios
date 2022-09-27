@@ -8,11 +8,9 @@ extension PlayerContainerViewController: UIScrollViewDelegate {
             let xOffset = scrollView.contentOffset.x
             if xOffset < 0 {
                 tabsView.leadingEdgePullDistance = -xOffset
-            }
-            else if xOffset > maxScrollWidth() {
+            } else if xOffset > maxScrollWidth() {
                 tabsView.trailingEdgePullDistance = xOffset - maxScrollWidth()
-            }
-            else if tabsView.leadingEdgePullDistance != 0 || tabsView.trailingEdgePullDistance != 0 {
+            } else if tabsView.leadingEdgePullDistance != 0 || tabsView.trailingEdgePullDistance != 0 {
                 tabsView.leadingEdgePullDistance = 0
                 tabsView.trailingEdgePullDistance = 0
             }
@@ -22,8 +20,7 @@ extension PlayerContainerViewController: UIScrollViewDelegate {
             tabsView.currentTab = currentTab
             
             adjustPlayerNoSlidingRegion()
-        }
-        else {
+        } else {
             // this is a secondary child scroll view, pass it on to our gesture handler code
             handleScrollViewDidScroll(scrollView: scrollView)
         }

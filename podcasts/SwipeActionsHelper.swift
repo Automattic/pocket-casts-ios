@@ -24,8 +24,7 @@ enum SwipeActionsHelper {
                 return true
             })
             tableSwipeActions.addAction(removeFromUpNextAction)
-        }
-        else {
+        } else {
             let addTopAction = TableSwipeAction(indexPath: indexPath, title: L10n.playNext, removesFromList: false, backgroundColor: ThemeColor.support04(), icon: UIImage(named: "list_playnext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true)
@@ -47,8 +46,7 @@ enum SwipeActionsHelper {
             if Settings.primaryUpNextSwipeAction() == .playNext {
                 tableSwipeActions.addAction(addTopAction)
                 tableSwipeActions.addAction(addBottomAction)
-            }
-            else {
+            } else {
                 tableSwipeActions.addAction(addBottomAction)
                 tableSwipeActions.addAction(addTopAction)
             }
@@ -68,8 +66,7 @@ enum SwipeActionsHelper {
                 return true
             })
             tableSwipeActions.addAction(deleteAction)
-        }
-        else if episode.archived {
+        } else if episode.archived {
             let willBeRemoved = false
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
@@ -80,8 +77,7 @@ enum SwipeActionsHelper {
                 return true
             })
             tableSwipeActions.addAction(unarchiveAction)
-        }
-        else {
+        } else {
             let willBeRemoved = swipeHandler.archivingRemovesFromList()
             let archiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.archive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_archive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {

@@ -56,8 +56,7 @@ class PodcastPickerModel: ObservableObject {
     func togglePodcastSelected(_ podcast: Podcast) {
         if let selectedIndex = selectedPodcastUuids.firstIndex(of: podcast.uuid) {
             selectedPodcastUuids.remove(at: selectedIndex)
-        }
-        else {
+        } else {
             selectedPodcastUuids.append(podcast.uuid)
         }
     }
@@ -79,8 +78,7 @@ extension PodcastPickerModel {
     func trackSearchIfNeeded(oldValue: String, newValue: String) {
         if oldValue.count == 0 && newValue.count > 0 {
             Analytics.track(.folderPodcastPickerSearchPerformed)
-        }
-        else if oldValue.count > 0 && newValue.count == 0 {
+        } else if oldValue.count > 0 && newValue.count == 0 {
             Analytics.track(.folderPodcastPickerSearchCleared)
         }
     }

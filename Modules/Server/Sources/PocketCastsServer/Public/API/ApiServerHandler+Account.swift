@@ -37,13 +37,11 @@ public extension ApiServerHandler {
                 do {
                     let response = try Api_UserChangeResponse(serializedData: responseData)
                     completion(response.success.value, nil)
-                }
-                catch {
+                } catch {
                     completion(false, nil)
                 }
             }.resume()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("forgotPassword failed \(error.localizedDescription)")
             completion(false, nil)
         }
@@ -75,14 +73,12 @@ public extension ApiServerHandler {
                 do {
                     let response = try Api_RegisterResponse(serializedData: responseData)
                     completion(response.success.value, response.uuid, nil)
-                }
-                catch {
+                } catch {
                     completion(false, nil, nil)
                 }
                 
             }.resume()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("registerAccount failed \(error.localizedDescription)")
             completion(false, nil, nil)
         }
@@ -116,15 +112,13 @@ public extension ApiServerHandler {
                 do {
                     let response = try Api_UserLoginResponse(serializedData: responseData)
                     completion(response.token, response.uuid, nil)
-                }
-                catch {
+                } catch {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     completion(nil, nil, nil)
                 }
                 
             }.resume()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("obtainToken failed \(error.localizedDescription)")
             completion(nil, nil, nil)
         }
@@ -135,8 +129,7 @@ public extension ApiServerHandler {
             do {
                 let errorJson = try JSON(data: data)
                 return APIError(rawValue: errorJson["errorMessageId"].stringValue) ?? APIError.UNKNOWN
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Unable to decode error response \(error.localizedDescription)")
             }
         }

@@ -65,8 +65,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
         networkImage.isHidden = true
         if let image = preloadedImage {
             networkImage.image = image
-        }
-        else {
+        } else {
             loadImage()
         }
     }
@@ -152,13 +151,11 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
                 networkImageWidthConstraint.constant = newImageSize
                 networkImage.alpha = 1.0
                 networkImageTopConstraint.constant = NetworkViewController.imageStartingOffset
-            }
-            else {
+            } else {
                 networkImage.alpha = 1.0 * percentageChange
                 networkImageTopConstraint.constant = NetworkViewController.imageStartingOffset * percentageChange
             }
-        }
-        else {
+        } else {
             networkImage.alpha = 0
         }
     }
@@ -181,8 +178,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
                 strongSelf.networksTable.reloadData()
                 if let color = strongSelf.network.color {
                     strongSelf.setMainTintColor(UIColor(hex: color))
-                }
-                else {
+                } else {
                     strongSelf.setMainTintColor(UIColor(hex: "#3D3D3D"))
                 }
                 strongSelf.networkImage.isHidden = false

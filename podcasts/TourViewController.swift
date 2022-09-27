@@ -84,8 +84,7 @@ class TourViewController: UIViewController, TourDelegate {
                 tourView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 tourView.widthAnchor.constraint(equalToConstant: 500)
             ])
-        }
-        else {
+        } else {
             // for smaller more phone sized views use a fixed padding from the edge
             NSLayoutConstraint.activate([
                 tourView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 14),
@@ -110,8 +109,7 @@ class TourViewController: UIViewController, TourDelegate {
         if upToStep < tourSteps.count - 1 {
             // user cancelled early
             delegate?.tourCancelled(at: upToStep)
-        }
-        else {
+        } else {
             // user got all the way through
             delegate?.tourEnded()
         }
@@ -121,8 +119,7 @@ class TourViewController: UIViewController, TourDelegate {
         if upToStep == tourSteps.count - 1 {
             // we're at the last step, the tour is over
             delegate?.tourEnded()
-        }
-        else {
+        } else {
             proceedToNextStep()
         }
     }
@@ -144,24 +141,20 @@ class TourViewController: UIViewController, TourDelegate {
                 
                 if step.anchorToTop {
                     self.topAnchor.constant = itemRect.maxY + self.dialogPadding
-                }
-                else {
+                } else {
                     self.bottomAnchor.constant = self.view.frame.height - itemRect.minY + self.dialogPadding
                 }
-            }
-            else if let spotlight = step.spotlight {
+            } else if let spotlight = step.spotlight {
                 let itemCenter = spotlight.superview.convert(spotlight.center, to: self.view)
                 var itemRect = CGRect(origin: CGPoint(x: itemCenter.x - spotlight.radius, y: itemCenter.y - spotlight.radius), size: CGSize(width: spotlight.radius, height: spotlight.radius))
                 itemRect.origin.y += step.yTranslation
                 
                 if step.anchorToTop {
                     self.topAnchor.constant = itemRect.maxY + self.dialogPadding
-                }
-                else {
+                } else {
                     self.bottomAnchor.constant = self.view.frame.height - itemRect.minY + self.dialogPadding
                 }
-            }
-            else {
+            } else {
                 self.topAnchor.constant = self.defaultTopBottomPadding
                 self.bottomAnchor.constant = self.defaultTopBottomPadding
             }
@@ -188,8 +181,7 @@ class TourViewController: UIViewController, TourDelegate {
                 let cutoutRect = itemRect.insetBy(dx: -20, dy: -20)
                 let cutOutPath = UIBezierPath(roundedRect: cutoutRect, cornerRadius: 40)
                 path.append(cutOutPath)
-            }
-            else {
+            } else {
                 // for bigger items draw a rounded rect
                 let cutoutRect = itemRect.insetBy(dx: -20, dy: 0)
                 let cutOutPath = UIBezierPath(roundedRect: cutoutRect, cornerRadius: 40)
@@ -197,8 +189,7 @@ class TourViewController: UIViewController, TourDelegate {
             }
             
             path.usesEvenOddFillRule = true
-        }
-        else if let spotlight = step.spotlight {
+        } else if let spotlight = step.spotlight {
             let spotlightCenter = spotlight.superview.convert(spotlight.center, to: view)
             
             let cutOutPath = UIBezierPath(arcCenter: spotlightCenter, radius: spotlight.radius, startAngle: 0, endAngle: CGFloat(2 * Double.pi), clockwise: true)

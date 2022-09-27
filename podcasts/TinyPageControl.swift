@@ -55,12 +55,10 @@ class TinyPageControl: UIControl {
             let proposedNextPage = currentPage + 1
             if proposedNextPage < numberOfPages {
                 currentPage += 1
-            }
-            else {
+            } else {
                 if allowPagesToLoop {
                     currentPage = 0
-                }
-                else {
+                } else {
                     return
                 }
             }
@@ -88,8 +86,7 @@ class TinyPageControl: UIControl {
             if i == currentPage {
                 context.setFillColor(onColor.cgColor)
                 context.fillEllipse(in: dotRect.insetBy(dx: -0.5, dy: -0.5))
-            }
-            else {
+            } else {
                 context.setFillColor(offColor.cgColor)
                 context.fillEllipse(in: dotRect.insetBy(dx: -0.5, dy: -0.5))
             }

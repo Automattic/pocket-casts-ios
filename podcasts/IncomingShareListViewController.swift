@@ -84,8 +84,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
                                                actions: [subscribeAction])
             
             optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else {
+        } else {
             performSubscribeAll()
         }
     }

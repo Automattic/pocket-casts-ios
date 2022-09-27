@@ -83,24 +83,20 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
         if let code = promoCode, code.count > 0 {
             if SyncManager.isUserLoggedIn() {
                 redeemCode()
-            }
-            else {
+            } else {
                 ValidatePromoCodeTask.validatePromoCode(promoCode: code, completion: { isValid, successMessage, error in
                     self.serverMessage = error?.localizedDescription ?? successMessage
                     if isValid {
                         self.processValidCode()
-                    }
-                    else {
+                    } else {
                         self.promoStatus = .codeExpired
                     }
                 })
             }
-        }
-        else {
+        } else {
             if SyncManager.isUserLoggedIn(), SubscriptionHelper.hasActiveSubscription() {
                 promoStatus = .existingPlusUser
-            }
-            else {
+            } else {
                 promoStatus = .codeInvalid
             }
         }
@@ -162,8 +158,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
-                }
-                else {
+                } else {
                     self.signUpNoPromoButton.isHidden = false
                 }
                 self.buttonContainerView.isHidden = false
@@ -180,8 +175,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.doneButton.isHidden = false
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
-                }
-                else {
+                } else {
                     self.signUpNoPromoButton.isHidden = false
                 }
                 self.buttonContainerView.isHidden = false
@@ -220,8 +214,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     private func processValidCode() {
         if SyncManager.isUserLoggedIn() {
             redeemCode()
-        }
-        else {
+        } else {
             promoStatus = .signIn
         }
     }
@@ -236,14 +229,11 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             self.serverMessage = error?.localizedDescription ?? successMessage
             if status == ServerConstants.HttpConstants.ok {
                 self.codeRedeemed()
-            }
-            else if status == ServerConstants.HttpConstants.badRequest {
+            } else if status == ServerConstants.HttpConstants.badRequest {
                 self.promoStatus = .codeReused
-            }
-            else if status == ServerConstants.HttpConstants.conflict {
+            } else if status == ServerConstants.HttpConstants.conflict {
                 self.promoStatus = .existingPlusUser
-            }
-            else if status == ServerConstants.HttpConstants.notFound {
+            } else if status == ServerConstants.HttpConstants.notFound {
                 self.promoStatus = .codeExpired
             }
         })
@@ -332,8 +322,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     private func redeemAfterSignIn() {
         if promoStatus == .codeInvalid || promoStatus == .codeExpired || promoStatus == .codeReused {
             dismiss(animated: true, completion: nil)
-        }
-        else {
+        } else {
             promoStatus = .validating
             redeemCode()
         }

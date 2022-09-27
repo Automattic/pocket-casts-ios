@@ -25,8 +25,7 @@ class DeleteAccountTask: ApiBaseTask {
             let message = changeResponse.message
             
             completion?(success, message)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Delete account failed \(error.localizedDescription)")
             completion?(false, nil)
         }

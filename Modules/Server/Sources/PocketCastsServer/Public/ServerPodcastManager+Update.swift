@@ -10,8 +10,7 @@ extension ServerPodcastManager {
                     FileLog.shared.addMessage("\(podcast.title ?? "") updated from cache server")
                     completion?(true)
                 })
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("\(podcast.title ?? "") didn't need to be updated from cache server")
                 completion?(false)
             }
@@ -152,8 +151,7 @@ extension ServerPodcastManager {
         
         if !podcast.isSubscribed() {
             ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false)
-        }
-        else {
+        } else {
             // for subscribed podcasts remove any non-interacted with episodes that aren't in the server JSON
             cleanupDeletedEpisodes(podcast: podcast, serverEpisodes: episodesJson)
         }
@@ -186,8 +184,7 @@ extension ServerPodcastManager {
             if let latestEpisode = latestEpisode {
                 ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisode(episode: latestEpisode)
             }
-        }
-        else {
+        } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
         }
         

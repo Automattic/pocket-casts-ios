@@ -42,11 +42,9 @@ public class EpisodeHeader {
         // take the longest of the two available descriptions
         if let desc1 = json["description"] as? String, let desc2 = json["dd"] as? String {
             episodeDescription = desc1.count > desc2.count ? desc1 : desc2
-        }
-        else if let jsonDescription = json["description"] as? String {
+        } else if let jsonDescription = json["description"] as? String {
             episodeDescription = jsonDescription
-        }
-        else if let jsonDescription = json["dd"] as? String {
+        } else if let jsonDescription = json["dd"] as? String {
             episodeDescription = jsonDescription
         }
         

@@ -81,11 +81,9 @@ public class TimeFormatter {
         
         if time < 1.minutes {
             return subMinuteFormatter.string(from: time) ?? ""
-        }
-        else if time < 1.hours {
+        } else if time < 1.hours {
             return shortFormatMinutes.string(from: time) ?? ""
-        }
-        else {
+        } else {
             return shortFormatHours.string(from: time) ?? ""
         }
     }
@@ -123,17 +121,13 @@ public class TimeFormatter {
         var timeStr: String?
         if time <= 1.minute {
             timeStr = appleFormatterSeconds.string(from: time)
-        }
-        else if time <= 1.hour {
+        } else if time <= 1.hour {
             timeStr = appleFormatterMinutes.string(from: time)
-        }
-        else if time <= 1.days {
+        } else if time <= 1.days {
             timeStr = appleFormatterHours.string(from: time)
-        }
-        else if time <= 365.days {
+        } else if time <= 365.days {
             timeStr = appleFormatterDays.string(from: time)
-        }
-        else {
+        } else {
             timeStr = appleFormatterYears.string(from: time)
         }
         

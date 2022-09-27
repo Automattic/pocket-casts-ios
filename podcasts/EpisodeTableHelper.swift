@@ -30,8 +30,7 @@ struct EpisodeTableHelper {
                 let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
                 existingSection.elements.append(listEpisode)
                 newData[currSectionIndex] = existingSection
-            }
-            else {
+            } else {
                 let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
                 newData.append(ArraySection(model: currSectionName, elements: [listEpisode]))
                 currSectionIndex += 1

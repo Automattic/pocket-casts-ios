@@ -11,8 +11,7 @@ class ExtendSleepTimerIntentHandler: NSObject, SJExtendSleepTimerIntentHandling 
         let minutes = intent.minutes
         if let minutes = minutes {
             userActivity.title = "Extending sleep timer by \(minutes) minutes"
-        }
-        else {
+        } else {
             userActivity.title = "Extend sleep timer"
         }
         userActivity.isEligibleForPrediction = true

@@ -68,8 +68,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                         self.uploadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                }
-                else {
+                } else {
                     Analytics.track(.uploadedFilesMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
@@ -230,8 +229,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         
         if SubscriptionHelper.hasActiveSubscription() {
             uploadedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
-        }
-        else {
+        } else {
             uploadedEpisodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
         }
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
@@ -243,8 +241,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private func reloadAllFiles() {
         if SubscriptionHelper.hasActiveSubscription() {
             UserEpisodeManager.updateUserEpisodes()
-        }
-        else {
+        } else {
             reloadLocalFiles()
         }
     }
@@ -340,8 +337,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         let selectedRefreshControl: UploadedRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodeRefreshControl
-        }
-        else {
+        } else {
             selectedRefreshControl = tableRefreshControl
         }
 
@@ -352,8 +348,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         let selectedRefreshControl: UploadedRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodeRefreshControl
-        }
-        else {
+        } else {
             selectedRefreshControl = tableRefreshControl
         }
 

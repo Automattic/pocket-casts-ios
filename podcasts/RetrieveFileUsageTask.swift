@@ -36,8 +36,7 @@ class RetrieveFileUsageTask: ApiBaseTask {
                 if let lastModified = httpResponse?.allHeaderFields[Server.HttpHeaders.lastModified] as? String {
                     Settings.setFilesUsageLastModified(lastModified)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding User episodes failed \(error.localizedDescription)")
             }
         }

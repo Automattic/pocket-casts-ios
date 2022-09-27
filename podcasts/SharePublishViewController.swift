@@ -217,8 +217,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
             var rotateOffset = 0 as Double
             if index % 3 == 1 {
                 rotateOffset = -0.1
-            }
-            else if index % 3 == 2 {
+            } else if index % 3 == 2 {
                 rotateOffset = 0.1
             }
             rotateAnimation.toValue = NSNumber(value: rotateOffset as Double)

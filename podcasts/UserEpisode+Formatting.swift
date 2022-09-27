@@ -10,14 +10,11 @@ extension UserEpisode {
         if uploading() {
             let progress = UploadManager.shared.progressManager.progressForEpisode(uuid)?.percentageProgressAsString() ?? ""
             return L10n.podcastUploading(progress).trimmingCharacters(in: .whitespaces)
-        }
-        else if uploadWaitingForWifi() {
+        } else if uploadWaitingForWifi() {
             return L10n.podcastWaitingUpload
-        }
-        else if uploadFailed() {
+        } else if uploadFailed() {
             return L10n.podcastFailedUpload
-        }
-        else {
+        } else {
             return commonDisplayableInfo(includeSize: includeSize)
         }
     }
@@ -28,8 +25,7 @@ extension UserEpisode {
         if includeSize, sizeInBytes > 0 {
             if informationLabelStr.count == 0 {
                 informationLabelStr = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
-            }
-            else {
+            } else {
                 informationLabelStr += " • \(SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes))"
             }
         }

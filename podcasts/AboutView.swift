@@ -152,8 +152,7 @@ struct LogoView: View {
                 Image(logo.logoName)
                     .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
                     .tint(logo.logoTint(onDark: theme.activeTheme.isDark)) // tint is only available from iOS 15 onwards
-            }
-            else {
+            } else {
                 Image(logo.logoName)
                     .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
                     .accentColor(logo.logoTint(onDark: theme.activeTheme.isDark))
@@ -169,7 +168,7 @@ struct AboutRow: View {
     @EnvironmentObject var theme: Theme
     
     @State var mainText = ""
-    @State var secondaryText: String? = nil
+    @State var secondaryText: String?
     @State var showChevronIcon: Bool = false
     @State var action: () -> Void
     

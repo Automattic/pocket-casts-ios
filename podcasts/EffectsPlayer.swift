@@ -99,8 +99,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
-            }
-            catch {
+            } catch {
                 objc_sync_exit(strongSelf.playerLock)
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
@@ -115,12 +114,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             if #available(iOS 16, *),
                let audioFile = strongSelf.audioFile,
                audioFile.processingFormat.channelCount == 1,
-               let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2)
-            {
+               let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2) {
                 FileLog.shared.addMessage("EffectsPlayer: converting mono to stereo")
                 format = twoChannelsFormat
-            }
-            else {
+            } else {
                 format = strongSelf.audioFile!.processingFormat
             }
 
@@ -134,8 +131,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             do {
                 strongSelf.engine?.prepare()
                 try strongSelf.engine?.start()
-            }
-            catch {
+            } catch {
                 objc_sync_exit(strongSelf.playerLock)
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
@@ -190,8 +186,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
             if !seekedToEnd {
                 completion?()
-            }
-            else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
+            } else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
                 self?.playBufferManager?.haveNotifiedPlayer.value = true
                 FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
                 PlaybackManager.shared.playerDidFinishPlayingEpisode()
@@ -311,8 +306,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         if shouldKeepPlaying.value, !PlaybackManager.shared.interruptionInProgress() {
             PlaybackManager.shared.pause()
             PlaybackManager.shared.play()
-        }
-        else if !shouldKeepPlaying.value {
+        } else if !shouldKeepPlaying.value {
             PlaybackManager.shared.pause()
         }
     }
@@ -340,8 +334,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             peakLimiter?.bypass = true
             highPassFilter?.bypass = true
             dynamicsProcessor?.bypass = true
-        }
-        else {
+        } else {
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_CutoffFrequency, value: 180)
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_Resonance, value: 0)
             highPassFilter?.bypass = false

@@ -100,8 +100,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
             let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
             closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
             navigationItem.leftBarButtonItem = closeButton
-        }
-        else {
+        } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
         }
 
@@ -147,8 +146,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         passwordField.isSecureTextEntry.toggle()
         if passwordField.isSecureTextEntry {
             showPasswordBtn.setImage(UIImage(named: "eye-crossed"), for: .normal)
-        }
-        else {
+        } else {
             showPasswordBtn.setImage(UIImage(named: "eye"), for: .normal)
         }
     }
@@ -158,8 +156,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
         if dismissOnCancel {
             dismiss(animated: true, completion: nil)
-        }
-        else {
+        } else {
             navigationController?.popViewController(animated: true)
         }
     }
@@ -188,8 +185,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
             if self.totalPodcastsToImport > 0 {
                 progressAlert.title = L10n.syncProgress(upTo.localized(), self.totalPodcastsToImport.localized())
                 progressAlert.progress = CGFloat(upTo / self.totalPodcastsToImport)
-            }
-            else {
+            } else {
                 // Used when the total number of podcasts to sync isn't known.
                 progressAlert.title = upTo == 1 ? L10n.syncProgressUnknownCountSingular : L10n.syncProgressUnknownCountPluralFormat(upTo.localized())
             }
@@ -213,8 +209,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
             
             if let delegate = self.delegate {
                 delegate.signingProcessCompleted()
-            }
-            else {
+            } else {
                 // if there's no delegate registered to handle a sign in finishing, just dismiss
                 self.closeTapped()
             }
@@ -226,8 +221,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
             passwordField.becomeFirstResponder()
-        }
-        else {
+        } else {
             textField.resignFirstResponder()
             performSignIn()
         }
@@ -239,8 +233,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         if textField == emailField {
             emailBorderView.isSelected = true
             passwordBorderView.isSelected = false
-        }
-        else {
+        } else {
             emailBorderView.isSelected = false
             passwordBorderView.isSelected = true
         }
@@ -284,8 +277,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
-                    }
-                    else {
+                    } else {
                         self.showErrorMessage(L10n.syncAccountError)
                     }
 

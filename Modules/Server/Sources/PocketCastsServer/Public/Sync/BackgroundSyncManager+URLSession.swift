@@ -9,8 +9,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
         var data: Data?
         do {
             data = try Data(contentsOf: location)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to load background sync data: \(error.localizedDescription)")
         }
         
@@ -18,22 +17,18 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             processRefreshResponse(data: data)
             haveProcessedRefresh = true
             processPendingData()
-        }
-        else if downloadTask.taskDescription == upNextSyncTaskId {
+        } else if downloadTask.taskDescription == upNextSyncTaskId {
             if haveProcessedRefresh {
                 processUpNextSyncData(data)
                 processPendingData()
-            }
-            else {
+            } else {
                 pendingUpNextSyncData = data
             }
-        }
-        else if downloadTask.taskDescription == syncTaskId {
+        } else if downloadTask.taskDescription == syncTaskId {
             if haveProcessedRefresh {
                 processSyncResponse(data: data, task: downloadTask)
                 processPendingData()
-            }
-            else {
+            } else {
                 pendingSyncData = data
                 pendingSyncHttpCode = downloadTask.response?.extractStatusCode()
             }
@@ -97,8 +92,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     private func processSyncResponse(data: Data?, task: URLSessionDownloadTask) {
         if let httpCode = task.response?.extractStatusCode() {
             processSyncData(data, httpCode: httpCode)
-        }
-        else {
+        } else {
             FileLog.shared.addMessage("Background Sync failed to find http status code")
         }
     }
@@ -126,8 +120,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
                 if status == .cancelled || status == .failed {
                     FileLog.shared.addMessage("Background refresh failed processing data")
                 }
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("Background refresh server call failed")
             }
         }

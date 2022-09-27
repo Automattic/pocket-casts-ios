@@ -23,13 +23,11 @@ class RetrieveLastSyncDateTask: ApiBaseTask {
                 let lasySyncAt = try Api_UserLastSyncAtResponse(serializedData: responseData).lastSyncAt
                 
                 completion?(lasySyncAt)
-            }
-            catch {
+            } catch {
                 print("Decoding last sync at failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("retrieve last sync at failed \(error.localizedDescription)")
             completion?(nil)
         }

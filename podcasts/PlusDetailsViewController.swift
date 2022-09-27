@@ -145,8 +145,7 @@ class PlusDetailsViewController: PCViewController {
             let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
             let termsVC = TermsViewController(newSubscription: newSubscription)
             present(SJUIUtils.popupNavController(for: termsVC), animated: true, completion: nil)
-        }
-        else {
+        } else {
             let profileIntroViewController = ProfileIntroViewController()
             profileIntroViewController.upgradeRootViewController = self
             present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)

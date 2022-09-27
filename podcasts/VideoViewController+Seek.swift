@@ -1,4 +1,3 @@
-
 extension VideoViewController: TimeSliderDelegate {
     func sliderDidBeginSliding() {}
     func sliderDidEndSliding() {}

@@ -11,8 +11,7 @@ class SleepTimerIntentHandler: NSObject, SJSleepTimerIntentHandling {
         let minutes = intent.minutes
         if let minutes = minutes {
             userActivity.title = "Setting sleep timer to \(minutes) minutes"
-        }
-        else {
+        } else {
             userActivity.title = "Setting sleep timer"
         }
         userActivity.isEligibleForPrediction = true

@@ -16,11 +16,9 @@ class ApiBaseTask: Operation {
     func runTaskSynchronously() {
         if let token = KeychainHelper.string(for: Constants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
-        }
-        else if let token = acquireSyncToken() {
+        } else if let token = acquireSyncToken() {
             apiTokenAcquired(token: token)
-        }
-        else {
+        } else {
             apiTokenAcquisitionFailed()
         }
     }
@@ -41,8 +39,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse.statusCode)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         
@@ -69,8 +66,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         
@@ -93,8 +89,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse.statusCode)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         
@@ -147,8 +142,7 @@ class ApiBaseTask: Operation {
                 FileLog.shared.addMessage("SyncTask logging user out, invalid password")
                 SyncManager.signout()
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("acquireSyncToken failed \(error.localizedDescription)")
         }
         

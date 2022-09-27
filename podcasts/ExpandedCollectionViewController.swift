@@ -60,8 +60,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         
         if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
             title = collectionSubtitle
-        }
-        else {
+        } else {
             title = item.title?.localized.localizedCapitalized
         }
     }
@@ -101,8 +100,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        else {
+        } else {
             let config = SFSafariViewController.Configuration()
             config.entersReaderIfAvailable = false
             let safariViewController = SFSafariViewController(url: url, configuration: config)
@@ -117,8 +115,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     @objc private func miniPlayerStatusDidChange() {
         if PlaybackManager.shared.currentEpisode() != nil {
             collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        }
-        else {
+        } else {
             collectionView.contentInset = UIEdgeInsets.zero
         }
     }

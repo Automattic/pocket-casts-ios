@@ -85,11 +85,9 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
     private func setCurrentDownloadStatus() {
         if filterToEdit.filterNotDownloaded, !filterToEdit.filterDownloaded {
             selectedRow = .notDownloaded
-        }
-        else if !filterToEdit.filterNotDownloaded, filterToEdit.filterDownloaded {
+        } else if !filterToEdit.filterNotDownloaded, filterToEdit.filterDownloaded {
             selectedRow = .downloaded
-        }
-        else {
+        } else {
             selectedRow = .all
         }
     }

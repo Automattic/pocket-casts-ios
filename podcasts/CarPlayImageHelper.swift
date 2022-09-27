@@ -29,8 +29,7 @@ class CarPlayImageHelper {
         var image: UIImage?
         if let episode = episode as? Episode {
             image = ImageManager.sharedManager.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
-        }
-        else if let userEpisode = episode as? UserEpisode {
+        } else if let userEpisode = episode as? UserEpisode {
             image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
         

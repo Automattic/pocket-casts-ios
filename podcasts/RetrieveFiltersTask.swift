@@ -39,13 +39,11 @@ class RetrieveFiltersTask: ApiBaseTask {
                 }
                 
                 completion?(filters)
-            }
-            catch {
+            } catch {
                 print("Decoding filters failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("retrieve filters failed \(error.localizedDescription)")
             completion?(nil)
         }

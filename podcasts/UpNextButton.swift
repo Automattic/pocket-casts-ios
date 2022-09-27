@@ -45,8 +45,7 @@ class UpNextButton: UIButton {
     @objc private func episodeAdded(_ notification: Notification) {
         if let episodeUuid = notification.object as? String, let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) {
             playEpisodeAddedAnimation(episode)
-        }
-        else {
+        } else {
             playNumberChangeAnimation()
         }
     }
@@ -67,8 +66,7 @@ class UpNextButton: UIButton {
         let imageView = PodcastImageView(frame: CGRect(x: -4, y: 0, width: bounds.width, height: bounds.height))
         if episode is Episode {
             imageView.setPodcast(uuid: episode.parentIdentifier(), size: .list)
-        }
-        else {
+        } else {
             imageView.setUserEpisode(uuid: episode.uuid, size: .list)
         }
         
@@ -112,16 +110,13 @@ class UpNextButton: UIButton {
             let imageFrame = CGRect(x: 10, y: 10, width: 24, height: 24)
             
             bgImage?.draw(in: imageFrame)
-        }
-        else {
+        } else {
             let bgImageName: String
             if upNextCount < 10 {
                 bgImageName = "icon-upnext-circle"
-            }
-            else if upNextCount < 100 {
+            } else if upNextCount < 100 {
                 bgImageName = "icon-upnext-circle-wide"
-            }
-            else {
+            } else {
                 bgImageName = "icon-upnext-circle-wide-wide"
             }
             let bgImage = UIImage(named: bgImageName)?.tintedImage(iconColor)
@@ -137,11 +132,9 @@ class UpNextButton: UIButton {
             let textPoint: CGPoint
             if upNextCount < 10 {
                 textPoint = CGPoint(x: (textSize.width / 2) + 3, y: 15)
-            }
-            else if upNextCount < 100 {
+            } else if upNextCount < 100 {
                 textPoint = CGPoint(x: (textSize.width / 2) - 2, y: 13)
-            }
-            else {
+            } else {
                 textPoint = CGPoint(x: (textSize.width / 2) - 7, y: 14)
             }
             

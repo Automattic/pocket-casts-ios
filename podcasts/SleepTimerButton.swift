@@ -15,8 +15,7 @@ class SleepTimerButton: UIButton {
             
             if sleepTimerOn {
                 animateToOn()
-            }
-            else {
+            } else {
                 animateToOff()
             }
         }

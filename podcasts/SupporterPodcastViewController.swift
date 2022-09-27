@@ -144,8 +144,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         var sections = [TableSection]()
         if isSingleBundleSubscription() {
             sections.append(.manageSubscription)
-        }
-        else if !isSingleBundleSubscription(), let firstPodcastSubscription = firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
+        } else if !isSingleBundleSubscription(), let firstPodcastSubscription = firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
             sections.append(.manageSubscription)
         }
         
@@ -272,8 +271,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
                 let rightBtnStyle: ThemeStyle = subscribedPodcastCount == podcastCount ? .support05 : .primaryInteractive01
                 let rightBtnSelector = subscribedPodcastCount == podcastCount ? #selector(unsubscribeWarning) : #selector(subscribeAll)
                 return SettingsTableHeader(frame: headerFrame, title: title, rightBtnTitle: rightBtnTitle, rightBtnSelector: rightBtnSelector, rightBtnTarget: self, rightBtnThemeStyle: rightBtnStyle)
-            }
-            else {
+            } else {
                 return SettingsTableHeader(frame: headerFrame, title: L10n.podcastsPlural.localizedUppercase)
             }
         case .manageSubscription:
@@ -287,8 +285,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         let thisSection = tableSections()[section]
         if thisSection == .bundlePodcasts {
             return 54
-        }
-        else if thisSection == .manageSubscription, !isSingleBundleSubscription() {
+        } else if thisSection == .manageSubscription, !isSingleBundleSubscription() {
             return 40
         }
         return UITableView.automaticDimension
@@ -330,8 +327,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
                 
                 if success {
                     self.navigationController?.popViewController(animated: true)
-                }
-                else {
+                } else {
                     SJUIUtils.showAlert(title: L10n.cancelFailed, message: L10n.pleaseTryAgainLater, from: self)
                 }
             }
@@ -345,16 +341,14 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             
             bundleArtwork.setPodcast(uuid: singlePodcast.uuid, size: .grid)
             bundleLabel.isHidden = true
-        }
-        else if let bundleInfo = bundleCollection {
+        } else if let bundleInfo = bundleCollection {
             bundleTitleLabel.text = bundleInfo.title?.localized
             authorLabel.text = bundleInfo.author
             if let imageUrl = bundleInfo.collectionImage {
                 bundleArtwork.setBundleImageUrl(url: imageUrl, size: .grid)
             }
             bundleLabel.isHidden = false
-        }
-        else {
+        } else {
             loadBundleCollection(uuid: bundleSubscription.bundleUuid)
         }
         updateColors()
@@ -376,8 +370,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
             
             let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(Date(timeIntervalSince1970: TimeInterval(firstPodcastSubscription.expiryDate)))
             nextPaymentLabel.text = L10n.nextPaymentFormat(expiryDateStr)
-        }
-        else {
+        } else {
             nextPaymentLabel.isHidden = true
             frequencyLabel.isHidden = true
             cancelledLabel.isHidden = false
@@ -396,8 +389,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     private func updateColors() {
         if isSingleBundleSubscription(), let podcastUuid = bundleSubscription.podcasts.first?.uuid {
             updatePodcastColors(podcastUuid)
-        }
-        else {
+        } else {
             updateBundleColors()
         }
         

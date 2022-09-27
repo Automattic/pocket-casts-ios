@@ -91,8 +91,7 @@ class TourView: ThemeableView {
         
         if position == 0 {
             closeBtn.setTitle(L10n.close, for: .normal)
-        }
-        else {
+        } else {
             closeBtn.setTitle(L10n.featureTourEndTour, for: .normal)
         }
         

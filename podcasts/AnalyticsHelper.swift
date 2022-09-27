@@ -29,8 +29,7 @@ class AnalyticsHelper {
     class func userGuideEmail(feedback: Bool) {
         if feedback {
             userGuideEmailFeedback()
-        }
-        else {
+        } else {
             userGuideEmailSupport()
         }
     }
@@ -54,8 +53,7 @@ class AnalyticsHelper {
     class func addToUpNextFromNotification(playFirst: Bool) {
         if playFirst {
             logEvent("notification_add_to_up_next_top", parameters: nil)
-        }
-        else {
+        } else {
             logEvent("notification_add_to_up_next_bottom", parameters: nil)
         }
     }
@@ -150,8 +148,7 @@ class AnalyticsHelper {
         if let name = iconName {
             // Firebase doesn't like dashes (Event name must contain only letters, numbers, or underscores)
             logEvent("icon_\(name.replacingOccurrences(of: "-", with: "_"))", parameters: nil)
-        }
-        else {
+        } else {
             logEvent("icon_default", parameters: nil)
         }
     }
@@ -374,8 +371,7 @@ private extension AnalyticsHelper {
 
             if let parameters = parameters {
                 logger.debug("🟢 Tracked: \(name) \(parameters)")
-            }
-            else {
+            } else {
                 logger.debug("🟢 Tracked: \(name)")
             }
         #endif

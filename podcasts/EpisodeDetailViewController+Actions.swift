@@ -8,11 +8,9 @@ extension EpisodeDetailViewController {
     @IBAction func upNextTapped(_ sender: UIButton) {
         if PlaybackManager.shared.inUpNext(episode: episode) {
             PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
-        }
-        else if PlaybackManager.shared.queue.upNextCount() < 1 {
+        } else if PlaybackManager.shared.queue.upNextCount() < 1 {
             PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false)
-        }
-        else {
+        } else {
             let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
             let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
@@ -31,8 +29,7 @@ extension EpisodeDetailViewController {
     @IBAction func episodeStatusTapped(_ sender: Any) {
         if episode.played() {
             EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
-        }
-        else {
+        } else {
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
     }
@@ -40,8 +37,7 @@ extension EpisodeDetailViewController {
     @IBAction func archiveTapped(_ sender: Any) {
         if episode.archived {
             EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
-        }
-        else {
+        } else {
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
             dismiss(animated: true, completion: nil)
         }
@@ -55,8 +51,7 @@ extension EpisodeDetailViewController {
             }
             
             PlaybackActionHelper.playPause()
-        }
-        else {
+        } else {
             dismiss(animated: true, completion: nil)
             PlaybackActionHelper.play(episode: episode)
         }
@@ -73,11 +68,9 @@ extension EpisodeDetailViewController {
             confirmation.addAction(action: yesAction)
             
             confirmation.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
+        } else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
-        }
-        else {
+        } else {
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
         }
     }
@@ -96,12 +89,10 @@ extension EpisodeDetailViewController {
             downloadBtn.setImage(UIImage(named: "episode-downloaded"), for: .normal)
             downloadBtn.setTitle(SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes), for: .normal)
             downloadBtn.accessibilityLabel = L10n.removeDownload
-        }
-        else if episode.queued() || episode.downloading() || episode.waitingForWifi() {
+        } else if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             downloadBtn.setImage(UIImage(named: "episode-cancel"), for: .normal)
             downloadBtn.accessibilityLabel = L10n.cancelDownload
-        }
-        else {
+        } else {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
             downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
@@ -112,8 +103,7 @@ extension EpisodeDetailViewController {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) || playbackManager.inUpNext(episode: episode) {
             upNextBtn.setImage(UIImage(named: "episode-removenext"), for: .normal)
             upNextBtn.accessibilityLabel = L10n.removeFromUpNext
-        }
-        else {
+        } else {
             upNextBtn.setImage(UIImage(named: "episode-playnext"), for: .normal)
             upNextBtn.accessibilityLabel = L10n.upNext
         }
@@ -121,8 +111,7 @@ extension EpisodeDetailViewController {
         if episode.archived {
             archiveButton.setImage(UIImage(named: "episode-unarchive"), for: .normal)
             archiveButton.setTitle(L10n.unarchive, for: .normal)
-        }
-        else {
+        } else {
             archiveButton.setImage(UIImage(named: "episode-archive"), for: .normal)
             archiveButton.setTitle(L10n.archive, for: .normal)
         }
@@ -130,8 +119,7 @@ extension EpisodeDetailViewController {
         if episode.played() {
             playStatusButton.setImage(UIImage(named: "episode-markunplayed"), for: .normal)
             playStatusButton.setTitle(L10n.markUnplayedShort, for: .normal)
-        }
-        else {
+        } else {
             playStatusButton.setImage(UIImage(named: "episode-markasplayed"), for: .normal)
             playStatusButton.setTitle(L10n.markPlayedShort, for: .normal)
         }
@@ -145,11 +133,9 @@ extension EpisodeDetailViewController {
             if currentTime > 0, duration > 0 {
                 progress = min(1, CGFloat(currentTime / duration))
             }
-        }
-        else if episode.played() {
+        } else if episode.played() {
             progress = 1
-        }
-        else if episode.playedUpTo > 0, episode.duration > 0 {
+        } else if episode.playedUpTo > 0, episode.duration > 0 {
             progress = min(1, CGFloat(episode.playedUpTo / episode.duration))
         }
         
@@ -164,19 +150,15 @@ extension EpisodeDetailViewController {
     func updateMessageView() {
         if episode.playbackError() {
             setMessage(title: L10n.playbackFailed, details: episode.playbackErrorDetails ?? L10n.podcastDetailsPlaybackError, imageName: "option-alert")
-        }
-        else if episode.downloadFailed() {
+        } else if episode.downloadFailed() {
             setMessage(title: L10n.downloadFailed, details: episode.downloadErrorDetails ?? L10n.podcastDetailsDownloadError, imageName: "option-alert")
-        }
-        else if episode.waitingForWifi() {
+        } else if episode.waitingForWifi() {
             setMessage(title: L10n.waitForWifi, details: L10n.podcastDetailsDownloadWifiQueue, imageName: "waiting-wifi")
-        }
-        else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimit > 0 {
+        } else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimit > 0 {
             setMessage(title: L10n.podcastDetailsManualUnarchiveTitle,
                        details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimit.localized()),
                        imageName: "episode-archive")
-        }
-        else if buttonBottomOffsetConstraint.constant != 20 {
+        } else if buttonBottomOffsetConstraint.constant != 20 {
             messageView.isHidden = true
             buttonBottomOffsetConstraint.constant = 20
         }

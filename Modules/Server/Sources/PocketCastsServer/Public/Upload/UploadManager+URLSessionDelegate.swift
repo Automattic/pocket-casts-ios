@@ -30,26 +30,22 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
         if isImageUpload(taskId: taskId) {
             if let error = error as NSError? {
                 FileLog.shared.addMessage("Upload Manager failed to upload image \(error.localizedDescription)")
-            }
-            else {
+            } else {
                 DataManager.sharedManager.markImageUploaded(episode: episode)
             }
-        }
-        else {
+        } else {
             if let error = error as NSError? {
                 if error.code == NSURLErrorCancelled {
                     if !episode.uploadFailed() {
                         return
-                    }
-                    else {
+                    } else {
                         DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, uploadTaskId: nil, episode: episode)
                     }
                 }
                 
                 DataManager.sharedManager.saveEpisode(uploadStatus: .uploadFailed, uploadError: error.localizedDescription, uploadTaskId: nil, episode: episode)
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
-            }
-            else {
+            } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     ApiServerHandler.shared.uploadFilesUpdateStatusRequest(episode: episode)
                 }
@@ -78,8 +74,7 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
         var episode = DataManager.sharedManager.findUserEpisode(uploadTaskId: uploadId)
         if let episode = episode {
             uploadingEpisodesCache[uploadId] = episode
-        }
-        else {
+        } else {
             if includeImageTasks {
                 let imageUuid = uploadId.replacingOccurrences(of: imageTaskPrefix, with: "")
                 

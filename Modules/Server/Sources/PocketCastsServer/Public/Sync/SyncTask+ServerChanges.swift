@@ -80,14 +80,12 @@ extension SyncTask {
                 
                 DataManager.sharedManager.save(podcast: podcast)
             }
-        }
-        else if let podcast = existingPodcast {
+        } else if let podcast = existingPodcast {
             importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
             DataManager.sharedManager.save(podcast: podcast)
             
             ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
-        }
-        else {
+        } else {
             let semaphore = DispatchSemaphore(value: 0)
             
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
@@ -155,12 +153,10 @@ extension SyncTask {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the archive status as unsynced because ours is considered more current
                 DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: true)
-            }
-            else {
+            } else {
                 if episodeItem.isDeleted.value {
                     ServerConfig.shared.syncDelegate?.archiveEpisodeExternal(episode: episode)
-                }
-                else {
+                } else {
                     _ = DataManager.sharedManager.saveIfNotModified(archived: false, episodeUuid: episode.uuid)
                 }
             }
@@ -170,8 +166,7 @@ extension SyncTask {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the status as unsynced because ours is considered more current
                 DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
-            }
-            else {
+            } else {
                 let playingStatus = PlayingStatus(rawValue: episodeItem.playingStatus.value) ?? PlayingStatus.notPlayed
                 let updateSaved = DataManager.sharedManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episode.uuid)
                 if updateSaved, playingStatus == .completed {
@@ -303,8 +298,7 @@ extension SyncTask {
         
         if filterItem.hasPodcastUuids {
             filter.podcastUuids = filterItem.podcastUuids.value
-        }
-        else {
+        } else {
             filter.podcastUuids = ""
         }
         

@@ -38,8 +38,7 @@ class ListeningHistoryViewController: PCViewController {
                         self.listeningHistoryTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                }
-                else {
+                } else {
                     Analytics.track(.listeningHistoryMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
@@ -129,8 +128,7 @@ class ListeningHistoryViewController: PCViewController {
                     strongSelf.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
                         strongSelf.episodes = data
                     })
-                }
-                else {
+                } else {
                     strongSelf.episodes = newData
                     strongSelf.listeningHistoryTable.reloadData()
                 }

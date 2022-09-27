@@ -1,4 +1,3 @@
-
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
@@ -75,8 +74,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 
                 completionHandler()
             }
-        }
-        else if addToQueueFirstActionId == response.actionIdentifier || addToQueueLastActionId == response.actionIdentifier {
+        } else if addToQueueFirstActionId == response.actionIdentifier || addToQueueLastActionId == response.actionIdentifier {
             let playFirst = addToQueueFirstActionId == response.actionIdentifier
             AnalyticsHelper.addToUpNextFromNotification(playFirst: playFirst)
             
@@ -87,8 +85,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 
                 completionHandler()
             }
-        }
-        else if playNowActionid == response.actionIdentifier {
+        } else if playNowActionid == response.actionIdentifier {
             AnalyticsHelper.playNowFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
@@ -97,8 +94,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 
                 completionHandler()
             }
-        }
-        else if archiveActionId == response.actionIdentifier {
+        } else if archiveActionId == response.actionIdentifier {
             AnalyticsHelper.archiveFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode as? Episode {
@@ -107,16 +103,14 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 
                 completionHandler()
             }
-        }
-        else {
+        } else {
             // none of the actions where 3D Touched, the user just wants to open this episode if there is one
             findEpisode(episodeUuid: episodeUuid) { [weak self] episode in
                 guard let self = self else { return }
                 
                 if let episode = episode as? Episode, let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) {
                     self.appDelegate()?.openEpisode(episode.uuid, from: podcast)
-                }
-                else if let podcastUuid = response.notification.request.content.userInfo["podcast_uuid"] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+                } else if let podcastUuid = response.notification.request.content.userInfo["podcast_uuid"] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
                     DispatchQueue.main.async {
                         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                     }
@@ -135,15 +129,13 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     private func findEpisode(episodeUuid: String, performing action: @escaping (BaseEpisode?) -> Void) {
         if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
             action(existingEpisode)
-        }
-        else {
+        } else {
             RefreshManager.shared.refreshPodcasts(completion: { _ in
                 if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
                     DispatchQueue.main.async {
                         action(episode)
                     }
-                }
-                else {
+                } else {
                     DispatchQueue.main.async {
                         action(nil)
                     }

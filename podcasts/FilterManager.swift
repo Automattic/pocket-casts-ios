@@ -21,8 +21,7 @@ class FilterManager {
                 
                 if !onWifi, !mobileDataAllowed {
                     DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-                }
-                else {
+                } else {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
                 }
             }

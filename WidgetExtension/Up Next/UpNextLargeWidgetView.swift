@@ -9,8 +9,7 @@ struct UpNextLargeWidgetView: View {
     var body: some View {
         if filterName != nil {
             LargeFilterView(episodes: $episodes, filterName: $filterName)
-        }
-        else {
+        } else {
             LargeUpNextWidgetView(episodes: $episodes, isPlaying: $isPlaying)
         }
     }

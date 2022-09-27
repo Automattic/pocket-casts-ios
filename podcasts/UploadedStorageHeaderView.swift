@@ -82,15 +82,12 @@ class UploadedStorageHeaderView: UIView {
 
             if percentageUsed >= 99 {
                 percentageLabel.textColor = AppTheme.colorForStyle(.support05)
-            }
-            else if percentageUsed >= 90, percentageUsed < 99 {
+            } else if percentageUsed >= 90, percentageUsed < 99 {
                 percentageLabel.textColor = AppTheme.colorForStyle(.support08)
-            }
-            else {
+            } else {
                 percentageLabel.textColor = AppTheme.colorForStyle(.primaryText01)
             }
-        }
-        else {
+        } else {
             plusView.isHidden = true
             noPlusView.isHidden = false
         }

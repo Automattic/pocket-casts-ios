@@ -11,8 +11,7 @@ class NotificationService: UNNotificationServiceExtension {
         if let imagesFolder = podcastImageFolder() {
             do {
                 try FileManager.default.createDirectory(atPath: imagesFolder, withIntermediateDirectories: true, attributes: nil)
-            }
-            catch {}
+            } catch {}
         }
     }
     
@@ -25,8 +24,7 @@ class NotificationService: UNNotificationServiceExtension {
                 do {
                     let attachment = try UNNotificationAttachment(identifier: podcastUuid, url: podcastImageUrl, options: nil)
                     bestAttemptContent.attachments = [attachment]
-                }
-                catch {}
+                } catch {}
             }
             
             contentHandler(bestAttemptContent)
@@ -62,8 +60,7 @@ class NotificationService: UNNotificationServiceExtension {
             try imageData.write(to: URL(fileURLWithPath: imagePath))
             
             return URL(fileURLWithPath: imagePath)
-        }
-        catch {}
+        } catch {}
         
         return nil
     }

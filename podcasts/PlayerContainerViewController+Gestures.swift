@@ -13,18 +13,15 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         
         if sender.state == UIGestureRecognizer.State.began {
             initialTouchPoint = touchPoint
-        }
-        else if sender.state == UIGestureRecognizer.State.changed {
+        } else if sender.state == UIGestureRecognizer.State.changed {
             if touchPoint.y - initialTouchPoint.y > 0 {
                 let yPosition = touchPoint.y - initialTouchPoint.y
                 handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
             }
-        }
-        else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
             if touchPoint.y - initialTouchPoint.y > PlayerContainerViewController.pullDownThreshold {
                 miniPlayer.closeFullScreenPlayer()
-            }
-            else {
+            } else {
                 UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                     self.view.moveTo(y: 0)
                     miniPlayer.moveToHiddenTopPosition()
@@ -43,8 +40,7 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         
         if scrollView.contentOffset.y >= 0 {
             miniPlayer.moveToHiddenTopPosition()
-        }
-        else {
+        } else {
             let yPosition = floor(-scrollView.contentOffset.y)
             handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
         }

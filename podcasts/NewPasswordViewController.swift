@@ -1,4 +1,3 @@
-
 import UIKit
 
 class NewPasswordViewController: UIViewController, UITextFieldDelegate {
@@ -81,8 +80,7 @@ class NewPasswordViewController: UIViewController, UITextFieldDelegate {
         passwordField.isSecureTextEntry.toggle()
         if passwordField.isSecureTextEntry {
             showPasswordButton.setImage(UIImage(named: "eye-crossed"), for: .normal)
-        }
-        else {
+        } else {
             showPasswordButton.setImage(UIImage(named: "eye"), for: .normal)
         }
     }
@@ -157,8 +155,7 @@ class NewPasswordViewController: UIViewController, UITextFieldDelegate {
                 if let message = response.message, message.count > 0 {
                     // TODO: go back to emailVC if in use
                     self.showErrorMessage(message)
-                }
-                else {
+                } else {
                     self.showErrorMessage("Registration failed, please try again later")
                 }
                 
@@ -171,8 +168,7 @@ class NewPasswordViewController: UIViewController, UITextFieldDelegate {
             if let newSubscription = self.newSubscription, newSubscription.iap_identifier.count > 0 {
                 let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: newSubscription)
                 self.navigationController?.pushViewController(confirmPaymentVC, animated: true)
-            }
-            else { // Free account
+            } else { // Free account
                 let accountCreatedVC = AccountUpdatedViewController()
                 accountCreatedVC.titleText = "Account Created"
                 accountCreatedVC.detailText = "Welcome to Pocket Casts!"

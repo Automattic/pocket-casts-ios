@@ -102,8 +102,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         if let isSponsored = item?.isSponsored, isSponsored {
             typeBadgeLabel.text = L10n.discoverSponsored
             typeBadgeLabel.style = .primaryText02
-        }
-        else {
+        } else {
             typeBadgeLabel.text = L10n.discoverFreshPick
             typeBadgeLabel.style = .support02
         }
@@ -158,8 +157,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     private func updateTypeBadgeColors() {
         if let isSponsored = item?.isSponsored, isSponsored {
             typeBadgeLabel.style = .secondaryText02
-        }
-        else {
+        } else {
             typeBadgeLabel.style = .support02
         }
     }

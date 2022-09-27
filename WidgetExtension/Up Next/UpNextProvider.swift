@@ -21,8 +21,7 @@ struct UpNextProvider: TimelineProvider {
      
         if let episodes = widgetData.upNextEpisodes {
             completion(upNextEntry(episodes: episodes, data: widgetData, imageCountToCache: context.family.imageCount))
-        }
-        else {
+        } else {
             completion(upNextEntry(episodes: nil, data: widgetData))
         }
     }
@@ -35,13 +34,11 @@ struct UpNextProvider: TimelineProvider {
             let entry = upNextEntry(episodes: filterEpisodes, data: widgetData, imageCountToCache: context.family.imageCount)
             let timeline = Timeline(entries: [entry], policy: .never)
             completion(timeline)
-        }
-        else if let upNextEpisodes = widgetData.upNextEpisodes, upNextEpisodes.count > 0 {
+        } else if let upNextEpisodes = widgetData.upNextEpisodes, upNextEpisodes.count > 0 {
             let entry = upNextEntry(episodes: upNextEpisodes, data: widgetData, imageCountToCache: context.family.imageCount)
             let timeline = Timeline(entries: [entry], policy: .atEnd)
             completion(timeline)
-        }
-        else {
+        } else {
             let timeline = Timeline(entries: [upNextEntry(episodes: nil, data: widgetData)], policy: .never)
             completion(timeline)
         }

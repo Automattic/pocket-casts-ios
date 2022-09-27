@@ -121,8 +121,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
             
             let presentRect = view.convert(exportBtn.frame, from: exportBtn.superview)
             opmlShareController?.presentOptionsMenu(from: presentRect, in: view, animated: true)
-        }
-        catch {
+        } catch {
             presentError()
         }
     }

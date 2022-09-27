@@ -10,12 +10,10 @@ struct UpNextMediumWidgetView: View {
         if let firstEpisode = episodes.first {
             if let topFilter = filterName {
                 MediumFilterView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], filterName: topFilter)
-            }
-            else {
+            } else {
                 MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying)
             }
-        }
-        else {
+        } else {
             HungryForMoreView()
         }
     }
@@ -49,8 +47,7 @@ struct MediumUpNextView: View {
                         EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
                             .padding(16.0)
                         Spacer()
-                    }
-                    else {
+                    } else {
                         Spacer()
                         HungryForMoreView()
                         Spacer()
@@ -93,8 +90,7 @@ struct MediumFilterView: View {
                 if let secondEpisode = secondEpisode {
                     EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
                         .frame(minHeight: 40, maxHeight: 56)
-                }
-                else {
+                } else {
                     Spacer()
                         .frame(minHeight: 42, maxHeight: 56)
                 }

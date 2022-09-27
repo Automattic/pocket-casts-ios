@@ -30,8 +30,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             if activeSubscriptionsCount > 0 {
                 cell.counterView.isHidden = false
                 cell.counterLabel.text = "\(activeSubscriptionsCount)"
-            }
-            else {
+            } else {
                 cell.counterView.isHidden = true
             }
             cell.showsDisclosureIndicator = true
@@ -158,8 +157,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             options.addDescriptiveActions(title: L10n.accountSignOut, message: L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle, icon: "signout", actions: [signOutAction])
             
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else {
+        } else {
             let options = OptionsPicker(title: L10n.areYouSure)
             options.addAction(action: signOutAction)
             

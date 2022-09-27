@@ -79,8 +79,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
             cell.authorLabel.text = podcast.author
             cell.heartView.setPodcastColor(podcast: podcast)
             cell.heartView.isHidden = true
-        }
-        else {
+        } else {
             cell.isLoading = false
             cell.podcastName.text = bundle.title?.localized
             cell.podcastName.sizeToFit()
@@ -105,14 +104,12 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
                 isCancelled = false
                 let frequency = subscription.frequency
                 frequencyText = SubscriptionHelper.readableSubscriptionFrequency(frequency: frequency).localizedUppercase
-            }
-            else {
+            } else {
                 isCancelled = true
                 let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate).localizedUppercase
                 if expiryDate.timeIntervalSinceNow < 0 {
                     frequencyText = L10n.paidPodcastSubscriptionEnded(expiryDateStr)
-                }
-                else {
+                } else {
                     frequencyText = L10n.paidPodcastSubscriptionEnds(expiryDateStr)
                 }
             }

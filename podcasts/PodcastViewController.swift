@@ -112,8 +112,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         self.multiSelectHeaderView.isHidden = false
                         self.view.bringSubviewToFront(self.multiSelectHeaderView)
                     }
-                }
-                else {
+                } else {
                     self.multiSelectHeaderView.isHidden = true
                     self.selectedEpisodes.removeAll()
                 }
@@ -169,8 +168,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let uuid = podcastInfo.uuid, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             podcast = existingPodcast
             summaryExpanded = !existingPodcast.isSubscribed()
-        }
-        else {
+        } else {
             self.podcastInfo = podcastInfo
             summaryExpanded = true
         }
@@ -305,8 +303,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
             multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
             multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-        }
-        else {
+        } else {
             updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01())
         }
     }
@@ -359,26 +356,22 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             if podcast.isSubscribed() {
                 loadLocalEpisodes(podcast: podcast, animated: false)
                 checkIfPodcastNeedsUpdating()
-            }
-            else {
+            } else {
                 let podcastUuid = podcast.uuid
                 PodcastManager.shared.deletePodcastIfUnused(podcast)
                 if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                     // podcast wasn't deleted, but needs to be updated
                     loadLocalEpisodes(podcast: podcast, animated: false)
                     checkIfPodcastNeedsUpdating()
-                }
-                else {
+                } else {
                     // podcast was deleted, reload the entire thing
                     self.podcast = nil
                     loadPodcastInfoFromUuid(podcastUuid)
                 }
             }
-        }
-        else if let uuid = podcastInfo?.uuid {
+        } else if let uuid = podcastInfo?.uuid {
             loadPodcastInfoFromUuid(uuid)
-        }
-        else if let iTunesId = podcastInfo?.iTunesId {
+        } else if let iTunesId = podcastInfo?.iTunesId {
             loadPodcastInfoFromiTunesId(iTunesId)
         }
     }
@@ -403,8 +396,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                     var indexToInsertAt = -1
                     if PodcastEpisodeSortOrder.newestToOldest.rawValue == Int(podcast.episodeSortOrder) {
                         indexToInsertAt = episodeLimit <= episodeCount ? episodeLimit : episodeCount
-                    }
-                    else if PodcastEpisodeSortOrder.oldestToNewest.rawValue == Int(podcast.episodeSortOrder) {
+                    } else if PodcastEpisodeSortOrder.oldestToNewest.rawValue == Int(podcast.episodeSortOrder) {
                         indexToInsertAt = episodeCount > episodeLimit ? episodeCount - episodeLimit : episodeCount - 1
                     }
                     
@@ -414,15 +406,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         episodes?.insert(placeholder, at: indexToInsertAt)
                         finalData[1] = ArraySection(model: "episodes", elements: episodes!)
                     }
-                }
-                else if episodeCount == 0, searching {
+                } else if episodeCount == 0, searching {
                     needsNoSearchResultsMessage = true
-                }
-                else if episodeCount == 0, !self.showingArchived() {
+                } else if episodeCount == 0, !self.showingArchived() {
                     needsNoEpisodesMessage = true
                 }
-            }
-            else {
+            } else {
                 var totalEpisodeCount = -1 // the search header counts as an item below, so start from -1
                 for group in finalData {
                     totalEpisodeCount += group.elements.count
@@ -435,8 +424,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             if needsNoSearchResultsMessage {
                 let placeholder = NoSearchResultsPlaceholder()
                 finalData[1] = ArraySection(model: "episodes", elements: [placeholder])
-            }
-            else if needsNoEpisodesMessage {
+            } else if needsNoEpisodesMessage {
                 let archivedCount = self.archivedEpisodeCount()
                 let message = L10n.podcastArchivedMsg(archivedCount.localized())
                 let placeholder = AllArchivedPlaceholder(archived: archivedCount, message: message)
@@ -452,13 +440,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                             self.episodeInfo = data
                         })
                     }
-                }
-                catch {
+                } catch {
                     self.episodeInfo = finalData
                     self.episodesTable.reloadData()
                 }
-            }
-            else {
+            } else {
                 self.episodeInfo = finalData
                 self.episodesTable.reloadData()
             }
@@ -506,8 +492,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if downloadedCount > 0 {
             unsubscribeAction.destructive = true
             optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
-        }
-        else {
+        } else {
             optionPicker.addAction(action: unsubscribeAction)
         }
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)

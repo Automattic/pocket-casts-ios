@@ -32,19 +32,16 @@ class RedeemPromoCodeTask: ApiBaseTask {
                     let promotion = try Api_Promotion(serializedData: responseData)
                     completion?(httpStatus, promotion.description_p, nil)
                     FileLog.shared.addMessage("Redeem promo code response \n \(httpStatus)")
-                }
-                else if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: String], let errorMessageId = json["errorMessageId"] {
+                } else if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: String], let errorMessageId = json["errorMessageId"] {
                     FileLog.shared.addMessage("Redeem promo code response \n \(httpStatus), error ")
                     let error = APIError(rawValue: errorMessageId) ?? .UNKNOWN
                     completion?(httpStatus, nil, error)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Redeem promo code failed \(error.localizedDescription)")
                 completion?(httpStatus, nil, APIError.UNKNOWN)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Redeem promo code Protobuf Encoding failed \(error.localizedDescription)")
             completion?(0, nil, APIError.UNKNOWN)
         }

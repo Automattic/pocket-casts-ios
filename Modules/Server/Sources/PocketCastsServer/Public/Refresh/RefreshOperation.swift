@@ -80,8 +80,7 @@ class RefreshOperation: Operation {
                 let syncResult = syncTask.status
                 if syncResult == .failed || syncResult == .cancelled {
                     completionHandler?(.failed)
-                }
-                else {
+                } else {
                     // however we use the refresh to indicate to iOS whether we found new stuff or not
                     completionHandler?(refreshResult == .successNewData ? .newData : .noData)
                     
@@ -90,8 +89,7 @@ class RefreshOperation: Operation {
                     ServerNotificationsHelper.shared.fireSyncCompleted()
                     ServerConfig.shared.syncDelegate?.filterChanged()
                 }
-            }
-            else { // no sync required, we're done
+            } else { // no sync required, we're done
                 completionHandler?(refreshResult == .successNewData ? .newData : .noData)
             }
             ServerConfig.shared.syncDelegate?.applyAutoArchivingToAllPodcasts()
@@ -114,13 +112,11 @@ class RefreshOperation: Operation {
                     if currentCount < upNextLimit {
                         FileLog.shared.addMessage("Current Up Next count \(currentCount) is less than the limit, adding \(episode.displayableTitle()) to the \(toTop ? "top" : "bottom") of Up Next")
                         ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: false, toTop: toTop)
-                    }
-                    else if toTop, ServerSettings.onAutoAddLimitReached() == .addToTopOnly {
+                    } else if toTop, ServerSettings.onAutoAddLimitReached() == .addToTopOnly {
                         FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit but still adding \(episode.displayableTitle()) to the top of the list")
                         ServerConfig.shared.playbackDelegate?.removeLastEpisodeFromUpNext()
                         ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop)
-                    }
-                    else {
+                    } else {
                         FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit not adding episode \(episode.displayableTitle())")
                     }
                 }

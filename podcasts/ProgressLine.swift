@@ -62,8 +62,7 @@ class ProgressLine: UIView {
         progressLayer().progressRect = CGRect(x: 0, y: 0, width: progressSize, height: lineHeight)
         if buferredAmount == 0 {
             progressLayer().bufferRect = CGRect.zero
-        }
-        else {
+        } else {
             progressLayer().bufferRect = CGRect(x: progressSize, y: 0, width: (availableWidth - progressSize) * buferredAmount, height: lineHeight)
         }
         

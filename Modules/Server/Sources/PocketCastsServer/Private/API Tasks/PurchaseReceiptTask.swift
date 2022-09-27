@@ -47,13 +47,11 @@ class PurchaseReceiptTask: ApiBaseTask {
                 completion?(true)
                 NotificationCenter.default.post(name: ServerNotifications.subscriptionStatusChanged, object: nil)
                 FileLog.shared.addMessage("Receipt sent to server, got subscription status \n \(status)")
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Purchase receipt status failed \(error.localizedDescription)")
                 completion?(false)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("PurchaseReceiptTask: Protobuf Encoding failed \(error.localizedDescription)")
             completion?(false)
         }

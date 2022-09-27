@@ -46,8 +46,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                     ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
                 }
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SubscriptionStatusTask: Protobuf Encoding failed \(error.localizedDescription)")
         }
     }

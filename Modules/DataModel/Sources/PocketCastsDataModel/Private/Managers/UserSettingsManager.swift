@@ -12,8 +12,7 @@ class UserSettingsManager {
                 if resultSet.next() {
                     setting = self.createFrom(resultSet: resultSet)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UserSettingsManager.loadSetting error: \(error)")
             }
         }
@@ -26,8 +25,7 @@ class UserSettingsManager {
             do {
                 try db.executeUpdate("INSERT OR IGNORE INTO \(DataManager.settingsTableName) (name, value, modifiedTime) VALUES(?, ?, ?)", values: valuesForInsert(setting: setting))
                 try db.executeUpdate("UPDATE \(DataManager.settingsTableName) SET value = ?, modifiedTime = ? WHERE name = ?", values: valuesForUpdate(setting: setting))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UserSettingsManager.save error: \(error)")
             }
         }

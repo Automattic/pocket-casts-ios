@@ -157,8 +157,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         passwordField.isSecureTextEntry.toggle()
         if passwordField.isSecureTextEntry {
             showPasswordBtn.setImage(UIImage(named: "eye-crossed"), for: .normal)
-        }
-        else {
+        } else {
             showPasswordBtn.setImage(UIImage(named: "eye"), for: .normal)
         }
     }
@@ -196,8 +195,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
                     updatedVC.imageName = AppTheme.changedEmailImageName
                     self.navigationController?.pushViewController(updatedVC, animated: true)
                 }
-            }
-            else {
+            } else {
                 DispatchQueue.main.async {
                     self.mainButton.setTitle(L10n.confirm, for: .normal)
                     self.errorView.isHidden = false
@@ -212,8 +210,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
             passwordField.becomeFirstResponder()
-        }
-        else {
+        } else {
             textField.resignFirstResponder()
         }
         return true
@@ -224,8 +221,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         if textField == emailField {
             emailBorderView.isSelected = true
             passwordBorderView.isSelected = false
-        }
-        else {
+        } else {
             emailBorderView.isSelected = false
             passwordBorderView.isSelected = true
         }

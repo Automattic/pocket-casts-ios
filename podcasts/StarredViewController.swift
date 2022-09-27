@@ -57,8 +57,7 @@ class StarredViewController: PCViewController {
                         self.starredTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                }
-                else {
+                } else {
                     Analytics.track(.starredMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
@@ -122,8 +121,7 @@ class StarredViewController: PCViewController {
                         strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
                             strongSelf.episodes = data
                         })
-                    }
-                    else {
+                    } else {
                         strongSelf.episodes = newData
                         strongSelf.starredTable.reloadData()
                     }
@@ -146,8 +144,7 @@ class StarredViewController: PCViewController {
                     strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
                         strongSelf.episodes = data
                     })
-                }
-                else {
+                } else {
                     strongSelf.episodes = newData
                     strongSelf.starredTable.reloadData()
                 }

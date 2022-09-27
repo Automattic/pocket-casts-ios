@@ -36,13 +36,11 @@ class RetrievePodcastsTask: ApiBaseTask {
                 }
                 
                 completion?(podcasts)
-            }
-            catch {
+            } catch {
                 print("Decoding podcasts failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("retrieve podcasts failed \(error.localizedDescription)")
             completion?(nil)
         }

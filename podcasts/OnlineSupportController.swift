@@ -73,8 +73,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
             emailHelper.presentSupportDialog(self, feedback: feedback)
             decisionHandler(.cancel)
             return
-        }
-        else if let urlStr = navigationAction.request.url?.absoluteString, !urlStr.contains("device=ios"), urlStr.contains("support.pocketcasts.com") {
+        } else if let urlStr = navigationAction.request.url?.absoluteString, !urlStr.contains("device=ios"), urlStr.contains("support.pocketcasts.com") {
             let newUrlStr = "\(urlStr)\(urlStr.contains("?") ? "&" : "?")device=ios"
             if let newUrl = URL(string: newUrlStr) {
                 let newRequest = URLRequest(url: newUrl)

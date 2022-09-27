@@ -64,8 +64,7 @@ class ThemeAbstractCell: UICollectionViewCell {
     private func setCornerImage() {
         if isCellSelected {
             cornerImage.image = UIImage(named: "tickBlueCircle")
-        }
-        else {
+        } else {
             cornerImage.image = isLocked ? UIImage(named: "plusGoldCircle") : nil
         }
     }

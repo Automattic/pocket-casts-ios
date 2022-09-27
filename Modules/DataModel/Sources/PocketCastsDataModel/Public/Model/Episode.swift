@@ -52,8 +52,7 @@ public class Episode: NSObject, BaseEpisode {
     public func pathToDownloadedFile(pathFinder: FilePathProtocol) -> String {
         if downloaded(pathFinder: pathFinder) {
             return pathFinder.pathForEpisode(self)
-        }
-        else if bufferedForStreaming() {
+        } else if bufferedForStreaming() {
             return pathFinder.streamingBufferPathForEpisode(self)
         }
         

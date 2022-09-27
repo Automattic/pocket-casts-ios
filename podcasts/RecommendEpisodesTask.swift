@@ -26,17 +26,14 @@ class RecommendEpisodesTask: ApiBaseTask {
                     episode.uuid = topEpisode.uuid
                     episode.podcastUuid = topEpisode.podcastUuid
                     completion?(episode)
-                }
-                else {
+                } else {
                     completion?(nil)
                 }
-            }
-            catch {
+            } catch {
                 print("Decoding recommended episodes failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("Recommended episodes failed \(error.localizedDescription)")
             completion?(nil)
         }

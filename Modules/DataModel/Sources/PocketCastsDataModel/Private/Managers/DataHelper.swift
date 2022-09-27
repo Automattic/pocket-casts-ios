@@ -15,8 +15,7 @@ class DataHelper {
         onQueue.inTransaction { db, _ in
             do {
                 try db.executeUpdate(query, values: values)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("\(methodName) error: \(error)")
             }
         }

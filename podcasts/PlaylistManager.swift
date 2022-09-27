@@ -87,8 +87,7 @@ class PlaylistManager {
             filter.wasDeleted = true
             filter.syncStatus = SyncStatus.notSynced.rawValue
             DataManager.sharedManager.save(filter: filter)
-        }
-        else {
+        } else {
             DataManager.sharedManager.delete(filter: filter)
         }
         

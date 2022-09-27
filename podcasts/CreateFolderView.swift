@@ -14,8 +14,7 @@ struct CreateFolderView: View {
         let selectedCount = pickerModel.selectedPodcastUuids.count
         if selectedCount == 1 {
             return L10n.folderAddPodcastsSingular
-        }
-        else {
+        } else {
             return L10n.folderAddPodcastsPluralFormat(selectedCount)
         }
     }
@@ -23,8 +22,7 @@ struct CreateFolderView: View {
     var body: some View {
         if let _ = preselectPodcastUuid {
             mainBody
-        }
-        else {
+        } else {
             navWrappedBody
         }
     }

@@ -9,8 +9,7 @@ class ProfileProgressCircleView: ThemeableView {
                 profileGradientView.backgroundColor = UIColor.clear
                 layer.addSublayer(expiryGradientLayer)
                 profileGradientView.layer.insertSublayer(profileGradientLayer, at: 0)
-            }
-            else {
+            } else {
                 profileImageView.image = UIImage(named: "profileAvatar")
                 profileGradientView.backgroundColor = ThemeColor.primaryUi05()
                 expiryShapeLayer?.removeFromSuperlayer()
@@ -26,8 +25,7 @@ class ProfileProgressCircleView: ThemeableView {
             let percent: Double
             if secondsTillExpiry < 0 {
                 percent = 0
-            }
-            else {
+            } else {
                 percent = min(1, secondsTillExpiry / Constants.Limits.maxSubscriptionExpirySeconds)
             }
             let percentageLeft = 1 - percent

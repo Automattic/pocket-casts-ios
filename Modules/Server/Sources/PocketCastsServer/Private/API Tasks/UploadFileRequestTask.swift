@@ -38,12 +38,10 @@ class UploadFileRequestTask: ApiBaseTask {
                 FileLog.shared.addMessage("Upload request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
                 return
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload request response failed \(error.localizedDescription)")
             }
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
         

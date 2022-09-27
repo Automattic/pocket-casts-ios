@@ -42,13 +42,13 @@ class Watch_GenerateScreenshots: XCTestCase {
         app.navigationBars.buttons.firstMatch.waitForThenTap()
 
         app.cells.allElementsBoundByIndex[2].waitForThenTap()
-        let _ = app.cells.allElementsBoundByIndex[0].waitForExistence(timeout: 5)
+        _ = app.cells.allElementsBoundByIndex[0].waitForExistence(timeout: 5)
         snapshot("05_Phone_Source_Filters")
 
         app.cells.allElementsBoundByIndex[0].waitForThenTap()
 
         // Wait for the episode to load
-        let _ = app.images["episodegradient"].waitForExistence(timeout: 5)
+        _ = app.images["episodegradient"].waitForExistence(timeout: 5)
         snapshot("06_Phone_Source_Filters_Expanded")
 
         selectSource(.watch)

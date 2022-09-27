@@ -40,8 +40,7 @@ class SyncTask: ApiBaseTask {
     private func performSync(token: String) {
         if let lastServerModified = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastModifiedServerDate), lastServerModified.count > 0 {
             performIncrementalSync(token: token)
-        }
-        else {
+        } else {
             performFullSync(token: token)
         }
     }
@@ -116,8 +115,7 @@ class SyncTask: ApiBaseTask {
                 else if let date = evenMoreLegacyLastModifiedFormatter.date(from: lastModifiedStr) {
                     let utcMillis = date.timeIntervalSince1970 * 1000
                     syncRequest.lastModified = Int64(utcMillis)
-                }
-                else if #available(iOS 12, *) {
+                } else if #available(iOS 12, *) {
                     // the property withFractionalSeconds is documented as being available in iOS 11, but it's not, it's iOS 12+ only and will crash if you use it
                     if let date = legacyLastModifiedFormatter.date(from: lastModifiedStr) {
                         let utcMillis = date.timeIntervalSince1970 * 1000
@@ -167,8 +165,7 @@ class SyncTask: ApiBaseTask {
             UserDefaults.standard.synchronize()
             
             status = .success
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SyncTask: syncing failed due to exception \(error.localizedDescription)")
             NotificationsHelper.shared.fireSyncFailed()
             status = .failed

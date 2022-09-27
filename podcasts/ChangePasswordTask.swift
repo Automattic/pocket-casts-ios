@@ -38,13 +38,11 @@ class ChangePasswordTask: ApiBaseTask {
                 let result = try Api_UserChangeResponse(serializedData: responseData)
                 completion?(result.success.value)
                 FileLog.shared.addMessage("API change password response \(result)")
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Failed to change password \(error.localizedDescription)")
                 completion?(false)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to change password")
             completion?(false)
         }

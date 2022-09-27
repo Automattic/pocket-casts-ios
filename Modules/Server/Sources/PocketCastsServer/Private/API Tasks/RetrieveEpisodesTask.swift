@@ -47,13 +47,11 @@ class RetrieveEpisodesTask: ApiBaseTask {
                 }
                 
                 completion?(convertedEpisodes)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding episodes failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("retrieve episodes failed \(error.localizedDescription)")
             completion?(nil)
         }

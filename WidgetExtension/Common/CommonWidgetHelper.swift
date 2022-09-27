@@ -19,8 +19,7 @@ class CommonWidgetHelper {
         do {
             let episodes = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
             return episodes
-        }
-        catch {
+        } catch {
             return nil
         }
     }
@@ -44,8 +43,7 @@ class CommonWidgetHelper {
         do {
             let episodes = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
             return topWidgetEpisodesFrom(episodes)
-        }
-        catch {
+        } catch {
             return nil
         }
     }
@@ -66,8 +64,7 @@ class CommonWidgetHelper {
         do {
             let episodes = try JSONDecoder().decode([CommonUpNextItem].self, from: filterData)
             return episodes
-        }
-        catch {
+        } catch {
             return nil
         }
     }

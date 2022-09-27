@@ -38,8 +38,7 @@ public class FileLog {
         do {
             try fileManager.createDirectory(atPath: logDirectory, withIntermediateDirectories: true, attributes: nil)
             // SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: logDirectory))
-        }
-        catch {}
+        } catch {}
     }
     
     public func addMessage(_ message: String?) {
@@ -58,16 +57,14 @@ public class FileLog {
             let mainFileContents: String
             do {
                 mainFileContents = try String(contentsOfFile: self.mainLogFilePath)
-            }
-            catch {
+            } catch {
                 mainFileContents = "Main log is empty"
             }
             
             let secondaryFileContents: String
             do {
                 secondaryFileContents = try String(contentsOfFile: self.backupLogFilePath)
-            }
-            catch {
+            } catch {
                 secondaryFileContents = ""
             }
             
@@ -83,8 +80,7 @@ public class FileLog {
             self.loadLogFileAsString { result in
                 do {
                     try result.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                }
-                catch {
+                } catch {
                     promise(.failure(LogError.logGenerationFailed))
                 }
 
@@ -118,12 +114,10 @@ public class FileLog {
                     }
                     fileHandle.seekToEndOfFile()
                     fileHandle.write(dataToWrite)
-                }
-                else {
+                } else {
                     try line.write(toFile: self.mainLogFilePath, atomically: true, encoding: String.Encoding.utf8)
                 }
-            }
-            catch {
+            } catch {
                 print("Unable to write to file")
             }
         }

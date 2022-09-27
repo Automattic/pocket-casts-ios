@@ -44,8 +44,7 @@ class SimpleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
-        }
-        else {
+        } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
@@ -68,8 +67,7 @@ class SimpleActionView: UIView {
                 trailingAnchor.constraint(equalTo: secondaryLabel.trailingAnchor, constant: 20),
                 secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
-        }
-        else {
+        } else {
             trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 20).isActive = true
         }
         
@@ -86,8 +84,7 @@ class SimpleActionView: UIView {
             ])
             
             self.onOffSwitch = onOffSwitch
-        }
-        else if action.selected {
+        } else if action.selected {
             let image = UIImage(named: "small-tick")?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride))
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -141,8 +138,7 @@ class SimpleActionView: UIView {
             guard let onOffSwitch = onOffSwitch else { return }
             
             onOffSwitch.isOn = !onOffSwitch.isOn
-        }
-        else {
+        } else {
             delegate?.animateOut(optionChosen: true)
         }
     }

@@ -40,13 +40,11 @@ class RetrieveFiltersTask: ApiBaseTask {
                 }
                 
                 completion?(filters)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding filters failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("retrieve filters failed \(error.localizedDescription)")
             completion?(nil)
         }

@@ -33,20 +33,17 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
     func resolveMediaItems(for intent: INPlayMediaIntent, with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) -> Void) {
         if let existingItem = intent.mediaItems?.first {
             completion([INPlayMediaMediaItemResolutionResult.success(with: existingItem)])
-        }
-        else if let searchItem = intent.mediaSearch?.mediaName {
+        } else if let searchItem = intent.mediaSearch?.mediaName {
             if let matchedPodcast = SiriPodcastSearchManager().matchUtteranceToPodcast(searchString: searchItem) {
                 let mediaItem = INMediaItem(identifier: matchedPodcast.uuid,
                                             title: matchedPodcast.name,
                                             type: .podcastEpisode,
                                             artwork: nil)
                 completion([INPlayMediaMediaItemResolutionResult.success(with: mediaItem)])
-            }
-            else {
+            } else {
                 completion([INPlayMediaMediaItemResolutionResult.unsupported()])
             }
-        }
-        else { // No search terms means the user said "play pocketcasts"
+        } else { // No search terms means the user said "play pocketcasts"
             let currentEpisodeTitle = currentlyPlayingEpisodeTitle() ?? ""
             let resumeItem = INMediaItem(identifier: "Resume ID",
                                          title: currentEpisodeTitle,
@@ -71,8 +68,7 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             let episodes = deserializedData
             guard let nowPlayingEpisode = episodes.first else { return nil }
             return nowPlayingEpisode.episodeTitle
-        }
-        catch {
+        } catch {
             return nil
         }
     }
@@ -85,11 +81,9 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
         
         if speed > SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
             completion(INPlayMediaPlaybackSpeedResolutionResult.unsupported(forReason: .aboveMaximum))
-        }
-        else if speed < SharedConstants.PlaybackEffects.minimumPlaybackSpeed {
+        } else if speed < SharedConstants.PlaybackEffects.minimumPlaybackSpeed {
             completion(INPlayMediaPlaybackSpeedResolutionResult.unsupported(forReason: .belowMinimum))
-        }
-        else {
+        } else {
             let result = INDoubleResolutionResult.success(with: speed)
             completion(INPlayMediaPlaybackSpeedResolutionResult(doubleResolutionResult: result))
         }

@@ -117,8 +117,7 @@ public class ServerSettings {
     public class func setLastClearHistoryDate(_ value: Date?) {
         if let newDate = value {
             UserDefaults.standard.set(newDate, forKey: ServerConstants.UserDefaults.lastClearHistoryDate)
-        }
-        else {
+        } else {
             UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastClearHistoryDate)
         }
     }
@@ -238,8 +237,7 @@ public class ServerSettings {
     public class func setSyncingEmail(email: String?) {
         if let email = email {
             KeychainHelper.save(string: email, key: ServerConstants.Values.syncingEmailKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
-        }
-        else {
+        } else {
             KeychainHelper.removeKey(ServerConstants.Values.syncingEmailKey)
         }
     }

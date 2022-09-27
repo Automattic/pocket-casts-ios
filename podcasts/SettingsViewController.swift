@@ -141,8 +141,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     private func reloadTable() {
         if WCSession.isSupported() {
             tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml, .about]]
-        }
-        else {
+        } else {
             tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml, .about]]
         }
 

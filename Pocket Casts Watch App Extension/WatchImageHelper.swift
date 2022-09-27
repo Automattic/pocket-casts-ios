@@ -17,8 +17,7 @@ class WatchImageHelper {
         if DeviceUtil.identifier.lowercased().startsWith(string: "watch3") {
             mainCache.memoryStorage.config.totalCostLimit = Int(1.megabytes)
             mainCache.memoryStorage.config.expiration = .seconds(2.minutes)
-        }
-        else {
+        } else {
             mainCache.memoryStorage.config.totalCostLimit = Int(5.megabytes)
             mainCache.memoryStorage.config.expiration = .seconds(10.minutes)
         }

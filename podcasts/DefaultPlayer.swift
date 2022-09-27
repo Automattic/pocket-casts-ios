@@ -441,8 +441,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         player?.rate = Float(requiredPlaybackRate)
         if requiredPlaybackRate < 1.0 || requiredPlaybackRate > 1.0 {
             player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
-        }
-        else {
+        } else {
             player?.currentItem?.audioTimePitchAlgorithm = .lowQualityZeroLatency
         }
     }

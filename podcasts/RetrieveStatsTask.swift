@@ -33,13 +33,11 @@ class RetrieveStatsTask: ApiBaseTask {
                                               skipTime: result.timeSkipping,
                                               startedStatsAt: result.timesStartedAt.seconds)
                 completion?(remoteStats)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Failed to retrieve remote stats \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to encode remote stats \(error.localizedDescription)")
             completion?(nil)
         }

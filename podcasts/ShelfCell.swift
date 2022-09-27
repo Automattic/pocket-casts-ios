@@ -36,8 +36,7 @@ class ShelfCell: UITableViewCell {
             let highlightColor = PlayerColorHelper.playerHighlightColor07(for: .dark)
             backgroundColor = highlightColor
             contentView.backgroundColor = highlightColor
-        }
-        else {
+        } else {
             backgroundColor = UIColor.clear
             contentView.backgroundColor = UIColor.clear
         }

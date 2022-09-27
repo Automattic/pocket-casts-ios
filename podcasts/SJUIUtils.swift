@@ -7,8 +7,7 @@ class SJUIUtils {
         let alert = createDialog(title: title, message: message)
         if Thread.isMainThread {
             controller.present(alert, animated: true, completion: completion)
-        }
-        else {
+        } else {
             DispatchQueue.main.async {
                 controller.present(alert, animated: true, completion: completion)
             }

@@ -126,12 +126,10 @@ class SourceInterfaceController: PCInterfaceController {
             watchPlusOnlyGroup.setHidden(true)
             
             plusMarketingGroup.setHidden(true)
-        }
-        else {
+        } else {
             if SyncManager.isUserLoggedIn() {
                 usernameLabel.setText(ServerSettings.syncingEmail())
-            }
-            else {
+            } else {
                 usernameLabel.setText(L10n.signedOut)
             }
             profileImage.setImage(UIImage(named: "profile-free"))
@@ -197,17 +195,13 @@ class SourceInterfaceController: PCInterfaceController {
         var lastRefreshText = String()
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
-        }
-        else if SyncManager.isFirstSyncInProgress() {
+        } else if SyncManager.isFirstSyncInProgress() {
             lastRefreshText = L10n.syncing
-        }
-        else if SyncManager.isRefreshInProgress() {
+        } else if SyncManager.isRefreshInProgress() {
             lastRefreshText = L10n.refreshing
-        }
-        else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
+        } else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
             lastRefreshText = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
-        }
-        else {
+        } else {
             lastRefreshText = L10n.timeFormatNever
         }
         

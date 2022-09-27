@@ -53,11 +53,9 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         
         if firstRowInSection == .upNext {
             return L10n.settingsAutoDownloadsSubtitleUpNext
-        }
-        else if firstRowInSection == .podcastAutoDownload {
+        } else if firstRowInSection == .podcastAutoDownload {
             return L10n.settingsAutoDownloadsSubtitleNewEpisodes
-        }
-        else if firstRowInSection == .filterSelection {
+        } else if firstRowInSection == .filterSelection {
             return L10n.settingsAutoDownloadsSubtitleFilters
         }
         
@@ -141,8 +139,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 podcastSelectController.selectedUuids = allPodcasts.filter { $0.autoDownloadOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
-        }
-        else if row == .filterSelection {
+        } else if row == .filterSelection {
             let filterSelectionViewController = FilterSelectionViewController()
             filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
             let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in

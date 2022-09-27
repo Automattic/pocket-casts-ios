@@ -11,8 +11,7 @@ class OpenFilterIntentHandler: NSObject, SJOpenFilterIntentHandling {
         if let filterName = intent.filterName {
             userActivity.title = "Open \(filterName)"
             userActivity.suggestedInvocationPhrase = "Open \(filterName)"
-        }
-        else {
+        } else {
             userActivity.title = "Open Filter"
             userActivity.suggestedInvocationPhrase = "Open Filter"
         }

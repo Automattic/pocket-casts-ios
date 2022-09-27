@@ -161,16 +161,14 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                                     if let removeIndex = self.availableRows.firstIndex(of: .playTopEpisode) {
                                         self.availableRows.remove(at: removeIndex)
                                     }
-                                }
-                                else if mediaItem.identifier == Constants.SiriActions.playAllFilterId {
+                                } else if mediaItem.identifier == Constants.SiriActions.playAllFilterId {
                                     if let removeIndex = self.availableRows.firstIndex(of: .playAll) {
                                         self.availableRows.remove(at: removeIndex)
                                     }
                                 }
                             }
                         }
-                    }
-                    else if let openFilterIntent = voiceShortcut.shortcut.intent as? SJOpenFilterIntent {
+                    } else if let openFilterIntent = voiceShortcut.shortcut.intent as? SJOpenFilterIntent {
                         if openFilterIntent.filterUuid == self.filter.uuid {
                             self.enabledShortcuts.append(voiceShortcut)
                             if let removeIndex = self.availableRows.firstIndex(of: .openFilter) {
@@ -186,8 +184,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                 if let error = error {
                     FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
                     self.errorView.isHidden = false
-                }
-                else {
+                } else {
                     self.reloadData()
                 }
             }

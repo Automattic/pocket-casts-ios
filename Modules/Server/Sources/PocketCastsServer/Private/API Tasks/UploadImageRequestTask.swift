@@ -27,8 +27,7 @@ class UploadImageRequestTask: ApiBaseTask {
         do {
             let resources = try fileURL.resourceValues(forKeys: [.fileSizeKey])
             fileSize = resources.fileSize ?? 0
-        }
-        catch {
+        } catch {
             completion?(nil)
             return
         }
@@ -52,12 +51,10 @@ class UploadImageRequestTask: ApiBaseTask {
                 FileLog.shared.addMessage("Upload image request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
                 return
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload image request response failed")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("UploadImageRequestTask: Protobuf Encoding failed \(error.localizedDescription)")
         }
         

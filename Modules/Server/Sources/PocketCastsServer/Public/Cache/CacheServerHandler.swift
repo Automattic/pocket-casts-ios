@@ -41,8 +41,7 @@ public class CacheServerHandler {
                     return
                 }
                 completion?(showNotes)
-            }
-            else if !didSendCachedNotes {
+            } else if !didSendCachedNotes {
                 // if loading failed and we haven't sent the client anything, send it a message it can show the user instead
                 completion?(CacheServerHandler.noShowNotesMessage)
             }
@@ -86,8 +85,7 @@ public class CacheServerHandler {
                 
                 return
             }
-        }
-        catch {}
+        } catch {}
         
         completion(nil, nil, nil)
     }
@@ -104,8 +102,7 @@ public class CacheServerHandler {
             if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let podcastInfo = strongSelf.asJson(data: data) {
                 if let lastModified = response?.allHeaderFields[ServerConstants.HttpHeaders.lastModified] as? String {
                     completion(podcastInfo, lastModified)
-                }
-                else {
+                } else {
                     completion(podcastInfo, nil)
                 }
                 
@@ -149,8 +146,7 @@ public class CacheServerHandler {
             if let data = data, let podcastInfo = strongSelf.asJson(data: data) {
                 if let lastModified = response?.allHeaderFields[ServerConstants.HttpHeaders.lastModified] as? String {
                     completion(podcastInfo, lastModified)
-                }
-                else {
+                } else {
                     completion(podcastInfo, nil)
                 }
                 return
@@ -197,8 +193,7 @@ public class CacheServerHandler {
             do {
                 let searchResults = try JSONDecoder().decode(EpisodeSearchResult.self, from: data)
                 completion?(searchResults)
-            }
-            catch {
+            } catch {
                 completion?(nil)
             }
         }
@@ -218,8 +213,7 @@ public class CacheServerHandler {
             if let jsonDict = json as? [String: Any], let value = jsonDict[name] as? T {
                 return value
             }
-        }
-        catch {}
+        } catch {}
         
         return nil
     }
@@ -229,8 +223,7 @@ public class CacheServerHandler {
         
         do {
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] { return json }
-        }
-        catch {}
+        } catch {}
         
         return nil
     }

@@ -22,8 +22,7 @@ class SiriPodcastSearchManager {
                 return subscribedPodcasts[topMatch.index]
             }
             return nil
-        }
-        catch {
+        } catch {
             return nil
         }
     }

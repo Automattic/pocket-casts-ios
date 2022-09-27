@@ -59,8 +59,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
             cell.cellSecondaryLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
             
             return cell
-        }
-        else {
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             
             cell.cellLabel.text = L10n.settingsStorageDataWarning

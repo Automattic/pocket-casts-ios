@@ -29,8 +29,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             for podcast in allPodcasts {
                 selectedUuids.append(podcast.uuid)
             }
-        }
-        else {
+        } else {
             let allPodcastUuids = allPodcasts.map(\.uuid)
             selectedUuids = filterToEdit.podcastUuids.components(separatedBy: ",").compactMap { allPodcastUuids.contains($0) ? $0 : nil }
         }
@@ -121,8 +120,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         if selectedUuids.count == allPodcasts.count || selectedUuids.count == 0 {
             filterToEdit.podcastUuids = ""
             filterToEdit.filterAllPodcasts = true
-        }
-        else {
+        } else {
             filterToEdit.podcastUuids = selectedUuids.joined(separator: ",")
             filterToEdit.filterAllPodcasts = false
         }
@@ -147,8 +145,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         let allSelected = selectedUuids.count == allPodcasts.count
         if allSelected {
             headerView.subtitleLabel.text = L10n.filterAutoAddSubtitle
-        }
-        else {
+        } else {
             headerView.subtitleLabel.text = L10n.filterManualAddSubtitle
         }
     }
@@ -156,8 +153,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func updateRightBarBtn() {
         if selectAllSwitch.isOn {
             customRightBtn = nil
-        }
-        else {
+        } else {
             updateSelectBtn()
             customRightBtn = selectBtn
         }

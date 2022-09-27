@@ -61,8 +61,7 @@ class UploadFilesUpdateTask: ApiBaseTask {
             
             DataManager.sharedManager.bulkSave(episodes: episodes)
             completion?(httpStatus)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("UploadFilesUpdateTask: Protobuf Encoding failed \(error.localizedDescription)")
             completion?(-1)
         }

@@ -24,12 +24,10 @@ class StarredSyncTask: ApiBaseTask {
             
             if httpStatus == Server.HttpConstants.ok {
                 DataManager.sharedManager.clearKeepEpisodeModified(episode: episode)
-            }
-            else {
+            } else {
                 print("Save star failed \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }

@@ -6,14 +6,11 @@ extension EpisodeFilter {
         class func indexOf(color: UIColor) -> Int {
             if AppTheme.playlistRedColor().isEqual(color) {
                 return 0
-            }
-            else if AppTheme.playlistBlueColor().isEqual(color) {
+            } else if AppTheme.playlistBlueColor().isEqual(color) {
                 return 1
-            }
-            else if AppTheme.playlistGreenColor().isEqual(color) {
+            } else if AppTheme.playlistGreenColor().isEqual(color) {
                 return 2
-            }
-            else if AppTheme.playlistPurpleColor().isEqual(color) {
+            } else if AppTheme.playlistPurpleColor().isEqual(color) {
                 return 3
             }
             
@@ -53,17 +50,13 @@ extension EpisodeFilter {
             let color = playlistColor()
             if color == AppTheme.playlistRedColor() {
                 name += "_red"
-            }
-            else if color == AppTheme.playlistGreenColor() {
+            } else if color == AppTheme.playlistGreenColor() {
                 name += "_green"
-            }
-            else if color == AppTheme.playlistYellowColor() {
+            } else if color == AppTheme.playlistYellowColor() {
                 name += "_yellow"
-            }
-            else if color == AppTheme.playlistPurpleColor() {
+            } else if color == AppTheme.playlistPurpleColor() {
                 name += "_purple"
-            }
-            else {
+            } else {
                 name += "_blue" // default to blue
             }
         
@@ -80,26 +73,19 @@ extension EpisodeFilter {
     class func imageName(forPlaylistIcon icon: PlaylistIcon) -> String? {
         if icon == .redPlaylist || icon == .bluePlaylist || icon == .greenPlaylist || icon == .purplePlaylist || icon == .yellowPlaylist {
             return "filter_list"
-        }
-        else if icon == .redmostPlayed || icon == .bluemostPlayed || icon == .greenmostPlayed || icon == .purplemostPlayed || icon == .yellowmostPlayed {
+        } else if icon == .redmostPlayed || icon == .bluemostPlayed || icon == .greenmostPlayed || icon == .purplemostPlayed || icon == .yellowmostPlayed {
             return "filter_headphones"
-        }
-        else if icon == .redRecent || icon == .blueRecent || icon == .greenRecent || icon == .purpleRecent || icon == .yellowRecent {
+        } else if icon == .redRecent || icon == .blueRecent || icon == .greenRecent || icon == .purpleRecent || icon == .yellowRecent {
             return "filter_clock"
-        }
-        else if icon == .redDownloading || icon == .blueDownloading || icon == .greenDownloading || icon == .purpleDownloading || icon == .yellowDownloading {
+        } else if icon == .redDownloading || icon == .blueDownloading || icon == .greenDownloading || icon == .purpleDownloading || icon == .yellowDownloading {
             return "filter_downloaded"
-        }
-        else if icon == .redUnplayed || icon == .blueUnplayed || icon == .greenUnplayed || icon == .purpleUnplayed || icon == .yellowUnplayed {
+        } else if icon == .redUnplayed || icon == .blueUnplayed || icon == .greenUnplayed || icon == .purpleUnplayed || icon == .yellowUnplayed {
             return "filter_play"
-        }
-        else if icon == .redAudio || icon == .blueAudio || icon == .greenAudio || icon == .purpleAudio || icon == .yellowAudio {
+        } else if icon == .redAudio || icon == .blueAudio || icon == .greenAudio || icon == .purpleAudio || icon == .yellowAudio {
             return "filter_volume"
-        }
-        else if icon == .redVideo || icon == .blueVideo || icon == .greenVideo || icon == .purpleVideo || icon == .yellowVideo {
+        } else if icon == .redVideo || icon == .blueVideo || icon == .greenVideo || icon == .purpleVideo || icon == .yellowVideo {
             return "filter_video"
-        }
-        else if icon == .redTop || icon == .blueTop || icon == .greenTop || icon == .purpleTop || icon == .yellowTop {
+        } else if icon == .redTop || icon == .blueTop || icon == .greenTop || icon == .purpleTop || icon == .yellowTop {
             return "filter_starred"
         }
         

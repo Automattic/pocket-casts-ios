@@ -176,11 +176,9 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         var textFieldToToggle: UITextField!
         if tappedButton == showCurrentPasswordBtn {
             textFieldToToggle = currentField
-        }
-        else if tappedButton == showNewPasswordBtn {
+        } else if tappedButton == showNewPasswordBtn {
             textFieldToToggle = newField
-        }
-        else if tappedButton == showConfirmPasswordBtn {
+        } else if tappedButton == showConfirmPasswordBtn {
             textFieldToToggle = confirmField
         }
         
@@ -188,8 +186,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             textFieldToToggle.isSecureTextEntry.toggle()
             if textFieldToToggle.isSecureTextEntry {
                 tappedButton.setImage(UIImage(named: "eye-crossed"), for: .normal)
-            }
-            else {
+            } else {
                 tappedButton.setImage(UIImage(named: "eye"), for: .normal)
             }
         }
@@ -228,8 +225,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
                     updatedVC.imageName = AppTheme.passwordChangedImageName
                     self.navigationController?.pushViewController(updatedVC, animated: true)
                 }
-            }
-            else {
+            } else {
                 DispatchQueue.main.async {
                     self.mainButton.setTitle(L10n.confirm, for: .normal)
                     self.errorView.isHidden = false
@@ -251,16 +247,14 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             showNewPasswordBtn.isHidden = true
             showCurrentPasswordBtn.isHidden = false
             showConfirmPasswordBtn.isHidden = true
-        }
-        else if textField == newField {
+        } else if textField == newField {
             currentBorderView.isSelected = false
             newBorderView.isSelected = true
             confirmBorderView.isSelected = false
             showNewPasswordBtn.isHidden = false
             showCurrentPasswordBtn.isHidden = true
             showConfirmPasswordBtn.isHidden = true
-        }
-        else if textField == confirmField {
+        } else if textField == confirmField {
             currentBorderView.isSelected = false
             newBorderView.isSelected = false
             confirmBorderView.isSelected = true
@@ -277,11 +271,9 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == currentField {
             newField.becomeFirstResponder()
-        }
-        else if textField == newField {
+        } else if textField == newField {
             confirmField.becomeFirstResponder()
-        }
-        else {
+        } else {
             textField.resignFirstResponder()
         }
         

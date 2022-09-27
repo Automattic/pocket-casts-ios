@@ -42,8 +42,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
             
             return cell
-        }
-        else if indexPath.row == 1 {
+        } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             let podcastsSelected = DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
@@ -58,14 +57,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         let badgeChoice = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
         if badgeChoice == AppBadge.totalUnplayed.rawValue {
             cell.cellSecondaryLabel.text = L10n.statusUnplayed
-        }
-        else if badgeChoice == AppBadge.filterCount.rawValue {
+        } else if badgeChoice == AppBadge.filterCount.rawValue {
             cell.cellSecondaryLabel.text = L10n.settingsNotificationsFilterCount
-        }
-        else if badgeChoice == AppBadge.newSinceLastOpened.rawValue {
+        } else if badgeChoice == AppBadge.newSinceLastOpened.rawValue {
             cell.cellSecondaryLabel.text = L10n.newEpisodes
-        }
-        else {
+        } else {
             cell.cellSecondaryLabel.text = L10n.off
         }
         
@@ -83,8 +79,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 podcastsController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
                 navigationController?.pushViewController(podcastsController, animated: true)
             }
-        }
-        else if indexPath.row == 2 { // app badge
+        } else if indexPath.row == 2 { // app badge
             let badgeSettingsChooser = BadgeSettingsViewController(nibName: "BadgeSettingsViewController", bundle: nil)
             navigationController?.pushViewController(badgeSettingsChooser, animated: true)
         }
@@ -133,8 +128,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             // the user has just turned on push, enable it for all their podcasts for simplicity
             DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
             NotificationsHelper.shared.registerForPushNotifications()
-        }
-        else {
+        } else {
             NotificationsHelper.shared.disablePush()
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         }

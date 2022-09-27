@@ -208,8 +208,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         if SyncManager.isUserLoggedIn() {
             showAccountController()
-        }
-        else {
+        } else {
             showProfileSetupController()
         }
     }
@@ -272,25 +271,21 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
                     signInStatus.text = L10n.pocketCastsPlus.uppercased()
                     signInStatus.textColor = ThemeColor.primaryText02()
-                }
-                else {
+                } else {
                     if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
                         let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
                         signInStatus.text = L10n.plusSubscriptionExpiration(time)
-                    }
-                    else {
+                    } else {
                         signInStatus.text = L10n.pocketCastsPlus.uppercased()
                     }
                     signInStatus.textColor = AppTheme.pcPlusRed()
                 }
-            }
-            else {
+            } else {
                 signInStatus.text = L10n.signedInAs
                 signInStatus.textColor = ThemeColor.primaryText02()
                 profileStatusView.isSubscribed = false
             }
-        }
-        else {
+        } else {
             signInStatus.text = L10n.signedOut.localizedUppercase
             signInStatus.textColor = ThemeColor.primaryText02()
             emailAddress.text = L10n.setupAccount
@@ -313,19 +308,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
             refreshBtn.buttonTitle = L10n.tryAgain
             alertIcon.isHidden = false
-        }
-        else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
+        } else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
             refreshBtn.buttonTitle = L10n.refreshNow
             if abs(lastUpdateTime.timeIntervalSinceNow) > 2.days {
                 lastRefreshTime.text = L10n.profileLastAppRefresh(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
                 alertIcon.isHidden = false
-            }
-            else {
+            } else {
                 lastRefreshTime.text = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
                 alertIcon.isHidden = true
             }
-        }
-        else {
+        } else {
             refreshBtn.buttonTitle = L10n.refreshNow
             lastRefreshTime.text = L10n.refreshPreviousRun(L10n.timeFormatNever)
             alertIcon.isHidden = false
@@ -353,31 +345,25 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if mins < 1, hours < 1, days < 1 {
             valueLabel.text = "\(secs)"
             unitLabel.text = valueType == .listened ? L10n.secondsListened : L10n.secondsSaved
-        }
-        else if days > 0 {
+        } else if days > 0 {
             valueLabel.text = "\(days)"
             if days == 1 {
                 unitLabel.text = valueType == .listened ? L10n.dayListened : L10n.daySaved
-            }
-            else {
+            } else {
                 unitLabel.text = valueType == .listened ? L10n.daysListened : L10n.daysSaved
             }
-        }
-        else if hours > 0 {
+        } else if hours > 0 {
             valueLabel.text = "\(hours)"
             if hours == 1 {
                 unitLabel.text = valueType == .listened ? L10n.hourListened : L10n.hourSaved
-            }
-            else {
+            } else {
                 unitLabel.text = valueType == .listened ? L10n.hoursListened : L10n.hoursSaved
             }
-        }
-        else if mins > 0 {
+        } else if mins > 0 {
             valueLabel.text = "\(mins)"
             if mins == 1 {
                 unitLabel.text = valueType == .listened ? L10n.minuteListened : L10n.minuteSaved
-            }
-            else {
+            } else {
                 unitLabel.text = valueType == .listened ? L10n.minutesListened : L10n.minutesSaved
             }
         }
@@ -454,8 +440,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func tableData() -> [[ProfileViewController.TableRow]] {
         if !SyncManager.isUserLoggedIn() {
             return [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
-        }
-        else {
+        } else {
             return [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
         }
     }

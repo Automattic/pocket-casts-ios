@@ -192,8 +192,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
             // the slider has a large region for the popup that you get when interacting with it, which we don't need to block off (hence the 30pt top offset), and since fingers are imprecise we go 20pt lower too
             let adjustedRegion = sliderRegion.inset(by: UIEdgeInsets(top: 30, left: -10, bottom: -20, right: -10))
             mainScrollView.regionsToCancelIn = adjustedRegion
-        }
-        else {
+        } else {
             mainScrollView.regionsToCancelIn = nil
         }
     }

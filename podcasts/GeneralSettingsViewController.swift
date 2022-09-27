@@ -156,8 +156,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             if tableView.bounds.width > 370 {
                 let grouping = Settings.defaultPodcastGrouping()
                 cell.cellSecondaryLabel.text = grouping.description
-            }
-            else {
+            } else {
                 cell.cellSecondaryLabel.text = nil
             }
             
@@ -233,8 +232,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: downloadAction)
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if row == .defaultGrouping {
+        } else if row == .defaultGrouping {
             let currentGrouping = Settings.defaultPodcastGrouping()
             
             let options = OptionsPicker(title: L10n.settingsGeneralEpisodeGroups)
@@ -279,8 +277,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             options.addAction(action: starredAction)
             
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if row == .defaultArchive {
+        } else if row == .defaultArchive {
             let currentlyShowingArchived = Settings.showArchivedDefault()
             
             let options = OptionsPicker(title: L10n.settingsGeneralArchivedEpisodes)
@@ -301,8 +298,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             options.addAction(action: showAction)
             
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if row == .defaultAddToUpNextSwipe {
+        } else if row == .defaultAddToUpNextSwipe {
             let currentAction = Settings.primaryUpNextSwipeAction()
             
             let options = OptionsPicker(title: L10n.settingsGeneralUpNextSwipe)
@@ -325,8 +321,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         if section == 0 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralDefaultsHeader)
-        }
-        else if section == 1 {
+        } else if section == 1 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralPlayerHeader)
         }
         
@@ -340,23 +335,17 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 1 {
             return L10n.settingsGeneralSmartPlaybackSubtitle
-        }
-        else if section == 2 {
+        } else if section == 2 {
             return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
-        }
-        else if section == 3 {
+        } else if section == 3 {
             return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
-        }
-        else if section == 4 {
+        } else if section == 4 {
             return L10n.settingsGeneralPlayBackActionsSubtitle
-        }
-        else if section == 5 {
+        } else if section == 5 {
             return L10n.settingsGeneralLegacyBluetoothSubtitle
-        }
-        else if section == 6 {
+        } else if section == 6 {
             return L10n.settingsGeneralMultiSelectGestureSubtitle
-        }
-        else if section == 7 {
+        } else if section == 7 {
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
         }
         

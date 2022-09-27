@@ -10,8 +10,7 @@ extension DownloadManager {
         func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask) {
             if task.sessionIdentifier == DownloadManager.cellBackgroundSessionId {
                 pendingWatchBackgroundTask = task
-            }
-            else {
+            } else {
                 task.setTaskCompletedWithSnapshot(true)
             }
         }
@@ -31,8 +30,7 @@ extension DownloadManager {
                     let backgroundTask: URLSessionDownloadTask
                     if let data = data {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(withResumeData: data)
-                    }
-                    else {
+                    } else {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(with: request)
                     }
                     backgroundTask.taskDescription = savedTaskDescription

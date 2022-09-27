@@ -365,8 +365,7 @@ class SiriShortcutsManager: CustomObserver {
         if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid) {
             AnalyticsPlaybackHelper.shared.currentSource = playbackSource
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-        }
-        else {
+        } else {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: episodeInfo.podcastUuid, subscribe: false, completion: { [weak self] success in
                 if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid), success {
                     AnalyticsPlaybackHelper.shared.currentSource = self?.playbackSource
@@ -421,8 +420,7 @@ class SiriShortcutsManager: CustomObserver {
             AnalyticsPlaybackHelper.shared.currentSource = playbackSource
             PlaybackManager.shared.load(episode: topEpisode, autoPlay: true, overrideUpNext: false)
             return INPlayMediaIntentResponseCode.success
-        }
-        else {
+        } else {
             return INPlayMediaIntentResponseCode.failureNoUnplayedContent
         }
     }
@@ -448,8 +446,7 @@ class SiriShortcutsManager: CustomObserver {
             AnalyticsPlaybackHelper.shared.currentSource = playbackSource
             PlaybackManager.shared.load(episode: topEpisode, autoPlay: true, overrideUpNext: false)
             return INPlayMediaIntentResponseCode.success
-        }
-        else {
+        } else {
             return INPlayMediaIntentResponseCode.failureNoUnplayedContent
         }
     }
@@ -469,8 +466,7 @@ class SiriShortcutsManager: CustomObserver {
             let serializedItems = try JSONEncoder().encode(searchPodcasts)
             sharedDefaults.set(serializedItems, forKey: SharedConstants.GroupUserDefaults.siriSearchItems)
             sharedDefaults.synchronize()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Unable to encode data for Siri Podcast Search: \(error.localizedDescription)")
         }
     }

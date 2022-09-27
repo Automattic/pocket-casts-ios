@@ -9,8 +9,7 @@ class NowPlayingAnimationView: UIView {
             
             if animating {
                 animateToOn()
-            }
-            else {
+            } else {
                 animateToOff()
             }
         }

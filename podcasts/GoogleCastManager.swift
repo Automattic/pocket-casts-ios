@@ -156,8 +156,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         // turns out end casting needs to be called on the main thread
         if Thread.isMainThread {
             endCasting()
-        }
-        else {
+        } else {
             DispatchQueue.main.sync { [weak self] () in
                 guard let strongSelf = self else { return }
                 
@@ -190,8 +189,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         if let episode = episode as? Episode, let uuid = episode.parentPodcast()?.uuid {
             let episodeImage = GCKImage(url: ServerHelper.imageUrl(podcastUuid: uuid, size: 680), width: 680, height: 680)
             episodeMetadata.addImage(episodeImage)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             let url = episode.urlForImage(size: 960)
             let episodeImage = GCKImage(url: url, width: 960, height: 960)
             episodeMetadata.addImage(episodeImage)
@@ -293,11 +291,9 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
                 bufferingInitialPartOfEpisode = false
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
-        }
-        else if mediaStatus.playerState == .paused {
+        } else if mediaStatus.playerState == .paused {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
-        }
-        else if mediaStatus.playerState == .idle, mediaStatus.idleReason == .finished {
+        } else if mediaStatus.playerState == .idle, mediaStatus.idleReason == .finished {
             PlaybackManager.shared.playerDidFinishPlayingEpisode()
         }
     }

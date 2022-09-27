@@ -137,8 +137,7 @@ enum PlayerAction: Int, CaseIterable {
         case .starEpisode:
             if episode?.keepEpisode ?? false {
                 return L10n.playerActionTitleUnstarEpisode
-            }
-            else {
+            } else {
                 return L10n.starEpisode
             }
         case .shareEpisode:
@@ -146,8 +145,7 @@ enum PlayerAction: Int, CaseIterable {
         case .goToPodcast:
             if episode is UserEpisode {
                 return L10n.playerActionTitleGoToFile
-            }
-            else {
+            } else {
                 return L10n.goToPodcast
             }
         case .chromecast:
@@ -158,8 +156,7 @@ enum PlayerAction: Int, CaseIterable {
         case .archive:
             if episode is UserEpisode {
                 return L10n.delete
-            }
-            else {
+            } else {
                 return L10n.archive
             }
         }

@@ -39,8 +39,7 @@ class EpisodeFilterDataManager {
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.count error: \(error)")
             }
         }
@@ -59,8 +58,7 @@ class EpisodeFilterDataManager {
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.episodeCount error: \(error)")
             }
         }
@@ -84,8 +82,7 @@ class EpisodeFilterDataManager {
                 if resultSet.next() {
                     filter = self.createFilterFrom(resultSet: resultSet)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.findBy error: \(error)")
             }
         }
@@ -97,8 +94,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE wasDeleted = 1", values: nil)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.deleteDeletedFilters error: \(error)")
             }
         }
@@ -114,8 +110,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET sortPosition = ?, syncStatus = ? WHERE uuid = ?", values: [filter.sortPosition, filter.syncStatus, filter.uuid])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.updatePosition error: \(error)")
             }
         }
@@ -127,13 +122,11 @@ class EpisodeFilterDataManager {
                 if filter.id == 0 {
                     filter.id = DBUtils.generateUniqueId()
                     try db.executeUpdate("INSERT INTO \(DataManager.filtersTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(filter: filter))
-                }
-                else {
+                } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(filter: filter, includeUuidForWhere: true))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.save error: \(error)")
             }
         }
@@ -143,8 +136,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE uuid = ?", values: [filter.uuid])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.delete error: \(error)")
             }
         }
@@ -154,8 +146,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.synced.rawValue, SyncStatus.notSynced.rawValue])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.markAllSynced error: \(error)")
             }
         }
@@ -165,8 +156,7 @@ class EpisodeFilterDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.notSynced.rawValue, SyncStatus.synced.rawValue])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.markAllUnsynced error: \(error)")
             }
         }
@@ -183,8 +173,7 @@ class EpisodeFilterDataManager {
                     let filter = self.createFilterFrom(resultSet: resultSet)
                     allFilters.append(filter)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.allFilters error: \(error)")
             }
         }
@@ -203,8 +192,7 @@ class EpisodeFilterDataManager {
                 if resultSet.next() {
                     highestPosition = resultSet.long(forColumnIndex: 0)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.nextSortPositionForFilter error: \(error)")
             }
         }

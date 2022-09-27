@@ -28,8 +28,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
                 optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else {
+            } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
             }
@@ -100,8 +99,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
                     cell?.showTick = true
                 }
             }
-        }
-        else {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
             
             let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast)

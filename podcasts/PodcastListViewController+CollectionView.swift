@@ -30,15 +30,13 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         if libraryType == .list {
             if item?.podcast != nil {
                 return collectionView.dequeueReusableCell(withReuseIdentifier: PodcastListViewController.podcastListCellId, for: indexPath)
-            }
-            else {
+            } else {
                 return collectionView.dequeueReusableCell(withReuseIdentifier: PodcastListViewController.folderListCellId, for: indexPath)
             }
         }
         if item?.podcast != nil {
             return collectionView.dequeueReusableCell(withReuseIdentifier: PodcastListViewController.podcastSquareCellId, for: indexPath)
-        }
-        else {
+        } else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: PodcastListViewController.folderSquareCellId, for: indexPath)
         }
     }
@@ -53,18 +51,15 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             if let podcast = item.podcast {
                 let castCell = cell as! PodcastListCell
                 castCell.populateFrom(podcast, badgeType: badgeType)
-            }
-            else if let folder = item.folder {
+            } else if let folder = item.folder {
                 let castCell = cell as! FolderListCell
                 castCell.populateFrom(folder: folder, badgeType: badgeType)
             }
-        }
-        else {
+        } else {
             if let podcast = item.podcast {
                 let castCell = cell as! PodcastGridCell
                 castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
-            }
-            else if let folder = item.folder {
+            } else if let folder = item.folder {
                 let castCell = cell as! FolderGridCell
                 castCell.populateFrom(folder: folder, badgeType: badgeType, libraryType: libraryType)
             }
@@ -78,8 +73,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         if let podcast = selectedItem?.podcast {
             Analytics.track(.podcastsListPodcastTapped)
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-        }
-        else if let folder = selectedItem?.folder {
+        } else if let folder = selectedItem?.folder {
             Analytics.track(.podcastsListFolderTapped)
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
         }
@@ -108,8 +102,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         for (index, listItem) in gridItems.enumerated() {
             if let podcast = listItem.podcast {
                 podcast.sortOrder = Int32(index)
-            }
-            else if let folder = listItem.folder {
+            } else if let folder = listItem.folder {
                 folder.sortOrder = Int32(index)
             }
         }

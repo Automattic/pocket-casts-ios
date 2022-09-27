@@ -61,124 +61,100 @@ class WatchManager: NSObject, WCSessionDelegate {
         
         if WatchConstants.Messages.DataRequest.type == messageType {
             updateWatchData()
-        }
-        else if WatchConstants.Messages.PlayEpisodeRequest.type == messageType {
+        } else if WatchConstants.Messages.PlayEpisodeRequest.type == messageType {
             if let episodeUuid = message[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
                 handlePlayRequest(episodeUuid: episodeUuid)
             }
-        }
-        else if WatchConstants.Messages.PlayPauseRequest.type == messageType {
+        } else if WatchConstants.Messages.PlayPauseRequest.type == messageType {
             if PlaybackManager.shared.playing() {
                 PlaybackManager.shared.pause()
-            }
-            else {
+            } else {
                 PlaybackManager.shared.play()
             }
-        }
-        else if WatchConstants.Messages.SkipBackRequest.type == messageType {
+        } else if WatchConstants.Messages.SkipBackRequest.type == messageType {
             PlaybackManager.shared.skipBack()
-        }
-        else if WatchConstants.Messages.SkipForwardRequest.type == messageType {
+        } else if WatchConstants.Messages.SkipForwardRequest.type == messageType {
             PlaybackManager.shared.skipForward()
-        }
-        else if WatchConstants.Messages.StarRequest.type == messageType {
+        } else if WatchConstants.Messages.StarRequest.type == messageType {
             if let starred = message[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = message[WatchConstants.Messages.StarRequest.episodeUuid] as? String {
                 handleStarRequest(starred: starred, episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.AddToUpNextRequest.type == messageType {
+        } else if WatchConstants.Messages.AddToUpNextRequest.type == messageType {
             if let toTop = message[WatchConstants.Messages.AddToUpNextRequest.toTop] as? Bool, let uuid = message[WatchConstants.Messages.AddToUpNextRequest.episodeUuid] as? String {
                 handleAddToUpnext(episodeUuid: uuid, toTop: toTop)
             }
-        }
-        else if WatchConstants.Messages.RemoveFromUpNextRequest.type == messageType {
+        } else if WatchConstants.Messages.RemoveFromUpNextRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid] as? String {
                 handleRemoveFromUpnext(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.MarkPlayedRequest.type == messageType {
+        } else if WatchConstants.Messages.MarkPlayedRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.MarkPlayedRequest.episodeUuid] as? String {
                 handleMarkPlayed(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.MarkUnplayedRequest.type == messageType {
+        } else if WatchConstants.Messages.MarkUnplayedRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.MarkUnplayedRequest.episodeUuid] as? String {
                 handleMarkUnplayed(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.DownloadRequest.type == messageType {
+        } else if WatchConstants.Messages.DownloadRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.DownloadRequest.episodeUuid] as? String {
                 handleDownload(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.StopDownloadRequest.type == messageType {
+        } else if WatchConstants.Messages.StopDownloadRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.StopDownloadRequest.episodeUuid] as? String {
                 handleStopDownload(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.DeleteDownloadRequest.type == messageType {
+        } else if WatchConstants.Messages.DeleteDownloadRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.DeleteDownloadRequest.episodeUuid] as? String {
                 handleDeleteDownload(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.ArchiveRequest.type == messageType {
+        } else if WatchConstants.Messages.ArchiveRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.ArchiveRequest.episodeUuid] as? String {
                 handleArchive(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.UnarchiveRequest.type == messageType {
+        } else if WatchConstants.Messages.UnarchiveRequest.type == messageType {
             if let uuid = message[WatchConstants.Messages.UnarchiveRequest.episodeUuid] as? String {
                 handleUnarchive(episodeUuid: uuid)
             }
-        }
-        else if WatchConstants.Messages.ClearUpNextRequest.type == messageType {
+        } else if WatchConstants.Messages.ClearUpNextRequest.type == messageType {
             PlaybackManager.shared.queue.clearUpNextList()
-        }
-        else if WatchConstants.Messages.ChangeChapterRequest.type == messageType {
+        } else if WatchConstants.Messages.ChangeChapterRequest.type == messageType {
             if let nextChapter = message[WatchConstants.Messages.ChangeChapterRequest.nextChapter] as? Bool {
                 handleChangeChapter(next: nextChapter)
             }
-        }
-        else if WatchConstants.Messages.IncreaseSpeedRequest.type == messageType {
+        } else if WatchConstants.Messages.IncreaseSpeedRequest.type == messageType {
             let effects = PlaybackManager.shared.effects()
             let desiredSpeed = effects.playbackSpeed + 0.1
             if desiredSpeed <= SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
                 effects.playbackSpeed = desiredSpeed
                 PlaybackManager.shared.changeEffects(effects)
             }
-        }
-        else if WatchConstants.Messages.DecreaseSpeedRequest.type == messageType {
+        } else if WatchConstants.Messages.DecreaseSpeedRequest.type == messageType {
             let effects = PlaybackManager.shared.effects()
             let desiredSpeed = effects.playbackSpeed - 0.1
             if desiredSpeed >= SharedConstants.PlaybackEffects.minimumPlaybackSpeed {
                 effects.playbackSpeed = desiredSpeed
                 PlaybackManager.shared.changeEffects(effects)
             }
-        }
-        else if WatchConstants.Messages.TrimSilenceRequest.type == messageType {
+        } else if WatchConstants.Messages.TrimSilenceRequest.type == messageType {
             guard let enabled = message[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
             
             let effects = PlaybackManager.shared.effects()
             effects.trimSilence = enabled ? .low : .off
             PlaybackManager.shared.changeEffects(effects)
-        }
-        else if WatchConstants.Messages.VolumeBoostRequest.type == messageType {
+        } else if WatchConstants.Messages.VolumeBoostRequest.type == messageType {
             guard let enabled = message[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
             
             let effects = PlaybackManager.shared.effects()
             effects.volumeBoost = enabled
             PlaybackManager.shared.changeEffects(effects)
-        }
-        else if WatchConstants.Messages.ChangeSpeedIntervalRequest.type == messageType {
+        } else if WatchConstants.Messages.ChangeSpeedIntervalRequest.type == messageType {
             let effects = PlaybackManager.shared.effects()
             effects.toggleDefinedSpeedInterval()
             
             PlaybackManager.shared.changeEffects(effects)
-        }
-        else if WatchConstants.Messages.SignificantSyncableUpdate.type == messageType {
+        } else if WatchConstants.Messages.SignificantSyncableUpdate.type == messageType {
             RefreshManager.shared.refreshPodcasts()
-        }
-        else if WatchConstants.Messages.MinorSyncableUpdate.type == messageType {
+        } else if WatchConstants.Messages.MinorSyncableUpdate.type == messageType {
             if DateUtil.hasEnoughTimePassed(since: ServerSettings.lastRefreshEndTime(), time: 30.minutes) {
                 RefreshManager.shared.refreshPodcasts()
             }
@@ -193,16 +169,13 @@ class WatchManager: NSObject, WCSessionDelegate {
                 let response = handleFilterRequest(filterUuid: filterUuid)
                 replyHandler(response)
             }
-        }
-        else if WatchConstants.Messages.DownloadsRequest.type == messageType {
+        } else if WatchConstants.Messages.DownloadsRequest.type == messageType {
             let response = handleDownloadsRequest()
             replyHandler(response)
-        }
-        else if WatchConstants.Messages.UserEpisodeRequest.type == messageType {
+        } else if WatchConstants.Messages.UserEpisodeRequest.type == messageType {
             let response = handleUserEpisodeRequest()
             replyHandler(response)
-        }
-        else if WatchConstants.Messages.LoginDetailsRequest.type == messageType {
+        } else if WatchConstants.Messages.LoginDetailsRequest.type == messageType {
             let response = handleLoginDetailsRequest()
             replyHandler(response)
         }
@@ -228,8 +201,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         
         if let userEpisode = baseEpisode as? UserEpisode {
             UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
-        }
-        else if let episode = baseEpisode as? Episode {
+        } else if let episode = baseEpisode as? Episode {
             EpisodeManager.deleteDownloadedFiles(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
         }
@@ -253,8 +225,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     private func handleChangeChapter(next: Bool) {
         if next {
             PlaybackManager.shared.skipToNextChapter()
-        }
-        else {
+        } else {
             PlaybackManager.shared.skipToPreviousChapter()
         }
     }
@@ -337,8 +308,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         var episodes: [UserEpisode]
         if SubscriptionHelper.hasActiveSubscription() {
             episodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
-        }
-        else {
+        } else {
             episodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy, limit: Constants.Limits.maxListItemsToSendToWatch)
         }
         var convertedEpisodes = [[String: Any]]()
@@ -422,8 +392,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
         do {
             try session.updateApplicationContext(applicationDict)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("WatchManager sendStateToWatch failed \(error.localizedDescription)")
         }
     }
@@ -440,8 +409,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             if let playingEpisode = playingEpisode as? Episode, let podcast = playingEpisode.parentPodcast() {
                 let color = ColorManager.darkThemeTintForPodcast(podcast)
                 nowPlayingInfo[WatchConstants.Keys.nowPlayingColor] = color.hexString()
-            }
-            else {
+            } else {
                 nowPlayingInfo[WatchConstants.Keys.nowPlayingColor] = UIColor.white.hexString()
             }
             
@@ -525,8 +493,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         if let episode = episode as? Episode {
             convertedEpisode[WatchConstants.Keys.episodeTypeKey] = "Episode"
             convertedEpisode[WatchConstants.Keys.episodeSerialisedKey] = episode.encodeToMap()
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             convertedEpisode[WatchConstants.Keys.episodeTypeKey] = "UserEpisode"
             convertedEpisode[WatchConstants.Keys.episodeSerialisedKey] = episode.encodeToMap()
         }

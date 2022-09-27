@@ -30,8 +30,7 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
                 optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else {
+            } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
             }
@@ -94,8 +93,7 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                     cell?.showTick = true
                 }
             }
-        }
-        else {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
             
             if episode.downloadFailed() {
@@ -104,16 +102,14 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                     NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
                         if later {
                             DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-                        }
-                        else {
+                        } else {
                             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
                         }
                     }, disallowed: nil)
                 })
                 optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else if let parentPodcast = episode.parentPodcast() {
+            } else if let parentPodcast = episode.parentPodcast() {
                 let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)

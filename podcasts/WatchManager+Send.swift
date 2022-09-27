@@ -36,8 +36,7 @@ extension WatchManager {
             self?.logFileRequestTimedAction.cancelTimer()
             if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
                 completion(logContents)
-            }
-            else {
+            } else {
                 completion(nil)
             }
             

@@ -140,8 +140,7 @@ struct SupportConfig: ZDConfig {
         let syncEmail: String
         if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
             syncEmail = email
-        }
-        else {
+        } else {
             syncEmail = "Not logged in"
         }
         

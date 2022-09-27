@@ -39,13 +39,11 @@ class RetrievePodcastsTask: ApiBaseTask {
                 }
                 
                 completion?(podcasts, folders, true)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding podcast list failed \(error.localizedDescription)")
                 completion?(nil, nil, false)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("retrieve podcast list failed \(error.localizedDescription)")
             completion?(nil, nil, false)
         }

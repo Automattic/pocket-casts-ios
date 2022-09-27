@@ -26,8 +26,7 @@ extension EpisodeListSearchController: UITextFieldDelegate {
         if let searchTerm = searchTerm, searchTerm.count > 0 {
             clearSearchBtn.isHidden = false
             resetSearchTimer()
-        }
-        else {
+        } else {
             cancelSearch()
         }
     }

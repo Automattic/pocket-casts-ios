@@ -59,8 +59,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     @IBAction func selectAllTapped(_ sender: AnyObject) {
         if selectedPodcasts.count == podcasts.count {
             selectedPodcasts.removeAll()
-        }
-        else {
+        } else {
             selectedPodcasts.removeAll()
             for podcast in podcasts {
                 selectedPodcasts.append(podcast)
@@ -96,8 +95,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
         if let index = selectedPodcasts.firstIndex(of: podcast) {
             selectedPodcasts.remove(at: index)
             cell.setPodcastSelected(false, animated: true)
-        }
-        else {
+        } else {
             selectedPodcasts.append(podcast)
             cell.setPodcastSelected(true, animated: true)
         }
@@ -120,8 +118,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
             if self.selectedPodcasts.count == self.podcasts.count {
                 self.selectAllBtn.setTitle(L10n.deselectAll.localizedUppercase, for: UIControl.State())
                 self.selectedCount.text = L10n.sharePodcastsAllSelected
-            }
-            else {
+            } else {
                 self.selectAllBtn.setTitle(L10n.selectAll.localizedUppercase, for: UIControl.State())
                 self.selectedCount.text = L10n.selectedCountFormat(self.selectedPodcasts.count).localizedUppercase
             }

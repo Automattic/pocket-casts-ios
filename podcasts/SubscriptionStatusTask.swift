@@ -30,8 +30,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                     UserEpisodeManager.cleanupCloudOnlyFiles()
                 }
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Protobuf Encoding failed")
         }
     }

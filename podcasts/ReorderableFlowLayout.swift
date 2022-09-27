@@ -1,4 +1,3 @@
-
 import Foundation
 
 class ReorderableFlowLayout: UICollectionViewFlowLayout {
@@ -12,8 +11,7 @@ class ReorderableFlowLayout: UICollectionViewFlowLayout {
         attributes.alpha = alphaOnPickup
         if growOffset != 0 {
             attributes.transform = CGAffineTransform(translationX: 0, y: growOffset).scaledBy(x: growScale, y: growScale)
-        }
-        else {
+        } else {
             attributes.transform = CGAffineTransform(scaleX: growScale, y: growScale)
         }
         

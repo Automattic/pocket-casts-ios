@@ -12,8 +12,7 @@ class LeftAlignedFlowLayout: UICollectionViewFlowLayout {
     }
     
     override func layoutAttributesForElements(
-        in rect: CGRect) -> [UICollectionViewLayoutAttributes]?
-    {
+        in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let att = super.layoutAttributesForElements(in: rect) else { return [] }
         var x: CGFloat = sectionInset.left
         var y: CGFloat = -1.0

@@ -72,8 +72,7 @@ class SmallListCell: ThemeableCollectionCell {
         if let headerUuid = info.uuid {
             if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
                 subscribeButton.currentlyOn = true
-            }
-            else {
+            } else {
                 subscribeButton.currentlyOn = false
             }
             subscribeButton.shouldAnimate = true

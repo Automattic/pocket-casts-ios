@@ -42,8 +42,7 @@ class EpisodeFilterChipCell: ThemeableCollectionCell {
             
             let borderColor = isChipEnabled ? ThemeColor.filterInteractive01(filterColor: filterColor) : ThemeColor.filterInteractive06(filterColor: filterColor)
             contentView.layer.borderColor = borderColor.cgColor
-        }
-        else {
+        } else {
             titleLabel.textColor = isChipEnabled ? ThemeColor.filterInteractive04(filterColor: filterColor) : ThemeColor.filterInteractive05(filterColor: filterColor)
             contentView.backgroundColor = isChipEnabled ? ThemeColor.filterInteractive03(filterColor: filterColor) : ThemeColor.filterUi01(filterColor: filterColor)
             backgroundColor = isChipEnabled ? ThemeColor.filterUi01(filterColor: filterColor) : contentView.backgroundColor

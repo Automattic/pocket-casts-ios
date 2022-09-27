@@ -48,13 +48,11 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
             if indexPath.row == 0 {
                 castCell.cellLabel.text = L10n.settingsArchivePlayedEpisodes
                 castCell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(Settings.autoArchivePlayedAfter())
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 castCell.cellLabel.text = L10n.settingsArchiveInactiveEpisodes
                 castCell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(Settings.autoArchiveInactiveAfter())
             }
-        }
-        else if indexPath.section == starredSection {
+        } else if indexPath.section == starredSection {
             let castCell = cell as! SwitchCell
             castCell.cellLabel.text = L10n.settingsAutoArchiveIncludeStarred
             castCell.cellSwitch.isOn = Settings.archiveStarredEpisodes()
@@ -78,8 +76,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
                 addArchivePlayedAction(time: 1.week, to: options)
                 
                 options.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
                 
                 addArchiveInactiveAction(time: -1, to: options)
@@ -106,8 +103,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == settingsSection {
             return L10n.settingsAutoArchiveSubtitle
-        }
-        else if section == starredSection {
+        } else if section == starredSection {
             return Settings.archiveStarredEpisodes() ? L10n.settingsAutoArchiveIncludeStarredOnSubtitle : L10n.settingsAutoArchiveIncludeStarredOffSubtitle
         }
         

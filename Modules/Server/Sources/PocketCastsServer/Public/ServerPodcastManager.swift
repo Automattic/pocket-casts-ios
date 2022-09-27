@@ -31,8 +31,7 @@ public class ServerPodcastManager: NSObject {
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
             if let podcastInfo = podcastInfo {
                 self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, completion: completion)
-            }
-            else {
+            } else {
                 completion?(false)
             }
         }
@@ -320,8 +319,7 @@ public class ServerPodcastManager: NSObject {
             if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 return jsonResponse
             }
-        }
-        catch {
+        } catch {
             print("Failed to get from server \(error.localizedDescription)")
         }
         
@@ -353,13 +351,11 @@ public class ServerPodcastManager: NSObject {
         var value: Int32 = highest ? 1 : 0
         
         for podcast in gridPodcasts {
-            if highest, podcast.sortOrder > value { value = podcast.sortOrder }
-            else if !highest, podcast.sortOrder < value { value = podcast.sortOrder }
+            if highest, podcast.sortOrder > value { value = podcast.sortOrder } else if !highest, podcast.sortOrder < value { value = podcast.sortOrder }
         }
         
         for folder in allFolders {
-            if highest, folder.sortOrder > value { value = folder.sortOrder }
-            else if !highest, folder.sortOrder < value { value = folder.sortOrder }
+            if highest, folder.sortOrder > value { value = folder.sortOrder } else if !highest, folder.sortOrder < value { value = folder.sortOrder }
         }
         
         return value

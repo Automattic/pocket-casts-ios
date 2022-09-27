@@ -84,8 +84,7 @@ class AnimatedImageButton: UIView {
         if let buttonImage = buttonImage {
             textLayer.frame = CGRect(x: imageSize, y: (alteredRect.height / 2) - 7, width: alteredRect.width - (imageSize / 2), height: 18)
             buttonImage.frame = CGRect(x: 15, y: (alteredRect.height / 2) - 7, width: imageSize, height: imageSize)
-        }
-        else {
+        } else {
             textLayer.frame = CGRect(x: 0, y: (alteredRect.height / 2) - 7, width: alteredRect.width, height: 18)
         }
 

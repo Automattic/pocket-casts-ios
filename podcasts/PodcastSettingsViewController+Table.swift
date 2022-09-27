@@ -157,8 +157,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let filterCount = filterUuidsPodcastAppearsIn().count
             if filterCount == 0 {
                 cell.cellLabel.text = L10n.settingsNotInFilters
-            }
-            else {
+            } else {
                 cell.cellLabel.text = filterCount == 1 ? L10n.settingsInFiltersSingular : L10n.settingsInFiltersPluralFormat(filterCount.localized())
             }
             
@@ -170,8 +169,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 let existingShortcutPhrase = existingSiriVoiceShortcut().invocationPhrase
                 cell.phraseLabel.text = "\"\(existingShortcutPhrase)\""
                 return cell
-            }
-            else {
+            } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.createSiriShortcutCellId) as! CreateSiriShortcutCell
                 cell.buttonTitle.text = L10n.settingsCreateSiriShortcut
                 
@@ -191,8 +189,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         let row = tableData()[indexPath.section][indexPath.row]
         if row == .upNextPosition {
             showAutoAddPositionSettings()
-        }
-        else if row == .feedError {
+        } else if row == .feedError {
             let alert = UIAlertController(title: L10n.settingsFeedIssue, message: L10n.settingsFeedIssueMsg, preferredStyle: UIAlertController.Style.alert)
                 
             let okAction = UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil)
@@ -202,8 +199,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 MainServerHandler.shared.refreshPodcastFeed(podcast: self.podcast) { success in
                     if success {
                         SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshSuccessTitle, message: L10n.settingsFeedFixRefreshSuccessMsg, from: self)
-                    }
-                    else {
+                    } else {
                         SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshFailedTitle, message: L10n.settingsFeedFixRefreshFailedMsg, from: self)
                     }
                 }
@@ -211,20 +207,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             alert.addAction(refreshAction)
             
             present(alert, animated: true, completion: nil)
-        }
-        else if row == .globalUpNext {
+        } else if row == .globalUpNext {
             let globalSettings = AutoAddToUpNextViewController()
             navigationController?.pushViewController(globalSettings, animated: true)
-        }
-        else if row == .playbackEffects {
+        } else if row == .playbackEffects {
             let effectsController = PodcastEffectsViewController(podcast: podcast)
             navigationController?.pushViewController(effectsController, animated: true)
-        }
-        else if row == .autoArchive {
+        } else if row == .autoArchive {
             let archiveController = PodcastArchiveViewController(podcast: podcast)
             navigationController?.pushViewController(archiveController, animated: true)
-        }
-        else if row == .inFilters {
+        } else if row == .inFilters {
             let filterSelectionViewController = FilterSelectionViewController()
             filterSelectionViewController.allFilters = filtersPodcastCanAppearIn()
             filterSelectionViewController.selectedFilters = filterUuidsPodcastAppearsIn()
@@ -243,20 +235,17 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
             }
             navigationController?.pushViewController(filterSelectionViewController, animated: true)
-        }
-        else if row == .siriShortcut {
+        } else if row == .siriShortcut {
             if let voiceShortcut = existingSiriVoiceShortcut() {
                 let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
                 viewController.modalPresentationStyle = .formSheet
                 viewController.delegate = self
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(viewController, animated: true, completion: nil)
-            }
-            else {
+            } else {
                 showINAddVoiceShortcutVC()
             }
-        }
-        else if row == .unsubscribe {
+        } else if row == .unsubscribe {
             unsubscribe()
         }
     }
@@ -278,21 +267,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let onLimitReached = ServerSettings.onAutoAddLimitReached()
             if onLimitReached == .addToTopOnly {
                 return L10n.settingsUpNextLimitAddToTop(upNextLimit.localized())
-            }
-            else {
+            } else {
                 return L10n.settingsUpNextLimit(upNextLimit.localized())
             }
-        }
-        else if firstRow == .feedError {
+        } else if firstRow == .feedError {
             return L10n.settingsFeedErrorMsg
-        }
-        else if firstRow == .autoArchive {
+        } else if firstRow == .autoArchive {
             return nil
-        }
-        else if firstRow == .playbackEffects {
+        } else if firstRow == .playbackEffects {
             return L10n.settingsSkipMsg
-        }
-        else if firstRow == .siriShortcut, let name = podcast.title {
+        } else if firstRow == .siriShortcut, let name = podcast.title {
             let format = existingShortcut != nil ? L10n.settingsSiriShortcutMsg : L10n.settingsCreateSiriShortcutMsg
             return format(name)
         }
@@ -334,8 +318,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         if sender.isOn {
             podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
             Settings.setAutoDownloadEnabled(true)
-        }
-        else {
+        } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
         }
         DataManager.sharedManager.save(podcast: podcast)
@@ -345,8 +328,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     @objc private func addToUpNextChanged(_ sender: UISwitch) {
         if sender.isOn {
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.addLast.rawValue
-        }
-        else {
+        } else {
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
         }
         

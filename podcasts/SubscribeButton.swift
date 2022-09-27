@@ -64,8 +64,7 @@ class SubscribeButton: ThemeableView {
             titleLabel.isHidden = isSelected
             tickImageView.isHidden = false
             tickImageView.alpha = isSelected ? 1 : 0
-        }
-        else {
+        } else {
             titleLabel.style = .primaryInteractive01
             backgroundView.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
             backgroundView.layer.backgroundColor = ThemeColor.primaryUi02().cgColor

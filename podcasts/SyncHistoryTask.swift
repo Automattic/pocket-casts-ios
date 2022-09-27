@@ -42,15 +42,12 @@ class SyncHistoryTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
             if httpStatus == Server.HttpConstants.notModified {
                 DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
-            }
-            else if let response = response, httpStatus == Server.HttpConstants.ok {
+            } else if let response = response, httpStatus == Server.HttpConstants.ok {
                 process(serverData: response)
-            }
-            else {
+            } else {
                 print("SyncHistoryTask Unable to sync with server got status \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             print("SyncHistoryTask had issues encoding protobuf \(error.localizedDescription)")
         }
     }
@@ -70,8 +67,7 @@ class SyncHistoryTask: ApiBaseTask {
                 Settings.setLastClearHistoryDate(nil)
             }
             DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
-        }
-        catch {
+        } catch {
             print("SyncHistoryTask had issues decoding protobuf \(error.localizedDescription)")
         }
     }
@@ -87,13 +83,11 @@ class SyncHistoryTask: ApiBaseTask {
                     if episode.lastPlaybackInteractionDate == nil || interactionDate > episode.lastPlaybackInteractionDate! {
                         DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: episode.uuid)
                     }
-                }
-                else {
+                } else {
                     PodcastManager.shared.addMissingPodcast(episodeUuid: change.episode, podcastUuid: change.podcast)
                     DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
                 }
-            }
-            else if change.action == HistoryAction.delete.rawValue {
+            } else if change.action == HistoryAction.delete.rawValue {
                 DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: change.episode)
             }
         }

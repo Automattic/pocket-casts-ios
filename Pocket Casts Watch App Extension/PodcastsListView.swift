@@ -10,8 +10,7 @@ struct PodcastsListView: View {
                 ForEach(viewModel.gridItems) { gridItem in
                     if let podcast = gridItem.podcast {
                         PodcastItemView(podcast: podcast)
-                    }
-                    else if let folder = gridItem.folder {
+                    } else if let folder = gridItem.folder {
                         FolderItemView(folder: folder, podcastCount: viewModel.countOfPodcastsInFolder(folder))
                     }
                 }

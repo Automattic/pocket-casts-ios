@@ -1,4 +1,3 @@
-
 import UIKit
 
 public extension UIColor {
@@ -36,12 +35,10 @@ public extension UIColor {
                 default:
                     print("Invalid RGB string, number of characters after '#' should be either 3, 4, 6 or 8")
                 }
-            }
-            else {
+            } else {
                 print("Scan hex error")
             }
-        }
-        else {
+        } else {
             print("Invalid RGB string, missing '#' as prefix")
         }
         self.init(red: red, green: green, blue: blue, alpha: alpha)

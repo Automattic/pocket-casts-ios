@@ -109,8 +109,7 @@ class UpgradeRequiredViewController: PCViewController {
             if SyncManager.isUserLoggedIn() {
                 let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
                 presentingController?.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
-            }
-            else {
+            } else {
                 let profileIntroViewController = ProfileIntroViewController()
                 profileIntroViewController.upgradeRootViewController = presentingController
                 presentingController?.present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)

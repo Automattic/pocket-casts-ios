@@ -98,11 +98,9 @@ extension L10n {
         let result: String
         if count == 0 {
             result = L10n.settingsAutoDownloadsNoPodcastsSelected
-        }
-        else if count == 1 {
+        } else if count == 1 {
             result = L10n.settingsAutoDownloadsPodcastsSelectedSingular
-        }
-        else {
+        } else {
             result = L10n.settingsAutoDownloadsPodcastsSelectedFormat(count.localized())
         }
         
@@ -114,8 +112,7 @@ extension L10n {
         if value < 60 {
             let components = DateComponents(calendar: .current, second: Int(value))
             return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short) ?? L10n.timePlaceholder
-        }
-        else {
+        } else {
             let components = DateComponents(calendar: .current, minute: Int(floor(value / 60.0)), second: Int(value) % 60)
             return DateComponentsFormatter.localizedString(from: components, unitsStyle: .abbreviated) ?? L10n.timePlaceholder
         }
@@ -136,14 +133,11 @@ extension L10n {
     static func seasonEpisodeShorthand(seasonNumber: Int64, episodeNumber: Int64, shortFormat: Bool = false) -> String {
         if seasonNumber > 0, episodeNumber > 0 {
             return L10n.seasonEpisodeShorthandFormat(seasonNumber.localized(), episodeNumber.localized())
-        }
-        else if seasonNumber > 0, episodeNumber == 0 {
+        } else if seasonNumber > 0, episodeNumber == 0 {
             return L10n.seasonOnlyShorthandFormat(seasonNumber.localized())
-        }
-        else if shortFormat {
+        } else if shortFormat {
             return L10n.episodeShorthandFormatShort(episodeNumber.localized())
-        }
-        else {
+        } else {
             return L10n.episodeShorthandFormat(episodeNumber.localized())
         }
     }

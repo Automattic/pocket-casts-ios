@@ -68,13 +68,11 @@ class PodcastSearchOperation: Operation {
                 let searchResponse = try JSONDecoder().decode(PodcastSearchResponse.self, from: data)
                 if searchResponse.status == "poll" {
                     shouldRetry = true
-                }
-                else {
+                } else {
                     shouldRetry = false
                     self.completion(searchResponse)
                 }
-            }
-            catch {
+            } catch {
                 self.completion(PodcastSearchResponse.failedResponse())
             }
             

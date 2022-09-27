@@ -153,12 +153,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         if episodeIsChanging {
             if overrideUpNext || queue.upNextCount() == 0 {
                 queue.overrideAllEpisodesWith(episode: episode)
-            }
-            else {
+            } else {
                 queue.pushNewCurrentlyPlaying(episode: episode)
             }
-        }
-        else {
+        } else {
             // even if the episode isn't changing, we might have a stale copy of it, so update ours
             queue.nowPlayingEpisodeChanged()
         }
@@ -181,8 +179,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             play(completion: completion)
             
             checkIfStreamBufferRequired(episode: episode, effects: effects())
-        }
-        else if episodeIsChanging {
+        } else if episodeIsChanging {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
     }
@@ -256,8 +253,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playPause() {
         if playing() {
             pause()
-        }
-        else {
+        } else {
             play()
         }
     }
@@ -367,8 +363,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                     strongSelf.play()
                 }
             })
-        }
-        else {
+        } else {
             // the player isn't currently initialised, so just set this time directly on the episode, as long as it's not past the duration
             if time >= 0, time <= playingEpisode.duration, time != playingEpisode.playedUpTo {
                 DataManager.sharedManager.saveEpisode(playedUpTo: time, episode: playingEpisode, updateSyncFlag: syncChanges)
@@ -377,8 +372,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: playingEpisode.uuid)
                 checkForChapterChange()
                 fireProgressNotification()
-            }
-            else {
+            } else {
                 seekingTo = PlaybackManager.notSeeking
             }
             
@@ -470,8 +464,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
-            }
-            else {
+            } else {
                 endPlayback(saveCurrentEpisode: saveCurrentEpisode)
             }
             
@@ -517,8 +510,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         if autoPlay {
             play()
-        }
-        else {
+        } else {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
         
@@ -559,8 +551,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         if episodes.count > 0 {
             populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-        }
-        else {
+        } else {
             load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
         }
     }
@@ -625,8 +616,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         do {
             try audioSession.setActive(false)
             FileLog.shared.addMessage("deactiveAudioSession succeeded")
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("deactiveAudioSession failed")
         }
     }
@@ -681,8 +671,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
             UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
             UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
-        }
-        else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
+        } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
@@ -766,8 +755,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if episode.playedUpTo > 0 {
                 return catchUpHelper.adjustStartTimeIfNeeded(for: episode)
             }
-        }
-        else {
+        } else {
             DataManager.sharedManager.saveEpisode(playingStatus: PlayingStatus.inProgress, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
             
             let startTime = startFromTimeForCurrentEpisode()
@@ -815,8 +803,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if episode.downloaded(pathFinder: DownloadManager.shared) {
                 let message = userMessage ?? L10n.playerErrorCorruptedFile
                 DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
-            }
-            else {
+            } else {
                 let message = userMessage ?? L10n.playerErrorInternetConnection
                 DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
                 cleanupCurrentPlayer(permanent: false)
@@ -893,8 +880,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
                 if let episode = episode as? Episode {
                     EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false)
-                }
-                else if let episode = episode as? UserEpisode {
+                } else if let episode = episode as? UserEpisode {
                     if Settings.userEpisodeRemoveFileAfterPlaying() {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
                     }
@@ -902,8 +888,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                         UserEpisodeManager.deleteFromCloud(episode: episode, removeFromPlaybackQueue: false)
                     }
                 }
-            }
-            else {
+            } else {
                 EpisodeManager.cleanupUnusedBuffers(episode: episode)
             }
         }
@@ -923,8 +908,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             #endif
             
             cancelSleepTimer()
-        }
-        else {
+        } else {
             playNextEpisode(autoPlay: !sleepOnEpisodeEnd)
         }
     }
@@ -974,8 +958,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if episodes == nil, queue.upNextCount() > 0 {
             // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
             switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
-        }
-        else {
+        } else {
             // there's a new list of episodes to play, so clear what's currently playing and play that
             load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
@@ -1028,12 +1011,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             if playersSupported.first == GoogleCastPlayer.self {
                 FileLog.shared.addMessage("Using GoogleCastPlayer")
                 player = GoogleCastPlayer()
-            }
-            else if playersSupported.first == EffectsPlayer.self {
+            } else if playersSupported.first == EffectsPlayer.self {
                 FileLog.shared.addMessage("Using EffectsPlayer")
                 player = EffectsPlayer()
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("Using DefaultPlayer")
                 player = DefaultPlayer()
             }
@@ -1119,8 +1100,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 FileLog.shared.addMessage("activating audio session succeeded")
                 completion?(true)
             #endif
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
             completion?(false)
         }
@@ -1139,8 +1119,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         do {
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setMode(AVAudioSession.Mode.moviePlayback)
-        }
-        catch {}
+        } catch {}
     }
     
     private func loadEffects() -> PlaybackEffects {
@@ -1207,8 +1186,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // schedule the timer on a thread that has a run loop, the main thread being a good option
         if Thread.isMainThread {
             updateTimer = Timer.scheduledTimer(timeInterval: updateTimerInterval, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
-        }
-        else {
+        } else {
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
                 
@@ -1220,8 +1198,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func cancelUpdateTimer() {
         if Thread.isMainThread {
             updateTimer?.invalidate()
-        }
-        else {
+        } else {
             DispatchQueue.main.sync { [weak self] in
                 self?.updateTimer?.invalidate()
             }
@@ -1246,8 +1223,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 if sleepOnEpisodeEnd {
                     pause()
                     cancelSleepTimer()
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("Skipping last \(timeRemaining) seconds of episode because podcast has skip last of \(skipLast) set.")
                     StatsManager.shared.addAutoSkipTime(timeRemaining)
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
@@ -1262,8 +1238,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if updateCount > updatesPerSave {
             recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
             updateCount = 0
-        }
-        else {
+        } else {
             let upTo = currentTime()
             if upTo > 0 {
                 episode.playedUpTo = upTo
@@ -1292,8 +1267,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if isBackgrounded() { return }
             
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackProgress)
-        }
-        else {
+        } else {
             DispatchQueue.main.sync {
                 if isBackgrounded() { return }
                 
@@ -1416,19 +1390,16 @@ class PlaybackManager: ServerPlaybackDelegate {
             if Settings.legacyBluetoothModeEnabled() {
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
                 if !strongSelf.playing() { strongSelf.play() }
-            }
-            else if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
+            } else if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
                 // iOS will sometimes issue two remotePlay commands, so if it's been less than 10 seconds since the last one, just play don't try to playPause
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play")
                 if !strongSelf.playing() { strongSelf.play() }
-            }
-            else {
+            } else {
                 if strongSelf.playingOverAirplay() {
                     // during handoff iOS will call us to play even if we already are, so honour that here
                     FileLog.shared.addMessage("Remote control: playCommand, treating as play because playing over AirPlay")
                     if !strongSelf.playing() { strongSelf.play() }
-                }
-                else {
+                } else {
                     // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
                     FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
                     strongSelf.playPause()
@@ -1456,18 +1427,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             // you can ask Siri to say 'rewind 2 minutes' and it will set the skip interval to a custom number, here we honour that number
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipBack(amount: skipEvent.interval)
-            }
-            else {
+            } else {
                 if let previousChapter = strongSelf.chapterManager.previousChapter(), Settings.remoteSkipShouldSkipChapters() {
                     FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
                     strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
-                }
-                else {
+                } else {
                     if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
                         strongSelf.lastSeekTime = Date()
                         strongSelf.skipBack()
-                    }
-                    else {
+                    } else {
                         FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
                     }
                 }
@@ -1484,18 +1452,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             // you can ask Siri to say 'skip forward 2 minutes' and it will set the skip interval to a custom number, here we honour that number
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipForward(amount: skipEvent.interval)
-            }
-            else {
+            } else {
                 if let nextChapter = strongSelf.chapterManager.nextChapter(), Settings.remoteSkipShouldSkipChapters() {
                     FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
                     strongSelf.seekTo(time: ceil(nextChapter.startTime.seconds))
-                }
-                else {
+                } else {
                     if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
                         strongSelf.lastSeekTime = Date()
                         strongSelf.skipForward()
-                    }
-                    else {
+                    } else {
                         FileLog.shared.addMessage("Remote control: nextTrackCommand ignored, too soon since previous command")
                     }
                 }
@@ -1510,8 +1475,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
                 if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
                     FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
                     strongSelf.seekTo(time: seekEvent.positionTime)
                 }
@@ -1576,8 +1540,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return .success
             }
             starCommand.isEnabled = true
-        }
-        else {
+        } else {
             markPlayedCommand.removeTarget(self)
             markPlayedCommand.isEnabled = false
             
@@ -1613,15 +1576,13 @@ class PlaybackManager: ServerPlaybackDelegate {
                 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipBack(amount: skipEvent.interval)
-                }
-                else {
+                } else {
                     self.skipBack()
                 }
                 
                 return .success
             }
-        }
-        else {
+        } else {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount, handler: nil)
         }
         
@@ -1643,15 +1604,13 @@ class PlaybackManager: ServerPlaybackDelegate {
                 
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipForward(amount: skipEvent.interval)
-                }
-                else {
+                } else {
                     self.skipForward()
                 }
                 
                 return .success
             }
-        }
-        else {
+        } else {
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount, handler: nil)
         }
     }
@@ -1679,11 +1638,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: true, overrideUpNext: false)
-        }
-        else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
+        } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
-        }
-        else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {
+        } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {
             player?.routeDidChange(shouldPause: false)
         }
     }
@@ -1704,8 +1661,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 play()
                 wasPlayingBeforeInterruption = false
             }
-        }
-        else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
+        } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
             interruptInProgress = true
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began")
             if let player = player {
@@ -1862,8 +1818,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 if self.playing() {
                     let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
-                }
-                else {
+                } else {
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
             }

@@ -57,8 +57,7 @@ extension ListeningHistoryViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             listeningHistoryTable.selectAll()
-        }
-        else {
+        } else {
             listeningHistoryTable.deselectAll()
         }
         updateSelectAllBtn()

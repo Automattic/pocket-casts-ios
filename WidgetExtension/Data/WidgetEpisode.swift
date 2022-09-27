@@ -38,8 +38,7 @@ class WidgetEpisode: ObservableObject, Hashable {
     private func urlForItem(_ commonItem: CommonUpNextItem) -> URL? {
         if commonItem.imageUrl.hasPrefix("http") {
             return URL(string: commonItem.imageUrl)
-        }
-        else {
+        } else {
             let fileManager = FileManager.default
             let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: CommonWidgetHelper.appGroupId)
             if let container = container {

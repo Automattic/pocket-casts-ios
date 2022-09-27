@@ -74,8 +74,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             addArchivePlayedAction(time: 1.week, to: options)
             
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if row == .inactiveEpisodes {
+        } else if row == .inactiveEpisodes {
             let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
             
             addArchiveInactiveAction(time: -1, to: options)
@@ -87,8 +86,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             addArchiveInactiveAction(time: 90.days, to: options)
             
             options.show(statusBarStyle: preferredStatusBarStyle)
-        }
-        else if row == .episodeLimit {
+        } else if row == .episodeLimit {
             let options = OptionsPicker(title: L10n.settingsEpisodeLimit)
             addEpisodeLimitAction(limit: 0, to: options)
             addEpisodeLimitAction(limit: 1, to: options)
@@ -113,11 +111,9 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         
         if firstRow == .customForPodcast {
             return podcast.overrideGlobalArchive ? nil : L10n.settingsCustomAutoArchiveMsg
-        }
-        else if firstRow == .playedEpisodes {
+        } else if firstRow == .playedEpisodes {
             return L10n.settingsInactiveEpisodesMsg
-        }
-        else if firstRow == .episodeLimit {
+        } else if firstRow == .episodeLimit {
             return L10n.settingsEpisodeLimitMsg
         }
         

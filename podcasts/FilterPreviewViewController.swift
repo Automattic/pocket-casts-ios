@@ -206,8 +206,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
                 strongSelf.previewTable.reload(using: changeSet, with: .none, setData: { data in
                     strongSelf.episodes = data
                 })
-            }
-            else {
+            } else {
                 strongSelf.episodes = newData
                 strongSelf.previewTable.reloadData()
             }

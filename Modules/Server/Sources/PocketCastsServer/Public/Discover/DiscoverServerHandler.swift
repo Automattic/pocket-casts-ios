@@ -72,8 +72,7 @@ public class DiscoverServerHandler {
             self.discoverRequest(path: source, type: type) { discoverList, didError in
                 if !didError, let discoverList = discoverList {
                     promise(.success(discoverList))
-                }
-                else {
+                } else {
                     promise(.failure(DiscoverServerError.unknown))
                 }
             }
@@ -92,8 +91,7 @@ public class DiscoverServerHandler {
                     completion(list, true)
                     
                     return
-                }
-                catch {
+                } catch {
                     discoveryCache.removeCachedResponse(for: request)
                 }
             }
@@ -115,8 +113,7 @@ public class DiscoverServerHandler {
                 // only cache successful responses
                 let responseToCache = CachedURLResponse(response: response, data: data)
                 self?.discoveryCache.storeCachedResponse(responseToCache, for: request)
-            }
-            catch {
+            } catch {
                 completion(nil, false)
             }
         }.resume()

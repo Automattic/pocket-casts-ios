@@ -49,8 +49,7 @@ class PlaybackQueue: NSObject {
         if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
             existingEpisode.episodePosition = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
             DataManager.sharedManager.save(playlistEpisode: existingEpisode)
-        }
-        else {
+        } else {
             let newEpisode = PlaylistEpisode()
             newEpisode.episodeUuid = episode.uuid
             newEpisode.episodePosition = DataManager.sharedManager.positionForPlaylistEpisode(bottomOfList: !toTop)
@@ -63,8 +62,7 @@ class PlaybackQueue: NSObject {
         if !partOfBulkAdd, SyncManager.isUserLoggedIn() {
             if toTop {
                 DataManager.sharedManager.saveUpNextAddToTop(episodeUuid: episode.uuid)
-            }
-            else {
+            } else {
                 DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
             }
             
@@ -101,8 +99,7 @@ class PlaybackQueue: NSObject {
             if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
                 existingEpisode.episodePosition = topPosition + Int32(index)
                 playlistEpisodes.append(existingEpisode)
-            }
-            else {
+            } else {
                 let newEpisode = PlaylistEpisode()
                 newEpisode.episodeUuid = episode.uuid
                 newEpisode.episodePosition = topPosition + Int32(index)
@@ -135,8 +132,7 @@ class PlaybackQueue: NSObject {
     func pushNewCurrentlyPlaying(episode: BaseEpisode) {
         if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episode.uuid) {
             DataManager.sharedManager.movePlaylistEpisode(from: Int(existingEpisode.episodePosition), to: 0)
-        }
-        else {
+        } else {
             let newEpisode = PlaylistEpisode()
             newEpisode.episodeUuid = episode.uuid
             newEpisode.episodePosition = -1
@@ -169,8 +165,7 @@ class PlaybackQueue: NSObject {
         
         if existingEpisode {
             move(episode: episode, to: position)
-        }
-        else {
+        } else {
             let newEpisode = PlaylistEpisode()
             newEpisode.episodeUuid = episode.uuid
             newEpisode.episodePosition = Int32(position + 1)
@@ -332,8 +327,7 @@ class PlaybackQueue: NSObject {
         
         if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
-        }
-        else {
+        } else {
             DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .autoDownloaded)
         }
     }
@@ -347,8 +341,7 @@ class PlaybackQueue: NSObject {
         
         if let name = notificationName, let object = notificationObject {
             NotificationCenter.postOnMainThread(notification: name, object: object)
-        }
-        else if let name = notificationName {
+        } else if let name = notificationName {
             NotificationCenter.postOnMainThread(notification: name)
         }
         
@@ -378,8 +371,7 @@ class PlaybackQueue: NSObject {
         // schedule the timer on a thread that has a run loop, the main thread being a good option
         if Thread.isMainThread {
             syncTimer = Timer.scheduledTimer(timeInterval: syncTimerDelay, target: self, selector: #selector(syncTimerFired), userInfo: nil, repeats: false)
-        }
-        else {
+        } else {
             DispatchQueue.main.sync { [weak self] () in
                 guard let strongSelf = self else { return }
                 

@@ -60,8 +60,7 @@ class SyncTask: ApiBaseTask {
             }
             
             performIncrementalSync(token: token)
-        }
-        else {
+        } else {
             performFullSync(token: token)
         }
     }
@@ -220,8 +219,7 @@ class SyncTask: ApiBaseTask {
             UserDefaults.standard.synchronize()
             
             return .success
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SyncTask: syncing failed due to exception \(error.localizedDescription)")
             ServerNotificationsHelper.shared.fireSyncFailed()
         }
@@ -261,8 +259,7 @@ class SyncTask: ApiBaseTask {
                 else if let date = evenMoreLegacyLastModifiedFormatter.date(from: lastModifiedStr) {
                     let utcMillis = date.timeIntervalSince1970 * 1000
                     syncRequest.lastModified = Int64(utcMillis)
-                }
-                else if let date = legacyLastModifiedFormatter.date(from: lastModifiedStr) {
+                } else if let date = legacyLastModifiedFormatter.date(from: lastModifiedStr) {
                     let utcMillis = date.timeIntervalSince1970 * 1000
                     syncRequest.lastModified = Int64(utcMillis)
                 }
@@ -274,8 +271,7 @@ class SyncTask: ApiBaseTask {
             syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
             
             return try syncRequest.serializedData()
-        }
-        catch {}
+        } catch {}
         
         return nil
     }

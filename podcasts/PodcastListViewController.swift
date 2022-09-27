@@ -193,8 +193,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @objc private func miniPlayerStatusDidChange() {
         if PlaybackManager.shared.currentEpisode() != nil {
             podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        }
-        else {
+        } else {
             podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: 0, right: 0)
         }
     }
@@ -227,8 +226,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 self?.dismiss(animated: true, completion: {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })
-            }
-            else {
+            } else {
                 self?.dismiss(animated: true, completion: nil)
             }
         }

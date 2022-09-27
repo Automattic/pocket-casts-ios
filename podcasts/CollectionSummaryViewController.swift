@@ -111,8 +111,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         if let avatarUrl = podcastCollection?.collectionImage {
             hideAvatarView(false)
             ImageManager.sharedManager.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .list)
-        }
-        else {
+        } else {
             hideAvatarView(true)
         }
         if let mobileCollage = podcastCollection?.collageImages?.filter({ $0.key == "mobile" }), let collageUrl = mobileCollage.first?.image_url {
@@ -130,8 +129,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
 
         if let podcasts = podcastCollection?.podcasts, !podcasts.isEmpty {
             delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection)
-        }
-        else if let episodes = podcastCollection?.episodes, !episodes.isEmpty {
+        } else if let episodes = podcastCollection?.episodes, !episodes.isEmpty {
             delegate.showExpanded(item: item, episodes: episodes, podcastCollection: podcastCollection)
         }
     }
@@ -146,8 +144,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         if let colors = podcastCollection?.colors, let darkColor = colors.onDarkBackground, let lightColor = colors.onLightBackground {
             let subtitleColor = Theme.isDarkTheme() ? darkColor : lightColor
             subtitleLabel.textColor = UIColor(hex: subtitleColor)
-        }
-        else {
+        } else {
             subtitleLabel.textColor = AppTheme.colorForStyle(.support05)
         }
     }

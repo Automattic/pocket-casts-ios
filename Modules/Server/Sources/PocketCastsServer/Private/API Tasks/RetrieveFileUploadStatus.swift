@@ -37,13 +37,11 @@ class RetrieveFileUploadStatusTask: ApiBaseTask {
                 FileLog.shared.addMessage("RetrieveFileUploadStatusTask  - server returned upload success =\(serverResponse.self)")
                 if serverResponse.success {
                     DataManager.sharedManager.saveEpisode(uploadStatus: .uploaded, episode: episode)
-                }
-                else {
+                } else {
                     DataManager.sharedManager.saveEpisode(uploadStatus: .uploadFailed, episode: episode)
                 }
                 NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding User episodes failed \(error.localizedDescription)")
             }
         }

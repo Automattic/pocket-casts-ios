@@ -69,8 +69,7 @@ class PlayerChapterCell: UITableViewCell {
         chapterLength.textColor = chapterName.textColor
         if playState == .currentlyPlaying || playState == .currentlyPaused {
             isPlayingView.isHidden = false
-        }
-        else {
+        } else {
             isPlayingView.isHidden = true
             seperatorView.isHidden = true
         }
@@ -97,8 +96,7 @@ class PlayerChapterCell: UITableViewCell {
         
         if percentageLapsed.isFinite, !percentageLapsed.isNaN {
             progressViewWidth.constant = percentageLapsed * isPlayingView.frame.width
-        }
-        else {
+        } else {
             progressViewWidth.constant = 0
         }
         
@@ -106,7 +104,6 @@ class PlayerChapterCell: UITableViewCell {
             UIView.animate(withDuration: 0.95) {
                 self.layoutIfNeeded()
             }
-        }
-        else { layoutIfNeeded() }
+        } else { layoutIfNeeded() }
     }
 }

@@ -131,14 +131,12 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
                 let secondInfoTextLine: String
                 if Settings.watchAutoDeleteUpNext() {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOnSubtitle
-                }
-                else {
+                } else {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOffSubtitle
                 }
 
                 infoText.append("\n\n" + secondInfoTextLine)
-            }
-            else {
+            } else {
                 infoText = L10n.settingsWatchAutoDownloadOffSubtitle
             }
             

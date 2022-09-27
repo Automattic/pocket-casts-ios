@@ -37,12 +37,10 @@ class UploadFileRequestTask: ApiBaseTask {
                 let uploadResponse = try Files_FileUploadResponse(serializedData: responseData)
                 FileLog.shared.addMessage("Upload request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload request response failed")
             }
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }

@@ -257,8 +257,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     func updateDisplayedData(reloadingEpisode: Bool = true) {
         if Thread.isMainThread {
             performUpdateDisplayedData(reloadingEpisode: reloadingEpisode)
-        }
-        else {
+        } else {
             DispatchQueue.main.sync { [weak self] in
                 guard let self = self else { return }
                 
@@ -280,17 +279,14 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
                 downloadBtn.setTitle(L10n.cancel, for: .normal)
                 downloadIndicator.progress = 1
                 downloadIndicator.color = ThemeColor.secondaryIcon01(for: themeOverride)
-            }
-            else if let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) {
+            } else if let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid) {
                 downloadBtn.setTitle(progress.percentageProgressAsString(), for: .normal)
                 downloadIndicator.progress = CGFloat(progress.progress())
-            }
-            else {
+            } else {
                 downloadBtn.setTitle(L10n.podcastDetailsQueued, for: .normal)
                 downloadIndicator.progress = 0.1
             }
-        }
-        else {
+        } else {
             if !downloadIndicator.isHidden { downloadIndicator.isHidden = true }
         }
         

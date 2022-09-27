@@ -43,16 +43,13 @@ class GridHelper {
         if viewWidth > viewHeight {
             if viewWidth > GridHelper.bigDeviceLandscapeWidth {
                 divideBy = gridType == .threeByThree ? 10 : 14
-            }
-            else {
+            } else {
                 divideBy = gridType == .threeByThree ? 5 : 7
             }
-        }
-        else {
+        } else {
             if viewWidth > GridHelper.bigDevicePortraitWidth {
                 divideBy = gridType == .threeByThree ? 6 : 8
-            }
-            else {
+            } else {
                 divideBy = gridType == .threeByThree ? 3 : 4
             }
         }
@@ -93,18 +90,15 @@ class GridHelper {
                 collectionView.beginInteractiveMovementForItem(at: movingIndexPath)
                 animatePickingUpCell(pickedUpCell(collectionView: collectionView))
             }
-        }
-        else if gesture.state == .changed {
+        } else if gesture.state == .changed {
             if isList {
                 location = CGPoint(x: containerView.bounds.width / 2, y: location.y)
             }
             collectionView.updateInteractiveMovementTargetPosition(location)
-        }
-        else if gesture.state == .ended {
+        } else if gesture.state == .ended {
             collectionView.endInteractiveMovement()
             animatePuttingDownCell(pickedUpCell(collectionView: collectionView))
-        }
-        else {
+        } else {
             collectionView.cancelInteractiveMovement()
             animatePuttingDownCell(pickedUpCell(collectionView: collectionView))
         }

@@ -135,8 +135,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if heightConstraint == nil {
             heightConstraint = view.heightAnchor.constraint(equalToConstant: height)
             heightConstraint?.isActive = true
-        }
-        else {
+        } else {
             heightConstraint?.constant = height
         }
     }
@@ -204,8 +203,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
                     self.openFullScreenPlayer()
                 }
             }
-        }
-        else {
+        } else {
             hideMiniPlayer(true)
         }
     }
@@ -265,12 +263,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let actionColor: UIColor
         if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
             actionColor = Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
-        }
-        else {
+        } else {
             if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
                 actionColor = AppTheme.userEpisodeColor(number: Int(episode.imageColor))
-            }
-            else {
+            } else {
                 actionColor = AppTheme.userEpisodeColor(number: 1)
             }
         }
@@ -306,8 +302,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         
         if let userEpisode = episode as? UserEpisode {
             podcastArtwork.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-        }
-        else {
+        } else {
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
     }

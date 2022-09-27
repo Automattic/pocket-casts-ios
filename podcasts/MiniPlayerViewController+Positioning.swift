@@ -12,8 +12,7 @@ extension MiniPlayerViewController {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
                 self.view.isHidden = true
             })
-        }
-        else {
+        } else {
             moveToHiddenBottomPosition()
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
             view.isHidden = true

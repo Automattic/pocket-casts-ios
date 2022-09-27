@@ -148,8 +148,7 @@ class UserEpisodeDetailViewController: UIViewController {
         
         if PlaybackManager.shared.currentEpisode() != nil {
             actionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        }
-        else {
+        } else {
             actionTable.contentInset = UIEdgeInsets.zero
         }
         view.layoutIfNeeded()
@@ -205,8 +204,7 @@ class UserEpisodeDetailViewController: UIViewController {
         if !hasError, newHasError, !isAnimatingOut, !isAnimatingIn {
             hasError = newHasError
             animateInError()
-        }
-        else if hasError, !newHasError, !isAnimatingOut, !isAnimatingIn {
+        } else if hasError, !newHasError, !isAnimatingOut, !isAnimatingIn {
             hasError = newHasError
             animateOutError()
         }
@@ -239,12 +237,10 @@ class UserEpisodeDetailViewController: UIViewController {
             if episode.downloadFailed() {
                 errorTypeLabel.text = L10n.playerUserEpisodeDownloadError
                 errorMessageLabel.text = episode.downloadErrorDetails
-            }
-            else if episode.playbackError() {
+            } else if episode.playbackError() {
                 errorTypeLabel.text = L10n.playerUserEpisodePlaybackError
                 errorMessageLabel.text = episode.playbackErrorDetails
-            }
-            else if episode.uploadFailed() {
+            } else if episode.uploadFailed() {
                 errorTypeLabel.text = L10n.playerUserEpisodeUploadError
                 errorMessageLabel.text = L10n.pleaseTryAgain
             }
@@ -275,8 +271,7 @@ class UserEpisodeDetailViewController: UIViewController {
                 self.infoLabel.text = self.episode.displayableInfo(includeSize: true)
                 if let progress = UploadManager.shared.progressManager.progressForEpisode(self.episode.uuid) {
                     self.uploadProgressIndicator.progress = progress.percentageProgress()
-                }
-                else {
+                } else {
                     self.uploadProgressIndicator.progress = 0
                 }
             }
@@ -297,8 +292,7 @@ class UserEpisodeDetailViewController: UIViewController {
         if episode.downloading(), !downloadingIndicator.isAnimating {
             downloadingIndicator.isHidden = false
             downloadingIndicator.startAnimating()
-        }
-        else if !episode.downloading(), downloadingIndicator.isAnimating {
+        } else if !episode.downloading(), downloadingIndicator.isAnimating {
             downloadingIndicator.stopAnimating()
         }
     }

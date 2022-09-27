@@ -51,8 +51,7 @@ struct HiddenListDividers: ViewModifier {
         if #available(iOS 15.0, *) {
             content
                 .listRowSeparator(.hidden)
-        }
-        else {
+        } else {
             content
         }
     }

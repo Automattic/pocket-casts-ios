@@ -189,8 +189,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         
         if section == shortcutSection {
             title = L10n.multiSelectShortcutInActionBar
-        }
-        else if section == inMenuSection {
+        } else if section == inMenuSection {
             title = L10n.settingsInMenu
         }
         
@@ -202,8 +201,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     private func actionAt(indexPath: IndexPath, isEditing: Bool) -> MultiSelectAction {
         if isEditing {
             return orderedActions[indexPath.row + (indexPath.section * MultiSelectActionController.numShortcuts)]
-        }
-        else {
+        } else {
             let action = orderedActions[indexPath.row + MultiSelectActionController.numShortcuts]
             return MultiSelectHelper.invertActionIfRequired(action: action, actionDelegate: actionDelegate)
         }
@@ -236,8 +234,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
                 actionsTable.isScrollEnabled = true
                 actionsTable.bounces = false
             }
-        }
-        else {
+        } else {
             let baseSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             let adjustedSize = CGSize(width: baseSize.width, height: baseSize.height + (CGFloat(orderedActions.count - MultiSelectActionController.numShortcuts) * MultiSelectActionController.rowHeight))
             newSize = adjustedSize
@@ -247,8 +244,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.preferredContentSize = newSize
             }
-        }
-        else {
+        } else {
             preferredContentSize = newSize
         }
     }

@@ -73,8 +73,7 @@ class ImageManager {
                     let prefetcher = ImagePrefetcher(urls: [url], options: [.targetCache(self.discoverCache)])
                     prefetcher.start()
                 }
-            }
-            catch {
+            } catch {
                 completionHandler(nil)
             }
         }
@@ -124,8 +123,7 @@ class ImageManager {
         // if that doesn't work, or they haven't opted in, load the podcast artwork instead
         if let userEpisode = episode as? UserEpisode {
             loadUserEpisodeImage(uuid: userEpisode.uuid, imageView: imageView, size: size, completionHandler: nil)
-        }
-        else {
+        } else {
             let url = podcastUrl(imageSize: size, uuid: episode.parentIdentifier())
             // for larger images, avoid really obvious reload flashes by keeping whatever image is there currently while loading a new one
             let placeholder = (imageView.image != nil && size == .page) ? imageView.image : placeHolderImage(size)
@@ -173,8 +171,7 @@ class ImageManager {
             let image = try UIImage(imageData: data)
             
             return image
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("retrieveImageFromCache, exception caught while loading cached image from disk")
         }
         
@@ -192,12 +189,10 @@ class ImageManager {
         if let userEpisode = episode as? UserEpisode {
             imageURL = userEpisode.urlForImage()
             imageCache = userEpisodeCache
-        }
-        else if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
+        } else if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
             imageURL = podcastUrl(imageSize: size, uuid: parentPodcast.uuid)
             imageCache = subscribedPodcastsCache
-        }
-        else {
+        } else {
             completionHandler(nil)
             return
         }
@@ -213,8 +208,7 @@ class ImageManager {
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages), episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
             if let embeddedImage = SJMediaMetadataHelper.embeddedImageForFile(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)) {
                 return embeddedImage
-            }
-            else {
+            } else {
                 failedEmbeddedLookups.append(episode.uuid)
             }
         }
@@ -240,8 +234,7 @@ class ImageManager {
                     completionHandler?(false)
                 }
             })
-        }
-        else {
+        } else {
             imageView.kf.setImage(with: url, placeholder: placeHolderImage(size), options: [.targetCache(userEpisodeCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], completionHandler: { result in
                 switch result {
                 case .success:
@@ -277,8 +270,7 @@ class ImageManager {
                 self.userEpisodeCache.removeImage(forKey: serverUrl, fromMemory: true, fromDisk: true, completionHandler: {
                     completionHandler()
                 })
-            }
-            else {
+            } else {
                 completionHandler()
             }
         })
@@ -420,8 +412,7 @@ class ImageManager {
         for file in dirEnumerator {
             do {
                 try fileManager.removeItem(atPath: folderNS.appendingPathComponent(file as! String))
-            }
-            catch {}
+            } catch {}
         }
     }
     

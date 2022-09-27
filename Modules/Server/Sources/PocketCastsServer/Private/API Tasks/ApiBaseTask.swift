@@ -16,11 +16,9 @@ class ApiBaseTask: Operation {
     func runTaskSynchronously() {
         if let token = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
-        }
-        else if let token = TokenHelper.acquireToken() {
+        } else if let token = TokenHelper.acquireToken() {
             apiTokenAcquired(token: token)
-        }
-        else {
+        } else {
             apiTokenAcquisitionFailed()
         }
     }
@@ -48,8 +46,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse.statusCode)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         
@@ -83,8 +80,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         
@@ -106,8 +102,7 @@ class ApiBaseTask: Operation {
             }
             
             return (responseData, httpResponse.statusCode)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
         

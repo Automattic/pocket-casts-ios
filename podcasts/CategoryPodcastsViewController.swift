@@ -64,8 +64,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 }
                 cell.populateFrom(promotion, isSubscribed: isSubscribed)
                 return cell
-            }
-            else {
+            } else {
                 podcastIndexRow += 1
             }
         }
@@ -86,8 +85,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
             let podcast = podcasts[indexPath.row]
             
             delegate.show(discoverPodcast: podcast, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: nil)
-        }
-        else if let cell = tableView.cellForRow(at: indexPath) as? CategorySponsoredCell, let promotion = promotion {
+        } else if let cell = tableView.cellForRow(at: indexPath) as? CategorySponsoredCell, let promotion = promotion {
             var podcastInfo = PodcastInfo()
             podcastInfo.title = promotion.title
             podcastInfo.uuid = promotion.podcast_uuid

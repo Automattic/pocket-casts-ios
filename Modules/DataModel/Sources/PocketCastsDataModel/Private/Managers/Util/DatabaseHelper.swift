@@ -19,8 +19,7 @@ class DatabaseHelper {
             if newSchemaVersion != startingSchemaVersion {
                 try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
         }
     }
@@ -149,8 +148,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_upcoming ON SJPlaylistEpisode (upcoming);", values: nil)
                 
                 schemaVersion = 1
-            }
-            catch {
+            } catch {
                 failedAt(1)
                 return
             }
@@ -162,8 +160,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_keepEpisode ON SJEpisode (keepEpisode);", values: nil)
                 
                 schemaVersion = 2
-            }
-            catch {
+            } catch {
                 failedAt(2)
                 return
             }
@@ -183,8 +180,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_keep_episode_modified ON SJEpisode (keepEpisodeModified);", values: nil)
                 
                 schemaVersion = 3
-            }
-            catch {
+            } catch {
                 failedAt(3)
                 return
             }
@@ -193,8 +189,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN pushEnabled INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 4
-            }
-            catch {
+            } catch {
                 failedAt(4)
                 return
             }
@@ -203,8 +198,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeSortOrder INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 5
-            }
-            catch {
+            } catch {
                 failedAt(5)
                 return
             }
@@ -214,8 +208,7 @@ class DatabaseHelper {
                 try db.executeUpdate("DELETE FROM SJFilteredPlaylist WHERE manual == 1;", values: nil)
                 try db.executeUpdate("DELETE FROM SJPlaylistEpisode WHERE upcoming != 1;", values: nil)
                 schemaVersion = 6
-            }
-            catch {
+            } catch {
                 failedAt(6)
                 return
             }
@@ -224,8 +217,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN autoAddToUpNext INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 7
-            }
-            catch {
+            } catch {
                 failedAt(7)
                 return
             }
@@ -234,8 +226,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN filterHours INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 8
-            }
-            catch {
+            } catch {
                 failedAt(8)
                 return
             }
@@ -245,8 +236,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastDownloadAttemptDate REAL NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS ep_down_date ON SJEpisode (lastDownloadAttemptDate);", values: nil)
                 schemaVersion = 9
-            }
-            catch {
+            } catch {
                 failedAt(9)
                 return
             }
@@ -255,8 +245,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN colorVersion INTEGER NOT NULL DEFAULT 1;", values: nil)
                 schemaVersion = 10
-            }
-            catch {
+            } catch {
                 failedAt(10)
                 return
             }
@@ -266,8 +255,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN boostVolume INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN trimSilenceAmount INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 11
-            }
-            catch {
+            } catch {
                 failedAt(11)
                 return
             }
@@ -276,8 +264,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN lastColorDownloadDate REAL;", values: nil)
                 schemaVersion = 12
-            }
-            catch {
+            } catch {
                 failedAt(12)
                 return
             }
@@ -286,8 +273,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN autoDownloadStatus INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 13
-            }
-            catch {
+            } catch {
                 failedAt(13)
                 return
             }
@@ -296,8 +282,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN playbackErrorDetails TEXT;", values: nil)
                 schemaVersion = 14
-            }
-            catch {
+            } catch {
                 failedAt(14)
                 return
             }
@@ -306,8 +291,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN cachedFrameCount INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 15
-            }
-            catch {
+            } catch {
                 failedAt(15)
                 return
             }
@@ -324,8 +308,7 @@ class DatabaseHelper {
                 
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_time_modified ON SJPlaylistEpisode (timeModified);", values: nil)
                 schemaVersion = 16
-            }
-            catch {
+            } catch {
                 failedAt(16)
                 return
             }
@@ -335,8 +318,7 @@ class DatabaseHelper {
                 try db.executeUpdate("UPDATE SJEpisode set showNotes = NULL;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastPlaybackInteractionDate REAL;", values: nil)
                 schemaVersion = 17
-            }
-            catch {
+            } catch {
                 failedAt(17)
                 return
             }
@@ -358,8 +340,7 @@ class DatabaseHelper {
                 try db.executeUpdate("DROP INDEX IF EXISTS playlist_episode_time_modified;", values: nil)
                 
                 schemaVersion = 18
-            }
-            catch {
+            } catch {
                 failedAt(18)
                 return
             }
@@ -375,8 +356,7 @@ class DatabaseHelper {
                 """, values: nil)
                 
                 schemaVersion = 19
-            }
-            catch {
+            } catch {
                 failedAt(19)
                 return
             }
@@ -390,8 +370,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN showType TEXT;", values: nil)
                 
                 schemaVersion = 20
-            }
-            catch {
+            } catch {
                 failedAt(20)
                 return
             }
@@ -402,8 +381,7 @@ class DatabaseHelper {
                 try db.executeUpdate("UPDATE SJEpisode SET lastPlaybackInteractionSyncStatus = 0 WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0;", values: nil)
                 
                 schemaVersion = 21
-            }
-            catch {
+            } catch {
                 failedAt(21)
                 return
             }
@@ -414,8 +392,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeFrequency TEXT;", values: nil)
                 
                 schemaVersion = 22
-            }
-            catch {
+            } catch {
                 failedAt(22)
                 return
             }
@@ -432,8 +409,7 @@ class DatabaseHelper {
                 try db.executeUpdate("UPDATE SJPodcast SET subscribed = 0 WHERE wasDeleted = 1;", values: nil)
                 
                 schemaVersion = 23
-            }
-            catch {
+            } catch {
                 failedAt(23)
                 return
             }
@@ -443,8 +419,7 @@ class DatabaseHelper {
                 // set any podcasts that might have been deleted to be unsubscribed instead
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN lastUpdatedAt TEXT;", values: nil)
                 schemaVersion = 24
-            }
-            catch {
+            } catch {
                 failedAt(24)
                 return
             }
@@ -464,8 +439,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived_modified ON SJEpisode (archivedModified);", values: nil)
                 
                 schemaVersion = 25
-            }
-            catch {
+            } catch {
                 failedAt(25)
                 return
             }
@@ -474,8 +448,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastArchiveInteractionDate REAL NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 26
-            }
-            catch {
+            } catch {
                 failedAt(26)
                 return
             }
@@ -484,8 +457,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN overrideGlobalEffects INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 27
-            }
-            catch {
+            } catch {
                 failedAt(27)
                 return
             }
@@ -494,8 +466,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN autoDownloadLimit INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 28
-            }
-            catch {
+            } catch {
                 failedAt(28)
                 return
             }
@@ -509,8 +480,7 @@ class DatabaseHelper {
                 // migrate people who had opt out on, to be overriding global. Since the defaults for all the other settings are off we don't have to worry about setting those
                 try db.executeUpdate("UPDATE SJPodcast SET overrideGlobalArchive = 1 WHERE excludeFromAutoArchive = 1;", values: nil)
                 schemaVersion = 29
-            }
-            catch {
+            } catch {
                 failedAt(29)
                 return
             }
@@ -522,8 +492,7 @@ class DatabaseHelper {
                 
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN excludeFromEpisodeLimit INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 30
-            }
-            catch {
+            } catch {
                 failedAt(30)
                 return
             }
@@ -532,8 +501,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeGrouping INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 31
-            }
-            catch {
+            } catch {
                 failedAt(31)
                 return
             }
@@ -577,8 +545,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS user_episode_uuid ON SJUserEpisode (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS user_episode_episodeStatus ON SJUserEpisode (episodeStatus);", values: nil)
                 schemaVersion = 32
-            }
-            catch {
+            } catch {
                 failedAt(32)
                 return
             }
@@ -587,8 +554,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN skipLast INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 33
-            }
-            catch {
+            } catch {
                 failedAt(33)
                 return
             }
@@ -598,8 +564,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fullSyncLastSyncAt TEXT;", values: nil)
                 schemaVersion = 34
-            }
-            catch {
+            } catch {
                 failedAt(34)
                 return
             }
@@ -608,8 +573,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN showArchived INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 35
-            }
-            catch {
+            } catch {
                 failedAt(35)
                 return
             }
@@ -620,8 +584,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN longerThan INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN shorterThan INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 36
-            }
-            catch {
+            } catch {
                 failedAt(36)
                 return
             }
@@ -630,8 +593,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN licensing INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 37
-            }
-            catch {
+            } catch {
                 failedAt(37)
                 return
             }
@@ -640,8 +602,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN starredModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 38
-            }
-            catch {
+            } catch {
                 failedAt(38)
                 return
             }
@@ -650,8 +611,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN refreshAvailable INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 39
-            }
-            catch {
+            } catch {
                 failedAt(39)
                 return
             }
@@ -675,8 +635,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN folderUuid TEXT;", values: nil)
                 
                 schemaVersion = 40
-            }
-            catch {
+            } catch {
                 failedAt(40)
                 return
             }

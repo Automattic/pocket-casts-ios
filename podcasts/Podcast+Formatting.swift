@@ -9,17 +9,13 @@ extension Podcast {
         // the above is in English, from the server unfortunately, so we need to translate it client side
         if frequency == "hourly" {
             return L10n.releaseFrequencyHourly.localizedCapitalized
-        }
-        else if frequency == "daily" {
+        } else if frequency == "daily" {
             return L10n.releaseFrequencyDaily.localizedCapitalized
-        }
-        else if frequency == "weekly" {
+        } else if frequency == "weekly" {
             return L10n.releaseFrequencyWeekly.localizedCapitalized
-        }
-        else if frequency == "fortnightly" {
+        } else if frequency == "fortnightly" {
             return L10n.releaseFrequencyFortnightly.localizedCapitalized
-        }
-        else if frequency == "monthly" {
+        } else if frequency == "monthly" {
             return L10n.releaseFrequencyMonthly.localizedCapitalized
         }
         
@@ -32,8 +28,7 @@ extension Podcast {
 
         if licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue {
             return expiryDate.timeIntervalSinceNow < 0 ? L10n.podcastAccessEnded(dateStr) : L10n.podcastAccessEnds(dateStr)
-        }
-        else {
+        } else {
             return expiryDate.timeIntervalSinceNow < 0 ? L10n.podcastUpdatesEnded(dateStr) : L10n.podcastUpdatesEnds(dateStr)
         }
     }
@@ -51,21 +46,16 @@ extension Podcast {
 
         if expectedDate < now.addingTimeInterval(-7.days) {
             return nil
-        }
-        else if Calendar.current.isDateInToday(expectedDate) {
+        } else if Calendar.current.isDateInToday(expectedDate) {
             return L10n.today
-        }
-        else if Calendar.current.isDateInTomorrow(expectedDate) {
+        } else if Calendar.current.isDateInTomorrow(expectedDate) {
             return L10n.podcastTomorrow
-        }
-        else if expectedDate < now, expectedDate >= now.addingTimeInterval(-7.days) {
+        } else if expectedDate < now, expectedDate >= now.addingTimeInterval(-7.days) {
             return L10n.podcastSoon
-        }
-        else if expectedDate < now.addingTimeInterval(6.days) {
+        } else if expectedDate < now.addingTimeInterval(6.days) {
             let dateFormatter = DateFormatHelper.sharedHelper.justDayFormatter
             return dateFormatter.string(from: expectedDate).localizedCapitalized
-        }
-        else {
+        } else {
             return DateFormatHelper.sharedHelper.tinyLocalizedFormat(expectedDate)
         }
     }

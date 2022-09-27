@@ -56,8 +56,7 @@ class ChapterManager {
                     self?.handleChaptersLoaded(parsedChapters)
                 }
             }
-        }
-        else if let url = EpisodeManager.urlForEpisode(episode) {
+        } else if let url = EpisodeManager.urlForEpisode(episode) {
             chapterParser.parseRemoteFile(url.absoluteString, episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
                     self?.handleChaptersLoaded(parsedChapters)

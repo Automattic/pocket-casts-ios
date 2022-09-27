@@ -69,16 +69,13 @@ class AVFileUtil: NSObject {
         if artworkImages.count == 0 {
             artworkHandler(nil)
             return
-        }
-        else if artworkImages.count == 1 {
+        } else if artworkImages.count == 1 {
             biggestImage = artworkImages.first
-        }
-        else {
+        } else {
             for image in artworkImages {
                 if biggestImage == nil {
                     biggestImage = image
-                }
-                else {
+                } else {
                     if image.size.height > (biggestImage?.size.height ?? 0) || image.size.width > (biggestImage?.size.width ?? 0) {
                         biggestImage = image
                     }
@@ -88,8 +85,7 @@ class AVFileUtil: NSObject {
         
         if let biggest = biggestImage, biggest.size.width >= CGFloat(AVFileUtil.min_artwork_size) {
             artworkHandler(biggest)
-        }
-        else {
+        } else {
             artworkHandler(nil)
         }
     }

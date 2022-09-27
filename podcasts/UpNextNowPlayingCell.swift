@@ -84,8 +84,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         
         if let episode = episode as? Episode {
             podcastImage.setPodcast(uuid: episode.podcastUuid, size: .list)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             podcastImage.setUserEpisode(uuid: episode.uuid, size: .list)
         }
         
@@ -119,8 +118,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             UIView.animate(withDuration: 0.95) {
                 self.layoutIfNeeded()
             }
-        }
-        else { layoutIfNeeded() }
+        } else { layoutIfNeeded() }
     }
     
     @objc func updatePlayingAnimation() {
@@ -149,20 +147,17 @@ class UpNextNowPlayingCell: ThemeableCell {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
-        }
-        else if episode.downloading() {
+        } else if episode.downloading() {
             if !downloadingIndicator.isAnimating {
                 downloadingIndicator.startAnimating()
                 downloadingIndicator.isHidden = false
                 downloadedIndicator.isHidden = true
             }
-        }
-        else if episode.downloaded(pathFinder: DownloadManager.shared) {
+        } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = false
-        }
-        else {
+        } else {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
         }

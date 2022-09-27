@@ -78,13 +78,11 @@ class WatchSyncManager {
     @objc func handleContextUpdate() {
         if updateLoginDetailsIfRequired() {
             return
-        }
-        else {
+        } else {
             if isPlusUser(), WKExtension.shared().applicationState == .background, compareUpNextLists() == .watchNeedsUpdate, !SyncManager.isFirstSyncInProgress() {
                 let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                 BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
-            }
-            else {
+            } else {
                 loginAndRefreshIfRequired()
             }
         }
@@ -98,21 +96,18 @@ class WatchSyncManager {
                 let comparisonResult = compareUpNextLists()
                 if comparisonResult == .watchNeedsUpdate || comparisonResult == .notEnoughInformation {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: false)
-                }
-                else {
+                } else {
                     periodicRefresh()
                 }
             }
-        }
-        else {
+        } else {
             FileLog.shared.addMessage("Non Plus user - getting login details")
             SessionManager.shared.requestLoginDetails(replyHandler: { response in
                 let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
                 let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
                 if username.count > 0, password.count > 0 {
                     self.login(username: username, password: password)
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("No username or password, don't attempt login")
                 }
             }, errorHandler: { error in
@@ -127,8 +122,7 @@ class WatchSyncManager {
                 if !success {
                     if let message = error?.rawValue, !message.isEmpty {
                         FileLog.shared.addMessage("FAILED Login \(message)")
-                    }
-                    else {
+                    } else {
                         FileLog.shared.addMessage("FAILED Login - no message")
                     }
                     SyncManager.signout()
@@ -174,8 +168,7 @@ class WatchSyncManager {
                 FileLog.shared.addMessage("Logging out as phone has logged out ")
                 SyncManager.signout()
                 WKExtension.shared().visibleInterfaceController?.popToRootController()
-            }
-            else if !SyncManager.isUserLoggedIn() {
+            } else if !SyncManager.isUserLoggedIn() {
                 self.login(username: username, password: password)
             }
         }, errorHandler: { error in
@@ -243,15 +236,13 @@ class WatchSyncManager {
     func syncThenNotifyPhone(significantChange: Bool, syncRequired: Bool) {
         if significantChange {
             pendingChangeNotification = .significant
-        }
-        else if pendingChangeNotification == .none {
+        } else if pendingChangeNotification == .none {
             pendingChangeNotification = .minor
         }
         
         if syncRequired {
             RefreshManager.shared.refreshPodcasts()
-        }
-        else {
+        } else {
             sendPendingChangeMessage()
         }
     }
@@ -272,8 +263,7 @@ class WatchSyncManager {
     private func sendPendingChangeMessage() {
         if pendingChangeNotification == .significant {
             SessionManager.shared.significantSyncableUpdate()
-        }
-        else if pendingChangeNotification == .minor {
+        } else if pendingChangeNotification == .minor {
             SessionManager.shared.minorSyncableUpdate()
         }
         
@@ -290,8 +280,7 @@ class WatchSyncManager {
         guard let phoneEpisodes = WatchDataManager.upNextEpisodes(), phoneEpisodes.count > 0 else {
             if watchEpisodeCount == 0 {
                 return .same
-            }
-            else {
+            } else {
                 return .phoneNeedsUpdate
             }
         }
@@ -325,8 +314,7 @@ class WatchSyncManager {
         
         if lastServerRefresh > WatchDataManager.lastDataTime() {
             return .phoneNeedsUpdate
-        }
-        else {
+        } else {
             return .watchNeedsUpdate
         }
     }

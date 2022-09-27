@@ -57,8 +57,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     func playPauseTapped(withEpisode episode: BaseEpisode) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
-        }
-        else {
+        } else {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         }
     }
@@ -66,8 +65,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     func skip(forward: Bool) {
         if forward {
             PlaybackManager.shared.skipForward()
-        }
-        else {
+        } else {
             PlaybackManager.shared.skipBack()
         }
     }
@@ -75,8 +73,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     func changeChapter(next: Bool) {
         if next {
             PlaybackManager.shared.skipToNextChapter()
-        }
-        else {
+        } else {
             PlaybackManager.shared.skipToPreviousChapter()
         }
     }
@@ -117,8 +114,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     func deleteDownload(forEpisode episode: BaseEpisode) {
         if let userEpisode = episode as? UserEpisode {
             UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
-        }
-        else {
+        } else {
             EpisodeManager.deleteDownloadedFiles(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
         }

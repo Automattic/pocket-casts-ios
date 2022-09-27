@@ -121,8 +121,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-        }
-        else {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
             let section = tableData()[indexPath.section]
             
@@ -140,8 +139,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             
             if Settings.playUpNextOnTap() {
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-            }
-            else {
+            } else {
                 showEpisodeDetailViewController(for: episode)
             }
         }
@@ -162,8 +160,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         let section = tableData()[indexPath.section]
         if section == .nowPlayingSection {
             return false
-        }
-        else if section == .upNextSection, PlaybackManager.shared.queue.upNextCount() == 0 {
+        } else if section == .upNextSection, PlaybackManager.shared.queue.upNextCount() == 0 {
             return false
         }
         return true
@@ -284,11 +281,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         if sender.state == .began {
             if isMultiSelectEnabled {
                 showLongPressSelectOptions(indexPath: indexPath)
-            }
-            else if !Settings.playUpNextOnTap() {
+            } else if !Settings.playUpNextOnTap() {
                 PlaybackActionHelper.play(episode: episode)
-            }
-            else {
+            } else {
                 showEpisodeDetailViewController(for: episode)
             }
         }

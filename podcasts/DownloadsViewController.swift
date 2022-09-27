@@ -74,8 +74,7 @@ class DownloadsViewController: PCViewController {
                         self.downloadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                }
-                else {
+                } else {
                     Analytics.track(.downloadsMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
@@ -265,8 +264,7 @@ class DownloadsViewController: PCViewController {
             for episode in failedList {
                 if later {
                     DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .notSpecified)
-                }
-                else {
+                } else {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .notSpecified)
                 }
             }

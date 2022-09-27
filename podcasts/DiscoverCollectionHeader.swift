@@ -115,8 +115,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         if let avatarUrl = podcastCollection.collectionImage {
             avatarBorderView.isHidden = false
             ImageManager.sharedManager.loadDiscoverImage(imageUrl: avatarUrl, imageView: avatarImageView, placeholderSize: .grid)
-        }
-        else {
+        } else {
             avatarBorderView.isHidden = true
         }
         setupCollageImage()
@@ -124,8 +123,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         if let linkTitle = podcastCollection.webTitle, podcastCollection.webUrl != nil {
             linkView.isHidden = false
             linkLabel.text = linkTitle
-        }
-        else {
+        } else {
             linkView.isHidden = true
         }
         setSubtitleColor()
@@ -135,8 +133,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         if let colors = podcastCollection?.colors, let darkColor = colors.onDarkBackground, let lightColor = colors.onLightBackground {
             let subtitleColor = Theme.isDarkTheme() ? darkColor : lightColor
             subtitleLabel.textColor = UIColor(hex: subtitleColor)
-        }
-        else {
+        } else {
             subtitleLabel.textColor = AppTheme.colorForStyle(.support05)
         }
     }
@@ -173,8 +170,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
         if let darkTintColor = podcastCollection?.colors?.onDarkBackground, let lightTintColor = podcastCollection?.colors?.onLightBackground {
             let backgroundColor = Theme.isDarkTheme() ? darkTintColor : lightTintColor
             collageTintView.backgroundColor = UIColor(hex: backgroundColor)
-        }
-        else {
+        } else {
             collageTintView.backgroundColor = AppTheme.colorForStyle(.support09)
         }
     }

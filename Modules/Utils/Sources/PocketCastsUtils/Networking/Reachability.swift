@@ -83,8 +83,7 @@
             if isOnWWANFlagSet {
                 if !allowsCellularConnection {
                     connection = .none
-                }
-                else {
+                } else {
                     connection = .cellular
                 }
             }
@@ -178,8 +177,7 @@
             var flags = SCNetworkReachabilityFlags()
             if SCNetworkReachabilityGetFlags(reachabilityRef, &flags) {
                 return flags
-            }
-            else {
+            } else {
                 return SCNetworkReachabilityFlags()
             }
         }

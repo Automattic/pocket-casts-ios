@@ -47,8 +47,7 @@ public class UploadManager: NSObject {
         let fileManager = FileManager.default
         do {
             try fileManager.createDirectory(atPath: customImageDirectory, withIntermediateDirectories: true, attributes: nil)
-        }
-        catch {}
+        } catch {}
     }
     
     public func queueForLaterUpload(episodeUuid: String, fireNotification: Bool) {

@@ -44,13 +44,11 @@ class RetrieveStarredTask: ApiBaseTask {
                 }
                 
                 completion?(convertedEpisodes)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding starred failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("retrieve starred failed \(error.localizedDescription)")
             completion?(nil)
         }
@@ -75,8 +73,7 @@ class RetrieveStarredTask: ApiBaseTask {
                 
                 self?.addEpisodeGroup.leave()
             }
-        }
-        else {
+        } else {
             // we don't, so try and add it
             ServerPodcastManager.shared.addFromUuid(podcastUuid: protoEpisode.podcastUuid, subscribe: false) { [weak self] _ in
                 // this will convert the episode if we now have it, if we don't not much we can do

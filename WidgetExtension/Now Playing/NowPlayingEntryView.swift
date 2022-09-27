@@ -37,8 +37,7 @@ struct NowPlayingWidgetEntryView: View {
                         .fontWeight(.medium)
                         .foregroundColor(Color.secondary)
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
-                }
-                else {
+                } else {
                     Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)).localizedUppercase)
                         .font(.caption2)
                         .fontWeight(.medium)
@@ -47,8 +46,7 @@ struct NowPlayingWidgetEntryView: View {
                         .layoutPriority(1)
                 }
             }.widgetURL(URL(string: "pktc://last_opened"))
-        }
-        else {
+        } else {
             ZStack {
                 Image(CommonWidgetHelper.loadAppIconName())
                     .resizable()

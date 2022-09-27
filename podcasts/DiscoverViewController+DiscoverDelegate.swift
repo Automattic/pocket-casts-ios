@@ -32,8 +32,7 @@ extension DiscoverViewController: DiscoverDelegate {
             collectionListVC.registerDiscoverDelegate(self)
             collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptive_list : CollectionCellStyle.grid
             navController()?.pushViewController(collectionListVC, animated: true)
-        }
-        else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
+        } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
             let listView = PodcastHeaderListViewController(podcasts: podcasts)
             listView.title = replaceRegionName(string: item.title?.localized ?? "")
             listView.showFeaturedCell = item.expandedStyle == "ranked_list"
@@ -92,8 +91,7 @@ extension DiscoverViewController: DiscoverDelegate {
     func subscribe(podcast: DiscoverPodcast) {
         if podcast.iTunesOnly() {
             ServerPodcastManager.shared.addFromiTunesId(Int(podcast.iTunesId!)!, subscribe: true, completion: nil)
-        }
-        else if let uuid = podcast.uuid {
+        } else if let uuid = podcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
         HapticsHelper.triggerSubscribedHaptic()

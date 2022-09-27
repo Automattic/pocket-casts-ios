@@ -8,8 +8,7 @@ class SkipButton: UIButton {
         didSet {
             if skipBack {
                 animationView.transform = CGAffineTransform.identity
-            }
-            else {
+            } else {
                 animationView.transform = animationView.transform.scaledBy(x: -1, y: 1)
             }
         }

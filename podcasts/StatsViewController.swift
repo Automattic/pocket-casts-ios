@@ -84,14 +84,12 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 castCell.descriptionLabel.text = L10n.statsError
                 castCell.timeLabel.text = "🤔"
                 castCell.accessibilityLabel = L10n.statsError
-            }
-            else if loadingState == LoadingStatus.loading {
+            } else if loadingState == LoadingStatus.loading {
                 castCell.listenLabel.text = L10n.statsListenHistoryLoading
                 castCell.timeLabel.text = nil
                 castCell.descriptionLabel.text = nil
                 castCell.loadingIndicator.startAnimating()
-            }
-            else {
+            } else {
                 castCell.loadingIndicator.stopAnimating()
                 castCell.descriptionLabel.text = FunnyTimeConverter.timeSecsToFunnyText(totalTimeStat())
                 castCell.timeLabel.text = formatStat(totalTimeStat())
@@ -99,39 +97,33 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     let startDate = Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt()))
                     let dateStr = DateFormatter.localizedString(from: startDate, dateStyle: .long, timeStyle: .none)
                     castCell.listenLabel.text = L10n.statsListenHistoryFormat(dateStr)
-                }
-                else {
+                } else {
                     castCell.listenLabel.text = L10n.statsListenHistoryNoDate
                 }
                 castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
             }
-        }
-        else if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let castCell = cell as! StatsCell
             castCell.showIcon()
             if indexPath.row == 0 {
                 castCell.statName.text = L10n.statsSkipping
                 castCell.statsIcon.image = UIImage(named: "stats_skipping")
                 castCell.statValue.text = formatStat(skippedStat())
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 castCell.statName.text = L10n.statsVariableSpeed
                 castCell.statsIcon.image = UIImage(named: "stats_speed")
                 castCell.statValue.text = formatStat(variableSpeedStat())
-            }
-            else if indexPath.row == 2 {
+            } else if indexPath.row == 2 {
                 castCell.statName.text = L10n.settingsTrimSilence
                 castCell.statsIcon.image = UIImage(named: "stats_silence")
                 castCell.statValue.text = formatStat(silenceRemovedStat())
-            }
-            else if indexPath.row == 3 {
+            } else if indexPath.row == 3 {
                 castCell.statName.text = L10n.statsAutoSkip
                 castCell.statsIcon.image = UIImage(named: "stats_skip_both")
                 castCell.statValue.text = formatStat(autoSkipStat())
             }
             castCell.statValue.style = .primaryText01
-        }
-        else {
+        } else {
             let castCell = cell as! StatsCell
             castCell.statName.text = L10n.statsTotal
             castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
@@ -237,8 +229,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if playbackTimeHelper.playedUpToSumInLastSevenDays() > 2.5.hours,
            StatsManager.shared.statsStartedAt() > 0,
            let lastWeek = Date().sevenDaysAgo(),
-           Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt())) < lastWeek
-        {
+           Date(timeIntervalSince1970: TimeInterval(StatsManager.shared.statsStartedAt())) < lastWeek {
             requestReview(delay: 1)
         }
     }

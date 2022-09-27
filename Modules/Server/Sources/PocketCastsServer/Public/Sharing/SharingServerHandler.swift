@@ -100,8 +100,7 @@ public class SharingServerHandler {
             do {
                 let shareUrl = try JSONDecoder().decode(PodcastShareResponse.self, from: data).result?.shareUrl
                 completion(shareUrl)
-            }
-            catch {
+            } catch {
                 completion(nil)
             }
         }.resume()
@@ -118,8 +117,7 @@ public class SharingServerHandler {
             do {
                 let podcastList = try JSONDecoder().decode(PodcastList.self, from: data)
                 completion(podcastList)
-            }
-            catch {
+            } catch {
                 completion(nil)
             }
         }.resume()

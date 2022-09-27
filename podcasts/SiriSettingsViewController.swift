@@ -209,8 +209,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
                     self.reloadData()
                     self.errorView.isHidden = true
                 }
-            }
-            else {
+            } else {
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.errorView.isHidden = false
@@ -228,12 +227,10 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
                 // the following is a special case as we replace SJChapterIntent with a INPlayMediaIntent in v7.8.1
                 if chapterIntent.skipForward == .next {
                     suggestedShortcuts.append(SiriShortcutsManager.shared.nextChapterShortcut())
-                }
-                else {
+                } else {
                     suggestedShortcuts.append(SiriShortcutsManager.shared.previousChapterShortcut())
                 }
-            }
-            else {
+            } else {
                 suggestedShortcuts.append(voiceShortcut.shortcut)
             }
         }

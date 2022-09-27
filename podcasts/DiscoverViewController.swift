@@ -66,8 +66,7 @@ class DiscoverViewController: PCViewController {
         let defaultOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
         if mainScrollView.contentOffset.y > defaultOffset {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
-        }
-        else {
+        } else {
             searchController.searchTextField.becomeFirstResponder()
         }
     }
@@ -212,17 +211,14 @@ class DiscoverViewController: PCViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
-        }
-        else if let previousView = summaryViewControllers.last?.view {
+        } else if let previousView = summaryViewControllers.last?.view {
             if summaryViewControllers.count == 1 {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
-            }
-            else {
+            } else {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
-        }
-        else {
+        } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
         }
         

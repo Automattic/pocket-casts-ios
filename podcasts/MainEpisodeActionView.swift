@@ -68,20 +68,15 @@ class MainEpisodeActionView: UIView {
         
         if state == .play {
             delegate.playTapped()
-        }
-        else if state == .pause {
+        } else if state == .pause {
             delegate.pauseTapped()
-        }
-        else if state == .download {
+        } else if state == .download {
             delegate.downloadTapped()
-        }
-        else if state == .pauseDownload {
+        } else if state == .pauseDownload {
             delegate.stopDownloadTapped()
-        }
-        else if state == .error {
+        } else if state == .error {
             delegate.errorTapped()
-        }
-        else if state == .waitingForWifi {
+        } else if state == .waitingForWifi {
             delegate.waitingForWifiTapped()
         }
     }
@@ -96,8 +91,7 @@ class MainEpisodeActionView: UIView {
         // update download and play progress
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             setDownloadProgress(1)
-        }
-        else {
+        } else {
             let progress = DownloadManager.shared.progressManager.progressForEpisode(episode.uuid)
             updateDownloadProgress(progress)
         }
@@ -105,8 +99,7 @@ class MainEpisodeActionView: UIView {
         if episode.duration > 0 {
             let playbackProgress = episode.playedUpTo / episode.duration
             setPlaybackProgress(playbackProgress)
-        }
-        else {
+        } else {
             setPlaybackProgress(0)
         }
         
@@ -116,26 +109,19 @@ class MainEpisodeActionView: UIView {
         let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
         if googleCastConnected || isCurrent {
             state = isPlaying ? .pause : .play
-        }
-        else if episode.played() {
+        } else if episode.played() {
             state = episode.downloaded(pathFinder: DownloadManager.shared) ? .playedPlay : .playedDownload
-        }
-        else if episode.playbackError() || episode.downloadFailed() {
+        } else if episode.playbackError() || episode.downloadFailed() {
             state = .error
-        }
-        else if isCurrent {
+        } else if isCurrent {
             state = isPlaying ? .pause : .play
-        }
-        else if primaryRowActionIsDownload, episode.downloading() || episode.queued() {
+        } else if primaryRowActionIsDownload, episode.downloading() || episode.queued() {
             state = .pauseDownload
-        }
-        else if episode.waitingForWifi() {
+        } else if episode.waitingForWifi() {
             state = .waitingForWifi
-        }
-        else if episode.downloaded(pathFinder: DownloadManager.shared) {
+        } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             state = .play
-        }
-        else {
+        } else {
             state = primaryRowActionIsDownload ? .download : .play
         }
     }
@@ -173,8 +159,7 @@ class MainEpisodeActionView: UIView {
         playedAngle = MainEpisodeActionView.startingAngle
         if progress > 1 {
             playedAngle = 360 + MainEpisodeActionView.startingAngle
-        }
-        else if progress > 0 {
+        } else if progress > 0 {
             playedAngle = CGFloat(360 * progress) + MainEpisodeActionView.startingAngle
         }
     }
@@ -183,11 +168,9 @@ class MainEpisodeActionView: UIView {
         downloadAngle = MainEpisodeActionView.startingAngle
         if progress < 0.05 {
             downloadAngle = 18 + MainEpisodeActionView.startingAngle
-        }
-        else if progress > 1 {
+        } else if progress > 1 {
             downloadAngle = 360 + MainEpisodeActionView.startingAngle
-        }
-        else if progress > 0 {
+        } else if progress > 0 {
             downloadAngle = CGFloat(360 * progress) + MainEpisodeActionView.startingAngle
         }
     }
@@ -253,8 +236,7 @@ extension MainEpisodeActionView {
                 context.setStrokeColor(circleProgressColor().cgColor)
                 context.addArc(center: circleCenter, radius: MainEpisodeActionView.circleRadius * enlargementScale, startAngle: MainEpisodeActionView.startingAngle.degreesToRadians, endAngle: playedAngle.degreesToRadians, clockwise: false)
                 context.drawPath(using: .stroke)
-            }
-            else {
+            } else {
                 context.addArc(center: circleCenter, radius: MainEpisodeActionView.circleRadius * enlargementScale, startAngle: MainEpisodeActionView.startingAngle.degreesToRadians, endAngle: MainEpisodeActionView.endingAngle.degreesToRadians, clockwise: false)
                 context.drawPath(using: .stroke)
             }

@@ -26,8 +26,7 @@ class AudioUtils {
         for i in 0 ..< Int(length) {
             if fadeOut {
                 data[i] = data[i] * (length - Float32(i)) / length
-            }
-            else {
+            } else {
                 data[i] = data[i] * Float32(i) / length
             }
         }

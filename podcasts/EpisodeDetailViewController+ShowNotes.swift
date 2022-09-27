@@ -62,16 +62,14 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         if navigationAction.navigationType == .linkActivated {
             if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
+            } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
                 let config = SFSafariViewController.Configuration()
                 config.entersReaderIfAvailable = false
                 safariViewController = SFSafariViewController(url: navigationAction.request.url!, configuration: config)
                 safariViewController?.delegate = self
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(safariViewController!, animated: true, completion: nil)
-            }
-            else if let url = navigationAction.request.url, URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
+            } else if let url = navigationAction.request.url, URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
             
@@ -102,8 +100,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         if showNotes == CacheServerHandler.noShowNotesMessage {
             failedToLoadLabel.text = showNotes
             hideErrorMessage(hide: false)
-        }
-        else {
+        } else {
             let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
             lastThemeRenderedNotesIn = currentTheme
             let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))

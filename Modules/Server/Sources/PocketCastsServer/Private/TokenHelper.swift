@@ -19,11 +19,9 @@ class TokenHelper {
             let token: String
             if let storedToken = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
                 token = storedToken
-            }
-            else if let newToken = TokenHelper.acquireToken() {
+            } else if let newToken = TokenHelper.acquireToken() {
                 token = newToken
-            }
-            else {
+            } else {
                 completion(nil, nil, nil)
                 return
             }
@@ -41,8 +39,7 @@ class TokenHelper {
                 if SyncManager.isUserLoggedIn(), retryOnUnauthorized {
                     KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
                     performCallSecureUrl(request: request, retryOnUnauthorized: false, completion: completion)
-                }
-                else {
+                } else {
                     completion(httpResponse, nil, error)
                 }
                 
@@ -58,8 +55,7 @@ class TokenHelper {
             // if the user doesn't have an email and password, they aren't going to be able to acquire a sync token
             if ServerSettings.syncingEmail() == nil {
                 FileLog.shared.addMessage("Acquire Token was called, however the user has no email address")
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("Acquire Token was called, and the user has an email, but no password")
             }
             
@@ -103,8 +99,7 @@ class TokenHelper {
                 FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
                 SyncManager.signout()
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
         }
         

@@ -79,13 +79,11 @@ class UpNextDataManager {
                 if playlistEpisode.id == 0 {
                     playlistEpisode.id = DBUtils.generateUniqueId()
                     try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlistEpisode: playlistEpisode))
-                }
-                else {
+                } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
             }
         }
@@ -107,15 +105,13 @@ class UpNextDataManager {
                     if playlistEpisode.id == 0 {
                         playlistEpisode.id = DBUtils.generateUniqueId()
                         try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlistEpisode: playlistEpisode))
-                    }
-                    else {
+                    } else {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                         try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))
                     }
                 }
                 db.commit()
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
             }
         }
@@ -127,8 +123,7 @@ class UpNextDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", values: [playlistEpisode.id])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.delete error: \(error)")
             }
         }
@@ -141,8 +136,7 @@ class UpNextDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodes error: \(error)")
             }
         }
@@ -154,8 +148,7 @@ class UpNextDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", values: [episodeUuid])
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesExcept error: \(error)")
             }
         }
@@ -168,12 +161,10 @@ class UpNextDataManager {
             do {
                 if uuids.count == 0 {
                     try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
-                }
-                else {
+                } else {
                     try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
             }
         }
@@ -186,8 +177,7 @@ class UpNextDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
             }
         }
@@ -200,14 +190,12 @@ class UpNextDataManager {
         
         if from == -1, to == 0 {
             // special case where we just added a new episode to the top, nothing needs to be done just redo the ordering below
-        }
-        else if let episodeToMove = resortedItems[safe: from] {
+        } else if let episodeToMove = resortedItems[safe: from] {
             resortedItems.remove(at: from)
             
             if to >= resortedItems.count {
                 resortedItems.append(episodeToMove)
-            }
-            else {
+            } else {
                 resortedItems.insert(episodeToMove, at: to)
             }
         }
@@ -218,8 +206,7 @@ class UpNextDataManager {
                 for (index, episode) in resortedItems.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.movePlaylistEpisode error: \(error)")
             }
         }
@@ -242,8 +229,7 @@ class UpNextDataManager {
                 cachedItemsQueue.sync {
                     cachedItems = newItems
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.cacheEpisodes error: \(error)")
             }
         }
@@ -259,8 +245,7 @@ class UpNextDataManager {
                 for (index, episode) in sortedItems.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("UpNextDataManager.saveOrdering error: \(error)")
             }
         }

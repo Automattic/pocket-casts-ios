@@ -29,8 +29,7 @@ class PCViewController: SimpleNotificationsViewController {
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
             
             refreshRightButtons()
-        }
-        else if let _ = customRightBtn {
+        } else if let _ = customRightBtn {
             refreshRightButtons()
         }
         setupNavBar(animated: false)
@@ -103,8 +102,7 @@ class PCViewController: SimpleNotificationsViewController {
                 buttons.append(googleCastBtn)
             }
             navigationItem.rightBarButtonItems = buttons
-        }
-        else {
+        } else {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = customRightBtn
         }
@@ -163,8 +161,7 @@ class PCViewController: SimpleNotificationsViewController {
                 navigationBar.scrollEdgeAppearance = appearance
                 navigationBar.tintColor = iconsColor
             })
-        }
-        else {
+        } else {
             navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor

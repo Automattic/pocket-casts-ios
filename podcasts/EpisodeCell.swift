@@ -131,8 +131,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         shouldShowSelect = editing
         if editing {
             hideSwipe(animated: true)
-        }
-        else {
+        } else {
             showTick = false
         }
         accessibilityLabel = labelForAccessibility(episode: episode)
@@ -182,8 +181,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             if let userEpisode = episode as? UserEpisode {
                 uploadStatusIndicator.isHidden = !userEpisode.uploaded()
                 uploadFailed = userEpisode.uploadFailed()
-            }
-            else {
+            } else {
                 uploadStatusIndicator.isHidden = true
             }
             
@@ -192,11 +190,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 let statusImage: UIImage?
                 if episode.downloadFailed() || uploadFailed || episode.playbackError() {
                     statusImage = UIImage(named: "list_downloadfailed")
-                }
-                else if episode.downloaded(pathFinder: DownloadManager.shared) {
+                } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
-                }
-                else {
+                } else {
                     statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
                 }
                 statusIndicator.image = statusImage
@@ -210,16 +206,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 leadingSpacerWidth.constant = 8
                 selectTickHorizontalOffset.constant = 0
                 selectCircleHorizontalOffset.constant = 0
-            }
-            else {
+            } else {
                 leadingSpacerWidth.constant = 12
                 selectTickHorizontalOffset.constant = 4
                 selectCircleHorizontalOffset.constant = 4
                 
                 if let userEpisode = episode as? UserEpisode {
                     episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-                }
-                else {
+                } else {
                     episodeImage.setPodcast(uuid: episode.parentIdentifier(), size: .list)
                 }
             }
@@ -227,8 +221,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             if episode.played() || episode.archived {
                 episodeImage.alpha = EpisodeCell.playedAlpha
                 contentStackView.alpha = EpisodeCell.playedAlpha
-            }
-            else {
+            } else {
                 episodeImage.alpha = 1
                 contentStackView.alpha = 1
             }
@@ -240,18 +233,15 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         
         if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
-        }
-        else if let userEpisode = episode as? UserEpisode {
+        } else if let userEpisode = episode as? UserEpisode {
             informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
-        }
-        else {
+        } else {
             informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
         }
         
         if episode.downloading(), !downloadingIndicator.isAnimating {
             downloadingIndicator.startAnimating()
-        }
-        else if !episode.downloading(), downloadingIndicator.isAnimating {
+        } else if !episode.downloading(), downloadingIndicator.isAnimating {
             downloadingIndicator.stopAnimating()
         }
         
@@ -260,18 +250,15 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             if userEpisode.uploading() {
                 if let progress = UploadManager.shared.progressManager.progressForEpisode(userEpisode.uuid) {
                     uploadProgressIndicator.progress = progress.percentageProgress()
-                }
-                else {
+                } else {
                     uploadProgressIndicator.progress = 0.1
                 }
                 uploadProgressIndicator.alpha = 1
-            }
-            else if userEpisode.uploadWaitingForWifi() {
+            } else if userEpisode.uploadWaitingForWifi() {
                 uploadProgressIndicator.progress = 0
                 uploadProgressIndicator.alpha = 0.5
             }
-        }
-        else {
+        } else {
             uploadProgressIndicator.isHidden = true
         }
         
@@ -299,11 +286,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             desc.append(L10n.statusDownloaded)
-        }
-        else if episode.downloadFailed() {
+        } else if episode.downloadFailed() {
             desc.append(episode.readableErrorMessage())
-        }
-        else if let playbackError = episode.playbackErrorDetails {
+        } else if let playbackError = episode.playbackErrorDetails {
             desc.append(playbackError)
         }
         if episode.keepEpisode {
@@ -315,8 +300,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if isMultiSelectEnabled {
             if showTick {
                 desc.append(L10n.statusSelected)
-            }
-            else {
+            } else {
                 desc.append(L10n.statusNotSelected)
             }
         }
@@ -361,8 +345,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         
         if Thread.isMainThread {
             populateFrom(episode: newEpisode, tintColor: mainTintColor, filterUuid: filterUuid, podcastUuid: podcastUuid)
-        }
-        else {
+        } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
@@ -392,8 +375,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         
         if Thread.isMainThread {
             populate(progressOnly: true)
-        }
-        else {
+        } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
@@ -450,8 +432,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             
             optionsPicker.addDescriptiveActions(title: L10n.playbackFailed, message: episode.playbackErrorDetails, icon: "option-alert", actions: [retryAction])
             optionsPicker.show(statusBarStyle: statusBarStyle)
-        }
-        else {
+        } else {
             let downloadError = episode.readableErrorMessage()
             let optionsPicker = OptionsPicker(title: nil)
             let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
@@ -475,8 +456,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private func reloadEpisode() -> BaseEpisode? {
         if let episode = episode as? Episode {
             return DataManager.sharedManager.findEpisode(uuid: episode.uuid)
-        }
-        else if let episode = episode as? UserEpisode {
+        } else if let episode = episode as? UserEpisode {
             return DataManager.sharedManager.findUserEpisode(uuid: episode.uuid)
         }
         

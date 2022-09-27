@@ -85,8 +85,7 @@ class SelectPaymentFreqViewController: UIViewController {
                 yearlyBorderView.isSelected = true
                 monthlyButton.isSelected = false
                 monthlyBorderView.isSelected = false
-            }
-            else {
+            } else {
                 yearlyButton.isSelected = false
                 yearlyBorderView.isSelected = false
                 monthlyButton.isSelected = true
@@ -153,8 +152,7 @@ class SelectPaymentFreqViewController: UIViewController {
         if newSubscription.isNewAccount {
             let newEmailVC = NewEmailViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(newEmailVC, animated: true)
-        }
-        else {
+        } else {
             let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(confirmPaymentVC, animated: true)
         }

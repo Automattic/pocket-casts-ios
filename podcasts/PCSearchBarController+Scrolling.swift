@@ -17,8 +17,7 @@ extension PCSearchBarController {
         if yPos < 0 {
             let offset = PCSearchBarController.defaultHeight + yPos
             newValue = min(0, -offset)
-        }
-        else {
+        } else {
             newValue = -PCSearchBarController.defaultHeight
         }
         
@@ -42,8 +41,7 @@ extension PCSearchBarController {
         
         if shouldAnimateDown {
             scrollView.setContentOffset(CGPoint(x: 0, y: -PCSearchBarController.defaultHeight - topOffset), animated: true)
-        }
-        else if shouldAnimateUp {
+        } else if shouldAnimateUp {
             scrollView.setContentOffset(CGPoint(x: 0, y: -topOffset), animated: true)
         }
     }

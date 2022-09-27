@@ -72,16 +72,14 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
             let podcastHeader = searchResults[indexPath.row]
             if let uuid = podcastHeader.uuid {
                 cell.podcastImage.setPodcast(uuid: uuid, size: .list)
-            }
-            else {
+            } else {
                 cell.podcastImage.clearArtwork()
             }
             cell.podcastName.text = podcastHeader.title
             cell.podcastAuthor.text = podcastHeader.author
             if let uuid = podcastHeader.uuid, let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
                 cell.subscribedIcon.isHidden = false
-            }
-            else {
+            } else {
                 cell.subscribedIcon.isHidden = true
             }
             

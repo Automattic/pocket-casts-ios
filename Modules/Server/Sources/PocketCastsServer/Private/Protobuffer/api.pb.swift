@@ -15,7 +15,7 @@ import SwiftProtobuf
 // incompatible with the version of SwiftProtobuf to which you are linking.
 // Please ensure that you are building against the same version of the API
 // that was used to generate this file.
-fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAPIVersionCheck {
+private struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAPIVersionCheck {
   struct _2: SwiftProtobuf.ProtobufAPIVersion_2 {}
   typealias Version = _2
 }
@@ -40,7 +40,7 @@ struct Api_UserChangeResponse {
 
   init() {}
 
-  fileprivate var _success: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _success: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_UserResetPasswordRequest {
@@ -300,7 +300,7 @@ struct Api_NamedSettingsRequest {
 
   init() {}
 
-  fileprivate var _settings: Api_NamedSettings? = nil
+  fileprivate var _settings: Api_NamedSettings?
 }
 
 struct Api_NamedSettings {
@@ -714,8 +714,8 @@ struct Api_Int32Setting {
 
   init() {}
 
-  fileprivate var _value: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _value: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_BoolSetting {
@@ -745,8 +745,8 @@ struct Api_BoolSetting {
 
   init() {}
 
-  fileprivate var _value: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _value: SwiftProtobuf.Google_Protobuf_BoolValue?
+  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_StringSetting {
@@ -776,8 +776,8 @@ struct Api_StringSetting {
 
   init() {}
 
-  fileprivate var _value: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _value: SwiftProtobuf.Google_Protobuf_StringValue?
+  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_DoubleSetting {
@@ -807,8 +807,8 @@ struct Api_DoubleSetting {
 
   init() {}
 
-  fileprivate var _value: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _value: SwiftProtobuf.Google_Protobuf_DoubleValue?
+  fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_ApiPodcastResponse {
@@ -1061,9 +1061,9 @@ struct Api_SyncEpisodesResponse {
 
   init() {}
 
-  fileprivate var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+  fileprivate var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
 }
 
 struct Api_FindUserEpisodesRequest {
@@ -1262,8 +1262,8 @@ struct Api_UpdateEpisodeRequest {
 
   init() {}
 
-  fileprivate var _position: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _stats: Api_StatsRequest? = nil
+  fileprivate var _position: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _stats: Api_StatsRequest?
 }
 
 struct Api_UpdateEpisodeResponse {
@@ -1380,7 +1380,7 @@ struct Api_UpNextSyncRequest {
 
   init() {}
 
-  fileprivate var _upNext: Api_UpNextChanges? = nil
+  fileprivate var _upNext: Api_UpNextChanges?
 }
 
 struct Api_UpNextPlayRequest {
@@ -1405,7 +1405,7 @@ struct Api_UpNextPlayRequest {
 
   init() {}
 
-  fileprivate var _episode: Api_UpNextEpisodeRequest? = nil
+  fileprivate var _episode: Api_UpNextEpisodeRequest?
 }
 
 struct Api_UpNextListRequest {
@@ -1454,7 +1454,7 @@ struct Api_UpNextEpisodeRequest {
 
   init() {}
 
-  fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_UpNextChanges {
@@ -1502,7 +1502,7 @@ struct Api_UpNextChanges {
 
     init() {}
 
-    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
   }
 
   init() {}
@@ -1547,7 +1547,7 @@ struct Api_UpNextResponse {
 
     init() {}
 
-    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
   }
 
   struct EpisodeSyncResponse {
@@ -1579,8 +1579,8 @@ struct Api_UpNextResponse {
 
     init() {}
 
-    fileprivate var _playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    fileprivate var _duration: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    fileprivate var _playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value?
+    fileprivate var _duration: SwiftProtobuf.Google_Protobuf_Int32Value?
   }
 
   init() {}
@@ -1616,7 +1616,7 @@ struct Api_HistoryChange {
 
   init() {}
 
-  fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_HistorySyncRequest {
@@ -1743,7 +1743,7 @@ struct Api_StatsResponse {
 
   init() {}
 
-  fileprivate var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_RegisterRequest {
@@ -1826,7 +1826,7 @@ struct Api_UserTokenResponse {
 
   init() {}
 
-  fileprivate var _refreshToken: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+  fileprivate var _refreshToken: SwiftProtobuf.Google_Protobuf_StringValue?
 }
 
 struct Api_UserRevokeRequest {
@@ -1885,7 +1885,7 @@ struct Api_RegisterResponse {
 
   init() {}
 
-  fileprivate var _success: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _success: SwiftProtobuf.Google_Protobuf_BoolValue?
 }
 
 struct Api_StarredEpisodesResponse {
@@ -2128,7 +2128,7 @@ struct Api_CheckEligibleRequest {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var storeReceipt: Api_CheckEligibleRequest.OneOf_StoreReceipt? = nil
+  var storeReceipt: Api_CheckEligibleRequest.OneOf_StoreReceipt?
 
   var android: Api_SubscriptionsPurchaseAndroidRequest {
     get {
@@ -2637,7 +2637,7 @@ struct Api_Record {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var record: Api_Record.OneOf_Record? = nil
+  var record: Api_Record.OneOf_Record?
 
   var podcast: Api_SyncUserPodcast {
     get {
@@ -2806,14 +2806,14 @@ struct Api_SyncUserPodcast {
 
   init() {}
 
-  fileprivate var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-  fileprivate var _subscribed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-  fileprivate var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-  fileprivate var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
+  fileprivate var _subscribed: SwiftProtobuf.Google_Protobuf_BoolValue?
+  fileprivate var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+  fileprivate var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_SyncUserEpisode {
@@ -2919,16 +2919,16 @@ struct Api_SyncUserEpisode {
 
   init() {}
 
-  fileprivate var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-  fileprivate var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _duration: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _playedUpTo: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-  fileprivate var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
+  fileprivate var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _duration: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _playedUpTo: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _starred: SwiftProtobuf.Google_Protobuf_BoolValue?
+  fileprivate var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value?
 }
 
 struct Api_SyncUserDevice {
@@ -3013,14 +3013,14 @@ struct Api_SyncUserDevice {
 
   init() {}
 
-  fileprivate var _deviceID: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-  fileprivate var _deviceType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-  fileprivate var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-  fileprivate var _timeListened: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _deviceID: SwiftProtobuf.Google_Protobuf_StringValue?
+  fileprivate var _deviceType: SwiftProtobuf.Google_Protobuf_Int32Value?
+  fileprivate var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
+  fileprivate var _timeListened: SwiftProtobuf.Google_Protobuf_Int64Value?
 }
 
 struct Api_SyncUserPlaylist {
@@ -3264,7 +3264,7 @@ struct Api_SyncUserFolder {
 
   init() {}
 
-  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_LegacySyncData {
@@ -3299,7 +3299,7 @@ struct Api_LegacySyncRecord {
 
   init() {}
 
-  fileprivate var _fields: Api_LegacyRecord? = nil
+  fileprivate var _fields: Api_LegacyRecord?
 }
 
 struct Api_LegacyRecord {
@@ -3775,7 +3775,7 @@ struct Api_LegacySyncResponseRecord {
 
   init() {}
 
-  fileprivate var _fields: Api_LegacyResponseRecord? = nil
+  fileprivate var _fields: Api_LegacyResponseRecord?
 }
 
 struct Api_LegacyResponseRecord {
@@ -4350,7 +4350,7 @@ struct Api_PodcastFolderRequest {
 
   init() {}
 
-  fileprivate var _folder: Api_PodcastFolder? = nil
+  fileprivate var _folder: Api_PodcastFolder?
 }
 
 struct Api_PodcastFolder {
@@ -4381,7 +4381,7 @@ struct Api_PodcastFolder {
 
   init() {}
 
-  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 }
 
 struct Api_PodcastFolderSortRequest {
@@ -4531,13 +4531,13 @@ extension Api_PodcastFolderSorting: @unchecked Sendable {}
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
-fileprivate let _protobuf_package = "api"
+private let _protobuf_package = "api"
 
 extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserChangeResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "success"),
-    2: .same(proto: "message"),
+    2: .same(proto: "message")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4580,7 +4580,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "reset_password_token"),
     2: .same(proto: "password"),
-    3: .same(proto: "scope"),
+    3: .same(proto: "scope")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4622,7 +4622,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 extension Api_EmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EmailRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
+    1: .same(proto: "email")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4656,7 +4656,7 @@ extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "email"),
     2: .same(proto: "password"),
-    3: .same(proto: "scope"),
+    3: .same(proto: "scope")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4700,7 +4700,7 @@ extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._M
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "old_password"),
     2: .standard(proto: "new_password"),
-    4: .same(proto: "scope"),
+    4: .same(proto: "scope")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4783,7 +4783,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
     1: .same(proto: "message"),
     2: .same(proto: "email"),
     3: .same(proto: "subject"),
-    4: .same(proto: "debug"),
+    4: .same(proto: "debug")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4830,7 +4830,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 extension Api_CreateBetaUserRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CreateBetaUserRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
+    1: .same(proto: "email")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4872,7 +4872,7 @@ extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     8: .same(proto: "av"),
     9: .same(proto: "f"),
     10: .same(proto: "l"),
-    11: .same(proto: "c"),
+    11: .same(proto: "c")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4955,7 +4955,7 @@ extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
   static let protoMessageName: String = _protobuf_package + ".UserLoginResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "token"),
-    2: .same(proto: "uuid"),
+    2: .same(proto: "uuid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4993,7 +4993,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   static let protoMessageName: String = _protobuf_package + ".BasicRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
-    2: .same(proto: "m"),
+    2: .same(proto: "m")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5030,7 +5030,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserIdResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "id"),
+    1: .same(proto: "id")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5064,7 +5064,7 @@ extension Api_UserPlaylistEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf.
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
     2: .same(proto: "m"),
-    3: .same(proto: "uuid"),
+    3: .same(proto: "uuid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5108,7 +5108,7 @@ extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
     2: .same(proto: "m"),
-    3: .standard(proto: "exclude_deleted"),
+    3: .standard(proto: "exclude_deleted")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5151,7 +5151,7 @@ extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
   static let protoMessageName: String = _protobuf_package + ".UserPodcastListRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
-    2: .same(proto: "m"),
+    2: .same(proto: "m")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5190,7 +5190,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
     2: .same(proto: "m"),
-    3: .same(proto: "settings"),
+    3: .same(proto: "settings")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5255,30 +5255,30 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     17: .standard(proto: "marketing_opt_in"),
     18: .standard(proto: "auto_archive_played_episodes"),
     19: .standard(proto: "auto_archive_includes_starred"),
-    20: .same(proto: "region"),
+    20: .same(proto: "region")
   ]
 
   fileprivate class _StorageClass {
-    var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _theme: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _skipForward: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _skipBack: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _webVersion: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _language: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _streamByDefault: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _silenceRemoval: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _badges: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _region: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _theme: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _skipForward: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _skipBack: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _webVersion: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _language: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _streamByDefault: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _silenceRemoval: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _badges: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _region: SwiftProtobuf.Google_Protobuf_StringValue?
 
     static let defaultInstance = _StorageClass()
 
@@ -5475,30 +5475,30 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     17: .standard(proto: "marketing_opt_in"),
     18: .standard(proto: "auto_archive_played_episodes"),
     19: .standard(proto: "auto_archive_includes_starred"),
-    20: .same(proto: "region"),
+    20: .same(proto: "region")
   ]
 
   fileprivate class _StorageClass {
-    var _gridLayout: Api_Int32Setting? = nil
-    var _gridOrder: Api_Int32Setting? = nil
-    var _showPlayed: Api_Int32Setting? = nil
-    var _theme: Api_Int32Setting? = nil
-    var _skipForward: Api_Int32Setting? = nil
-    var _skipBack: Api_Int32Setting? = nil
-    var _webVersion: Api_Int32Setting? = nil
-    var _language: Api_StringSetting? = nil
-    var _recommendationsOn: Api_BoolSetting? = nil
-    var _streamByDefault: Api_BoolSetting? = nil
-    var _useEmbeddedArtwork: Api_BoolSetting? = nil
-    var _playbackSpeed: Api_DoubleSetting? = nil
-    var _silenceRemoval: Api_BoolSetting? = nil
-    var _volumeBoost: Api_BoolSetting? = nil
-    var _badges: Api_Int32Setting? = nil
-    var _freeGiftAcknowledgement: Api_BoolSetting? = nil
-    var _marketingOptIn: Api_BoolSetting? = nil
-    var _autoArchivePlayedEpisodes: Api_BoolSetting? = nil
-    var _autoArchiveIncludesStarred: Api_BoolSetting? = nil
-    var _region: Api_StringSetting? = nil
+    var _gridLayout: Api_Int32Setting?
+    var _gridOrder: Api_Int32Setting?
+    var _showPlayed: Api_Int32Setting?
+    var _theme: Api_Int32Setting?
+    var _skipForward: Api_Int32Setting?
+    var _skipBack: Api_Int32Setting?
+    var _webVersion: Api_Int32Setting?
+    var _language: Api_StringSetting?
+    var _recommendationsOn: Api_BoolSetting?
+    var _streamByDefault: Api_BoolSetting?
+    var _useEmbeddedArtwork: Api_BoolSetting?
+    var _playbackSpeed: Api_DoubleSetting?
+    var _silenceRemoval: Api_BoolSetting?
+    var _volumeBoost: Api_BoolSetting?
+    var _badges: Api_Int32Setting?
+    var _freeGiftAcknowledgement: Api_BoolSetting?
+    var _marketingOptIn: Api_BoolSetting?
+    var _autoArchivePlayedEpisodes: Api_BoolSetting?
+    var _autoArchiveIncludesStarred: Api_BoolSetting?
+    var _region: Api_StringSetting?
 
     static let defaultInstance = _StorageClass()
 
@@ -5677,7 +5677,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   static let protoMessageName: String = _protobuf_package + ".Int32Setting"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
-    2: .same(proto: "changed"),
+    2: .same(proto: "changed")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5719,7 +5719,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   static let protoMessageName: String = _protobuf_package + ".BoolSetting"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
-    2: .same(proto: "changed"),
+    2: .same(proto: "changed")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5761,7 +5761,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   static let protoMessageName: String = _protobuf_package + ".StringSetting"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
-    2: .same(proto: "changed"),
+    2: .same(proto: "changed")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5803,7 +5803,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   static let protoMessageName: String = _protobuf_package + ".DoubleSetting"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
-    2: .same(proto: "changed"),
+    2: .same(proto: "changed")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5848,7 +5848,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     2: .same(proto: "title"),
     3: .same(proto: "author"),
     4: .same(proto: "description"),
-    5: .same(proto: "url"),
+    5: .same(proto: "url")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5900,7 +5900,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 extension Api_ApiPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ApiPodcastListResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "podcasts"),
+    1: .same(proto: "podcasts")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5947,7 +5947,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     13: .standard(proto: "auto_skip_last"),
     14: .standard(proto: "folder_uuid"),
     15: .standard(proto: "sort_position"),
-    16: .standard(proto: "date_added"),
+    16: .standard(proto: "date_added")
   ]
 
   fileprivate class _StorageClass {
@@ -5958,15 +5958,15 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     var _author: String = String()
     var _description_p: String = String()
     var _url: String = String()
-    var _lastEpisodePublished: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _lastEpisodePublished: SwiftProtobuf.Google_Protobuf_Timestamp?
     var _unplayed: Bool = false
     var _lastEpisodeUuid: String = String()
     var _lastEpisodePlayingStatus: Int32 = 0
     var _lastEpisodeArchived: Bool = false
     var _autoSkipLast: Int32 = 0
-    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 
     static let defaultInstance = _StorageClass()
 
@@ -6120,7 +6120,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 extension Api_UserPlaylistListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPlaylistListResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "playlists"),
+    1: .same(proto: "playlists")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6153,7 +6153,7 @@ extension Api_UserPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
   static let protoMessageName: String = _protobuf_package + ".UserPodcastListResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "podcasts"),
-    2: .same(proto: "folders"),
+    2: .same(proto: "folders")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6191,7 +6191,7 @@ extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
   static let protoMessageName: String = _protobuf_package + ".UserLastSyncAtResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "last_sync_at"),
-    2: .standard(proto: "last_sync_at_ms"),
+    2: .standard(proto: "last_sync_at_ms")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6230,7 +6230,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
     2: .same(proto: "m"),
-    3: .same(proto: "uuid"),
+    3: .same(proto: "uuid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6274,7 +6274,7 @@ extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v"),
     2: .same(proto: "m"),
-    3: .same(proto: "keyword"),
+    3: .same(proto: "keyword")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6319,7 +6319,7 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     1: .same(proto: "episodes"),
     2: .standard(proto: "auto_start_from"),
     3: .standard(proto: "episodes_sort_order"),
-    4: .standard(proto: "auto_skip_last"),
+    4: .standard(proto: "auto_skip_last")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6374,7 +6374,7 @@ extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
     2: .same(proto: "page"),
     3: .same(proto: "sort"),
     4: .same(proto: "v"),
-    5: .same(proto: "m"),
+    5: .same(proto: "m")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6427,7 +6427,7 @@ extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
   static let protoMessageName: String = _protobuf_package + ".EpisodesResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "total"),
-    2: .same(proto: "episodes"),
+    2: .same(proto: "episodes")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6466,7 +6466,7 @@ extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "v"),
-    3: .same(proto: "m"),
+    3: .same(proto: "m")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6524,13 +6524,13 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     14: .standard(proto: "episode_season"),
     15: .standard(proto: "episode_number"),
     16: .standard(proto: "is_deleted"),
-    17: .same(proto: "author"),
+    17: .same(proto: "author")
   ]
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
     var _url: String = String()
-    var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
     var _duration: Int32 = 0
     var _fileType: String = String()
     var _title: String = String()
@@ -6728,7 +6728,7 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     3: .same(proto: "position"),
     4: .same(proto: "status"),
     5: .same(proto: "duration"),
-    6: .same(proto: "stats"),
+    6: .same(proto: "stats")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6814,7 +6814,7 @@ extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     4: .standard(proto: "time_intro_skipping"),
     5: .standard(proto: "time_variable_speed"),
     6: .standard(proto: "time_listened"),
-    7: .standard(proto: "device_type"),
+    7: .standard(proto: "device_type")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6878,7 +6878,7 @@ extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "podcast"),
-    3: .same(proto: "star"),
+    3: .same(proto: "star")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6940,7 +6940,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let protoMessageName: String = _protobuf_package + ".EpisodeWithPodcast"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
-    2: .same(proto: "podcast"),
+    2: .same(proto: "podcast")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6978,7 +6978,7 @@ extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf
   static let protoMessageName: String = _protobuf_package + ".UpdateEpisodesArchiveRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "archive"),
-    2: .same(proto: "episodes"),
+    2: .same(proto: "episodes")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7019,7 +7019,7 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     2: .same(proto: "version"),
     3: .same(proto: "model"),
     4: .standard(proto: "up_next"),
-    5: .standard(proto: "show_play_status"),
+    5: .standard(proto: "show_play_status")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7077,7 +7077,7 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "version"),
     2: .same(proto: "model"),
-    3: .same(proto: "episode"),
+    3: .same(proto: "episode")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7127,7 +7127,7 @@ extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     2: .same(proto: "version"),
     3: .same(proto: "model"),
     4: .standard(proto: "server_modified"),
-    5: .standard(proto: "show_play_status"),
+    5: .standard(proto: "show_play_status")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7183,7 +7183,7 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     4: .same(proto: "title"),
     5: .same(proto: "url"),
     6: .same(proto: "podcast"),
-    7: .same(proto: "published"),
+    7: .same(proto: "published")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7241,7 +7241,7 @@ extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "server_modified"),
     2: .same(proto: "changes"),
-    3: .same(proto: "order"),
+    3: .same(proto: "order")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7290,7 +7290,7 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
     5: .same(proto: "url"),
     6: .same(proto: "podcast"),
     7: .same(proto: "episodes"),
-    8: .same(proto: "published"),
+    8: .same(proto: "published")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7363,7 +7363,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "server_modified"),
     4: .same(proto: "episodes"),
-    5: .same(proto: "episodeSync"),
+    5: .same(proto: "episodeSync")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7409,7 +7409,7 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
     2: .same(proto: "url"),
     3: .same(proto: "podcast"),
     4: .same(proto: "uuid"),
-    5: .same(proto: "published"),
+    5: .same(proto: "published")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7467,7 +7467,7 @@ extension Api_UpNextResponse.EpisodeSyncResponse: SwiftProtobuf.Message, SwiftPr
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     6: .standard(proto: "played_up_to"),
-    7: .same(proto: "duration"),
+    7: .same(proto: "duration")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7519,7 +7519,7 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     4: .standard(proto: "modified_at"),
     5: .same(proto: "title"),
     6: .same(proto: "url"),
-    7: .same(proto: "published"),
+    7: .same(proto: "published")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7588,7 +7588,7 @@ extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     1: .standard(proto: "device_time"),
     2: .standard(proto: "server_modified"),
     3: .same(proto: "changes"),
-    4: .same(proto: "version"),
+    4: .same(proto: "version")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7637,7 +7637,7 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "server_modified"),
     2: .standard(proto: "last_cleared"),
-    3: .same(proto: "changes"),
+    3: .same(proto: "changes")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7680,7 +7680,7 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
   static let protoMessageName: String = _protobuf_package + ".UpNextRemoveRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuids"),
-    2: .same(proto: "version"),
+    2: .same(proto: "version")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7722,7 +7722,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     3: .standard(proto: "played_up_to"),
     4: .standard(proto: "is_deleted"),
     5: .same(proto: "starred"),
-    6: .same(proto: "duration"),
+    6: .same(proto: "duration")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7779,7 +7779,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 extension Api_SearchPodcastsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SearchPodcastsRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "term"),
+    1: .same(proto: "term")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7812,7 +7812,7 @@ extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   static let protoMessageName: String = _protobuf_package + ".HealthResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "ok"),
-    2: .same(proto: "messages"),
+    2: .same(proto: "messages")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7854,7 +7854,7 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     3: .standard(proto: "time_intro_skipping"),
     4: .standard(proto: "time_variable_speed"),
     5: .standard(proto: "time_listened"),
-    6: .standard(proto: "times_started_at"),
+    6: .standard(proto: "times_started_at")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7917,7 +7917,7 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "email"),
     2: .same(proto: "password"),
-    3: .same(proto: "scope"),
+    3: .same(proto: "scope")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7965,7 +7965,7 @@ extension Api_UserAuthorizeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     4: .standard(proto: "client_id"),
     5: .standard(proto: "redirect_uri"),
     6: .same(proto: "scope"),
-    7: .same(proto: "state"),
+    7: .same(proto: "state")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8029,7 +8029,7 @@ extension Api_UserTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "code"),
     2: .standard(proto: "grant_type"),
-    3: .standard(proto: "refresh_token"),
+    3: .standard(proto: "refresh_token")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8074,7 +8074,7 @@ extension Api_UserTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     1: .standard(proto: "access_token"),
     2: .standard(proto: "token_type"),
     3: .standard(proto: "expires_in"),
-    4: .standard(proto: "refresh_token"),
+    4: .standard(proto: "refresh_token")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8125,7 +8125,7 @@ extension Api_UserTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 extension Api_UserRevokeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserRevokeRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "refresh_token"),
+    1: .standard(proto: "refresh_token")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8160,7 +8160,7 @@ extension Api_UserAuthorizeResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     1: .same(proto: "success"),
     2: .same(proto: "code"),
     3: .same(proto: "error"),
-    4: .same(proto: "state"),
+    4: .same(proto: "state")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8211,7 +8211,7 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     2: .same(proto: "message"),
     3: .same(proto: "token"),
     4: .same(proto: "uuid"),
-    5: .same(proto: "errors"),
+    5: .same(proto: "errors")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8267,7 +8267,7 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 extension Api_StarredEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StarredEpisodesResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "episodes"),
+    1: .same(proto: "episodes")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8305,7 +8305,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     4: .standard(proto: "playing_status"),
     5: .standard(proto: "played_up_to"),
     6: .standard(proto: "is_deleted"),
-    7: .standard(proto: "starred_modified"),
+    7: .standard(proto: "starred_modified")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8389,33 +8389,33 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     20: .standard(proto: "original_uuid"),
     21: .standard(proto: "filter_duration"),
     22: .standard(proto: "longer_than"),
-    23: .standard(proto: "shorter_than"),
+    23: .standard(proto: "shorter_than")
   ]
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
-    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
     var _title: String = String()
-    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
     var _podcastUuids: String = String()
     var _episodeUuids: String = String()
     var _originalUuid: String = String()
-    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value?
 
     static let defaultInstance = _StorageClass()
 
@@ -8613,7 +8613,7 @@ extension Api_CheckEligibleRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "android"),
     2: .same(proto: "apple"),
-    3: .same(proto: "web"),
+    3: .same(proto: "web")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8700,7 +8700,7 @@ extension Api_CheckEligibleResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
   static let protoMessageName: String = _protobuf_package + ".CheckEligibleResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "platform"),
-    2: .same(proto: "eligible"),
+    2: .same(proto: "eligible")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8739,7 +8739,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftP
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "purchaseToken"),
     2: .same(proto: "sku"),
-    3: .same(proto: "newsletterOptIn"),
+    3: .same(proto: "newsletterOptIn")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8782,7 +8782,7 @@ extension Api_SubscriptionsPurchaseAppleRequest: SwiftProtobuf.Message, SwiftPro
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsPurchaseAppleRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "receipt"),
-    2: .same(proto: "newsletterOptIn"),
+    2: .same(proto: "newsletterOptIn")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8824,7 +8824,7 @@ extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProto
     3: .same(proto: "paddleUserId"),
     4: .same(proto: "productId"),
     5: .same(proto: "newsletterOptIn"),
-    6: .same(proto: "subscriptionId"),
+    6: .same(proto: "subscriptionId")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8884,7 +8884,7 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
     1: .same(proto: "monthly"),
     2: .same(proto: "yearly"),
     3: .same(proto: "trial"),
-    4: .same(proto: "webStatus"),
+    4: .same(proto: "webStatus")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8946,7 +8946,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     14: .same(proto: "webStatus"),
     15: .standard(proto: "bundle_uuid"),
     16: .same(proto: "podcasts"),
-    17: .same(proto: "eligible"),
+    17: .same(proto: "eligible")
   ]
 
   fileprivate class _StorageClass {
@@ -8954,10 +8954,10 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _type: Int32 = 0
     var _frequency: Int32 = 0
     var _autoRenewing: Bool = false
-    var _expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp?
     var _cancelURL: String = String()
     var _updateURL: String = String()
-    var _web: Api_SubscriptionsWebStatusResponse? = nil
+    var _web: Api_SubscriptionsWebStatusResponse?
     var _plan: String = String()
     var _index: Int32 = 0
     var _giftDays: Int32 = 0
@@ -9120,7 +9120,7 @@ extension Api_PodcastPair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   static let protoMessageName: String = _protobuf_package + ".PodcastPair"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "masterPodcastUuid"),
-    2: .same(proto: "userPodcastUuid"),
+    2: .same(proto: "userPodcastUuid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9169,19 +9169,19 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     10: .same(proto: "subscriptions"),
     11: .same(proto: "type"),
     12: .same(proto: "index"),
-    13: .same(proto: "webStatus"),
+    13: .same(proto: "webStatus")
   ]
 
   fileprivate class _StorageClass {
     var _paid: Int32 = 0
     var _platform: Int32 = 0
-    var _expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp?
     var _autoRenewing: Bool = false
     var _giftDays: Int32 = 0
     var _cancelURL: String = String()
     var _updateURL: String = String()
     var _frequency: Int32 = 0
-    var _web: Api_SubscriptionsWebStatusResponse? = nil
+    var _web: Api_SubscriptionsWebStatusResponse?
     var _subscriptions: [Api_SubscriptionResponse] = []
     var _type: Int32 = 0
     var _index: Int32 = 0
@@ -9321,7 +9321,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
 extension Api_CancelUserSubscriptionRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CancelUserSubscriptionRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "bundleUuid"),
+    1: .same(proto: "bundleUuid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9369,7 +9369,7 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     14: .standard(proto: "device_utc_time_ms"),
     15: .same(proto: "data"),
     16: .same(proto: "message"),
-    17: .standard(proto: "last_modified"),
+    17: .standard(proto: "last_modified")
   ]
 
   fileprivate class _StorageClass {
@@ -9548,7 +9548,7 @@ extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     1: .same(proto: "status"),
     2: .same(proto: "token"),
     3: .same(proto: "copyright"),
-    4: .same(proto: "result"),
+    4: .same(proto: "result")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9599,7 +9599,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     2: .standard(proto: "last_modified"),
     3: .same(proto: "country"),
     4: .standard(proto: "device_id"),
-    5: .same(proto: "records"),
+    5: .same(proto: "records")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9652,7 +9652,7 @@ extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let protoMessageName: String = _protobuf_package + ".SyncUpdateResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "last_modified"),
-    2: .same(proto: "records"),
+    2: .same(proto: "records")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9693,7 +9693,7 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     2: .same(proto: "episode"),
     3: .same(proto: "playlist"),
     4: .same(proto: "device"),
-    5: .same(proto: "folder"),
+    5: .same(proto: "folder")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9821,7 +9821,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     6: .standard(proto: "auto_skip_last"),
     7: .standard(proto: "folder_uuid"),
     8: .standard(proto: "sort_position"),
-    9: .standard(proto: "date_added"),
+    9: .standard(proto: "date_added")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9908,7 +9908,7 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     9: .standard(proto: "played_up_to"),
     10: .standard(proto: "played_up_to_modified"),
     11: .same(proto: "starred"),
-    12: .standard(proto: "starred_modified"),
+    12: .standard(proto: "starred_modified")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10006,7 +10006,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     5: .standard(proto: "time_variable_speed"),
     6: .standard(proto: "time_intro_skipping"),
     7: .standard(proto: "time_skipping"),
-    8: .standard(proto: "time_listened"),
+    8: .standard(proto: "time_listened")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10099,33 +10099,33 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     20: .standard(proto: "original_uuid"),
     21: .standard(proto: "filter_duration"),
     22: .standard(proto: "longer_than"),
-    23: .standard(proto: "shorter_than"),
+    23: .standard(proto: "shorter_than")
   ]
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
-    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _title: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
     var _originalUuid: String = String()
-    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value?
 
     static let defaultInstance = _StorageClass()
 
@@ -10327,7 +10327,7 @@ extension Api_SyncUserFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     4: .same(proto: "color"),
     5: .standard(proto: "sort_position"),
     6: .standard(proto: "podcasts_sort_type"),
-    7: .standard(proto: "date_added"),
+    7: .standard(proto: "date_added")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10393,7 +10393,7 @@ extension Api_SyncUserFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncData"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    4: .same(proto: "records"),
+    4: .same(proto: "records")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10426,7 +10426,7 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
   static let protoMessageName: String = _protobuf_package + ".LegacySyncRecord"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
-    2: .same(proto: "fields"),
+    2: .same(proto: "fields")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10513,57 +10513,57 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     44: .same(proto: "name"),
     45: .same(proto: "color"),
     46: .standard(proto: "podcasts_sort_type"),
-    47: .standard(proto: "date_added"),
+    47: .standard(proto: "date_added")
   ]
 
   fileprivate class _StorageClass {
-    var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _isDeleted: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _duration: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _starred: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timesStartedAt: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _timeSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _timeListened: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _subscribed: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _allPodcasts: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _notDownloaded: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _downloaded: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _downloading: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _finished: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _unplayed: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _manual: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _name: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _uuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _isDeleted: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _duration: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _starred: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timesStartedAt: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _timeSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _timeListened: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _subscribed: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _title: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _allPodcasts: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _notDownloaded: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _downloaded: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _downloading: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _finished: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _unplayed: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _manual: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _name: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _color: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 
     static let defaultInstance = _StorageClass()
 
@@ -10904,7 +10904,7 @@ extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let protoMessageName: String = _protobuf_package + ".LegacySyncResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "last_modified"),
-    2: .same(proto: "changes"),
+    2: .same(proto: "changes")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10942,7 +10942,7 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
   static let protoMessageName: String = _protobuf_package + ".LegacySyncResponseRecord"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
-    2: .same(proto: "fields"),
+    2: .same(proto: "fields")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11029,57 +11029,57 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     44: .same(proto: "name"),
     45: .same(proto: "color"),
     46: .standard(proto: "podcasts_sort_type"),
-    47: .standard(proto: "date_added"),
+    47: .standard(proto: "date_added")
   ]
 
   fileprivate class _StorageClass {
-    var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _duration: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _timeListened: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
-    var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _subscribed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _name: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _uuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _duration: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _durationModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue?
+    var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _starred: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _timeListened: SwiftProtobuf.Google_Protobuf_Int64Value?
+    var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _subscribed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _title: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloaded: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _downloading: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _finished: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _unplayed: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _manual: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _sortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue?
+    var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _name: SwiftProtobuf.Google_Protobuf_StringValue?
+    var _color: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value?
+    var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp?
 
     static let defaultInstance = _StorageClass()
 
@@ -11424,7 +11424,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     3: .standard(proto: "time_variable_speed"),
     4: .standard(proto: "time_intro_skipping"),
     5: .standard(proto: "time_skipping"),
-    6: .standard(proto: "time_listened"),
+    6: .standard(proto: "time_listened")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11481,7 +11481,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 extension Api_PromotionCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PromotionCode"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
+    1: .same(proto: "code")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11516,7 +11516,7 @@ extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
     1: .same(proto: "code"),
     2: .same(proto: "description"),
     3: .standard(proto: "starts_at"),
-    4: .standard(proto: "ends_at"),
+    4: .standard(proto: "ends_at")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11565,7 +11565,7 @@ extension Api_PodcastSubscriptionCheckRequest: SwiftProtobuf.Message, SwiftProto
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "user_uuid"),
     2: .standard(proto: "podcast_uuid"),
-    3: .same(proto: "platform"),
+    3: .same(proto: "platform")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11608,7 +11608,7 @@ extension Api_BundleUserRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
   static let protoMessageName: String = _protobuf_package + ".BundleUserRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "user_uuid"),
-    2: .same(proto: "bundles"),
+    2: .same(proto: "bundles")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11646,7 +11646,7 @@ extension Api_BundleUserResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let protoMessageName: String = _protobuf_package + ".BundleUserResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "user_exists"),
-    2: .same(proto: "paid"),
+    2: .same(proto: "paid")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11684,7 +11684,7 @@ extension Api_PodcastSubscriptionCheckResponse: SwiftProtobuf.Message, SwiftProt
   static let protoMessageName: String = _protobuf_package + ".PodcastSubscriptionCheckResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "paid"),
-    2: .standard(proto: "user_exists"),
+    2: .standard(proto: "user_exists")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11724,7 +11724,7 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     1: .same(proto: "version"),
     2: .same(proto: "model"),
     3: .same(proto: "folder"),
-    4: .same(proto: "podcasts"),
+    4: .same(proto: "podcasts")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11780,7 +11780,7 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     3: .same(proto: "color"),
     4: .standard(proto: "sort_position"),
     5: .standard(proto: "podcasts_sort_type"),
-    6: .standard(proto: "date_added"),
+    6: .standard(proto: "date_added")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11844,7 +11844,7 @@ extension Api_PodcastFolderSortRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
     1: .same(proto: "version"),
     2: .same(proto: "model"),
     3: .same(proto: "podcasts"),
-    4: .same(proto: "folders"),
+    4: .same(proto: "folders")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11892,7 +11892,7 @@ extension Api_PodcastFolderSorting: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let protoMessageName: String = _protobuf_package + ".PodcastFolderSorting"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
-    2: .same(proto: "position"),
+    2: .same(proto: "position")
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {

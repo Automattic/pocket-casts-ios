@@ -33,8 +33,7 @@ extension CarPlaySceneDelegate {
     func episodeTapped(_ episode: BaseEpisode, closeListOnTap: Bool) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
-        }
-        else {
+        } else {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         }
         

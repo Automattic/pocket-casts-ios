@@ -6,29 +6,21 @@ class ArchiveHelper {
     class func archiveTimeToText(_ time: TimeInterval) -> String {
         if time < 0 {
             return L10n.timeFormatNever.localizedCapitalized
-        }
-        else if time == 0 {
+        } else if time == 0 {
             return L10n.afterPlaying
-        }
-        else if time == 24.hours {
+        } else if time == 24.hours {
             return L10n.settingsAutoArchive24Hours
-        }
-        else if time == 2.days {
+        } else if time == 2.days {
             return L10n.settingsAutoArchive2Days
-        }
-        else if time == 1.week {
+        } else if time == 1.week {
             return L10n.settingsAutoArchive1Week
-        }
-        else if time == 2.weeks {
+        } else if time == 2.weeks {
             return L10n.settingsAutoArchive2Weeks
-        }
-        else if time == 30.days {
+        } else if time == 30.days {
             return L10n.settingsAutoArchive30Days
-        }
-        else if time == 90.days {
+        } else if time == 90.days {
             return L10n.settingsAutoArchive3Months
-        }
-        else {
+        } else {
             return "TODO"
         }
     }

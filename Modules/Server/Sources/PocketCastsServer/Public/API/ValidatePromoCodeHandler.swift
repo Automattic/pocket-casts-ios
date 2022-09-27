@@ -32,12 +32,10 @@ public class ValidatePromoCodeTask {
                         
                         FileLog.shared.addMessage("Validate promo code response \n \(httpResponse.statusCode)")
                         return
-                    }
-                    catch {
+                    } catch {
                         FileLog.shared.addMessage("Validate promo code failed")
                     }
-                }
-                else {
+                } else {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: String], let errorMessageId = json["errorMessageId"] {
                             FileLog.shared.addMessage("Validate promo code response \n \(httpResponse.statusCode), error ")
@@ -45,16 +43,14 @@ public class ValidatePromoCodeTask {
                             completion(false, nil, error)
                             return
                         }
-                    }
-                    catch {
+                    } catch {
                         FileLog.shared.addMessage("Validate promo code failed")
                     }
                 }
                 completion(false, nil, nil)
                     
             }.resume()
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Validate Promo Code Request Protobuf Encoding failed")
         }
     }

@@ -16,8 +16,7 @@ public struct Queue<T> {
     public mutating func dequeue() -> T? {
         if isEmpty {
             return nil
-        }
-        else {
+        } else {
             return array.removeFirst()
         }
     }

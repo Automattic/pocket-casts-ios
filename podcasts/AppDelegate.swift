@@ -113,8 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Timer.scheduledTimer(withTimeInterval: AppDelegate.initialRefreshDelay, repeats: false, block: { _ in
                 RefreshManager.shared.refreshPodcasts()
             })
-        }
-        else {
+        } else {
             PodcastManager.shared.checkForPendingAndAutoDownloads()
             UserEpisodeManager.checkForPendingUploads()
         }
@@ -182,8 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Thread.current.isMainThread {
             progressDialog?.hideAlert(false)
             progressDialog = nil
-        }
-        else {
+        } else {
             DispatchQueue.main.async {
                 self.progressDialog?.hideAlert(false)
                 self.progressDialog = nil
@@ -222,8 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc private func handleThemeChanged() {
         if Theme.sharedTheme.activeTheme == .radioactive, !overlayShouldBeHidden {
             lenticularFilter.show()
-        }
-        else {
+        } else {
             lenticularFilter.hide()
         }
     }
@@ -241,8 +238,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         do {
             try BGTaskScheduler.shared.submit(request)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Could not schedule app refresh: \(error.localizedDescription)")
         }
     }

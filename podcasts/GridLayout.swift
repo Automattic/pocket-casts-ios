@@ -96,8 +96,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
         if scrollDirection == .vertical {
             fixedDimension = collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right)
             contentWidth = fixedDimension
-        }
-        else {
+        } else {
             fixedDimension = collectionView.frame.height - (collectionView.contentInset.top + collectionView.contentInset.bottom)
             contentHeight = fixedDimension
         }
@@ -140,8 +139,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
                     if itemAttributes.frame.maxY > additionalSectionSpacing {
                         additionalSectionSpacing = itemAttributes.frame.maxY
                     }
-                }
-                else {
+                } else {
                     // .horizontal
                     if itemAttributes.frame.maxX > contentWidth {
                         contentWidth = itemAttributes.frame.maxX
@@ -160,8 +158,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
         // add padding for
         if scrollDirection == .vertical {
             contentHeight += itemSpacing * 2
-        }
-        else {
+        } else {
             contentWidth += itemSpacing * 2
         }
         sectionedItemGrid = [] // Only used during prepare, free up some memory
@@ -195,8 +192,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         if scrollDirection == .vertical, let oldWidth = collectionView?.bounds.width {
             return oldWidth != newBounds.width
-        }
-        else if scrollDirection == .horizontal, let oldHeight = collectionView?.bounds.height {
+        } else if scrollDirection == .horizontal, let oldHeight = collectionView?.bounds.height {
             return oldHeight != newBounds.height
         }
         
@@ -282,8 +278,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
         
         if scrollDirection == .vertical {
             layoutAttributes.frame = CGRect(x: fixedIndexOffset, y: longitudinalOffset, width: itemScaledTransverseDimension, height: itemScaledLongitudinalDimension)
-        }
-        else {
+        } else {
             layoutAttributes.frame = CGRect(x: longitudinalOffset, y: fixedIndexOffset, width: itemScaledLongitudinalDimension, height: itemScaledTransverseDimension)
         }
         

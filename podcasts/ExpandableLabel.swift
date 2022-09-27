@@ -48,8 +48,7 @@ class ExpandableLabel: ThemeableLabel {
             lineBreakMode = .byTruncatingTail
             
             sizeToFit()
-        }
-        else {
+        } else {
             lineBreakMode = .byWordWrapping
             numberOfLines = 0
             sizeToFit()

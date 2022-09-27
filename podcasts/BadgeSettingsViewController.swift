@@ -52,18 +52,15 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         if indexPath.section == optionsSection {
             if indexPath.row == 0 {
                 cell.settingsLabel.text = L10n.off
-            }
-            else if indexPath.row == 1 {
+            } else if indexPath.row == 1 {
                 cell.settingsLabel.text = L10n.settingsBadgeTotalUnplayed
-            }
-            else if indexPath.row == 2 {
+            } else if indexPath.row == 2 {
                 cell.settingsLabel.text = L10n.settingsBadgeNewSinceOpened
             }
             
             let badgeSetting = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
             cell.accessoryType = (badgeSetting == indexPath.row) ? .checkmark : .none
-        }
-        else if indexPath.section == filtersSection, let filter = episodeFilters[safe: indexPath.row] {
+        } else if indexPath.section == filtersSection, let filter = episodeFilters[safe: indexPath.row] {
             cell.settingsLabel.text = filter.playlistName
             
             let selectedFilterId = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid)
@@ -77,8 +74,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         if indexPath.section == optionsSection {
             UserDefaults.standard.set(indexPath.row, forKey: Constants.UserDefaults.appBadge)
             UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.appBadgeFilterUuid)
-        }
-        else if indexPath.section == filtersSection {
+        } else if indexPath.section == filtersSection {
             UserDefaults.standard.set(AppBadge.filterCount.rawValue, forKey: Constants.UserDefaults.appBadge)
             if let filter = episodeFilters[safe: indexPath.row] {
                 UserDefaults.standard.set(filter.uuid, forKey: Constants.UserDefaults.appBadgeFilterUuid)

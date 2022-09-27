@@ -147,15 +147,13 @@ class ConfirmPaymentViewController: UIViewController {
             if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
                 SubscriptionHelper.setSubscriptionExpiryDate(futureDate.timeIntervalSince1970)
             }
-        }
-        else if newSubscription.iap_identifier == Constants.IapProducts.yearly.rawValue {
+        } else if newSubscription.iap_identifier == Constants.IapProducts.yearly.rawValue {
             SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.yearly.rawValue)
             dateComponent.year = 1
             if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
                 SubscriptionHelper.setSubscriptionExpiryDate(futureDate.timeIntervalSince1970)
             }
-        }
-        else {
+        } else {
             SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
         }
         

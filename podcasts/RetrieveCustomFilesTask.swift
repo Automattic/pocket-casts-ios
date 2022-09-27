@@ -47,8 +47,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
                 if let lastModified = httpResponse?.allHeaderFields[Server.HttpHeaders.lastModified] as? String {
                     Settings.setFilesLastModified(lastModified)
                 }
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Decoding User episodes failed \(error.localizedDescription)")
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.userEpisodesRefreshFailed)
             }
@@ -90,8 +89,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
                 if localEpisode.titleModified > 0 {
                     episode.title = localEpisode.title
                 }
-            }
-            else {
+            } else {
                 if episode.publishedDate == nil { episode.publishedDate = Date() }
                 episode.addedDate = episode.publishedDate
                 episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
@@ -109,8 +107,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
         for episode in autodownloadEpisodes {
             if isWiFiConnected || !autoDownloadsRequireWifi {
                 DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
-            }
-            else {
+            } else {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
             }
         }

@@ -193,8 +193,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             endOfEpisodeLabel.isHidden = true
             timeRemaining.text = TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining)
             timeRemaining.accessibilityLabel = L10n.sleepTimerTimeRemaining(TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining))
-        }
-        else if PlaybackManager.shared.sleepOnEpisodeEnd {
+        } else if PlaybackManager.shared.sleepOnEpisodeEnd {
             timeRemaining.isHidden = true
             endOfEpisodeLabel.isHidden = false
         }
@@ -211,8 +210,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             endOfEpisodeBtn.isHidden = sleepAtEpisodeEnd
             updateSleepRemainingTime()
             sleepTimerActiveView.sizeToFit()
-        }
-        else {
+        } else {
             sleepTimerOffView.isHidden = false
             sleepTimerActiveView.isHidden = true
             activeSleepAnimation.sleepTimerOn = false

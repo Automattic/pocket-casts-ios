@@ -1,4 +1,3 @@
-
 import UIKit
 
 class WhatsNewPageView: ThemeableView {
@@ -62,8 +61,7 @@ class WhatsNewPageView: ThemeableView {
                     
                     stackView.addArrangedSubview(horizontalStack)
                 }
-            }
-            else if item.type == "title" {
+            } else if item.type == "title" {
                 if let text = item.text {
                     let titleLabel = ThemeableLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 37))
                     titleLabel.text = Bundle.main.localizedString(forKey: text, value: text, table: nil)
@@ -74,8 +72,7 @@ class WhatsNewPageView: ThemeableView {
                     constraintsToActivate.append(titleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor))
                     constraintsToActivate.append(titleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor))
                 }
-            }
-            else if item.type == "body" {
+            } else if item.type == "body" {
                 if let text = item.text {
                     let bodyLabel = ThemeableLabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
                     bodyLabel.text = Bundle.main.localizedString(forKey: text, value: text, table: nil)
@@ -88,8 +85,7 @@ class WhatsNewPageView: ThemeableView {
                     constraintsToActivate.append(bodyLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor))
                     constraintsToActivate.append(bodyLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor))
                 }
-            }
-            else if item.type == "link" {
+            } else if item.type == "link" {
                 if let text = item.text, let urlString = item.url, let url = URL(string: urlString) {
                     let button = WhatsNewLinkButton(url: url)
                     button.setTitle(Bundle.main.localizedString(forKey: text, value: text, table: nil), for: .normal)
@@ -105,8 +101,7 @@ class WhatsNewPageView: ThemeableView {
                     constraintsToActivate.append(button.leadingAnchor.constraint(equalTo: stackView.leadingAnchor))
                     constraintsToActivate.append(button.trailingAnchor.constraint(equalTo: stackView.trailingAnchor))
                 }
-            }
-            else if item.type == "in_app_link" {
+            } else if item.type == "in_app_link" {
                 if let text = item.text, let urlString = item.url, let url = URL(string: urlString) {
                     let button = WhatsNewLinkButton(navigationKey: url.absoluteString)
                     button.delegate = whatsNewLinkDelegate
@@ -122,8 +117,7 @@ class WhatsNewPageView: ThemeableView {
                     constraintsToActivate.append(button.leadingAnchor.constraint(equalTo: stackView.leadingAnchor))
                     constraintsToActivate.append(button.trailingAnchor.constraint(equalTo: stackView.trailingAnchor))
                 }
-            }
-            else if item.type == "bullet" {
+            } else if item.type == "bullet" {
                 if let text = item.text, let bullet = item.resource {
                     let bodyLabel = ThemeableLabel()
                     bodyLabel.text = Bundle.main.localizedString(forKey: text, value: text, table: nil)

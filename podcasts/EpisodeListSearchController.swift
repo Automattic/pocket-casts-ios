@@ -169,8 +169,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             
             if NetworkUtils.shared.isConnectedToWifi() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-            }
-            else {
+            } else {
                 downloadAction.destructive = true
                 
                 let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
@@ -196,8 +195,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
                 strongSelf.confirmArchiveAll(episodeCount: unarchivedCount, playedOnly: false)
             }
             optionPicker.addAction(action: archiveAllAction)
-        }
-        else if !(podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive) {
+        } else if !(podcast.autoArchiveEpisodeLimit > 0 && podcast.overrideGlobalArchive) {
             // we only show unarchive all for podcasts that haven't set an episode limit
             let unarchiveAllAction = OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
                 guard let strongSelf = self else { return }

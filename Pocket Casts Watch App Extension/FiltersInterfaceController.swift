@@ -18,8 +18,7 @@ class FiltersInterfaceController: PCInterfaceController {
     func reloadData() {
         if SourceManager.shared.isPhone() {
             phoneFilters = WatchDataManager.filters()
-        }
-        else {
+        } else {
             watchFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
         }
         
@@ -46,8 +45,7 @@ class FiltersInterfaceController: PCInterfaceController {
                 row.populate(title: filter.title)
                 row.icon.setImage(UIImage(named: filter.iconName ?? ""))
             }
-        }
-        else {
+        } else {
             guard let filters = watchFilters, filters.count > 0 else {
                 handleNoDataAvailable()
                 return
@@ -60,8 +58,7 @@ class FiltersInterfaceController: PCInterfaceController {
                 let row = filtersTable.rowController(at: index) as! TopLevelItemRowController
                 if let imageName = filter.iconImageName() {
                     row.icon.setImage(UIImage(named: imageName))
-                }
-                else {
+                } else {
                     row.icon.setImage(UIImage(named: "filter_list"))
                 }
                 row.populate(title: filter.playlistName, count: DataManager.sharedManager.episodeCount(forFilter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries()))

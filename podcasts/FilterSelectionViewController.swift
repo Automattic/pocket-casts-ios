@@ -39,8 +39,7 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
             if selected {
                 self.selectedFilters.append(filter.uuid)
                 self.filterSelected?(filter)
-            }
-            else {
+            } else {
                 self.selectedFilters.removeAll { $0 == filter.uuid }
                 self.filterUnselected?(filter)
             }

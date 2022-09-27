@@ -9,8 +9,7 @@ class EffectsButton: UIButton {
             
             if effectsOn {
                 setImage(UIImage(named: "effects-on"), for: .normal)
-            }
-            else {
+            } else {
                 setImage(UIImage(named: "effects-off"), for: .normal)
             }
         }

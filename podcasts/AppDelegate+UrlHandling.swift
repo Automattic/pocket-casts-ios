@@ -35,12 +35,10 @@ extension AppDelegate {
                         PodcastManager.shared.importPodcastsFromOpml(url, progressWindow: progressDialog)
                     }
                 })
-            }
-            else if UTTypeConformsTo(type, kUTTypeAudio) || UTTypeConformsTo(type, kUTTypeMovie) {
+            } else if UTTypeConformsTo(type, kUTTypeAudio) || UTTypeConformsTo(type, kUTTypeMovie) {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.uploadedPageKey, data: [NavigationManager.uploadFileKey: url])
             }
-        }
-        else {
+        } else {
             // check to see what the scheme is we support itpc, http, feed & our own pktc
             if let scheme = url.scheme, scheme == "pktc" {
                 JLRoutes.routeURL(url)
@@ -59,20 +57,17 @@ extension AppDelegate {
                 PlaybackManager.shared.pause()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPause()
-            }
-            else if shortcut == "play" {
+            } else if shortcut == "play" {
                 AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
                 PlaybackManager.shared.play()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPlay()
-            }
-            else if shortcut == "markAsPlayed" {
+            } else if shortcut == "markAsPlayed" {
                 if let episode = PlaybackManager.shared.currentEpisode() {
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                     AnalyticsHelper.forceTouchMarkPlayed()
                 }
-            }
-            else if shortcut == "discover" {
+            } else if shortcut == "discover" {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
                 AnalyticsHelper.forceTouchDiscover()
             }
@@ -171,8 +166,7 @@ extension AppDelegate {
                             
                             if success {
                                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: uuid])
-                            }
-                            else {
+                            } else {
                                 SJUIUtils.showAlert(title: L10n.error, message: L10n.errorGeneralPodcastNotFound, from: SceneHelper.rootViewController())
                             }
                         }
@@ -195,8 +189,7 @@ extension AppDelegate {
                 if !PlaybackManager.shared.playing() {
                     PlaybackManager.shared.play()
                 }
-            }
-            else {
+            } else {
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
             
@@ -211,12 +204,10 @@ extension AppDelegate {
 
             if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: baseEpisode.uuid) {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
-            }
-            else {
+            } else {
                 if let episode = baseEpisode as? Episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
-                }
-                else if baseEpisode is UserEpisode {
+                } else if baseEpisode is UserEpisode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.filesPageKey, data: nil)
                 }
             }
@@ -284,8 +275,7 @@ extension AppDelegate {
                         bundleUuid = bundle.bundleUuid
                     }
                     NavigationManager.sharedManager.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: bundleUuid as Any])
-                }
-                else {
+                } else {
                     var podcastInfo = PodcastInfo()
                     podcastInfo.uuid = uuid
                     podcastInfo.title = podcastTitle
@@ -305,8 +295,7 @@ extension AppDelegate {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     ApiServerHandler.shared.retrieveSubscriptionStatus()
                     NavigationManager.sharedManager.navigateTo(NavigationManager.supporterBundlePageKey, data: [NavigationManager.supporterBundleUuid: uuid])
-                }
-                else {
+                } else {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.supporterSignInKey, data: [NavigationManager.supporterBundleUuid: uuid])
                 }
             }
@@ -328,8 +317,7 @@ extension AppDelegate {
             ApiServerHandler.shared.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("AppDelegate successfully validated receipt")
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("AppDelegate failed to validate receipt")
                 }
             })
@@ -379,8 +367,7 @@ extension AppDelegate {
                         self.hideProgressDialog()
                         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
                     }
-                }
-                else if let episodeUuid = item.episodeHeader?.uuid, let podcastUuid = item.podcastHeader?.uuid {
+                } else if let episodeUuid = item.episodeHeader?.uuid, let podcastUuid = item.podcastHeader?.uuid {
                     self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
                 }
             }
@@ -392,8 +379,7 @@ extension AppDelegate {
             // if we're subscribed to the podcast, we'll likely have this episode, just open it
             if podcast.isSubscribed() {
                 openEpisode(episodeUuid, from: podcast)
-            }
-            else { // if we're not subscribed, than it's possible our local copy is out of date, so we'll need to update it first
+            } else { // if we're not subscribed, than it's possible our local copy is out of date, so we'll need to update it first
                 ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
                     self.openEpisode(episodeUuid, from: podcast)
                 }
@@ -405,8 +391,7 @@ extension AppDelegate {
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
             if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 self.openEpisode(episodeUuid, from: podcast)
-            }
-            else {
+            } else {
                 DispatchQueue.main.async {
                     self.hideProgressDialog()
                     SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: SceneHelper.rootViewController())

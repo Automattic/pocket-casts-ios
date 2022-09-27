@@ -58,8 +58,7 @@ public class EpisodeFilter: NSObject {
         if podcastUuids.count == 0 {
             filterAllPodcasts = false
             podcastUuids = podcastUuid
-        }
-        else {
+        } else {
             podcastUuids.append(",\(podcastUuid)")
         }
         
@@ -75,8 +74,7 @@ public class EpisodeFilter: NSObject {
         if podcasts.count == 0 {
             filterAllPodcasts = true
             podcastUuids = ""
-        }
-        else {
+        } else {
             podcastUuids = podcasts.joined(separator: ",")
         }
     }

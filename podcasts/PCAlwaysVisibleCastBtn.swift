@@ -54,14 +54,12 @@ class PCAlwaysVisibleCastBtn: UIButton {
                 imageView.animationImages = animationImages
                 imageView.startAnimating()
             }
-        }
-        else if GoogleCastManager.sharedManager.connected() {
+        } else if GoogleCastManager.sharedManager.connected() {
             imageView.stopAnimating()
             imageView.animationImages = nil
             tintColor = activeTintColor
             setImage(onImage, for: .normal)
-        }
-        else {
+        } else {
             imageView.stopAnimating()
             imageView.animationImages = nil
             tintColor = inactiveTintColor

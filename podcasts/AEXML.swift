@@ -93,8 +93,7 @@ open class AEXMLElement: NSObject {
     open subscript(key: String) -> AEXMLElement {
         if name == AEXMLElement.errorElementName {
             return self
-        }
-        else {
+        } else {
             let filtered = children.filter { $0.name == key }
             let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
             return filtered.count > 0 ? filtered.first! : errorElement
@@ -122,8 +121,7 @@ open class AEXMLElement: NSObject {
                 }
             }
             return found.count > 0 ? found : nil
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -242,8 +240,7 @@ open class AEXMLElement: NSObject {
         if value == nil, children.count == 0 {
             // close element
             xml += " />"
-        }
-        else {
+        } else {
             if children.count > 0 {
                 // add children
                 xml += ">\n"
@@ -253,8 +250,7 @@ open class AEXMLElement: NSObject {
                 // add indentation
                 xml += indentation(parentsCount - 1)
                 xml += "</\(name)>"
-            }
-            else {
+            } else {
                 // insert string value and close element
                 xml += ">\(escapeString(stringValue))</\(name)>"
             }
@@ -321,8 +317,7 @@ open class AEXMLDocument: AEXMLElement {
     public init(version: Double = Defaults.version,
                 encoding: String = Defaults.encoding,
                 standalone: String = Defaults.standalone,
-                root: AEXMLElement? = nil)
-    {
+                root: AEXMLElement? = nil) {
         // set document properties
         self.version = version
         self.encoding = encoding
@@ -353,8 +348,7 @@ open class AEXMLDocument: AEXMLElement {
     public convenience init(version: Double = Defaults.version,
                             encoding: String = Defaults.encoding,
                             standalone: String = Defaults.standalone,
-                            xmlData: Data) throws
-    {
+                            xmlData: Data) throws {
         self.init(version: version, encoding: encoding, standalone: standalone)
         try loadXMLData(xmlData)
     }

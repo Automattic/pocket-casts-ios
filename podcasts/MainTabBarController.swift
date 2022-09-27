@@ -134,8 +134,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                 if let existingPodcastController = navController.topViewController as? PodcastViewController {
                     if let existingUuid = existingPodcastController.podcast?.uuid, existingUuid == podcast.uuid {
                         return // we're already on this podcast
-                    }
-                    else {
+                    } else {
                         navController.popViewController(animated: false)
                     }
                 }
@@ -276,8 +275,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             controller.dismiss(animated: true) {
                 controller.present(whatsNewVC, animated: true, completion: nil)
             }
-        }
-        else {
+        } else {
             controller.present(whatsNewVC, animated: true, completion: nil)
         }
     }
@@ -379,8 +377,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = appearance
-        }
-        else {
+        } else {
             tabBar.barTintColor = AppTheme.tabBarBackgroundColor()
         }
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
@@ -436,8 +433,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         
         if ProcessInfo().isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: whatsNewInfo.minOSVersion, minorVersion: 0, patchVersion: 0)) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
-        }
-        else {
+        } else {
             Settings.setWhatsNewLastAcknowledged(whatsNewInfo.versionCode)
         }
     }

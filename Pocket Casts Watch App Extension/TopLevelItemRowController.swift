@@ -25,8 +25,7 @@ class TopLevelItemRowController: NSObject {
         setCount(count: count)
         if count > 0 {
             topLevelGroup.setAccessibilityLabel("\(title), \(count)")
-        }
-        else {
+        } else {
             topLevelGroup.setAccessibilityLabel(title)
         }
     }

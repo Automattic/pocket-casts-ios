@@ -40,8 +40,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
                 optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
-            else {
+            } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
             }
@@ -79,27 +78,22 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
             }
             return cell
-        }
-        else if let limitPlaceholder = itemAtRow as? EpisodeLimitPlaceholder {
+        } else if let limitPlaceholder = itemAtRow as? EpisodeLimitPlaceholder {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
             cell.limitMessage.text = limitPlaceholder.message
             return cell
-        }
-        else if itemAtRow is NoSearchResultsPlaceholder {
+        } else if itemAtRow is NoSearchResultsPlaceholder {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.noSearchResultsCell, for: indexPath) as! NoSearchResultsCell
             return cell
-        }
-        else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
+        } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.allArchivedCellId, for: indexPath) as! AllArchivedCell
             cell.episodesArchivedLabel.text = archivedPlaceholder.message
             return cell
-        }
-        else if let heading = itemAtRow as? ListHeader {
+        } else if let heading = itemAtRow as? ListHeader {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
             cell.heading.text = heading.headerTitle
             return cell
-        }
-        else {
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
             return cell
         }
@@ -146,16 +140,14 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
             }
-        }
-        else {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
             
             if indexPath.section == PodcastViewController.headerSection {
                 if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
                     cell.toggleExpanded(delegate: self)
                 }
-            }
-            else if indexPath.section == PodcastViewController.allEpisodesSection {
+            } else if indexPath.section == PodcastViewController.allEpisodesSection {
                 guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
                 
                 let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast)

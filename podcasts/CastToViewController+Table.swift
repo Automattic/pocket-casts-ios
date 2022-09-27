@@ -19,8 +19,7 @@ extension CastToViewController: UITableViewDelegate, UITableViewDataSource {
         let device = devices[indexPath.row]
         if device.type == .TV {
             cell.deviceIcon.image = UIImage(named: "chromecast-video")
-        }
-        else {
+        } else {
             cell.deviceIcon.image = UIImage(named: "chromecast-audio")
         }
         cell.themeOverride = themeOverride

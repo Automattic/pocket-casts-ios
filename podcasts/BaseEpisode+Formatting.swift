@@ -20,8 +20,7 @@ extension BaseEpisode {
             if duration > playedUpTo {
                 let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: duration - playedUpTo)
                 return L10n.podcastTimeLeft(time)
-            }
-            else {
+            } else {
                 return TimeFormatter.shared.multipleUnitFormattedShortTime(time: 0)
             }
         }
@@ -37,34 +36,27 @@ extension BaseEpisode {
                 #else
                     return L10n.podcastDownloading(progress.percentageProgressAsString())
                 #endif
-            }
-            else {
+            } else {
                 return L10n.podcastDownloading("").trimmingCharacters(in: .whitespaces)
             }
-        }
-        else if queued() {
+        } else if queued() {
             if sizeInBytes > 0 {
                 let size = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
                 return L10n.podcastQueued + " • " + size
-            }
-            else {
+            } else {
                 return L10n.podcastQueuing
             }
-        }
-        else if let playbackError = playbackErrorDetails {
+        } else if let playbackError = playbackErrorDetails {
             return playbackError
-        }
-        else if downloadFailed() {
+        } else if downloadFailed() {
             return readableErrorMessage()
-        }
-        else {
+        } else {
             var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.unknownDuration
             
             if includeSize, sizeInBytes > 0 {
                 if informationLabelStr.count == 0 {
                     informationLabelStr = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
-                }
-                else {
+                } else {
                     informationLabelStr += " • \(SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes))"
                 }
             }
@@ -91,8 +83,7 @@ extension BaseEpisode {
         
         if Calendar.current.isDateInToday(date) {
             return L10n.today
-        }
-        else if Calendar.current.isDateInYesterday(date) {
+        } else if Calendar.current.isDateInYesterday(date) {
             return L10n.podcastYesterday
         }
         
@@ -106,12 +97,10 @@ extension BaseEpisode {
             
             if currentMonth == publishedMonth {
                 shortDate = L10n.podcastThisMonth
-            }
-            else {
+            } else {
                 shortDate = calendar.monthSymbols[publishedMonth - 1]
             }
-        }
-        else {
+        } else {
             shortDate = DateFormatHelper.sharedHelper.monthYearFormatter.string(from: date)
         }
         
@@ -121,8 +110,7 @@ extension BaseEpisode {
     func subTitle() -> String {
         if let episode = self as? Episode {
             return episode.subTitle()
-        }
-        else if let episode = self as? UserEpisode {
+        } else if let episode = self as? UserEpisode {
             return episode.subTitle()
         }
         

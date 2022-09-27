@@ -72,8 +72,7 @@ extension ChoosePodcastFolderView {
     func trackFolderTappedIfNeeded() {
         if model.didMoveToFolder {
             Analytics.track(.folderChooseFolderTapped)
-        }
-        else if model.didRemoveFromFolder {
+        } else if model.didRemoveFromFolder {
             Analytics.track(.folderChooseRemovedFromFolder)
         }
     }
@@ -90,8 +89,7 @@ struct FolderSelectRow: View {
             if let color = model.colorForFolder(folder: folder) {
                 Image("folder-empty")
                     .foregroundColor(color)
-            }
-            else {
+            } else {
                 Spacer()
                     .frame(width: 24)
             }

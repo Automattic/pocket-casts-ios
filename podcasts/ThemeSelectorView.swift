@@ -64,8 +64,7 @@ struct ThemePreviewView: View {
                     )
                 if isSelected {
                     Image("tickBlueCircle")
-                }
-                else if isLocked {
+                } else if isLocked {
                     Image("plusGoldCircle")
                 }
             }

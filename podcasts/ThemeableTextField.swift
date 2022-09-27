@@ -50,8 +50,7 @@ class ThemeableTextField: UITextField {
         }
         if let background = backgroundStyle {
             backgroundColor = AppTheme.colorForStyle(background)
-        }
-        else {
+        } else {
             backgroundColor = UIColor.clear
         }
         

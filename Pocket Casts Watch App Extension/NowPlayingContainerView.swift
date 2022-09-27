@@ -3,7 +3,7 @@ import SwiftUI
 struct NowPlayingContainerView: View {
     @StateObject private var viewModel = NowPlayingViewModel()
     @State private var selection = 2
-    @State private var presentedView: WatchInterfaceType? = nil
+    @State private var presentedView: WatchInterfaceType?
     @State private var optionSelected: Bool = false
 
     var body: some View {
@@ -22,8 +22,7 @@ struct NowPlayingContainerView: View {
                     }
                     .animation(.easeInOut)
                 }
-            }
-            else {
+            } else {
                 NowPlayingEmptyView()
             }
         }

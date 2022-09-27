@@ -61,8 +61,7 @@ class BundlePodcastCell: ThemeableCell {
             if showDisclosure {
                 disclosureImage.isHidden = false
                 subscribeButton.isHidden = true
-            }
-            else {
+            } else {
                 disclosureImage.isHidden = true
                 if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
                     subscribeButton.currentlyOn = true
@@ -80,8 +79,7 @@ class BundlePodcastCell: ThemeableCell {
         if let headerUuid = discoverPodcast?.uuid {
             if let _ = DataManager.sharedManager.findPodcast(uuid: headerUuid) {
                 if !subscribeButton.currentlyOn { subscribeButton.currentlyOn = true }
-            }
-            else {
+            } else {
                 if subscribeButton.currentlyOn { subscribeButton.currentlyOn = false }
             }
         }
@@ -94,8 +92,7 @@ class BundlePodcastCell: ThemeableCell {
         
         if discoverPodcast.iTunesOnly() {
             ServerPodcastManager.shared.addFromiTunesId(Int(discoverPodcast.iTunesId!)!, subscribe: true, completion: nil)
-        }
-        else if let uuid = discoverPodcast.uuid {
+        } else if let uuid = discoverPodcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
     }

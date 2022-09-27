@@ -44,8 +44,7 @@ class MultiSelectHelper {
         if star {
             let status = selectedEpisodes.count == 1 ? L10n.multiSelectStarringEpisodesSingular : L10n.multiSelectStarringEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
-        }
-        else {
+        } else {
             let status = selectedEpisodes.count == 1 ? L10n.multiSelectUnstarringEpisodesSingular : L10n.multiSelectUnstarringEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
@@ -80,8 +79,7 @@ class MultiSelectHelper {
             
             let warningMessage = deleteFileMessage(uploadedEpisodes.count)
             confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
-        }
-        else if uploadedEpisodes.count == 0 {
+        } else if uploadedEpisodes.count == 0 {
             confirmPicker = OptionsPicker(title: nil)
             let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
                 DispatchQueue.global().async {
@@ -95,8 +93,7 @@ class MultiSelectHelper {
             
             let warningMessage = deleteFileMessage(downloadedEpisodes.count)
             confirmPicker.addDescriptiveActions(title: L10n.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
-        }
-        else {
+        } else {
             confirmPicker = OptionsPicker(title: nil)
             let deleteEverwhereAction = OptionAction(label: L10n.deleteEverywhere, icon: nil) { () in
                 DispatchQueue.global().async {
@@ -160,8 +157,7 @@ class MultiSelectHelper {
             showDelayedCompletionMessage = true
             let status = L10n.multiSelectAddEpisodesMaxFormat(bulkAddLimit.localized())
             actionDelegate.multiSelectActionBegan(status: status)
-        }
-        else {
+        } else {
             let status = selectedEpisodes.count == 1 ? L10n.multiSelectAddingEpisodesSingular : L10n.multiSelectAddingEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
@@ -231,12 +227,10 @@ class MultiSelectHelper {
                 actionDelegate.multiSelectActionBegan(status: status)
                 MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
                 return
-            }
-            else {
+            } else {
                 confirmPicker.addDescriptiveActions(title: L10n.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             }
-        }
-        else {
+        } else {
             let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
                 let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
@@ -370,14 +364,11 @@ class MultiSelectHelper {
     class func invertActionIfRequired(action: MultiSelectAction, actionDelegate: MultiSelectActionDelegate) -> MultiSelectAction {
         if action == .star {
             return MultiSelectHelper.starredAction(actionDelegate: actionDelegate)
-        }
-        else if action == .archive {
+        } else if action == .archive {
             return MultiSelectHelper.archiveAction(actionDelegate: actionDelegate)
-        }
-        else if action == .download {
+        } else if action == .download {
             return MultiSelectHelper.downloadAction(actionDelegate: actionDelegate)
-        }
-        else if action == .markAsPlayed {
+        } else if action == .markAsPlayed {
             return MultiSelectHelper.markAsPlayedAction(actionDelegate: actionDelegate)
         }
         return action

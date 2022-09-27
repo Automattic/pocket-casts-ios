@@ -34,13 +34,11 @@ class PCGoogleCastButton: UIButton {
     private func updateForCurrentState() {
         if GoogleCastManager.sharedManager.connected() {
             setImageOnAllStates(imageName: PCGoogleCastButton.connectedIconName)
-        }
-        else if GoogleCastManager.sharedManager.connecting() {
+        } else if GoogleCastManager.sharedManager.connecting() {
             imageView?.animationImages = createAnimationImages()
             imageView?.animationDuration = 1.0
             imageView?.startAnimating()
-        }
-        else {
+        } else {
             setImageOnAllStates(imageName: PCGoogleCastButton.disconnectedIconName)
         }
     }

@@ -26,8 +26,7 @@ struct NameFolderView: View {
                 TextField(L10n.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
                     .themedTextField()
-            }
-            else {
+            } else {
                 TextField(L10n.folderName, text: $model.name)
                     .themedTextField()
             }

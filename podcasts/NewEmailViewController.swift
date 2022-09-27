@@ -151,8 +151,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         passwordField.isSecureTextEntry.toggle()
         if passwordField.isSecureTextEntry {
             showPasswordButton.setImage(UIImage(named: "eye-crossed"), for: .normal)
-        }
-        else {
+        } else {
             showPasswordButton.setImage(UIImage(named: "eye"), for: .normal)
         }
     }
@@ -178,8 +177,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
                         self.showErrorMessage(message)
-                    }
-                    else {
+                    } else {
                         self.showErrorMessage(L10n.accountRegistrationFailed)
                     }
                     self.nextButton.setTitle(L10n.next, for: .normal)
@@ -193,8 +191,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 if self.newSubscription.iap_identifier.count > 0 {
                     let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: self.newSubscription)
                     self.navigationController?.pushViewController(confirmPaymentVC, animated: true)
-                }
-                else if self.newSubscription.promoCode != nil {
+                } else if self.newSubscription.promoCode != nil {
                     let accountCreatedVC = AccountUpdatedViewController()
                     accountCreatedVC.titleText = L10n.accountCreated
                     accountCreatedVC.detailText = L10n.accountWelcome
@@ -202,8 +199,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                     accountCreatedVC.hideNewsletter = false
                     accountCreatedVC.delegate = self.accountUpdatedDelegate
                     self.navigationController?.pushViewController(accountCreatedVC, animated: true)
-                }
-                else { // Free account
+                } else { // Free account
                     let accountCreatedVC = AccountUpdatedViewController()
                     accountCreatedVC.titleText = L10n.accountCreated
                     accountCreatedVC.detailText = L10n.accountWelcome
@@ -254,8 +250,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
             passwordField.becomeFirstResponder()
-        }
-        else {
+        } else {
             textField.resignFirstResponder()
             startRegister(emailField.text ?? "", password: passwordField.text ?? "")
         }
@@ -269,8 +264,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 .primaryField03Active
             emailBorderView.isSelected = true
             passwordBorderView.isSelected = false
-        }
-        else {
+        } else {
             passwordBorderView.selectedStyle = .primaryField03Active
             emailBorderView.isSelected = false
             passwordBorderView.isSelected = true

@@ -66,8 +66,7 @@ class ChoosePodcastFolderModel: ObservableObject {
     func movePodcastToFolder(_ folder: Folder) {
         if folder.uuid != rootFolder.uuid {
             movePodcastTo(folder: folder)
-        }
-        else {
+        } else {
             removePodcastFromFolder()
         }
     }

@@ -28,8 +28,7 @@ class UploadFilePlayRequestTask: ApiBaseTask {
                 let playResponse = try Files_FilePlayResponse(serializedData: responseData)
                 FileLog.shared.addMessage("Upload play response successful)")
                 completion?(URL(string: playResponse.url))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload Play request response failed \(error.localizedDescription)")
                 completion?(nil)
             }

@@ -25,8 +25,7 @@ extension PodcastManager {
             podcast.syncStatus = SyncStatus.notSynced.rawValue
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
             DataManager.sharedManager.save(podcast: podcast)
-        }
-        else {
+        } else {
             // if they aren't signed in, just blow it all away
             EpisodeManager.deleteAllEpisodesInPodcast(id: podcast.id)
             DataManager.sharedManager.delete(podcast: podcast)

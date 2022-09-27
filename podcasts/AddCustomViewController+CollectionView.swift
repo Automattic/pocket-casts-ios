@@ -18,8 +18,7 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
             colorBackgrounds.insert(AppTheme.embeddedArtworkColor(), at: 0)
             artworkIndexPath = IndexPath(item: 0, section: 0)
             greyIndexPath = IndexPath(item: 1, section: 0)
-        }
-        else {
+        } else {
             artworkIndexPath = nil
             greyIndexPath = IndexPath(item: 0, section: 0)
         }
@@ -50,11 +49,9 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
             cell.imageView.image = artwork
             cell.imageView.contentMode = .scaleToFill
             cell.imageView.isHidden = false
-        }
-        else if indexPath == greyIndexPath {
+        } else if indexPath == greyIndexPath {
             cell.imageView.isHidden = true
-        }
-        else {
+        } else {
             cell.imageView.image = UIImage(named: "locked")
             cell.imageView.contentMode = .center
             cell.imageView.isHidden = SubscriptionHelper.hasActiveSubscription()

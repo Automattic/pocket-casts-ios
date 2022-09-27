@@ -27,12 +27,11 @@
             let attributedString: NSMutableAttributedString
             if let labelattributedText = attributedText {
                 attributedString = NSMutableAttributedString(attributedString: labelattributedText)
-            }
-            else {
+            } else {
                 attributedString = NSMutableAttributedString(string: labelText)
             }
             
-            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
             
             attributedText = attributedString
         }

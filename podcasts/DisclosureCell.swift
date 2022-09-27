@@ -23,8 +23,7 @@ class DisclosureCell: ThemeableCell {
             cellTextToImageConstraint.isActive = true
             cellImage.tintColor = tintColor
             cellImage.image = UIImage(named: imageName)
-        }
-        else {
+        } else {
             cellTextToImageConstraint.isActive = false
             cellImage.image = nil
         }

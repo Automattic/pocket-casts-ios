@@ -65,8 +65,7 @@ class PlusLockedInfoView: ThemeableView {
     @IBAction func closeTapped() {
         if let delegate = delegate {
             delegate.closeInfoTapped()
-        }
-        else {
+        } else {
             contentView.isHidden = true
         }
     }

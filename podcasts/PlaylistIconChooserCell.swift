@@ -54,8 +54,7 @@ class PlaylistIconChooserCell: ThemeableCell {
                 iconImageView.tintColor = UIColor.white
                 circleView.backgroundColor = filterToEdit.playlistColor()
                 circleView.transform = CGAffineTransform(scaleX: 1.19, y: 1.19)
-            }
-            else {
+            } else {
                 iconImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 iconImageView.tintColor = ThemeColor.primaryIcon02()
                 circleView.backgroundColor = UIColor.clear

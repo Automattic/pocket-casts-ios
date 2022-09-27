@@ -18,15 +18,12 @@ class UpNextSyncTask: ApiBaseTask {
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 // no changes that we need to process
                 FileLog.shared.addMessage("UpNextSyncTask: Server returned not modified to Up Next sync, no changes required")
-            }
-            else if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
+            } else if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response, latestActionTime: latestActionTime)
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("UpNextSyncTask: Unable to sync with server got status \(httpStatus)")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("UpNextSyncTask: had issues encoding protobuf \(error.localizedDescription)")
         }
     }
@@ -41,8 +38,7 @@ class UpNextSyncTask: ApiBaseTask {
             request.httpBody = data
             
             return (request, protoRequest.latestActionTime)
-        }
-        catch {}
+        } catch {}
         
         return nil
     }
@@ -100,8 +96,7 @@ class UpNextSyncTask: ApiBaseTask {
             UserDefaults.standard.set("\(response.serverModified)", forKey: ServerConstants.UserDefaults.upNextServerLastModified)
             
             clearSyncedData(latestActionTime: latestActionTime)
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("UpNextSyncTask: Failed to decode server data")
         }
     }
@@ -150,8 +145,7 @@ class UpNextSyncTask: ApiBaseTask {
                         existingEpisode.episodePosition = Int32(index)
                         DataManager.sharedManager.save(playlistEpisode: existingEpisode)
                     }
-                }
-                else {
+                } else {
                     let newEpisode = PlaylistEpisode()
                     newEpisode.episodePosition = Int32(index)
                     newEpisode.episodeUuid = episodeInfo.uuid
@@ -160,15 +154,13 @@ class UpNextSyncTask: ApiBaseTask {
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    }
-                    else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
+                    } else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
                         // because a custom episode import task always runs before an Up Next sync, if we don't have this episode it's most likely local only on some other device
                         // handle this here by adding it to our Up Next
                         newEpisode.podcastUuid = DataConstants.userEpisodeFakePodcastId
                         newEpisode.title = episodeInfo.title
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    }
-                    else {
+                    } else {
                         // we don't have this episode locally, so try and find it and add it to our database
                         // if we can't find it, don't add it to Up Next, since we can't support episodes that don't have parent podcasts
                         let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date)
@@ -196,12 +188,10 @@ class UpNextSyncTask: ApiBaseTask {
         if let episodePlayingBeforeChanges = episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
-        }
-        else if episodePlayingBeforeChanges == nil, modifiedList.count > 0 {
+        } else if episodePlayingBeforeChanges == nil, modifiedList.count > 0 {
             // nothing was playing but now it is
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
-        }
-        else if episodePlayingBeforeChanges != nil, modifiedList.count == 0 {
+        } else if episodePlayingBeforeChanges != nil, modifiedList.count == 0 {
             // there was something playing but it should no longer be playing
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         }

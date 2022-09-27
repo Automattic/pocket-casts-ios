@@ -24,8 +24,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             if let currentChapter = PlaybackManager.shared.currentChapter() {
                 if chapter.index == currentChapter.index {
                     state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
-                }
-                else if chapter.index > currentChapter.index {
+                } else if chapter.index > currentChapter.index {
                     state = .future
                 }
             }
@@ -33,8 +32,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             chapterCell.populateFrom(chapter: chapter, playState: state) { url in
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-                else {
+                } else {
                     let config = SFSafariViewController.Configuration()
                     config.entersReaderIfAvailable = true
                     
@@ -55,8 +53,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapter()?.index {
                 containerDelegate?.scrollToNowPlaying()
-            }
-            else {
+            } else {
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
             }
         }

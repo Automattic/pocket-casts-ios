@@ -44,8 +44,7 @@ class ThemeableImageView: UIImageView {
     private func updateImage() {
         if let imageName = imageNameFunc {
             image = UIImage(named: imageName())
-        }
-        else if let imageStyle = imageStyle, let currentImage = image {
+        } else if let imageStyle = imageStyle, let currentImage = image {
             image = currentImage.tintedImage(AppTheme.colorForStyle(imageStyle))
         }
     }

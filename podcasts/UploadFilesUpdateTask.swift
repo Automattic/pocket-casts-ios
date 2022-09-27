@@ -63,8 +63,7 @@ class UploadFilesUpdateTask: ApiBaseTask {
             DataManager.sharedManager.bulkSave(episodes: episodes)
             completion?(httpStatus)
             return
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }
