@@ -40,6 +40,21 @@ class AnalyticsPlaybackHelper {
             track(.playbackSkipForward)
         }
 
+        func playbackSpeedChanged(to speed: Double) {
+            track(.playbackEffectSpeedChanged, properties: ["speed": speed])
+        }
+
+        func trimSilenceToggled(enabled: Bool) {
+            track(.playbackEffectTrimSilenceToggled, properties: ["enabled": enabled])
+        }
+
+        func trimSilenceAmountChanged(amount: TrimSilenceAmount) {
+            track(.playbackEffectTrimSilenceAmountChanged, properties: ["amount": amount.analyticsDescription])
+        }
+
+        func volumeBoostToggled(enabled: Bool) {
+            track(.playbackEffectVolumeBoostToggled, properties: ["enabled": enabled])
+        }
 
     #endif
 }
