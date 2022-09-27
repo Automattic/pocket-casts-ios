@@ -190,7 +190,7 @@ extension SyncTask {
                 if playedUpTo < 1 {
                     FileLog.shared.addMessage("Saving a time of \(playedUpTo) for episode \(episode.displayableTitle()) because that's what the server sent us during a sync")
                 }
-                ServerConfig.shared.playbackDelegate?.seekTo(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
+                ServerConfig.shared.playbackDelegate?.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
             }
         }
         

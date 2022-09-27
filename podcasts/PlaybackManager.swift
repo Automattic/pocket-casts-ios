@@ -341,7 +341,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
         seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
-    
+
+    func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
+        seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
+    }
+
     func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
         
