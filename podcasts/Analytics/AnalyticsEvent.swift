@@ -325,5 +325,4 @@ enum AnalyticsEvent: String {
     case playerSleepTimerEnabled
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
-
 }
