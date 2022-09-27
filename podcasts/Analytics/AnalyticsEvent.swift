@@ -313,4 +313,10 @@ enum AnalyticsEvent: String {
     
     case playerPreviousChapterTapped
     case playerNextChapterTapped
+
+    // MARK: - Player: Sleep Timer
+
+    case playerSleepTimerEnabled
+    case playerSleepTimerExtended
+    case playerSleepTimerCancelled
 }

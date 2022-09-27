@@ -1378,6 +1378,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
+        Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
     }
     
     // MARK: - Remote Control support
