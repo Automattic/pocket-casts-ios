@@ -213,6 +213,11 @@ enum AnalyticsEvent: String {
     case playbackSkipBack
     case playbackSkipForward
 
+    case playbackEffectSpeedChanged
+    case playbackEffectTrimSilenceToggled
+    case playbackEffectTrimSilenceAmountChanged
+    case playbackEffectVolumeBoostToggled
+
     // MARK: - Filters
 
     case filterListShown
