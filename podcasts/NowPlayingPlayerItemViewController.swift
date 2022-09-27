@@ -228,10 +228,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
+        Analytics.track(.playerChapterSkipBackTapped)
     }
     
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
+        Analytics.track(.playerChapterSkipForwardTapped)
     }
     
     @objc private func chapterLinkTapped() {
