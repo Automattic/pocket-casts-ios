@@ -2016,6 +2016,8 @@ internal enum L10n {
   internal static var settingsPrivacy: String { return L10n.tr("Localizable", "settings_privacy") }
   /// Position in Queue
   internal static var settingsQueuePosition: String { return L10n.tr("Localizable", "settings_queue_position") }
+  /// Read privacy policy
+  internal static var settingsReadPrivacyPolicy: String { return L10n.tr("Localizable", "settings_read_privacy_policy") }
   /// Select Filter
   internal static var settingsSelectFilterSingular: String { return L10n.tr("Localizable", "settings_select_filter_singular") }
   /// Select Filters

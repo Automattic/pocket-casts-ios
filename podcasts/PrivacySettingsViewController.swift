@@ -65,7 +65,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
             cell.textLabel?.font = .systemFont(ofSize: 16)
-            cell.textLabel?.text = "Read privacy policy"
+            cell.textLabel?.text = L10n.settingsReadPrivacyPolicy
             return cell
         }
     }

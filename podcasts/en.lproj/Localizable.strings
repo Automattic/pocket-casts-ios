@@ -2522,6 +2522,9 @@
 /* Additional information about how the information collected is and how it's used */
 "settings_collect_information_additional_information" = "Share information with our analytics tool about your use of the app. This information is anonymous and help us improve Pocket Casts.";
 
+/* Label for an input that takes the user to the privacy policy */
+"settings_read_privacy_policy" = "Read privacy policy";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
