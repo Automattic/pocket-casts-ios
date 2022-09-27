@@ -328,7 +328,7 @@ enum AnalyticsEvent: String {
 
     // MARK: - Player: Shelf
 
-    case playerShelfButtonTapped
+    case playerShelfActionTapped
     case playerShelfOverflowMenuShown
     case playerShelfOverflowMenuRearrangeStarted
     case playerShelfOverflowMenuRearrangeActionMoved

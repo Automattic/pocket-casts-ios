@@ -73,7 +73,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
 
-        Analytics.track(.playerShelfButtonTapped, properties: ["button": action.analyticsDescription, "from": "overflow_menu"])
+        Analytics.track(.playerShelfActionTapped, properties: ["action": action.analyticsDescription, "from": "overflow_menu"])
 
         dismiss(animated: true) {
             switch action {

@@ -396,7 +396,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
 extension NowPlayingPlayerItemViewController {
     func shelfButtonTapped(_ button: PlayerAction) {
-        Analytics.track(.playerShelfButtonTapped, properties: ["button": button.analyticsDescription, "from": "shelf"])
+        Analytics.track(.playerShelfActionTapped, properties: ["action": button.analyticsDescription, "from": "shelf"])
     }
 }
 
