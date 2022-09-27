@@ -160,12 +160,12 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
 
         Analytics.track(.filterCreated, properties: [
             "all_podcasts": filterToEdit.filterAllPodcasts,
-            "media_type": (AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all).analyticsDescription,
+            "media_type": AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all,
             "downloaded": filterToEdit.filterDownloaded,
             "episode_status_played": filterToEdit.filterFinished,
             "episode_status_unplayed": filterToEdit.filterUnplayed,
             "episode_status_in_progress": filterToEdit.filterPartiallyPlayed,
-            "release_date": (ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime).analyticsDescription,
+            "release_date": ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime,
             "starred": filterToEdit.filterStarred,
             "duration": filterToEdit.filterDuration,
             "color": filterToEdit.playlistColor().hexString(),
