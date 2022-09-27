@@ -2,5 +2,4 @@
 --stripunusedargs closure-only
 --elseposition next-line
 --trimwhitespace nonblank-lines
---swiftversion 5
 --exclude podcasts/Strings+Generated.swift,fastlane/SnapshotHelper.swift,**/Protobuffer/*.swift,DerivedData,vendor/spm
