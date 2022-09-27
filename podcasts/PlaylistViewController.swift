@@ -389,7 +389,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
         let action = OptionAction(label: sortOrder.description, selected: filter.sortType == sortOrder.rawValue) {
-            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder.analyticsDescription])
+            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
             self.filter.sortType = sortOrder.rawValue
             self.saveFilter()
         }

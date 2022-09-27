@@ -462,7 +462,7 @@ private extension MainTabBarController {
         let event: AnalyticsEvent
         switch tab {
         case .podcasts:
-            event = .podcastTabOpened
+            event = .podcastsTabOpened
         case .filter:
             event = .filtersTabOpened
         case .discover:

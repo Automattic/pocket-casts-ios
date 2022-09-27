@@ -283,7 +283,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension UpNextViewController {
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        let defaultProperties: [String: Any] = ["source": source.analyticsDescription]
+        let defaultProperties: [String: Any] = ["source": source]
         let props = defaultProperties.merging(properties ?? [:]) { current, _ in current }
 
         Analytics.track(event, properties: props)

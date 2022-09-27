@@ -144,7 +144,7 @@ enum AnalyticsEvent: String {
 
     // MARK: - Tab Bar Items
 
-    case podcastTabOpened
+    case podcastsTabOpened
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
@@ -311,8 +311,8 @@ enum AnalyticsEvent: String {
     case playerShowNotesLinkTapped
     case playerChapterSelected
     
-    case playerChapterSkipBackTapped
-    case playerChapterSkipForwardTapped
+    case playerPreviousChapterTapped
+    case playerNextChapterTapped
 
     // MARK: - Player: Sleep Timer
 

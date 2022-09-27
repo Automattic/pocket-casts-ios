@@ -99,7 +99,7 @@ enum SwipeActionsHelper {
 
     private static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
         let source = handler.swipeSource
-        Analytics.track(.episodeSwipeActionPerformed, properties: ["action": action.analyticsDescription, "source": source])
+        Analytics.track(.episodeSwipeActionPerformed, properties: ["action": action, "source": source])
 
         guard action != .delete else {
             return

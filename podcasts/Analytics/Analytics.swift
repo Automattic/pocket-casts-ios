@@ -19,8 +19,9 @@ class Analytics {
     }
 
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        let newProperties = properties?.mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
         adapters?.forEach {
-            $0.track(name: event.eventName, properties: properties)
+            $0.track(name: event.eventName, properties: newProperties)
         }
     }
 }
