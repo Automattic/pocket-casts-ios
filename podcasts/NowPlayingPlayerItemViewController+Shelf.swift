@@ -372,3 +372,9 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
     }
 }
+
+extension NowPlayingPlayerItemViewController {
+    func shelfButtonTapped(_ button: PlayerAction) {
+        Analytics.track(.playerShelfButtonTapped, properties: ["button": button.analyticsDescription, "from": "shelf"])
+    }
+}
