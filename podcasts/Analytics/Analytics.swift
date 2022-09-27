@@ -1,9 +1,5 @@
 import Foundation
 
-protocol AnalyticsAdapter {
-    func track(name: String, properties: [AnyHashable: Any]?)
-}
-
 class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
@@ -27,6 +23,18 @@ class Analytics {
             $0.track(name: event.eventName, properties: properties)
         }
     }
+}
+
+// MARK: - Protocols
+
+/// Allows an object to determine how its described in the context of analytics
+protocol AnalyticsDescribable {
+    var analyticsDescription: String { get }
+}
+
+/// Classes can implement this to determine their own logic on how to handle each event
+protocol AnalyticsAdapter {
+    func track(name: String, properties: [AnyHashable: Any]?)
 }
 
 // MARK: - Dynamic Event Name
