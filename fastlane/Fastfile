@@ -257,29 +257,33 @@ platform :ios do
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def slack_message(version:, build_number:, is_beta:)
     build_number_split = build_number.split('.')
 
+    github_url = "https://github.com/#{GHHELPER_REPO}"
     message_root = lambda(tag, display_name) {
-      ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{tag}|*#{display_name}*>"
+      ":announcement: <#{github_url}/releases/tag/#{tag}|*#{display_name}*>"
     }
     appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
     testflight_submit_url = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
     appstore_submit_url = "<#{appstoreconnect_url}/versions/deliverable|App Store Connect>"
+    pull_requests_list_url = "<https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_url} and #{pull_requests_list_url}."
       else
-        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_url} and #{pull_requests_list_url}."
       end
     elsif (build_number_split[2] || '0').to_i.positive?
-      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into%7Cmerge the PR>."
+      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_url} and #{pull_requests_list_url}."
     else
-      "#{message_root(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into%7Cmerge the PR>."
+      "#{message_root(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_url} and #{pull_requests_list_url}."
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   # Executes the initial steps of the code freeze
   #
