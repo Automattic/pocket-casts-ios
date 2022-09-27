@@ -23,8 +23,6 @@ Next you'll need to install all the dependencies needed for CocoaPods and FastLa
 
 `make install_dependencies`
 
-Then you'll need to install secret config values. [Follow this guide to get access to the shared Mobile Secrets](https://fieldguide.automattic.com/mobile-native-development/updating-mobile-secrets/) and then:
-
 ## External contributors
 
 If you're an external contributor run `make external_contributor`. After that you should be able to build and run the project.
