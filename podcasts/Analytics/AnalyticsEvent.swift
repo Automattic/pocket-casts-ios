@@ -301,4 +301,16 @@ enum AnalyticsEvent: String {
     case upNextMultiSelectExited
     case upNextQueueReordered
     case upNextDismissed
+
+    // MARK: - Player
+
+    case playerShown
+    case playerDismissed
+
+    case playerTabSelected
+    case playerShowNotesLinkTapped
+    case playerChapterSelected
+    
+    case playerPreviousChapterTapped
+    case playerNextChapterTapped
 }
