@@ -257,7 +257,6 @@ platform :ios do
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def slack_message(version:, build_number:, is_beta:)
     build_number_split = build_number.split('.')
 
@@ -283,7 +282,6 @@ platform :ios do
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   # Executes the initial steps of the code freeze
   #
