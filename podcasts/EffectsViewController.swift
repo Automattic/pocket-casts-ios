@@ -198,10 +198,12 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
     
     @IBAction func minusTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         PlaybackManager.shared.decreasePlaybackSpeed()
     }
     
     @IBAction func plusTapped(_ sender: Any) {
+        analyticsPlaybackHelper.currentSource = playbackSource
         PlaybackManager.shared.increasePlaybackSpeed()
     }
     
@@ -215,13 +217,20 @@ class EffectsViewController: SimpleNotificationsViewController {
         }
         
         PlaybackManager.shared.changeEffects(effects)
+        
+        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
     }
     
     @objc private func trimSilenceAmountChanged() {
         let effects = PlaybackManager.shared.effects()
-        effects.trimSilence = trimSilenceIndexToAmount(trimSilenceAmountControl.selectedIndex)
+        let amount = trimSilenceIndexToAmount(trimSilenceAmountControl.selectedIndex)
+        effects.trimSilence = amount
         
         PlaybackManager.shared.changeEffects(effects)
+
+        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
     }
     
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
@@ -229,6 +238,9 @@ class EffectsViewController: SimpleNotificationsViewController {
         effects.volumeBoost = sender.isOn
         
         PlaybackManager.shared.changeEffects(effects)
+
+        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
     }
     
     @IBAction func clearForPodcastTapped(_ sender: Any) {
@@ -286,10 +298,9 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
     
     private func speedTapped() {
-        let effects = PlaybackManager.shared.effects()
-        effects.toggleDefinedSpeedInterval()
-        
-        PlaybackManager.shared.changeEffects(effects)
+        analyticsPlaybackHelper.currentSource = playbackSource
+
+        PlaybackManager.shared.toggleDefinedPlaybackSpeed()
     }
     
     private func updateSpeedBtn() {
