@@ -263,12 +263,13 @@ platform :ios do
     message_root = lambda(tag, display_name) {
       ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{tag}|*#{display_name}*>"
     }
+    testflight_submit_url = '<https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect>'
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
       else
-        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_url} and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>."
       end
     elsif (build_number_split[2] || '0').to_i.positive?
       "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on <https://appstoreconnect.apple.com/apps/414834813/appstore/ios/version/deliverable%7CApp Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into%7Cmerge the PR>."
