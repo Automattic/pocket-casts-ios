@@ -45,7 +45,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         }
         
         if let length = notification.request.content.userInfo["episode_length"] as? Int, length > 0 {
-            //the length is in seconds, so let's format it
+            // the length is in seconds, so let's format it
             episodeLength.text = timeFormatter?.string(from: TimeInterval(length))
         }
         else {
