@@ -149,11 +149,21 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
         }
+        
+        #if !os(watchOS)
+            if userInitiated {
+                analyticsHelper.markAsUnplayed(episode: episode)
+            }
+        #endif
     }
     
     class func bulkMarkAsUnPlayed(_ baseEpisodes: [BaseEpisode]) {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
+        #endif
     }
     
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
