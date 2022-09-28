@@ -103,27 +103,32 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     
     var episode: Episode
     var podcast: Podcast
-    
+
+    let viewSource: EpisodeDetailViewSource
+
     // MARK: - Init
     
-    init(episodeUuid: String) {
+    init(episodeUuid: String, source: EpisodeDetailViewSource) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
         podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
-        
+        viewSource = source
+
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
     
-    init(episodeUuid: String, podcast: Podcast) {
+    init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource) {
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
         self.podcast = podcast
+        viewSource = source
         
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
     
-    @objc init(episode: Episode, podcast: Podcast) {
+    init(episode: Episode, podcast: Podcast, source: EpisodeDetailViewSource) {
         self.episode = episode
         self.podcast = podcast
+        viewSource = source
         
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }

@@ -104,7 +104,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
         else {
             tableView.deselectRow(at: indexPath, animated: true)
             
-            let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast)
+            let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters)
             episodeController.modalPresentationStyle = .formSheet
             present(episodeController, animated: true, completion: nil)
         }

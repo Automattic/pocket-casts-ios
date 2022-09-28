@@ -94,7 +94,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {
         guard let uuid = discoverEpisode.uuid else { return }
-        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast)
+        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
         episodeController.modalPresentationStyle = .formSheet
         
         present(episodeController, animated: true)
