@@ -71,10 +71,13 @@ class PlaybackActionHelper {
                 UploadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
+
+        AnalyticsEpisodeHelper.shared.episodeUploaded(episodeUUID: episodeUuid)
     }
     
     class func stopUpload(episodeUuid: String) {
         UploadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true)
+        AnalyticsEpisodeHelper.shared.episodeUploadCancelled(episodeUUID: episodeUuid)
     }
     
     private class func performPlay(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
