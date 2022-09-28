@@ -272,9 +272,9 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func markPlayed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
-        
+
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-        
+
         let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
             AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
@@ -286,7 +286,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func delete() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
-        
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+
         UserEpisodeManager.presentDeleteOptions(episode: episode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: .dark)
     }
     
