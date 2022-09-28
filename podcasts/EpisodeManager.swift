@@ -236,12 +236,22 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }
+
+        #if !os(watchOS)
+            if userInitiated {
+                analyticsHelper.unarchiveEpisode(episode)
+            }
+        #endif
     }
     
     class func bulkUnarchive(episodes: [Episode]) {
         DataManager.sharedManager.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+        #endif
     }
     
     class func deleteAllEpisodesInPodcast(id: Int64) {
