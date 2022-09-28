@@ -5744,17 +5744,25 @@
 			path = Adapters;
 			sourceTree = "<group>";
 		};
+		C761300628E4CA060044C6C2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */,
+				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		C7AF578F289D7F1E0089E435 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				C761300628E4CA060044C6C2 /* Helpers */,
 				C72CED30289DA17F0017883A /* Adapters */,
 				C7AF5790289D87CF0089E435 /* Analytics.swift */,
 				C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */,
-				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 				C72CED2E289DA1650017883A /* String+Analytics.swift */,
 				C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */,
 				C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */,
-				C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
