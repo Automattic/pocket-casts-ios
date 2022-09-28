@@ -292,11 +292,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func archive() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
-        
+
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
         
         let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
-            Analytics.track(.episodeArchived, properties: ["source": "player"])
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         }
         archiveAction.destructive = true
@@ -320,6 +321,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func performStarAction(starBtn: UIButton? = nil) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
 
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
         
