@@ -143,8 +143,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     override func viewDidLoad() {
         displayMode = .card
         super.viewDidLoad()
-        
+
         closeTapped = { [weak self] in
+            Analytics.track(.episodeDetailDismissed)
             self?.dismiss(animated: true, completion: nil)
         }
         
@@ -160,6 +161,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         mainScrollView.contentOffset.y = -100
         
         hideErrorMessage(hide: true)
+        Analytics.track(.episodeDetailShown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -395,7 +397,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     
     @objc private func podcastNameTapped() {
         guard let podcast = episode.parentPodcast() else { return }
-        
+
+        Analytics.track(.episodeDetailPodcaseNameTapped)
+
         dismiss(animated: true) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
@@ -415,7 +419,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     
     private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
         let shareTime = sharePosition ? episode.playedUpTo : 0
-        
+
+        let type = shareTime == 0 ? "episode" : "current_position"
+        Analytics.track(.podcastShared, properties: ["type": type, "source": playbackSource])
+
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
     
@@ -424,7 +431,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         docController = UIDocumentInteractionController(url: fileUrl)
         docController?.name = episode.displayableTitle()
         docController?.delegate = self
-        
+
+        Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": playbackSource])
+
         let canOpen = docController?.presentOpenInMenu(from: sourceRect, in: view, animated: true) ?? false
         if !canOpen {
             let alert = UIAlertController(title: L10n.error, message: L10n.podcastShareEpisodeErrorMsg, preferredStyle: UIAlertController.Style.alert)

@@ -70,6 +70,8 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
                 safariViewController?.delegate = self
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(safariViewController!, animated: true, completion: nil)
+
+                Analytics.track(.episodeDetailShowNotesLinkTapped, properties: ["episode_uuid": episode.uuid])
             }
             else if let url = navigationAction.request.url, URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
