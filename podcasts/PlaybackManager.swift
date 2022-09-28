@@ -430,8 +430,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         return queue.contains(episode: episode)
     }
-    
-    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false) {
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool) {
+        addToUpNext(episode: episode, ignoringQueueLimit: ignoringQueueLimit, toTop: toTop, userInitiated: false)
+    }
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
@@ -452,11 +456,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         
         if let episode = episode as? Episode, episode.archived {
-            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         if episode.played() {
-            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         // otherwise we don't have this item, so add it to the bottom of our future list
@@ -476,7 +480,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.insert(episode: episode, position: position)
     }
     
-    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true) {
+    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
@@ -979,7 +983,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             
             if episode.played() {
-                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false)
+                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false, userInitiated: false)
             }
         }
         queue.bulkOperationDidComplete()
