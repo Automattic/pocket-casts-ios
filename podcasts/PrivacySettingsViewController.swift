@@ -71,12 +71,9 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 2:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
-        default:
-            break
-        }
+        guard indexPath.row == 2 else { return }
+
+        NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
     }
 
     @objc private func pushToggled(_ sender: UISwitch) {
