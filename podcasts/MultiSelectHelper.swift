@@ -7,6 +7,8 @@ class MultiSelectHelper {
     // MARK: - Action Helpers
     
     class func performAction(_ action: MultiSelectAction, actionDelegate: MultiSelectActionDelegate) {
+        AnalyticsEpisodeHelper.shared.currentSource = actionDelegate.multiSelectViewSource
+        
         switch action {
         case .star:
             starEpisodes(actionDelegate: actionDelegate, star: true)
