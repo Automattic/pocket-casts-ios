@@ -34,11 +34,9 @@ class EpisodeManager: NSObject {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
         }
 
-        #if !os(watchOS)
-            if userInitiated {
-                analyticsHelper.markAsPlayed(episode: episode)
-            }
-        #endif
+        if userInitiated {
+            analyticsHelper.markAsPlayed(episode: episode)
+        }
     }
     
     class func bulkMarkAsPlayed(episodes: [BaseEpisode], updateSyncFlag: Bool) {
@@ -101,9 +99,7 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
-        #endif
+        analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
     }
     
     class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
@@ -116,11 +112,9 @@ class EpisodeManager: NSObject {
             DataManager.sharedManager.save(episode: episode)
         }
 
-        #if !os(watchOS)
-            if userInitated {
-                analyticsHelper.downloadDeleted(episode: episode)
-            }
-        #endif
+        if userInitated {
+            analyticsHelper.downloadDeleted(episode: episode)
+        }
     }
     
     class func markEpisodeAsPlayedExternal(_ episode: Episode) {
@@ -149,21 +143,17 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
         }
-        
-        #if !os(watchOS)
-            if userInitiated {
-                analyticsHelper.markAsUnplayed(episode: episode)
-            }
-        #endif
+
+        if userInitiated {
+            analyticsHelper.markAsUnplayed(episode: episode)
+        }
     }
     
     class func bulkMarkAsUnPlayed(_ baseEpisodes: [BaseEpisode]) {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
-        #endif
+        analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
     }
     
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
@@ -186,11 +176,9 @@ class EpisodeManager: NSObject {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }
 
-        #if !os(watchOS)
-            if userInitiated {
-                analyticsHelper.archiveEpisode(episode)
-            }
-        #endif
+        if userInitiated {
+            analyticsHelper.archiveEpisode(episode)
+        }
     }
     
     class func archiveEpisodeExternal(_ episode: Episode) {
@@ -218,9 +206,7 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
-        #endif
+        analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
     }
     
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
@@ -237,11 +223,9 @@ class EpisodeManager: NSObject {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }
 
-        #if !os(watchOS)
-            if userInitiated {
-                analyticsHelper.unarchiveEpisode(episode)
-            }
-        #endif
+        if userInitiated {
+            analyticsHelper.unarchiveEpisode(episode)
+        }
     }
     
     class func bulkUnarchive(episodes: [Episode]) {
@@ -249,9 +233,7 @@ class EpisodeManager: NSObject {
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
-        #endif
+        analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
     }
     
     class func deleteAllEpisodesInPodcast(id: Int64) {
@@ -287,14 +269,12 @@ class EpisodeManager: NSObject {
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
 
-        #if !os(watchOS)
-            if starred {
-                analyticsHelper.star(episode: episode)
-            }
-            else {
-                analyticsHelper.unstar(episode: episode)
-            }
-        #endif
+        if starred {
+            analyticsHelper.star(episode: episode)
+        }
+        else {
+            analyticsHelper.unstar(episode: episode)
+        }
     }
     
     class func bulkSetStarred(_ starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
@@ -307,14 +287,12 @@ class EpisodeManager: NSObject {
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            if starred {
-                analyticsHelper.bulkStar(count: episodes.count)
-            }
-            else {
-                analyticsHelper.bulkUnstar(count: episodes.count)
-            }
-        #endif
+        if starred {
+            analyticsHelper.bulkStar(count: episodes.count)
+        }
+        else {
+            analyticsHelper.bulkUnstar(count: episodes.count)
+        }
     }
     
     class func deleteAllDownloadedFiles(unplayed: Bool, inProgress: Bool, played: Bool, includeStarred: Bool) {
@@ -514,8 +492,6 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        #if !os(watchOS)
-            analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
-        #endif
+        analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
     }
 }
