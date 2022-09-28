@@ -342,11 +342,13 @@ enum AnalyticsEvent: String {
     case episodeUnstarred
     case episodeBulkUnstarred
 
-    case episodeDownloaded
-    case episodeBulkDownloaded
+    case episodeDownloadQueued
+    case episodeDownloadFinished
+    case episodeBulkDownloadQueued
     case episodeDownloadCancelled
 
-    case episodeUploaded
+    case episodeUploadQueued
+    case episodeUploadFinished
     case episodeUploadCancelled
     case episodeDeletedFromCloud
 
