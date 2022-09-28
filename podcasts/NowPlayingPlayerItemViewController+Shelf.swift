@@ -272,10 +272,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func markPlayed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
-        
+
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-        
+
         let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         markPlayedAction.destructive = true
@@ -285,17 +286,19 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     
     private func delete() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
-        
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+
         UserEpisodeManager.presentDeleteOptions(episode: episode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: .dark)
     }
     
     private func archive() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
-        
+
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
         
         let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
-            Analytics.track(.episodeArchived, properties: ["source": "player"])
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         }
         archiveAction.destructive = true
@@ -320,7 +323,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func performStarAction(starBtn: UIButton? = nil) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        Analytics.track(.episodeStarred, properties: ["source": "player"])
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
 
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
         

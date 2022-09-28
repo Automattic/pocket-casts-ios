@@ -7,20 +7,20 @@ extension EpisodeDetailViewController {
     
     @IBAction func upNextTapped(_ sender: UIButton) {
         if PlaybackManager.shared.inUpNext(episode: episode) {
-            PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
+            PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
         }
         else if PlaybackManager.shared.queue.upNextCount() < 1 {
-            PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false)
+            PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
         }
         else {
             let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
             let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
-                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
             }
             addToUpNextPicker.addAction(action: playNextAction)
             
             let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
-                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
             }
             addToUpNextPicker.addAction(action: playLastAction)
             
@@ -29,6 +29,8 @@ extension EpisodeDetailViewController {
     }
     
     @IBAction func episodeStatusTapped(_ sender: Any) {
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+        
         if episode.played() {
             EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
         }
@@ -194,8 +196,10 @@ extension EpisodeDetailViewController {
     // MARK: - Helpers
     
     private func deleteDownloadedFile() {
-        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
-        EpisodeManager.deleteDownloadedFiles(episode: episode)
+        EpisodeManager.analyticsHelper.currentSource = playbackSource
+
+        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: false)
+        EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }

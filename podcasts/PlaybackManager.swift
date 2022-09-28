@@ -430,8 +430,18 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         return queue.contains(episode: episode)
     }
-    
-    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false) {
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool) {
+        addToUpNext(episode: episode, ignoringQueueLimit: ignoringQueueLimit, toTop: toTop, userInitiated: false)
+    }
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
+        #if !os(watchOS)
+            if userInitiated {
+                AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+            }
+        #endif
+
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
@@ -452,11 +462,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         
         if let episode = episode as? Episode, episode.archived {
-            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         if episode.played() {
-            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         // otherwise we don't have this item, so add it to the bottom of our future list
@@ -476,7 +486,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.insert(episode: episode, position: position)
     }
     
-    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true) {
+    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
+        #if !os(watchOS)
+            if userInitiated, let episode {
+                AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+            }
+        #endif
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
@@ -909,7 +924,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // if marking an episode as played means the it should be archived, then do that
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
                 if let episode = episode as? Episode {
-                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false)
+                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false, userInitiated: false)
                 }
                 else if let episode = episode as? UserEpisode {
                     if Settings.userEpisodeRemoveFileAfterPlaying() {
@@ -979,10 +994,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             
             if episode.played() {
-                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false)
+                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false, userInitiated: false)
             }
         }
         queue.bulkOperationDidComplete()
+
+        #if !os(watchOS)
+            AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
+        #endif
     }
     
     // MARK: - Helper Methods
@@ -1579,7 +1598,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             markPlayedCommand.removeTarget(self)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-                
+
+                AnalyticsEpisodeHelper.shared.currentSource = strongSelf.commandCenterSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                 return .success
             }

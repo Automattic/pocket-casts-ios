@@ -337,7 +337,41 @@ enum AnalyticsEvent: String {
     // MARK: - Episode Events
 
     case episodeStarred
+    case episodeBulkStarred
+
+    case episodeUnstarred
+    case episodeBulkUnstarred
+
+    case episodeDownloadQueued
+    case episodeDownloadFinished
+    case episodeBulkDownloadQueued
+    case episodeDownloadCancelled
+
+    case episodeUploadQueued
+    case episodeUploadFinished
+    case episodeUploadCancelled
+    case episodeDeletedFromCloud
+
+    case episodeDownloadDeleted
+    case episodeBulkDownloadDeleted
+
     case episodeArchived
+    case episodeBulkArchived
+
+    case episodeUnarchived
+    case episodeBulkUnarchived
+
+    case episodeMarkedAsPlayed
+    case episodeBulkMarkedAsPlayed
+
+    case episodeMarkedAsUnplayed
+    case episodeBulkMarkedAsUnplayed
+
+    case episodeAddedToUpNext
+    case episodeBulkAddToUpNext
+
+    case episodeRemovedFromUpNext
+
     case podcastShared
 
     // MARK: - Episode Detail

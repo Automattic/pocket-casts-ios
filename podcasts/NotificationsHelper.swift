@@ -82,7 +82,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
-                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: playFirst)
+                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: playFirst, userInitiated: true)
                 }
                 
                 completionHandler()

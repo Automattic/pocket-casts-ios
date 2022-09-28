@@ -32,10 +32,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var playbackSource: String {
-        "miniplayer"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -314,5 +310,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
+    }
+}
+
+extension MiniPlayerViewController: PlaybackSource {
+    var playbackSource: String {
+        "miniplayer"
     }
 }

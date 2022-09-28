@@ -196,6 +196,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         let options = OptionsPicker(title: nil, themeOverride: .dark, portraitOnly: false)
         
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = "video_player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)
@@ -203,7 +204,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
                 let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
-                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true)
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)
         }
