@@ -18,7 +18,7 @@ class EpisodeManager: NSObject {
         
         if shouldArchiveOnCompletion(episode: episode) {
             if let episode = episode as? Episode {
-                archiveEpisode(episode: episode, fireNotification: false)
+                archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
             }
             else if let episode = episode as? UserEpisode {
                 if Settings.userEpisodeRemoveFileAfterPlaying() {
