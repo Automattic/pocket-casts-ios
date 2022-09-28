@@ -39,6 +39,10 @@ extension PlaylistViewController: MultiSelectActionDelegate {
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
         preferredStatusBarStyle
     }
+
+    var multiSelectViewSource: String {
+        playbackSource
+    }
     
     // MARK: - Selected Episode
     

@@ -339,4 +339,11 @@ enum AnalyticsEvent: String {
     case episodeStarred
     case episodeArchived
     case podcastShared
+
+    // MARK: - Multi Select View
+
+    case multiSelectViewOverflowMenuShown
+    case multiSelectViewOverflowMenuRearrangeStarted
+    case multiSelectViewOverflowMenuRearrangeActionMoved
+    case multiSelectViewOverflowMenuRearrangeFinished
 }

@@ -255,7 +255,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
     }
 }
 
-enum MultiSelectAction: Int32, CaseIterable {
+enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
     case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete
     
     func title() -> String {
@@ -321,6 +321,39 @@ enum MultiSelectAction: Int32, CaseIterable {
             return "episode-remove-download"
         case .delete:
             return "episode-delete"
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+        case .playLast:
+            return "play_last"
+        case .playNext:
+            return "play_next"
+        case .download:
+            return "download"
+        case .archive:
+            return "archive"
+        case .markAsPlayed:
+            return "mark_as_played"
+        case .star:
+            return "star"
+        case .moveToTop:
+            return "up_next_move_up"
+        case .moveToBottom:
+            return "up_next_move_bottom"
+        case .removeFromUpNext:
+            return "up_next_remove"
+        case .unstar:
+            return "unstar"
+        case .unarchive:
+            return "unarchive"
+        case .markAsUnplayed:
+            return "mark_unplayed"
+        case .removeDownload:
+            return "remove_download"
+        case .delete:
+            return "delete"
         }
     }
 }

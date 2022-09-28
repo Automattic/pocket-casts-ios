@@ -299,3 +299,9 @@ enum UpNextViewSource: String, AnalyticsDescribable {
 
     var analyticsDescription: String { rawValue }
 }
+
+extension UpNextViewController: PlaybackSource {
+    var playbackSource: String {
+        "up_next"
+    }
+}
