@@ -464,3 +464,16 @@ extension EpisodeDetailViewController: PlaybackSource {
         "episode_detail"
     }
 }
+
+enum EpisodeDetailViewSource: String, AnalyticsDescribable {
+    case discover
+    case downloads
+    case listeningHistory = "listening_history"
+    case homeScreenWidget = "home_screen_widget"
+    case filters
+    case podcastScreen = "podcast_screen"
+    case starred
+    case upNext = "up_next"
+
+    var analyticsDescription: String { rawValue }
+}
