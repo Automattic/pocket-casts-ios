@@ -426,11 +426,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
-        #if !os(watchOS)
-            if userInitiated {
-                AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
-            }
-        #endif
+        if userInitiated {
+            AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+        }
 
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
@@ -477,11 +475,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
-        #if !os(watchOS)
-            if userInitiated, let episode {
-                AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
-            }
-        #endif
+        if userInitiated, let episode {
+            AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+        }
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
@@ -989,9 +985,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         queue.bulkOperationDidComplete()
 
-        #if !os(watchOS)
-            AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
-        #endif
+        AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
     }
     
     // MARK: - Helper Methods
