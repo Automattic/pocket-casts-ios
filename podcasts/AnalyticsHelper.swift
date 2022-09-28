@@ -378,9 +378,6 @@ private extension AnalyticsHelper {
     static let logger = Logger()
     
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
-        // Don't track anything if the user has opted out
-        if Self.optedOut { return }
-        
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
         
