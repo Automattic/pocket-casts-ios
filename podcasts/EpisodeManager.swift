@@ -286,6 +286,15 @@ class EpisodeManager: NSObject {
         }
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
+
+        #if !os(watchOS)
+            if starred {
+                analyticsHelper.star(episode: episode)
+            }
+            else {
+                analyticsHelper.unstar(episode: episode)
+            }
+        #endif
     }
     
     class func bulkSetStarred(_ starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
@@ -297,6 +306,15 @@ class EpisodeManager: NSObject {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            if starred {
+                analyticsHelper.bulkStar(count: episodes.count)
+            }
+            else {
+                analyticsHelper.bulkUnstar(count: episodes.count)
+            }
+        #endif
     }
     
     class func deleteAllDownloadedFiles(unplayed: Bool, inProgress: Bool, played: Bool, includeStarred: Bool) {
