@@ -521,6 +521,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popViewController(animated: true)
+        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     func subscribe() {
