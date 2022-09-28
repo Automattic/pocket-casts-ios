@@ -33,6 +33,12 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
         }
+
+        #if !os(watchOS)
+            if userInitiated {
+                analyticsHelper.markAsPlayed(episode: episode)
+            }
+        #endif
     }
     
     class func bulkMarkAsPlayed(episodes: [BaseEpisode], updateSyncFlag: Bool) {
@@ -94,6 +100,10 @@ class EpisodeManager: NSObject {
             markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
+        #endif
     }
     
     class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
