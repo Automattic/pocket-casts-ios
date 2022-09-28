@@ -1299,6 +1299,7 @@
 		C750EF7F28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
 		C7612FFF28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */; };
 		C761300028E3BC090044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */; };
+		C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2792,6 +2793,7 @@
 		C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsDescribable+Modules.swift"; sourceTree = "<group>"; };
 		C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Pocket Casts Configuration.storekit"; sourceTree = "<group>"; };
 		C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEpisodeHelper.swift; sourceTree = "<group>"; };
+		C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinator.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
@@ -5747,6 +5749,7 @@
 		C761300628E4CA060044C6C2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */,
 				C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */,
 				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 			);
@@ -7332,6 +7335,7 @@
 				BDED9304251DC459000BF622 /* CarPlaySceneDelegate+Convert.swift in Sources */,
 				BD9D923C21342CC50070D4FD /* ListEpisode.swift in Sources */,
 				BDF4D30F2175AA830086463E /* StarredViewController+Table.swift in Sources */,
+				C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDE292E423680D6100A4EEAE /* EffectsViewController.swift in Sources */,
 				BD907DAE21537B51004D7C02 /* SiriSettingsViewController.swift in Sources */,
 				400A3EF222702E20007361C7 /* TermsViewController.swift in Sources */,
