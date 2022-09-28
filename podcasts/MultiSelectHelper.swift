@@ -267,7 +267,7 @@ class MultiSelectHelper {
             actionDelegate.multiSelectActionCompleted()
         }
 
-        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(count: episodes.count)
+        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
     }
     
     private class func queueEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {
@@ -283,7 +283,7 @@ class MultiSelectHelper {
             actionDelegate.multiSelectActionCompleted()
         }
 
-        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(count: episodes.count)
+        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
     }
     
     private class func removeDownload(actionDelegate: MultiSelectActionDelegate) {

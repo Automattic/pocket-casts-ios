@@ -1,11 +1,20 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 class AnalyticsEpisodeHelper {
     static var shared = AnalyticsEpisodeHelper()
     
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: String?
+
+    // Internally track the episode UUIDs that the user is downloading or uploadiung
+    private var episodeDownloadQueue: Set<String> = []
+    private var episodeUploadQueue: Set<String> = []
+
+    init() {
+        addNotificationObservers()
+    }
 
     #if !os(watchOS)
 
@@ -34,13 +43,20 @@ class AnalyticsEpisodeHelper {
         }
 
         func downloaded(episodeUUID: String) {
-            episodeEvent(.episodeDownloaded, uuid: episodeUUID)
+            episodeDownloadQueue.insert(episodeUUID)
+            episodeEvent(.episodeDownloadQueued, uuid: episodeUUID)
         }
 
-        func bulkDownloadEpisodes(count: Int) {
-            bulkEvent(.episodeBulkDownloaded, count: count)
+        func downloadFinished(episodeUUID: String) {
+            episodeEvent(.episodeDownloadFinished, uuid: episodeUUID)
         }
 
+        func bulkDownloadEpisodes(episodes: [BaseEpisode]) {
+            let uuids = episodes.map { $0.uuid }
+            episodeDownloadQueue.formUnion(uuids)
+            bulkEvent(.episodeBulkDownloadQueued, count: episodes.count)
+        }
+    
         func downloadDeleted(episode: BaseEpisode) {
             episodeEvent(.episodeDownloadDeleted, episode: episode)
         }
@@ -88,7 +104,8 @@ class AnalyticsEpisodeHelper {
         // MARK: - Uploads
 
         func episodeUploaded(episodeUUID: String) {
-            episodeEvent(.episodeUploaded, uuid: episodeUUID)
+            episodeUploadQueue.insert(episodeUUID)
+            episodeEvent(.episodeUploadQueued, uuid: episodeUUID)
         }
 
         func episodeUploadCancelled(episodeUUID: String) {
@@ -97,6 +114,10 @@ class AnalyticsEpisodeHelper {
 
         func episodeDeletedFromCloud(episode: BaseEpisode) {
             episodeEvent(.episodeDeletedFromCloud, episode: episode)
+        }
+
+        func episodeUploadFinished(episodeUUID: String) {
+            episodeEvent(.episodeUploadFinished, uuid: episodeUUID)
         }
 
         // MARK: - Up Next
@@ -176,4 +197,48 @@ private extension AnalyticsEpisodeHelper {
             return base
         }
     #endif
+}
+
+private extension AnalyticsEpisodeHelper {
+    func addNotificationObservers() {
+        #if !os(watchOS)
+            NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeDownloaded, object: nil, queue: .main) { notification in
+                // Verify the UUID is one that we're tracking
+                guard let uuid = notification.object as? String, self.episodeDownloadQueue.contains(uuid) else {
+                    return
+                }
+
+                // Verify that the file has finished downloading
+                guard
+                    let episode = DataManager.sharedManager.findEpisode(uuid: uuid),
+                    let status = DownloadStatus(rawValue: episode.episodeStatus),
+                    status == .downloaded
+                else {
+                    return
+                }
+
+                self.episodeDownloadQueue.remove(uuid)
+                self.downloadFinished(episodeUUID: uuid)
+            }
+
+            NotificationCenter.default.addObserver(forName: ServerNotifications.userEpisodeUploadStatusChanged, object: nil, queue: .main) { notification in
+                // Verify the UUID is one that we're tracking
+                guard let uuid = notification.object as? String, self.episodeUploadQueue.contains(uuid) else {
+                    return
+                }
+
+                // Verify that the file has finished uploading
+                guard
+                    let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
+                    let status = UploadStatus(rawValue: episode.uploadStatus),
+                    status == .uploaded
+                else {
+                    return
+                }
+
+                self.episodeUploadQueue.remove(uuid)
+                self.episodeUploadFinished(episodeUUID: uuid)
+            }
+        #endif
+    }
 }
