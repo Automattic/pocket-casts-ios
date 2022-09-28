@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 class EpisodeManager: NSObject {
     class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool) {
+    class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         // request to remove it from the download queue, just in case it's in there
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: fireNotification, userInitiated: true)
         
@@ -89,12 +90,12 @@ class EpisodeManager: NSObject {
             }
         }
         if let currentEpisode = currentEpisodeToMarkAsPlayed {
-            markAsPlayed(episode: currentEpisode, fireNotification: true)
+            markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
     }
     
-    class func deleteDownloadedFiles(episode: BaseEpisode) {
+    class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
         deleteFilesForEpisode(episode)
         
         if episode.episodeStatus != DownloadStatus.notDownloaded.rawValue {
@@ -119,7 +120,7 @@ class EpisodeManager: NSObject {
         }
     }
     
-    class func markAsUnplayed(episode: BaseEpisode, fireNotification: Bool) {
+    class func markAsUnplayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         let updateSyncFlag = SyncManager.isUserLoggedIn()
         
         DataManager.sharedManager.saveEpisode(playingStatus: .notPlayed, episode: episode, updateSyncFlag: updateSyncFlag)
@@ -138,7 +139,7 @@ class EpisodeManager: NSObject {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
     }
     
-    class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true) {
+    class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
         FileLog.shared.addMessage("Archive episode \(episode.displayableTitle()), fireNotification? \(fireNotification), removeFromPlayer? \(removeFromPlayer)")
         // request to remove it from the download queue, just in case it's in there
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: fireNotification, userInitiated: true)
@@ -185,7 +186,7 @@ class EpisodeManager: NSObject {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
     }
     
-    class func unarchiveEpisode(episode: Episode, fireNotification: Bool) {
+    class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
         DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
         
         // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
