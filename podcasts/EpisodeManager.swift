@@ -4,7 +4,8 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class EpisodeManager: NSObject {
-    class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool) {
+    static var analyticsHelper = AnalyticsEpisodeHelper.shared
+
     class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         // request to remove it from the download queue, just in case it's in there
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: fireNotification, userInitiated: true)
