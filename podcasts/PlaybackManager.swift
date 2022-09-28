@@ -189,10 +189,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     
     func play(completion: (() -> Void)? = nil) {
         guard let currEpisode = currentEpisode() else { return }
-        
-        #if !os(watchOS)
-            analyticsPlaybackHelper.play()
-        #endif
+
+        analyticsPlaybackHelper.play()
 
         aboutToPlay.value = true
         
@@ -229,9 +227,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func pause() {
         guard let episode = currentEpisode() else { return }
 
-        #if !os(watchOS)
-            analyticsPlaybackHelper.pause()
-        #endif
+        analyticsPlaybackHelper.pause()
         
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
@@ -268,9 +264,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipBack(amount: TimeInterval) {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipBack()
-        #endif
+        analyticsPlaybackHelper.skipBack()
 
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
@@ -283,9 +277,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipForward(amount: TimeInterval) {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipForward()
-        #endif
+        analyticsPlaybackHelper.skipForward()
 
         let forwardTime = min(currentTime() + amount, duration())
         seekTo(time: forwardTime)
@@ -393,9 +385,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         }
 
-        #if !os(watchOS)
-            analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
-        #endif
+        analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
     }
     
     func currentTime() -> TimeInterval {
