@@ -185,6 +185,12 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }
+
+        #if !os(watchOS)
+            if userInitiated {
+                analyticsHelper.archiveEpisode(episode)
+            }
+        #endif
     }
     
     class func archiveEpisodeExternal(_ episode: Episode) {
@@ -211,6 +217,10 @@ class EpisodeManager: NSObject {
             PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
+        #endif
     }
     
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
