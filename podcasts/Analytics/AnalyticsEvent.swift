@@ -212,6 +212,12 @@ enum AnalyticsEvent: String {
     case playbackPause
     case playbackSkipBack
     case playbackSkipForward
+    case playbackSeek
+
+    case playbackEffectSpeedChanged
+    case playbackEffectTrimSilenceToggled
+    case playbackEffectTrimSilenceAmountChanged
+    case playbackEffectVolumeBoostToggled
 
     // MARK: - Filters
 
@@ -307,4 +313,50 @@ enum AnalyticsEvent: String {
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
+
+    // MARK: - Player
+
+    case playerShown
+    case playerDismissed
+
+    case playerTabSelected
+    case playerShowNotesLinkTapped
+    case playerChapterSelected
+    
+    case playerPreviousChapterTapped
+    case playerNextChapterTapped
+
+    // MARK: - Player: Sleep Timer
+
+    case playerSleepTimerEnabled
+    case playerSleepTimerExtended
+    case playerSleepTimerCancelled
+
+    // MARK: - Player: Shelf
+
+    case playerShelfActionTapped
+    case playerShelfOverflowMenuShown
+    case playerShelfOverflowMenuRearrangeStarted
+    case playerShelfOverflowMenuRearrangeActionMoved
+    case playerShelfOverflowMenuRearrangeFinished
+
+    // MARK: - Episode Events
+
+    case episodeStarred
+    case episodeArchived
+    case podcastShared
+
+    // MARK: - Episode Detail
+
+    case episodeDetailShown
+    case episodeDetailShowNotesLinkTapped
+    case episodeDetailPodcastNameTapped
+    case episodeDetailDismissed
+
+    // MARK: - Multi Select View
+
+    case multiSelectViewOverflowMenuShown
+    case multiSelectViewOverflowMenuRearrangeStarted
+    case multiSelectViewOverflowMenuRearrangeActionMoved
+    case multiSelectViewOverflowMenuRearrangeFinished
 }

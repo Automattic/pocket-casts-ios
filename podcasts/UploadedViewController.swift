@@ -271,7 +271,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private func createSortAction(sort: UploadedSort) -> OptionAction {
         let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy()) {
             Settings.setUserEpisodeSortBy(sort.rawValue)
-            Analytics.track(.uploadedFilesSortByChanged, properties: ["sort_order": sort.analyticsDescription])
+            Analytics.track(.uploadedFilesSortByChanged, properties: ["sort_order": sort])
 
             self.reloadLocalFiles()
         }

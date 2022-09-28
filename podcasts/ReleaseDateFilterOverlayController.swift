@@ -1,6 +1,6 @@
 import UIKit
 
-enum ReleaseDateFilterOption: Int32 {
+enum ReleaseDateFilterOption: Int32, AnalyticsDescribable {
     case anytime = 0
     case last24hours = 24
     case last3Days = 72

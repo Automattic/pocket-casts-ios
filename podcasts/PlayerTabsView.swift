@@ -5,7 +5,7 @@ protocol PlayerTabDelegate: AnyObject {
     func didSwitchToTab(index: Int)
 }
 
-enum PlayerTabs {
+enum PlayerTabs: Int {
     case nowPlaying
     case showNotes
     case chapters
@@ -41,7 +41,11 @@ class PlayerTabsView: UIView {
     var currentTab = 0 {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
-            
+
+            if oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) {
+                trackTabChanged(tab: tab)
+            }
+
             if currentTab == 1 {
                 AnalyticsHelper.playerShowNotesOpened()
             }
@@ -245,5 +249,23 @@ class PlayerTabsView: UIView {
         else {
             return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
         }
+    }
+}
+
+// MARK: - Private: Analytics
+
+private extension PlayerTabsView {
+    func trackTabChanged(tab: PlayerTabs) {
+        let tabName: String
+        switch tab {
+        case .nowPlaying:
+            tabName = "now_playing"
+        case .showNotes:
+            tabName = "show_notes"
+        case .chapters:
+            tabName = "chapters"
+        }
+
+        Analytics.track(.playerTabSelected, properties: ["tab": tabName])
     }
 }

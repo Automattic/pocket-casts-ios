@@ -158,7 +158,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             else if indexPath.section == PodcastViewController.allEpisodesSection {
                 guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
                 
-                let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast)
+                let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }

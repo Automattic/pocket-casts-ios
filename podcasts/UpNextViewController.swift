@@ -193,7 +193,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func showEpisodeDetailViewController(for episode: BaseEpisode?) {
         if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
-            let episodeController = EpisodeDetailViewController(episode: episode, podcast: parentPodcast)
+            let episodeController = EpisodeDetailViewController(episode: episode, podcast: parentPodcast, source: .upNext)
             episodeController.modalPresentationStyle = .formSheet
             episodeController.themeOverride = themeOverride
             present(episodeController, animated: true, completion: nil)
@@ -283,19 +283,25 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension UpNextViewController {
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        let defaultProperties: [String: Any] = ["source": source.description]
+        let defaultProperties: [String: Any] = ["source": source]
         let props = defaultProperties.merging(properties ?? [:]) { current, _ in current }
 
         Analytics.track(event, properties: props)
     }
 }
 
-enum UpNextViewSource: String, CustomStringConvertible {
+enum UpNextViewSource: String, AnalyticsDescribable {
     case miniPlayer = "mini_player"
     case nowPlaying = "now_playing"
     case player
     case lockScreenWidget = "lock_screen_widget"
     case unknown
 
-    var description: String { rawValue }
+    var analyticsDescription: String { rawValue }
+}
+
+extension UpNextViewController: PlaybackSource {
+    var playbackSource: String {
+        "up_next"
+    }
 }

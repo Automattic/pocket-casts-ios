@@ -161,7 +161,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
@@ -169,11 +169,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.inactiveTintColor = ThemeColor.playerContrast02()
         chromecastBtn.addTarget(self, action: #selector(googleCastTapped), for: .touchUpInside)
         chromecastBtn.isPointerInteractionEnabled = true
+
+        routePicker.delegate = self
     }
     
     private var lastBoundsAdjustedFor = CGRect.zero
 
-    private var playbackSource: String {
+    var playbackSource: String {
         "player"
     }
 
@@ -228,10 +230,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
+        Analytics.track(.playerPreviousChapterTapped)
     }
     
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
+        Analytics.track(.playerNextChapterTapped)
     }
     
     @objc private func chapterLinkTapped() {
@@ -301,6 +305,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @objc func googleCastTapped() {
+        shelfButtonTapped(.chromecast)
+
         let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)

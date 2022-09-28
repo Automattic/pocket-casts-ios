@@ -51,7 +51,9 @@ class ShelfActionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        Analytics.track(.playerShelfOverflowMenuShown)
+
         reloadActions()
         updateColors()
         
@@ -71,6 +73,7 @@ class ShelfActionsViewController: UIViewController {
     
     @IBAction func doneTapped(_ sender: UIButton) {
         if actionsTable.isEditing {
+            Analytics.track(.playerShelfOverflowMenuRearrangeFinished)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
             dismiss(animated: true, completion: nil)
             return
@@ -93,6 +96,8 @@ class ShelfActionsViewController: UIViewController {
         if let sheetController = parent as? MDCBottomSheetController {
             sheetController.dismissOnDraggingDownSheet = false
         }
+
+        Analytics.track(.playerShelfOverflowMenuRearrangeStarted)
     }
     
     private func setPreferredSize(animated: Bool) {
