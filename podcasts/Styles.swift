@@ -110,7 +110,8 @@ struct ThemedTextField: ViewModifier {
         if #available(iOS 16.0, *) {
             baseContent(content: content)
                 .scrollContentBackground(.hidden)
-        } else {
+        }
+        else {
             baseContent(content: content)
         }
     }
