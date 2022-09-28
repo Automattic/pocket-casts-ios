@@ -1583,7 +1583,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             markPlayedCommand.removeTarget(self)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-                
+
+                AnalyticsEpisodeHelper.shared.currentSource = strongSelf.commandCenterSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                 return .success
             }

@@ -196,6 +196,8 @@ extension EpisodeDetailViewController {
     // MARK: - Helpers
     
     private func deleteDownloadedFile() {
+        EpisodeManager.analyticsHelper.currentSource = playbackSource
+
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: false)
         EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
         
