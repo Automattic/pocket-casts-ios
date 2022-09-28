@@ -12,7 +12,7 @@ class ChapterInfo: Equatable {
     var isLast = false
     var index = 0
     var duration: TimeInterval = 0
-    
+
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
         lhs.title == rhs.title && lhs.startTime.seconds == rhs.startTime.seconds
     }

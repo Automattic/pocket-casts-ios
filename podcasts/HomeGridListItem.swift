@@ -4,38 +4,38 @@ import PocketCastsDataModel
 
 class HomeGridListItem: ListItem {
     let gridItem: HomeGridItem
-    
+
     var podcast: Podcast? {
         gridItem.podcast
     }
-    
+
     var folder: Folder? {
         gridItem.folder
     }
-    
+
     let theme: Theme.ThemeType
     let badgeType: BadgeType
     var frozenBadgeCount = -1 // used for comparisons only
-    
+
     init(gridItem: HomeGridItem, badgeType: BadgeType, theme: Theme.ThemeType) {
         self.gridItem = gridItem
         self.badgeType = badgeType
         self.theme = theme
-        
+
         super.init()
     }
-    
+
     override var differenceIdentifier: String {
         podcast?.uuid ?? folder?.uuid ?? ""
     }
-    
+
     static func == (lhs: HomeGridListItem, rhs: HomeGridListItem) -> Bool {
         lhs.handleIsEqual(rhs)
     }
-    
+
     override func handleIsEqual(_ otherItem: ListItem) -> Bool {
         guard let rhs = otherItem as? HomeGridListItem else { return false }
-        
+
         if let otherPodcast = rhs.podcast, let podcast = podcast {
             return differenceIdentifier == rhs.differenceIdentifier &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&
@@ -56,7 +56,7 @@ class HomeGridListItem: ListItem {
                 folder.syncModified == otherFolder.syncModified &&
                 theme.rawValue == rhs.theme.rawValue // since folders use different colours in different themes, we need to compare that as well
         }
-        
+
         return false
     }
 }

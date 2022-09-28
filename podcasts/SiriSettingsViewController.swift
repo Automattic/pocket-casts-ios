@@ -7,23 +7,23 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
     @IBOutlet var tableView: UITableView! {
         didSet {
             tableView.applyInsetForMiniPlayer()
-            
+
             tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
             tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
             tableView.register(UINib(nibName: "SiriShortcutDisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCelld)
         }
     }
-    
+
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
     @IBOutlet var errorView: UIStackView!
     var suggestedShortcuts: [INShortcut]!
     var enabledShortcuts: [INVoiceShortcut]!
-    
+
     private enum sections { case enabledSection, suggestedSection, playSection }
     private var tableData: [sections] = []
     private enum playRow { case playPodcast, playFilter }
     private var playRows: [playRow] = [.playPodcast, .playFilter]
-    
+
     let enabledCellId = "siriEnabledCellId"
     let suggestedCellId = "siriSuggestedCellId"
     let disclosureCelld = "siriDisclosureCellId"
@@ -35,17 +35,17 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         suggestedShortcuts = SiriShortcutsManager.shared.defaultSuggestions()
         enabledShortcuts = [INVoiceShortcut]()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         getEnabledShortcuts()
     }
-    
+
     // MARK: Tableview delegate and datasource
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableData.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = tableData[section]
         switch section {
@@ -57,10 +57,10 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             return playRows.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
-        
+
         let section = tableData[section]
         switch section {
         case .enabledSection:
@@ -71,18 +71,18 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             return nil
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         Constants.Values.tableSectionHeaderHeight
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         64
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = tableData[indexPath.section]
-        
+
         switch section {
         case .enabledSection:
             let cell = tableView.dequeueReusableCell(withIdentifier: enabledCellId) as! SiriShortcutEnabledCell
@@ -111,10 +111,10 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             return cell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableData[indexPath.section]
-        
+
         switch section {
         case .enabledSection:
             let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: enabledShortcuts[indexPath.row])
@@ -122,7 +122,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             viewController.delegate = self
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true, completion: nil)
-            
+
         case .suggestedSection:
             let viewController = INUIAddVoiceShortcutViewController(shortcut: suggestedShortcuts[indexPath.row])
             viewController.modalPresentationStyle = .formSheet
@@ -140,7 +140,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
+
     private func showPodcastShortcutsViewController() {
         let viewController = PodcastShortcutsViewController()
         var podcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
@@ -159,7 +159,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     private func showFiltersShortcutsViewController() {
         let viewController = FiltersShortcutsViewController()
         let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
@@ -167,15 +167,15 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     // MARK: - Editing
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         false
     }
-    
+
     // MARK: - helper functions
-    
+
     private func reloadData() {
         var newSections = [sections]()
         if enabledShortcuts.count > 0 {
@@ -190,13 +190,13 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         tableData = newSections
         tableView.reloadData()
     }
-    
+
     private func getEnabledShortcuts() {
         errorView.isHidden = true
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, error in
-            
+
             if allVoiceShortcuts != nil, error == nil {
                 self.enabledShortcuts = allVoiceShortcuts
                 for voiceShortcut in self.enabledShortcuts {
@@ -220,7 +220,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             }
         }
     }
-    
+
     private func deleteEnabledShortcut(voiceShortcut: INVoiceShortcut) {
         if SiriShortcutsManager.shared.isDefaultSuggestion(voiceShortcut: voiceShortcut) {
             if let chapterIntent = voiceShortcut.shortcut.intent as? SJChapterIntent {
@@ -239,7 +239,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         }
         reloadData()
     }
-    
+
     func voiceShortcutForShortcut(shortcut: INShortcut) -> INVoiceShortcut? {
         guard let existingShortcuts = enabledShortcuts else { return nil }
         for voice in existingShortcuts {
@@ -249,9 +249,9 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         }
         return nil
     }
-    
+
     // MARK: INUIAddVoiceShortcutViewController
-    
+
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
         if let voiceShortcut = voiceShortcut {
             enabledShortcuts.append(voiceShortcut)
@@ -266,14 +266,14 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
         reloadData()
     }
-    
+
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     // MARK: INUIEditVoiceShortcutViewControllerDelegate
-    
+
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didUpdate voiceShortcut: INVoiceShortcut?, error: Error?) {
         getEnabledShortcuts()
         reloadData()
@@ -281,7 +281,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
         let shortcutsToDelete = enabledShortcuts.filter { $0.identifier == deletedVoiceShortcutIdentifier }
         if shortcutsToDelete.count > 0 {
@@ -291,12 +291,12 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     @IBAction func tryAgainTapped() {
         getEnabledShortcuts()
     }

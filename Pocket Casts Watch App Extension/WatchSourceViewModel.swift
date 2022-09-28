@@ -47,7 +47,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
         get { false }
         set {} // This is intentionally a noop because this feature isn't supported on the Watch
     }
-    
+
     let volumeBoostAvailable: Bool = false
     var volumeBoostEnabled: Bool {
         get { false }
@@ -270,11 +270,11 @@ class WatchSourceViewModel: PlaySourceViewModel {
             Settings.setHomeFolderSortOrder(order: newValue)
         }
     }
-    
+
     func allHomeGridItemsSorted(sortedBy: LibrarySort) -> [HomeGridItem] {
         HomeGridDataHelper.gridItems(orderedBy: sortedBy)
     }
-    
+
     func allPodcastsInFolder(folder: Folder) -> [Podcast] {
         DataManager.sharedManager.allPodcastsInFolder(folder: folder)
     }

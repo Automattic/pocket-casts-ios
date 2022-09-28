@@ -7,7 +7,7 @@ import PocketCastsUtils
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         handleContinue(userActivity)
-        
+
         return true
     }
 
@@ -19,16 +19,16 @@ extension AppDelegate {
             }
         } else if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             guard let incomingURL = userActivity.webpageURL, let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true), let path = components.path, let controller = SceneHelper.rootViewController(), path != "/get" else { return }
-            
+
             FileLog.shared.addMessage("Opening universal link, path: \(path)")
             openSharePath("social/share/show\(path)", controller: controller, onErrorOpen: incomingURL)
         }
-        
+
         guard let intent = userActivity.interaction?.intent else { return }
-        
+
         if let playIntent = intent as? INPlayMediaIntent {
             var urlString: String?
-            
+
             if let mediaItem = playIntent.mediaItems?.first {
                 if mediaItem.identifier == Constants.SiriActions.playFilterId {
                     if let containerId = playIntent.mediaContainer?.identifier {
@@ -54,7 +54,7 @@ extension AppDelegate {
                     }
                 }
             }
-            
+
             if let urlString = urlString, let url = URL(string: urlString) {
                 JLRoutes.routeURL(url)
             }
@@ -74,22 +74,22 @@ extension AppDelegate {
             }
         }
     }
-    
+
     /// This method is called when a user activity is continued via the restoration handler
     /// in `UIApplicationDelegate application(_:continue:restorationHandler:)`
     override func restoreUserActivityState(_ activity: NSUserActivity) {
         super.restoreUserActivityState(activity)
     }
-    
+
     func application(_ application: UIApplication, handle: INIntent, completionHandler: (INIntentResponse) -> Void) {
         if let handle = handle as? INPlayMediaIntent {
             let responseCode = handlePlayMediaIntent(intent: handle)
-            
+
             let response = INPlayMediaIntentResponse(code: responseCode, userActivity: nil)
             completionHandler(response)
         }
     }
-    
+
     func handlePlayMediaIntent(intent: INPlayMediaIntent) -> INPlayMediaIntentResponseCode {
         var thisIntent = intent
         var responseCode: INPlayMediaIntentResponseCode = .continueInApp
@@ -154,14 +154,14 @@ extension AppDelegate {
         if let spokenSpeed = thisIntent.playbackSpeed, responseCode == .success {
             let effects = PlaybackManager.shared.effects()
             effects.playbackSpeed = spokenSpeed
-            
+
             PlaybackManager.shared.changeEffects(effects)
             PlaybackManager.shared.play()
         }
 
         return responseCode
     }
-    
+
     func handleChapterIntent(intent: INIntent) {
         if intent is SJChapterIntent {
             let chapterIntent = intent as! SJChapterIntent
@@ -174,12 +174,12 @@ extension AppDelegate {
             // Fallback on earlier versions
         }
     }
-    
+
     func handleOpenFilterIntent(intent: INIntent) {
         if intent is SJOpenFilterIntent {
             let filterIntent = intent as! SJOpenFilterIntent
             guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findFilter(uuid: filterId) else { return }
-            
+
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
         }
     }

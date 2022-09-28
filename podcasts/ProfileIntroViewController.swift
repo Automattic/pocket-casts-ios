@@ -9,7 +9,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
             createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
     }
-    
+
     @IBOutlet var signInBtn: ThemeableRoundedButton! {
         didSet {
             signInBtn.setTitle(L10n.signIn, for: .normal)
@@ -17,36 +17,36 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
             signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
     }
-    
+
     @IBOutlet var profileIllustration: UIImageView! {
         didSet {
             profileIllustration.image = UIImage(named: AppTheme.setupNewAccountImageName())
         }
     }
-    
+
     @IBOutlet var signOrCreateLabel: ThemeableLabel! {
         didSet {
             signOrCreateLabel.text = L10n.signInPrompt
             signOrCreateLabel.style = .primaryText01
         }
     }
-    
+
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.text = L10n.signInMessage
             infoLabel.style = .primaryText02
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = L10n.setupAccount
-        
+
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
-        
+
         handleThemeChanged()
         let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
@@ -54,23 +54,23 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
         Analytics.track(.setupAccountShown)
     }
-    
+
     override func handleThemeChanged() {
         profileIllustration.image = UIImage(named: AppTheme.setupNewAccountImageName())
     }
-    
+
     @objc private func doneTapped() {
         closeWindow()
     }
-    
+
     private func closeWindow(completion: (() -> Void)? = nil) {
         dismiss(animated: true, completion: completion)
         AnalyticsHelper.createAccountDismissed()
         Analytics.track(.setupAccountDismissed)
     }
-    
+
     // MARK: - SyncSigninDelegate
-    
+
     func signingProcessCompleted() {
         closeWindow {
             if let presentingController = self.upgradeRootViewController {
@@ -79,21 +79,21 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
             }
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.popupStatusBarStyle()
     }
-    
+
     @IBAction func signInTapped() {
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
-        
+
         navigationController?.pushViewController(signinPage, animated: true)
 
         AnalyticsHelper.createAccountSignIn()
         Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
     }
-    
+
     @IBAction func createTapped() {
         let selectAccountVC = SelectAccountTypeViewController()
         navigationController?.pushViewController(selectAccountVC, animated: true)
@@ -102,9 +102,9 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
         Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
     }
-    
+
     // MARK: - Orientation
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }

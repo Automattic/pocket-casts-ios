@@ -7,7 +7,7 @@ class ListeningHistoryViewController: PCViewController {
     var episodes = [ArraySection<String, ListEpisode>]()
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
-    
+
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
             registerCells()
@@ -19,7 +19,7 @@ class ListeningHistoryViewController: PCViewController {
             registerLongPress()
         }
     }
-    
+
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -29,7 +29,7 @@ class ListeningHistoryViewController: PCViewController {
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.listeningHistoryTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
                 self.listeningHistoryTable.endUpdates()
-                
+
                 if self.isMultiSelectEnabled {
                     Analytics.track(.listeningHistoryMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
@@ -45,7 +45,7 @@ class ListeningHistoryViewController: PCViewController {
             }
         }
     }
-    
+
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
@@ -53,31 +53,31 @@ class ListeningHistoryViewController: PCViewController {
             multiSelectFooter.delegate = self
         }
     }
-    
+
     @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-    
+
     var selectedEpisodes = [ListEpisode]() {
         didSet {
             multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
             updateSelectAllBtn()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         operationQueue.maxConcurrentOperationCount = 1
         title = L10n.listeningHistory
         refreshEpisodes(animated: false)
-        
+
         setupNavBar()
 
         Analytics.track(.listeningHistoryShown)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
@@ -91,37 +91,37 @@ class ListeningHistoryViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
     }
-    
+
     @objc private func refreshEpisodesFromNotification() {
         refreshEpisodes(animated: true)
     }
-    
+
     @objc private func upNextChanged() {
         listeningHistoryTable.reloadData()
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+
         removeAllCustomObservers()
     }
-    
+
     override func handleThemeChanged() {
         listeningHistoryTable.reloadData()
     }
-    
+
     func refreshEpisodes(animated: Bool) {
         operationQueue.addOperation {
             let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
-            
+
             let oldData = self.episodes
             let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
                 episode.shortLastPlaybackInteractionDate()
             })
-            
+
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 strongSelf.listeningHistoryTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
@@ -135,7 +135,7 @@ class ListeningHistoryViewController: PCViewController {
             }
         }
     }
-    
+
     @objc func clearTapped() {
         let optionPicker = OptionsPicker(title: "")
         let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
@@ -143,37 +143,37 @@ class ListeningHistoryViewController: PCViewController {
             DataManager.sharedManager.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self.refreshEpisodes(animated: true)
-            
+
         })
         optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
-    
+
     func setupNavBar() {
         super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
         super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilityMoreActions
-        
+
         navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
-    
+
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         Analytics.track(.listeningHistoryOptionsButtonTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
-        
+
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.listeningHistoryOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
-        
+
         let clearAction = OptionAction(label: L10n.historyClearAllDetails, icon: "option-cleanup") { [weak self] in
             Analytics.track(.listeningHistoryOptionsModalOptionTapped, properties: ["option": "clear_history"])
             self?.clearTapped()
         }
         optionsPicker.addAction(action: clearAction)
-        
+
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 }

@@ -8,15 +8,15 @@ class OptionsPickerHelper {
             confirmAction()
             return
         }
-        
+
         let playableEpisodesLabel = episodeCount == 1 ? L10n.playerOptionsPlayEpisodeSingular : L10n.playerOptionsPlayEpisodesPlural(episodeCount.localized())
         let playAction = OptionAction(label: playableEpisodesLabel, icon: nil, action: {
             confirmAction()
         })
-        
+
         let warningPicker = OptionsPicker(title: "")
         warningPicker.addDescriptiveActions(title: L10n.playAll, message: L10n.playerOptionsPlayAllMessage, icon: "filter_play", actions: [playAction])
-        
+
         warningPicker.show(statusBarStyle: .default)
     }
 }

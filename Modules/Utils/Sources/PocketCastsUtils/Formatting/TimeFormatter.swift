@@ -2,21 +2,21 @@ import Foundation
 
 public class TimeFormatter {
     public static let shared = TimeFormatter()
-    
+
     private lazy var colonFormatterMinutes: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.minute, .second]
         formatter.zeroFormattingBehavior = [.pad]
-        
+
         return formatter
     }()
-    
+
     private lazy var colonFormatterHours: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.hour, .minute, .second]
-        
+
         return formatter
     }()
 
@@ -66,19 +66,19 @@ public class TimeFormatter {
 
     public func playTimeFormat(time: TimeInterval, showSeconds: Bool = true) -> String {
         if time.isNaN || !time.isFinite { return "0:00" }
-        
+
         if time < 1.hours {
             let formatter = showSeconds ? colonFormatterMinutes : shortFormatMinutes
             return formatter.string(from: time) ?? "0:00"
         }
-        
+
         let formatter = showSeconds ? colonFormatterHours : shortTimeFormatter
         return formatter.string(from: time) ?? "0:00"
     }
 
     public func singleUnitFormattedShortestTime(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
-        
+
         if time < 1.minutes {
             return subMinuteFormatter.string(from: time) ?? ""
         } else if time < 1.hours {
@@ -90,23 +90,23 @@ public class TimeFormatter {
 
     public func multipleUnitFormattedShortTime(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
-        
+
         if time < 60.seconds {
             return subMinuteFormatter.string(from: time) ?? ""
         }
-        
+
         return shortTimeFormatter.string(from: time) ?? ""
     }
 
     public func minutesHoursFormatted(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
-        
+
         return minutesHoursFormatter.string(from: time) ?? ""
     }
 
     public func minutesFormatted(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
-        
+
         return appleFormatterMinutes.string(from: time) ?? ""
     }
 
@@ -130,10 +130,10 @@ public class TimeFormatter {
         } else {
             timeStr = appleFormatterYears.string(from: time)
         }
-        
+
         return timeStr
     }
-    
+
     public class func currentUTCTimeInMillis() -> Int64 {
         Int64(Date().timeIntervalSince1970 * 1000)
     }
@@ -143,7 +143,7 @@ public class TimeFormatter {
         formatter.unitsStyle = .abbreviated
         formatter.allowedUnits = allowedUnits
         formatter.zeroFormattingBehavior = [.dropAll]
-        
+
         return formatter
     }
 

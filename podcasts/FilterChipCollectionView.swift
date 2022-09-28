@@ -46,7 +46,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let chip = FilterChipCollectionView.chipData[indexPath.row]
-    
+
         let width = titleForChip(chip: chip).size(withAttributes: nil)
         return CGSize(width: width.width + 50, height: 30)
     }
@@ -65,7 +65,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             filterSettingsVC.filterToEdit = filter
             let navVC = SJUIUtils.navController(for: filterSettingsVC)
             chipActionDelegate?.presentingViewController().present(navVC, animated: true, completion: nil)
-         
+
         case .downloadStatus:
             let filterSettingsVC = DownloadFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = filter
@@ -202,7 +202,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         guard let lastSelectedIndexPath = lastSelectedIndexPath else { return }
         scrollToItem(at: lastSelectedIndexPath, at: .left, animated: false)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }

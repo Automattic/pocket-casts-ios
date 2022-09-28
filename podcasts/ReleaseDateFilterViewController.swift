@@ -5,39 +5,39 @@ class ReleaseDateFilterViewController: FilterSettingsViewController, UITableView
     var selectedValue = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tableView.separatorStyle = .none
-        
+
         setCurrentReleaseDate()
     }
-    
+
     // MAKR: - TableView DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         6
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "ReleaseFilterCell")
-        
+
         cell.textLabel?.text = choices[indexPath.row]
         cell.accessoryType = indexPath.row == selectedValue ? .checkmark : .none
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let oldSelectedValue = selectedValue
         selectedValue = indexPath.row
         filterToEdit.filterHours = timeToFilterLenght(filterName: choices[indexPath.row])
         tableView.reloadRows(at: [indexPath, IndexPath(row: oldSelectedValue, section: 0)], with: .automatic)
     }
-    
+
     func timeToFilterLenght(filterName: String) -> Int32 {
         if filterName.caseInsensitiveCompare("Anytime") == .orderedSame {
             return 0
@@ -56,7 +56,7 @@ class ReleaseDateFilterViewController: FilterSettingsViewController, UITableView
             return filterToEdit.filterHours
         }
     }
-    
+
     func setCurrentReleaseDate() {
         if filterToEdit.filterHours <= 0 {
             selectedValue = 5

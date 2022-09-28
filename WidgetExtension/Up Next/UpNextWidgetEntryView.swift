@@ -4,7 +4,7 @@ import SwiftUI
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
-    
+
     var body: some View {
         if let episodes = entry.episodes, episodes.count > 0 {
             if family == .systemMedium {
@@ -26,7 +26,7 @@ struct UpNextWidgetEntryView: View {
                         .accessibility(hidden: true)
                 }
                 .padding(.init(top: 16, leading: 16, bottom: 0, trailing: 16))
-                
+
                 Spacer()
                 if family == .systemMedium {
                     HungryForMoreView()

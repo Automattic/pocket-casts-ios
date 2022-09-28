@@ -3,25 +3,25 @@ import UIKit
 class EpisodeFilterViewController: FilterSettingsViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tableView.separatorStyle = .none
     }
-    
+
     // MAKR: - TableView DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         3
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         2
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "EpisodeFilterCell")
-        
+
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 cell.textLabel?.text = "Unplayed"
@@ -41,6 +41,6 @@ class EpisodeFilterViewController: FilterSettingsViewController, UITableViewData
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
 }

@@ -6,43 +6,43 @@ class ThemeableTextField: UITextField {
             updateColor()
         }
     }
-    
+
     var backgroundStyle: ThemeStyle? {
         didSet {
             updateColor()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         setup()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func setup() {
         updateColor()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
-    
+
     @objc private func themeDidChange() {
         updateColor()
     }
-    
+
     private func updateColor() {
         textColor = AppTheme.colorForStyle(textStyle)
         if let placeholder = placeholder {
@@ -53,7 +53,7 @@ class ThemeableTextField: UITextField {
         } else {
             backgroundColor = UIColor.clear
         }
-        
+
         keyboardAppearance = AppTheme.keyboardAppearance()
     }
 }

@@ -26,7 +26,7 @@ struct PodcastsListView: View {
 
 struct PodcastItemView: View {
     @State var podcast: Podcast
-    
+
     var body: some View {
         NavigationLink(destination: PodcastEpisodeListView(viewModel: PodcastEpisodeListViewModel(podcast: podcast))) {
             HStack {
@@ -44,7 +44,7 @@ struct PodcastItemView: View {
 struct FolderItemView: View {
     @State var folder: Folder
     let podcastCount: Int
-    
+
     var body: some View {
         NavigationLink(destination: FolderView(viewModel: FolderViewModel(folder: folder))) {
             HStack {

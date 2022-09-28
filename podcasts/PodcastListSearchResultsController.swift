@@ -4,42 +4,42 @@ import UIKit
 
 class PodcastListSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     private static let searchCellId = "SearchCell"
-    
+
     private var localResults = [HomeGridItem]()
     private var remoteResults = [PodcastInfo]()
-    
+
     private let localSection = 0
     private let remoteSection = 1
-    
+
     var searchTextField: UITextField?
-    
+
     @IBOutlet var searchResultsTable: UITableView! {
         didSet {
             searchResultsTable.register(UINib(nibName: "PodcastSearchCell", bundle: nil), forCellReuseIdentifier: PodcastListSearchResultsController.searchCellId)
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // this table now goes under the tab bar, so it has to be inset by it's height to make up for that
         let tabBarHeight = (view.window?.rootViewController as? MainTabBarController)?.tabBar.bounds.height ?? 49
         searchResultsTable.applyInsetForMiniPlayer(additionalBottomInset: tabBarHeight)
     }
-    
+
     // MARK: - UITableView methods
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         section == localSection ? localResults.count : remoteResults.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PodcastListSearchResultsController.searchCellId, for: indexPath) as! PodcastSearchCell
-        
+
         if indexPath.section == localSection {
             let item = localResults[indexPath.row]
             if let podcast = item.podcast {
@@ -53,7 +53,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == localSection {
             let item = localResults[indexPath.row]
@@ -67,51 +67,51 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
         }
     }
-    
+
     // MARK: - UIScrollViewDelegate
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let searchField = searchTextField else { return }
-        
+
         // dismiss the keyboard on scroll down of the results
         if scrollView.contentOffset.y > 40, searchField.isFirstResponder {
             searchField.resignFirstResponder()
         }
     }
-    
+
     // MARK: - Search
-    
+
     func clearSearch() {
         localResults.removeAll()
         remoteResults.removeAll()
         searchResultsTable.reloadData()
     }
-    
+
     func performLocalSearch(searchTerm: String) {
         let filteredItems = HomeGridDataHelper.gridListItemsForSearchTerm(searchTerm)
-        
+
         remoteResults.removeAll()
         localResults = filteredItems
         searchResultsTable.reloadData()
     }
-    
+
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
         let finalSearch = searchTerm.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).stringByRemovingEmoji()
-        
+
         MainServerHandler.shared.podcastSearch(searchTerm: finalSearch) { response in
             DispatchQueue.main.async { [weak self] in
                 guard let response = response, response.success() else {
                     completion()
-                    
+
                     return
                 }
-                
+
                 var results = [PodcastInfo]()
-                
+
                 if let podcast = response.result?.podcast {
                     results.append(podcast)
                 }
-                
+
                 if let podcasts = response.result?.searchResults, let localItems = self?.localResults {
                     for podcastInfo in podcasts {
                         if let uuid = podcastInfo.uuid {
@@ -121,7 +121,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
                         }
                     }
                 }
-                
+
                 completion()
                 self?.remoteResults = results
                 self?.searchResultsTable.reloadData()

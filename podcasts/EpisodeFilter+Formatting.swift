@@ -13,40 +13,40 @@ extension EpisodeFilter {
             } else if AppTheme.playlistPurpleColor().isEqual(color) {
                 return 3
             }
-            
+
             return 4
         }
     #endif
     func iconImage() -> UIImage? {
         guard let icon = PlaylistIcon(rawValue: customIcon) else { return nil }
-        
+
         return EpisodeFilter.imageForPlaylistIcon(icon: icon)
     }
-    
+
     func iconImageLarge() -> UIImage? {
         guard let iconName = iconImageNameLarge() else { return nil }
-        
+
         return UIImage(named: iconName)
     }
-    
+
     func iconImageNameLarge() -> String? {
         guard let regularName = iconImageName() else { return nil }
-        
+
         return "\(regularName)_large"
     }
-    
+
     func iconImageName() -> String? {
         guard let icon = PlaylistIcon(rawValue: customIcon) else { return nil }
-        
+
         return EpisodeFilter.imageName(forPlaylistIcon: icon)
     }
-    
+
     #if !os(watchOS)
         func iconImageNameCarPlay() -> String {
             guard let regularName = iconImageName() else { return "" }
-        
+
             var name = "car_\(regularName)"
-        
+
             let color = playlistColor()
             if color == AppTheme.playlistRedColor() {
                 name += "_red"
@@ -59,17 +59,17 @@ extension EpisodeFilter {
             } else {
                 name += "_blue" // default to blue
             }
-        
+
             return name
         }
     #endif
-    
+
     class func imageForPlaylistIcon(icon: PlaylistIcon) -> UIImage? {
         guard let name = imageName(forPlaylistIcon: icon) else { return nil }
-        
+
         return UIImage(named: name)
     }
-    
+
     class func imageName(forPlaylistIcon icon: PlaylistIcon) -> String? {
         if icon == .redPlaylist || icon == .bluePlaylist || icon == .greenPlaylist || icon == .purplePlaylist || icon == .yellowPlaylist {
             return "filter_list"
@@ -88,28 +88,28 @@ extension EpisodeFilter {
         } else if icon == .redTop || icon == .blueTop || icon == .greenTop || icon == .purpleTop || icon == .yellowTop {
             return "filter_starred"
         }
-        
+
         return nil
     }
-    
+
     #if !os(watchOS)
         func setPlaylistColor(color: UIColor) {
             let currentIcon = Int(customIcon)
             let currentIconRow = Int(currentIcon / EpisodeFilter.iconsPerType)
             let newIcon = (currentIconRow * EpisodeFilter.iconsPerType) + EpisodeFilter.indexOf(color: color)
-            
+
             customIcon = Int32(newIcon)
             syncStatus = SyncStatus.notSynced.rawValue
             DataManager.sharedManager.save(filter: self)
         }
-        
+
         func playlistColor() -> UIColor {
             AppTheme.colorForStyle(playlistStyle())
         }
-    
+
         func playlistStyle() -> ThemeStyle {
             guard let icon = PlaylistIcon(rawValue: customIcon) else { return .filter01 }
-            
+
             switch icon {
             case .redPlaylist, .redmostPlayed, .redRecent, .redDownloading, .redUnplayed, .redAudio, .redVideo, .redTop:
                 return .filter01
@@ -124,16 +124,16 @@ extension EpisodeFilter {
             }
         }
     #endif
-    
+
     func maxAutoDownloadEpisodes() -> Int32 {
         autoDownloadLimit == 0 ? Constants.Values.defaultFilterDownloadLimit : autoDownloadLimit
     }
-    
+
     func episodeUuidToAddToQueries() -> String? {
         if let playingEpisode = PlaybackManager.shared.currentEpisode(), PlaybackManager.shared.uuidOfPlayingList == uuid {
             return playingEpisode.uuid
         }
-        
+
         return nil
     }
 }

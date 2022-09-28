@@ -3,33 +3,33 @@ import WidgetKit
 
 struct UpNextProvider: TimelineProvider {
     typealias Entry = UpNextEntry
-    
+
     func placeholder(in context: Context) -> UpNextEntry {
         let widgetData = WidgetData.shared
         widgetData.reload()
-        
+
         guard let currentEpisode = widgetData.nowPlayingEpisode else {
             return upNextEntry(episodes: nil, data: widgetData)
         }
-        
+
         return upNextEntry(episodes: [currentEpisode], data: widgetData, imageCountToCache: context.family.imageCount)
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (UpNextEntry) -> Void) {
         let widgetData = WidgetData.shared
         widgetData.reload()
-     
+
         if let episodes = widgetData.upNextEpisodes {
             completion(upNextEntry(episodes: episodes, data: widgetData, imageCountToCache: context.family.imageCount))
         } else {
             completion(upNextEntry(episodes: nil, data: widgetData))
         }
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let widgetData = WidgetData.shared
         widgetData.reload()
-     
+
         if let filterEpisodes = widgetData.topFilterEpisodes, filterEpisodes.count > 0 {
             let entry = upNextEntry(episodes: filterEpisodes, data: widgetData, imageCountToCache: context.family.imageCount)
             let timeline = Timeline(entries: [entry], policy: .never)
@@ -43,14 +43,14 @@ struct UpNextProvider: TimelineProvider {
             completion(timeline)
         }
     }
-    
+
     private func upNextEntry(episodes: [WidgetEpisode]?, data: WidgetData, imageCountToCache: Int = 0) -> UpNextEntry {
         if let episodes = episodes, episodes.count > 0, imageCountToCache > 0 {
             for episode in episodes.prefix(imageCountToCache) {
                 episode.loadImageData()
             }
         }
-        
+
         return UpNextEntry(date: Date(), episodes: episodes, filterName: data.topFilterName, isPlaying: data.isPlaying, upNextEpisodesCount: data.upNextEpisodesCount)
     }
 }

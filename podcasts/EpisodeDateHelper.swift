@@ -53,7 +53,7 @@ struct EpisodeDateHelper {
             label.attributedText = attributedString
         }
     #endif
-    
+
     #if os(watchOS)
         static func setDate(episode: BaseEpisode, on label: WKInterfaceLabel) {
             let episodeDate = displayDate(forEpisode: episode)

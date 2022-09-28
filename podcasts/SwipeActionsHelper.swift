@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 protocol SwipeHandler: AnyObject {
     var swipeSource: String { get }
-    
+
     func archivingRemovesFromList() -> Bool
     func actionPerformed(willBeRemoved: Bool)
     func deleteRequested(uuid: String)
@@ -13,14 +13,14 @@ enum SwipeActionsHelper {
     static func createLeftActionsForEpisode(_ episode: BaseEpisode, tableView: UITableView, indexPath: IndexPath, swipeHandler: SwipeHandler) -> TableSwipeActions {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
-        
+
         if PlaybackManager.shared.inUpNext(episode: episode) {
             let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.removeIfPlayingOrQueued(episode: loadedEpisode, fireNotification: true)
                     Self.performAction(.upNextRemove, handler: swipeHandler, willBeRemoved: false)
                 }
-                
+
                 return true
             })
             tableSwipeActions.addAction(removeFromUpNextAction)
@@ -30,19 +30,19 @@ enum SwipeActionsHelper {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true)
                     Self.performAction(.upNextAddTop, handler: swipeHandler, willBeRemoved: false)
                 }
-                
+
                 return true
             })
-            
+
             let addBottomAction = TableSwipeAction(indexPath: indexPath, title: L10n.playLast, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "list_playlast"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
                     PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: false)
                     Self.performAction(.upNextAddBottom, handler: swipeHandler, willBeRemoved: false)
                 }
-                
+
                 return true
             })
-            
+
             if Settings.primaryUpNextSwipeAction() == .playNext {
                 tableSwipeActions.addAction(addTopAction)
                 tableSwipeActions.addAction(addBottomAction)
@@ -51,14 +51,14 @@ enum SwipeActionsHelper {
                 tableSwipeActions.addAction(addTopAction)
             }
         }
-        
+
         return tableSwipeActions
     }
-    
+
     static func createRightActionsForEpisode(_ episode: BaseEpisode, tableView: UITableView, indexPath: IndexPath, swipeHandler: SwipeHandler) -> TableSwipeActions {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
-        
+
         if episode is UserEpisode {
             let deleteAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
                 swipeHandler.deleteRequested(uuid: storedUuid)
@@ -73,7 +73,7 @@ enum SwipeActionsHelper {
                     EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: false)
                     Self.performAction(.unarchive, handler: swipeHandler, willBeRemoved: willBeRemoved)
                 }
-                
+
                 return true
             })
             tableSwipeActions.addAction(unarchiveAction)
@@ -84,12 +84,12 @@ enum SwipeActionsHelper {
                     EpisodeManager.archiveEpisode(episode: loadedEpisode, fireNotification: false)
                     Self.performAction(.archive, handler: swipeHandler, willBeRemoved: willBeRemoved)
                 }
-                
+
                 return true
             })
             tableSwipeActions.addAction(archiveAction)
         }
-        
+
         return tableSwipeActions
     }
 

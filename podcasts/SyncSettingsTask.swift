@@ -9,7 +9,7 @@ class SyncSettingsTask: ApiBaseTask {
         do {
             var settingsRequest = Api_NamedSettingsRequest()
             settingsRequest.m = "iPhone"
-            
+
             if Settings.skipBackNeedsSyncing() {
                 settingsRequest.settings.skipBack = Google_Protobuf_Int32Value(Int32(Settings.skipBackTime()))
             }
@@ -24,7 +24,7 @@ class SyncSettingsTask: ApiBaseTask {
             }
             let data = try settingsRequest.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             if let response = response, httpStatus == Server.HttpConstants.ok {
                 process(serverData: response)
             } else {
@@ -34,31 +34,31 @@ class SyncSettingsTask: ApiBaseTask {
             FileLog.shared.addMessage("SyncSettingsTask Protobuf Encoding failed")
         }
     }
-    
+
     private func process(serverData: Data) {
         do {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
-            
+
             if settings.skipForward.changed.value {
                 let skipForwardTime = Int(settings.skipForward.value.value)
                 if skipForwardTime > 0, skipForwardTime != Settings.skipForwardTime() {
                     Settings.setSkipForwardTime(skipForwardTime, syncChange: false)
                 }
             }
-            
+
             if settings.skipBack.changed.value {
                 let skipBackTime = Int(settings.skipBack.value.value)
                 if skipBackTime > 0, skipBackTime != Settings.skipBackTime() {
                     Settings.setSkipBackTime(skipBackTime, syncChange: false)
                 }
             }
-            
+
             let marketingOptIn = Bool(settings.marketingOptIn.value.value)
             Settings.setMarketingOptIn(marketingOptIn)
-            
+
             let acknowledgement = Bool(settings.freeGiftAcknowledgement.value.value)
             Settings.setSubscriptionGiftAcknowledgement(acknowledgement)
-            
+
             Settings.setSkipBackSynced()
             Settings.setSkipForwardSynced()
             Settings.marketingOptInSynced()

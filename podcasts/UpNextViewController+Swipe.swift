@@ -21,7 +21,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             moveToTopAction.hidesWhenSelected = true
             let moveToBottomAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
                 guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
-                
+
                 let queueCount = PlaybackManager.shared.queue.upNextCount()
                 PlaybackManager.shared.queue.move(episode: episode, to: queueCount - 1, fireNotification: false)
                 self.moveRow(at: indexPath, to: IndexPath(row: queueCount - 1, section: indexPath.section), in: tableView)
@@ -35,7 +35,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
         case .right:
             let deleteAction = SwipeAction(style: .destructive, title: nil) { [weak self] _, indexPath in
                 guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
-                
+
                 self.changedViaSwipeToRemove = true
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
                 Analytics.track(.episodeSwipeActionPerformed, properties: ["action": "delete", "source": "up_next"])
@@ -54,7 +54,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                 }
                 self.changedViaSwipeToRemove = false
             }
-            
+
             // customize the action appearance
             deleteAction.image = UIImage(named: "episode-removenext")
             deleteAction.backgroundColor = ThemeColor.support05(for: themeOverride)
@@ -62,20 +62,20 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             return [deleteAction]
         }
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
-        
+
         switch orientation {
         case .left:
             options.expansionStyle = .selection
         case .right:
             options.expansionStyle = .destructive(automaticallyDelete: false)
         }
-        
+
         return options
     }
-    
+
     private func moveRow(at: IndexPath, to: IndexPath, in tableView: UITableView) {
         do {
             try SJCommonUtils.catchException {

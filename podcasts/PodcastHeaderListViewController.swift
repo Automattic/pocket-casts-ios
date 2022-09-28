@@ -3,58 +3,58 @@ import UIKit
 
 class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private var podcasts: [DiscoverPodcast]
-    
+
     var showFeaturedCell = false
     var showRankingNumber = false
     var labelTitle: String?
-    
+
     @IBOutlet var chartsTable: UITableView! {
         didSet {
             chartsTable.applyInsetForMiniPlayer()
         }
     }
-    
+
     private weak var delegate: DiscoverDelegate?
     private static let cellId = "DiscoverCell"
     private static let featuredCellId = "FeaturedTableViewCell"
-    
+
     init(podcasts: [DiscoverPodcast]) {
         self.podcasts = podcasts
-        
+
         super.init(nibName: "PodcastHeaderListViewController", bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         chartsTable.reloadData()
     }
-    
+
     // MARK: - UITableView Methods
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if showFeaturedCell, indexPath.row == 0 {
             return 181.0
         }
         return 65
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         podcasts.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let podcast = podcasts[indexPath.row]
         var cell: UITableViewCell
@@ -72,7 +72,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
             cell = featuredCell as UITableViewCell
         } else {
             let discoverCell = tableView.dequeueReusableCell(withIdentifier: PodcastHeaderListViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
-            
+
             if showRankingNumber {
                 discoverCell.populateFrom(podcast, number: indexPath.row + 1)
             } else {
@@ -82,7 +82,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if let delegate = delegate {
@@ -90,11 +90,11 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
             delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: nil)
         }
     }
-    
+
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }

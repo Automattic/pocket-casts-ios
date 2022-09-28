@@ -7,21 +7,21 @@ extension DiscoverViewController: DiscoverDelegate {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
         podcastController.listUuid = listUuid
-        
+
         navigationController?.pushViewController(podcastController, animated: true)
     }
-    
+
     func show(discoverPodcast: DiscoverPodcast, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?) {
         var podcastInfo = PodcastInfo()
         podcastInfo.populateFrom(discoverPodcast: discoverPodcast)
         show(podcastInfo: podcastInfo, placeholderImage: placeholderImage, isFeatured: isFeatured, listUuid: listUuid)
     }
-    
+
     func show(podcast: Podcast) {
         let podcastController = PodcastViewController(podcast: podcast)
         navigationController?.pushViewController(podcastController, animated: true)
     }
-    
+
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
@@ -44,41 +44,41 @@ extension DiscoverViewController: DiscoverDelegate {
 
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {
         guard let podcastCollection = podcastCollection else { return }
-        
+
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
         }
-        
+
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)
         navController()?.pushViewController(listView, animated: true)
     }
-    
+
     func navController() -> UINavigationController? {
         navigationController
     }
-    
+
     func replaceRegionCode(string: String?) -> String? {
         guard let fullString = string, let layout = discoverLayout else { return string }
-        
+
         let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
         guard let serverRegion = layout.regions?[currentRegionCode] else { return fullString }
-        
+
         return fullString.replacingOccurrences(of: layout.regionCodeToken, with: serverRegion.code)
     }
-    
+
     func replaceRegionName(string: String) -> String {
         guard let layout = discoverLayout else { return string }
-        
+
         let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
         guard let serverRegion = layout.regions?[currentRegionCode] else { return string }
 
         if let localizedRegion = string.localized(with: serverRegion.name.localized) {
             return localizedRegion
         }
-        
+
         return string.replacingOccurrences(of: layout.regionNameToken, with: serverRegion.name)
     }
-    
+
     func isSubscribed(podcast: DiscoverPodcast) -> Bool {
         if let uuid = podcast.uuid {
             if let _ = DataManager.sharedManager.findPodcast(uuid: uuid) {
@@ -87,7 +87,7 @@ extension DiscoverViewController: DiscoverDelegate {
         }
         return false
     }
-    
+
     func subscribe(podcast: DiscoverPodcast) {
         if podcast.iTunesOnly() {
             ServerPodcastManager.shared.addFromiTunesId(Int(podcast.iTunesId!)!, subscribe: true, completion: nil)

@@ -7,7 +7,7 @@ extension ProfileViewController: PromotionRedeemedDelegate {
         promoVC.delegate = self
         present(SJUIUtils.popupNavController(for: promoVC), animated: true, completion: nil)
     }
-    
+
     func showPromotionRedeemedAcknowledgement() {
         let promoAcknowledgementVC = PromotionAcknowledgementViewController(serverMessage: promoRedeemedMessage)
         let bottomSheet = MDCBottomSheetController(contentViewController: promoAcknowledgementVC)
@@ -17,7 +17,7 @@ extension ProfileViewController: PromotionRedeemedDelegate {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         present(bottomSheet, animated: true, completion: nil)
     }
-    
+
     func promotionRedeemed(message: String) {
         promoRedeemedMessage = message
     }

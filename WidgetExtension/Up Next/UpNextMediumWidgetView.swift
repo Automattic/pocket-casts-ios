@@ -5,7 +5,7 @@ struct UpNextMediumWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
-    
+
     var body: some View {
         if let firstEpisode = episodes.first {
             if let topFilter = filterName {
@@ -23,7 +23,7 @@ struct MediumUpNextView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var isPlaying: Bool
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
@@ -41,7 +41,7 @@ struct MediumUpNextView: View {
                     .padding(16)
                     .frame(height: geometry.size.height / 2)
                 }
-               
+
                 HStack {
                     if let nextEpisode = secondEpisode {
                         EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
@@ -64,9 +64,9 @@ struct MediumFilterView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var filterName: String
-    
+
     private let logoHeight: CGFloat = 28
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {

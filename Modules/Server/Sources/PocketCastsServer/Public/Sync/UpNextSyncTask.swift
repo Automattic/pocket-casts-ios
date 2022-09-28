@@ -5,11 +5,11 @@ import SwiftProtobuf
 
 class UpNextSyncTask: ApiBaseTask {
     private static let processDataLock = NSObject()
-    
+
     override func apiTokenAcquired(token: String) {
         let trace = TraceManager.shared.beginTracing(eventName: "SERVER_UP_NEXT_SYNC")
         defer { TraceManager.shared.endTracing(trace: trace) }
-        
+
         let (syncRequest, latestActionTime) = createUpNextSyncRequest()
         let url = ServerConstants.Urls.api() + "up_next/sync"
         do {
@@ -27,22 +27,22 @@ class UpNextSyncTask: ApiBaseTask {
             FileLog.shared.addMessage("UpNextSyncTask: had issues encoding protobuf \(error.localizedDescription)")
         }
     }
-    
+
     func createUpNextUrlRequest(token: String) -> (urlRequest: URLRequest, latestActionTime: Int64)? {
         guard let url = URL(string: ServerConstants.Urls.api() + "up_next/sync") else { return nil }
-        
+
         let protoRequest = createUpNextSyncRequest()
         do {
             let data = try protoRequest.request.serializedData()
             var request = createRequest(url: url, method: "POST", token: token)
             request.httpBody = data
-            
+
             return (request, protoRequest.latestActionTime)
         } catch {}
-        
+
         return nil
     }
-    
+
     private func createUpNextSyncRequest() -> (request: Api_UpNextSyncRequest, latestActionTime: Int64) {
         var syncRequest = Api_UpNextSyncRequest()
         syncRequest.deviceTime = TimeFormatter.currentUTCTimeInMillis()
@@ -59,7 +59,7 @@ class UpNextSyncTask: ApiBaseTask {
                 changes.append(action)
             }
         }
-        
+
         // all other add/remove actions
         let actions = DataManager.sharedManager.findUpdateActions()
         if actions.count > 0 {
@@ -73,44 +73,44 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
         upNextChanges.changes = changes
-        
+
         if let modified = upNextServerModified() {
             upNextChanges.serverModified = modified
         }
         syncRequest.upNext = upNextChanges
-        
+
         FileLog.shared.addMessage("UpNextSyncTask: Syncing Up Next, sending \(changes.count) changes, modified time \(upNextChanges.serverModified)")
         return (syncRequest, latestActionTime)
     }
-    
+
     func process(serverData: Data, latestActionTime: Int64) {
         // ensure that only one thread can be processing data at once. The code below isn't thread safe, and will lead to potential issues otherwise
         objc_sync_enter(UpNextSyncTask.processDataLock)
         defer { objc_sync_exit(UpNextSyncTask.processDataLock) }
-        
+
         do {
             let response = try Api_UpNextResponse(serializedData: serverData)
             applyServerChanges(episodes: response.episodes)
-            
+
             // save the server last modified so we can send it back next time. For legacy compatibility this is stored as a string
             UserDefaults.standard.set("\(response.serverModified)", forKey: ServerConstants.UserDefaults.upNextServerLastModified)
-            
+
             clearSyncedData(latestActionTime: latestActionTime)
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: Failed to decode server data")
         }
     }
-    
+
     private func applyServerChanges(episodes: [Api_UpNextResponse.EpisodeResponse]) {
         if upNextServerModified() == nil, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
             ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
-            
+
             FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync, saving that as the most current version and overwriting server copy")
-            
+
             return
         }
-        
+
         // check that the server list doesn't exactly match our list, if it does, no need to do anything
         guard let localEpisodes = ServerConfig.shared.playbackDelegate?.allEpisodesInQueue(includeNowPlaying: true) else { return }
         if localEpisodes.count == episodes.count {
@@ -119,7 +119,7 @@ class UpNextSyncTask: ApiBaseTask {
                 FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, nothing action required")
                 return
             }
-            
+
             var allMatch = true
             for (index, episode) in episodes.enumerated() {
                 if episode.uuid != localEpisodes[index].uuid {
@@ -131,10 +131,10 @@ class UpNextSyncTask: ApiBaseTask {
                 return
             }
         }
-        
+
         let modifiedList = addPlayingEpisode(list: episodes)
         FileLog.shared.addMessage("UpNextSyncTask: server sent \(episodes.count) episodes, we have \(modifiedList.count), making changes")
-        
+
         let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode()
         var uuids = [String]()
         if modifiedList.count > 0 {
@@ -172,7 +172,7 @@ class UpNextSyncTask: ApiBaseTask {
                                 newEpisode.title = episodeInfo.title
                                 DataManager.sharedManager.save(playlistEpisode: newEpisode)
                             }
-                            
+
                             dispatchGroup.leave()
                         }
                         _ = dispatchGroup.wait(timeout: .now() + 15.seconds)
@@ -180,10 +180,10 @@ class UpNextSyncTask: ApiBaseTask {
                 }
             }
         }
-        
+
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
-        
+
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
         if let episodePlayingBeforeChanges = episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
@@ -196,15 +196,15 @@ class UpNextSyncTask: ApiBaseTask {
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         }
     }
-    
+
     private func addPlayingEpisode(list: [Api_UpNextResponse.EpisodeResponse]) -> [Api_UpNextResponse.EpisodeResponse] {
         guard let isPlaying = ServerConfig.shared.playbackDelegate?.playing(), isPlaying == true else { return list }
-        
+
         guard let playingEpisode = ServerConfig.shared.playbackDelegate?.currentEpisode() else { return list }
-        
+
         // check it isn't already the top episode
         if let firstEpisode = list.first, firstEpisode.uuid == playingEpisode.uuid { return list }
-        
+
         // move it to the top
         var modifiedList = list
         for (index, episode) in modifiedList.enumerated() {
@@ -213,26 +213,26 @@ class UpNextSyncTask: ApiBaseTask {
                 break
             }
         }
-        
+
         var episodeInfo = Api_UpNextResponse.EpisodeResponse()
         episodeInfo.uuid = playingEpisode.uuid
         episodeInfo.title = playingEpisode.displayableTitle()
         episodeInfo.url = playingEpisode.downloadUrl ?? ""
         episodeInfo.podcast = playingEpisode.parentIdentifier()
         modifiedList.insert(episodeInfo, at: 0)
-        
+
         return modifiedList
     }
-    
+
     private func clearSyncedData(latestActionTime: Int64) {
         DataManager.sharedManager.deleteChangesOlderThan(utcTime: latestActionTime)
     }
-    
+
     private func convertToProto(action: UpNextChanges) -> Api_UpNextChanges.Change? {
         // a replace involves multiple episodes and a slightly different format, so handle that seperately
         if action.type == UpNextChanges.Actions.replace.rawValue {
             guard let uuids = action.uuids else { return nil }
-            
+
             var change = Api_UpNextChanges.Change()
             change.action = action.type
             change.modified = action.utcTime
@@ -248,23 +248,23 @@ class UpNextSyncTask: ApiBaseTask {
                     if let date = episode.publishedDate {
                         episodeInfo.published = Google_Protobuf_Timestamp(date: date)
                     }
-                    
+
                     episodes.append(episodeInfo)
                 }
             }
             change.episodes = episodes
-            
+
             return change
         }
-        
+
         guard let uuid = action.uuid else { return nil }
-        
+
         // otherwise if it's not a replace just send the single episode
         var change = Api_UpNextChanges.Change()
         change.uuid = uuid
         change.action = action.type
         change.modified = action.utcTime
-        
+
         if let episode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
             change.title = episode.displayableTitle()
             if episode is Episode, let url = episode.downloadUrl {
@@ -275,15 +275,15 @@ class UpNextSyncTask: ApiBaseTask {
                 change.published = Google_Protobuf_Timestamp(date: date)
             }
         }
-        
+
         return change
     }
-    
+
     private func upNextServerModified() -> Int64? {
         if let modifiedStr = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.upNextServerLastModified), modifiedStr.count > 0 {
             return Int64(modifiedStr)
         }
-        
+
         return nil
     }
 }

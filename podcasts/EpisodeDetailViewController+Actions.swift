@@ -4,7 +4,7 @@ import PocketCastsUtils
 
 extension EpisodeDetailViewController {
     // MARK: - Button Actions
-    
+
     @IBAction func upNextTapped(_ sender: UIButton) {
         if PlaybackManager.shared.inUpNext(episode: episode) {
             PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
@@ -16,16 +16,16 @@ extension EpisodeDetailViewController {
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
             }
             addToUpNextPicker.addAction(action: playNextAction)
-            
+
             let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
             }
             addToUpNextPicker.addAction(action: playLastAction)
-            
+
             addToUpNextPicker.show(statusBarStyle: preferredStatusBarStyle)
         }
     }
-    
+
     @IBAction func episodeStatusTapped(_ sender: Any) {
         if episode.played() {
             EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
@@ -33,7 +33,7 @@ extension EpisodeDetailViewController {
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
     }
-    
+
     @IBAction func archiveTapped(_ sender: Any) {
         if episode.archived {
             EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
@@ -42,21 +42,21 @@ extension EpisodeDetailViewController {
             dismiss(animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func playPauseTapped(_ sender: UIButton) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             // dismiss the dialog if the user hit play
             if !PlaybackManager.shared.playing() {
                 dismiss(animated: true, completion: nil)
             }
-            
+
             PlaybackActionHelper.playPause()
         } else {
             dismiss(animated: true, completion: nil)
             PlaybackActionHelper.play(episode: episode)
         }
     }
-    
+
     @IBAction func downloadTapped(_ sender: UIButton) {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
@@ -66,7 +66,7 @@ extension EpisodeDetailViewController {
             }
             yesAction.destructive = true
             confirmation.addAction(action: yesAction)
-            
+
             confirmation.show(statusBarStyle: preferredStatusBarStyle)
         } else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
@@ -74,17 +74,17 @@ extension EpisodeDetailViewController {
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
         }
     }
-    
+
     // MARK: - UI State
-    
+
     func updateButtonStates() {
         guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
         episode = updatedEpisode
-        
+
         let playbackManager = PlaybackManager.shared
-        
+
         playPauseBtn.isPlaying = playbackManager.isActivelyPlaying(episodeUuid: episode.uuid)
-        
+
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadBtn.setImage(UIImage(named: "episode-downloaded"), for: .normal)
             downloadBtn.setTitle(SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes), for: .normal)
@@ -98,7 +98,7 @@ extension EpisodeDetailViewController {
             downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
             downloadBtn.accessibilityLabel = L10n.download
         }
-        
+
         upNextBtn.setTitle(L10n.upNext, for: .normal)
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) || playbackManager.inUpNext(episode: episode) {
             upNextBtn.setImage(UIImage(named: "episode-removenext"), for: .normal)
@@ -107,7 +107,7 @@ extension EpisodeDetailViewController {
             upNextBtn.setImage(UIImage(named: "episode-playnext"), for: .normal)
             upNextBtn.accessibilityLabel = L10n.upNext
         }
-        
+
         if episode.archived {
             archiveButton.setImage(UIImage(named: "episode-unarchive"), for: .normal)
             archiveButton.setTitle(L10n.unarchive, for: .normal)
@@ -115,7 +115,7 @@ extension EpisodeDetailViewController {
             archiveButton.setImage(UIImage(named: "episode-archive"), for: .normal)
             archiveButton.setTitle(L10n.archive, for: .normal)
         }
-        
+
         if episode.played() {
             playStatusButton.setImage(UIImage(named: "episode-markunplayed"), for: .normal)
             playStatusButton.setTitle(L10n.markUnplayedShort, for: .normal)
@@ -124,7 +124,7 @@ extension EpisodeDetailViewController {
             playStatusButton.setTitle(L10n.markPlayedShort, for: .normal)
         }
     }
-    
+
     func updateProgress() {
         var progress: CGFloat = 0
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
@@ -138,7 +138,7 @@ extension EpisodeDetailViewController {
         } else if episode.playedUpTo > 0, episode.duration > 0 {
             progress = min(1, CGFloat(episode.playedUpTo / episode.duration))
         }
-        
+
         if progressWidthConstraint.multiplier != progress {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
                 self.progressWidthConstraint = self.progressWidthConstraint.cloneWithMultipler(progress)
@@ -146,7 +146,7 @@ extension EpisodeDetailViewController {
             })
         }
     }
-    
+
     func updateMessageView() {
         if episode.playbackError() {
             setMessage(title: L10n.playbackFailed, details: episode.playbackErrorDetails ?? L10n.podcastDetailsPlaybackError, imageName: "option-alert")
@@ -163,22 +163,22 @@ extension EpisodeDetailViewController {
             buttonBottomOffsetConstraint.constant = 20
         }
     }
-    
+
     private func setMessage(title: String, details: String, imageName: String) {
         messageTitle.text = title
         messageDetails.text = details
         messageIcon.image = UIImage(named: imageName)
-        
+
         messageView.isHidden = false
         buttonBottomOffsetConstraint.constant = messageView.bounds.height + 40
     }
-    
+
     // MARK: - Helpers
-    
+
     private func deleteDownloadedFile() {
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
         EpisodeManager.deleteDownloadedFiles(episode: episode)
-        
+
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }
 }

@@ -9,11 +9,11 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
         gridLayout.scrollDirection = .horizontal
         gridLayout.itemSpacing = 16
     }
-    
+
     func colorBackgrounds() -> [UIColor] {
         var colorBackgrounds = [AppTheme.userEpisodeNoArtworkColor(), AppTheme.userEpisodeRedColor(), AppTheme.userEpisodeBlueColor(), AppTheme.userEpisodeGreenColor(),
                                 AppTheme.userEpisodeYellowColor(), AppTheme.userEpisodeOrangeColor(), AppTheme.userEpisodePurpleColor(), AppTheme.userEpisodePinkColor()]
-        
+
         if artwork != nil {
             colorBackgrounds.insert(AppTheme.embeddedArtworkColor(), at: 0)
             artworkIndexPath = IndexPath(item: 0, section: 0)
@@ -24,26 +24,26 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
         }
         return colorBackgrounds
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         colorBackgrounds().count
     }
-    
+
     // MARK: - GridLayoutDelegate
-    
+
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
         2
     }
-    
+
     func sizeForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> CGSize {
         CGSize(width: 40, height: 40)
     }
-    
+
     // MARK: - UICollectionView Methods
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddCustomViewController.colorCellId, for: indexPath) as! CustomStorageColorCell
-        
+
         cell.setBackgroundColor(color: colorBackgrounds()[indexPath.item])
         if indexPath == artworkIndexPath {
             cell.imageView.image = artwork
@@ -58,16 +58,16 @@ extension AddCustomViewController: UICollectionViewDelegate, UICollectionViewDat
         }
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedColorIndex = indexPath.item
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         if SubscriptionHelper.hasActiveSubscription() {
             return true
         }
-        
+
         if artwork != nil, indexPath.item < 2 {
             return true
         }

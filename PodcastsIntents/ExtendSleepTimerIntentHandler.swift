@@ -6,7 +6,7 @@ import UIKit
 class ExtendSleepTimerIntentHandler: NSObject, SJExtendSleepTimerIntentHandling {
     func handle(intent: SJExtendSleepTimerIntent, completion: @escaping (SJExtendSleepTimerIntentResponse) -> Void) {
         let userActivity = NSUserActivity(activityType: "au.com.shiftyjelly.podcasts")
-        
+
         userActivity.isEligibleForSearch = true
         let minutes = intent.minutes
         if let minutes = minutes {
@@ -17,7 +17,7 @@ class ExtendSleepTimerIntentHandler: NSObject, SJExtendSleepTimerIntentHandling 
         userActivity.isEligibleForPrediction = true
         userActivity.suggestedInvocationPhrase = "Extend sleep timer"
         userActivity.becomeCurrent()
-        
+
         let response = SJExtendSleepTimerIntentResponse(code: .continueInApp, userActivity: userActivity)
         completion(response)
     }

@@ -6,16 +6,16 @@ class DatabaseHelper {
     class func setup(db: FMDatabase) {
         do {
             try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
-            
+
             var startingSchemaVersion: Int32 = 0
-            
+
             let rs = try db.executeQuery("PRAGMA user_version", values: nil)
             if rs.next() { startingSchemaVersion = rs.int(forColumnIndex: 0) }
             rs.close()
-            
+
             var newSchemaVersion = startingSchemaVersion
             upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
-            
+
             if newSchemaVersion != startingSchemaVersion {
                 try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
             }
@@ -23,17 +23,17 @@ class DatabaseHelper {
             FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
         }
     }
-    
+
     private class func upgradeIfRequired(schemaVersion: inout Int32, db: FMDatabase) {
         db.beginTransaction()
-        
+
         let failedAt = { (statement: Int) in
             let lastErrorCode = db.lastErrorCode()
             let lastErrorMessage = db.lastErrorMessage()
             db.rollback()
             FileLog.shared.addMessage("Schema update \(statement) failed, code \(lastErrorCode): \(lastErrorMessage)")
         }
-        
+
         if schemaVersion < 1 {
             do {
                 try db.executeUpdate("""
@@ -67,11 +67,11 @@ class DatabaseHelper {
                     wasDeleted INTEGER NOT NULL DEFAULT 0
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast_uuid ON SJPodcast (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast_sync_status ON SJPodcast (syncStatus);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast_was_deleted ON SJPodcast (wasDeleted);", values: nil)
-                
+
                 try db.executeUpdate("""
                     CREATE TABLE SJEpisode (
                     id INTEGER PRIMARY KEY,
@@ -97,13 +97,13 @@ class DatabaseHelper {
                     podcast_id INTEGER NOT NULL
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_uuid ON SJEpisode (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_podcast_uuid ON SJEpisode (podcastUuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_was_deleted ON SJEpisode (wasDeleted);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_pub_date ON SJEpisode (publishedDate);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_podcast_id ON SJEpisode (podcast_id);", values: nil)
-                
+
                 try db.executeUpdate("""
                     CREATE TABLE SJFilteredPlaylist (
                     id INTEGER PRIMARY KEY,
@@ -128,11 +128,11 @@ class DatabaseHelper {
                     wasDeleted INTEGER NOT NULL DEFAULT 0
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS filteredplaylist_uuid ON SJFilteredPlaylist (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS filteredplaylist_sync_status ON SJFilteredPlaylist (syncStatus);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS filteredplaylist_was_deleted ON SJFilteredPlaylist (wasDeleted);", values: nil)
-                
+
                 try db.executeUpdate("""
                     CREATE TABLE SJPlaylistEpisode (
                     id INTEGER PRIMARY KEY,
@@ -142,11 +142,11 @@ class DatabaseHelper {
                     upcoming INTEGER NOT NULL DEFAULT 0
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_uuid ON SJPlaylistEpisode (episodeUuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_id ON SJPlaylistEpisode (playlist_id);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_upcoming ON SJPlaylistEpisode (upcoming);", values: nil)
-                
+
                 schemaVersion = 1
             } catch {
                 failedAt(1)
@@ -158,7 +158,7 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_episodeStatus ON SJEpisode (episodeStatus);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_playingStatus ON SJEpisode (playingStatus);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_keepEpisode ON SJEpisode (keepEpisode);", values: nil)
-                
+
                 schemaVersion = 2
             } catch {
                 failedAt(2)
@@ -172,13 +172,13 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN durationModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN wasDeletedModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN keepEpisodeModified INTEGER NOT NULL DEFAULT 0;", values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_playing_status_modified ON SJEpisode (playingStatusModified);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_played_opto_modified ON SJEpisode (playedUpToModified);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_duration_modified ON SJEpisode (durationModified);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_was_deleted_modified ON SJEpisode (wasDeletedModified);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_keep_episode_modified ON SJEpisode (keepEpisodeModified);", values: nil)
-                
+
                 schemaVersion = 3
             } catch {
                 failedAt(3)
@@ -300,12 +300,12 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("DELETE FROM SJPlaylistEpisode WHERE upcoming != 1;", values: nil)
                 try db.executeUpdate("DROP INDEX IF EXISTS playlist_episode_upcoming;", values: nil)
-                
+
                 try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN timeModified INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN wasDeleted INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN title TEXT;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN podcastUuid TEXT;", values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_time_modified ON SJPlaylistEpisode (timeModified);", values: nil)
                 schemaVersion = 16
             } catch {
@@ -334,11 +334,11 @@ class DatabaseHelper {
                     utcTime INTEGER NOT NULL
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS up_next_changes_episode ON UpNextChanges (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS up_next_changes_time ON UpNextChanges (utcTime);", values: nil)
                 try db.executeUpdate("DROP INDEX IF EXISTS playlist_episode_time_modified;", values: nil)
-                
+
                 schemaVersion = 18
             } catch {
                 failedAt(18)
@@ -354,7 +354,7 @@ class DatabaseHelper {
                     modifiedTime INTEGER NOT NULL
                     );
                 """, values: nil)
-                
+
                 schemaVersion = 19
             } catch {
                 failedAt(19)
@@ -366,9 +366,9 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN episodeNumber INTEGER NOT NULL DEFAULT -1;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN seasonNumber INTEGER NOT NULL DEFAULT -1;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN episodeType TEXT;", values: nil)
-                
+
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN showType TEXT;", values: nil)
-                
+
                 schemaVersion = 20
             } catch {
                 failedAt(20)
@@ -379,7 +379,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN lastPlaybackInteractionSyncStatus INTEGER NOT NULL DEFAULT 1;", values: nil)
                 try db.executeUpdate("UPDATE SJEpisode SET lastPlaybackInteractionSyncStatus = 0 WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0;", values: nil)
-                
+
                 schemaVersion = 21
             } catch {
                 failedAt(21)
@@ -390,7 +390,7 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN estimatedNextEpisode REAL;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodeFrequency TEXT;", values: nil)
-                
+
                 schemaVersion = 22
             } catch {
                 failedAt(22)
@@ -401,13 +401,13 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("DROP INDEX IF EXISTS episode_was_deleted_modified;", values: nil)
                 try db.executeUpdate("DROP INDEX IF EXISTS podcast_was_deleted;", values: nil)
-                
+
                 // remove any really old deleted episodes that could be still around
                 try db.executeUpdate("DELETE FROM SJEpisode WHERE wasDeleted = 1;", values: nil)
-                
+
                 // set any podcasts that might have been deleted to be unsubscribed instead
                 try db.executeUpdate("UPDATE SJPodcast SET subscribed = 0 WHERE wasDeleted = 1;", values: nil)
-                
+
                 schemaVersion = 23
             } catch {
                 failedAt(23)
@@ -428,16 +428,16 @@ class DatabaseHelper {
             do {
                 // remove any really old deleted episodes that could be still around
                 try db.executeUpdate("DELETE FROM SJEpisode WHERE wasDeleted = 1;", values: nil)
-                
+
                 // add archive columns to episode table
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN archived INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN archivedModified INTEGER NOT NULL DEFAULT 0;", values: nil)
-                
+
                 // add opt out of auto archive on podcast table
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN excludeFromAutoArchive INTEGER NOT NULL DEFAULT 0;", values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived_modified ON SJEpisode (archivedModified);", values: nil)
-                
+
                 schemaVersion = 25
             } catch {
                 failedAt(25)
@@ -476,7 +476,7 @@ class DatabaseHelper {
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN overrideGlobalArchive INTEGER NOT NULL DEFAULT 0;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN autoArchivePlayedAfter REAL NOT NULL DEFAULT -1;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN autoArchiveInactiveAfter REAL NOT NULL DEFAULT -1;", values: nil)
-                
+
                 // migrate people who had opt out on, to be overriding global. Since the defaults for all the other settings are off we don't have to worry about setting those
                 try db.executeUpdate("UPDATE SJPodcast SET overrideGlobalArchive = 1 WHERE excludeFromAutoArchive = 1;", values: nil)
                 schemaVersion = 29
@@ -489,7 +489,7 @@ class DatabaseHelper {
             do {
                 // since we're re-using the old database column that was for keep, clear out any legacy values that might be in there
                 try db.executeUpdate("UPDATE SJPodcast SET episodeKeepSetting = 0;", values: nil)
-                
+
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN excludeFromEpisodeLimit INTEGER NOT NULL DEFAULT 0;", values: nil)
                 schemaVersion = 30
             } catch {
@@ -541,7 +541,7 @@ class DatabaseHelper {
                     hasCustomImage BOOLEAN DEFAULT FALSE
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS user_episode_uuid ON SJUserEpisode (uuid);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS user_episode_episodeStatus ON SJUserEpisode (episodeStatus);", values: nil)
                 schemaVersion = 32
@@ -631,16 +631,16 @@ class DatabaseHelper {
                         PRIMARY KEY(uuid)
                     );
                 """, values: nil)
-                
+
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN folderUuid TEXT;", values: nil)
-                
+
                 schemaVersion = 40
             } catch {
                 failedAt(40)
                 return
             }
         }
-        
+
         db.commit()
     }
 }

@@ -6,7 +6,7 @@ public extension Int {
         if valueToConvert > Double(Int.max) {
             valueToConvert = 0
         }
-        
+
         self.init(valueToConvert)
     }
 }

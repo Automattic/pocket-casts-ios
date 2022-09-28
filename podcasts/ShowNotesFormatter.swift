@@ -3,10 +3,10 @@ import Foundation
 class ShowNotesFormatter {
     class func format(showNotes: String, tintColor: UIColor, convertTimesToLinks: Bool, bgColor: UIColor?, textColor: UIColor) -> String {
         let cssBgColor = bgColor?.hexString() ?? "transparent"
-        
+
         return format(showNotes: showNotes, tintColor: tintColor, textColor: textColor, cssBgColor: cssBgColor, convertTimesToLinks: convertTimesToLinks)
     }
-    
+
     private class func format(showNotes: String, tintColor: UIColor, textColor: UIColor, cssBgColor: String, convertTimesToLinks: Bool) -> String {
         var styledShowNotes = "<html><head>" +
             "<meta http-equiv='Content-Type' content='text/html; charset=utf-16le'>" +
@@ -21,21 +21,21 @@ class ShowNotesFormatter {
             "h1,h2,h3,h4,h5,h6 { font-family: '-apple-system'; font-weight: normal; font-size: 16px; padding: 0; } " +
             imageTag() +
             "</style>"
-        
+
         let cleanedShowNotes = removeHtml(string: showNotes)
         styledShowNotes = styledShowNotes + "</head><body>\(cleanedShowNotes)</body></html>"
-        
+
         if convertTimesToLinks {
             styledShowNotes = ShowNotesFormatterUtils.convertToLinks(stringWithTimes: styledShowNotes)
         }
-        
+
         return styledShowNotes
     }
-    
+
     private class func removeHtml(string: String) -> String {
         let bodyStartRange = string.range(of: "<body>")
         let bodyEndRange = string.range(of: "</body>")
-        
+
         if let startRange = bodyStartRange, let endRange = bodyEndRange {
             let rangeToKeep = Range(uncheckedBounds: (lower: startRange.upperBound, upper: endRange.lowerBound))
             return String(string[rangeToKeep])
@@ -43,7 +43,7 @@ class ShowNotesFormatter {
             return string.replacingOccurrences(of: "<body>", with: "").replacingOccurrences(of: "</body>", with: "").replacingOccurrences(of: "<html>", with: "").replacingOccurrences(of: "</html>", with: "")
         }
     }
-    
+
     private class func imageTag() -> String {
         let hideImagesInShowNotes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.hideImagesInShowNotes)
         if hideImagesInShowNotes {

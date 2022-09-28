@@ -17,7 +17,7 @@ class FilesListViewModel: ObservableObject {
     var supportsSort: Bool {
         playSource.supportsFileSort
     }
-    
+
     init() {
         episodes = []
         sortOrder = playSource.userEpisodeSortOrder
@@ -38,7 +38,7 @@ class FilesListViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     func loadUserEpisodes(forOrder: UploadedSort? = nil) {
         isLoading = episodes.isEmpty
         playSource.fetchUserEpisodes(forOrder: forOrder)

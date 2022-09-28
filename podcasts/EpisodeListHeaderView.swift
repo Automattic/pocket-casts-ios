@@ -20,30 +20,30 @@ class EpisodeListHeaderView: UIView {
             listDescription.style = .primaryText02
         }
     }
-    
+
     weak var linkDelegate: CollectionHeaderLinkDelegate?
     @IBOutlet var linkView: ThemeableView! {
         didSet {
             linkView.style = .primaryUi06
             linkView.layer.cornerRadius = 8
-            
+
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(linkTapped))
             linkView.addGestureRecognizer(tapGesture)
         }
     }
-    
+
     @IBOutlet var linkLabel: ThemeableLabel! {
         didSet {
             linkLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var linkImageView: ThemeableImageView! {
         didSet {
             linkImageView.imageStyle = .primaryIcon02
         }
     }
-    
+
     @IBOutlet var linkArrowImageView: ThemeableImageView! {
         didSet {
             linkArrowImageView.imageStyle = .primaryIcon02
@@ -68,7 +68,7 @@ class EpisodeListHeaderView: UIView {
         subtitle.text = podcastCollection.subtitle?.localizedUppercase
         listTitle.text = podcastCollection.title
         listDescription.text = podcastCollection.description
-        
+
         if let linkTitle = collection.webTitle, collection.webUrl != nil {
             linkView.isHidden = false
             linkLabel.text = linkTitle
@@ -102,7 +102,7 @@ class EpisodeListHeaderView: UIView {
     func updateTheme() {
         subtitle.textColor = podcastCollection.colors?.activeThemeColor ?? AppTheme.colorForStyle(.support02)
     }
-    
+
     @objc private func linkTapped() {
         linkDelegate?.linkTapped()
     }

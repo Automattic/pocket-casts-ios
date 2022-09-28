@@ -18,35 +18,35 @@ class PodcastSearchCell: ThemeableCell {
     }
 
     @IBOutlet var subscribedIcon: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     func populateFrom(podcast: Podcast) {
         podcastName.text = podcast.title
         podcastAuthor.text = podcast.author
-        
+
         podcastImage.setPodcast(uuid: podcast.uuid, size: .list)
         podcastImage.isHidden = false
-        
+
         folderPreview.isHidden = true
         subscribedIcon.isHidden = false
     }
-    
+
     func populateFrom(folder: Folder) {
         podcastName.text = folder.name
-        
+
         let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
         podcastAuthor.text = L10n.podcastCount(count)
-        
+
         folderPreview.populateFrom(folder: folder)
         folderPreview.isHidden = false
-        
+
         podcastImage.isHidden = true
         subscribedIcon.isHidden = false
     }
-    
+
     func populateForm(podcastInfo: PodcastInfo) {
         if let uuid = podcastInfo.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .list)
@@ -55,15 +55,15 @@ class PodcastSearchCell: ThemeableCell {
         }
         podcastName.text = podcastInfo.title
         podcastAuthor.text = podcastInfo.author
-        
+
         folderPreview.isHidden = true
         subscribedIcon.isHidden = true
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     override func handleThemeDidChange() {
         subscribedIcon.image = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
     }

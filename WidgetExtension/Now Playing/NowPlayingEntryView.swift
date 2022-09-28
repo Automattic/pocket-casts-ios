@@ -3,7 +3,7 @@ import SwiftUI
 
 struct NowPlayingWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
-    
+
     var body: some View {
         if let playingEpisode = entry.episode {
             VStack(alignment: .leading, spacing: 3) {
@@ -30,7 +30,7 @@ struct NowPlayingWidgetEntryView: View {
                     .frame(height: 38, alignment: .center)
                     .layoutPriority(1)
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                       
+
                 if entry.isPlaying {
                     Text(L10n.nowPlaying.localizedUppercase)
                         .font(.caption2)

@@ -5,7 +5,7 @@ class PlusDetailsViewController: PCViewController {
     @IBOutlet var topPriceLabel: UILabel!
     @IBOutlet var bottomPriceLabel: UILabel!
     @IBOutlet var plusLogo: UIImageView!
-    
+
     private let gradientLayer = CAGradientLayer()
     @IBOutlet var gradientView: UIView! {
         didSet {
@@ -17,19 +17,19 @@ class PlusDetailsViewController: PCViewController {
             gradientView.layer.addSublayer(gradientLayer)
         }
     }
-    
+
     @IBOutlet var plusTiledView: UIView! {
         didSet {
             plusTiledView.backgroundColor = UIColor(patternImage: UIImage(named: "plusSingleTile")!)
         }
     }
-    
+
     @IBOutlet var learnMoreBtn: UIButton! {
         didSet {
             learnMoreBtn.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
         }
     }
-    
+
     // top section
     @IBOutlet var mainTitle: ThemeableLabel! {
         didSet {
@@ -48,13 +48,13 @@ class PlusDetailsViewController: PCViewController {
             upgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
         }
     }
-    
+
     @IBOutlet var secondUpgradeButton: GradientButton! {
         didSet {
             secondUpgradeButton.setTitle(L10n.plusMarketingUpgradeButton, for: .normal)
         }
     }
-    
+
     // Features
     @IBOutlet var desktopAppsTitle: ThemeableLabel! {
         didSet {
@@ -91,19 +91,19 @@ class PlusDetailsViewController: PCViewController {
             watchPlaybackDescription.text = L10n.plusMarketingWatchPlaybackDescription
         }
     }
-    
+
     @IBOutlet var foldersTitle: ThemeableLabel! {
         didSet {
             foldersTitle.text = L10n.folders
         }
     }
-    
+
     @IBOutlet var foldersDescription: SecondaryLabel! {
         didSet {
             foldersDescription.text = L10n.plusMarketingFoldersDescription
         }
     }
-    
+
     @IBOutlet var themesTitle: ThemeableLabel! {
         didSet {
             themesTitle.text = L10n.plusMarketingThemesIconsTitle
@@ -121,25 +121,25 @@ class PlusDetailsViewController: PCViewController {
             finalCallToAction.text = L10n.plusMarketingFinalCallToAction
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsUpdated), name: ServerNotifications.iapProductsUpdated, object: nil)
-        
+
         title = L10n.pocketCastsPlus
         loadPrices()
         handleThemeChanged()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         if let viewToMatch = gradientView?.superview {
             gradientLayer.frame = viewToMatch.bounds
         }
     }
-    
+
     @IBAction func upgradeTapped(_ sender: Any) {
         if SyncManager.isUserLoggedIn() {
             let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
@@ -151,21 +151,21 @@ class PlusDetailsViewController: PCViewController {
             present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
         }
     }
-    
+
     @IBAction func learnMoreTapped(_ sender: Any) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
     }
-    
+
     @objc private func iapProductsUpdated() {
         loadPrices()
     }
-    
+
     override func handleThemeChanged() {
         let plusIconName = Theme.sharedTheme.activeTheme.isDark ? "verticalLogoDark" : "verticalLogo"
         plusLogo.image = UIImage(named: plusIconName)
-        
+
         gradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
-        
+
         learnMoreBtn.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
     }
 }

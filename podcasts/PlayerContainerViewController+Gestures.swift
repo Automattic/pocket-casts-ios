@@ -3,14 +3,14 @@ import PocketCastsUtils
 
 extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let pullDownThreshold: CGFloat = 150
-    
+
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
         guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
-        
+
         if nowPlayingItem.timeSlider.isScrubbing() { return }
-        
+
         let touchPoint = sender.location(in: view?.window)
-        
+
         if sender.state == UIGestureRecognizer.State.began {
             initialTouchPoint = touchPoint
         } else if sender.state == UIGestureRecognizer.State.changed {
@@ -29,15 +29,15 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
             }
         }
     }
-    
+
     // this is used so that the player tab line only fades in when you tap something that isn't a control
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         !(touch.view is UIControl)
     }
-    
+
     func handleScrollViewDidScroll(scrollView: UIScrollView) {
         guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
-        
+
         if scrollView.contentOffset.y >= 0 {
             miniPlayer.moveToHiddenTopPosition()
         } else {
@@ -45,19 +45,19 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
             handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
         }
     }
-    
+
     private func handleMoveTo(yPosition: CGFloat, miniPlayer: MiniPlayerViewController) {
         if miniPlayer.view.isHidden { miniPlayer.view.isHidden = false }
-        
+
         view.moveTo(y: yPosition)
-        
+
         if let window = view.window {
             let bottomSafeAreaOffset = window.safeAreaInsets.bottom
             let deviceSpecificPadding = bottomSafeAreaOffset > 0 ? (bottomSafeAreaOffset / 2) : -UIUtil.statusBarHeight(in: window)
             let offset = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
             miniPlayer.moveWhileDragging(offsetFromTop: offset)
         }
-        
+
         if yPosition > PlayerContainerViewController.pullDownThreshold {
             miniPlayer.closeFullScreenPlayer()
         }

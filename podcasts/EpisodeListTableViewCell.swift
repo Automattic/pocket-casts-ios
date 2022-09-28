@@ -5,7 +5,7 @@ import UIKit
 class EpisodeListTableViewCell: UITableViewCell {
     static let estimatedCellHeight: CGFloat = 147
     static let nib: UINib = .init(nibName: String(describing: EpisodeListTableViewCell.self), bundle: Bundle(for: EpisodeListTableViewCell.self))
-    
+
     public let viewModel = DiscoverEpisodeViewModel()
     private var cancellables = Set<AnyCancellable>()
 
@@ -104,7 +104,7 @@ class EpisodeListTableViewCell: UITableViewCell {
         playButton.playButtonColor = AppTheme.colorForStyle(.primaryUi01)
 
         let tintColor = colors?.activeThemeColor ?? AppTheme.colorForStyle(.support05)
-        
+
         playButton.circleColor = tintColor
         podcastTilte.textColor = tintColor
         duration.textColor = tintColor

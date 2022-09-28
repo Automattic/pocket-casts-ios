@@ -27,7 +27,7 @@ class EpisodeFilterDataManager {
         "longerThan",
         "shorterThan"
     ]
-    
+
     func count(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> Int {
         var count = 0
         dbQueue.inDatabase { db in
@@ -35,7 +35,7 @@ class EpisodeFilterDataManager {
                 let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
-                
+
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
@@ -43,10 +43,10 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.count error: \(error)")
             }
         }
-        
+
         return count
     }
-    
+
     func episodeCount(forFilter filter: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: FMDatabaseQueue) -> Int {
         var count = 0
         dbQueue.inDatabase { db in
@@ -54,7 +54,7 @@ class EpisodeFilterDataManager {
                 let queryForFilter = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
                 let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForFilter)", values: nil)
                 defer { resultSet.close() }
-                
+
                 if resultSet.next() {
                     count = resultSet.long(forColumnIndex: 0)
                 }
@@ -62,23 +62,23 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.episodeCount error: \(error)")
             }
         }
-        
+
         return count
     }
-    
+
     func allFilters(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
         let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
-        
+
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
-    
+
     func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> EpisodeFilter? {
         var filter: EpisodeFilter?
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.filtersTableName) WHERE uuid = ?", values: [uuid])
                 defer { resultSet.close() }
-                
+
                 if resultSet.next() {
                     filter = self.createFilterFrom(resultSet: resultSet)
                 }
@@ -86,10 +86,10 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.findBy error: \(error)")
             }
         }
-        
+
         return filter
     }
-    
+
     func deleteDeletedFilters(dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -99,11 +99,11 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     func allUnsyncedFilters(dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
         allFilters(query: "SELECT * from \(DataManager.filtersTableName) WHERE syncStatus = ? ORDER BY sortPosition ASC", values: [SyncStatus.notSynced.rawValue], dbQueue: dbQueue)
     }
-    
+
     func updatePosition(filter: EpisodeFilter, newPosition: Int32, dbQueue: FMDatabaseQueue) {
         filter.sortPosition = newPosition
         filter.syncStatus = SyncStatus.notSynced.rawValue
@@ -115,7 +115,7 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     func save(filter: EpisodeFilter, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -131,7 +131,7 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     func delete(filter: EpisodeFilter, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -141,7 +141,7 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     func markAllSynced(dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -151,7 +151,7 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     func markAllUnsynced(dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -161,14 +161,14 @@ class EpisodeFilterDataManager {
             }
         }
     }
-    
+
     private func allFilters(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
         var allFilters = [EpisodeFilter]()
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
-                
+
                 while resultSet.next() {
                     let filter = self.createFilterFrom(resultSet: resultSet)
                     allFilters.append(filter)
@@ -177,10 +177,10 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.allFilters error: \(error)")
             }
         }
-        
+
         return allFilters
     }
-    
+
     func nextSortPositionForFilter(dbQueue: FMDatabaseQueue) -> Int {
         var highestPosition = 0
         dbQueue.inDatabase { db in
@@ -188,7 +188,7 @@ class EpisodeFilterDataManager {
                 let query = "SELECT MAX(sortPosition) from \(DataManager.filtersTableName)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
-                
+
                 if resultSet.next() {
                     highestPosition = resultSet.long(forColumnIndex: 0)
                 }
@@ -196,12 +196,12 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.nextSortPositionForFilter error: \(error)")
             }
         }
-        
+
         return highestPosition + 1
     }
-    
+
     // MARK: - Conversion
-    
+
     private func createFilterFrom(resultSet rs: FMResultSet) -> EpisodeFilter {
         let filter = EpisodeFilter()
         filter.id = rs.longLongInt(forColumn: "id")
@@ -227,10 +227,10 @@ class EpisodeFilterDataManager {
         filter.filterDuration = rs.bool(forColumn: "filterDuration")
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
-        
+
         return filter
     }
-    
+
     private func createValuesFrom(filter: EpisodeFilter, includeUuidForWhere: Bool = false) -> [Any] {
         var values = [Any]()
         values.append(filter.id)
@@ -256,11 +256,11 @@ class EpisodeFilterDataManager {
         values.append(filter.filterDuration)
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
-        
+
         if includeUuidForWhere {
             values.append(filter.uuid)
         }
-        
+
         return values
     }
 }

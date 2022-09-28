@@ -5,7 +5,7 @@ struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
     @State var compactView: Bool = false
-    
+
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {

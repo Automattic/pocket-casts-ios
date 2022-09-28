@@ -38,12 +38,12 @@ class PlaybackTimeHelperTests: XCTestCase {
                 .with(playedUpTo: 2.minutes)
                 .with(lastPlaybackInteractionDate: .yesterday)
                 .build(),
-            
+
             EpisodeBuilder()
                 .with(playedUpTo: 10.minutes)
                 .with(lastPlaybackInteractionDate: .yesterday)
                 .build(),
-            
+
             // This was played a month ago
             EpisodeBuilder()
                 .with(playedUpTo: 10.minutes)

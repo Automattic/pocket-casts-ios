@@ -15,69 +15,69 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             signedInView.addGestureRecognizer(tapGesture)
         }
     }
-    
+
     @IBOutlet var emailAddress: UILabel!
     @IBOutlet var signInStatus: ThemeableLabel! {
         didSet {
             signInStatus.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var disclosureImage: UIImageView! {
         didSet {
             disclosureImage.tintColor = ThemeColor.primaryIcon02()
         }
     }
-    
+
     @IBOutlet var profileStatusView: ProfileProgressCircleView! {
         didSet {
             profileStatusView.style = .primaryUi02
         }
     }
-    
+
     @IBOutlet var podcastCount: ThemeableLabel! {
         didSet {
             podcastCount.style = .contrast01
         }
     }
-    
+
     @IBOutlet var timeListened: ThemeableLabel! {
         didSet {
             timeListened.style = .contrast01
         }
     }
-    
+
     @IBOutlet var timeListenedUnits: ThemeableLabel! {
         didSet {
             timeListenedUnits.style = .contrast03
         }
     }
-    
+
     @IBOutlet var hoursSaved: ThemeableLabel! {
         didSet {
             hoursSaved.style = .contrast01
         }
     }
-    
+
     @IBOutlet var hoursSavedUnits: ThemeableLabel! {
         didSet {
             hoursSavedUnits.style = .contrast03
         }
     }
-    
+
     @IBOutlet var podcastsLabel: ThemeableLabel! {
         didSet {
             podcastsLabel.style = .contrast03
             podcastsLabel.text = L10n.podcastsPlural
         }
     }
-    
+
     @IBOutlet var podcastCountView: UIView!
     @IBOutlet var timeListenedView: UIView!
     @IBOutlet var timeSavedView: UIView!
-    
+
     @IBOutlet var headerView: UIView!
-    
+
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
     @IBOutlet var lastRefreshTime: UILabel!
@@ -85,71 +85,71 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
             refreshBtn.buttonImage = UIImageView(image: UIImage(named: "profile-retry"))
-            
+
             refreshBtn.buttonTapped = { [weak self] in
                 self?.refreshTapped()
             }
         }
     }
-    
+
     @IBOutlet var bgImage: UIImageView! {
         didSet {
             bgImage.kf.setImage(with: ServerHelper.asUrl(ServerConstants.Urls.image() + "trending/640/trending_bg.jpg"), placeholder: nil, options: [.transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
-    
+
     @IBOutlet var plusInfoView: PlusLockedInfoView! {
         didSet {
             plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
             plusInfoView.delegate = self
         }
     }
-    
+
     var promoCode: String? {
         didSet {
             showPromotionViewController(promoCode: promoCode)
         }
     }
-    
+
     var promoRedeemedMessage: String?
     private let settingsCellId = "SettingsCell"
-    
+
     private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles }
-    
+
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.applyInsetForMiniPlayer()
         }
     }
-    
+
     // MARK: - View Events
-    
+
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "profile-settings"), style: .plain, target: self, action: #selector(settingsTapped))
         customRightBtn?.accessibilityLabel = L10n.accessibilityProfileSettings
         customRightBtn?.accessibilityIdentifier = "Settings"
-        
+
         super.viewDidLoad()
         navigationItem.title = L10n.profile
-        
+
         profileTable.tableHeaderView = headerView
         profileTable.tableFooterView = footerView
-        
+
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         updateDisplayedData()
 
         Analytics.track(.profileShown)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -170,39 +170,39 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             promoRedeemedMessage = nil
         }
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
         refreshControl?.parentViewControllerDidDisappear()
     }
-    
+
     override func handleThemeChanged() {
         updateRefreshFooterColors()
         disclosureImage.tintColor = ThemeColor.primaryIcon02()
     }
-    
+
     private func updateRefreshFooterColors() {
         refreshBtn.mainColor = ThemeColor.primaryText02()
         lastRefreshTime.textColor = ThemeColor.primaryText02()
         alertIcon.tintColor = ThemeColor.primaryIcon02()
     }
-    
+
     // MARK: - Actions
-    
+
     @objc private func checkForScrollTap(_ notification: Notification) {
         if let index = notification.object as? Int, index == tabBarItem.tag, profileTable.contentOffset.y > 0 {
             profileTable.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
     }
-    
+
     @objc private func settingsTapped() {
         Analytics.track(.profileSettingsButtonTapped)
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
     }
-    
+
     @objc func profileTapped() {
         Analytics.track(.profileAccountButtonTapped)
 
@@ -212,18 +212,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             showProfileSetupController()
         }
     }
-    
+
     func showProfileSetupController() {
         let profileIntroController = ProfileIntroViewController()
         let navController = SJUIUtils.popupNavController(for: profileIntroController)
         present(navController, animated: true, completion: nil)
     }
-    
+
     private func showAccountController() {
         let accountVC = AccountViewController()
         navigationController?.pushViewController(accountVC, animated: true)
     }
-    
+
     private func refreshTapped() {
         Analytics.track(.profileRefreshButtonTapped)
 
@@ -231,43 +231,43 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         lastRefreshTime.text = L10n.refreshing
         RefreshManager.shared.refreshPodcasts()
     }
-    
+
     // MARK: - Data Updates
-    
+
     @objc private func refreshComplete() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.refreshBtn.stopAnimatingImage()
             self.updateLastRefreshDetails()
         }
     }
-    
+
     @objc private func handleDataChangedNotification() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.updateDisplayedData()
         }
     }
-    
+
     private func updateDisplayedData() {
         if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
             emailAddress.text = email
-            
+
             let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
             let savedTime = StatsManager.shared.totalSkippedTimeInclusive() + StatsManager.shared.timeSavedVariableSpeedInclusive() + StatsManager.shared.timeSavedDynamicSpeedInclusive() + StatsManager.shared.totalAutoSkippedTimeInclusive()
             updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
-            
+
             if SubscriptionHelper.hasActiveSubscription() {
                 profileStatusView.isSubscribed = true
-                
+
                 var hideExpiryCountdown = true
                 if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry() {
                     hideExpiryCountdown = expiryTime > Constants.Limits.maxSubscriptionExpirySeconds
                     profileStatusView.secondsTillExpiry = expiryTime
                 }
-                
+
                 if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
                     signInStatus.text = L10n.pocketCastsPlus.uppercased()
                     signInStatus.textColor = ThemeColor.primaryText02()
@@ -294,7 +294,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
             updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
         }
-        
+
         signedInView.accessibilityLabel = signInStatus.text
         signedInView.accessibilityHint = L10n.accessibilitySignIn
         updateLastRefreshDetails()
@@ -302,7 +302,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateFooterFrame()
         profileTable.reloadData()
     }
-    
+
     private func updateLastRefreshDetails() {
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
@@ -323,19 +323,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             alertIcon.isHidden = false
         }
     }
-    
+
     private func updateTimes(listenedTime: TimeInterval, savedTime: TimeInterval) {
         let pcastCount = DataManager.sharedManager.podcastCount()
         podcastCount.text = "\(pcastCount)"
         podcastCountView.accessibilityLabel = L10n.podcastCount(pcastCount)
-        
+
         updateTimeStat(valueLabel: timeListened, unitLabel: timeListenedUnits, value: listenedTime, valueType: .listened)
         timeListenedView.accessibilityLabel = timeListened.text! + timeListenedUnits.text!
-        
+
         updateTimeStat(valueLabel: hoursSaved, unitLabel: hoursSavedUnits, value: savedTime, valueType: .saved)
         timeSavedView.accessibilityLabel = hoursSaved.text! + hoursSavedUnits.text!
     }
-    
+
     private func updateTimeStat(valueLabel: UILabel, unitLabel: UILabel, value: TimeInterval, valueType: StatValueType) {
         let days = Int(safeDouble: value / 86400)
         let hours = Int(safeDouble: value / 3600) - (days * 24)
@@ -368,20 +368,20 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             }
         }
     }
-    
+
     // MARK: - UITableView
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableData().count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableData()[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
-        
+
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
         let row = tableData()[indexPath.section][indexPath.row]
@@ -402,13 +402,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
         }
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let row = tableData()[indexPath.section][indexPath.row]
         switch row {
         case .allStats:
@@ -428,15 +428,15 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             navigationController?.pushViewController(historyController, animated: true)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         18
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         1
     }
-    
+
     private func tableData() -> [[ProfileViewController.TableRow]] {
         if !SyncManager.isUserLoggedIn() {
             return [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]

@@ -83,17 +83,17 @@ class TracksAdapter: AnalyticsAdapter {
         return [
             // General keys
             "user_is_logged_in": SyncManager.isUserLoggedIn(),
-            
+
             // Subscription Keys
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
             "plus_subscription_type": type.description,
             "plus_subscription_platform": platform.description,
             "plus_subscription_frequency": frequency.description,
-            
+
             // Accessibility
             "is_rtl_language": UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft,
-            
+
             // Large is the default size
             "has_dynamic_font_size": UIApplication.shared.preferredContentSizeCategory != .large
         ]

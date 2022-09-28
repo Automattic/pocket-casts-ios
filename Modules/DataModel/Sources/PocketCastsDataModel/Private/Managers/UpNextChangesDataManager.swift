@@ -9,16 +9,16 @@ class UpNextChangesDataManager {
         "uuids",
         "utcTime"
     ]
-    
+
     // MARK: - Query
-    
+
     func findReplaceAction(dbQueue: FMDatabaseQueue) -> UpNextChanges? {
         var replaceAction: UpNextChanges?
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type = ?", values: [UpNextChanges.Actions.replace.rawValue])
                 defer { resultSet.close() }
-                
+
                 if resultSet.next() {
                     replaceAction = self.createFrom(resultSet: resultSet)
                 }
@@ -26,17 +26,17 @@ class UpNextChangesDataManager {
                 FileLog.shared.addMessage("UpNextChangesDataManager.findReplaceAction error: \(error)")
             }
         }
-        
+
         return replaceAction
     }
-    
+
     func findUpdateActions(dbQueue: FMDatabaseQueue) -> [UpNextChanges] {
         var allUpdateActions = [UpNextChanges]()
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type != ?", values: [UpNextChanges.Actions.replace.rawValue])
                 defer { resultSet.close() }
-                
+
                 while resultSet.next() {
                     let action = self.createFrom(resultSet: resultSet)
                     allUpdateActions.append(action)
@@ -45,34 +45,34 @@ class UpNextChangesDataManager {
                 FileLog.shared.addMessage("UpNextChangesDataManager.findUpdateActions error: \(error)")
             }
         }
-        
+
         return allUpdateActions
     }
-    
+
     // MARK: - Update
-    
+
     func saveUpNextRemove(episodeUuid: String, dbQueue: FMDatabaseQueue) {
         saveUpdate(action: UpNextChanges.Actions.remove, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
-    
+
     func saveUpNextAddToTop(episodeUuid: String, dbQueue: FMDatabaseQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNext, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
-    
+
     func saveUpNextAddToBottom(episodeUuid: String, dbQueue: FMDatabaseQueue) {
         saveUpdate(action: UpNextChanges.Actions.playLast, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
-    
+
     func saveUpNextAddNowPlaying(episodeUuid: String, dbQueue: FMDatabaseQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNow, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
-    
+
     func saveReplace(episodeList: [String], dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
                 // a replace literally replaces everything that came before it, so empty the table out
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName)", values: nil)
-                
+
                 let upNextRemove = UpNextChanges()
                 upNextRemove.id = DBUtils.generateUniqueId()
                 upNextRemove.type = UpNextChanges.Actions.replace.rawValue
@@ -84,13 +84,13 @@ class UpNextChangesDataManager {
             }
         }
     }
-    
+
     private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
                 // an update replaces any other update that is for the same episode, so delete any that might exist
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) WHERE uuid = ?", values: [episodeUuid])
-                
+
                 let upNextRemove = UpNextChanges()
                 upNextRemove.id = DBUtils.generateUniqueId()
                 upNextRemove.type = action.rawValue
@@ -102,9 +102,9 @@ class UpNextChangesDataManager {
             }
         }
     }
-    
+
     // MARK: - Delete
-    
+
     func deleteChangesOlderThan(utcTime: Int64, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -114,21 +114,21 @@ class UpNextChangesDataManager {
             }
         }
     }
-    
+
     // MARK: - Conversion
-    
+
     private func createFrom(resultSet rs: FMResultSet) -> UpNextChanges {
         let changes = UpNextChanges()
-        
+
         changes.id = rs.longLongInt(forColumn: "id")
         changes.type = rs.int(forColumn: "type")
         changes.uuid = rs.string(forColumn: "uuid")
         changes.uuids = rs.string(forColumn: "uuids")
         changes.utcTime = rs.longLongInt(forColumn: "utcTime")
-        
+
         return changes
     }
-    
+
     private func createValuesFrom(upNextChanges: UpNextChanges) -> [Any] {
         var values = [Any]()
         values.append(upNextChanges.id)
@@ -136,7 +136,7 @@ class UpNextChangesDataManager {
         values.append(DBUtils.replaceNilWithNull(value: upNextChanges.uuid))
         values.append(DBUtils.replaceNilWithNull(value: upNextChanges.uuids))
         values.append(upNextChanges.utcTime)
-        
+
         return values
     }
 }

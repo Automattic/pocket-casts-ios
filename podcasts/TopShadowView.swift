@@ -6,7 +6,7 @@ class TopShadowView: ThemeableView {
             layoutIfNeeded()
         }
     }
-    
+
     override func layoutSubviews() {
         if hideShadow {
             layer.shadowRadius = 0

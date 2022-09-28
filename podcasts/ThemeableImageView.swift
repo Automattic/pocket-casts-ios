@@ -6,41 +6,41 @@ class ThemeableImageView: UIImageView {
             updateImage()
         }
     }
-    
+
     var imageStyle: ThemeStyle? {
         didSet {
             updateImage()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func setup() {
         updateImage()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
-    
+
     @objc func themeDidChange() {
         updateImage()
     }
-    
+
     private func updateImage() {
         if let imageName = imageNameFunc {
             image = UIImage(named: imageName())

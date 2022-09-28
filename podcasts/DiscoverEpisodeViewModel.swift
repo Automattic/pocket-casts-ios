@@ -22,7 +22,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
     @Published var episodeDuration: String?
     @Published var publishedDate: String?
     @Published var isTrailer: Bool = false
-    
+
     @Published var listTitle: String = ""
 
     @Published var discoverEpisode: DiscoverEpisode?

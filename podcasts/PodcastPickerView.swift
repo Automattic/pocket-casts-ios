@@ -4,9 +4,9 @@ import SwiftUI
 
 struct PodcastPickerView: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var pickerModel: PodcastPickerModel
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -61,16 +61,16 @@ struct PodcastPickerView: View {
             .listStyle(PlainListStyle())
         }
     }
-    
+
     private func accessibilitySummary(podcast: Podcast, selectedPodcasts: [String]) -> String {
         var str = podcast.title ?? ""
-        
+
         if selectedPodcasts.contains(podcast.uuid) {
             str += " \(L10n.statusSelected)"
         } else {
             str += " \(L10n.statusNotSelected)"
         }
-        
+
         return str
     }
 }
@@ -78,7 +78,7 @@ struct PodcastPickerView: View {
 struct SortByView: View {
     @State var sortType: LibrarySort
     @ObservedObject var pickerModel: PodcastPickerModel
-    
+
     var body: some View {
         Button {
             pickerModel.sortType = sortType

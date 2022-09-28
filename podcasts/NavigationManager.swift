@@ -5,88 +5,88 @@ import UIKit
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
     static let podcastKey = "podcast"
-    
+
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
-    
+
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
-    
+
     private static let homePageKey = "homePage"
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
-    
+
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
-    
+
     static let filterAddKey = "filterPageAdd"
-    
+
     static let uploadedPageKey = "uploadedPage"
     static let uploadFileKey = "uploadFile"
-    
+
     static let filesPageKey = "filesPage"
-    
+
     static let subscriptionCancelledAcknowledgePageKey = "subscrptionCancelledAcknowledgePage"
-    
+
     static let subscriptionUpgradeVCKey = "subscrptionUpgradeVC"
     static let subscriptionRequiredPageKey = "subscrptionRequiredPage"
-    
+
     static let showPlusMarketingPageKey = "showPlusMarketingPage"
     static let showPromotionPageKey = "showPromotionPage"
     static let promotionInfoKey = "promotionInfoKey"
     static let showPromotionFinishedPageKey = "showPromotionFinishedPage"
-    
+
     static let supporterSignInKey = "supporterSignInKey"
     static let supporterPodcastInfo = "supporterPodcastInfo"
     static let supporterBundlePageKey = "suppoerterBundlePage"
     static let supporterBundleUuid = "supporterBundleUuid"
-    
+
     static let showPrivacyPolicyPageKey = "showPrivacyPage"
     static let showTermsOfUsePageKey = "showTermsOfUsePage"
-    
+
     static let showWhatsNewPageKey = "showWhatsNewPage"
     static let whatsNewInfoKey = "WhatsNewInfo"
-    
+
     static let openUrlInSafariVCKey = "openSafariVCUrlPage"
     static let safariVCUrlKey = "safariVCUrlKey"
-    
+
     static let settingsAppearanceKey = "appearancePage"
     static let settingsProfileKey = "profilePage"
     static let signInPage = "signInPage"
-    
+
     static let sharedManager = NavigationManager()
-    
+
     private weak var mainController: NavigationProtocol?
     var dimmingView: UIView?
     var miniPlayer: MiniPlayerViewController?
-    
+
     private var firstSetupCompleted = false
     var isPhone = false
-    
+
     private var lastNavKey = ""
     private var lastNavData: NSDictionary?
-    
+
     init() {
         isPhone = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
     }
-    
+
     // MARK: - Navigation
-    
+
     func navigateTo(_ place: String, data: NSDictionary?) {
         performNavigation(place, data: data, animated: true)
     }
-    
+
     func mainViewControllerDidLoad(controller: NavigationProtocol) {
         mainController = controller
     }
-    
+
     private func performNavigation(_ place: String, data: NSDictionary?, animated: Bool) {
         lastNavKey = place
         lastNavData = data
-        
+
         if place == NavigationManager.podcastPageKey {
             guard let data = data else { return }
-            
+
             if let podcast = data[NavigationManager.podcastKey] as? Podcast {
                 mainController?.navigateToPodcast(podcast)
             }
@@ -104,18 +104,18 @@ class NavigationManager {
                 podcastInfo.shortDescription = podcastHeader.headerDescription
                 podcastInfo.author = podcastHeader.author
                 podcastInfo.iTunesId = podcastHeader.itunesId?.intValue
-                
+
                 mainController?.navigateToPodcastInfo(podcastInfo)
             }
         } else if place == NavigationManager.folderPageKey {
             guard let data = data else { return }
-            
+
             if let folder = data[NavigationManager.folderKey] as? Folder {
                 mainController?.navigateToFolder(folder)
             }
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
-            
+
             mainController?.navigateToEpisode(uuid)
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)

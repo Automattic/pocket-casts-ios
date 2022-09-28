@@ -116,7 +116,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
-    
+
     // MARK: - Folders
 
     case folderShown

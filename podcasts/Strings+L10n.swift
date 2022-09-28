@@ -82,9 +82,9 @@ extension L10n {
 
     /* Activity message letting the user know that a process ir running. */
     static let supportWorking = "Working..."
-    
+
     // MARK: Helper Functions
-    
+
     static func podcastCount(_ count: Int, capitalized: Bool = false) -> String {
         let result = count == 1 ? L10n.podcastCountSingular : L10n.podcastCountPluralFormat(count.localized())
         return capitalized ? result.localizedCapitalized : result
@@ -93,7 +93,7 @@ extension L10n {
     static func downloadedFilesConf(_ count: Int) -> String {
         count == 1 ? L10n.downloadedFilesConfSingular : L10n.downloadedFilesConfPluralFormat(count.localized())
     }
-    
+
     static func selectedPodcastCount(_ count: Int, capitalized: Bool = false) -> String {
         let result: String
         if count == 0 {
@@ -103,7 +103,7 @@ extension L10n {
         } else {
             result = L10n.settingsAutoDownloadsPodcastsSelectedFormat(count.localized())
         }
-        
+
         return capitalized ? result.localizedCapitalized : result
     }
 

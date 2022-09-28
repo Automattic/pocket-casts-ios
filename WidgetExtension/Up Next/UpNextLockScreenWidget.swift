@@ -52,7 +52,7 @@ struct UpNextCircularWidgetView: View {
     var font: Font {
         numberOfEpisodeInUpNext > 99 ? .callout : .title
     }
-    
+
     var body: some View {
         ZStack {
             AccessoryWidgetBackground()

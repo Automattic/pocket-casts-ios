@@ -11,13 +11,13 @@ class DisclosureCell: ThemeableCell {
     }
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         cellTextToImageConstraint.isActive = false
     }
-    
+
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
         if let imageName = imageName {
             cellTextToImageConstraint.isActive = true
@@ -28,7 +28,7 @@ class DisclosureCell: ThemeableCell {
             cellImage.image = nil
         }
     }
-    
+
     override func handleThemeDidChange() {
         disclosureImage.tintColor = ThemeColor.primaryIcon02()
     }

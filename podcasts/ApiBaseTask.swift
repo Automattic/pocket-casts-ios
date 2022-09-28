@@ -6,13 +6,13 @@ class ApiBaseTask: Operation {
     private let syncTimeout = 60 as TimeInterval
     private let isoDateFormatter = ISO8601DateFormatter()
     let apiVersion = "2"
-    
+
     override func main() {
         autoreleasepool {
             runTaskSynchronously()
         }
     }
-    
+
     func runTaskSynchronously() {
         if let token = KeychainHelper.string(for: Constants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
@@ -22,13 +22,13 @@ class ApiBaseTask: Operation {
             apiTokenAcquisitionFailed()
         }
     }
-    
+
     func postToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
         let url = Server.asUrl(url)
         var request = createRequest(url: url, method: "POST", token: token)
         do {
             request.httpBody = data
-            
+
             var response: URLResponse?
             let responseData = try SJURLConnection.sendSynchronousRequest(request, returning: &response)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, Server.HttpConstants.serverError) }
@@ -37,15 +37,15 @@ class ApiBaseTask: Operation {
                 KeychainHelper.removeKey(Constants.Values.syncingV2TokenKey)
                 return (nil, httpResponse.statusCode)
             }
-            
+
             return (responseData, httpResponse.statusCode)
         } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
-        
+
         return (nil, Server.HttpConstants.serverError)
     }
-    
+
     func getToServer(url: String, token: String?, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
         let url = Server.asUrl(url)
         var request = createRequest(url: url, method: "GET", token: token)
@@ -54,7 +54,7 @@ class ApiBaseTask: Operation {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
             }
         }
-        
+
         do {
             var response: URLResponse?
             let responseData = try SJURLConnection.sendSynchronousRequest(request, returning: &response)
@@ -64,21 +64,21 @@ class ApiBaseTask: Operation {
                 KeychainHelper.removeKey(Constants.Values.syncingV2TokenKey)
                 return (nil, httpResponse)
             }
-            
+
             return (responseData, httpResponse)
         } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
-        
+
         return (nil, nil)
     }
-    
+
     func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
         let url = Server.asUrl(url)
         var request = createRequest(url: url, method: "DELETE", token: token)
         do {
             request.httpBody = data
-            
+
             var response: URLResponse?
             let responseData = try SJURLConnection.sendSynchronousRequest(request, returning: &response)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, Server.HttpConstants.serverError) }
@@ -87,23 +87,23 @@ class ApiBaseTask: Operation {
                 KeychainHelper.removeKey(Constants.Values.syncingV2TokenKey)
                 return (nil, httpResponse.statusCode)
             }
-            
+
             return (responseData, httpResponse.statusCode)
         } catch {
             FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
         }
-        
+
         return (nil, Server.HttpConstants.serverError)
     }
-    
+
     func formatDate(_ date: Date?) -> String {
         if let date = date {
             return isoDateFormatter.string(from: date)
         }
-        
+
         return ""
     }
-    
+
     private func createRequest(url: URL, method: String, token: String?) -> URLRequest {
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: syncTimeout)
         request.httpMethod = method
@@ -115,7 +115,7 @@ class ApiBaseTask: Operation {
         }
         return request
     }
-    
+
     private func acquireSyncToken() -> String? {
         var loginRequest = Api_UserLoginRequest()
         if let email = UserDefaults.standard.string(forKey: Constants.UserDefaults.syncingEmail) {
@@ -125,19 +125,19 @@ class ApiBaseTask: Operation {
             loginRequest.password = password
         }
         loginRequest.scope = Constants.Values.apiScope
-        
+
         let url = Server.Urls.api + "user/login"
         do {
             let data = try loginRequest.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: nil, data: data)
-            
+
             if let response = response, httpStatus == Server.HttpConstants.ok {
                 let token = try Api_UserLoginResponse(serializedData: response).token
                 KeychainHelper.save(string: token, key: Constants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAlways)
-                
+
                 return token
             }
-            
+
             if httpStatus == Server.HttpConstants.unauthorized {
                 FileLog.shared.addMessage("SyncTask logging user out, invalid password")
                 SyncManager.signout()
@@ -145,10 +145,10 @@ class ApiBaseTask: Operation {
         } catch {
             FileLog.shared.addMessage("acquireSyncToken failed \(error.localizedDescription)")
         }
-        
+
         return nil
     }
-    
+
     // for subclasses that talk to the API server to override
     func apiTokenAcquired(token: String) {}
     func apiTokenAcquisitionFailed() { print("\(self) apiTokenAcquisitionFailed") }

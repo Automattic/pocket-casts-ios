@@ -3,11 +3,11 @@ import SwiftUI
 
 struct ChoosePodcastFolderView: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var model: ChoosePodcastFolderModel
-    
+
     var dismissAction: (String?) -> Void
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -80,10 +80,10 @@ extension ChoosePodcastFolderView {
 
 struct FolderSelectRow: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var model: ChoosePodcastFolderModel
     @State var folder: Folder
-    
+
     var body: some View {
         HStack(spacing: 16) {
             if let color = model.colorForFolder(folder: folder) {

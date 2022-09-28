@@ -1,7 +1,2 @@
 parent_config: https://raw.githubusercontent.com/Automattic/swiftlint-config/37b80c60da84780a5780749e6af72bcde4fd1705/.swiftlint.yml
 remote_timeout: 10.0
-
-disabled_rules:
-  # There are thousands of these. We'll address them all in a single commit
-  # to contain the noise.
-  - trailing_whitespace

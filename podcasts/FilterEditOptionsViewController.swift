@@ -9,7 +9,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
         }
     }
-    
+
     private let nameCellId = "EditFilterNameId"
     private let iconChooserCellId = "IconChooserCellId"
     private let colorChooserCellId = "ColorChooserCell"
@@ -32,13 +32,13 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = L10n.filterOptions
-        
+
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
         tapRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapRecognizer)
-        
+
         tableView.register(UINib(nibName: "EditFilterNameCell", bundle: nil), forCellReuseIdentifier: nameCellId)
         tableView.register(UINib(nibName: "PlaylistIconChooserCell", bundle: nil), forCellReuseIdentifier: iconChooserCellId)
         tableView.register(UINib(nibName: "PlaylistColorChooserCell", bundle: nil), forCellReuseIdentifier: colorChooserCellId)
@@ -47,10 +47,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
         tableView.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
         NotificationCenter.default.addObserver(self, selector: #selector(colorChanged), name: Constants.Notifications.playlistTempChange, object: nil)
-        
+
         updateExistingSortcutData()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -75,7 +75,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         isViewingShortcuts = false
     }
-    
+
     @objc func backgroundTapped(_ sender: UITapGestureRecognizer) {
         if let nameTextField = filterNameTextField {
             if nameTextField.isFirstResponder {
@@ -83,23 +83,23 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             }
         }
     }
-    
+
     // MARL:- TableView Data Source
     func numberOfSections(in tableView: UITableView) -> Int {
         tableData().count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableData()[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         indexPath.section == 1 ? 79 : 64
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableRow = tableData()[indexPath.section][indexPath.row]
-        
+
         switch tableRow {
         case .filterName:
             let cell = tableView.dequeueReusableCell(withIdentifier: nameCellId) as! EditFilterNameCell
@@ -120,16 +120,16 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
                 tableView.reloadData()
             })
             return cell
-            
+
         case .autodownload:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
             cell.cellSwitch.onStyle = filterToEdit.playlistStyle()
-            
+
             cell.cellLabel.text = L10n.settingsAutoDownload
             cell.cellLabel.font.withSize(16)
             cell.setImage(imageName: "filter_downloaded")
             cell.cellSwitch.setOn(filterToEdit.autoDownloadEpisodes, animated: true)
-            
+
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
             return cell
@@ -137,7 +137,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId) as! DisclosureCell
             cell.cellLabel.text = L10n.autoDownloadPromptFirst
             cell.cellSecondaryLabel.text = L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized())
-            
+
             return cell
         case .siriShortcut:
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) as! TopLevelSettingsCell
@@ -147,15 +147,15 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             return cell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRow = tableData()[indexPath.section][indexPath.row]
-        
+
         switch tableRow {
         case .autoDownloadLimit:
-            
+
             tableView.deselectRow(at: indexPath, animated: true)
-            
+
             let options = OptionsPicker(title: L10n.autoDownloadFirst)
             let currentLimit = filterToEdit.maxAutoDownloadEpisodes()
             addAutoLimitOption(optionPicker: options, limit: 5, currentLimit: currentLimit)
@@ -163,7 +163,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             addAutoLimitOption(optionPicker: options, limit: 20, currentLimit: currentLimit)
             addAutoLimitOption(optionPicker: options, limit: 40, currentLimit: currentLimit)
             addAutoLimitOption(optionPicker: options, limit: 100, currentLimit: currentLimit)
-            
+
             options.show(statusBarStyle: preferredStatusBarStyle)
         case .siriShortcut:
             isViewingShortcuts = true
@@ -175,33 +175,33 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             return
         }
     }
-    
+
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 2 {
             return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.autoDownloadOffSubtitle
         }
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         ThemeableTable.setHeaderFooterTextColor(on: view)
     }
-    
+
     // MARK: Actions
-    
+
     @objc private func colorChanged() {
         didChangeColor = true
         tableView.reloadData()
     }
-    
+
     @objc private func switchChanged(_ sender: UISwitch) {
         filterToEdit.autoDownloadEpisodes = sender.isOn
         didChangeAutoDownload = true
         tableView.reloadData()
     }
-    
+
     // MARK: - TextFieldDelegate
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidStart)
     }
@@ -211,35 +211,35 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         textField.resignFirstResponder()
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
+
         return true
     }
-    
+
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         true
     }
-    
+
     // MARK: - Theme changes
-    
+
     override func handleThemeChanged() {
         tableView.reloadData()
     }
-    
+
     // MARK: - Table Data
-    
+
     private func tableData() -> [[FilterEditOptionsViewController.TableRow]] {
         var data = filterToEdit.autoDownloadEpisodes ? FilterEditOptionsViewController.tableDataAutoDownloadEnabled : FilterEditOptionsViewController.tableDataAutoDownloadDisabled
-        
+
         data.append([.siriShortcut])
 
         return data
     }
-    
+
     // MARK: - Private Helper Methods
-    
+
     private func addAutoLimitOption(optionPicker: OptionsPicker, limit: Int32, currentLimit: Int32) {
         let action = OptionAction(label: L10n.episodeCountPluralFormat(limit.localized()), selected: currentLimit == limit) { [weak self] in
             self?.didChangeEpisodeCount = true
@@ -248,7 +248,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         }
         optionPicker.addAction(action: action)
     }
-    
+
     private func updateExistingSortcutData() {
         SiriShortcutsManager.shared.voiceShortcutForFilter(filter: filterToEdit, completion: { voiceShortcut in
             self.existingShortcut = voiceShortcut

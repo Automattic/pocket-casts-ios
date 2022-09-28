@@ -47,7 +47,7 @@ class iPhone_GenerateScreenshots: GenerateScreenshots {
         // Background the app to make sure CoreData saves
         safari.launch()
     }
-    
+
     func test_generateScreenshots() throws {
         // 01 - Podcast List (Default Light Theme)
         selectTab(.podcasts)
@@ -99,7 +99,7 @@ class iPhone_GenerateScreenshots: GenerateScreenshots {
         // 07 - Filters (Default Light Theme)
         selectTab(.filters)
         app.cells.firstMatch.waitForThenTap()
-        
+
         app.buttons["expandFilter"].waitForThenTap()
         snapshot("07_Filters")
 

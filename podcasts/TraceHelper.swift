@@ -9,7 +9,7 @@ class TraceHelper: TraceHandlingProtocol {
 
     func endTracing(trace: AnyObject) {
         guard let trace = trace as? Trace else { return }
-        
+
         trace.stop()
     }
 }

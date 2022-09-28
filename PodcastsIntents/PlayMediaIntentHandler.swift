@@ -10,11 +10,11 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
         if let item = intent.mediaItems?.first, let itemTitle = item.title {
             trackName = itemTitle
         }
-        
+
         // Donate as User Activity
         userActivity.isEligibleForSearch = true
         userActivity.title = "Play \(trackName)"
-        
+
         userActivity.isEligibleForPrediction = true
         userActivity.suggestedInvocationPhrase = "Play \(trackName)"
         let attributes = CSSearchableItemAttributeSet(itemContentType: kCGImageAuxiliaryDataTypePortraitEffectsMatte as String)
@@ -26,10 +26,10 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             MPMediaItemPropertyPlaybackDuration: 30,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: 0
         ]
-        
+
         completion(response)
     }
-    
+
     func resolveMediaItems(for intent: INPlayMediaIntent, with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) -> Void) {
         if let existingItem = intent.mediaItems?.first {
             completion([INPlayMediaMediaItemResolutionResult.success(with: existingItem)])
@@ -52,19 +52,19 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             completion([INPlayMediaMediaItemResolutionResult.success(with: resumeItem)])
         }
     }
-    
+
     private func currentlyPlayingEpisodeTitle() -> String? {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) else { return nil }
-        
+
         guard let upNextData = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.upNextItems) as? Data else {
             return nil
         }
-        
+
         do {
             let deserializedData = try JSONDecoder().decode([CommonUpNextItem].self, from: upNextData)
-            
+
             guard deserializedData.count > 0 else { return nil }
-            
+
             let episodes = deserializedData
             guard let nowPlayingEpisode = episodes.first else { return nil }
             return nowPlayingEpisode.episodeTitle
@@ -72,13 +72,13 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             return nil
         }
     }
-    
+
     func resolvePlaybackSpeed(for intent: INPlayMediaIntent, with completion: @escaping (INPlayMediaPlaybackSpeedResolutionResult) -> Void) {
         guard let speed = intent.playbackSpeed else {
             completion(INPlayMediaPlaybackSpeedResolutionResult.notRequired())
             return
         }
-        
+
         if speed > SharedConstants.PlaybackEffects.maximumPlaybackSpeed {
             completion(INPlayMediaPlaybackSpeedResolutionResult.unsupported(forReason: .aboveMaximum))
         } else if speed < SharedConstants.PlaybackEffects.minimumPlaybackSpeed {
@@ -88,7 +88,7 @@ class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             completion(INPlayMediaPlaybackSpeedResolutionResult(doubleResolutionResult: result))
         }
     }
-    
+
     func resolveResumePlayback(for intent: INPlayMediaIntent, with completion: @escaping (INBooleanResolutionResult) -> Void) {
         completion(INBooleanResolutionResult.success(with: true))
     }

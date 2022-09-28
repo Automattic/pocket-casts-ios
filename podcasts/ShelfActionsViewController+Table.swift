@@ -3,37 +3,37 @@ import UIKit
 
 extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource {
     private static let shelfCellId = "ShelfCell"
-    
+
     private static let shortcutSection = 0
     private static let menuSection = 1
-    
+
     func registerCells() {
         actionsTable.register(UINib(nibName: "ShelfCell", bundle: nil), forCellReuseIdentifier: ShelfActionsViewController.shelfCellId)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableView.isEditing ? 2 : 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.isEditing {
             if section == ShelfActionsViewController.shortcutSection {
                 return Constants.Limits.maxShelfActions
             }
-            
+
             return allActions.count - Constants.Limits.maxShelfActions
         } else {
             return extraActions.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShelfActionsViewController.shelfCellId, for: indexPath) as! ShelfCell
-        
+
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
-        
+
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-        
+
         if !tableView.isEditing {
             cell.actionName.text = action.title(episode: playingEpisode)
             if action != .routePicker {
@@ -42,10 +42,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             } else if let routePickerView = playerActionsDelegate?.sharedRoutePicker(largeSize: false) {
                 cell.customViewContainer.addSubview(routePickerView)
                 routePickerView.anchorToAllSidesOf(view: cell.customViewContainer)
-                
+
                 cell.actionIcon.image = nil
             }
-            
+
             if (action == .effects && PlaybackManager.shared.effects().effectsEnabled()) || (action == .sleepTimer && PlaybackManager.shared.sleepTimerActive()) || (action == .starEpisode && playingEpisode.keepEpisode) {
                 cell.actionIcon.tintColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
             } else {
@@ -57,18 +57,18 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             cell.customViewContainer.removeAllSubviews()
             cell.actionIcon.tintColor = ThemeColor.playerContrast02()
         }
-        
+
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
         cell.actionSubtitle.isHidden = (cell.actionSubtitle.text == nil)
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-        
+
         dismiss(animated: true) {
             switch action {
             case .starEpisode:
@@ -92,26 +92,26 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         true
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
     }
-    
+
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let rowsInShelfSection = tableView.numberOfRows(inSection: 0) // if you're moving out of the shortcuts section, the amount of items in there can change
         let fromRow = sourceIndexPath.row + (sourceIndexPath.section * Constants.Limits.maxShelfActions)
         let toRow = destinationIndexPath.row + (destinationIndexPath.section * rowsInShelfSection)
-        
+
         let action = allActions.remove(at: fromRow)
         allActions.insert(action, at: toRow)
         Settings.updatePlayerActions(allActions)
-        
+
         updateAvailableActions()
-        
+
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {
             DispatchQueue.main.async {
@@ -129,18 +129,18 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .none
     }
-    
+
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         false
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if !tableView.isEditing { return nil }
-        
+
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         let headerView: SettingsTableHeader
         if section == ShelfActionsViewController.shortcutSection {
@@ -150,14 +150,14 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         }
         headerView.titleLabel.style = .playerContrast02
         headerView.clearBackground = true
-        
+
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         tableView.isEditing ? Constants.Values.tableSectionHeaderHeight : CGFloat.leastNonzeroMagnitude
     }
-    
+
     private func actionAt(indexPath: IndexPath, isEditing: Bool) -> PlayerAction {
         let action: PlayerAction
         if isEditing {
@@ -165,7 +165,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         } else {
             action = extraActions[indexPath.row]
         }
-        
+
         return action
     }
 }

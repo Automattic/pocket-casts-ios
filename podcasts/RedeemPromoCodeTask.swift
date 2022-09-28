@@ -6,27 +6,27 @@ import Utils
 class RedeemPromoCodeTask: ApiBaseTask {
     var completion: ((Int, String) -> Void)?
     private var promoCode: String
-    
+
     init(promoCode: String) {
         self.promoCode = promoCode
         super.init()
     }
-    
+
     override func apiTokenAcquired(token: String) {
         let url = Server.Urls.api + "subscription/promo/redeem"
-        
+
         var codeToValidate = Api_PromotionCode()
         codeToValidate.code = promoCode
-        
+
         do {
             let data = try codeToValidate.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             guard let responseData = response else {
                 completion?(httpStatus, "Something went wrong")
                 return
             }
-            
+
             do {
                 if httpStatus == Server.HttpConstants.ok {
                     let promotion = try Api_Promotion(serializedData: responseData)

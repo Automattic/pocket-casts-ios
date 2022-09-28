@@ -10,7 +10,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             backgroundView.style = .primaryUi04
         }
     }
-    
+
     @IBOutlet var nameTextfield: ThemeableTextField! {
         didSet {
             nameTextfield.delegate = self
@@ -19,19 +19,19 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             nameTextfield.backgroundStyle = .primaryUi02
         }
     }
-    
+
     @IBOutlet var nameLabel: ThemeableLabel! {
         didSet {
             nameLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var sizeLabel: ThemeableLabel! {
         didSet {
             nameLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var nameContainerView: ThemeableView! {
         didSet {
             nameContainerView.style = .primaryUi02
@@ -39,7 +39,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             nameContainerView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
         }
     }
-    
+
     @IBOutlet var customiseArtworkView: ThemeableView! {
         didSet {
             customiseArtworkView.style = .primaryUi02
@@ -47,13 +47,13 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             customiseArtworkView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
         }
     }
-    
+
     @IBOutlet var lockView: PlusLockedInfoView! {
         didSet {
             lockView.delegate = self
         }
     }
-    
+
     @IBOutlet var imageBackgroundView: UIView!
     @IBOutlet var fileImageView: UIImageView! {
         didSet {
@@ -61,7 +61,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             fileImageView.clipsToBounds = true
         }
     }
-    
+
     @IBOutlet var addCustomlock: UIImageView!
     @IBOutlet var addCustomImageButton: ThemeableRoundedButton! {
         didSet {
@@ -69,36 +69,36 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             addCustomImageButton.buttonStyle = .primaryUi02
         }
     }
-    
+
     @IBOutlet var colorPickerView: UICollectionView! {
         didSet {
             colorPickerView.contentInset = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
             colorPickerView.register(UINib(nibName: "CustomStorageColorCell", bundle: nil), forCellWithReuseIdentifier: AddCustomViewController.colorCellId)
         }
     }
-    
+
     @IBOutlet var errorView: ThemeableView! {
         didSet {
             errorView.style = .primaryUi01
         }
     }
-    
+
     @IBOutlet var errorImageView: ThemeableImageView! {
         didSet {
             errorImageView.imageNameFunc = AppTheme.fileErrorImageName
         }
     }
-    
+
     @IBOutlet var errorLabel: ThemeableLabel!
     @IBOutlet var imageSaveErrorLabel: ThemeableLabel! {
         didSet {
             imageSaveErrorLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var scrollView: UIScrollView!
     static let colorCellId = "ColorCellId"
-    
+
     let fileUrl: URL
     var name: String
     var destinationUrl: URL!
@@ -114,7 +114,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     var artwork: UIImage? {
         didSet {
             if let artworkImage = artwork {
@@ -129,9 +129,9 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     var artworkNeedsUpdating = false
-    
+
     var duration: TimeInterval = 0
     var selectedColor: Int = 1
     var selectedColorIndex: Int = 0 {
@@ -153,13 +153,13 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     var embeddedImage: UIImage?
     var artworkIndexPath: IndexPath?
     var greyIndexPath = IndexPath(row: 0, section: 0)
     var uuid: String
     var episodeToEdit: UserEpisode?
-    
+
     required init(fileUrl: URL) {
         self.fileUrl = fileUrl
         name = fileUrl.deletingPathExtension().lastPathComponent
@@ -167,7 +167,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         selectedColor = 1
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init(episode: UserEpisode) {
         uuid = episode.uuid
         fileUrl = URL(fileURLWithPath: DownloadManager.shared.pathForEpisode(episode))
@@ -175,12 +175,12 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         name = episode.title ?? ""
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("AddCUstomViewController init(coder) not implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let mainView = view as? ThemeableView {
@@ -193,7 +193,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             nameLabel.text = name
             fileSize = Int(episode.sizeInBytes)
             sizeLabel.text = SizeFormatter.shared.defaultFormat(bytes: Int64(fileSize))
-            
+
             if episode.imageColor == 0 {
                 ImageManager.sharedManager.imageForEpisode(episode, size: .list) { [weak self] image in
                     self?.artwork = image
@@ -202,15 +202,15 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 selectedColorIndex = Int(episode.imageColor) - 1
                 artwork = nil
             }
-            
+
             imageSaveErrorLabel.isHidden = true
             errorView.isHidden = true
             let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
             navigationItem.leftBarButtonItem = cancelButton
-            
+
             colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
             view.backgroundColor = AppTheme.uploadProgressBackgroundColor()
-            
+
             nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             setupScrollViewOffset()
             setupUserAccess()
@@ -225,9 +225,9 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 errorView.isHidden = true
                 let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
                 navigationItem.leftBarButtonItem = cancelButton
-                
+
                 view.backgroundColor = AppTheme.uploadProgressBackgroundColor()
-                
+
                 nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
                 setupFileDetails()
                 imageSaveErrorLabel.isHidden = true
@@ -236,24 +236,24 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
             }
         }
-        
+
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(setupUserAccess))
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .centeredHorizontally)
         let saveButton = UIBarButtonItem(title: L10n.fileUploadSave, style: .plain, target: self, action: #selector(saveTapped))
         customRightBtn = saveButton
     }
-    
+
     // MARK: Private helpers
-    
+
     private func setupScrollViewOffset() {
         let existingInset = scrollView.contentInset
         scrollView.contentInset = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: existingInset.bottom + Constants.Values.miniPlayerOffset, right: existingInset.right)
     }
-    
+
     private var avFileUtil: AVFileUtil?
     private func setupFileDetails() {
         avFileUtil = AVFileUtil(fileURL: destinationUrl, durationHandler: { duration in
@@ -276,7 +276,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.setupUserAccess()
             }
         })
-        
+
         DispatchQueue.main.async {
             do {
                 let resources = try self.destinationUrl.resourceValues(forKeys: [.fileSizeKey])
@@ -285,13 +285,13 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             } catch {}
         }
     }
-    
+
     private lazy var lockedArtworkTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSubscriptionRequired))
 
     @objc private func setupUserAccess() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             if SubscriptionHelper.hasActiveSubscription() {
                 self.addCustomlock.isHidden = true
                 self.lockView.isHidden = true
@@ -301,7 +301,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.addCustomImageButton.isEnabled = true
                 self.addCustomlock.isHidden = false
                 self.lockView.isHidden = Settings.plusInfoDismissedOnFilesAdd()
-                
+
                 if self.embeddedImage == nil {
                     self.customiseArtworkView.addGestureRecognizer(self.lockedArtworkTapGesture)
                     self.customiseArtworkView.alpha = 0.3
@@ -313,9 +313,9 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     // MARK: Actions
-    
+
     @IBAction func cancelTapped() {
         navigationController?.navigationBar.isHidden = false
         if episodeToEdit == nil {
@@ -327,14 +327,14 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             navigationController?.popViewController(animated: true)
         }
     }
-    
+
     @objc func saveTapped() {
         nameTextfield.resignFirstResponder()
         nameTextfield.isHidden = true
         imageSaveErrorLabel.isHidden = true
-        
+
         let selectedColor = greyIndexPath.item == 0 ? selectedColorIndex + 1 : selectedColorIndex
-        
+
         if let episodeToEdit = episodeToEdit {
             if artworkNeedsUpdating {
                 do {
@@ -351,7 +351,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 }
             } else {
                 UserEpisodeManager.updateUserEpisode(uuid: episodeToEdit.uuid, title: name, color: selectedColor)
-                
+
                 navigationController?.popViewController(animated: true)
             }
         } else {
@@ -363,13 +363,13 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     @IBAction func addCustomImageClicked(_ sender: Any) {
         guard SubscriptionHelper.hasActiveSubscription() else {
             showSubscriptionRequired()
             return
         }
-        
+
         if artwork == nil { // add imgage
             // Check permissions and add the actions
             switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -397,54 +397,54 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
         }
     }
-    
+
     private func showAddImagePicker(hasCameraAccess: Bool) {
         let optionPicker = OptionsPicker(title: L10n.fileUploadChooseImage)
-        
+
         if hasCameraAccess {
             let cameraAction = OptionAction(label: L10n.fileUploadChooseImageCamera, icon: nil) {
                 self.showCamera()
             }
             optionPicker.addAction(action: cameraAction)
         }
-        
+
         let libraryAction = OptionAction(label: L10n.fileUploadChooseImagePhotoLibrary, icon: nil) {
             self.showPhotoLibrary()
         }
         optionPicker.addAction(action: libraryAction)
-        
+
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
-    
+
     private func showError(message: String) {
         navigationController?.navigationBar.isHidden = true
         errorLabel.text = message
         errorView.isHidden = false
     }
-    
+
     override func handleThemeChanged() {
         customiseArtworkView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
         nameContainerView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
         colorPickerView.reloadData()
         colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .centeredHorizontally)
     }
-    
+
     // MARK: Textfield delegate
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidStart)
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
         textField.resignFirstResponder()
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let typedText = nameTextfield.text, typedText.count > 0 {
             nameLabel.text = typedText
@@ -457,7 +457,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             nameLabel.style = .support05
         }
     }
-    
+
     @objc func showSubscriptionRequired() {
         NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
     }

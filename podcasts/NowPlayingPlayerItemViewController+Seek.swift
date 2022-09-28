@@ -8,7 +8,7 @@ extension NowPlayingPlayerItemViewController: TimeSliderDelegate {
             })
         }
     }
-    
+
     func sliderDidEndSliding() {
         if PlaybackManager.shared.chapterCount() == 0 {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: { () in
@@ -16,12 +16,12 @@ extension NowPlayingPlayerItemViewController: TimeSliderDelegate {
             })
         }
     }
-    
+
     func sliderDidProvisionallySlide(to time: TimeInterval) {
         updateUpTo(upTo: time, duration: PlaybackManager.shared.duration(), moveSlider: false)
         updateProvisionalChapterInfoForTime(time: time)
     }
-    
+
     func sliderDidSlide(to time: TimeInterval) {
         PlaybackManager.shared.seekTo(time: time)
     }

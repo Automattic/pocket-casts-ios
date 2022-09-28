@@ -5,7 +5,7 @@ import SwiftUI
 
 struct PodcastPickerRow: View {
     @EnvironmentObject var theme: Theme
-    
+
     @Binding var pickingForFolderUuid: String?
     @State var podcast: Podcast
     @Binding var selectedPodcasts: [String]

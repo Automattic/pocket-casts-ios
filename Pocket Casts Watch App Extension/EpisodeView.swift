@@ -6,7 +6,7 @@ struct EpisodeView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: EpisodeDetailsViewModel
     let listTitle: String
-    
+
     var body: some View {
         GeometryReader { geo in
             ScrollView {
@@ -33,7 +33,7 @@ struct EpisodeView: View {
                         ])
         }
     }
-    
+
     private var artwork: some View {
         ZStack {
             CachedImage(url: viewModel.episode.largeImageUrl)
@@ -41,13 +41,13 @@ struct EpisodeView: View {
                 .resizable()
         }
     }
-    
+
     private var episodeDetails: some View {
         VStack(alignment: .leading, spacing: 7) {
             playPauseButton
             Text(viewModel.episode.title ?? "")
                 .font(.dynamic(size: 15, weight: .medium))
-            
+
             Text(viewModel.episode.subTitle())
                 .foregroundColor(viewModel.episode.subTitleColor)
                 .font(.dynamic(size: 12, weight: .medium))
@@ -57,14 +57,14 @@ struct EpisodeView: View {
             Text(viewModel.episode.displayableInfo())
                 .foregroundColor(.subheadlineText)
                 .font(.dynamic(size: 12, weight: .medium))
-            
+
             if !viewModel.episode.episodeDetails.isEmpty {
                 Text(viewModel.episode.episodeDetails)
                     .font(.dynamic(size: 13, weight: .medium))
             }
         }
     }
-    
+
     private var playPauseButton: some View {
         Button {
             WKInterfaceDevice.current().play(viewModel.isPlaying ? .click : .start)
@@ -75,7 +75,7 @@ struct EpisodeView: View {
         .accessibilityLabel(viewModel.isPlaying ? L10n.pause : L10n.play)
         .buttonStyle(.plain)
     }
-    
+
     private var episodeActions: some View {
         Group {
             ForEach(viewModel.actions) { action in
@@ -93,7 +93,7 @@ struct EpisodeView: View {
                     }
                 }
             }
-            
+
             if viewModel.supportsPodcastNavigation, let podcast = viewModel.parentPodcast, let viewModel = PodcastEpisodeListViewModel(podcast: podcast) {
                 NavigationLink(destination: PodcastEpisodeListView(viewModel: viewModel)) {
                     EpisodeActionView(iconName: "episode_goto", title: L10n.goToPodcast)
@@ -101,7 +101,7 @@ struct EpisodeView: View {
             }
         }
     }
-    
+
     private func dismissView() {
         presentationMode.wrappedValue.dismiss()
     }

@@ -7,20 +7,20 @@ struct AboutView: View {
     private let familyCellHeight: CGFloat = 160
     private let logoOffsetAmount: CGFloat = 30
     private let familyCellTopPadding: CGFloat = 6
-    
+
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject private var model = AboutViewModel()
 
     @State private var showLegalAndMore = false
-    
+
     var dismissAction: () -> Void
-    
+
     init(dismissAction: @escaping (() -> Void)) {
         self.dismissAction = dismissAction
         UITableView.appearance().backgroundColor = .clear
     }
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -111,22 +111,22 @@ struct AboutView: View {
             .navigationBarHidden(true)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
-    
+
     private func openShareApp() {
         guard let controller = UIApplication.shared.windows.first?.rootViewController?.presentedViewController else { return }
 
         SharingHelper.shared.shareLinkToApp(fromController: controller)
     }
-    
+
     private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
         let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
-        
+
         return sizeToFit.clamped(to: 45 ..< 80)
     }
-    
+
     private func openUrl(_ urlStr: String) {
         guard let url = URL(string: urlStr) else { return }
-        
+
         let application = UIApplication.shared
         if application.canOpenURL(url) {
             application.open(url, options: [:], completionHandler: nil)
@@ -136,14 +136,14 @@ struct AboutView: View {
 
 struct LogoView: View {
     @EnvironmentObject var theme: Theme
-    
+
     private let maxRotationDegrees: Double = 30
-    
+
     var logo: AboutLogo
     var index: Int
     var logoSize: CGFloat
     var logoOffset: CGFloat
-    
+
     var body: some View {
         ZStack {
             Circle()
@@ -166,12 +166,12 @@ struct LogoView: View {
 
 struct AboutRow: View {
     @EnvironmentObject var theme: Theme
-    
+
     @State var mainText = ""
     @State var secondaryText: String?
     @State var showChevronIcon: Bool = false
     @State var action: () -> Void
-    
+
     var body: some View {
         Button(action: {
             action()

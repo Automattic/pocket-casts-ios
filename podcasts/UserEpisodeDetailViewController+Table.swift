@@ -5,22 +5,22 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
     func registerCells() {
         actionTable.register(UINib(nibName: "UserEpisodeActionCell", bundle: nil), forCellReuseIdentifier: actionCellId)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableData().count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = actionTable.dequeueReusableCell(withIdentifier: actionCellId) as! UserEpisodeActionCell
         cell.themeOverride = themeOverride
         cell.titleLabel.themeOverride = themeOverride
         cell.style = .primaryUi01
         let tableRow = tableData()[indexPath.row]
-        
+
         switch tableRow {
         case .download:
             cell.titleLabel.text = L10n.download
@@ -71,10 +71,10 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRow = tableData()[indexPath.row]
-        
+
         switch tableRow {
         case .download:
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "download"])
@@ -113,13 +113,13 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
                 }
                 addToUpNextPicker.addAction(action: playNextAction)
-                
+
                 let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
                     Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_bottom"])
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
                 }
                 addToUpNextPicker.addAction(action: playLastAction)
-                
+
                 addToUpNextPicker.show(statusBarStyle: preferredStatusBarStyle)
             }
             animateOut()
@@ -142,10 +142,10 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete"])
         }
     }
-    
+
     private func tableData() -> [TableRow] {
         var data: [TableRow] = [.upNext, .markAsPlayed, .editDetails, .delete]
-        
+
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             data.insert(.cancelDownload, at: 3)
         } else if episode.uploadQueued() || episode.uploading() || episode.uploadWaitingForWifi() {
@@ -159,12 +159,12 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         }
         return data
     }
-    
+
     // MARK: Actions
-    
+
     @IBAction func playPauseTapped(_ sender: UIButton) {
         playPauseButton.isPlaying = !playPauseButton.isPlaying
-        
+
         let option = playPauseButton.isPlaying ? "play" : "pause"
         Analytics.track(.userFilePlayPauseButtonTapped, properties: ["option": option])
 
@@ -173,7 +173,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             if !PlaybackManager.shared.playing() {
                 animateOut()
             }
-            
+
             PlaybackActionHelper.playPause()
         } else {
             PlaybackActionHelper.play(episode: episode)

@@ -8,7 +8,7 @@ class AddCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     func setImage(imageName: String, tintColor: UIColor? = nil) {
         cellImage.tintColor = tintColor
         cellImage.image = UIImage(named: imageName)
