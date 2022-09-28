@@ -179,7 +179,7 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
         
         if let latestEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) {
-            deleteDownloadedFiles(episode: latestEpisode)
+            deleteDownloadedFiles(episode: latestEpisode, userInitated: false)
         }
         
         if fireNotification {
@@ -193,7 +193,7 @@ class EpisodeManager: NSObject {
         
         DataManager.sharedManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: false)
         if let latestEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) {
-            deleteDownloadedFiles(episode: latestEpisode)
+            deleteDownloadedFiles(episode: latestEpisode, userInitated: false)
         }
     }
     
