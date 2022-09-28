@@ -152,12 +152,13 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         closeTapped = { [weak self] in
             guard let self else { return }
 
-            Analytics.track(.episodeDetailDismissed, properties: ["source": self.viewSource])
             self.dismiss(animated: true, completion: nil)
+            self.didDismiss()
         }
         
         modalPresentationCapturesStatusBarAppearance = true
-        
+        presentationController?.delegate = self
+
         scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
         navTitle = episode.title
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
@@ -229,7 +230,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             }
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -461,6 +462,18 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     func hideErrorMessage(hide: Bool) {
         tryAgainButton.isHidden = hide
         failedToLoadLabel.isHidden = hide
+    }
+
+    private func didDismiss() {
+        Analytics.track(.episodeDetailDismissed, properties: ["source": viewSource])
+    }
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension EpisodeDetailViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        didDismiss()
     }
 }
 
