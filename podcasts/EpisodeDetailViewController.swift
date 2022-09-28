@@ -398,7 +398,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @objc private func podcastNameTapped() {
         guard let podcast = episode.parentPodcast() else { return }
 
-        Analytics.track(.episodeDetailPodcaseNameTapped)
+        Analytics.track(.episodeDetailPodcastNameTapped)
 
         dismiss(animated: true) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])

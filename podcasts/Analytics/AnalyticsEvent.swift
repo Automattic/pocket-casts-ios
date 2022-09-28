@@ -344,7 +344,7 @@ enum AnalyticsEvent: String {
 
     case episodeDetailShown
     case episodeDetailShowNotesLinkTapped
-    case episodeDetailPodcaseNameTapped
+    case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
 
     // MARK: - Multi Select View
