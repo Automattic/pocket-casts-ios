@@ -513,5 +513,9 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.deleteUserEpisodes(userEpisodeUuids: userEpisodeUuidsToDelete)
         DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+
+        #if !os(watchOS)
+            analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
+        #endif
     }
 }
