@@ -321,8 +321,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func performStarAction(starBtn: UIButton? = nil) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        Analytics.track(.episodeStarred, properties: ["source": "player"])
-
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
         
         if let starBtn = starBtn {
