@@ -925,7 +925,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // if marking an episode as played means the it should be archived, then do that
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
                 if let episode = episode as? Episode {
-                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false)
+                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false, userInitiated: false)
                 }
                 else if let episode = episode as? UserEpisode {
                     if Settings.userEpisodeRemoveFileAfterPlaying() {
