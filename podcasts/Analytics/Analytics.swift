@@ -37,12 +37,13 @@ extension Analytics {
 
     func optInOfAnalytics() {
         #if !os(watchOS)
-        Settings.setAnalytics(optOut: false)
-        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-        Analytics.track(.analyticsOptIn)
+            Settings.setAnalytics(optOut: false)
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            Analytics.track(.analyticsOptIn)
         #endif
     }
 }
+
 // MARK: - Protocols
 
 /// Allows an object to determine how its described in the context of analytics
