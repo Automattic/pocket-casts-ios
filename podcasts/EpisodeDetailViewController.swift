@@ -150,8 +150,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         super.viewDidLoad()
 
         closeTapped = { [weak self] in
-            Analytics.track(.episodeDetailDismissed)
-            self?.dismiss(animated: true, completion: nil)
+            guard let self else { return }
+
+            Analytics.track(.episodeDetailDismissed, properties: ["source": self.viewSource])
+            self.dismiss(animated: true, completion: nil)
         }
         
         modalPresentationCapturesStatusBarAppearance = true
@@ -166,7 +168,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         mainScrollView.contentOffset.y = -100
         
         hideErrorMessage(hide: true)
-        Analytics.track(.episodeDetailShown)
+        Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -403,7 +405,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @objc private func podcastNameTapped() {
         guard let podcast = episode.parentPodcast() else { return }
 
-        Analytics.track(.episodeDetailPodcastNameTapped)
+        Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
 
         dismiss(animated: true) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
