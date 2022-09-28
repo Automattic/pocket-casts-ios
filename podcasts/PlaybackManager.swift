@@ -436,6 +436,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
+        #if !os(watchOS)
+            if userInitiated {
+                AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+            }
+        #endif
+
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
@@ -465,12 +471,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         // otherwise we don't have this item, so add it to the bottom of our future list
         queue.add(episode: episode, fireNotification: true, partOfBulkAdd: false, toTop: toTop)
-
-        #if !os(watchOS)
-            if userInitiated {
-                AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
-            }
-        #endif
     }
     
     func insertIntoUpNext(episode: Episode, position: Int) {
@@ -487,6 +487,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
+        #if !os(watchOS)
+            if userInitiated, let episode {
+                AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+            }
+        #endif
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
@@ -501,12 +506,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         if let episode = episode {
             queue.remove(episode: episode, fireNotification: fireNotification)
         }
-
-        #if !os(watchOS)
-            if userInitiated, let episode {
-                AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
-            }
-        #endif
     }
     
     func bulkRemoveQueued(uuids: [String]) {
