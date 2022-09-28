@@ -17,7 +17,7 @@ enum SwipeActionsHelper {
         if PlaybackManager.shared.inUpNext(episode: episode) {
             let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
-                    PlaybackManager.shared.removeIfPlayingOrQueued(episode: loadedEpisode, fireNotification: true)
+                    PlaybackManager.shared.removeIfPlayingOrQueued(episode: loadedEpisode, fireNotification: true, userInitiated: true)
                     Self.performAction(.upNextRemove, handler: swipeHandler, willBeRemoved: false)
                 }
                 
@@ -28,7 +28,7 @@ enum SwipeActionsHelper {
         else {
             let addTopAction = TableSwipeAction(indexPath: indexPath, title: L10n.playNext, removesFromList: false, backgroundColor: ThemeColor.support04(), icon: UIImage(named: "list_playnext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
-                    PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true)
+                    PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
                     Self.performAction(.upNextAddTop, handler: swipeHandler, willBeRemoved: false)
                 }
                 
@@ -37,7 +37,7 @@ enum SwipeActionsHelper {
             
             let addBottomAction = TableSwipeAction(indexPath: indexPath, title: L10n.playLast, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "list_playlast"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
-                    PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: false)
+                    PlaybackManager.shared.addToUpNext(episode: loadedEpisode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
                     Self.performAction(.upNextAddBottom, handler: swipeHandler, willBeRemoved: false)
                 }
                 

@@ -204,7 +204,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
                 let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
-                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true)
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)
         }

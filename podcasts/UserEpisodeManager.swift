@@ -39,7 +39,7 @@ struct UserEpisodeManager {
             }
             
             if Settings.userEpisodeAutoAddToUpNext() {
-                PlaybackManager.shared.addToUpNext(episode: episode)
+                PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
             }
             
             return episode
