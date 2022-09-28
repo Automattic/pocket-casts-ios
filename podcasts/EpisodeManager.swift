@@ -115,6 +115,12 @@ class EpisodeManager: NSObject {
             episode.cachedFrameCount = 0
             DataManager.sharedManager.save(episode: episode)
         }
+
+        #if !os(watchOS)
+            if userInitated {
+                analyticsHelper.downloadDeleted(episode: episode)
+            }
+        #endif
     }
     
     class func markEpisodeAsPlayedExternal(_ episode: Episode) {
