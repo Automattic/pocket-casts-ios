@@ -29,6 +29,8 @@ extension EpisodeDetailViewController {
     }
     
     @IBAction func episodeStatusTapped(_ sender: Any) {
+        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+        
         if episode.played() {
             EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
         }

@@ -68,6 +68,7 @@ extension AppDelegate {
             }
             else if shortcut == "markAsPlayed" {
                 if let episode = PlaybackManager.shared.currentEpisode() {
+                    AnalyticsEpisodeHelper.shared.currentSource = "app_icon_menu"
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                     AnalyticsHelper.forceTouchMarkPlayed()
                 }

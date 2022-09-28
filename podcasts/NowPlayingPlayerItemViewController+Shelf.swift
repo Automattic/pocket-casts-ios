@@ -276,6 +276,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
         
         let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = "player_shelf"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         markPlayedAction.destructive = true

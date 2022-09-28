@@ -289,6 +289,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let options = OptionsPicker(title: nil, themeOverride: .dark)
         
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = "player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)

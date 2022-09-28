@@ -196,6 +196,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         let options = OptionsPicker(title: nil, themeOverride: .dark, portraitOnly: false)
         
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = "video_player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)
