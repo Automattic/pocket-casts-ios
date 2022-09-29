@@ -141,7 +141,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
             if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
                 // if we are loading this podcast to access a specific episode, check if it exists, if not refresh the episode list as well
                 if let episodeUuid = ensureEpisodeUuid {
-                    var episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+                    let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
 
                     if episode == nil {
                         ServerPodcastManager.shared.updatePodcastIfRequired(podcast: existingPodcast) { _ in
