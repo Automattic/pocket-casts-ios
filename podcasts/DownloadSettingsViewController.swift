@@ -191,6 +191,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         DataManager.sharedManager.savePodcastDownloadSetting(.off, podcastUuid: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
+
+    func didChangePodcasts() {}
     
     // MARK: - Switch Settings
     

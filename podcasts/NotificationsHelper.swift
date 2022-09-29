@@ -45,24 +45,31 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         
         // multiple podcast episode actions
         let podcastCategory = UNNotificationCategory(identifier: "po", actions: [], intentIdentifiers: [], options: [])
-        
+
         // register actions
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
         notificationCenter.setNotificationCategories([episodeCategory, podcastCategory])
-        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
-            if granted {
-                Analytics.track(.notificationsOptInAllowed)
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
+        
+        notificationCenter.getNotificationSettings { settings in
+            guard settings.authorizationStatus == .notDetermined else {
+                return
             }
-            else {
-                Analytics.track(.notificationsOptInDenied)
-            }
-        })
 
-        Analytics.track(.notificationsOptInShown)
+            notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
+                if granted {
+                    Analytics.track(.notificationsOptInAllowed)
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
+                else {
+                    Analytics.track(.notificationsOptInDenied)
+                }
+            })
+            
+            Analytics.track(.notificationsOptInShown)
+        }
     }
     
     // called when the user taps a notification action, or just the notification itself

@@ -452,6 +452,13 @@ enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
 
+    // MARK: - Settings: Notifications
+
+    case settingsNotificationsShown
+    case settingsNotificationsNewEpisodesToggled
+    case settingsNotificationsPodcastsChanged
+    case settingsNotificationsAppBadgeChanged
+
     // MARK: - OPML Import
 
     case opmlImportStarted
