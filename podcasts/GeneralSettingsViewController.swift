@@ -6,7 +6,9 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     private let timeStepperCellId = "TimeStepperCell"
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
-    
+
+    let debounce = Debounce(delay: Constants.defaultDebounceTime)
+
     private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles }
     private let tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
     
@@ -52,15 +54,14 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
 
-            let debounce = Debounce(delay: 0.5)
-            cell.onValueChanged = { value in
+            cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
                 ServerSettings.setSkipForwardTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 
-                debounce.call {
+                self?.debounce.call {
                     Settings.trackValueChanged(.settingsGeneralSkipForwardChanged, value: value)
                 }
             }
@@ -78,15 +79,14 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
 
-            let debounce = Debounce(delay: 0.5)
-            cell.onValueChanged = { value in
+            cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
                 ServerSettings.setSkipBackTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 
-                debounce.call {
+                self?.debounce.call {
                     Settings.trackValueChanged(.settingsGeneralSkipBackChanged, value: value)
                 }
             }

@@ -237,6 +237,8 @@ struct Constants {
         static let customStorageLimitGB = "custom_storage_limit_gb"
         static let customStorageLimitGBDefault: Int = 10
     }
+
+    static let defaultDebounceTime: TimeInterval = 0.5
 }
 
 enum PlusUpgradeViewSource: String {
