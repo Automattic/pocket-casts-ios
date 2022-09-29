@@ -32,6 +32,8 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         title = L10n.settingsAppearance
         updateTableAndData()
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
+
+        Analytics.track(.settingsAppearanceShown)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -244,10 +246,13 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         else if Theme.sharedTheme.activeTheme != Theme.preferredLightTheme() {
             Theme.sharedTheme.activeTheme = Theme.preferredLightTheme()
         }
+
+        Settings.trackValueToggled(.settingsAppearanceFollowSystemThemeToggled, enabled: sender.isOn)
     }
     
     @objc private func loadEmbeddedArtToggled(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.loadEmbeddedImages)
+        Settings.trackValueToggled(.settingsAppearanceUseEmbeddedArtworkToggled, enabled: sender.isOn)
     }
     
     private func updateTableAndData() {
@@ -271,6 +276,8 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         DispatchQueue.global(qos: .default).async { () in
             ImageManager.sharedManager.clearPodcastCache(recacheWhenDone: true)
         }
+
+        Analytics.track(.settingsAppearanceRefreshAllArtworkTapped)
     }
     
     // MARK: - IconSelectorCellDelegate
@@ -283,6 +290,8 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
                 self.updateTableAndData()
             }
         })
+
+        Settings.trackValueChanged(.settingsAppearanceAppIconChanged, value: icon)
     }
     
     func iconSelectorPresentingVC() -> UIViewController {
