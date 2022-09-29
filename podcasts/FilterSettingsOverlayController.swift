@@ -34,7 +34,7 @@ class FilterSettingsOverlayController: LargeNavBarViewController, PlaybackSource
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": playbackSource, "source": "filters"])
         }
     }
     
