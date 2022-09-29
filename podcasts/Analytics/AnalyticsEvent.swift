@@ -112,8 +112,8 @@ enum AnalyticsEvent: String {
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
 
-    case profileAccountTermsOfUseTapped
-    case profileAccountPrivacyPolicyTapped
+    case accountDetailsShowTOS
+    case accountDetailsShowPrivacyPolicy
 
     // MARK: - Stats View
 
