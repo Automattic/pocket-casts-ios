@@ -394,4 +394,46 @@ enum AnalyticsEvent: String {
     // MARK: - Pull to Refresh
 
     case pulledToRefresh
+
+    // MARK: - Push notifications
+    
+    case notificationsOptInShown
+    case notificationsOptInAllowed
+    case notificationsOptInDenied
+
+    // MARK: - Podcast Settings
+    
+    case podcastSettingsFeedErrorTapped
+    case podcastSettingsFeedErrorUpdateTapped
+    case podcastSettingsFeedErrorFixSucceeded
+    case podcastSettingsFeedErrorFixFailed
+
+    case podcastSettingsAutoDownloadToggled
+    case podcastSettingsNotificationsToggled
+    case podcastSettingsAutoAddUpNextToggled
+    case podcastSettingsAutoAddUpNextPositionOptionChanged
+
+    case podcastSettingsCustomPlaybackEffectsToggled
+
+    case podcastSettingsSkipFirstChanged
+    case podcastSettingsSkipLastChanged
+
+    case podcastSettingsAutoArchiveToggled
+    case podcastSettingsAutoArchivePlayedChanged
+    case podcastSettingsAutoArchiveInactiveChanged
+    case podcastSettingsAutoArchiveEpisodeLimitChanged
+
+    case podcastSettingsSiriShortcutAdded
+    case podcastSettingsSiriShortcutRemoved
+
+    // MARK: - OPML Import
+
+    case opmlImportStarted
+    case opmlImportFailed
+    case opmlImportFinished
+
+    // MARK: - Subscribe / Unsubscribe
+
+    case podcastSubscribed
+    case podcastUnsubscribed
 }

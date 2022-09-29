@@ -72,3 +72,48 @@ extension PlaylistSort: AnalyticsDescribable {
         }
     }
 }
+
+extension AutoAddToUpNextSetting: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .off:
+            return "off"
+        case .addLast:
+            return "add_last"
+        case .addFirst:
+            return "add_first"
+        }
+    }
+}
+
+enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
+    case never = -1
+    case afterPlaying = 9999
+    case after1Day = 86400
+    case after2Days = 172_800
+    case after1Week = 604_800
+    case after2Weeks = 1_209_600
+    case after30Days = 2_592_000
+    case after90Days = 7_776_000
+
+    var analyticsDescription: String {
+        switch self {
+        case .never:
+            return "never"
+        case .afterPlaying:
+            return "after_playing"
+        case .after1Day:
+            return "after_24_hours"
+        case .after2Days:
+            return "after_2_days"
+        case .after1Week:
+            return "after_1_week"
+        case .after2Weeks:
+            return "after_2_weeks"
+        case .after30Days:
+            return "after_30_days"
+        case .after90Days:
+            return "after_3_months"
+        }
+    }
+}

@@ -7,7 +7,9 @@ class PodcastEffectsViewController: PCViewController {
             registerCells()
         }
     }
-    
+
+    var playbackSpeedDebouncer: Debounce = .init(delay: 1)
+
     var podcast: Podcast
     
     init(podcast: Podcast) {
@@ -68,5 +70,11 @@ class PodcastEffectsViewController: PCViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         UIStatusBarStyle.lightContent
+    }
+}
+
+extension PodcastEffectsViewController: PlaybackSource {
+    var playbackSource: String {
+        "podcast_settings"
     }
 }
