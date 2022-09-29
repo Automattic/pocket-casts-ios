@@ -38,6 +38,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
         
         AnalyticsHelper.userGuideOpened()
+        Analytics.track(.settingsHelpShown)
     }
     
     private func setupWebView() {

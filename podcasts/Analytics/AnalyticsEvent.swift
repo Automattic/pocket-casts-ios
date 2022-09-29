@@ -500,6 +500,27 @@ enum AnalyticsEvent: String {
     case settingsAutoAddUpNextPodcastsChanged
     case settingsAutoAddUpNextPodcastPositionOptionChanged
 
+    // MARK: - Settings: Storage & Data Use
+
+    case settingsStorageShown
+    case settingsStorageWarnBeforeUsingDataToggled
+
+    // MARK: - Settings: Help and Feedback
+
+    case settingsHelpShown
+
+    // MARK: - Settings: Import / Export OPML
+
+    case settingsImportShown
+    case settingsImportExportTapped
+    case settingsImportExportStarted
+    case settingsImportExportFinished
+    case settingsImportExportFailed
+
+    // MARK: - Settings: About
+
+    case settingsAboutShown
+
     // MARK: - OPML Import
 
     case opmlImportStarted

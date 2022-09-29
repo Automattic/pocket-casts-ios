@@ -80,6 +80,7 @@ class Settings: NSObject {
     
     class func setMobileDataAllowed(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
+        trackValueToggled(.settingsStorageWarnBeforeUsingDataToggled, enabled: allow)
     }
     
     // MARK: - Auto Download Mobile Data
