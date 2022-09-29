@@ -554,4 +554,17 @@ enum AnalyticsEvent: String {
 
     case podcastSubscribed
     case podcastUnsubscribed
+
+    // MARK: - Podcast List Share
+
+    case sharePodcastsShown
+    case sharePodcastsPodcastsSelected
+    case sharePodcastsListPublishStarted
+    case sharePodcastsListPublishSucceeded
+    case sharePodcastsListPublishFailed
+
+    // MARK: - Incoming Share List
+
+    case incomingShareListShown
+    case incomingShareListSubscribedAll
 }
