@@ -117,3 +117,20 @@ enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
         }
     }
 }
+
+extension PodcastGrouping: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .none:
+            return "none"
+        case .downloaded:
+            return "downloaded"
+        case .unplayed:
+            return "unplayed"
+        case .season:
+            return "season"
+        case .starred:
+            return "starred"
+        }
+    }
+}

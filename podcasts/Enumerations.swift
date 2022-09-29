@@ -104,12 +104,30 @@ enum AppBadge: Int {
     case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
 }
 
-enum PrimaryRowAction: Int32 {
+enum PrimaryRowAction: Int32, AnalyticsDescribable {
     case stream = 0, download = 1
+
+    var analyticsDescription: String {
+        switch self {
+        case .stream:
+            return "play"
+        case .download:
+            return "download"
+        }
+    }
 }
 
-enum PrimaryUpNextSwipeAction: Int32 {
+enum PrimaryUpNextSwipeAction: Int32, AnalyticsDescribable {
     case playNext = 0, playLast = 1
+    
+    var analyticsDescription: String {
+        switch self {
+        case .playNext:
+            return "play_next"
+        case .playLast:
+            return "play_last"
+        }
+    }
 }
 
 enum PlaylistIcon: Int32 {
