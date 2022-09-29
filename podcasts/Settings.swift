@@ -68,6 +68,7 @@ class Settings: NSObject {
     
     class func setDownloadUpNextEpisodes(_ download: Bool) {
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
+        trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
     }
     
     // MARK: - Mobile Data
@@ -90,6 +91,7 @@ class Settings: NSObject {
     
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
+        trackValueToggled(.settingsAutoDownloadOnlyOnWifiToggled, enabled: !allow)
     }
     
     // MARK: - Auto Download
@@ -101,6 +103,7 @@ class Settings: NSObject {
     
     class func setAutoDownloadEnabled(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.autoDownloadEnabledKey)
+        trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
     
     class func shouldDeleteWhenPlayed() -> Bool {
