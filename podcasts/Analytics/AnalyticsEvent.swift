@@ -497,6 +497,7 @@ enum AnalyticsEvent: String {
     case settingsSiriShown
     case settingsSiriShortcutAdded
     case settingsSiriShortcutRemoved
+
     // MARK: - Settings: Help and Feedback
 
     case settingsHelpShown
