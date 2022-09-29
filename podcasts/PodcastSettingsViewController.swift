@@ -5,7 +5,9 @@ import UIKit
 class PodcastSettingsViewController: PCViewController {
     var podcast: Podcast
     var episodes = [ArraySection<String, ListItem>]()
-    
+
+    let debounce = Debounce(delay: Constants.defaultDebounceTime)
+
     enum TableRow { case autoDownload, notifications, upNext, globalUpNext, upNextPosition, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, siriShortcut, unsubscribe, feedError }
     
     var existingShortcut: Any?
@@ -111,11 +113,18 @@ class PodcastSettingsViewController: PCViewController {
     private func performUnsubscribe() {
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popToRootViewController(animated: true)
+        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     @objc func podcastUpdated(_ notification: Notification) {
         guard let podcastUuid = notification.object as? String, podcastUuid == podcast.uuid, let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { return }
         
         podcast = updatedPodcast
+    }
+}
+
+extension PodcastSettingsViewController: PlaybackSource {
+    var playbackSource: String {
+        "podcast_settings"
     }
 }
