@@ -32,13 +32,54 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.WidgetExtension'
 ].freeze
 
+FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
+
+EN_LPROJ_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'en.lproj')
+
+# List of `.strings` files manually maintained by developers (as opposed to
+# being automatically extracted from code and generated) which we will merge
+# into the main `Localizable.strings` file imported by GlotPress, then extract
+# back once we download the translations.
+#
+# Each `.strings` file to be merged/extracted is associated with a prefix to
+# add to the keys, used to avoid conflicts and differentiate the source of the
+# copies.
+#
+# See calls to `ios_merge_strings_files` and
+# `ios_extract_keys_from_strings_files` for usage.
+MANUALLY_MAINTAINED_STRINGS_FILES = {
+  File.join(EN_LPROJ_FOLDER, 'Localizable.strings') => nil,
+  File.join(EN_LPROJ_FOLDER, 'InfoPlist.strings') => 'infoplist_',
+  File.join(EN_LPROJ_FOLDER, 'Intents.strings') => 'siri_intent_definition_key_'
+}.freeze
+
 # URL of the GlotPress project containing the strings used in the app
 GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
 # URL of the GlotPress project containing App Store Connect metadata
 GLOTPRESS_APP_STORE_METADATA_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/release-notes/'
 
+# List of locales used for the app strings (GlotPress code => `*.lproj` folder name`).
+# Sorted like Xcode sorts them in the File Inspector for easier comparison.
+#
+# TODO: Replace with `LocaleHelper` once provided by release toolkit (https://github.com/wordpress-mobile/release-toolkit/pull/296)
+GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES = {
+  'zh-cn' => 'zh-Hans', # Chinese (China, Simplified)
+  'zh-tw' => 'zh-Hant', # Chinese (Taiwan, Traditional)
+  'nl' => 'nl',         # Dutch
+  'fr' => 'fr',         # French
+  'fr-ca' => 'fr-CA',   # French (Canadian)
+  'de' => 'de',         # German
+  'it' => 'it',         # Italian
+  'ja' => 'ja',         # Japanese
+  'pt-br' => 'pt-BR',   # Portuguese (Brazil)
+  'ru' => 'ru',         # Russian
+  'es' => 'es',         # Spanish
+  'es-mx' => 'es-MX',   # Spanish (Mexico)
+  'sv' => 'sv'          # Swedish
+}.freeze
+
 # Mapping of all locales which can be used for AppStore metadata
-# (Glotpress code => AppStore Connect code)
+# (GlotPress code => AppStore Connect code)
 #
 # TODO: Replace with `LocaleHelper` once provided by release toolkit
 # (https://github.com/wordpress-mobile/release-toolkit/pull/296)
@@ -80,7 +121,10 @@ platform :ios do
   lane :test do
     load_ci_spm_cache
 
-    run_tests(scheme: 'pocketcasts')
+    run_tests(
+      scheme: 'pocketcasts',
+      cloned_source_packages_path: SPM_CACHE_FOLDER
+    )
 
     save_ci_spm_cache
   end
@@ -175,7 +219,7 @@ platform :ios do
   #
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
   #
-  desc 'Executes the initial steps needed during code freeze'
+  desc 'Executes all the code freeze steps'
   lane :code_freeze do |options|
     start_code_freeze(options)
     comment_on_prs(milestone: ios_get_app_version)
@@ -193,23 +237,48 @@ platform :ios do
       api_token: ENV.fetch('GITHUB_TOKEN'),
       http_method: 'GET',
       path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: { ref: 'master' },
       error_handlers: {
         '*' => proc do |_result|
-          UI.message('⚠️ Failed checking opened PRs, skipping this step.')
+          UI.important('⚠️ Failed checking open PRs, skipping this step.')
         end
       }
     ) do |result|
       result[:json].each do |pr|
-        next unless !pr['milestone'].nil? && pr['milestone']['title'].include?(version)
+        next if pr['milestone'].nil?
+        next unless pr['milestone']['title'].include?(version)
 
         comment_on_pr(
           project: GHHELPER_REPO,
           pr_number: pr['number'],
-          body: "\n#{version} code will be frozen. If this PR needs to be in the current release please target `release/#{version}` if not please move it to the next milestone.",
+          body: "\nThis PR is targeting #{version} which is entering code freeze. If this needs to be included in the #{version} release please merge it into `release/#{version}` if not please move it to the next milestone.",
           reuse_identifier: 'code-freeze-in-progress'
         )
       end
+    end
+  end
+
+  def slack_message(version:, build_number:, is_beta:)
+    build_number_split = build_number.split('.')
+
+    github_url = "https://github.com/#{GHHELPER_REPO}"
+    message_root = lambda { |tag, display_name|
+      ":announcement: <#{github_url}/releases/tag/#{tag}|*#{display_name}*>"
+    }
+    appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
+    testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
+    appstore_submit_link = "<#{appstoreconnect_url}/versions/deliverable|App Store Connect>"
+    merge_pr_link = "<https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
+
+    if is_beta
+      if (build_number_split[3] || '0') == '0'
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link}."
+      else
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link}."
+      end
+    elsif (build_number_split[2] || '0').to_i.positive?
+      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
+    else
+      "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -237,7 +306,7 @@ platform :ios do
       new_version: new_version,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    setbranchprotection(repository: GHHELPER_REPO, branch: "release/#{new_version}")
+    setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
     setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
   end
 
@@ -252,27 +321,15 @@ platform :ios do
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
-    # For Pocket Casts the strings are grab on a weekly basis from `trunk`
-    # generate_strings_file_for_glotpress
-
-    version = ios_get_app_version
-
-    create_merge_release_branch(version: version)
+    generate_strings_file_for_glotpress
 
     after_confirming_push do
-      push_release_branches(version: version)
-      trigger_beta_build(branch_to_build: "release/#{version}")
+      trigger_beta_build(branch_to_build: release_branch_name)
     end
   end
 
-  # TODO: move this to an action
-  def create_merge_release_branch(version:)
-    Fastlane::Helper::GitHelper.create_branch("merge/release-#{version}-into-trunk", from: "release/#{version}")
-  end
-
-  def push_release_branches(version:)
-    push_to_git_remote(local_branch: "merge/release-#{version}-into-trunk", remote_branch: "merge/release-#{version}-into-trunk", tags: false)
-    push_to_git_remote(local_branch: "release/#{version}", remote_branch: "release/#{version}", tags: false)
+  def release_branch_name
+    "release/#{ios_get_app_version}"
   end
 
   # Triggers a beta build on CI
@@ -315,13 +372,13 @@ platform :ios do
 
     # Wrap up
     version = ios_get_app_version
-    removebranchprotection(repository: GHHELPER_REPO, branch: "release/#{version}")
+    removebranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
     setfrozentag(repository: GHHELPER_REPO, milestone: version, freeze: false)
     create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: version)
 
     # Start the build
-    trigger_release_build(branch_to_build: "release/#{version}")
+    trigger_release_build(branch_to_build: release_branch_name)
   end
 
   # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
@@ -352,7 +409,8 @@ platform :ios do
     testflight(
       skip_waiting_for_build_processing: true,
       team_id: TEAM_ID,
-      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
+      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
+      changelog: changelog.gsub(/\s*\(#.+\)$/, '')
     )
 
     sh 'cd .. && make upload_dsyms'
@@ -370,11 +428,7 @@ platform :ios do
       api_token: ENV.fetch('GITHUB_TOKEN'),
       name: version,
       tag_name: version,
-      description: begin
-        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
-      rescue StandardError
-        'No changelog provided'
-      end,
+      description: changelog,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
       upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
@@ -389,34 +443,33 @@ platform :ios do
       http_method: 'POST',
       path: "/repos/#{GHHELPER_REPO}/pulls",
       body: {
-        title: "Release: Merge changes from #{ios_get_app_version} code freeze into `trunk`",
-        body: "Merge changes from #{ios_get_app_version} to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: "merge/release-#{ios_get_app_version}-into-trunk",
+        title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} into `trunk`",
+        body: "Merge changes from #{ios_get_app_version} (#{ios_get_build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
+        head: release_branch_name,
         base: 'trunk'
       },
       error_handlers: {
         '*' => proc do |_result|
-          UI.message("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
+          UI.important("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
         end
       }
     )
 
-    is_code_freeze_build = options[:beta_release] && version.split('.')[3] == '0'
-    if is_code_freeze_build
-      message = ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{ios_get_app_version}*> code freeze is completed.\nPlease submit #{version} for testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{ios_get_app_version}+into|merge the PR>."
-    elsif options[:beta_release]
-      message = ":announcement: <https://github.com/Automattic/pocket-casts-ios/releases/tag/#{version}|*#{version}*> beta has been submitted to Apple.\nPlease distribute #{version} to testers on <https://appstoreconnect.apple.com/apps/414834813/testflight/ios|App Store Connect> and <https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{version}+into|merge the PR>."
-    end
-
     UI.message('Sending message to Slack...')
     slack(
-      pretext: message,
+      pretext: message(version: ios_get_app_version, build_number: ios_get_build_version, is_beta: options[:beta_release]),
       default_payloads: [],
       slack_url: ENV.fetch('SLACK_WEBHOOK'),
       fail_on_error: false
     )
 
     FileUtils.rm_rf(archive_zip_path)
+  end
+
+  def changelog
+    File.read(EXTRACTED_RELEASE_NOTES_PATH)
+  rescue StandardError
+    'No changelog provided'
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
@@ -428,13 +481,22 @@ platform :ios do
   desc 'Trigger a new beta build on CI'
   lane :new_beta_release do |options|
     ios_betabuild_prechecks(options)
+
+    # Re-generate the strings for GlotPress, just in case there were
+    # localization fixes.
+    generate_strings_file_for_glotpress
+
+    ios_update_release_notes(
+      new_version: new_version,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
+
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
+
     ios_bump_version_beta
-    version = ios_get_app_version
-    create_merge_release_branch(version: version)
-    push_release_branches(version: version)
-    trigger_beta_build(branch_to_build: "release/#{version}")
+
+    trigger_beta_build(branch_to_build: release_branch_name)
   end
 
   # Sets the stage to start working on a hotfix
@@ -457,16 +519,57 @@ platform :ios do
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
+    # Push and trigger build
     after_confirming_push do
       ios_finalize_prechecks(options)
-      version = ios_get_app_version
-      trigger_release_build(branch_to_build: "release/#{version}")
+      trigger_release_build(branch_to_build: release_branch_name)
     end
+  end
+
+  # Generates the `.strings` file to be imported by GlotPress, by parsing source
+  # code.
+  #
+  # @note Uses `genstrings` under the hood.
+  # @called_by `complete_code_freeze`.
+  #
+  lane :generate_strings_file_for_glotpress do
+    # For reference: Other apps run `cocoapods` here (equivalent to `bundle
+    # exec pod install`) because they have internal libraries that bring in
+    # their own strings. Pocket Casts does not have dependencies with strings
+    # fetched via CocoaPods, so we don't need to waste time on that.
+
+    # Delete the previous frozen `.strings` file before generating it again, to
+    # avoid duplicated keys.
+    FileUtils.rm(FROZEN_STRINGS_PATH)
+
+    # Other apps call `ios_generate_strings_file_from_code` as the first step
+    # of this process, but Pocket Casts iOS uses the convention of defining all
+    # localized strings in the `en.lproj/Localizable.strings` file and then use
+    # SwiftGen to generate reference to them for the code. With this approach,
+    # there are no `NSLocalizedStrings` in the codebase and that action would
+    # be useless.
+
+    # Merge the various `.strings` files into a single "frozen" `.strings`
+    # so that we can update all keys into a single GlotPress project.
+    #
+    # Note: We will re-extract the translations back during
+    # `download_localized_strings_from_glotpress` (via a call to
+    # `ios_extract_keys_from_strings_files`)
+    ios_merge_strings_files(
+      paths_to_merge: MANUALLY_MAINTAINED_STRINGS_FILES,
+      destination: FROZEN_STRINGS_PATH
+    )
+
+    git_commit(
+      path: FROZEN_STRINGS_PATH,
+      message: 'Freeze strings for localization',
+      allow_nothing_to_commit: true
+    )
   end
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_and_metadata
+    download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
   end
 
@@ -475,12 +578,12 @@ platform :ios do
     ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
   end
 
-  # Updates the AppStoreStrings.po files for the Pocket Casts app with
-  # the latest content from the release_notes.txt file and the other text
-  # sources
+  # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
+  # with the latest content from the `release_notes.txt` file and the other
+  # text sources
   #
-  desc 'Updates the AppStoreStrings.po file for the Pocket Casts app with the latest data'
-  lane :update_appstore_strings do
+  desc 'Updates the `AppStoreStrings.po` file for the Pocket Casts app with the latest data'
+  lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
     version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
 
@@ -498,19 +601,34 @@ platform :ios do
     )
   end
 
-  # Downloads the localized app strings and App Store Connect metadata from GlotPress.
-  #
-  desc 'Downloads localized metadata for App Store Connect from GlotPress'
-  lane :download_localized_strings_and_metadata do
-    # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
-    # We'll soon replace this with the new `ios_download_strings_files_from_glotpress`-based workflow.
-    sh("cd #{PROJECT_ROOT_FOLDER} && ./scripts/update-translations.rb")
+  desc 'Downloads localized `.strings` from GlotPress'
+  lane :download_localized_strings_from_glotpress do
+    # Use the same name as the frozen strings source to make it explicit these
+    # are not to be copied as-is in the `*.lproj/Localizable.strings`
+    table_basename = basename_without_extension(path: FROZEN_STRINGS_PATH)
 
-    files_to_commit = Dir.glob(File.join(PROJECT_ROOT_FOLDER, 'podcasts', '**', '*.strings'))
-    git_add(path: files_to_commit, shell_escape: false)
+    # Notice that we don't need to track the files we'll download here in Git,
+    # because the content they carry will be read and ported into the
+    # appropriate individual localization files next.
+    download_dir = File.join(FASTLANE_FOLDER, 'app-localization-downloads')
+    ios_download_strings_files_from_glotpress(
+      project_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      locales: GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES,
+      download_dir: download_dir,
+      table_basename: table_basename
+    )
+
+    # Redispatch the appropriate subset of translations back to the individual
+    # `.strings` files that we merged via `ios_merge_strings_files` during
+    # `complete_code_freeze`.
+    modified_files = ios_extract_keys_from_strings_files(
+      source_parent_dir: download_dir,
+      source_tablename: table_basename,
+      target_original_files: MANUALLY_MAINTAINED_STRINGS_FILES
+    )
     git_commit(
-      path: files_to_commit,
-      message: 'Update translations',
+      path: modified_files,
+      message: 'Update localization files with up-to-date values from GlotPress',
       allow_nothing_to_commit: true
     )
   end
@@ -825,10 +943,14 @@ inal copy, and try again.")
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_release_branches(version: ios_get_app_version)
+      push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
     end
+  end
+
+  def basename_without_extension(path:)
+    File.basename(path, '.*')
   end
 end
