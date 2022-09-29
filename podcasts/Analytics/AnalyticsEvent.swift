@@ -387,4 +387,10 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeStarted
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
+
+    // MARK: - OPML Import
+
+    case opmlImportStarted
+    case opmlImportFailed
+    case opmlImportFinished
 }
