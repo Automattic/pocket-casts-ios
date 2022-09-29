@@ -10,10 +10,7 @@ swift_percentage: ## Swift and Obj-C percentage on the project
 
 generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
-	swiftformat --commas inline --stripunusedargs closure-only --elseposition next-line --trimwhitespace nonblank-lines ./podcasts/ThemeColor.swift ./podcasts/ThemeStyle.swift
 
-swiftformat: ## Run swiftformat
-	./Pods/SwiftFormat/CommandLineTool/swiftformat .
 
 swiftlint: ## Run SwiftLint
 	./Pods/SwiftLint/swiftlint
