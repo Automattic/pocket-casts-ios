@@ -393,4 +393,9 @@ enum AnalyticsEvent: String {
     case opmlImportStarted
     case opmlImportFailed
     case opmlImportFinished
+
+    // MARK: - Subscribe / Unsubscribe
+
+    case podcastSubscribed
+    case podcastUnsubscribed
 }
