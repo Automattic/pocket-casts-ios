@@ -388,6 +388,12 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
 
+    // MARK: - OPML Import
+
+    case opmlImportStarted
+    case opmlImportFailed
+    case opmlImportFinished
+
     // MARK: - Subscribe / Unsubscribe
 
     case podcastSubscribed
