@@ -491,6 +491,7 @@ enum AnalyticsEvent: String {
 
     case settingsStorageShown
     case settingsStorageWarnBeforeUsingDataToggled
+
     // MARK: - Settings: Help and Feedback
 
     case settingsHelpShown
