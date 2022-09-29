@@ -69,13 +69,13 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             let type = (item.podcast != nil) ? "subscribed_podcast" : "folder"
             let uuid = item.podcast?.uuid ?? item.folder?.uuid ?? "unknown"
 
-            Analytics.track(.searchResultTapped, properties: ["uuid": uuid, "type": type, "source": "podcast_list"])
+            Analytics.track(.searchResultTapped, properties: ["uuid": uuid, "type": type, "source": playbackSource])
         }
         else if indexPath.section == remoteSection {
             let podcastHeader = remoteResults[indexPath.row]
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
 
-            Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "type": "podcast", "source": "podcast_list"])
+            Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "type": "podcast", "source": playbackSource])
         }
     }
     
@@ -138,5 +138,11 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
                 self?.searchResultsTable.reloadData()
             }
         }
+    }
+}
+
+extension PodcastListSearchResultsController: PlaybackSource {
+    var playbackSource: String {
+        "podcasts_list"
     }
 }

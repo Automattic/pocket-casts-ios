@@ -120,7 +120,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         
         debounce.call {
             if !searchTerm.trim().isEmpty {
-                Analytics.track(.searchPerformed, properties: ["source": "podcast_list"])
+                Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
             }
         }
     }
