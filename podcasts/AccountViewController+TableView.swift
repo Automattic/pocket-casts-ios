@@ -138,8 +138,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             present(SJUIUtils.navController(for: cancelVC), animated: true, completion: nil)
         case .privacyPolicy:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+            Analytics.track(.accountDetailsShowPrivacyPolicy)
         case .termsOfUse:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
+            Analytics.track(.accountDetailsShowTOS)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
