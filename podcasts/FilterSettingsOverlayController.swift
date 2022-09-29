@@ -1,7 +1,11 @@
 import PocketCastsDataModel
 import UIKit
 
-class FilterSettingsOverlayController: LargeNavBarViewController {
+class FilterSettingsOverlayController: LargeNavBarViewController, PlaybackSource {
+    var playbackSource: String {
+        "unknown"
+    }
+
     var filterToEdit: EpisodeFilter!
     @IBOutlet open var tableView: ThemeableTable! {
         didSet {
