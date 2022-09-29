@@ -17,7 +17,7 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
     }
     
     private var searchState: SearchingState = .notStarted
-    
+
     @IBOutlet var searchResultsTable: UITableView! {
         didSet {
             searchResultsTable.register(UINib(nibName: "PodcastSearchCell", bundle: nil), forCellReuseIdentifier: DiscoverPodcastSearchResultsController.searchCellId)
@@ -96,6 +96,8 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
         
         let podcastHeader = searchResults[indexPath.row]
         delegate?.show(podcastInfo: podcastHeader, placeholderImage: nil, isFeatured: false, listUuid: nil)
+
+        Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "type": "podcast", "source": "discover"])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -149,7 +151,9 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
             
             return
         }
-        
+
+        Analytics.track(.searchPerformed, properties: ["source": "discover"])
+
         let finalSearch = searchTerm.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).stringByRemovingEmoji()
         
         searchState = .searching
@@ -158,6 +162,7 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
             guard let response = response, response.success() else {
                 self?.searchState = .failed
                 DispatchQueue.main.async {
+                    Analytics.track(.searchFailed)
                     self?.searchResultsTable.reloadData()
                     completion()
                 }
