@@ -258,6 +258,10 @@ class Settings: NSObject {
     
     class func setAutoArchivePlayedAfter(_ after: TimeInterval) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
+
+        if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
+            trackValueChanged(.settingsAutoArchivePlayedChanged, value: archiveTime)
+        }
     }
     
     private static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
@@ -267,6 +271,10 @@ class Settings: NSObject {
     
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
+
+        if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
+            trackValueChanged(.settingsAutoArchiveInactiveChanged, value: archiveTime)
+        }
     }
     
     private static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
@@ -276,6 +284,7 @@ class Settings: NSObject {
     
     class func setArchiveStarredEpisodes(_ archive: Bool) {
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
+        trackValueToggled(.settingsAutoArchiveIncludeStarredToggled, enabled: archive)
     }
     
     // MARK: - App Info
