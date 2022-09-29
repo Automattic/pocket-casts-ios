@@ -106,8 +106,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         title = L10n.files
         
         if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
-            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar)
-            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar)
+            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: "files")
+            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_files")
         }
         
         noEpisodesScrollView.alwaysBounceVertical = true

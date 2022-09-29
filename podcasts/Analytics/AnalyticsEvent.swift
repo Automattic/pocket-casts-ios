@@ -112,6 +112,9 @@ enum AnalyticsEvent: String {
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
 
+    case accountDetailsShowTOS
+    case accountDetailsShowPrivacyPolicy
+
     // MARK: - Stats View
 
     case statsShown
@@ -308,6 +311,12 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
 
+    // MARK: - Privacy
+
+    case privacySettingsShown
+    case analyticsOptIn
+    case analyticsOptOut
+
     // MARK: - Player
 
     case playerShown
@@ -387,6 +396,10 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeStarted
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
+
+    // MARK: - Pull to Refresh
+
+    case pulledToRefresh
 
     // MARK: - Push notifications
     
@@ -507,4 +520,15 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: About
 
     case settingsAboutShown
+
+    // MARK: - OPML Import
+
+    case opmlImportStarted
+    case opmlImportFailed
+    case opmlImportFinished
+
+    // MARK: - Subscribe / Unsubscribe
+
+    case podcastSubscribed
+    case podcastUnsubscribed
 }
