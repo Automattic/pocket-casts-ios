@@ -9,7 +9,11 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
     private var filterUnplayed: Bool!
     private var filterPartiallyPlayed: Bool!
     private var filterFinished: Bool!
-    
+
+    override var playbackSource: String {
+        "episode_status"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "CheckboxCell", bundle: nil), forCellReuseIdentifier: EpisodeFilterOverlayController.episodeCellId)
