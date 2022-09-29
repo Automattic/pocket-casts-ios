@@ -387,4 +387,8 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeStarted
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
+
+    // MARK: - Pull to Refresh
+
+    case pulledToRefresh
 }
