@@ -388,6 +388,37 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
 
+    // MARK: - Push notifications
+    
+    case notificationsOptInShown
+    case notificationsOptInAllowed
+    case notificationsOptInDenied
+
+    // MARK: - Podcast Settings
+    
+    case podcastSettingsFeedErrorTapped
+    case podcastSettingsFeedErrorUpdateTapped
+    case podcastSettingsFeedErrorFixSucceeded
+    case podcastSettingsFeedErrorFixFailed
+
+    case podcastSettingsAutoDownloadToggled
+    case podcastSettingsNotificationsToggled
+    case podcastSettingsAutoAddUpNextToggled
+    case podcastSettingsAutoAddUpNextPositionOptionChanged
+
+    case podcastSettingsCustomPlaybackEffectsToggled
+
+    case podcastSettingsSkipFirstChanged
+    case podcastSettingsSkipLastChanged
+
+    case podcastSettingsAutoArchiveToggled
+    case podcastSettingsAutoArchivePlayedChanged
+    case podcastSettingsAutoArchiveInactiveChanged
+    case podcastSettingsAutoArchiveEpisodeLimitChanged
+
+    case podcastSettingsSiriShortcutAdded
+    case podcastSettingsSiriShortcutRemoved
+
     // MARK: - OPML Import
 
     case opmlImportStarted

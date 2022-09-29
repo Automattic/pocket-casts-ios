@@ -52,11 +52,17 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         notificationCenter.setNotificationCategories([episodeCategory, podcastCategory])
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
             if granted {
+                Analytics.track(.notificationsOptInAllowed)
                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }
+            else {
+                Analytics.track(.notificationsOptInDenied)
+            }
         })
+
+        Analytics.track(.notificationsOptInShown)
     }
     
     // called when the user taps a notification action, or just the notification itself

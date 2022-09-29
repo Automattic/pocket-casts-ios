@@ -133,7 +133,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         dismiss(animated: true, completion: nil)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "filters"])
         }
     }
     
