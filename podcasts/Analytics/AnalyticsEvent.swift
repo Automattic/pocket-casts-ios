@@ -418,4 +418,15 @@ enum AnalyticsEvent: String {
 
     case podcastSettingsSiriShortcutAdded
     case podcastSettingsSiriShortcutRemoved
+
+    // MARK: - OPML Import
+
+    case opmlImportStarted
+    case opmlImportFailed
+    case opmlImportFinished
+
+    // MARK: - Subscribe / Unsubscribe
+
+    case podcastSubscribed
+    case podcastUnsubscribed
 }
