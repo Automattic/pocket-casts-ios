@@ -387,4 +387,9 @@ enum AnalyticsEvent: String {
     case multiSelectViewOverflowMenuRearrangeStarted
     case multiSelectViewOverflowMenuRearrangeActionMoved
     case multiSelectViewOverflowMenuRearrangeFinished
+
+    // MARK: - Subscribe / Unsubscribe
+
+    case podcastSubscribed
+    case podcastUnsubscribed
 }
