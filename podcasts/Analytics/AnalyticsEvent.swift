@@ -491,4 +491,11 @@ enum AnalyticsEvent: String {
 
     case settingsStorageShown
     case settingsStorageWarnBeforeUsingDataToggled
+    // MARK: - Settings: Import / Export OPML
+
+    case settingsImportShown
+    case settingsImportExportTapped
+    case settingsImportExportStarted
+    case settingsImportExportFinished
+    case settingsImportExportFailed
 }
