@@ -409,8 +409,7 @@ platform :ios do
     testflight(
       skip_waiting_for_build_processing: true,
       team_id: TEAM_ID,
-      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
-      changelog: changelog
+      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
     )
 
     sh 'cd .. && make upload_dsyms'
@@ -428,7 +427,11 @@ platform :ios do
       api_token: ENV.fetch('GITHUB_TOKEN'),
       name: version,
       tag_name: version,
-      description: changelog,
+      description: begin
+        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
+      rescue StandardError
+        'No changelog provided'
+      end,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
       upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
@@ -466,12 +469,6 @@ platform :ios do
     FileUtils.rm_rf(archive_zip_path)
   end
 
-  def changelog
-    File.read(EXTRACTED_RELEASE_NOTES_PATH)
-  rescue StandardError
-    'No changelog provided'
-  end
-
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
   #
   # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
@@ -485,11 +482,6 @@ platform :ios do
     # Re-generate the strings for GlotPress, just in case there were
     # localization fixes.
     generate_strings_file_for_glotpress
-
-    ios_update_release_notes(
-      new_version: new_version,
-      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
-    )
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
