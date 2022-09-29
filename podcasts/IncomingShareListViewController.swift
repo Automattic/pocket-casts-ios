@@ -51,6 +51,8 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IncomingShareListViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
+        cell.subscribeSource = playbackSource
+
         let podcast = podcasts[indexPath.row]
         cell.populateFrom(podcast, number: -1)
         
@@ -174,5 +176,11 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         podcasts = loadedPodcasts
         podcastCount.text = L10n.podcastCount(podcasts.count)
         podcastsTable.reloadData()
+    }
+}
+
+extension IncomingShareListViewController: PlaybackSource {
+    var playbackSource: String {
+        "incoming_share_list"
     }
 }
