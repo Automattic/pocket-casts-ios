@@ -26,6 +26,24 @@ class Analytics {
     }
 }
 
+// MARK: - Opt out/in
+
+extension Analytics {
+    func optOutOfAnalytics() {
+        Analytics.track(.analyticsOptOut)
+        Settings.setAnalytics(optOut: true)
+        Analytics.unregister()
+    }
+
+    func optInOfAnalytics() {
+        #if !os(watchOS)
+            Settings.setAnalytics(optOut: false)
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            Analytics.track(.analyticsOptIn)
+        #endif
+    }
+}
+
 // MARK: - Protocols
 
 /// Allows an object to determine how its described in the context of analytics

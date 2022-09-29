@@ -311,6 +311,12 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
 
+    // MARK: - Privacy
+
+    case privacySettingsShown
+    case analyticsOptIn
+    case analyticsOptOut
+
     // MARK: - Player
 
     case playerShown
