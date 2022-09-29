@@ -464,6 +464,17 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
+    
+    // MARK: - Settings: Appearance
+
+    case settingsAppearanceShown
+    case settingsAppearanceFollowSystemThemeToggled
+    case settingsAppearanceThemeChanged
+    case settingsAppearanceLightThemeChanged
+    case settingsAppearanceDarkThemeChanged
+    case settingsAppearanceAppIconChanged
+    case settingsAppearanceRefreshAllArtworkTapped
+    case settingsAppearanceUseEmbeddedArtworkToggled
 
     // MARK: - OPML Import
 

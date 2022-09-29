@@ -6,7 +6,7 @@ class Theme: ObservableObject {
     private static let preferredLightThemeKey = "preferredLightTheme"
     static let sharedTheme = Theme()
     
-    enum ThemeType: Int, CaseIterable {
+    enum ThemeType: Int, CaseIterable, AnalyticsDescribable {
         case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
         
         static var displayOrder: [ThemeType] {
@@ -84,6 +84,31 @@ class Theme: ObservableObject {
                 return "contrastDarkThemeAbstract"
             }
         }
+
+        var analyticsDescription: String {
+            switch self {
+            case .light:
+                return"default_light"
+            case .dark:
+                return "default_dark"
+            case .extraDark:
+                return "extra_dark"
+            case .electric:
+                return "electric"
+            case .classic:
+                return "classic"
+            case .indigo:
+                return "indigo"
+            case .radioactive:
+                return "radioactive"
+            case .rosé:
+                return "rose"
+            case .contrastLight:
+                return "light_contrast"
+            case .contrastDark:
+                return "dark_contrast"
+            }
+        }
     }
     
     @Published var activeTheme: ThemeType {
@@ -150,6 +175,8 @@ class Theme: ObservableObject {
         if Settings.shouldFollowSystemTheme(), systemIsDark {
             Theme.sharedTheme.activeTheme = preferredType
         }
+        
+        Settings.trackValueChanged(.settingsAppearanceDarkThemeChanged, value: preferredType)
     }
     
     class func preferredLightTheme() -> ThemeType {
@@ -168,9 +195,11 @@ class Theme: ObservableObject {
             if !systemIsDark {
                 Theme.sharedTheme.activeTheme = preferredType
             }
+            Settings.trackValueChanged(.settingsAppearanceLightThemeChanged, value: preferredType)
         }
         else {
             Theme.sharedTheme.activeTheme = preferredType
+            Settings.trackValueChanged(.settingsAppearanceThemeChanged, value: preferredType)
         }
     }
     
