@@ -103,8 +103,7 @@ extension DiscoverViewController: DiscoverDelegate {
 
         HapticsHelper.triggerSubscribedHaptic()
 
-        // Not really sure why the uuid is optional, but check it just in case
-        guard let uuid = podcast.uuid else { return }
+        let uuid = podcast.uuid ?? podcast.iTunesId ?? "unknown"
         Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": uuid])
     }
 
