@@ -139,7 +139,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
     static func loadPodcast(_ podcastUUID: String, ensureEpisodeUuid: String? = nil) -> AnyPublisher<Podcast?, Never> {
         Future<Podcast?, ClientError> { promise in
             if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
-
                 if let episodeUuid = ensureEpisodeUuid {
                     DiscoverEpisodeViewModel.ensureEpisodeExists(podcast: existingPodcast, episodeUuid: episodeUuid) { exists in
                         if exists {
@@ -199,9 +198,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
                 }
             }
             return
-
         }
         completion?(true)
-        return
     }
 }
