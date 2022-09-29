@@ -366,6 +366,7 @@ extension PodcastListViewController {
         
         refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
                                           navBar: navController.navigationBar,
-                                          searchBar: searchController)
+                                          searchBar: searchController,
+                                          source: "podcast_list")
     }
 }
