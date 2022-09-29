@@ -112,6 +112,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             DataManager.sharedManager.save(podcast: self.podcast)
             
             self.effectsTable.reloadData()
+            AnalyticsPlaybackHelper.shared.currentSource = self.playbackSource
+            AnalyticsPlaybackHelper.shared.trimSilenceAmountChanged(amount: level)
         }
         to.addAction(action: action)
     }
@@ -133,26 +135,37 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
     
     // MARK: - Settings changes
-    
+
     private func playbackSpeedChanged(_ speed: TimeInterval) {
         // round it to the nearest 0.1, so we end up with 1.5 not 1.53667346262
-        podcast.playbackSpeed = round(speed * 10.0) / 10.0
+        let roundedSpeed = round(speed * 10.0) / 10.0
+        podcast.playbackSpeed = roundedSpeed
         saveUpdates()
+
+        playbackSpeedDebouncer.call {
+            AnalyticsPlaybackHelper.shared.currentSource = self.playbackSource
+            AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed)
+        }
     }
     
     @objc private func trimSilenceToggled(_ sender: UISwitch) {
         podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
         saveUpdates()
+        AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn)
     }
     
     @objc private func boostVolumeToggled(_ sender: UISwitch) {
         podcast.boostVolume = sender.isOn
         saveUpdates()
+
+        AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn)
     }
     
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
         podcast.overrideGlobalEffects = sender.isOn
         saveUpdates()
+
+        Analytics.track(.podcastSettingsCustomPlaybackEffectsToggled, properties: ["enabled": sender.isOn])
     }
     
     private func tableData() -> [[TableRow]] {
