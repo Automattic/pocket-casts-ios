@@ -404,6 +404,7 @@ class Settings: NSObject {
     
     class func setUserEpisodeAutoUpload(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
+        trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
     
     private static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
@@ -413,6 +414,7 @@ class Settings: NSObject {
     
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
+        trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
     }
     
     private static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
@@ -422,6 +424,7 @@ class Settings: NSObject {
     
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
+        trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
     }
     
     private static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
@@ -431,6 +434,7 @@ class Settings: NSObject {
     
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
     
     // MARK: - Full Player Chapters Expanded
@@ -644,6 +648,8 @@ class Settings: NSObject {
     
     class func setWatchAutoDownloadUpNextEnabled(isEnabled: Bool) {
         UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
+
+        trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
     }
     
     class func watchAutoDownloadUpNextEnabled() -> Bool {
@@ -656,6 +662,7 @@ class Settings: NSObject {
     
     class func setWatchAutoDownloadUpNextCount(numEpisodes: Int) {
         UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
+        trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
     }
     
     class func watchAutoDownloadUpNextCount() -> Int {
@@ -668,6 +675,7 @@ class Settings: NSObject {
     
     class func setWatchAutoDeleteUpNext(isEnabled: Bool) {
         UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
+        trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
     }
     
     class func watchAutoDeleteUpNext() -> Bool {
