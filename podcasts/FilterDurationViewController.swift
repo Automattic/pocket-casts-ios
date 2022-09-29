@@ -137,7 +137,7 @@ class FilterDurationViewController: PCViewController {
         dismiss(animated: true, completion: nil)
 
         if !filter.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": "episode_duration", "source": "filters"])
         }
     }
     
