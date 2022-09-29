@@ -491,6 +491,10 @@ enum AnalyticsEvent: String {
 
     case settingsStorageShown
     case settingsStorageWarnBeforeUsingDataToggled
+    // MARK: - Settings: Help and Feedback
+
+    case settingsHelpShown
+
     // MARK: - Settings: Import / Export OPML
 
     case settingsImportShown
@@ -498,4 +502,8 @@ enum AnalyticsEvent: String {
     case settingsImportExportStarted
     case settingsImportExportFinished
     case settingsImportExportFailed
+
+    // MARK: - Settings: About
+
+    case settingsAboutShown
 }
