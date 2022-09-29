@@ -282,7 +282,9 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     
     // MARK: - IconSelectorCellDelegate
     
-    func changeIcon(name: String?) {
+    func changeIcon(icon: IconType) {
+        let name = icon.iconName
+
         AnalyticsHelper.didChooseIcon(iconName: name)
         UIApplication.shared.setAlternateIconName(name, completionHandler: { _ in
             WidgetHelper.shared.updateWidgetAppIcon()
