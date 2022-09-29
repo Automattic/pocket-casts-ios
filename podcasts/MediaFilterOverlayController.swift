@@ -19,6 +19,11 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
     let choices: [AudioVideoFilter] = [.all, .audioOnly, .videoOnly]
     
     var selectedIndex = 0
+    
+    override var playbackSource: String {
+        "media_type"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

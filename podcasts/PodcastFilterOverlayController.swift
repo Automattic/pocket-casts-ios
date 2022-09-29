@@ -133,7 +133,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         dismiss(animated: true, completion: nil)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "filters"])
         }
     }
     
@@ -189,7 +189,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func podcastUnselected(podcast: String) {
         updateRightBarBtn()
     }
-    
+
+    func didChangePodcasts() {}
+
     // MARK: - TableView data source and delegate
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

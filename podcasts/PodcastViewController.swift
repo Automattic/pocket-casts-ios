@@ -521,6 +521,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popViewController(animated: true)
+        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     func subscribe() {
@@ -539,8 +540,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let listId = listUuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
         }
-        
+
+        HapticsHelper.triggerSubscribedHaptic()
+
         Analytics.track(.podcastScreenSubscribeTapped)
+        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     func isSummaryExpanded() -> Bool {

@@ -31,6 +31,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
     
     override func main() {
         autoreleasepool {
+            Analytics.track(.opmlImportStarted)
             // parse OPML file
             let parser = XMLParser(contentsOf: opmlFileUrl)
             parser?.delegate = self
@@ -40,6 +41,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
                     let controller = SceneHelper.rootViewController()
                     
                     SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                    Analytics.track(.opmlImportFailed)
                 }
                 
                 return
@@ -65,6 +67,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
                 self.progressWindow.hideAlert(true)
                 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount])
             }
         }
     }

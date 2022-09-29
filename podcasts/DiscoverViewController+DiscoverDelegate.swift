@@ -100,12 +100,17 @@ extension DiscoverViewController: DiscoverDelegate {
         else if let uuid = podcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
+
         HapticsHelper.triggerSubscribedHaptic()
+
+        // Not really sure why the uuid is optional, but check it just in case
+        guard let uuid = podcast.uuid else { return }
+        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": uuid])
     }
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {
         guard let uuid = discoverEpisode.uuid else { return }
-        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast)
+        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
         episodeController.modalPresentationStyle = .formSheet
         present(episodeController, animated: true)
     }

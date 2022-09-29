@@ -126,6 +126,8 @@ struct Constants {
         static let watchAutoDownloadUpNextCount = "SJWatchAutoDownloadCountUpNext"
         static let watchAutoDeleteUpNext = "SJWatchAutoDeleteUpNext"
 
+        static let analyticsOptOut = "SJAnalyticsOptOut"
+
         static let supportName = "PCSupportRequestName"
         static let supportEmail = "PCSupportRequestEmail"
         static let supportRemoveDebugInfo = "PCSupportRemoveDebugInfo"
@@ -237,6 +239,8 @@ struct Constants {
         static let customStorageLimitGB = "custom_storage_limit_gb"
         static let customStorageLimitGBDefault: Int = 10
     }
+
+    static let defaultDebounceTime: TimeInterval = 0.5
 }
 
 enum PlusUpgradeViewSource: String {

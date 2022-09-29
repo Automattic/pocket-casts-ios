@@ -115,7 +115,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
             }
             else if let parentPodcast = episode.parentPodcast() {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast)
+                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .downloads)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }

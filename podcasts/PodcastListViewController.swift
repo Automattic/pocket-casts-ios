@@ -92,9 +92,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         updateFolderButton()
 
         Analytics.track(.podcastsListShown, properties: [
-            "sort_order": Settings.homeFolderSortOrder().analyticsDescription,
-            "badge_type": Settings.podcastBadgeType().analyticsDescription,
-            "layout": Settings.libraryType().analyticsDescription,
+            "sort_order": Settings.homeFolderSortOrder(),
+            "badge_type": Settings.podcastBadgeType(),
+            "layout": Settings.libraryType(),
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
             "number_of_folders": homeGridDataHelper.numberOfFolders
         ])
@@ -253,19 +253,19 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.threeByThree.analyticsDescription])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.threeByThree])
         }
         let smallGridAction = OptionAction(label: L10n.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
             Settings.setLibraryType(.fourByFour)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.fourByFour.analyticsDescription])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.fourByFour])
         }
         let listGridAction = OptionAction(label: L10n.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
             Settings.setLibraryType(.list)
             self?.gridTypeChanged()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.list.analyticsDescription])
+            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.list])
         }
         optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
         
@@ -330,7 +330,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             Settings.setPodcastBadgeType(.off)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.off.analyticsDescription])
+            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.off])
         }
         options.addAction(action: badgeOffAction)
         
@@ -339,7 +339,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             Settings.setPodcastBadgeType(.allUnplayed)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.allUnplayed.analyticsDescription])
+            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.allUnplayed])
         }
         options.addAction(action: latestEpisodeAction)
         
@@ -348,7 +348,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             
             Settings.setPodcastBadgeType(.latestEpisode)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.latestEpisode.analyticsDescription])
+            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.latestEpisode])
         }
         options.addAction(action: unplayedCountAction)
         
@@ -366,6 +366,7 @@ extension PodcastListViewController {
         
         refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
                                           navBar: navController.navigationBar,
-                                          searchBar: searchController)
+                                          searchBar: searchController,
+                                          source: "podcast_list")
     }
 }

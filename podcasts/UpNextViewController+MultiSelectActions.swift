@@ -26,6 +26,10 @@ extension UpNextViewController: MultiSelectActionDelegate {
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
         preferredStatusBarStyle
     }
+
+    var multiSelectViewSource: String {
+        playbackSource
+    }
     
     // MARK: - Long Press Multi Select Option Picker
     

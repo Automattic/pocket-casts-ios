@@ -351,7 +351,7 @@ class SiriShortcutsManager: CustomObserver {
         guard let currentEpisode = PlaybackManager.shared.currentEpisode(), PlaybackManager.shared.queue.upNextCount() > 0 else {
             return INPlayMediaIntentResponseCode.failureNoUnplayedContent
         }
-        PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentEpisode, fireNotification: true)
+        PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentEpisode, fireNotification: true, userInitiated: true)
         return INPlayMediaIntentResponseCode.success
     }
     

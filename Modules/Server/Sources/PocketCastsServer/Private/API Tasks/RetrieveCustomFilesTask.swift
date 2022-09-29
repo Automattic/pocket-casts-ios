@@ -115,7 +115,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
         
         // if the currently playing episode was modified, make sure we seek to the correct time for it
         if let playbackDelegate = ServerConfig.shared.playbackDelegate, updatedNowPlayingTime >= 0 {
-            playbackDelegate.seekTo(time: updatedNowPlayingTime, syncChanges: false, startPlaybackAfterSeek: false)
+            playbackDelegate.seekToFromSync(time: updatedNowPlayingTime, syncChanges: false, startPlaybackAfterSeek: false)
         }
         
         if autodownloadEpisodes.count > 0 {

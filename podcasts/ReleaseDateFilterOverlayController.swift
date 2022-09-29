@@ -1,6 +1,6 @@
 import UIKit
 
-enum ReleaseDateFilterOption: Int32 {
+enum ReleaseDateFilterOption: Int32, AnalyticsDescribable {
     case anytime = 0
     case last24hours = 24
     case last3Days = 72
@@ -47,6 +47,10 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
     private static let releaseCellId = "RadioButtonCellId"
     let choices: [ReleaseDateFilterOption] = [.anytime, .last24hours, .last3Days, .lastWeek, .last2Weeks, .lastMonth]
     var selectedIndex = 0
+
+    override var playbackSource: String {
+        "release_date"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

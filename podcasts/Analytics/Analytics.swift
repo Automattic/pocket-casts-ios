@@ -1,9 +1,5 @@
 import Foundation
 
-protocol AnalyticsAdapter {
-    func track(name: String, properties: [AnyHashable: Any]?)
-}
-
 class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
@@ -23,10 +19,41 @@ class Analytics {
     }
 
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        let newProperties = properties?.mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
         adapters?.forEach {
-            $0.track(name: event.eventName, properties: properties)
+            $0.track(name: event.eventName, properties: newProperties)
         }
     }
+}
+
+// MARK: - Opt out/in
+
+extension Analytics {
+    func optOutOfAnalytics() {
+        Analytics.track(.analyticsOptOut)
+        Settings.setAnalytics(optOut: true)
+        Analytics.unregister()
+    }
+
+    func optInOfAnalytics() {
+        #if !os(watchOS)
+            Settings.setAnalytics(optOut: false)
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            Analytics.track(.analyticsOptIn)
+        #endif
+    }
+}
+
+// MARK: - Protocols
+
+/// Allows an object to determine how its described in the context of analytics
+protocol AnalyticsDescribable {
+    var analyticsDescription: String { get }
+}
+
+/// Classes can implement this to determine their own logic on how to handle each event
+protocol AnalyticsAdapter {
+    func track(name: String, properties: [AnyHashable: Any]?)
 }
 
 // MARK: - Dynamic Event Name
