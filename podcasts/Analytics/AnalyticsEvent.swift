@@ -426,6 +426,32 @@ enum AnalyticsEvent: String {
     case podcastSettingsSiriShortcutAdded
     case podcastSettingsSiriShortcutRemoved
 
+    // MARK: - Settings: Plus
+
+    case settingsPlusShown
+    case settingsPlusUpgradeButtonTapped
+    case settingsPlusLearnMoreTapped
+
+    // MARK: - Settings: General
+
+    case settingsGeneralShown
+    case settingsGeneralRowActionChanged
+    case settingsGeneralEpisodeGroupingChanged
+    case settingsGeneralArchivedEpisodesChanged
+    case settingsGeneralUpNextSwipeChanged
+    case settingsGeneralOpenLinksInBrowserToggled
+    case settingsGeneralSkipForwardChanged
+    case settingsGeneralSkipBackChanged
+    case settingsGeneralKeepScreenAwakeToggled
+    case settingsGeneralOpenPlayerAutomaticallyToggled
+    case settingsGeneralIntelligentPlaybackToggled
+    case settingsGeneralPlayUpNextOnTapToggled
+    case settingsGeneralRemoteSkipsChaptersToggled
+    case settingsGeneralExtraPlaybackActionsToggled
+    case settingsGeneralLegacyBluetoothToggled
+    case settingsGeneralMultiSelectGestureToggled
+    case settingsGeneralPublishChapterTitlesToggled
+
     // MARK: - OPML Import
 
     case opmlImportStarted

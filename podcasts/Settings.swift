@@ -124,6 +124,8 @@ class Settings: NSObject {
     
     class func setShowArchivedDefault(_ showArchived: Bool) {
         UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
+
+        trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
     }
     
     // MARK: - Primary Row Action
@@ -143,6 +145,8 @@ class Settings: NSObject {
     class func setPrimaryRowAction(_ action: PrimaryRowAction) {
         UserDefaults.standard.set(action.rawValue, forKey: primaryRowActionKey)
         cachedPrimaryRowAction = action
+
+        trackValueChanged(.settingsGeneralRowActionChanged, value: action)
     }
     
     // MARK: - Podcast Sort Order
@@ -177,6 +181,8 @@ class Settings: NSObject {
     class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
         UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
         cachedPodcastGrouping = grouping
+    
+        trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
     }
     
     // MARK: - Primary Up Next Swipe Action
@@ -196,6 +202,8 @@ class Settings: NSObject {
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
         cachedPrimaryUpNextSwipeAction = action
+
+        trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
     }
     
     // MARK: - Play Up Next On Tap
@@ -320,6 +328,7 @@ class Settings: NSObject {
     
     class func setRemoteSkipShouldSkipChapters(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: remoteChapterSkipKey)
+        Settings.trackValueToggled(.settingsGeneralRemoteSkipsChaptersToggled, enabled: value)
     }
     
     // MARK: - CarPlay/Lock Screen actions
@@ -333,8 +342,10 @@ class Settings: NSObject {
         UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
+
+        Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: enabled)
     }
-    
+
     // MARK: - Legacy Bluetooth Support
     
     private static let legacyBtSupportKey = "LegacyBtSupport"
@@ -344,6 +355,7 @@ class Settings: NSObject {
     
     class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
         UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
+        Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
     }
 
     // MARK: - Publish Chapter Titles
@@ -548,6 +560,7 @@ class Settings: NSObject {
     
     class func setMultiSelectGestureEnabled(_ enabled: Bool) {
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
+        Settings.trackValueToggled(.settingsGeneralMultiSelectGestureToggled, enabled: enabled)
     }
     
     // MARK: Multi Select Actions
@@ -685,4 +698,14 @@ class Settings: NSObject {
             return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
         }
     #endif
+}
+
+extension Settings {
+    static func trackValueChanged(_ event: AnalyticsEvent, value: Any) {
+        Analytics.track(event, properties: ["value": value])
+    }
+
+    static func trackValueToggled(_ event: AnalyticsEvent, enabled: Bool) {
+        Analytics.track(event, properties: ["enabled": enabled])
+    }
 }

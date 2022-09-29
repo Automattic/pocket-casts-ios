@@ -5,7 +5,9 @@ import UIKit
 class PodcastSettingsViewController: PCViewController {
     var podcast: Podcast
     var episodes = [ArraySection<String, ListItem>]()
-    
+
+    let debounce = Debounce(delay: Constants.defaultDebounceTime)
+
     enum TableRow { case autoDownload, notifications, upNext, globalUpNext, upNextPosition, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, siriShortcut, unsubscribe, feedError }
     
     var existingShortcut: Any?
