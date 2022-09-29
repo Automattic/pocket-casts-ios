@@ -126,6 +126,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         DataManager.sharedManager.savePushSetting(podcastUuid: podcast, pushEnabled: false)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
+
+    func didChangePodcasts() {
+        Analytics.track(.settingsNotificationsPodcastsChanged)
+    }
     
     @objc private func pushToggled(_ sender: UISwitch) {
         //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
