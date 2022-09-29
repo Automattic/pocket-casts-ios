@@ -10,7 +10,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     private static let createSiriShortcutCellId = "CreateSiriShortcutCell"
     private static let siriEnabledCellId = "siriEnabledCellId"
     private static let destructiveButtonCellId = "destructiveButtonCell"
-    
+
     func registerCells() {
         settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: PodcastSettingsViewController.disclosureCellId)
         settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: PodcastSettingsViewController.switchCellId)
@@ -110,8 +110,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.currentValue = TimeInterval(podcast.startFrom)
             cell.configureWithImage(imageName: "settings-skipintros", tintColor: podcast.iconTintColor())
 
-            let debounce = Debounce(delay: 0.5)
-
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
                 
@@ -120,7 +118,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 DataManager.sharedManager.save(podcast: podcast)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
 
-                debounce.call {
+                self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipFirstChanged, properties: ["value": value])
                 }
             }
@@ -138,7 +136,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.currentValue = TimeInterval(podcast.skipLast)
             cell.configureWithImage(imageName: "settings-skipoutros", tintColor: podcast.iconTintColor())
 
-            let debounce = Debounce(delay: 0.5)
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
                 
@@ -147,7 +144,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 DataManager.sharedManager.save(podcast: podcast)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
 
-                debounce.call {
+                self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipLastChanged, properties: ["value": value])
                 }
             }
