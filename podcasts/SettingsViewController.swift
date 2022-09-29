@@ -117,6 +117,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:
+            Analytics.track(.settingsAboutShown)
+
             let aboutView = AboutView(dismissAction: { [weak self] in
                 self?.navigationController?.dismiss(animated: true, completion: nil)
             }).environmentObject(Theme.sharedTheme)
