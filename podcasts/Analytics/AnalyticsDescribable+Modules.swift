@@ -134,3 +134,14 @@ extension PodcastGrouping: AnalyticsDescribable {
         }
     }
 }
+
+extension AutoAddLimitReachedAction: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .stopAdding:
+            return "stop_adding"
+        case .addToTopOnly:
+            return "only_add_top"
+        }
+    }
+}
