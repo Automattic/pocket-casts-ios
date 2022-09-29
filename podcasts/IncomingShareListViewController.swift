@@ -41,6 +41,8 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         podcastsTable.tableFooterView = footer
         footer.addSubview(footerView)
         footerView.anchorToAllSidesOf(view: footer)
+
+        Analytics.track(.incomingShareListShown)
     }
     
     // MARK: - UITableView methods
@@ -101,6 +103,8 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     }
     
     private func performSubscribeAll() {
+        Analytics.track(.incomingShareListSubscribedAll, properties: ["count": podcasts.count])
+
         let loadingAlert = ShiftyLoadingAlert(title: L10n.shareListSubscribing)
         loadingAlert.showAlert(navigationController!, hasProgress: false) {
             self.subscribeNext(loadingAlert: loadingAlert)
@@ -125,6 +129,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         }
         
         ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: { _ in
+            Analytics.track(.podcastSubscribed, properties: ["source": self.playbackSource, "uuid": uuid])
             self.subscribeNext(loadingAlert: loadingAlert)
         })
     }
