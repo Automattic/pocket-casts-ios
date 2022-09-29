@@ -100,8 +100,21 @@ enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
     }
 }
 
-enum AppBadge: Int {
+enum AppBadge: Int, AnalyticsDescribable {
     case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
+
+    var analyticsDescription: String {
+        switch self {
+        case .off:
+            return "off"
+        case .totalUnplayed:
+            return "total_unplayed"
+        case .newSinceLastOpened:
+            return "new_since_app_opened"
+        case .filterCount:
+            return "filter_count"
+        }
+    }
 }
 
 enum PrimaryRowAction: Int32, AnalyticsDescribable {
