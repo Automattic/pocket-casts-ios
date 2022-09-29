@@ -486,4 +486,9 @@ enum AnalyticsEvent: String {
     case settingsAutoAddUpNextLimitReachedChanged
     case settingsAutoAddUpNextPodcastsChanged
     case settingsAutoAddUpNextPodcastPositionOptionChanged
+
+    // MARK: - Settings: Storage & Data Use
+
+    case settingsStorageShown
+    case settingsStorageWarnBeforeUsingDataToggled
 }
