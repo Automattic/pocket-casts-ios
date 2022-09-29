@@ -28,11 +28,15 @@ class PCRefreshControl: UIView {
         }
     }
 
-    init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil) {
+    let source: String
+
+    init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil, source: String) {
+        self.source = source
         super.init(frame: CGRect.zero)
         
         clipsToBounds = true
         backgroundColor = UIColor.clear
+
         self.scrollView = scrollView
         self.navBar = navBar
         self.searchBar = searchBar
@@ -124,6 +128,7 @@ class PCRefreshControl: UIView {
         startRefreshAnimation()
         
         RefreshManager.shared.refreshPodcasts()
+        Analytics.track(.pulledToRefresh, properties: ["source": source])
     }
     
     func endRefreshing(_ animated: Bool) {
