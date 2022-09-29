@@ -201,7 +201,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
 
         if !filter.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": "starred", "source": "filters"])
         }
     }
 

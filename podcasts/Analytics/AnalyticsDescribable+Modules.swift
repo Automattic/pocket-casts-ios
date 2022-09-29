@@ -88,7 +88,7 @@ extension AutoAddToUpNextSetting: AnalyticsDescribable {
 
 enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
     case never = -1
-    case afterPlaying = 9999
+    case afterPlaying = 0
     case after1Day = 86400
     case after2Days = 172_800
     case after1Week = 604_800

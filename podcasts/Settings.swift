@@ -688,6 +688,16 @@ class Settings: NSObject {
     class func reviewRequestDates() -> [Date] {
         UserDefaults.standard.array(forKey: Constants.UserDefaults.reviewRequestDates) as? [Date] ?? [Date]()
     }
+
+    // MARK: - Tracks
+
+    class func setAnalytics(optOut: Bool) {
+        UserDefaults.standard.set(optOut, forKey: Constants.UserDefaults.analyticsOptOut)
+    }
+
+    class func analyticsOptOut() -> Bool {
+        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+    }
     
     // MARK: - Variables that are loaded/changed through Firebase
     
