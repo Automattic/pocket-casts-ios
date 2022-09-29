@@ -476,6 +476,13 @@ enum AnalyticsEvent: String {
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
 
+    // MARK: - Settings: Auto Archive
+
+    case settingsAutoArchiveShown
+    case settingsAutoArchivePlayedChanged
+    case settingsAutoArchiveInactiveChanged
+    case settingsAutoArchiveIncludeStarredToggled
+
     // MARK: - OPML Import
 
     case opmlImportStarted
