@@ -141,7 +141,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             Analytics.track(.profileAccountPrivacyPolicyTapped)
         case .termsOfUse:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
-            Analytics.track(.profileAccountTermsOfServiceTapped)
+            Analytics.track(.profileAccountTermsOfUseTapped)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
