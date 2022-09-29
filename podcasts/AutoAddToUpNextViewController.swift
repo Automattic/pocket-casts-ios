@@ -23,6 +23,8 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
 
         title = L10n.settingsAutoAdd
         reloadDownloadedPodcasts()
+
+        Analytics.track(.settingsAutoAddUpNextShown)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -148,6 +150,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
             DataManager.sharedManager.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
             self?.mainTable.reloadData()
+            Settings.trackValueChanged(.settingsAutoAddUpNextPodcastPositionOptionChanged, value: setting)
         }
         to.addAction(action: action)
     }
@@ -157,6 +160,8 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         let action = OptionAction(label: action.description(short: false), selected: selectedSetting == action) { [weak self] in
             ServerSettings.setOnAutoAddLimitReached(action: action)
             self?.mainTable.reloadData()
+
+            Settings.trackValueChanged(.settingsAutoAddUpNextLimitReachedChanged, value: action)
         }
         to.addAction(action: action)
     }
@@ -166,6 +171,8 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         let action = OptionAction(label: L10n.episodeCountPluralFormat(amount.localized()).localizedCapitalized, selected: selectedSetting == amount) { [weak self] in
             ServerSettings.setAutoAddToUpNextLimit(amount)
             self?.mainTable.reloadData()
+
+            Settings.trackValueChanged(.settingsAutoAddUpNextAutoAddLimitChanged, value: amount)
         }
         to.addAction(action: action)
     }
