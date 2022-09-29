@@ -469,4 +469,13 @@ enum AnalyticsEvent: String {
     case settingsAutoArchivePlayedChanged
     case settingsAutoArchiveInactiveChanged
     case settingsAutoArchiveIncludeStarredToggled
+
+    // MARK: - Settings: Auto Download
+
+    case settingsAutoDownloadShown
+    case settingsAutoDownloadUpNextToggled
+    case settingsAutoDownloadNewEpisodesToggled
+    case settingsAutoDownloadPodcastsChanged
+    case settingsAutoDownloadFiltersChanged
+    case settingsAutoDownloadOnlyOnWifiToggled
 }
