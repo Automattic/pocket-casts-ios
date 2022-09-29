@@ -483,6 +483,15 @@ enum AnalyticsEvent: String {
     case settingsAutoArchiveInactiveChanged
     case settingsAutoArchiveIncludeStarredToggled
 
+    // MARK: - Settings: Auto Download
+
+    case settingsAutoDownloadShown
+    case settingsAutoDownloadUpNextToggled
+    case settingsAutoDownloadNewEpisodesToggled
+    case settingsAutoDownloadPodcastsChanged
+    case settingsAutoDownloadFiltersChanged
+    case settingsAutoDownloadOnlyOnWifiToggled
+
     // MARK: - OPML Import
 
     case opmlImportStarted
