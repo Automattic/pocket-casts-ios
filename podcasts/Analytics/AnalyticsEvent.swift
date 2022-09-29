@@ -443,4 +443,5 @@ enum AnalyticsEvent: String {
     case settingsGeneralExtraPlaybackActionsToggled
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
+    case settingsGeneralPublishChapterTitlesToggled
 }
