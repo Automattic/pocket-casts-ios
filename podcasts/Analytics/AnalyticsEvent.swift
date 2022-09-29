@@ -444,4 +444,11 @@ enum AnalyticsEvent: String {
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+
+    // MARK: - Settings: Notifications
+
+    case settingsNotificationsShown
+    case settingsNotificationsNewEpisodesToggled
+    case settingsNotificationsPodcastsChanged
+    case settingsNotificationsAppBadgeChanged
 }
