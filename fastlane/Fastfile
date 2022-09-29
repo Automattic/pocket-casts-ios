@@ -487,7 +487,7 @@ platform :ios do
     # generate_strings_file_for_glotpress
 
     ios_update_release_notes(
-      new_version: new_version,
+      new_version: ios_get_app_version,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
 
