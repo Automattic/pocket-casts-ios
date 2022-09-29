@@ -478,4 +478,12 @@ enum AnalyticsEvent: String {
     case settingsAutoDownloadPodcastsChanged
     case settingsAutoDownloadFiltersChanged
     case settingsAutoDownloadOnlyOnWifiToggled
+
+    // MARK: - Settings: Auto Add to Up Next
+
+    case settingsAutoAddUpNextShown
+    case settingsAutoAddUpNextAutoAddLimitChanged
+    case settingsAutoAddUpNextLimitReachedChanged
+    case settingsAutoAddUpNextPodcastsChanged
+    case settingsAutoAddUpNextPodcastPositionOptionChanged
 }
