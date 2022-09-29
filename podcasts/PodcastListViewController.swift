@@ -7,6 +7,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
 
+    let debounce = Debounce(delay: 1)
+
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts

@@ -65,10 +65,17 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             else if let folder = item.folder {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
             }
+
+            let type = (item.podcast != nil) ? "subscribed_podcast" : "folder"
+            let uuid = item.podcast?.uuid ?? item.folder?.uuid ?? "unknown"
+
+            Analytics.track(.searchResultTapped, properties: ["uuid": uuid, "type": type, "source": "podcast_list"])
         }
         else if indexPath.section == remoteSection {
             let podcastHeader = remoteResults[indexPath.row]
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
+
+            Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "type": "podcast", "source": "podcast_list"])
         }
     }
     
