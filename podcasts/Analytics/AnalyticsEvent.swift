@@ -554,4 +554,10 @@ enum AnalyticsEvent: String {
 
     case podcastSubscribed
     case podcastUnsubscribed
+
+    // MARK: - Podcast Search
+
+    case searchPerformed
+    case searchFailed
+    case searchResultTapped
 }
