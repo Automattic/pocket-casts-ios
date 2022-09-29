@@ -491,6 +491,12 @@ enum AnalyticsEvent: String {
 
     case settingsStorageShown
     case settingsStorageWarnBeforeUsingDataToggled
+
+    // MARK: - Settings: Siri Shortcuts
+
+    case settingsSiriShown
+    case settingsSiriShortcutAdded
+    case settingsSiriShortcutRemoved
     // MARK: - Settings: Help and Feedback
 
     case settingsHelpShown
