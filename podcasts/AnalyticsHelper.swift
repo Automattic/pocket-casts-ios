@@ -384,9 +384,10 @@ private extension AnalyticsHelper {
     }
 
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
+        guard optedOut == false else { return }
+
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
-        
             Firebase.Analytics.logEvent(name, parameters: parameters)
         
             if FeatureFlag.firebaseLoggingEnabled {
