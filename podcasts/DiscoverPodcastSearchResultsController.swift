@@ -97,7 +97,7 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
         let podcastHeader = searchResults[indexPath.row]
         delegate?.show(podcastInfo: podcastHeader, placeholderImage: nil, isFeatured: false, listUuid: nil)
 
-        Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "type": "podcast", "source": "discover"])
+        Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "result_type": "podcast_remote_result", "source": "discover"])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
