@@ -56,7 +56,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         return formatter
     }()
     
-    @IBOutlet weak var episodesTableTopConstraint: NSLayoutConstraint!
+    @IBOutlet var episodesTableTopConstraint: NSLayoutConstraint!
 
     @IBOutlet var episodesTable: UITableView! {
         didSet {
