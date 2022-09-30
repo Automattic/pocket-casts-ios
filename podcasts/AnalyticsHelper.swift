@@ -99,37 +99,37 @@ class AnalyticsHelper {
     class func podcastEpisodePlayedFromList(listId: String, podcastUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         Analytics.track(.discoverListEpisodePlay, properties: properties)
-        logEvent("discover_list_episode_play", parameters: properties)
+        bumpStat("discover_list_episode_play", parameters: properties)
     }
     
     class func podcastSubscribedFromList(listId: String, podcastUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         Analytics.track(.discoverListPodcastSubscribed, properties: properties)
-        logEvent("discover_list_podcast_subscribe", parameters: properties)
+        bumpStat("discover_list_podcast_subscribe", parameters: properties)
     }
     
     class func podcastTappedFromList(listId: String, podcastUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
         Analytics.track(.discoverListPodcastTapped, properties: properties)
-        logEvent("discover_list_podcast_tap", parameters: properties)
+        bumpStat("discover_list_podcast_tap", parameters: properties)
     }
 
     class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
 
         Analytics.track(.discoverListEpisodeTapped, properties: properties)
-        logEvent("discover_list_podcast_episode_tap", parameters: properties)
+        bumpStat("discover_list_podcast_episode_tap", parameters: properties)
     }
 
     class func listShowAllTapped(listId: String) {
         let properties = ["list_id": listId]
         Analytics.track(.discoverListShowAllTapped, properties: properties)
-        logEvent("discover_list_show_all", parameters: properties)
+        bumpStat("discover_list_show_all", parameters: properties)
     }
     
     class func listImpression(listId: String) {
         Analytics.track(.discoverListImpression, properties: ["list_id": listId])
-        logEvent("discover_list_impression", parameters: ["list_id": listId])
+        bumpStat("discover_list_impression", parameters: ["list_id": listId])
     }
     
     class func forceTouchPlay() {
@@ -376,7 +376,13 @@ class AnalyticsHelper {
 
 private extension AnalyticsHelper {
     static let logger = Logger()
-    
+
+    class func bumpStat(_ name: String, parameters: [String: Any]? = nil) {
+        #if !os(watchOS)
+            Firebase.Analytics.logEvent(name, parameters: parameters)
+        #endif
+    }
+
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {
         // assuming for now we don't want analytics on a watch
         #if !os(watchOS)
