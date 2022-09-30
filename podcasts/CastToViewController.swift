@@ -55,8 +55,9 @@ class CastToViewController: PCViewController {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelTapped))
-        
-        if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+
+        let connected = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+        if connected {
             title = GoogleCastManager.sharedManager.connectedDevice()?.friendlyName ?? L10n.chromecastConnected
             connectedView.isHidden = false
             castTable.isHidden = true
@@ -81,6 +82,8 @@ class CastToViewController: PCViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(multiZoneDevicesChanged), name: Constants.Notifications.googleCastMultiZoneStatusChanged, object: nil)
     
         GoogleCastManager.sharedManager.startDeviceDiscovery()
+
+        Analytics.track(.chromecastViewShown, properties: ["is_connected": connected])
     }
     
     deinit {
@@ -94,10 +97,13 @@ class CastToViewController: PCViewController {
     
     @objc private func cancelTapped() {
         dismiss(animated: true, completion: nil)
+        Analytics.track(.chromecastViewDismissed)
     }
     
     @IBAction func stopCastingTapped(_ sender: Any) {
         GoogleCastManager.sharedManager.stopCasting()
+        Analytics.track(.chromecastStoppedCasting)
+
         dismiss(animated: true, completion: nil)
     }
     
@@ -166,5 +172,11 @@ class CastToViewController: PCViewController {
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+extension CastToViewController: PlaybackSource {
+    var playbackSource: String {
+        "chromecast"
     }
 }

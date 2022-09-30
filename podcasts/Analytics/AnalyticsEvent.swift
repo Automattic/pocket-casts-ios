@@ -560,4 +560,24 @@ enum AnalyticsEvent: String {
     case searchPerformed
     case searchFailed
     case searchResultTapped
+
+    // MARK: - Chromecast
+
+    case chromecastViewShown
+    case chromecastStartedCasting
+    case chromecastStoppedCasting
+    case chromecastViewDismissed
+
+    // MARK: - Podcast List Share
+
+    case sharePodcastsShown
+    case sharePodcastsPodcastsSelected
+    case sharePodcastsListPublishStarted
+    case sharePodcastsListPublishSucceeded
+    case sharePodcastsListPublishFailed
+
+    // MARK: - Incoming Share List
+
+    case incomingShareListShown
+    case incomingShareListSubscribedAll
 }

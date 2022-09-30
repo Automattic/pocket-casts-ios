@@ -227,7 +227,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func pause() {
         guard let episode = currentEpisode() else { return }
 
-        analyticsPlaybackHelper.pause()
+        // Only trigger the event if we are already playing
+        if playing() {
+            analyticsPlaybackHelper.pause()
+        }
         
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
