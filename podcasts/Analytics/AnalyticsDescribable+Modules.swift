@@ -145,3 +145,17 @@ extension AutoAddLimitReachedAction: AnalyticsDescribable {
         }
     }
 }
+
+extension PodcastInfo: AnalyticsDescribable {
+    var analyticsDescription: String {
+        if let uuid {
+            return uuid
+        }
+
+        if let iTunesId {
+            return String(iTunesId)
+        }
+
+        return "unknown"
+    }
+}

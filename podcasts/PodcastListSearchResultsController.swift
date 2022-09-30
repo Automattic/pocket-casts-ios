@@ -65,10 +65,17 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             else if let folder = item.folder {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
             }
+
+            let type = (item.podcast != nil) ? "podcast_local_result" : "folder"
+            let uuid = item.podcast?.uuid ?? item.folder?.uuid ?? "unknown"
+
+            Analytics.track(.searchResultTapped, properties: ["uuid": uuid, "result_type": type, "source": playbackSource])
         }
         else if indexPath.section == remoteSection {
             let podcastHeader = remoteResults[indexPath.row]
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
+
+            Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "result_type": "podcast_remote_result", "source": playbackSource])
         }
     }
     
@@ -131,5 +138,11 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
                 self?.searchResultsTable.reloadData()
             }
         }
+    }
+}
+
+extension PodcastListSearchResultsController: PlaybackSource {
+    var playbackSource: String {
+        "podcasts_list"
     }
 }
