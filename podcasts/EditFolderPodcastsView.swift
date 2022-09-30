@@ -9,11 +9,8 @@ struct EditFolderPodcastsView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
-                PodcastPickerView(pickerModel: pickerModel)
-            }
+            PodcastPickerView(pickerModel: pickerModel)
             .navigationTitle(L10n.folderChoosePodcasts)
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
