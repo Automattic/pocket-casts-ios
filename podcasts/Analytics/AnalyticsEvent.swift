@@ -555,6 +555,13 @@ enum AnalyticsEvent: String {
     case podcastSubscribed
     case podcastUnsubscribed
 
+    // MARK: - Chromecast
+
+    case chromecastViewShown
+    case chromecastStartedCasting
+    case chromecastStoppedCasting
+    case chromecastViewDismissed
+
     // MARK: - Podcast List Share
 
     case sharePodcastsShown
