@@ -367,7 +367,7 @@ platform :ios do
     check_all_translations_progress(interactive: true)
 
     download_localized_strings_and_metadata_from_glotpress
-    lint_localizations
+    # lint_localizations
     ios_bump_version_beta
 
     # Wrap up
