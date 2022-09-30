@@ -2395,6 +2395,12 @@
 /* Option for setting the app badge based on the total unplayed episodes. */
 "settings_badge_total_unplayed" = "Nombre total d’épisodes non lus";
 
+/* Label displayed right next the button to opt-in/out for Analytics tracking */
+"settings_collect_information" = "";
+
+/* Additional information about how the information collected is and how it's used */
+"settings_collect_information_additional_information" = "";
+
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Créer un raccourci Siri";
 
@@ -2629,8 +2635,14 @@
 /* Informational label breaking down the pricing structure for Pocket Casts Plus. '%1$@' is a placeholder for the localized price if paid per month, '%2$@' is a placeholder for the localized price if paid per year */
 "settings_plus_pricing_format" = "%1$@ par mois \/ %2$@ par an";
 
+/* A common string used throughout the app. Refers to the Privacy settings menu */
+"settings_privacy" = "";
+
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Position dans la file d’attente";
+
+/* Label for an input that takes the user to the privacy policy */
+"settings_read_privacy_policy" = "";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Sélectionner le filtre";
