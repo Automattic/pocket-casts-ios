@@ -216,7 +216,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func updateTopConstraintForiPhone14() {
-        guard let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first else {
+        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else {
             return
         }
 
