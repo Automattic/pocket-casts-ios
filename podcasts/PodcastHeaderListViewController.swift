@@ -73,7 +73,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         }
         else {
             let discoverCell = tableView.dequeueReusableCell(withIdentifier: PodcastHeaderListViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
-            
+            discoverCell.subscribeSource = "discover_ranked_list"
             if showRankingNumber {
                 discoverCell.populateFrom(podcast, number: indexPath.row + 1)
             }
