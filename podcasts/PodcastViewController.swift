@@ -209,13 +209,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
-        updateTopConstraintForiPhone14()
+        updateTopConstraintForiPhone14Pro()
         
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
     }
 
-    private func updateTopConstraintForiPhone14() {
+    private func updateTopConstraintForiPhone14Pro() {
         guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else {
             return
         }
