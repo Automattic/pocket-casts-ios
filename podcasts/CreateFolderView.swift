@@ -36,8 +36,9 @@ struct CreateFolderView: View {
                 Text(addButtonTitle)
                     .textStyle(RoundedButton())
             }
+            .padding(.horizontal)
         }
-        .padding()
+        .padding(.vertical)
         .navigationTitle(L10n.folderCreate)
         .onAppear {
             pickerModel.setup()

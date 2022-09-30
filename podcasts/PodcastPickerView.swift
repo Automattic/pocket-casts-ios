@@ -9,34 +9,38 @@ struct PodcastPickerView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                PCSearchView(searchTerm: $pickerModel.searchTerm)
-                    .frame(height: PCSearchView.defaultHeight)
-                    .padding(.top, -10)
-                    .padding(.leading, -PCSearchView.defaultIndenting)
-                Spacer()
-                Menu {
-                    SortByView(sortType: .titleAtoZ, pickerModel: pickerModel)
-                    SortByView(sortType: .episodeDateNewestToOldest, pickerModel: pickerModel)
-                    SortByView(sortType: .dateAddedNewestToOldest, pickerModel: pickerModel)
-                } label: {
-                    Image("podcast-sort")
-                        .accessibilityLabel(L10n.podcastsSort)
-                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-                        .frame(width: 32, height: 32)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: 2)
-                        )
+            Group {
+                HStack {
+                    PCSearchView(searchTerm: $pickerModel.searchTerm)
+                        .frame(height: PCSearchView.defaultHeight)
+                        .padding(.top, -10)
+                        .padding(.leading, -PCSearchView.defaultIndenting)
+                    Spacer()
+                    Menu {
+                        SortByView(sortType: .titleAtoZ, pickerModel: pickerModel)
+                        SortByView(sortType: .episodeDateNewestToOldest, pickerModel: pickerModel)
+                        SortByView(sortType: .dateAddedNewestToOldest, pickerModel: pickerModel)
+                    } label: {
+                        Image("podcast-sort")
+                            .accessibilityLabel(L10n.podcastsSort)
+                            .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+                            .frame(width: 32, height: 32)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: 2)
+                            )
+                    }
+                    .padding(.top, -20)
                 }
-                .padding(.top, -20)
+                ThemedDivider()
+                Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count, capitalized: true))
+                    .font(.subheadline)
+                    .textStyle(PrimaryText())
+                    .padding(.top, 3)
+                ThemedDivider()
             }
-            ThemedDivider()
-            Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count, capitalized: true))
-                .font(.subheadline)
-                .textStyle(PrimaryText())
-                .padding(.top, 3)
-            ThemedDivider()
+            .padding(.horizontal)
+            
             List(pickerModel.filteredPodcasts) { podcast in
                 Button {
                     pickerModel.togglePodcastSelected(podcast)

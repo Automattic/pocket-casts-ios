@@ -56,6 +56,7 @@ struct PodcastPickerRow: View {
                 }
             }
         }
+        .padding(.horizontal)
     }
 }
 
