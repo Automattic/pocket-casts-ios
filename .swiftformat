@@ -1,0 +1,5 @@
+--commas inline
+--stripunusedargs closure-only
+--elseposition next-line
+--trimwhitespace nonblank-lines
+--exclude podcasts/Strings+Generated.swift,fastlane/SnapshotHelper.swift,**/Protobuffer/*.swift,DerivedData,vendor/spm
