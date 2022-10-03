@@ -153,7 +153,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
                     promise(.success(podcast))
                 }
-                return
             }
 
             if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
