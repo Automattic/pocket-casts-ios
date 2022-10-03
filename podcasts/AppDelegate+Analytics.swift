@@ -7,9 +7,16 @@ extension AppDelegate {
             return
         }
 
-        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
-
         addAnalyticsObservers()
+
+        // Check if we're able to write to protected data
+        if UIApplication.shared.isProtectedDataAvailable {
+            setupAdapters()
+        }
+    }
+
+    private func setupAdapters() {
+        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
     }
 
     private func addAnalyticsObservers() {
@@ -20,6 +27,11 @@ extension AppDelegate {
             }
 
             Analytics.track(.userSignedOut, properties: ["user_initiated": userIniated])
+        }
+
+        // Setup adapters if needed after protected data becomes available
+        NotificationCenter.default.addObserver(forName: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.setupAdapters()
         }
     }
 
