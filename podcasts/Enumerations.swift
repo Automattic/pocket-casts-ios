@@ -132,7 +132,7 @@ enum PrimaryRowAction: Int32, AnalyticsDescribable {
 
 enum PrimaryUpNextSwipeAction: Int32, AnalyticsDescribable {
     case playNext = 0, playLast = 1
-    
+
     var analyticsDescription: String {
         switch self {
         case .playNext:
@@ -156,7 +156,7 @@ enum PlaylistIcon: Int32 {
 
 enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
     case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive
-    
+
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
         case .effects:
@@ -168,8 +168,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         case .starEpisode:
             if episode?.keepEpisode ?? false {
                 return L10n.playerActionTitleUnstarEpisode
-            }
-            else {
+            } else {
                 return L10n.starEpisode
             }
         case .shareEpisode:
@@ -177,8 +176,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         case .goToPodcast:
             if episode is UserEpisode {
                 return L10n.playerActionTitleGoToFile
-            }
-            else {
+            } else {
                 return L10n.goToPodcast
             }
         case .chromecast:
@@ -189,13 +187,12 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         case .archive:
             if episode is UserEpisode {
                 return L10n.delete
-            }
-            else {
+            } else {
                 return L10n.archive
             }
         }
     }
-    
+
     func subtitle() -> String? {
         switch self {
         case .starEpisode, .shareEpisode:
@@ -206,7 +203,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return nil
         }
     }
-    
+
     func iconName(episode: BaseEpisode?) -> String {
         switch self {
         case .effects:
@@ -229,7 +226,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return episode is UserEpisode ? "delete-red" : "episode-archive"
         }
     }
-    
+
     func largeIconName(episode: BaseEpisode?) -> String {
         switch self {
         case .effects:
@@ -252,7 +249,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return episode is UserEpisode ? "shelf_delete" : "shelf_archive"
         }
     }
-    
+
     func canBePerformedOn(episode: BaseEpisode) -> Bool {
         switch self {
         case .starEpisode, .shareEpisode:
@@ -288,7 +285,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
     case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete
-    
+
     func title() -> String {
         switch self {
         case .playLast:
@@ -321,7 +318,7 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.delete
         }
     }
-    
+
     func iconName() -> String {
         switch self {
         case .playLast:

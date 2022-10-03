@@ -6,7 +6,7 @@ import UIKit
 
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
-    
+
     private let productIdentifiers: [Constants.IapProducts] = [.monthly, .yearly]
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
@@ -35,7 +35,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             requestProductInfo()
             return nil
         }
-        
+
         for p in productsArray {
             if p.productIdentifier.caseInsensitiveCompare(identifier) == .orderedSame {
                 return p
@@ -43,7 +43,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         }
         return nil
     }
-    
+
     public func getPriceForIdentifier(identifier: String) -> String {
         guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
 
@@ -54,32 +54,31 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         let formattedPrice = numberFormatter.string(from: product.price)
         return formattedPrice ?? ""
     }
-    
+
     public func buyProduct(identifier: String) -> Bool {
         guard let product = getProductWithIdentifier(identifier: identifier), let _ = ServerSettings.syncingEmail() else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
-        
+
         FileLog.shared.addMessage("IAPHelper Buying \(product.productIdentifier)")
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
-        
+
         return true
     }
 
     public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
         if identifier == Constants.IapProducts.monthly.rawValue {
             return L10n.month
-        }
-        else if identifier == Constants.IapProducts.yearly.rawValue {
+        } else if identifier == Constants.IapProducts.yearly.rawValue {
             return L10n.year
         }
         return ""
     }
-    
+
     // MARK: SKProductReuqestDelelgate
-    
+
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count > 0 {
             productsArray = response.products
@@ -88,8 +87,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             updateTrialEligibility()
 
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsUpdated)
-        }
-        else {
+        } else {
             let invalid = response.invalidProductIdentifiers
             for i in invalid {
                 FileLog.shared.addMessage("IAPHelper Invalid appstore identifier \(i)")
@@ -98,13 +96,13 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         }
         clearRequestAndHandler()
     }
-    
+
     public func request(_ request: SKRequest, didFailWithError error: Error) {
         FileLog.shared.addMessage("IAPHelper Failed to load list of products \(error.localizedDescription)")
         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsFailed)
         clearRequestAndHandler()
     }
-    
+
     private func clearRequestAndHandler() {
         productsRequest = nil
     }
@@ -242,12 +240,12 @@ extension IapHelper: SKPaymentTransactionObserver {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
         var hasNewPurchasedReceipt = false
         let lowercasedProductIdentifiers = productIdentifiers.map { $0.rawValue.lowercased() }
-        
+
         for transaction in transactions {
             let product = transaction.payment.productIdentifier
             let transactionDate = DateFormatHelper.sharedHelper.jsonFormat(transaction.transactionDate)
             FileLog.shared.addMessage("IAPHelper Processing transaction with id \(String(describing: transaction.transactionIdentifier)) \(transactionDate))")
-            
+
             if lowercasedProductIdentifiers.contains(product.lowercased()) {
                 switch transaction.transactionState {
                 case .purchasing:
@@ -257,18 +255,17 @@ extension IapHelper: SKPaymentTransactionObserver {
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
                     AnalyticsHelper.plusPlanPurchased()
-                    
+
                     purchaseWasSuccessful(product)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
                     queue.finishTransaction(transaction)
-                    
+
                     if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled)
                         purchaseWasCancelled(product, error: e)
-                    }
-                    else { // report error to user
+                    } else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed)
                         purchaseFailed(product, error: e)
                     }
@@ -280,13 +277,12 @@ extension IapHelper: SKPaymentTransactionObserver {
                 default:
                     break
                 }
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("IAPHelper mark non-subscription transaction as finished")
                 queue.finishTransaction(transaction)
             }
         }
-        
+
         if hasNewPurchasedReceipt {
             if ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil {
                 ServerSettings.setIapUnverifiedPurchaseReceiptDate(Date())
@@ -294,8 +290,7 @@ extension IapHelper: SKPaymentTransactionObserver {
             ApiServerHandler.shared.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("IAPHelper successfully validated receipt")
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("IAPHelper failed to validate receipt, but as the AppStore purchase was successful mark as Plus user on this device")
                 }
             })

@@ -16,7 +16,7 @@ class NothingUpNextCell: ThemeableCell {
             messageBackground.layer.cornerRadius = 8
         }
     }
-    
+
     @IBOutlet var headingLabel: ThemeableLabel! {
         didSet {
             headingLabel.style = .playerContrast01
@@ -24,7 +24,7 @@ class NothingUpNextCell: ThemeableCell {
             headingLabel.text = L10n.upNextEmptyTitle
         }
     }
-    
+
     @IBOutlet var descriptionLabel: ThemeableLabel! {
         didSet {
             descriptionLabel.style = .playerContrast02
@@ -32,13 +32,13 @@ class NothingUpNextCell: ThemeableCell {
             descriptionLabel.text = L10n.upNextEmptyDescription
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         contentView.backgroundColor = UIColor.clear
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
     override func setEditing(_ editing: Bool, animated: Bool) {}

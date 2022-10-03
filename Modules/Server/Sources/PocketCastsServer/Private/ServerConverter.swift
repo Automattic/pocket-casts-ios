@@ -4,7 +4,7 @@ import Foundation
 class ServerConverter {
     class func convertToServerSortType(clientType: Int) -> Int32 {
         let clientSort = PodcastLibrarySortClient(rawValue: clientType) ?? .dateAddedNewestToOldest
-        
+
         switch clientSort {
         case .dateAddedNewestToOldest:
             return PodcastLibrarySortServer.dateAddedNewestToOldest.rawValue
@@ -16,7 +16,7 @@ class ServerConverter {
             return PodcastLibrarySortServer.custom.rawValue
         }
     }
-    
+
     class func convertToClientSortType(serverType: Int32) -> Int {
         let serverSort = PodcastLibrarySortServer(rawValue: serverType) ?? .dateAddedNewestToOldest
         switch serverSort {

@@ -11,11 +11,10 @@ struct FolderPreviewWrapper: UIViewRepresentable {
 
     func updateUIView(_ folderView: FolderPreviewView, context: Context) {
         folderView.showFolderName = showName
-        
+
         if let folderUuid = model.folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
             folderView.populateFrom(folder: folder)
-        }
-        else {
+        } else {
             folderView.populateFrom(model: model)
         }
     }

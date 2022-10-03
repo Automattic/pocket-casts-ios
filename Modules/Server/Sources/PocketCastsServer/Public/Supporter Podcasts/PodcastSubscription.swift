@@ -10,11 +10,11 @@ public struct PodcastSubscription: Codable {
     public var autoRenewing: Bool
     public var isPlusActivator: Bool = false
     public var platform: Int
-    
+
     public func platformIsWeb() -> Bool {
         platform == SubscriptionPlatform.web.rawValue
     }
-    
+
     public func isExpired() -> Bool {
         Date(timeIntervalSince1970: expiryDate).timeIntervalSinceNow < 0
     }

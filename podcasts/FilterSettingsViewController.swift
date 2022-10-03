@@ -3,7 +3,7 @@ import UIKit
 class FilterSettingsViewController: UIViewController {
     var filterToEdit: EpisodeFilter!
     @IBOutlet open var tableView: UITableView!
-    
+
     @IBAction func showResultsTapped(_ sender: AnyObject) {
         func saveFilterAndNotify() {
             filterToEdit.syncStatus = SyncStatus.notSynced.rawValue

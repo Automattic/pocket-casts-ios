@@ -5,14 +5,14 @@ import UIKit
 
 class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDelegate, UIScrollViewDelegate {
     weak var delegate: FilterCreatedDelegate?
-  
+
     @IBOutlet var filterByLabel: ThemeableLabel! {
         didSet {
             filterByLabel.style = .primaryText02
             filterByLabel.text = L10n.filterCreateFilterBy.localizedUppercase
         }
     }
-    
+
     @IBOutlet var chipCollectionView: FilterChipCollectionView! {
         didSet {
             if let layout = chipCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -21,7 +21,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
             chipCollectionView.cellBackgroundIsPrimaryUI01 = true
         }
     }
-    
+
     @IBOutlet var instructionLabel: ThemeableLabel! {
         didSet {
             instructionLabel.style = .primaryText02
@@ -45,14 +45,14 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
 
     @IBOutlet var previewDividerView: ThemeDividerView!
     static let previewCellId = "EpisodePreviewCell"
-  
+
     @IBOutlet var previewTable: ThemeableTable! {
         didSet {
             previewTable.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: FilterPreviewViewController.previewCellId)
             previewTable.rowHeight = UITableView.automaticDimension
         }
     }
-    
+
     @IBOutlet var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var filterByContainerView: UIView!
     @IBOutlet var filterByHeightContraint: NSLayoutConstraint!
@@ -95,24 +95,24 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
-        
+
         return queue
     }()
-    
+
     var episodes = [ListEpisode]()
     var cellHeights: [IndexPath: CGFloat] = [:]
-    
+
     var newFilter: EpisodeFilter!
     var continueToPreview = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createFilter
         newFilter = PlaylistManager.createNewFilter()
-      
+
         setupLargeTitle()
         setMinMaxNavBarHeights()
-        
+
         addCloseButton()
         (view as? ThemeableView)?.style = .primaryUi01
         chipCollectionView.filter = newFilter
@@ -123,30 +123,30 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
 
         continueButton.backgroundColor = newFilter.playlistColor().withAlphaComponent(0.25)
     }
- 
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionViewHeightConstraint.constant = chipCollectionView.collectionViewLayout.isKind(of: LeftAlignedFlowLayout.self) ? chipCollectionView.collectionViewLayout.collectionViewContentSize.height : 38
         view.layoutIfNeeded()
     }
-    
+
     deinit {
         removeAllCustomObservers()
     }
-    
+
     @objc func handleFilterChanged(_ notification: Notification) {
         guard let filter = notification.object as? EpisodeFilter, filter.uuid == newFilter?.uuid else {
             return
         }
-        
+
         reloadFilter()
         transformToPreview()
     }
-    
+
     @objc func handleFilterColorChanged() {
         reloadFilter()
     }
-    
+
     @IBAction func continueTapped(_ sender: Any) {
         navigationController?.pushViewController(CreateFilterViewController(filter: newFilter, delegate: delegate), animated: true)
     }
@@ -154,7 +154,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     override func closeAction() {
         PlaylistManager.delete(filter: newFilter, fireEvent: true)
     }
-    
+
     private func reloadFilter() {
         guard let reloadedFilter = DataManager.sharedManager.findFilter(uuid: newFilter.uuid) else { return }
         newFilter = reloadedFilter
@@ -163,10 +163,10 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
         refreshEpisodes(animated: true)
         continueButton.backgroundColor = newFilter.playlistColor()
     }
-    
+
     private func transformToPreview() {
         guard let flowLayout = chipCollectionView.collectionViewLayout as? UICollectionViewFlowLayout, flowLayout.scrollDirection == .vertical else { return }
-       
+
         let newHorizontalLayout = UICollectionViewFlowLayout()
         newHorizontalLayout.scrollDirection = .horizontal
         chipCollectionView.setCollectionViewLayout(newHorizontalLayout, animated: false, completion: { _ in
@@ -184,17 +184,17 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
             })
         })
     }
-    
+
     // MARK: - Chip Action Delegate
 
     func presentingViewController() -> UIViewController {
         self
     }
-    
+
     func starredChipSelected() {
         transformToPreview()
     }
-    
+
     func refreshEpisodes(animated: Bool) {
         let refreshOperation = PlaylistRefreshOperation(tableView: previewTable, filter: newFilter) { [weak self] newData in
             guard let strongSelf = self else { return }
@@ -206,26 +206,25 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
                 strongSelf.previewTable.reload(using: changeSet, with: .none, setData: { data in
                     strongSelf.episodes = data
                 })
-            }
-            else {
+            } else {
                 strongSelf.episodes = newData
                 strongSelf.previewTable.reloadData()
             }
         }
-        
+
         operationQueue.addOperation(refreshOperation)
     }
-    
+
     // MARK: - Animation to hide text when the large nav bar title disappears
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         setScrollState()
     }
-    
+
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         setScrollState(round: true)
     }
-    
+
     var maxNavBarHeight: CGFloat = 108
     var minNavBarHeight: CGFloat = 52
     private func setMinMaxNavBarHeights() {
@@ -236,7 +235,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
             maxNavBarHeight = largeNavBarHeight
         }
     }
-    
+
     private func setScrollState(round: Bool = false) {
         guard let navBarHeight = navigationController?.navigationBar.frame.height else {
             return
@@ -249,12 +248,12 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
         filterByHeightContraint.constant = percentage * 40
         previewContainerView.alpha = percentage
         previewContainerHeightConstraint.constant = 4 + (percentage * 77)
-       
+
         filterByLabel.isHidden = percentage < 0.7
         previewLabel.isHidden = percentage < 0.7
         previewContainerView.isHidden = percentage < 0.25
     }
-    
+
     override func handleThemeChanged() {
         setupLargeTitle()
         continueButton.backgroundColor = newFilter.playlistColor().withAlphaComponent(continueButton.isEnabled ? 1 : 0.25)

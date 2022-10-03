@@ -3,11 +3,11 @@ import SwiftUI
 struct EditFolderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var model: FolderModel
-    
+
     var dismissAction: (Bool) -> Void
-    
+
     @State var showingDeleteConfirmation = false
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {

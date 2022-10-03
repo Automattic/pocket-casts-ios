@@ -5,17 +5,15 @@ struct UpNextMediumWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
-    
+
     var body: some View {
         if let firstEpisode = episodes.first {
             if let topFilter = filterName {
                 MediumFilterView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], filterName: topFilter)
-            }
-            else {
+            } else {
                 MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying)
             }
-        }
-        else {
+        } else {
             HungryForMoreView()
         }
     }
@@ -25,7 +23,7 @@ struct MediumUpNextView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var isPlaying: Bool
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
@@ -43,14 +41,13 @@ struct MediumUpNextView: View {
                     .padding(16)
                     .frame(height: geometry.size.height / 2)
                 }
-               
+
                 HStack {
                     if let nextEpisode = secondEpisode {
                         EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
                             .padding(16.0)
                         Spacer()
-                    }
-                    else {
+                    } else {
                         Spacer()
                         HungryForMoreView()
                         Spacer()
@@ -67,9 +64,9 @@ struct MediumFilterView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var filterName: String
-    
+
     private let logoHeight: CGFloat = 28
-    
+
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
@@ -93,8 +90,7 @@ struct MediumFilterView: View {
                 if let secondEpisode = secondEpisode {
                     EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
                         .frame(minHeight: 40, maxHeight: 56)
-                }
-                else {
+                } else {
                     Spacer()
                         .frame(minHeight: 42, maxHeight: 56)
                 }

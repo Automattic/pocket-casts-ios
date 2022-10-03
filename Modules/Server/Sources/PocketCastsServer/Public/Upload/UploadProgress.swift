@@ -6,7 +6,7 @@ public struct UploadProgress {
     public var uploadedSoFar = 0 as Int64
     public var totalToUpload = 0 as Int64
     public var status = UploadStatus.notUploaded
-    
+
     public func progress() -> Double {
         Double(uploadedSoFar) / Double(totalToUpload)
     }

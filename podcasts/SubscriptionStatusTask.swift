@@ -8,7 +8,7 @@ class SubscriptionStatusTask: ApiBaseTask {
         let url = Server.Urls.api + "subscription/status"
         do {
             let (response, httpStatus) = getToServer(url: url, token: token)
-            
+
             guard let responseData = response, httpStatus?.statusCode == Server.HttpConstants.ok else {
                 FileLog.shared.addMessage("Subscription status failed \(httpStatus?.statusCode ?? -1)")
                 return
@@ -25,13 +25,12 @@ class SubscriptionStatusTask: ApiBaseTask {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.subscriptionStatusChanged)
                 let expiryDate = SubscriptionHelper.subscriptionRenewalDate()
                 FileLog.shared.addMessage("Received subscription status paid : \(status.paid), platform : \(status.platform), frequency : \(status.frequency), giftDays : \(status.giftDays), expiryDate :  \(DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate))")
-                
+
                 if originalSubscriptionStatus, !SubscriptionHelper.hasActiveSubscription() {
                     UserEpisodeManager.cleanupCloudOnlyFiles()
                 }
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Protobuf Encoding failed")
         }
     }

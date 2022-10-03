@@ -50,42 +50,42 @@ public class Podcast: NSObject, Identifiable {
     @objc public var showArchived = false
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
-    
+
     // transient not saved to database
     public var cachedUnreadCount = 0
-    
+
     public func autoDownloadOn() -> Bool {
         autoDownloadSetting == AutoDownloadSetting.latest.rawValue
     }
-    
+
     public func autoAddToUpNextOn() -> Bool {
         autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
     }
-    
+
     public func latestEpisode() -> Episode? {
         DataManager.sharedManager.findLatestEpisode(podcast: self)
     }
-    
+
     public func isSubscribed() -> Bool {
         subscribed != 0
     }
-    
+
     override public func isEqual(_ object: Any?) -> Bool {
         guard let otherPodcast = object as? Podcast else { return false }
-        
+
         return otherPodcast.uuid == uuid
     }
-    
+
     override public var hash: Int {
         Int(truncatingIfNeeded: id)
     }
-    
+
     public static func previewPodcast() -> Podcast {
         let podcast = Podcast()
         podcast.title = "The Greatest Podcast In The History Of Podcasts"
         podcast.author = "John Citizen Network Productions"
         podcast.uuid = "8a778760-a1de-0138-e66a-0acc26574db2"
-        
+
         return podcast
     }
 }

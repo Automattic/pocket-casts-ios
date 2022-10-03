@@ -10,8 +10,7 @@ struct AppIconWidget: Widget {
             .configurationDisplayName(L10n.widgetsAppIconName)
             .description(L10n.widgetsAppIconDescription)
             .supportedFamilies([.accessoryCircular])
-        }
-        else {
+        } else {
             return EmptyWidgetConfiguration()
         }
     }

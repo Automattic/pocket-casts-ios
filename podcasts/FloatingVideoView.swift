@@ -5,52 +5,52 @@ import UIKit
 class FloatingVideoView: UIView {
     private let shadowView = UIView()
     private let videoView = VideoPlayerView()
-    
+
     var player: AVPlayer? {
         didSet {
             videoView.player = player
         }
     }
-    
+
     private var videoHeightConstraint: NSLayoutConstraint!
     private var videoHeightSet = false
     private var lastWidthLayedOut: CGFloat = 0
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupView()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         setupView()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         if lastWidthLayedOut == bounds.width { return }
-        
+
         lastWidthLayedOut = bounds.width
         videoHeightSet = false
     }
-    
+
     private func setupView() {
         backgroundColor = UIColor.clear
-        
+
         videoView.videoSizeKnown = { [weak self] videoSize in
             guard let strongSelf = self, !strongSelf.videoHeightSet else { return }
-            
+
             strongSelf.videoHeightSet = true
-            
+
             let aspectRatio = videoSize.height / videoSize.width
             let currentWidth = strongSelf.videoView.bounds.width
             let newHeight = aspectRatio * currentWidth
             strongSelf.videoHeightConstraint.constant = newHeight
         }
-        
+
         // setup shadow
         shadowView.translatesAutoresizingMaskIntoConstraints = false
         shadowView.layer.shadowColor = UIColor.black.cgColor
@@ -60,17 +60,17 @@ class FloatingVideoView: UIView {
         shadowView.layer.cornerRadius = 8
         shadowView.layer.masksToBounds = false
         shadowView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        
+
         // setup video view
         videoView.translatesAutoresizingMaskIntoConstraints = false
         videoView.clipsToBounds = true
         videoView.layer.cornerRadius = 8
         videoView.layer.masksToBounds = true
         videoView.backgroundColor = UIColor.clear
-        
+
         addSubview(shadowView)
         addSubview(videoView)
-        
+
         videoHeightConstraint = videoView.heightAnchor.constraint(equalToConstant: bounds.height)
         NSLayoutConstraint.activate([
             videoView.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -6,55 +6,55 @@ import UIKit
 class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, INUIAddVoiceShortcutViewControllerDelegate, INUIEditVoiceShortcutViewControllerDelegate {
     @IBOutlet var tableView: ThemeableTable!
     @IBOutlet var errorView: UIStackView!
- 
+
     var filter: EpisodeFilter!
     weak var delegate: SiriSettingsViewController?
-    
+
     let enabledCellId = "siriEnabledCellId"
     let suggestedCellId = "siriSuggestedCellId"
-    
+
     enum sections { case enabledSection, availableSection }
     var tableData: [sections] = []
     enum tableRow { case playTopEpisode, playAll, openFilter }
     var availableRows: [tableRow] = [.playTopEpisode, .playAll, .openFilter]
-    
+
     var enabledShortcuts: [INVoiceShortcut]!
-    
+
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
-    
+
     init(filter: EpisodeFilter) {
         self.filter = filter
         super.init(nibName: "FilterShortcutsViewController", bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.settingsSiriShortcuts
         view.backgroundColor = AppTheme.colorForStyle(.primaryUi04)
-        
+
         tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
         tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
 
         Analytics.track(.filterSiriShortcutsShown)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         getEnabledShortcuts()
     }
-    
+
     override func handleThemeChanged() {
         view.backgroundColor = AppTheme.colorForStyle(.primaryUi04)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableData.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = tableData[section]
         switch section {
@@ -64,7 +64,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             return availableRows.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         let thisSection = tableData[section]
@@ -75,11 +75,11 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsSiriShortcutsAvailable)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         Constants.Values.tableSectionHeaderHeight
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = tableData[indexPath.section]
         switch section {
@@ -106,14 +106,14 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             return cell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         64
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableData[indexPath.section]
-        
+
         switch section {
         case .enabledSection:
             let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: enabledShortcuts[indexPath.row])
@@ -132,7 +132,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             case .openFilter:
                 newShortcut = SiriShortcutsManager.shared.openFilterShortcut(filter: filter)
             }
-            
+
             let viewController = INUIAddVoiceShortcutViewController(shortcut: newShortcut)
             viewController.modalPresentationStyle = .formSheet
             viewController.delegate = self
@@ -141,7 +141,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
+
     // Helper functions
     private func getEnabledShortcuts() {
         errorView.isHidden = true
@@ -150,7 +150,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, error in
             self.enabledShortcuts = []
             self.availableRows = [.playTopEpisode, .playAll, .openFilter]
-            
+
             if let allVoiceShortcuts = allVoiceShortcuts {
                 for voiceShortcut in allVoiceShortcuts {
                     if let playIntent = voiceShortcut.shortcut.intent as? INPlayMediaIntent {
@@ -161,16 +161,14 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                                     if let removeIndex = self.availableRows.firstIndex(of: .playTopEpisode) {
                                         self.availableRows.remove(at: removeIndex)
                                     }
-                                }
-                                else if mediaItem.identifier == Constants.SiriActions.playAllFilterId {
+                                } else if mediaItem.identifier == Constants.SiriActions.playAllFilterId {
                                     if let removeIndex = self.availableRows.firstIndex(of: .playAll) {
                                         self.availableRows.remove(at: removeIndex)
                                     }
                                 }
                             }
                         }
-                    }
-                    else if let openFilterIntent = voiceShortcut.shortcut.intent as? SJOpenFilterIntent {
+                    } else if let openFilterIntent = voiceShortcut.shortcut.intent as? SJOpenFilterIntent {
                         if openFilterIntent.filterUuid == self.filter.uuid {
                             self.enabledShortcuts.append(voiceShortcut)
                             if let removeIndex = self.availableRows.firstIndex(of: .openFilter) {
@@ -180,31 +178,30 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                     }
                 }
             }
-            
+
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 if let error = error {
                     FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
                     self.errorView.isHidden = false
-                }
-                else {
+                } else {
                     self.reloadData()
                 }
             }
         }
     }
-    
+
     func enabledSection() -> Int {
         enabledShortcuts.count > 0 ? 0 : -1
     }
-    
+
     func availableSection() -> Int {
         if enabledSection() == 0 {
             return availableRows.count > 0 ? 1 : -1
         }
         return 0
     }
-    
+
     private func reloadData() {
         tableData = []
         if enabledShortcuts.count > 0 {
@@ -217,9 +214,9 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             self.tableView.reloadData()
         }
     }
-    
+
     // MARK: INUIAddVoiceShortcutViewController
-    
+
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
         getEnabledShortcuts()
         reloadData()
@@ -227,21 +224,21 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         Analytics.track(.filterSiriShortcutAdded)
     }
-    
+
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     // MARK: INUIEditVoiceShortcutViewControllerDelegate
-    
+
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didUpdate voiceShortcut: INVoiceShortcut?, error: Error?) {
         getEnabledShortcuts()
         reloadData()
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
         getEnabledShortcuts()
         reloadData()
@@ -249,12 +246,12 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         Analytics.track(.filterSiriShortcutRemoved)
     }
-    
+
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
-    
+
     @IBAction func tryAgainTapped() {
         getEnabledShortcuts()
     }

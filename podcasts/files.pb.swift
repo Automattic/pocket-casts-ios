@@ -23,96 +23,96 @@ struct Files_File {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var size: Int64 {
         get { _storage._size }
         set { _uniqueStorage()._size = newValue }
     }
-    
+
     var contentType: String {
         get { _storage._contentType }
         set { _uniqueStorage()._contentType = newValue }
     }
-    
+
     var playedUpTo: Int32 {
         get { _storage._playedUpTo }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     var playedUpToModified: Int64 {
         get { _storage._playedUpToModified }
         set { _uniqueStorage()._playedUpToModified = newValue }
     }
-    
+
     var playingStatus: Int32 {
         get { _storage._playingStatus }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     var playingStatusModified: Int64 {
         get { _storage._playingStatusModified }
         set { _uniqueStorage()._playingStatusModified = newValue }
     }
-    
+
     var duration: Int64 {
         get { _storage._duration }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._published = newValue }
     }
-    
+
     /// Returns true if `published` has been explicitly set.
     var hasPublished: Bool { _storage._published != nil }
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() { _uniqueStorage()._published = nil }
-    
+
     var colour: Int32 {
         get { _storage._colour }
         set { _uniqueStorage()._colour = newValue }
     }
-    
+
     var imageURL: String {
         get { _storage._imageURL }
         set { _uniqueStorage()._imageURL = newValue }
     }
-    
+
     var hasCustomImage_p: Bool {
         get { _storage._hasCustomImage_p }
         set { _uniqueStorage()._hasCustomImage_p = newValue }
     }
-    
+
     var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._modifiedAt = newValue }
     }
-    
+
     /// Returns true if `modifiedAt` has been explicitly set.
     var hasModifiedAt: Bool { _storage._modifiedAt != nil }
     /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
     mutating func clearModifiedAt() { _uniqueStorage()._modifiedAt = nil }
-    
+
     var imageStatus: Int32 {
         get { _storage._imageStatus }
         set { _uniqueStorage()._imageStatus = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -120,61 +120,61 @@ struct Files_FileUpdate {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     /// Returns true if `playedUpTo` has been explicitly set.
     var hasPlayedUpTo: Bool { _storage._playedUpTo != nil }
     /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpTo() { _uniqueStorage()._playedUpTo = nil }
-    
+
     var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     /// Returns true if `playingStatus` has been explicitly set.
     var hasPlayingStatus: Bool { _storage._playingStatus != nil }
     /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatus() { _uniqueStorage()._playingStatus = nil }
-    
+
     var duration: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._duration ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     /// Returns true if `duration` has been explicitly set.
     var hasDuration: Bool { _storage._duration != nil }
     /// Clears the value of `duration`. Subsequent reads from it will return its default value.
     mutating func clearDuration() { _uniqueStorage()._duration = nil }
-    
+
     var colour: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._colour ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._colour = newValue }
     }
-    
+
     /// Returns true if `colour` has been explicitly set.
     var hasColour: Bool { _storage._colour != nil }
     /// Clears the value of `colour`. Subsequent reads from it will return its default value.
     mutating func clearColour() { _uniqueStorage()._colour = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -182,15 +182,15 @@ struct Files_AccountUsage {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var totalSize: Int64 = 0
-    
+
     var usedSize: Int64 = 0
-    
+
     var totalFiles: Int64 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -198,9 +198,9 @@ struct Files_FileListRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -208,26 +208,26 @@ struct Files_FileListResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var files: [Files_File] {
         get { _storage._files }
         set { _uniqueStorage()._files = newValue }
     }
-    
+
     var account: Files_AccountUsage {
         get { _storage._account ?? Files_AccountUsage() }
         set { _uniqueStorage()._account = newValue }
     }
-    
+
     /// Returns true if `account` has been explicitly set.
     var hasAccount: Bool { _storage._account != nil }
     /// Clears the value of `account`. Subsequent reads from it will return its default value.
     mutating func clearAccount() { _uniqueStorage()._account = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -235,11 +235,11 @@ struct Files_FileListUpdateRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var files: [Files_FileUpdate] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -247,51 +247,51 @@ struct Files_FileUploadRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var size: Int64 {
         get { _storage._size }
         set { _uniqueStorage()._size = newValue }
     }
-    
+
     var contentType: String {
         get { _storage._contentType }
         set { _uniqueStorage()._contentType = newValue }
     }
-    
+
     var duration: Int64 {
         get { _storage._duration }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     var colour: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._colour ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._colour = newValue }
     }
-    
+
     /// Returns true if `colour` has been explicitly set.
     var hasColour: Bool { _storage._colour != nil }
     /// Clears the value of `colour`. Subsequent reads from it will return its default value.
     mutating func clearColour() { _uniqueStorage()._colour = nil }
-    
+
     var hasCustomImage_p: Bool {
         get { _storage._hasCustomImage_p }
         set { _uniqueStorage()._hasCustomImage_p = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -299,13 +299,13 @@ struct Files_FileUploadResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var url = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -313,15 +313,15 @@ struct Files_ImageUploadRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var size: Int64 = 0
-    
+
     var contentType = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -329,11 +329,11 @@ struct Files_ImageUploadResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var url = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -341,33 +341,33 @@ struct Files_FileUploadedStatusRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var type = String()
-    
+
     var messageID = String()
-    
+
     var topicArn = String()
-    
+
     var subject = String()
-    
+
     var token = String()
-    
+
     var message = String()
-    
+
     var subscribeURL = String()
-    
+
     var timestamp = String()
-    
+
     var signatureVersion = String()
-    
+
     var signature = String()
-    
+
     var signingCertURL = String()
-    
+
     var unsubscribeURL = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -375,11 +375,11 @@ struct Files_FileRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -387,11 +387,11 @@ struct Files_FileDeleteRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -399,9 +399,9 @@ struct Files_FileDeleteResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -409,9 +409,9 @@ struct Files_FilePlayRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -419,11 +419,11 @@ struct Files_FilePlayResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var url = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -431,11 +431,11 @@ struct Files_SuccessResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var success: Bool = false
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -462,7 +462,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         14: .same(proto: "modifiedAt"),
         15: .same(proto: "imageStatus")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _title = String()
@@ -479,11 +479,11 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         var _hasCustomImage_p: Bool = false
         var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp?
         var _imageStatus: Int32 = 0
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _title = source._title
@@ -502,14 +502,14 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
             _imageStatus = source._imageStatus
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -535,7 +535,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -586,7 +586,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_File, rhs: Files_File) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -626,7 +626,7 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         5: .same(proto: "duration"),
         6: .same(proto: "colour")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _title = String()
@@ -634,11 +634,11 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         var _playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _duration: SwiftProtobuf.Google_Protobuf_Int64Value?
         var _colour: SwiftProtobuf.Google_Protobuf_Int32Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _title = source._title
@@ -648,14 +648,14 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             _colour = source._colour
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -672,7 +672,7 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -696,7 +696,7 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileUpdate, rhs: Files_FileUpdate) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -724,7 +724,7 @@ extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         2: .same(proto: "usedSize"),
         3: .same(proto: "totalFiles")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -735,7 +735,7 @@ extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if totalSize != 0 {
             try visitor.visitSingularInt64Field(value: totalSize, fieldNumber: 1)
@@ -748,7 +748,7 @@ extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_AccountUsage, rhs: Files_AccountUsage) -> Bool {
         if lhs.totalSize != rhs.totalSize { return false }
         if lhs.usedSize != rhs.usedSize { return false }
@@ -761,15 +761,15 @@ extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 extension Files_FileListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".FileListRequest"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileListRequest, rhs: Files_FileListRequest) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -782,28 +782,28 @@ extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         1: .same(proto: "files"),
         2: .same(proto: "account")
     ]
-    
+
     fileprivate class _StorageClass {
         var _files: [Files_File] = []
         var _account: Files_AccountUsage?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _files = source._files
             _account = source._account
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -816,7 +816,7 @@ extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._files.isEmpty {
@@ -828,7 +828,7 @@ extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileListResponse, rhs: Files_FileListResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -850,7 +850,7 @@ extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "files")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -859,14 +859,14 @@ extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !files.isEmpty {
             try visitor.visitRepeatedMessageField(value: files, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileListUpdateRequest, rhs: Files_FileListUpdateRequest) -> Bool {
         if lhs.files != rhs.files { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -885,7 +885,7 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
         6: .same(proto: "colour"),
         7: .same(proto: "hasCustomImage")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _title = String()
@@ -894,11 +894,11 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
         var _duration: Int64 = 0
         var _colour: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _hasCustomImage_p: Bool = false
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _title = source._title
@@ -909,14 +909,14 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
             _hasCustomImage_p = source._hasCustomImage_p
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -934,7 +934,7 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -961,7 +961,7 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileUploadRequest, rhs: Files_FileUploadRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -989,7 +989,7 @@ extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         1: .same(proto: "uuid"),
         2: .same(proto: "url")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -999,7 +999,7 @@ extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -1009,7 +1009,7 @@ extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileUploadResponse, rhs: Files_FileUploadResponse) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.url != rhs.url { return false }
@@ -1025,7 +1025,7 @@ extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         2: .same(proto: "size"),
         3: .same(proto: "contentType")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1036,7 +1036,7 @@ extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -1049,7 +1049,7 @@ extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_ImageUploadRequest, rhs: Files_ImageUploadRequest) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.size != rhs.size { return false }
@@ -1064,7 +1064,7 @@ extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "url")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1073,14 +1073,14 @@ extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !url.isEmpty {
             try visitor.visitSingularStringField(value: url, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_ImageUploadResponse, rhs: Files_ImageUploadResponse) -> Bool {
         if lhs.url != rhs.url { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -1104,7 +1104,7 @@ extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf.
         11: .same(proto: "SigningCertURL"),
         12: .same(proto: "UnsubscribeURL")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1124,7 +1124,7 @@ extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf.
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !type.isEmpty {
             try visitor.visitSingularStringField(value: type, fieldNumber: 1)
@@ -1164,7 +1164,7 @@ extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf.
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileUploadedStatusRequest, rhs: Files_FileUploadedStatusRequest) -> Bool {
         if lhs.type != rhs.type { return false }
         if lhs.messageID != rhs.messageID { return false }
@@ -1188,7 +1188,7 @@ extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "uuid")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1197,14 +1197,14 @@ extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileRequest, rhs: Files_FileRequest) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -1217,7 +1217,7 @@ extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "uuid")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1226,14 +1226,14 @@ extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileDeleteRequest, rhs: Files_FileDeleteRequest) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -1244,15 +1244,15 @@ extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
 extension Files_FileDeleteResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".FileDeleteResponse"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FileDeleteResponse, rhs: Files_FileDeleteResponse) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -1262,15 +1262,15 @@ extension Files_FileDeleteResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
 extension Files_FilePlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".FilePlayRequest"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FilePlayRequest, rhs: Files_FilePlayRequest) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -1282,7 +1282,7 @@ extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "url")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1291,14 +1291,14 @@ extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !url.isEmpty {
             try visitor.visitSingularStringField(value: url, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_FilePlayResponse, rhs: Files_FilePlayResponse) -> Bool {
         if lhs.url != rhs.url { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -1311,7 +1311,7 @@ extension Files_SuccessResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "success")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -1320,14 +1320,14 @@ extension Files_SuccessResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if success != false {
             try visitor.visitSingularBoolField(value: success, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Files_SuccessResponse, rhs: Files_SuccessResponse) -> Bool {
         if lhs.success != rhs.success { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }

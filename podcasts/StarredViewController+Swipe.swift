@@ -3,10 +3,10 @@ import SwipeCellKit
 
 extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate
-    
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard let episode = episodes[safe: indexPath.row]?.episode, !isMultiSelectEnabled else { return nil }
-        
+
         switch orientation {
         case .left:
             let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
@@ -16,20 +16,20 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
             return actions.swipeKitActions()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
-        
+
         switch orientation {
         case .left:
             options.expansionStyle = .selection
         case .right:
             options.expansionStyle = .destructive(automaticallyDelete: false)
         }
-        
+
         return options
     }
-    
+
     // MARK: - Swipe Handler
 
     var swipeSource: String {
@@ -39,10 +39,10 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func archivingRemovesFromList() -> Bool {
         false
     }
-    
+
     func actionPerformed(willBeRemoved: Bool) {
         refreshEpisodesFromDatabase(animated: true)
     }
-    
+
     func deleteRequested(uuid: String) {} // we don't support this one
 }

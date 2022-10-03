@@ -98,12 +98,10 @@ extension GenerateScreenshots {
             if !traversedDown {
                 app.swipeUp()
                 traversedDown = app.collectionViews.scrollPercent() == 100
-            }
-            else if !traversedUp {
+            } else if !traversedUp {
                 app.swipeDown()
                 traversedUp = app.collectionViews.scrollPercent() == 0
-            }
-            else {
+            } else {
                 break
             }
         }

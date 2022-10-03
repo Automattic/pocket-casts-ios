@@ -4,9 +4,9 @@ struct EditFolderPodcastsView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var model: FolderModel
     @ObservedObject private var pickerModel = PodcastPickerModel()
-    
+
     var dismissAction: () -> Void
-    
+
     var body: some View {
         NavigationView {
             PodcastPickerView(pickerModel: pickerModel)

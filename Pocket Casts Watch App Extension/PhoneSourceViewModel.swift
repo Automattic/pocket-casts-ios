@@ -62,8 +62,7 @@ class PhoneSourceViewModel: PlaySourceViewModel {
     func playPauseTapped(withEpisode episode: BaseEpisode) {
         if let currentEpisode = WatchDataManager.playingEpisode(), currentEpisode.uuid == episode.uuid {
             SessionManager.shared.togglePlayPause()
-        }
-        else {
+        } else {
             SessionManager.shared.play(episode: episode)
         }
     }
@@ -71,8 +70,7 @@ class PhoneSourceViewModel: PlaySourceViewModel {
     func skip(forward: Bool) {
         if forward {
             SessionManager.shared.skipForward()
-        }
-        else {
+        } else {
             SessionManager.shared.skipBack()
         }
     }

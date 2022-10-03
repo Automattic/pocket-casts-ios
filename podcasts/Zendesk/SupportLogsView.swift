@@ -9,7 +9,7 @@ struct SupportLogsView: View {
     init(_ viewModel: SupportLogsViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         VStack {
             optOutHeader()
@@ -33,7 +33,7 @@ struct SupportLogsView: View {
             viewModel.fetchDisplayItems()
         }
     }
-    
+
     private func optOutHeader() -> some View {
         Group {
             Toggle(L10n.supportIncludeDebugInformation, isOn: $viewModel.includeDebugInfo)

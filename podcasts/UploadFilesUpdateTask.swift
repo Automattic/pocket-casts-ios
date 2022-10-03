@@ -5,24 +5,24 @@ import Utils
 
 class UploadFilesUpdateTask: ApiBaseTask {
     var completion: ((Int) -> Void)?
-    
+
     private var episodes = [UserEpisode]()
-    
+
     init(episodes: [UserEpisode]) {
         self.episodes = episodes
-        
+
         super.init()
     }
-    
+
     override func apiTokenAcquired(token: String) {
         let url = Server.Urls.api + "files"
-        
+
         var updateRequest = Files_FileListUpdateRequest()
-        
+
         for episode in episodes {
             var updateFile = Files_FileUpdate()
             updateFile.uuid = episode.uuid
-            
+
             if episode.titleModified > 0 {
                 updateFile.title = episode.title ?? "no name"
             }
@@ -40,11 +40,11 @@ class UploadFilesUpdateTask: ApiBaseTask {
             }
             updateRequest.files.append(updateFile)
         }
-        
+
         do {
             let data = try updateRequest.serializedData()
             let (_, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             guard httpStatus == Server.HttpConstants.ok else {
                 FileLog.shared.addMessage("Upload file Update failed \(httpStatus)")
                 completion?(httpStatus)
@@ -59,12 +59,11 @@ class UploadFilesUpdateTask: ApiBaseTask {
                 $0.durationModified = 0
                 return $0
             }
-            
+
             DataManager.sharedManager.bulkSave(episodes: episodes)
             completion?(httpStatus)
             return
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }

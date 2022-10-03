@@ -15,35 +15,35 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
             discoverSectionView.style = .primaryUi02
         }
     }
-    
+
     private weak var delegate: DiscoverDelegate?
-    
+
     var discoverLayout: DiscoverLayout!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         (view as? ThemeableView)?.style = .primaryUi02
-        
+
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeCountryTapped))
         discoverSectionView.addGestureRecognizer(tapRecognizer)
-        
+
         updateRegion(Settings.discoverRegion(discoverLayout: discoverLayout))
-        
+
         discoverSectionView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         discoverSectionView.layer.borderWidth = 2
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
     }
-    
+
     func populateFrom(item: DiscoverItem) {}
-    
+
     @objc private func changeCountryTapped() {
         let countryChooser = CountryChooserViewController()
         let regions = Array(serverRegions().values.map { $0 })
@@ -53,15 +53,15 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
         countryChooser.selectedRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
         delegate?.navController()?.pushViewController(countryChooser, animated: true)
     }
-    
+
     private func updateRegion(_ region: String) {
         guard let serverRegion = serverRegions()[region.lowercased()] else { return }
-        
+
         countryName.text = serverRegion.name.localized
         countryFlag.kf.setImage(with: URL(string: serverRegion.flag))
         discoverSectionView.accessibilityLabel = L10n.discoverChangeRegion(serverRegion.name)
     }
-    
+
     func serverRegions() -> [String: DiscoverRegion] {
         discoverLayout.regions!
     }

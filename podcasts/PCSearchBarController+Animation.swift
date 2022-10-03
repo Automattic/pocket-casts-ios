@@ -3,13 +3,13 @@ import Foundation
 extension PCSearchBarController {
     func showCancelButton() {
         if !shouldShowCancelButton || cancelButtonShowing { return }
-        
+
         cancelButtonShowing = true
-        
+
         view.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) { [weak self] in
             guard let self = self else { return }
-            
+
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
                 self.roundedBgTrailingSpaceParent.isActive = false
                 self.roundedBgTrailingSpaceToCancel.isActive = true
@@ -21,12 +21,12 @@ extension PCSearchBarController {
             }
         }
     }
-    
+
     func hideCancelButton() {
         if !shouldShowCancelButton || !cancelButtonShowing { return }
-        
+
         cancelButtonShowing = false
-        
+
         view.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: {
             self.cancelButton.alpha = 0
