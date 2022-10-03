@@ -420,6 +420,8 @@ internal enum L10n {
   internal static var discoverFeatured: String { return L10n.tr("Localizable", "discover_featured") }
   /// FEATURED EPISODE
   internal static var discoverFeaturedEpisode: String { return L10n.tr("Localizable", "discover_featured_episode") }
+  /// Featured podcast or episode not found. Make sure you are connected to the internet and try again.
+  internal static var discoverFeaturedEpisodeErrorNotFound: String { return L10n.tr("Localizable", "discover_featured_episode_error_not_found") }
   /// FRESH PICK
   internal static var discoverFreshPick: String { return L10n.tr("Localizable", "discover_fresh_pick") }
   /// No podcasts found
