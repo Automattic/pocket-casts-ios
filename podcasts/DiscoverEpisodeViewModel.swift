@@ -188,14 +188,12 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
         if episode == nil {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-                let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
-
-                if episode == nil {
+                guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) != nil else {
                     completion?(false)
+                    return
                 }
-                else {
-                    completion?(true)
-                }
+
+                completion?(true)
             }
             return
         }
