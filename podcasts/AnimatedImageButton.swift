@@ -9,7 +9,7 @@ class AnimatedImageButton: UIView {
             buttonImage?.tintColor = mainColor
         }
     }
-    
+
     @IBInspectable var buttonTitle: String = "" {
         didSet {
             textLayer.string = buttonTitle
@@ -17,9 +17,9 @@ class AnimatedImageButton: UIView {
             invalidateIntrinsicContentSize()
         }
     }
-    
+
     @IBInspectable var cornerRadius: CGFloat = 8
-    
+
     private let imageSize: CGFloat = 23
     var buttonImage: UIImageView? {
         didSet {
@@ -28,14 +28,14 @@ class AnimatedImageButton: UIView {
             }
         }
     }
-    
+
     var buttonTapped: (() -> Void)?
-    
+
     enum AnimationType { case rotate }
-    
+
     private var shapeLayer = CAShapeLayer()
     private var textLayer = CATextLayer()
-    
+
     private var lastCGRectRendered = CGRect.zero
 
     private let textFont = UIFont.systemFont(ofSize: 15, weight: .medium)
@@ -49,53 +49,52 @@ class AnimatedImageButton: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         enablePointerInteraction()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         enablePointerInteraction()
     }
-    
+
     override func prepareForInterfaceBuilder() {
         awakeFromNib()
     }
-    
+
     // MARK: - View Methods
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         setup()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         if lastCGRectRendered.equalTo(bounds) { return }
-        
+
         lastCGRectRendered = bounds
-        
+
         let alteredRect = CGRect(x: 2, y: 2, width: bounds.width - 6, height: bounds.height - 6)
         shapeLayer.frame = alteredRect
         shapeLayer.path = UIBezierPath(roundedRect: alteredRect, cornerRadius: cornerRadius).cgPath
-        
+
         if let buttonImage = buttonImage {
             textLayer.frame = CGRect(x: imageSize, y: (alteredRect.height / 2) - 7, width: alteredRect.width - (imageSize / 2), height: 18)
             buttonImage.frame = CGRect(x: 15, y: (alteredRect.height / 2) - 7, width: imageSize, height: imageSize)
-        }
-        else {
+        } else {
             textLayer.frame = CGRect(x: 0, y: (alteredRect.height / 2) - 7, width: alteredRect.width, height: 18)
         }
 
         invalidateIntrinsicContentSize()
     }
-    
+
     func setup() {
         clipsToBounds = true
         isUserInteractionEnabled = true
-        
+
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeColor = mainColor.cgColor
         shapeLayer.lineCap = CAShapeLayerLineCap.round
@@ -110,18 +109,18 @@ class AnimatedImageButton: UIView {
         textLayer.font = CGFont(textFont.fontName as CFString)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         shapeLayer.addSublayer(textLayer)
-        
+
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
         addGestureRecognizer(tapRecognizer)
-        
+
         isAccessibilityElement = true
         accessibilityTraits = [.button]
     }
-    
+
     @objc private func tapped() {
         buttonTapped?()
     }
-    
+
     func animateImage(animationType: AnimationType) {
         switch animationType {
         case .rotate:
@@ -133,21 +132,21 @@ class AnimatedImageButton: UIView {
             buttonImage?.layer.add(rotation, forKey: nil)
         }
     }
-    
+
     func stopAnimatingImage() {
         buttonImage?.layer.removeAllAnimations()
     }
-    
+
     // MARK: - Touch handling
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         shapeLayer.transform = CATransform3DMakeScale(0.95, 0.95, 0.95)
     }
-    
+
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         shapeLayer.transform = CATransform3DIdentity
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         shapeLayer.transform = CATransform3DIdentity
     }

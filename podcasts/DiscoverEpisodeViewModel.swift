@@ -22,7 +22,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
     @Published var episodeDuration: String? = nil
     @Published var publishedDate: String? = nil
     @Published var isTrailer: Bool = false
-    
+
     @Published var listTitle: String = ""
 
     @Published var discoverEpisode: DiscoverEpisode? = nil
@@ -60,15 +60,13 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
                 if let episodeDuration = episode?.duration, episodeDuration > 0 {
                     self.episodeDuration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episodeDuration))
-                }
-                else {
+                } else {
                     self.episodeDuration = nil
                 }
 
                 if let published = episode?.published {
                     self.publishedDate = DateFormatHelper.sharedHelper.tinyLocalizedFormatter.string(from: published)
-                }
-                else {
+                } else {
                     self.publishedDate = nil
                 }
 
@@ -77,8 +75,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
                 if seasonNumber == 0, episodeNumber == 0 {
                     self.seasonInfo = nil
-                }
-                else {
+                } else {
                     self.seasonInfo = L10n.seasonEpisodeShorthand(seasonNumber: Int64(seasonNumber),
                                                                   episodeNumber: Int64(episodeNumber),
                                                                   shortFormat: true)
@@ -104,8 +101,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
                 if self.playbackManager.isActivelyPlaying(episodeUuid: episodeUuid) {
                     PlaybackActionHelper.pause()
-                }
-                else if let baseEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                } else if let baseEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
                     if let listId = listId {
                         AnalyticsHelper.podcastEpisodePlayedFromList(listId: listId, podcastUuid: podcastUuid)
                     }
@@ -145,8 +141,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUUID, subscribe: false) { added in
                 if added, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
                     promise(.success(existingPodcast))
-                }
-                else {
+                } else {
                     promise(.failure(.podcastNotFound))
                 }
             }

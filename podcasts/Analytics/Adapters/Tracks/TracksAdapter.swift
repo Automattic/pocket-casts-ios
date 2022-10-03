@@ -40,8 +40,7 @@ class TracksAdapter: AnalyticsAdapter {
 
     init(userDefaults: UserDefaults = .standard,
          subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
-         notificationCenter: NotificationCenter = .default)
-    {
+         notificationCenter: NotificationCenter = .default) {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
@@ -73,17 +72,17 @@ class TracksAdapter: AnalyticsAdapter {
         return [
             // General keys
             "user_is_logged_in": SyncManager.isUserLoggedIn(),
-            
+
             // Subscription Keys
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
             "plus_subscription_type": type.analyticsDescription,
             "plus_subscription_platform": platform.analyticsDescription,
             "plus_subscription_frequency": frequency.analyticsDescription,
-            
+
             // Accessibility
             "is_rtl_language": UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft,
-            
+
             // Large is the default size
             "has_dynamic_font_size": UIApplication.shared.preferredContentSizeCategory != .large
         ]

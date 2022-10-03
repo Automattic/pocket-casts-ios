@@ -7,34 +7,34 @@ extension SessionManager {
     func significantSyncableUpdate() {
         sendResponseless(messageType: WatchConstants.Messages.SignificantSyncableUpdate.type)
     }
-    
+
     func minorSyncableUpdate() {
         sendResponseless(messageType: WatchConstants.Messages.MinorSyncableUpdate.type)
     }
-    
+
     func play(episode: BaseEpisode) {
         if !WCSession.default.isReachable { return }
-        
+
         let playEpisodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.PlayEpisodeRequest.type, WatchConstants.Messages.PlayEpisodeRequest.episodeUuid: episode.uuid] as [String: Any]
         WCSession.default.sendMessage(playEpisodeRequest, replyHandler: nil)
     }
-    
+
     func togglePlayPause() {
         sendResponseless(messageType: WatchConstants.Messages.PlayPauseRequest.type)
     }
-    
+
     func skipBack() {
         sendResponseless(messageType: WatchConstants.Messages.SkipBackRequest.type)
     }
-    
+
     func skipForward() {
         sendResponseless(messageType: WatchConstants.Messages.SkipForwardRequest.type)
     }
-    
+
     func clearUpNext() {
         sendResponseless(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
     }
-    
+
     func setEpisodeStarred(starred: Bool, episodeUuid: String) {
         let starRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.StarRequest.type,
@@ -43,7 +43,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(starRequest, replyHandler: nil)
     }
-    
+
     func deleteDownload(episodeUuid: String) {
         let deleteDownloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.DeleteDownloadRequest.type,
@@ -51,7 +51,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(deleteDownloadRequest, replyHandler: nil)
     }
-    
+
     func downloadEpisode(episodeUuid: String) {
         let downloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.DownloadRequest.type,
@@ -59,7 +59,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(downloadRequest, replyHandler: nil)
     }
-    
+
     func stopEpisodeDownload(episodeUuid: String) {
         let stopDownloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.StopDownloadRequest.type,
@@ -67,7 +67,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(stopDownloadRequest, replyHandler: nil)
     }
-    
+
     func archiveEpisode(episodeUuid: String) {
         let archiveRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.ArchiveRequest.type,
@@ -75,7 +75,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(archiveRequest, replyHandler: nil)
     }
-    
+
     func unarchiveEpisode(episodeUuid: String) {
         let unarchiveRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.UnarchiveRequest.type,
@@ -83,7 +83,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(unarchiveRequest, replyHandler: nil)
     }
-    
+
     func markPlayed(episodeUuid: String) {
         let markPlayedRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkPlayedRequest.type,
@@ -91,7 +91,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(markPlayedRequest, replyHandler: nil)
     }
-    
+
     func markUnplayed(episodeUuid: String) {
         let markUnplayedRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkUnplayedRequest.type,
@@ -99,7 +99,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(markUnplayedRequest, replyHandler: nil)
     }
-    
+
     func changeChapter(next: Bool) {
         let changeChapterRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.ChangeChapterRequest.type,
@@ -107,22 +107,22 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(changeChapterRequest, replyHandler: nil)
     }
-    
+
     func decreasePlaybackSpeed() {
         let decreaseSpeedRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.DecreaseSpeedRequest.type] as [String: Any]
         WCSession.default.sendMessage(decreaseSpeedRequest, replyHandler: nil)
     }
-    
+
     func changeSpeedInterval() {
         let changeSpeedIntervalRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.ChangeSpeedIntervalRequest.type] as [String: Any]
         WCSession.default.sendMessage(changeSpeedIntervalRequest, replyHandler: nil)
     }
-    
+
     func increasePlaybackSpeed() {
         let increaseSpeedRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.IncreaseSpeedRequest.type] as [String: Any]
         WCSession.default.sendMessage(increaseSpeedRequest, replyHandler: nil)
     }
-    
+
     func setVolumeBoost(enabled: Bool) {
         let volumeBoostRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.VolumeBoostRequest.type,
@@ -130,7 +130,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(volumeBoostRequest, replyHandler: nil)
     }
-    
+
     func setTrimSilence(enabled: Bool) {
         let trimSilenceRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.TrimSilenceRequest.type,
@@ -138,7 +138,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(trimSilenceRequest, replyHandler: nil)
     }
-    
+
     func addToUpNext(episodeUuid: String, toTop: Bool) {
         let addToUpNextRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.AddToUpNextRequest.type,
@@ -147,7 +147,7 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(addToUpNextRequest, replyHandler: nil)
     }
-    
+
     func removeFromUpNext(episodeUuid: String) {
         let addToUpNextRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.RemoveFromUpNextRequest.type,
@@ -155,13 +155,13 @@ extension SessionManager {
         ] as [String: Any]
         WCSession.default.sendMessage(addToUpNextRequest, replyHandler: nil)
     }
-    
+
     func requestEpisode(uuid: String, onReply: @escaping ((BaseEpisode?) -> Void), onError: (() -> Void)? = nil) {
         if !WCSession.default.isReachable {
             onError?()
             return
         }
-        
+
         let episodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.EpisodeRequest.type, WatchConstants.Messages.EpisodeRequest.episodeUuid: uuid] as [String: Any]
         WCSession.default.sendMessage(episodeRequest, replyHandler: { response in
             let episode = WatchDataManager.convertToEpisode(json: response)
@@ -170,13 +170,13 @@ extension SessionManager {
             onError?()
         }
     }
-    
+
     func requestContents(filter: WatchFilter, replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
         if !WCSession.default.isReachable {
             errorHandler?()
             return
         }
-        
+
         let filterRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.FilterRequest.type, WatchConstants.Messages.FilterRequest.filterUuid: filter.uuid] as [String: Any]
         WCSession.default.sendMessage(filterRequest, replyHandler: { episodesData in
             let episodes = WatchDataManager.convertToEpisodeList(data: episodesData)
@@ -185,13 +185,13 @@ extension SessionManager {
             errorHandler?()
         }
     }
-    
+
     func requestDownloadedEpisodes(replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
         if !WCSession.default.isReachable {
             errorHandler?()
             return
         }
-        
+
         let downloadRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.DownloadsRequest.type]
         WCSession.default.sendMessage(downloadRequest, replyHandler: { episodesData in
             let episodes = WatchDataManager.convertToEpisodeList(data: episodesData)
@@ -200,13 +200,13 @@ extension SessionManager {
             errorHandler?()
         }
     }
-    
+
     func requestUserEpisodes(replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
         if !WCSession.default.isReachable {
             errorHandler?()
             return
         }
-        
+
         let request = [WatchConstants.Messages.messageType: WatchConstants.Messages.UserEpisodeRequest.type]
         WCSession.default.sendMessage(request, replyHandler: { episodesData in
             let episodes = WatchDataManager.convertToEpisodeList(data: episodesData)
@@ -215,10 +215,10 @@ extension SessionManager {
             errorHandler?()
         }
     }
-    
+
     private func sendResponseless(messageType: String) {
         if !WCSession.default.isReachable { return }
-        
+
         let message = [WatchConstants.Messages.messageType: messageType]
         WCSession.default.sendMessage(message, replyHandler: nil)
     }

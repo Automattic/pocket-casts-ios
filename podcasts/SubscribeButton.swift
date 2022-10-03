@@ -30,17 +30,17 @@ class SubscribeButton: ThemeableView {
             alpha = isEnabled ? 1 : 0.25
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         Bundle.main.loadNibNamed("SubscribeButton", owner: self, options: nil)
         addSubview(contentView)
@@ -49,11 +49,11 @@ class SubscribeButton: ThemeableView {
         backgroundView.layer.borderWidth = 2
         setBackgroundColors()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     func setBackgroundColors() {
         contentView.backgroundColor = ThemeColor.primaryUi02()
         if isHighlighted || isSelected {
@@ -64,8 +64,7 @@ class SubscribeButton: ThemeableView {
             titleLabel.isHidden = isSelected
             tickImageView.isHidden = false
             tickImageView.alpha = isSelected ? 1 : 0
-        }
-        else {
+        } else {
             titleLabel.style = .primaryInteractive01
             backgroundView.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
             backgroundView.layer.backgroundColor = ThemeColor.primaryUi02().cgColor
@@ -74,7 +73,7 @@ class SubscribeButton: ThemeableView {
             tickImageView.alpha = 0
         }
     }
-    
+
     override func handleThemeDidChange() {
         setBackgroundColors()
     }

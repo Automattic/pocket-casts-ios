@@ -7,10 +7,10 @@ class SceneHelper {
         }
         return scene
     }
-    
+
     class func connectedScene() -> UIWindowScene? {
         let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
-        
+
         for scene in scenes {
             if scene.isKind(of: UIWindowScene.self) {
                 return scene
@@ -18,7 +18,7 @@ class SceneHelper {
         }
         return nil
     }
-    
+
     class func newMainScreenWindow() -> UIWindow {
         if let scene = foregroundActiveAppScene() {
             return UIWindow(windowScene: scene)
@@ -26,7 +26,7 @@ class SceneHelper {
 
         return UIWindow(frame: UIScreen.main.bounds)
     }
-    
+
     class func rootViewController() -> UIViewController? {
         if let scene = connectedScene() {
             for window in scene.windows {

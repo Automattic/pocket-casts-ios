@@ -6,6 +6,6 @@ class SiriShortcutSuggestedCell: ThemeableCell {
             addIcon.tintColor = ThemeColor.primaryInteractive01()
         }
     }
-    
+
     @IBOutlet var titleLabel: UILabel!
 }

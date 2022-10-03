@@ -7,9 +7,9 @@ class SourceInterfaceController: PCInterfaceController {
     @IBOutlet var refreshDataButton: WKInterfaceButton!
     @IBOutlet var lastRefreshLabel: WKInterfaceLabel!
     @IBOutlet var plusMarketingGroup: WKInterfaceGroup!
-    
+
     @IBOutlet var phoneNowPlayingImage: WKInterfaceImage!
-    
+
     @IBOutlet var watchPlusOnlyGroup: WKInterfaceGroup!
     @IBOutlet var watchNowPlayingIcon: WKInterfaceImage!
     @IBOutlet var watchTitle: WKInterfaceLabel! {
@@ -17,14 +17,14 @@ class SourceInterfaceController: PCInterfaceController {
             watchTitle.setText(L10n.watch)
         }
     }
-    
+
     @IBOutlet var signedInLabel: WKInterfaceLabel!
     @IBOutlet var profileImage: WKInterfaceImage!
     @IBOutlet var usernameLabel: WKInterfaceLabel!
-    
+
     @IBOutlet var signInInfoGroup: WKInterfaceGroup!
     @IBOutlet var refreshAccountButton: WKInterfaceButton!
-    
+
     @IBOutlet var phoneSourceLabel: WKInterfaceLabel! {
         didSet {
             phoneSourceLabel.setText(L10n.phone)
@@ -74,13 +74,13 @@ class SourceInterfaceController: PCInterfaceController {
     }
 
     private var refreshTimedActionHelper = TimedActionHelper()
-    
+
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        
+
         reload()
     }
-    
+
     override func handleDataUpdated() {
         guard !refreshTimedActionHelper.isTimerValid() else {
             refreshTimedActionHelper.cancelTimer()
@@ -89,7 +89,7 @@ class SourceInterfaceController: PCInterfaceController {
         }
         reload()
     }
-    
+
     override func addAdditionalObservers() {
         addCustomObserver(Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), selector: #selector(handleStatusChangeFromNotification))
         addCustomObserver(Notification.Name(rawValue: ServerNotifications.subscriptionStatusChanged.rawValue), selector: #selector(handleStatusChangeFromNotification))
@@ -97,26 +97,26 @@ class SourceInterfaceController: PCInterfaceController {
         addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncStarted.rawValue), selector: #selector(updateLastRefreshDetails))
         addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncCompleted.rawValue), selector: #selector(updateLastRefreshDetails))
     }
-    
+
     @objc private func handleStatusChangeFromNotification() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.reload()
         }
     }
-    
+
     private func reload() {
         let isPlusUser = SubscriptionHelper.hasActiveSubscription()
         phoneNowPlayingImage.setHidden(!SourceManager.shared.isPhone())
         watchNowPlayingIcon.setHidden(!SourceManager.shared.isWatch())
-        
+
         signedInLabel.setHidden(!SyncManager.isUserLoggedIn())
         signInInfoGroup.setHidden(SyncManager.isUserLoggedIn())
-        
+
         if SyncManager.isUserLoggedIn(), isPlusUser {
             usernameLabel.setText(ServerSettings.syncingEmail())
-            
+
             profileImage.setImage(UIImage(named: "profile-plus"))
             updateLastRefreshDetails()
             infoLabel.setHidden(false)
@@ -124,14 +124,12 @@ class SourceInterfaceController: PCInterfaceController {
             refreshDataButton.setHidden(false)
             refreshAccountButton.setHidden(true)
             watchPlusOnlyGroup.setHidden(true)
-            
+
             plusMarketingGroup.setHidden(true)
-        }
-        else {
+        } else {
             if SyncManager.isUserLoggedIn() {
                 usernameLabel.setText(ServerSettings.syncingEmail())
-            }
-            else {
+            } else {
                 usernameLabel.setText(L10n.signedOut)
             }
             profileImage.setImage(UIImage(named: "profile-free"))
@@ -143,28 +141,28 @@ class SourceInterfaceController: PCInterfaceController {
             plusMarketingGroup.setHidden(false)
         }
     }
-    
+
     @IBAction func phoneTapped() {
         if SourceManager.shared.isWatch(), !nowPlayingEpisodesMatchOnBothSources() {
             WatchSyncManager.shared.syncThenNotifyPhone(significantChange: true, syncRequired: true)
         }
-        
+
         SourceManager.shared.setSource(newSource: .phone)
-        
+
         pushController(withName: "InterfaceController", context: nil)
     }
-    
+
     @IBAction func watchTapped() {
         guard SubscriptionHelper.hasActiveSubscription() else { return }
-        
+
         if SourceManager.shared.isPhone(), !nowPlayingEpisodesMatchOnBothSources() {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: false)
         }
         SourceManager.shared.setSource(newSource: .watch)
-        
+
         pushController(withName: "InterfaceController", context: nil)
     }
-    
+
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
         let watchCurrentEpisode = PlaybackManager.shared.currentEpisode()
         let phoneCurrentEpisode = WatchDataManager.playingEpisode()
@@ -175,42 +173,38 @@ class SourceInterfaceController: PCInterfaceController {
         }
         return false
     }
-    
+
     @IBAction func refreshDataTapped() {
         WKInterfaceDevice.current().play(.success)
         SessionManager.shared.requestData()
-        
+
         refreshTimedActionHelper.startTimer(for: 5.seconds, action: {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         })
-        
+
         lastRefreshLabel.setText(L10n.refreshing)
     }
-    
+
     @IBAction func refreshAccountTapped() {
         WKInterfaceDevice.current().play(.success)
         SyncManager.signout()
         WatchSyncManager.shared.loginAndRefreshIfRequired()
     }
-    
+
     @objc private func updateLastRefreshDetails() {
         var lastRefreshText = String()
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
-        }
-        else if SyncManager.isFirstSyncInProgress() {
+        } else if SyncManager.isFirstSyncInProgress() {
             lastRefreshText = L10n.syncing
-        }
-        else if SyncManager.isRefreshInProgress() {
+        } else if SyncManager.isRefreshInProgress() {
             lastRefreshText = L10n.refreshing
-        }
-        else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
+        } else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
             lastRefreshText = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
-        }
-        else {
+        } else {
             lastRefreshText = L10n.timeFormatNever
         }
-        
+
         DispatchQueue.main.async { [weak self] in
             self?.lastRefreshLabel.setText(lastRefreshText)
             self?.lastRefreshLabel.setHidden(false)

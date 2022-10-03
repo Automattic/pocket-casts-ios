@@ -3,26 +3,24 @@ import UIKit
 
 class BasePlayPauseButton: UIButton {
     private static let animationSpeed = 1.0 as CGFloat
-    
+
     private enum PlayState { case playing, paused, notSet }
-    
+
     private var currentState = PlayState.notSet
     var animationView: AnimationView!
-    
+
     var isPlaying = false {
         didSet {
             // check for a state we're already in
             if isPlaying, currentState == .playing { return }
             if !isPlaying, currentState == .paused { return }
-            
+
             if currentState == .notSet {
                 currentState = isPlaying ? .playing : .paused
                 animationView.currentProgress = isPlaying ? 0 : 0.5
-            }
-            else if isPlaying {
+            } else if isPlaying {
                 animateToPlaying()
-            }
-            else {
+            } else {
                 animateToPaused()
             }
 
@@ -31,7 +29,7 @@ class BasePlayPauseButton: UIButton {
             accessibilityIdentifier = "play pause button"
         }
     }
-    
+
     var playButtonColor: UIColor = .white {
         didSet {
             let colorValues = playButtonColor.getRGBA()
@@ -40,41 +38,41 @@ class BasePlayPauseButton: UIButton {
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Stroke 1.Color"))
         }
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         animationView = AnimationView(name: animationName())
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = BasePlayPauseButton.animationSpeed
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         place(animation: animationView)
     }
-    
+
     func animationCenter() -> CGPoint {
         animationView.center
     }
-    
+
     private func animateToPlaying() {
         animate(from: 0.5, to: 1.0, changingToState: .playing)
     }
-    
+
     private func animateToPaused() {
         animate(from: 0, to: 0.5, changingToState: .paused)
     }
-    
+
     func place(animation: AnimationView) {}
     func animationName() -> String {
         "player_play_button"
     }
-    
+
     private func animate(from: CGFloat, to: CGFloat, changingToState: PlayState) {
         currentState = changingToState
-        
+
         // only run the animation if our app is foregrounded, otherwise just change the state
         if UIApplication.shared.applicationState == .active {
             animationView.currentProgress = from
@@ -83,8 +81,7 @@ class BasePlayPauseButton: UIButton {
                     self?.animationView.currentProgress = to
                 }
             }
-        }
-        else {
+        } else {
             animationView.currentProgress = to
         }
     }

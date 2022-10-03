@@ -12,8 +12,7 @@ struct EpisodeRow: View {
         Group {
             if showArtwork {
                 iconLayout
-            }
-            else {
+            } else {
                 textOnlyLayout
             }
         }
@@ -68,8 +67,7 @@ struct EpisodeRow: View {
                 Image("upnext_status", bundle: Bundle.watchAssets)
                     .resizable()
                     .frame(width: iconSize, height: iconSize)
-            }
-            else if showArtwork {
+            } else if showArtwork {
                 Spacer()
                     .frame(width: iconSize, height: iconSize)
             }
@@ -78,13 +76,11 @@ struct EpisodeRow: View {
                 Image(downloadStatusIconName)
                     .resizable()
                     .frame(width: iconSize, height: iconSize)
-            }
-            else if viewModel.isDownloading {
+            } else if viewModel.isDownloading {
                 ProgressView()
                     .scaleEffect(x: progressScale, y: progressScale, anchor: .center)
                     .frame(width: iconSize, height: iconSize)
-            }
-            else if showArtwork {
+            } else if showArtwork {
                 Spacer()
                     .frame(width: iconSize, height: iconSize)
             }

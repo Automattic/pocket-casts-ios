@@ -4,7 +4,7 @@ import SwiftUI
 
 struct PodcastEpisodeListView: View {
     let headerImageSize: CGFloat = 65
-    
+
     @StateObject var viewModel: PodcastEpisodeListViewModel
 
     var body: some View {
@@ -19,7 +19,7 @@ struct PodcastEpisodeListView: View {
             viewModel.didChangeSortOrder(option: option)
         }
     }
-    
+
     var podcastInfo: some View {
         Group {
             CachedImage(url: viewModel.podcast.artworkURL)
@@ -40,7 +40,7 @@ struct PodcastEpisodeListView: View {
 
 struct PodcastEpisodeListView_Previews: PreviewProvider {
     static let testViewModel = PodcastEpisodeListViewModel(podcast: Podcast())
-    
+
     static var previews: some View {
         ForEach(PreviewDevice.previewDevices, id: \.rawValue) { device in
             PodcastEpisodeListView(viewModel: testViewModel)

@@ -20,26 +20,26 @@ class UpgradeRequiredViewController: PCViewController {
             logoImageView.imageNameFunc = AppTheme.pcPlusLogoVerticalImageName
         }
     }
-    
+
     @IBOutlet var verticalLogo: UIImageView! {
         didSet {
             verticalLogo.image = Theme.isDarkTheme() ? UIImage(named: "verticalLogoDark") : UIImage(named: "verticalLogo")
         }
     }
-    
+
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText01
             infoLabel.text = L10n.plusRequiredFeature
         }
     }
-    
+
     @IBOutlet var priceLabel: ThemeableLabel! {
         didSet {
             priceLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var noThanksButton: ThemeableRoundedButton! {
         didSet {
             noThanksButton.shouldFill = false
@@ -49,19 +49,19 @@ class UpgradeRequiredViewController: PCViewController {
 
     let source: PlusUpgradeViewSource
     weak var upgradeRootViewController: UIViewController?
-    
+
     init(upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         self.upgradeRootViewController = upgradeRootViewController
         self.source = source
 
         super.init(nibName: "UpgradeRequiredViewController", bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,15 +72,15 @@ class UpgradeRequiredViewController: PCViewController {
 
         AnalyticsHelper.plusUpgradeViewed(source: source)
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.popupStatusBarStyle()
     }
-    
+
     @IBOutlet var learnMoreButton: ThemeableRoundedButton! {
         didSet {
             learnMoreButton.textStyle = .primaryInteractive01
@@ -88,16 +88,16 @@ class UpgradeRequiredViewController: PCViewController {
             learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
         }
     }
-    
+
     @IBAction func learnMoreClicked(_ sender: Any) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
     }
-    
+
     @IBAction func doneCicked(_ sender: Any) {
         AnalyticsHelper.plusUpgradeDismissed(source: source)
         dismiss(animated: true, completion: nil)
     }
-    
+
     @IBAction func upgradeClicked(_ sender: Any) {
         AnalyticsHelper.plusUpgradeConfirmed(source: source)
 
@@ -109,21 +109,20 @@ class UpgradeRequiredViewController: PCViewController {
             if SyncManager.isUserLoggedIn() {
                 let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
                 presentingController?.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
-            }
-            else {
+            } else {
                 let profileIntroViewController = ProfileIntroViewController()
                 profileIntroViewController.upgradeRootViewController = presentingController
                 presentingController?.present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
             }
         })
     }
-    
+
     @objc func iapProductsUpdated() {
         updatePricingLabels()
     }
-    
+
     // MARK: - Orientation
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }

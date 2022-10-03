@@ -17,8 +17,7 @@ extension UIViewController {
             // Use the equation n * 10^9 to convert seconds to nanoseconds.
             try? await Task.sleep(nanoseconds: UInt64(delay * pow(10.0, 9.0)))
             if let windowScene = self.view.window?.windowScene,
-               self.navigationController?.topViewController == self
-            {
+               self.navigationController?.topViewController == self {
                 SKStoreReviewController.requestReview(in: windowScene)
                 Settings.addReviewRequested()
                 Analytics.track(.appStoreReviewRequested, properties: ["source": NSStringFromClass(self.classForCoder)])

@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ModalCloseButton: View {
     @EnvironmentObject var theme: Theme
-    
+
     var action: () -> Void
-    
+
     var body: some View {
         HStack {
             Spacer()

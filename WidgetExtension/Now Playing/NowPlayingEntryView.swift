@@ -3,7 +3,7 @@ import SwiftUI
 
 struct NowPlayingWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
-    
+
     var body: some View {
         if let playingEpisode = entry.episode {
             VStack(alignment: .leading, spacing: 3) {
@@ -30,15 +30,14 @@ struct NowPlayingWidgetEntryView: View {
                     .frame(height: 38, alignment: .center)
                     .layoutPriority(1)
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                       
+
                 if entry.isPlaying {
                     Text(L10n.nowPlaying.localizedUppercase)
                         .font(.caption2)
                         .fontWeight(.medium)
                         .foregroundColor(Color.secondary)
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
-                }
-                else {
+                } else {
                     Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)).localizedUppercase)
                         .font(.caption2)
                         .fontWeight(.medium)
@@ -47,8 +46,7 @@ struct NowPlayingWidgetEntryView: View {
                         .layoutPriority(1)
                 }
             }.widgetURL(URL(string: "pktc://last_opened"))
-        }
-        else {
+        } else {
             ZStack {
                 Image(CommonWidgetHelper.loadAppIconName())
                     .resizable()

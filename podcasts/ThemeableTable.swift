@@ -7,7 +7,7 @@ class ThemeableTable: UITableView {
             updateColor()
         }
     }
-    
+
     var themeOverride: Theme.ThemeType? {
         didSet {
             updateColor()
@@ -32,15 +32,15 @@ class ThemeableTable: UITableView {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         updateColor()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     @objc private func themeDidChange() {
         updateColor()
     }
-    
+
     class func setHeaderFooterTextColor(on headerFooter: UIView) {
         // we do this instead of using UIAppearance because UIKit overwrites this colour sometimes
         // mentioned here (https://developer.apple.com/forums/thread/60735) and reproducible if you set your phone to dark and our app to light

@@ -2,7 +2,7 @@ import SwiftUI
 
 enum AboutLogo: CaseIterable {
     case wordpress, jetpack, dayone, pocketcasts, simplenote, woo, tumblr
-    
+
     var logoName: String {
         switch self {
         case .wordpress:
@@ -21,15 +21,15 @@ enum AboutLogo: CaseIterable {
             return "family_tumblr_logo"
         }
     }
-    
+
     func logoTint(onDark: Bool) -> Color? {
         if self == .tumblr {
             return onDark ? Color.white : nil
         }
-        
+
         return nil
     }
-    
+
     var color: Color {
         let uiColor: UIColor
         switch self {
@@ -48,12 +48,12 @@ enum AboutLogo: CaseIterable {
         case .tumblr:
             uiColor = UIColor(hex: "#001935")
         }
-        
+
         let alphaColor = uiColor.withAlphaComponent(0.16)
-        
+
         return Color(alphaColor)
     }
-    
+
     var description: String {
         switch self {
         case .wordpress:
@@ -72,10 +72,10 @@ enum AboutLogo: CaseIterable {
             return "Tumblr"
         }
     }
-    
+
     func randomRotation(maxDegrees: Double) -> Angle {
         if self == .pocketcasts { return Angle(degrees: 0) }
-        
+
         return Angle(degrees: Double.random(in: -maxDegrees ..< maxDegrees))
     }
 }

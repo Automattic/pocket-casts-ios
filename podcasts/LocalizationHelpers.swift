@@ -5,8 +5,7 @@ public extension String {
     func localized(seperatingWith seperator: (Character) throws -> Bool) -> String? {
         if let substring = try? split(whereSeparator: seperator).first {
             return String(substring).localized
-        }
-        else {
+        } else {
             return localized
         }
     }

@@ -52,7 +52,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         episodeDownloadQueue.formUnion(uuids)
         bulkEvent(.episodeBulkDownloadQueued, count: episodes.count)
     }
-    
+
     func downloadDeleted(episode: BaseEpisode) {
         episodeEvent(.episodeDownloadDeleted, episode: episode)
     }
@@ -136,11 +136,9 @@ private extension AnalyticsEpisodeHelper {
         let episodeUUID: String
         if let episode {
             episodeUUID = episode.uuid
-        }
-        else if let uuid {
+        } else if let uuid {
             episodeUUID = uuid
-        }
-        else {
+        } else {
             episodeUUID = "unknown"
         }
 

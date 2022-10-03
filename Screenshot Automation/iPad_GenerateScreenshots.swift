@@ -37,7 +37,7 @@ class iPad_GenerateScreenshots: GenerateScreenshots {
         openEpisode(Config.step_03_episodeKey)
 
         startMultiTask(withURL: Config.step_03_multiTaskURL)
-        
+
         hittablePlayButton.waitForThenTap()
 
         if !app.buttons["Close player"].exists {

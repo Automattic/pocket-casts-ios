@@ -15,14 +15,14 @@ class SelectAccountTypeViewController: UIViewController {
             freeBorderView.addGestureRecognizer(tapGesture)
         }
     }
-    
+
     @IBOutlet var freeRadioButton: UIButton! {
         didSet {
             freeRadioButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
             freeRadioButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
         }
     }
-    
+
     @IBOutlet var plusBorderView: ThemeableSelectionView! {
         didSet {
             plusBorderView.isSelected = false
@@ -33,14 +33,14 @@ class SelectAccountTypeViewController: UIViewController {
             plusBorderView.addGestureRecognizer(tapGesture)
         }
     }
-    
+
     @IBOutlet var plusRadioButton: UIButton! {
         didSet {
             plusRadioButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
             plusRadioButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
         }
     }
-    
+
     @IBOutlet var freeLabel: ThemeableLabel! {
         didSet {
             freeLabel.text = L10n.createAccountFreePrice.localizedUppercase
@@ -53,27 +53,27 @@ class SelectAccountTypeViewController: UIViewController {
             regularLabel.text = L10n.createAccountFreeAccountType
         }
     }
-    
+
     @IBOutlet var almostEverythingLabel: ThemeableLabel! {
         didSet {
             almostEverythingLabel.text = L10n.createAccountFreeDetails
             almostEverythingLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var plusPaymentFreqLabel: ThemeableLabel! {
         didSet {
             plusPaymentFreqLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var everythingLabel: ThemeableLabel! {
         didSet {
             everythingLabel.text = L10n.createAccountPlusDetails
             everythingLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var nextButton: ThemeableRoundedButton! {
         didSet {
             nextButton.setTitle(L10n.next, for: .normal)
@@ -85,15 +85,15 @@ class SelectAccountTypeViewController: UIViewController {
             seperatorView.style = .primaryUi05
         }
     }
-    
+
     @IBOutlet var plusLogoImageView: ThemeableImageView! {
         didSet {
             plusLogoImageView.imageNameFunc = AppTheme.pcPlusLogoHorizontalImageName
         }
     }
-    
+
     @IBOutlet var plusFeatureView: PlusFeaturesView!
-    
+
     @IBOutlet var learnMoreButton: UIButton! {
         didSet {
             learnMoreButton.setTitle(L10n.createAccountFindOutMorePlus, for: .normal)
@@ -101,30 +101,30 @@ class SelectAccountTypeViewController: UIViewController {
             learnMoreButton.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
         }
     }
-    
+
     @IBOutlet var errorView: ThemeableView!
     @IBOutlet var tryAgainActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var tryAgainButton: ThemeableRoundedButton!
-    
+
     @IBOutlet var errorMessageTitle: ThemeableLabel! {
         didSet {
             errorMessageTitle.text = L10n.createAccountAppStoreErrorTitle
         }
     }
-    
+
     @IBOutlet var errorDetailLabel: ThemeableLabel! {
         didSet {
             errorDetailLabel.text = L10n.createAccountAppStoreErrorMessage
             errorDetailLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var noConnectionImageView: ThemeableImageView! {
         didSet {
             noConnectionImageView.imageNameFunc = AppTheme.noConnectionImageName
         }
     }
-    
+
     var isFreeAccount = true {
         didSet {
             if isFreeAccount {
@@ -132,8 +132,7 @@ class SelectAccountTypeViewController: UIViewController {
                 plusRadioButton.isSelected = false
                 freeBorderView.isSelected = true
                 plusBorderView.isSelected = false
-            }
-            else {
+            } else {
                 freeRadioButton.isSelected = false
                 plusRadioButton.isSelected = true
                 freeBorderView.isSelected = false
@@ -141,7 +140,7 @@ class SelectAccountTypeViewController: UIViewController {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountSelectType
@@ -157,28 +156,27 @@ class SelectAccountTypeViewController: UIViewController {
         errorView.isHidden = true
         Analytics.track(.selectAccountTypeShown)
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.popupStatusBarStyle()
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Actions
-    
+
     @IBAction func nextTapped(_ sender: Any) {
         let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "")
         if isFreeAccount {
             let enailVC = NewEmailViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(enailVC, animated: true)
-        }
-        else {
+        } else {
             let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(termsOfUseVC, animated: true)
         }
@@ -186,36 +184,36 @@ class SelectAccountTypeViewController: UIViewController {
         let accountType = isFreeAccount ? "free" : "plus"
         Analytics.track(.selectAccountTypeNextButtonTapped, properties: ["account_type": accountType])
     }
-    
+
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
         Analytics.track(.selectAccountTypeDismissed)
     }
-    
+
     @IBAction func learnMoreTapped(_ sender: Any) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
     }
-    
+
     @IBAction func plusTapped(_ sender: Any) {
         isFreeAccount = false
     }
-    
+
     @IBAction func freeTapped(_ sender: Any) {
         isFreeAccount = true
     }
-    
+
     @IBAction func tryAgainTapped(_ sender: Any) {
         tryAgainActivityIndicator.isHidden = false
         tryAgainButton.isEnabled = false
         tryAgainActivityIndicator.startAnimating()
         configureLabels()
     }
-    
+
     @objc func iapProductsUpdated() {
         errorView.isHidden = true
         configureLabels()
     }
-    
+
     @objc private func iapProductsFailed() {
         #if !targetEnvironment(simulator)
             tryAgainButton.isEnabled = true
@@ -223,7 +221,7 @@ class SelectAccountTypeViewController: UIViewController {
             errorView.isHidden = false
         #endif
     }
-    
+
     @objc private func themeDidChange() {
         plusRadioButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
         plusRadioButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
@@ -255,8 +253,7 @@ private extension SelectAccountTypeViewController {
             plusPriceLabel.text = monthlyPrice
             plusPaymentFreqLabel.text = L10n.plusPerMonth
             nextButton.isEnabled = true
-        }
-        else {
+        } else {
             #if targetEnvironment(simulator)
                 nextButton.isEnabled = true
 

@@ -79,8 +79,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
     @objc private func pushToggled(_ sender: UISwitch) {
         if sender.isOn {
             Analytics.shared.optInOfAnalytics()
-        }
-        else {
+        } else {
             Analytics.shared.optOutOfAnalytics()
         }
     }

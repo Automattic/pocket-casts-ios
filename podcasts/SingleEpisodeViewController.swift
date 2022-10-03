@@ -112,7 +112,7 @@ extension SingleEpisodeViewController: DiscoverSummaryProtocol {
 
     func populateFrom(item: DiscoverItem) {
         viewModel.discoverItem = item
-        
+
         typeBadgeLabel.text = (item.title ?? L10n.discoverFeaturedEpisode).uppercased()
     }
 }

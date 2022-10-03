@@ -4,7 +4,7 @@ struct NowPlayingOptions: View {
     @StateObject var viewModel: NowPlayingViewModel
     @Binding var presentView: WatchInterfaceType?
     @Binding var optionSelected: Bool
-    
+
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 5) {
@@ -14,7 +14,7 @@ struct NowPlayingOptions: View {
                         optionSelected.toggle()
                     }
                     .frame(maxWidth: geo.size.width / 2)
-                    
+
                     NowPlayingOption(iconName: "episodedetails", title: L10n.watchEpisodeDetails) {
                         presentView = .episodeDetails
                         optionSelected.toggle()

@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ActivityDialog: ViewModifier {
     @EnvironmentObject var theme: Theme
-    
+
     @Binding var isShowing: Bool
     let message: String
 

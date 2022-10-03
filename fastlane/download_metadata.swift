@@ -137,8 +137,7 @@ func downloadTranslation(
             try whatsNew?.write(toFile: "\(languageFolder)/release_notes.txt", atomically: true, encoding: .utf8)
             try keywords?.write(toFile: "\(languageFolder)/keywords.txt", atomically: true, encoding: .utf8)
             try storeDescription?.write(toFile: "\(languageFolder)/description.txt", atomically: true, encoding: .utf8)
-        }
-        catch {
+        } catch {
             print("  Error writing: \(error)")
         }
     }

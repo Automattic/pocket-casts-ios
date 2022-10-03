@@ -17,8 +17,7 @@ struct LargeArtworkView: View {
                     .frame(maxHeight: 74)
                     .cornerRadius(8)
                     .artworkShadow()
-            }
-            else {
+            } else {
                 Image("no-podcast-artwork")
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
@@ -45,8 +44,7 @@ struct SmallArtworkView: View {
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
                     .artworkShadow()
-            }
-            else {
+            } else {
                 Image("no-podcast-artwork")
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)

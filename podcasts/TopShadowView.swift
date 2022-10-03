@@ -6,12 +6,11 @@ class TopShadowView: ThemeableView {
             layoutIfNeeded()
         }
     }
-    
+
     override func layoutSubviews() {
         if hideShadow {
             layer.shadowRadius = 0
-        }
-        else {
+        } else {
             layer.masksToBounds = false
             layer.shadowColor = UIColor.black.cgColor // TODO: fix for theme
             layer.shadowOffset = CGSize(width: 0, height: -2)

@@ -3,11 +3,11 @@ import SwiftUI
 
 struct ChoosePodcastFolderView: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var model: ChoosePodcastFolderModel
-    
+
     var dismissAction: (String?) -> Void
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -72,8 +72,7 @@ extension ChoosePodcastFolderView {
     func trackFolderTappedIfNeeded() {
         if model.didMoveToFolder {
             Analytics.track(.folderChooseFolderTapped)
-        }
-        else if model.didRemoveFromFolder {
+        } else if model.didRemoveFromFolder {
             Analytics.track(.folderChooseRemovedFromFolder)
         }
     }
@@ -81,17 +80,16 @@ extension ChoosePodcastFolderView {
 
 struct FolderSelectRow: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var model: ChoosePodcastFolderModel
     @State var folder: Folder
-    
+
     var body: some View {
         HStack(spacing: 16) {
             if let color = model.colorForFolder(folder: folder) {
                 Image("folder-empty")
                     .foregroundColor(color)
-            }
-            else {
+            } else {
                 Spacer()
                     .frame(width: 24)
             }

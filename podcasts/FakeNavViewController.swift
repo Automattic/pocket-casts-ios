@@ -3,36 +3,36 @@ import UIKit
 
 class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private static let navBarBaseHeight: CGFloat = 45
-    
+
     private var fakeNavView: UIView!
     private var backBtn: UIButton!
     private var rightActionButtons = [UIButton]()
     private var fakeNavHeight: NSLayoutConstraint!
     private var fakeNavTitle: UILabel!
-    
+
     private var navigationTitleSetOnScroll = false
-    
+
     private var navTitleMaxWidth: NSLayoutConstraint!
-    
+
     var navTitle: String?
     var scrollPointToChangeTitle: CGFloat = 0 {
         didSet {
             navigationTitleSetOnScroll = true
         }
     }
-    
+
     enum NavDisplayMode {
         case navController, card
     }
-    
+
     var showNavBarOnHide = true
-    
+
     var displayMode = NavDisplayMode.navController
     var closeTapped: (() -> Void)?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         fakeNavView = UIView()
         view.addSubview(fakeNavView)
         fakeNavView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             fakeNavHeight
         ])
         fakeNavView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        
+
         backBtn = UIButton(frame: CGRect(x: 0, y: 21, width: 40, height: 44))
         backBtn.isPointerInteractionEnabled = true
         backBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
@@ -61,7 +61,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leftOffset),
             backBtn.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
         ])
-        
+
         fakeNavTitle = UILabel()
         fakeNavTitle.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         fakeNavTitle.textAlignment = .center
@@ -74,34 +74,33 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             fakeNavView.bottomAnchor.constraint(equalTo: fakeNavTitle.bottomAnchor, constant: 12)
         ])
     }
-    
+
     private var haveHiddenOnce = false
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         navigationController?.setNavigationBarHidden(true, animated: !haveHiddenOnce)
         haveHiddenOnce = true
-        
+
         if !navigationTitleSetOnScroll { fakeNavTitle.text = navTitle }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         if displayMode == .navController, showNavBarOnHide {
             if let navController = navigationController {
                 navController.setNavigationBarHidden(false, animated: true)
-            }
-            else {
+            } else {
                 // there's a case when iOS pops a tab that it takes away our navigationController earlier than normal, handle that here
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.unhideNavBarRequested)
             }
         }
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         if let window = view.window {
             let statusBarHeight = displayMode == .card ? 9 : UIUtil.statusBarHeight(in: window)
             let requiredTopHeight = FakeNavViewController.navBarBaseHeight + statusBarHeight
@@ -109,38 +108,38 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                 fakeNavHeight.constant = requiredTopHeight
             }
         }
-        
+
         // we need to allow enough room to show 2 buttons on the right
         let maxTitleWidth = fakeNavView.bounds.width - 180
         if navTitleMaxWidth.constant != maxTitleWidth {
             navTitleMaxWidth.constant = maxTitleWidth
         }
     }
-    
+
     func navBarHeight(window: UIWindow) -> CGFloat {
         fakeNavHeight.constant - UIUtil.statusBarHeight(in: window)
     }
-    
+
     func addGoogleCastBtn() {
         let button = PCGoogleCastButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
         button.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
         addButton(button)
     }
-    
+
     @discardableResult func addRightAction(image: UIImage?, accessibilityLabel: String, action: Selector) -> UIButton {
         let button = UIButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
         button.setImage(image, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         button.accessibilityLabel = accessibilityLabel
         addButton(button)
-        
+
         return button
     }
-    
+
     private func addButton(_ button: UIButton) {
         button.isPointerInteractionEnabled = true
         fakeNavView.addSubview(button)
-        
+
         button.translatesAutoresizingMaskIntoConstraints = false
         if rightActionButtons.count == 0 {
             // if there are no other buttons, anchor this one to the edge
@@ -150,8 +149,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                 fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 5),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
-        }
-        else {
+        } else {
             let previousButton = rightActionButtons.last!
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
@@ -163,7 +161,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         }
         rightActionButtons.append(button)
     }
-    
+
     func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor) {
         fakeNavView.backgroundColor = bgColor
         fakeNavTitle.textColor = titleColor
@@ -172,34 +170,33 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             button.tintColor = buttonColor
         }
     }
-    
+
     @objc private func closeBtnTapped() {
         closeTapped?()
     }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrolledToY = scrollView.contentOffset.y + fakeNavHeight.constant
         if navigationTitleSetOnScroll {
             if scrolledToY > scrollPointToChangeTitle, fakeNavTitle.text == nil {
                 changeTitleAnimated(navTitle)
-            }
-            else if scrolledToY < scrollPointToChangeTitle, fakeNavTitle.text != nil {
+            } else if scrolledToY < scrollPointToChangeTitle, fakeNavTitle.text != nil {
                 changeTitleAnimated(nil)
             }
         }
-        
+
         let shadowOpacity: Float = scrolledToY > 9 ? 0.2 : 0
         if shadowOpacity != fakeNavView.layer.shadowOpacity {
             fakeNavView.layer.shadowOpacity = shadowOpacity
         }
     }
-    
+
     private func changeTitleAnimated(_ newTitle: String?) {
         let fadeTextAnimation = CATransition()
         fadeTextAnimation.duration = Constants.Animation.defaultAnimationTime
         fadeTextAnimation.type = CATransitionType.fade
         fakeNavTitle.layer.add(fadeTextAnimation, forKey: "fadeText")
-        
+
         fakeNavTitle.text = newTitle
     }
 }
