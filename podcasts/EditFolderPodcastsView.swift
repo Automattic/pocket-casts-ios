@@ -10,19 +10,19 @@ struct EditFolderPodcastsView: View {
     var body: some View {
         NavigationView {
             PodcastPickerView(pickerModel: pickerModel)
-            .navigationTitle(L10n.folderChoosePodcasts)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismissAction()
-                    } label: {
-                        Image("close")
-                            .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                .navigationTitle(L10n.folderChoosePodcasts)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            dismissAction()
+                        } label: {
+                            Image("close")
+                                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                        }
+                        .accessibilityLabel(L10n.close)
                     }
-                    .accessibilityLabel(L10n.close)
                 }
-            }
-            .applyDefaultThemeOptions()
+                .applyDefaultThemeOptions()
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
