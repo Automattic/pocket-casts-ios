@@ -12,24 +12,25 @@ struct MessageSupportView: View {
         self.dismiss = dismiss
     }
 
-    private let controlSpacing: CGFloat = 22
-
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(L10n.supportNameIndicator)
                 TextField(L10n.supportNamePlaceholder, text: $viewModel.requesterName)
                     .requiredStyle(viewModel.requesterNameErrored)
-                    .padding(.bottom, controlSpacing)
+
                 Text(L10n.supportEmailIndicator)
                 TextField(L10n.supportEmailPlaceholder, text: $viewModel.requesterEmail)
                     .autocapitalization(.none)
                     .keyboardType(.emailAddress)
                     .requiredStyle(viewModel.requesterEmailErrored)
-                    .padding(.bottom, controlSpacing)
+
                 Text(L10n.supportCommentIndicator)
                 TextEditor(text: $viewModel.comment)
                     .themedTextField(hasErrored: viewModel.commentErrored)
+                    .frame(minHeight: 80)
+                    .layoutPriority(1)
+
                 ThemedDivider()
                     .background(ThemeColor.primaryUi05(for: theme.activeTheme).color)
                 NavigationLink(destination: viewModel.attachedLogsView) {

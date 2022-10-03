@@ -107,6 +107,16 @@ struct ThemedTextField: ViewModifier {
     }
 
     func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            baseContent(content: content)
+                .scrollContentBackground(.hidden)
+        }
+        else {
+            baseContent(content: content)
+        }
+    }
+
+    private func baseContent(content: Content) -> some View {
         content
             .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
             .padding(10)

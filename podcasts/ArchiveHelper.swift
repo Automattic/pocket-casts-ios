@@ -69,7 +69,7 @@ class ArchiveHelper {
                 if episode.archived || episode.excludeFromEpisodeLimit || (!archiveStarred && episode.keepEpisode) || episode.uuid == currentlyPlayingUuid { continue }
                 
                 // if we get here we're past the episode limit, and the episode is un-archived and hasn't been excluded, so archive it
-                EpisodeManager.archiveEpisode(episode: episode, fireNotification: false)
+                EpisodeManager.archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
             }
         }
     }
@@ -77,7 +77,7 @@ class ArchiveHelper {
     private class func removeEpisodesMatchingQuery(_ query: String, arguments: [Any]) {
         let removableEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: arguments)
         for episode in removableEpisodes {
-            EpisodeManager.archiveEpisode(episode: episode, fireNotification: false)
+            EpisodeManager.archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
         }
     }
 }

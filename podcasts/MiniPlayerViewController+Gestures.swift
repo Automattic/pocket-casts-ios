@@ -77,15 +77,21 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
     }
     
     private func showLongPressMenu(_ touchPoint: CGPoint) {
+        Analytics.track(.miniPlayerLongPressMenuShown)
+
         let optionsPicker = OptionsPicker(title: nil)
         let markAsPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") {
+            Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
             if let episode = PlaybackManager.shared.currentEpisode() {
+                AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
         }
         optionsPicker.addAction(action: markAsPlayedAction)
         
         let closeAction = OptionAction(label: L10n.miniPlayerClose, icon: "close") {
+            Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "close_and_clear_up_next"])
+
             FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
             self.removeAllCustomObservers()
             
@@ -96,6 +102,10 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
         }
         closeAction.destructive = true
         optionsPicker.addAction(action: closeAction)
+
+        optionsPicker.setNoActionCallback {
+            Analytics.track(.miniPlayerLongPressMenuDismissed)
+        }
         
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }

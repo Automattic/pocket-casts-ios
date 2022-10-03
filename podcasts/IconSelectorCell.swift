@@ -2,11 +2,11 @@ import PocketCastsServer
 import UIKit
 
 protocol IconSelectorCellDelegate: AnyObject {
-    func changeIcon(name: String?)
+    func changeIcon(icon: IconType)
     func iconSelectorPresentingVC() -> UIViewController
 }
 
-enum IconType: Int, CaseIterable {
+enum IconType: Int, CaseIterable, AnalyticsDescribable {
     case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity
 
     init(rawName: String) {
@@ -105,6 +105,37 @@ enum IconType: Int, CaseIterable {
             return "AppIcon-Radioactive"
         }
     }
+
+    var analyticsDescription: String {
+        switch self {
+        case .primary:
+            return "default"
+        case .dark:
+            return "dark"
+        case .roundLight:
+            return "round_light"
+        case .roundDark:
+            return "round_dark"
+        case .indigo:
+            return "indigo"
+        case .rose:
+            return "rose"
+        case .pocketCats:
+            return "pocket_cats"
+        case .redVelvet:
+            return "red_velvet"
+        case .plus:
+            return "plus"
+        case .classic:
+            return "classic"
+        case .electricBlue:
+            return "electric_blue"
+        case .electricPink:
+            return "electric_pink"
+        case .radioactivity:
+            return "radioactive"
+        }
+    }
 }
 
 class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionViewDelegate, GridLayoutDelegate {
@@ -200,7 +231,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
         }
         else {
-            delegate?.changeIcon(name: IconType(rawValue: indexPath.row)?.iconName)
+            delegate?.changeIcon(icon: IconType(rawValue: indexPath.row) ?? .primary)
             collectionView.reloadData()
         }
     }

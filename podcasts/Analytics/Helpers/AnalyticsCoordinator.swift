@@ -1,21 +1,16 @@
-import UIKit
+import Foundation
 
 protocol PlaybackSource {
     /// Used for analytics purpose when playing/pausing
     var playbackSource: String { get }
 }
 
-/// Helper used to track playback
-class AnalyticsPlaybackHelper {
-    static var shared = AnalyticsPlaybackHelper()
-
+class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: String?
 
-    private init() {}
-
     #if !os(watchOS)
-        private var currentPlaybackSource: String {
+        var currentPlaybackSource: String {
             if let currentSource = currentSource {
                 self.currentSource = nil
                 return currentSource
@@ -24,33 +19,19 @@ class AnalyticsPlaybackHelper {
             return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
         }
 
-        func play() {
-            track(.play)
-        }
-
-        func pause() {
-            track(.pause)
-        }
-
-        func skipBack() {
-            track(.skipBack)
-        }
-
-        func skipForward() {
-            track(.skipForward)
-        }
-
-        private func track(_ event: AnalyticsEvent) {
+        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else {
                     return
                 }
 
-                Analytics.track(event, properties: ["source": self.currentPlaybackSource])
+                let defaultProperties: [String: Any] = ["source": self.currentPlaybackSource]
+                let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+                Analytics.track(event, properties: mergedProperties)
             }
         }
 
-        private func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }
@@ -66,5 +47,8 @@ class AnalyticsPlaybackHelper {
             }
             return base
         }
+    #else
+        /// NOOP track event to preventing needing to wrap all the events in #if checks
+        func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
     #endif
 }

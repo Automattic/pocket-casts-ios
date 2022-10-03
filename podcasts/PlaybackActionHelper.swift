@@ -33,6 +33,8 @@ class PlaybackActionHelper {
     }
     
     class func download(episodeUuid: String) {
+        AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: episodeUuid)
+
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: .notSpecified)
@@ -45,6 +47,8 @@ class PlaybackActionHelper {
     
     class func stopDownload(episodeUuid: String) {
         DownloadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true, userInitiated: true)
+
+        AnalyticsEpisodeHelper.shared.downloadCancelled(episodeUUID: episodeUuid)
     }
     
     class func overrideWaitingForWifi(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) {
@@ -67,10 +71,13 @@ class PlaybackActionHelper {
                 UploadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
+
+        AnalyticsEpisodeHelper.shared.episodeUploaded(episodeUUID: episodeUuid)
     }
     
     class func stopUpload(episodeUuid: String) {
         UploadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true)
+        AnalyticsEpisodeHelper.shared.episodeUploadCancelled(episodeUUID: episodeUuid)
     }
     
     private class func performPlay(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {

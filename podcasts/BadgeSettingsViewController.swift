@@ -77,12 +77,17 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         if indexPath.section == optionsSection {
             UserDefaults.standard.set(indexPath.row, forKey: Constants.UserDefaults.appBadge)
             UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.appBadgeFilterUuid)
+
+            if let badge = AppBadge(rawValue: indexPath.row) {
+                Settings.trackValueChanged(.settingsNotificationsAppBadgeChanged, value: badge)
+            }
         }
         else if indexPath.section == filtersSection {
             UserDefaults.standard.set(AppBadge.filterCount.rawValue, forKey: Constants.UserDefaults.appBadge)
             if let filter = episodeFilters[safe: indexPath.row] {
                 UserDefaults.standard.set(filter.uuid, forKey: Constants.UserDefaults.appBadgeFilterUuid)
             }
+            Settings.trackValueChanged(.settingsNotificationsAppBadgeChanged, value: AppBadge.filterCount)
         }
         
         optionsTable.reloadData()

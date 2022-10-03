@@ -106,13 +106,13 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         case .upNext:
             if PlaybackManager.shared.inUpNext(episode: episode) {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_delete"])
-                PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
             }
             else {
                 let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
                 let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
                     Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_top"])
-                    PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true)
+                    PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
                 }
                 addToUpNextPicker.addAction(action: playNextAction)
                 
@@ -126,6 +126,8 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             }
             animateOut()
         case .markAsPlayed:
+            AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+            
             if episode.played() {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_unplayed"])
                 EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)

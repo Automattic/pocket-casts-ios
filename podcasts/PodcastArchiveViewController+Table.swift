@@ -142,6 +142,8 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         
         archiveTable.reloadData()
         archiveSettingsChanged = true
+
+        Analytics.track(.podcastSettingsAutoArchiveToggled, properties: ["enabled": sender.isOn])
     }
     
     private func addEpisodeLimitAction(limit: Int32, to: OptionsPicker) {
@@ -155,6 +157,8 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true
+
+            Analytics.track(.podcastSettingsAutoArchiveEpisodeLimitChanged, properties: ["value": limit == 0 ? "none" : limit])
         }
         to.addAction(action: action)
     }
@@ -169,6 +173,10 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true
+
+            if let option = AutoArchiveAfterTime(rawValue: time) {
+                Analytics.track(.podcastSettingsAutoArchivePlayedChanged, properties: ["value": option])
+            }
         }
         to.addAction(action: action)
     }
@@ -183,6 +191,10 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             
             self.archiveTable.reloadData()
             self.archiveSettingsChanged = true
+
+            if let option = AutoArchiveAfterTime(rawValue: time) {
+                Analytics.track(.podcastSettingsAutoArchiveInactiveChanged, properties: ["value": option])
+            }
         }
         to.addAction(action: action)
     }

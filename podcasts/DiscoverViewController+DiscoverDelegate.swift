@@ -26,6 +26,10 @@ extension DiscoverViewController: DiscoverDelegate {
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
         }
+        else {
+            Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
+        }
+
         if item.expandedStyle == "descriptive_list" || item.expandedStyle == "grid" {
             let collectionListVC = ExpandedCollectionViewController(item: item, podcasts: podcasts)
             collectionListVC.podcastCollection = podcastCollection
@@ -96,12 +100,16 @@ extension DiscoverViewController: DiscoverDelegate {
         else if let uuid = podcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
+
         HapticsHelper.triggerSubscribedHaptic()
+
+        let uuid = podcast.uuid ?? podcast.iTunesId ?? "unknown"
+        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": uuid])
     }
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {
         guard let uuid = discoverEpisode.uuid else { return }
-        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast)
+        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
         episodeController.modalPresentationStyle = .formSheet
         present(episodeController, animated: true)
     }

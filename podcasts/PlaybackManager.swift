@@ -189,10 +189,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     
     func play(completion: (() -> Void)? = nil) {
         guard let currEpisode = currentEpisode() else { return }
-        
-        #if !os(watchOS)
-            analyticsPlaybackHelper.play()
-        #endif
+
+        analyticsPlaybackHelper.play()
 
         aboutToPlay.value = true
         
@@ -229,9 +227,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func pause() {
         guard let episode = currentEpisode() else { return }
 
-        #if !os(watchOS)
+        // Only trigger the event if we are already playing
+        if playing() {
             analyticsPlaybackHelper.pause()
-        #endif
+        }
         
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
@@ -268,9 +267,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipBack(amount: TimeInterval) {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipBack()
-        #endif
+        analyticsPlaybackHelper.skipBack()
 
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
@@ -283,9 +280,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
     
     private func skipForward(amount: TimeInterval) {
-        #if !os(watchOS)
-            analyticsPlaybackHelper.skipForward()
-        #endif
+        analyticsPlaybackHelper.skipForward()
 
         let forwardTime = min(currentTime() + amount, duration())
         seekTo(time: forwardTime)
@@ -341,7 +336,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
         seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
-    
+
+    func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
+        analyticsPlaybackHelper.currentSource = "sync"
+        seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
+    }
+
     func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
         
@@ -349,7 +349,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         if !playingEpisode.inProgress() {
             DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: playingEpisode, updateSyncFlag: SyncManager.isUserLoggedIn())
         }
-        
+
+        let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
         if let player = player {
@@ -386,6 +387,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 play()
             }
         }
+
+        analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
     }
     
     func currentTime() -> TimeInterval {
@@ -420,8 +423,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         return queue.contains(episode: episode)
     }
-    
-    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false) {
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool) {
+        addToUpNext(episode: episode, ignoringQueueLimit: ignoringQueueLimit, toTop: toTop, userInitiated: false)
+    }
+
+    func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
+        if userInitiated {
+            AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
+        }
+
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
@@ -442,11 +453,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         
         if let episode = episode as? Episode, episode.archived {
-            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
+            EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         if episode.played() {
-            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
+            EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true, userInitiated: false)
         }
         
         // otherwise we don't have this item, so add it to the bottom of our future list
@@ -466,7 +477,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.insert(episode: episode, position: position)
     }
     
-    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true) {
+    func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
+        if userInitiated, let episode {
+            AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
+        }
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
@@ -701,6 +715,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed - 0.1
         changeEffects(playbackEffects)
     }
+
+    func toggleDefinedPlaybackSpeed() {
+        let playbackEffects = effects()
+        playbackEffects.toggleDefinedSpeedInterval()
+
+        changeEffects(playbackEffects)
+    }
     
     func increasePlaybackSpeed() {
         let playbackEffects = effects()
@@ -892,7 +913,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // if marking an episode as played means the it should be archived, then do that
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
                 if let episode = episode as? Episode {
-                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false)
+                    EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false, userInitiated: false)
                 }
                 else if let episode = episode as? UserEpisode {
                     if Settings.userEpisodeRemoveFileAfterPlaying() {
@@ -962,10 +983,12 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             
             if episode.played() {
-                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false)
+                EpisodeManager.markAsUnplayed(episode: episode, fireNotification: false, userInitiated: false)
             }
         }
         queue.bulkOperationDidComplete()
+
+        AnalyticsEpisodeHelper.shared.bulkAddToUpNext(count: episodesToAdd.count, toTop: toTop)
     }
     
     // MARK: - Helper Methods
@@ -1378,6 +1401,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
+        Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
     }
     
     // MARK: - Remote Control support
@@ -1506,7 +1530,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         
         commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-            
+
+            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
+
             if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
                 if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
                     FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
@@ -1559,7 +1585,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             markPlayedCommand.removeTarget(self)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-                
+
+                AnalyticsEpisodeHelper.shared.currentSource = strongSelf.commandCenterSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                 return .success
             }

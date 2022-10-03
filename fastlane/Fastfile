@@ -484,7 +484,7 @@ platform :ios do
 
     # Re-generate the strings for GlotPress, just in case there were
     # localization fixes.
-    # generate_strings_file_for_glotpress
+    generate_strings_file_for_glotpress
 
     ios_update_release_notes(
       new_version: ios_get_app_version,
@@ -569,7 +569,7 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_and_metadata
+    download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
   end
 

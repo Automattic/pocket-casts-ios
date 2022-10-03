@@ -146,11 +146,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
     
-    private lazy var upNextController: UpNextViewController = {
-        let controller = UpNextViewController()
-        
-        return controller
-    }()
+    private lazy var upNextController = UpNextViewController(source: .nowPlaying)
     
     lazy var upNextViewController: UIViewController = {
         let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
@@ -165,7 +161,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
@@ -173,11 +169,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.inactiveTintColor = ThemeColor.playerContrast02()
         chromecastBtn.addTarget(self, action: #selector(googleCastTapped), for: .touchUpInside)
         chromecastBtn.isPointerInteractionEnabled = true
+
+        routePicker.delegate = self
     }
     
     private var lastBoundsAdjustedFor = CGRect.zero
 
-    private var playbackSource: String {
+    var playbackSource: String {
         "player"
     }
 
@@ -232,10 +230,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
+        Analytics.track(.playerPreviousChapterTapped)
     }
     
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
+        Analytics.track(.playerNextChapterTapped)
     }
     
     @objc private func chapterLinkTapped() {
@@ -289,6 +289,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let options = OptionsPicker(title: nil, themeOverride: .dark)
         
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+            AnalyticsEpisodeHelper.shared.currentSource = "player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)
@@ -296,7 +297,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if PlaybackManager.shared.queue.upNextCount() > 0 {
             let skipToNextAction = OptionAction(label: L10n.nextEpisode, icon: nil) {
                 let currentlyPlayingEpisode = PlaybackManager.shared.currentEpisode()
-                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true)
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: currentlyPlayingEpisode, fireNotification: true, userInitiated: true)
             }
             options.addAction(action: skipToNextAction)
         }
@@ -305,6 +306,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
     
     @objc func googleCastTapped() {
+        shelfButtonTapped(.chromecast)
+
         let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
         let castController = CastToViewController(themeOverride: themeOverride)
         let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)

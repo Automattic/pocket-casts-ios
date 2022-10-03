@@ -92,7 +92,6 @@ class PCSearchBarController: UIViewController {
     @IBAction func clearSearchTapped(_ sender: Any) {
         searchTextField.text = ""
         clearSearchBtn.isHidden = true
-        searchTextField.resignFirstResponder()
         
         searchDelegate?.searchWasCleared()
     }

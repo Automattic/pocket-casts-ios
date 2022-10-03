@@ -51,11 +51,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
     
-    private lazy var upNextViewController: UpNextViewController = {
-        let controller = UpNextViewController()
-        
-        return controller
-    }()
+    private lazy var upNextViewController = UpNextViewController(source: .player)
     
     @IBOutlet var closeBtn: ThemeableUIButton! {
         didSet {
@@ -78,6 +74,16 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         update()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Analytics.track(.playerShown)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        Analytics.track(.playerDismissed)
     }
 
     override func viewDidLayoutSubviews() {

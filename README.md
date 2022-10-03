@@ -6,6 +6,7 @@
     <a href="https://buildkite.com/automattic/pocket-casts-ios"><img src="https://badge.buildkite.com/6c995de3d1584006341cc4dfda1312619f375385f5c0319dfe.svg?branch=trunk" /></a>
     <a href="https://github.com/Automattic/pocket-casts-ios/blob/trunk/LICENSE.md"><img src="https://img.shields.io/badge/license-MPL-black" /></a>
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
+    <img src="https://img.shields.io/badge/Xcode-v14.0%2B-informational" />
 </p>
 
 <p align="center">
@@ -21,8 +22,6 @@ If you don't already have it, you need to install Bundler:
 Next you'll need to install all the dependencies needed for CocoaPods and FastLane using this script:
 
 `make install_dependencies`
-
-Then you'll need to install secret config values. [Follow this guide to get access to the shared Mobile Secrets](https://fieldguide.automattic.com/mobile-native-development/updating-mobile-secrets/) and then:
 
 ## External contributors
 

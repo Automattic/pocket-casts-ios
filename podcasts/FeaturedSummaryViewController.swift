@@ -172,5 +172,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage
+
+        Analytics.track(.discoverFeaturedPageChanged, properties: ["current_page": currentPage + 1, "total_pages": pageControl.numberOfPages])
     }
 }

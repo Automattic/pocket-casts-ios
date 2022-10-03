@@ -82,7 +82,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 
-        Analytics.track(.folderShown, properties: ["number_of_podcasts": podcasts.count, "sort_order": folder.librarySort().analyticsDescription])
+        Analytics.track(.folderShown, properties: ["number_of_podcasts": podcasts.count, "sort_order": folder.librarySort()])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -212,7 +212,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folder.uuid)
 
-        Analytics.track(.folderSortByChanged, properties: ["sort_order": order.analyticsDescription])
+        Analytics.track(.folderSortByChanged, properties: ["sort_order": order])
     }
     
     @objc private func miniPlayerStatusDidChange() {

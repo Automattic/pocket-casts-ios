@@ -5,6 +5,7 @@ import UIKit
     func bulkSelectionChange(selected: Bool)
     func podcastSelected(podcast: String)
     func podcastUnselected(podcast: String)
+    func didChangePodcasts()
 }
 
 class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -15,7 +16,9 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     var selectedUuids = [String]()
     var selectAllOnLoad = false
     var allowSelectAll = true
-    
+
+    private var didChange = false
+
     @IBOutlet var podcastTable: UITableView! {
         didSet {
             podcastTable.applyInsetForMiniPlayer()
@@ -44,6 +47,14 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         if selectedUuidsUpdated {
             selectedUuidsUpdated = false
             loadPodcasts()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if didChange {
+            delegate?.didChangePodcasts()
         }
     }
     
@@ -96,6 +107,8 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         
         tableView.reloadRows(at: [indexPath], with: .none)
         updateSelectBtn()
+        
+        didChange = true
     }
     
     private func loadPodcasts() {
@@ -122,9 +135,10 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
             selectedUuids.removeAll()
             delegate?.bulkSelectionChange(selected: false)
         }
-        
+
         podcastTable.reloadData()
         updateSelectBtn()
+        didChange = true
     }
     
     private func shouldSelectAll() -> Bool {

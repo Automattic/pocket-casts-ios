@@ -226,6 +226,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     @objc private func autoDownloadToggled(_ sender: UISwitch) {
         ServerSettings.setUserEpisodeAutoDownload(sender.isOn)
         settingsTable.reloadData()
+        Settings.trackValueToggled(.settingsFilesAutoDownloadFromCloudToggled, enabled: sender.isOn)
     }
     
     @objc private func autoUploadToggled(_ sender: UISwitch) {
@@ -247,6 +248,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     
     @objc private func onlyOnWifiToggled(_ sender: UISwitch) {
         ServerSettings.setUserEpisodeOnlyOnWifi(sender.isOn)
+        Settings.trackValueToggled(.settingsFilesOnlyOnWifiToggled, enabled: sender.isOn)
     }
 }
 
