@@ -8,6 +8,9 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
     var selectedFilters = [String]()
     var filterSelected: ((EpisodeFilter) -> Void)?
     var filterUnselected: ((EpisodeFilter) -> Void)?
+
+    private var didChange = false
+    var didChangeFilters: (() -> Void)?
     
     @IBOutlet var filterSelectionTable: UITableView! {
         didSet {
@@ -22,6 +25,14 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
         filterSelectionTable.reloadData()
         
         title = L10n.settingsSelectFiltersPlural
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if didChange {
+            didChangeFilters?()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,6 +55,8 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
                 self.selectedFilters.removeAll { $0 == filter.uuid }
                 self.filterUnselected?(filter)
             }
+
+            self.didChange = true
         }
         
         return cell

@@ -19,5 +19,5 @@ public protocol ServerPlaybackDelegate {
     func upNextQueueChanged()
     func upNextQueueCount() -> Int
     
-    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool)
+    func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool)
 }

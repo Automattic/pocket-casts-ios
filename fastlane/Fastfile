@@ -460,7 +460,7 @@ platform :ios do
 
     UI.message('Sending message to Slack...')
     slack(
-      pretext: message(version: ios_get_app_version, build_number: ios_get_build_version, is_beta: options[:beta_release]),
+      pretext: slack_message(version: ios_get_app_version, build_number: ios_get_build_version, is_beta: options[:beta_release]),
       default_payloads: [],
       slack_url: ENV.fetch('SLACK_WEBHOOK'),
       fail_on_error: false

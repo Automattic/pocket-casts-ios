@@ -230,7 +230,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
         }
         else if let episode = baseEpisode as? Episode {
-            EpisodeManager.deleteDownloadedFiles(episode: episode)
+            EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
         }
         sendStateToWatch()
@@ -261,7 +261,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     
     private func handleMarkPlayed(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
-        
+
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         sendStateToWatch()
     }
@@ -277,14 +277,14 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
         
         // remove it first so that this can be used as a move to top/bottom as well
-        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false)
-        PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop)
+        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false, userInitiated: false)
+        PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop, userInitiated: true)
     }
     
     private func handleRemoveFromUpnext(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
         
-        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
+        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
     }
     
     private func handleStarRequest(starred: Bool, episodeUuid: String) {

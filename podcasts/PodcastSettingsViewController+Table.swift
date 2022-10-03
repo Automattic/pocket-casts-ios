@@ -10,7 +10,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     private static let createSiriShortcutCellId = "CreateSiriShortcutCell"
     private static let siriEnabledCellId = "siriEnabledCellId"
     private static let destructiveButtonCellId = "destructiveButtonCell"
-    
+
     func registerCells() {
         settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: PodcastSettingsViewController.disclosureCellId)
         settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: PodcastSettingsViewController.switchCellId)
@@ -109,7 +109,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.smallIncrements = 5.seconds
             cell.timeStepper.currentValue = TimeInterval(podcast.startFrom)
             cell.configureWithImage(imageName: "settings-skipintros", tintColor: podcast.iconTintColor())
-            
+
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
                 
@@ -117,6 +117,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
+
+                self?.debounce.call {
+                    Analytics.track(.podcastSettingsSkipFirstChanged, properties: ["value": value])
+                }
             }
             
             return cell
@@ -131,7 +135,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.smallIncrements = 5.seconds
             cell.timeStepper.currentValue = TimeInterval(podcast.skipLast)
             cell.configureWithImage(imageName: "settings-skipoutros", tintColor: podcast.iconTintColor())
-            
+
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
                 
@@ -139,6 +143,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
+
+                self?.debounce.call {
+                    Analytics.track(.podcastSettingsSkipLastChanged, properties: ["value": value])
+                }
             }
             
             return cell
@@ -193,17 +201,23 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             showAutoAddPositionSettings()
         }
         else if row == .feedError {
+            Analytics.track(.podcastSettingsFeedErrorTapped)
+
             let alert = UIAlertController(title: L10n.settingsFeedIssue, message: L10n.settingsFeedIssueMsg, preferredStyle: UIAlertController.Style.alert)
                 
             let okAction = UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil)
             alert.addAction(okAction)
             
             let refreshAction = UIAlertAction(title: L10n.settingsFeedFixRefresh, style: .default) { _ in
+                Analytics.track(.podcastSettingsFeedErrorUpdateTapped)
+
                 MainServerHandler.shared.refreshPodcastFeed(podcast: self.podcast) { success in
                     if success {
+                        Analytics.track(.podcastSettingsFeedErrorFixSucceeded)
                         SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshSuccessTitle, message: L10n.settingsFeedFixRefreshSuccessMsg, from: self)
                     }
                     else {
+                        Analytics.track(.podcastSettingsFeedErrorFixFailed)
                         SJUIUtils.showAlert(title: L10n.settingsFeedFixRefreshFailedTitle, message: L10n.settingsFeedFixRefreshFailedMsg, from: self)
                     }
                 }
@@ -234,6 +248,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 filter.addPodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(filter: filter)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+
+                Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
             filterSelectionViewController.filterUnselected = { [weak self] filter in
                 guard let self = self else { return }
@@ -241,6 +257,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 filter.removePodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(filter: filter)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+
+                Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
             navigationController?.pushViewController(filterSelectionViewController, animated: true)
         }
@@ -326,6 +344,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         podcast.autoAddToUpNext = setting.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         settingsTable.reloadData()
+
+        Analytics.track(.podcastSettingsAutoAddUpNextPositionOptionChanged, properties: ["value": setting])
     }
     
     // MARK: - Settings changes
@@ -340,6 +360,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         }
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+
+        Analytics.track(.podcastSettingsAutoDownloadToggled, properties: ["enabled": sender.isOn])
     }
     
     @objc private func addToUpNextChanged(_ sender: UISwitch) {
@@ -352,11 +374,13 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         
         settingsTable.reloadData()
         DataManager.sharedManager.save(podcast: podcast)
+        Analytics.track(.podcastSettingsAutoAddUpNextToggled, properties: ["enabled": sender.isOn])
     }
     
     @objc private func notificationChanged(_ sender: UISwitch) {
         PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: sender.isOn)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        Analytics.track(.podcastSettingsNotificationsToggled, properties: ["enabled": sender.isOn])
     }
     
     private func tableData() -> [[TableRow]] {

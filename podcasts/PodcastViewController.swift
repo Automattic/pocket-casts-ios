@@ -243,7 +243,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
         
         if featuredPodcast, !hasAppearedAlready {
-            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcast?.uuid ?? "unknown"])
+            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUUID])
             AnalyticsHelper.openedFeaturedPodcast()
         }
         
@@ -254,7 +254,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        Analytics.track(.podcastScreenShown, properties: ["uuid": podcast?.uuid ?? "unknown"])
+        Analytics.track(.podcastScreenShown, properties: ["uuid": podcastUUID])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -521,6 +521,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popViewController(animated: true)
+        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     func subscribe() {
@@ -539,8 +540,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let listId = listUuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
         }
-        
+
+        HapticsHelper.triggerSubscribedHaptic()
+
         Analytics.track(.podcastScreenSubscribeTapped)
+        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
     
     func isSummaryExpanded() -> Bool {
@@ -868,5 +872,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 extension PodcastViewController: PlaybackSource {
     var playbackSource: String {
         "podcast_screen"
+    }
+}
+
+private extension PodcastViewController {
+    var podcastUUID: String {
+        podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
     }
 }

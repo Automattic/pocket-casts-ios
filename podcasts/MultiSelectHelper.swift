@@ -7,6 +7,8 @@ class MultiSelectHelper {
     // MARK: - Action Helpers
     
     class func performAction(_ action: MultiSelectAction, actionDelegate: MultiSelectActionDelegate) {
+        AnalyticsEpisodeHelper.shared.currentSource = actionDelegate.multiSelectViewSource
+        
         switch action {
         case .star:
             starEpisodes(actionDelegate: actionDelegate, star: true)
@@ -264,6 +266,8 @@ class MultiSelectHelper {
             }
             actionDelegate.multiSelectActionCompleted()
         }
+
+        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
     }
     
     private class func queueEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {
@@ -278,6 +282,8 @@ class MultiSelectHelper {
             }
             actionDelegate.multiSelectActionCompleted()
         }
+
+        AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
     }
     
     private class func removeDownload(actionDelegate: MultiSelectActionDelegate) {

@@ -149,8 +149,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         tableView.rowHeight = UITableView.automaticDimension
         
         if let navController = navigationController {
-            tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar)
-            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar)
+            tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar, source: playbackSource)
+            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_filters")
         }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(navTitleTapped(shortPress:)))
@@ -389,7 +389,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
         let action = OptionAction(label: sortOrder.description, selected: filter.sortType == sortOrder.rawValue) {
-            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder.analyticsDescription])
+            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
             self.filter.sortType = sortOrder.rawValue
             self.saveFilter()
         }

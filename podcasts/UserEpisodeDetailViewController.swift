@@ -402,3 +402,7 @@ class UserEpisodeDetailViewController: UIViewController {
         animateOut()
     }
 }
+
+extension UserEpisodeDetailViewController: PlaybackSource {
+    var playbackSource: String { "user_episode" }
+}

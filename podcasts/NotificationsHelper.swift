@@ -45,18 +45,31 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         
         // multiple podcast episode actions
         let podcastCategory = UNNotificationCategory(identifier: "po", actions: [], intentIdentifiers: [], options: [])
-        
+
         // register actions
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
         notificationCenter.setNotificationCategories([episodeCategory, podcastCategory])
-        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
-            if granted {
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
+        
+        notificationCenter.getNotificationSettings { settings in
+            guard settings.authorizationStatus == .notDetermined else {
+                return
             }
-        })
+
+            notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
+                if granted {
+                    Analytics.track(.notificationsOptInAllowed)
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
+                else {
+                    Analytics.track(.notificationsOptInDenied)
+                }
+            })
+            
+            Analytics.track(.notificationsOptInShown)
+        }
     }
     
     // called when the user taps a notification action, or just the notification itself
@@ -82,7 +95,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
-                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: playFirst)
+                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: playFirst, userInitiated: true)
                 }
                 
                 completionHandler()

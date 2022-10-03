@@ -114,7 +114,7 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
             }
             else if let parentPodcast = episode.parentPodcast() {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast)
+                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .listeningHistory)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }
