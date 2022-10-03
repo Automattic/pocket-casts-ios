@@ -4,10 +4,6 @@
 - Fixed an issue where the keyboard would dismiss when resetting search text on discover. (#321)
 - Fixed an issue where the support feedback box would be unusable on smaller devices (#330)
 
-7.24
------
-
-
 7.23
 -----
 
