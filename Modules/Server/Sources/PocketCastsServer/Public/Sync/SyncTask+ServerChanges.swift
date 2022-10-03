@@ -8,10 +8,10 @@ extension SyncTask {
         var episodesToImport = [Api_SyncUserEpisode]()
         var filtersToImport = [Api_SyncUserPlaylist]()
         var foldersToImport = [Api_SyncUserFolder]()
-        
+
         for item in response.records {
             guard let oneOf = item.record else { continue }
-            
+
             switch oneOf {
             case .podcast:
                 podcastsToImport.append(item.podcast)
@@ -25,49 +25,49 @@ extension SyncTask {
                 continue // we aren't expecting the server to send us devices
             }
         }
-        
+
         totalToImport = podcastsToImport.count
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
         upToPodcast = 1
-        
+
         // The sync order here is important. Folders need to be added before podcasts, because podcasts have folderUuids in them. Podcasts are next so we can load any episodes we don't have and then read their sync data.
         for folderItem in foldersToImport {
             importQueue.addOperation { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 strongSelf.importFolder(folderItem)
             }
         }
-        
+
         for podcastItem in podcastsToImport {
             importQueue.addOperation { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 strongSelf.importPodcast(podcastItem)
             }
         }
         importQueue.waitUntilAllOperationsAreFinished()
         NotificationCenter.default.post(name: ServerNotifications.syncProgressImportedPodcasts, object: nil)
-        
+
         for episodeItem in episodesToImport {
             importQueue.addOperation { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 strongSelf.importEpisode(episodeItem)
             }
         }
-        
+
         for filterItem in filtersToImport {
             importQueue.addOperation { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 strongSelf.importFilter(filterItem)
             }
         }
-        
+
         importQueue.waitUntilAllOperationsAreFinished()
     }
-    
+
     private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
         let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
         if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
@@ -77,39 +77,37 @@ extension SyncTask {
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
-                
+
                 DataManager.sharedManager.save(podcast: podcast)
             }
-        }
-        else if let podcast = existingPodcast {
+        } else if let podcast = existingPodcast {
             importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
             DataManager.sharedManager.save(podcast: podcast)
-            
+
             ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
-        }
-        else {
+        } else {
             let semaphore = DispatchSemaphore(value: 0)
-            
+
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
                 if success {
                     if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
                         podcast.syncStatus = SyncStatus.synced.rawValue
                         self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
-                        
+
                         DataManager.sharedManager.save(podcast: podcast)
                     }
                 }
-                
+
                 semaphore.signal()
             })
             _ = semaphore.wait(timeout: .distantFuture)
         }
-        
+
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
         upToPodcast += 1
     }
-    
+
     private func importItem(podcastItem: Api_SyncUserPodcast, into podcast: Podcast, checkIsDeleted: Bool) {
         if podcastItem.hasAutoStartFrom {
             podcast.startFrom = podcastItem.autoStartFrom.value
@@ -124,54 +122,51 @@ extension SyncTask {
         if podcastItem.hasSortPosition {
             podcast.sortOrder = podcastItem.sortPosition.value
         }
-        
+
         if checkIsDeleted, podcastItem.hasIsDeleted {
             podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
         }
     }
-    
+
     private func importEpisode(_ episodeItem: Api_SyncUserEpisode) {
         var existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeItem.uuid)
-        
+
         if existingEpisode == nil {
             // we don't have this episode so try and find it
             FileLog.shared.addMessage("Trying to find missing episode as part of a sync \(episodeItem.uuid)")
             existingEpisode = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
         }
-        
+
         guard let episode = existingEpisode else { return }
-        
+
         if episodeItem.hasStarred, episode.keepEpisode != episodeItem.starred.value {
             let updateSaved = DataManager.sharedManager.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
             if updateSaved {
                 ServerConfig.shared.syncDelegate?.episodeStarredChanged(episode: episode)
             }
         }
-        
+
         // The order of the two methods below is important, we should always archive an episode if it's been archived before marking it as played.
         // This is because marking something as played has the potential to archive it as well, but doing so on device will update the time it was done potentially causing sync issues
-        
+
         if episodeItem.hasIsDeleted, episode.archived != episodeItem.isDeleted.value {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the archive status as unsynced because ours is considered more current
                 DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: true)
-            }
-            else {
+            } else {
                 if episodeItem.isDeleted.value {
                     ServerConfig.shared.syncDelegate?.archiveEpisodeExternal(episode: episode)
-                }
-                else {
+                } else {
                     _ = DataManager.sharedManager.saveIfNotModified(archived: false, episodeUuid: episode.uuid)
                 }
             }
         }
-        
+
         if episodeItem.hasPlayingStatus, episode.playingStatus != episodeItem.playingStatus.value {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the status as unsynced because ours is considered more current
                 DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
-            }
-            else {
+            } else {
                 let playingStatus = PlayingStatus(rawValue: episodeItem.playingStatus.value) ?? PlayingStatus.notPlayed
                 let updateSaved = DataManager.sharedManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episode.uuid)
                 if updateSaved, playingStatus == .completed {
@@ -180,76 +175,76 @@ extension SyncTask {
                 }
             }
         }
-        
+
         if episodeItem.hasPlayedUpTo, Int64(episode.playedUpTo) != episodeItem.playedUpTo.value {
             let playedUpTo = Double(episodeItem.playedUpTo.value)
             DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
-            
+
             // if the episode is loaded into the player, and is currently paused seek to the new up to time
             if let delegate = ServerConfig.shared.playbackDelegate, delegate.isNowPlayingEpisode(episodeUuid: episode.uuid), !delegate.playing() {
                 if playedUpTo < 1 {
                     FileLog.shared.addMessage("Saving a time of \(playedUpTo) for episode \(episode.displayableTitle()) because that's what the server sent us during a sync")
                 }
-                ServerConfig.shared.playbackDelegate?.seekTo(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
+                ServerConfig.shared.playbackDelegate?.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
             }
         }
-        
+
         // only update the duration if we aren't actively playing this episode
         if episodeItem.hasDuration, Int64(episode.duration) != episodeItem.duration.value, !isPlayerPlaying(episode: episode) {
             DataManager.sharedManager.saveEpisode(duration: Double(episodeItem.duration.value), episode: episode, updateSyncFlag: false)
         }
     }
-    
+
     private func importFolder(_ folderItem: Api_SyncUserFolder) {
         let folderUuid = folderItem.folderUuid
-        
+
         // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
         if folderItem.isDeleted {
             DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
-            
+
             return
         }
-        
+
         var existingFolder = DataManager.sharedManager.findFolder(uuid: folderUuid)
         if existingFolder == nil {
             existingFolder = Folder()
             existingFolder?.uuid = folderUuid
         }
         guard let folder = existingFolder else { return }
-        
+
         folder.name = folderItem.name
         folder.color = folderItem.color
         folder.sortOrder = folderItem.sortPosition
         folder.sortType = Int32(ServerConverter.convertToClientSortType(serverType: folderItem.podcastsSortType))
         folder.addedDate = folderItem.dateAdded.date
-        
+
         DataManager.sharedManager.save(folder: folder)
     }
-    
+
     private func importFilter(_ filterItem: Api_SyncUserPlaylist) {
         let filterUuid = filterItem.originalUuid // it's important to use this field, not uuid because the server won't change the case on this one
         var existingFilter = DataManager.sharedManager.findFilter(uuid: filterUuid)
-        
+
         // if the filter exists, and another device has deleted it, then delete it
         if filterItem.hasIsDeleted, filterItem.isDeleted.value {
             if let filter = existingFilter {
                 DataManager.sharedManager.delete(filter: filter)
             }
-            
+
             return
         }
-        
+
         if filterItem.hasManual, filterItem.manual.value {
             return // we don't support manual filters
         }
-        
+
         if existingFilter == nil {
             existingFilter = EpisodeFilter()
             existingFilter?.uuid = filterUuid
         }
-        
+
         guard let filter = existingFilter else { return }
-        
+
         filter.wasDeleted = false
         filter.syncStatus = SyncStatus.synced.rawValue
         if filterItem.hasTitle {
@@ -300,17 +295,16 @@ extension SyncTask {
         if filterItem.hasLongerThan {
             filter.longerThan = filterItem.longerThan.value
         }
-        
+
         if filterItem.hasPodcastUuids {
             filter.podcastUuids = filterItem.podcastUuids.value
-        }
-        else {
+        } else {
             filter.podcastUuids = ""
         }
-        
+
         DataManager.sharedManager.save(filter: filter)
     }
-    
+
     func isPlayerPlaying(episode: Episode) -> Bool {
         ServerConfig.shared.playbackDelegate?.isActivelyPlaying(episodeUuid: episode.uuid) ?? false
     }

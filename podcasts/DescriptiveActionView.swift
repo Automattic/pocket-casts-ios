@@ -7,9 +7,9 @@ class DescriptiveActionView: UIView {
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
     private let iconTintStyle: ThemeStyle
-    
+
     private weak var delegate: OptionsPickerRootController?
-    
+
     init(frame: CGRect, title: String, message: String?, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.title = title
         self.message = message
@@ -20,26 +20,26 @@ class DescriptiveActionView: UIView {
         self.iconTintStyle = iconTintStyle
         super.init(frame: frame)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func actionWasAdded() {
         // add icon
         let image = UIImage(named: icon)?.tintedImage(AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride))
         let iconView = UIImageView(image: image)
         iconView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(iconView)
-        
+
         NSLayoutConstraint.activate([
             iconView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
             iconView.heightAnchor.constraint(equalToConstant: 39),
             iconView.widthAnchor.constraint(equalToConstant: 39)
         ])
-        
+
         // add title
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -48,14 +48,14 @@ class DescriptiveActionView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
         addSubview(titleLabel)
-        
+
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 20)
         ])
-        
+
         // add message
         let messageLabel = UILabel()
         messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -65,14 +65,14 @@ class DescriptiveActionView: UIView {
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
         addSubview(messageLabel)
-        
+
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 20)
         ])
-        
+
         var previousButton: ShiftyRoundButton?
         for (index, action) in actions.enumerated() {
             let actionButton = ShiftyRoundButton()
@@ -94,7 +94,7 @@ class DescriptiveActionView: UIView {
             }
             actionButton.translatesAutoresizingMaskIntoConstraints = false
             addSubview(actionButton)
-            
+
             let previousBottomAnchor = previousButton == nil ? messageLabel.bottomAnchor : previousButton!.bottomAnchor
             NSLayoutConstraint.activate([
                 actionButton.topAnchor.constraint(equalTo: previousBottomAnchor, constant: 20),
@@ -105,7 +105,7 @@ class DescriptiveActionView: UIView {
             ])
             previousButton = actionButton
         }
-        
+
         if let lastButton = previousButton {
             NSLayoutConstraint.activate([
                 bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 20)

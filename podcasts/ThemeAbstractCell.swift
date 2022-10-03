@@ -7,20 +7,20 @@ class ThemeAbstractCell: UICollectionViewCell {
             nameLabel.sizeToFit()
         }
     }
-    
+
     @IBOutlet var selectionView: ThemeableSelectionView! {
         didSet {
             selectionView.layer.borderWidth = 4
             selectionView.unselectedStyle = .primaryUi02
         }
     }
-    
+
     @IBOutlet var imageView: UIImageView! {
         didSet {
             imageView.clipsToBounds = true
         }
     }
-    
+
     @IBOutlet var shadowView: ThemeableView! {
         didSet {
             shadowView.clipsToBounds = false
@@ -31,7 +31,7 @@ class ThemeAbstractCell: UICollectionViewCell {
             shadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
         }
     }
-    
+
     @IBOutlet var underShadowView: ThemeableView! {
         didSet {
             underShadowView.layer.cornerRadius = 10
@@ -39,19 +39,19 @@ class ThemeAbstractCell: UICollectionViewCell {
             underShadowView.alpha = 0.5
         }
     }
-    
+
     @IBOutlet var cornerImage: UIImageView! {
         didSet {
             setCornerImage()
         }
     }
-    
+
     @IBOutlet var greyLockImage: UIImageView! {
         didSet {
             greyLockImage.tintColor = AppTheme.colorForStyle(.primaryIcon02)
         }
     }
-    
+
     var isLocked: Bool = true {
         didSet {
             greyLockImage.isHidden = !isLocked
@@ -60,29 +60,28 @@ class ThemeAbstractCell: UICollectionViewCell {
             setCornerImage()
         }
     }
-    
+
     private func setCornerImage() {
         if isCellSelected {
             cornerImage.image = UIImage(named: "tickBlueCircle")
-        }
-        else {
+        } else {
             cornerImage.image = isLocked ? UIImage(named: "plusGoldCircle") : nil
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.clipsToBounds = false
         clipsToBounds = false
     }
-    
+
     var isCellSelected = false {
         didSet {
             selectionView.isSelected = isCellSelected
             setCornerImage()
         }
     }
-    
+
     override func prepareForReuse() {
         isCellSelected = false
     }

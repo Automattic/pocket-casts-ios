@@ -9,7 +9,7 @@ enum SupportCustomField: Int, CaseIterable {
     case wearableLog = 360_049_192_072
     case allPodcasts = 360_049_245_291
     case metaData = 360_049_245_311
-    
+
     var dispalyTitle: String {
         switch self {
         case .debugLog:
@@ -22,7 +22,7 @@ enum SupportCustomField: Int, CaseIterable {
             return L10n.supportLogsMetaData
         }
     }
-    
+
     var displayOrder: Int {
         switch self {
         case .debugLog:
@@ -53,30 +53,30 @@ struct SupportConfig: ZDConfig {
 
     var tags: [String] {
         var tagList = ["platform_ios", "app_version_\(Settings.appVersion())", "pocket_casts"]
-        
+
         if SubscriptionHelper.hasActiveSubscription() {
             tagList.append("plus")
         }
         return tagList
     }
-    
+
     var subject: String {
         let requestType = (isFeedback ? L10n.supportFeedback : L10n.support)
         var subject = "iOS \(requestType) v\(Settings.appVersion())"
-        
+
         if SubscriptionHelper.hasActiveSubscription() {
             subject += " - Plus Account"
         }
-        
+
         #if DEBUG
             subject += " - (Testing)"
         #endif
-        
+
         return subject
     }
-    
+
     // MARK: Custom Fields
-    
+
     func customFields(forDisplay: Bool, optOut: Bool) -> AnyPublisher<[ZDCustomField], Never> {
         guard !optOut else {
             return Just([
@@ -96,7 +96,7 @@ struct SupportConfig: ZDConfig {
             }
             .eraseToAnyPublisher()
     }
-    
+
     private func debugLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
         if forDisplay {
             // Return the File Contents to show the user
@@ -107,7 +107,7 @@ struct SupportConfig: ZDConfig {
             }
             .eraseToAnyPublisher()
         }
-        
+
         // Return the File UUID that has been queued for upload
         return FileLog.shared.encryptedLogUUID()
             .map { uuid in
@@ -115,7 +115,7 @@ struct SupportConfig: ZDConfig {
             }
             .eraseToAnyPublisher()
     }
-    
+
     private func watchLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
         if forDisplay {
             // Return the File Contents to show the user
@@ -127,7 +127,7 @@ struct SupportConfig: ZDConfig {
             }
             .eraseToAnyPublisher()
         }
-        
+
         // Return the File Name to be enqued for upload
         return FileLog.shared.encryptedWatchLogUUID()
             .map { uuid in
@@ -140,11 +140,10 @@ struct SupportConfig: ZDConfig {
         let syncEmail: String
         if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
             syncEmail = email
-        }
-        else {
+        } else {
             syncEmail = "Not logged in"
         }
-        
+
         let now = Date()
         let localTime = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter.string(from: now)
         let gmtTime = DateFormatHelper.sharedHelper.jsonFormat(now)
@@ -171,10 +170,10 @@ struct SupportConfig: ZDConfig {
         Auto Archive Starred Episodes: \(Settings.archiveStarredEpisodes())
         Uploaded Episode Count: \(ServerSettings.customStorageNumFiles())
         """
-        
+
         return ZDCustomField(.metaData, value: debugString)
     }
-    
+
     private var allPodcasts: ZDCustomField {
         let allPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
             .map { podcast -> String in
@@ -182,9 +181,9 @@ struct SupportConfig: ZDConfig {
                 return "\(podcastTitle) (\(podcast.uuid)) override global archive? \(podcast.overrideGlobalArchive) with limit \(podcast.autoArchiveEpisodeLimit)"
             }
             .joined(separator: "\n")
-        
+
         let reduced = String(allPodcasts.prefix(maxCharacterCount))
-        
+
         return ZDCustomField(.allPodcasts, value: reduced)
     }
 }

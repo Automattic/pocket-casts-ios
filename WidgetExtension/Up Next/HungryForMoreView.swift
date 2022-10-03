@@ -30,7 +30,7 @@ struct HungryForMoreLargeView: View {
                 Image("search")
                     .resizable()
                     .frame(width: 60, height: 60, alignment: .center)
-                
+
                 VStack(spacing: 4) {
                     Text(L10n.widgetsDiscoverPromptTitle)
                         .font(.footnote)

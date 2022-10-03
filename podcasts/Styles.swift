@@ -22,7 +22,7 @@ struct DefaultThemeSettings: ViewModifier {
 
 struct PrimaryText: ViewModifier {
     @EnvironmentObject var theme: Theme
-    
+
     func body(content: Content) -> some View {
         content
             .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
@@ -31,7 +31,7 @@ struct PrimaryText: ViewModifier {
 
 struct SecondaryText: ViewModifier {
     @EnvironmentObject var theme: Theme
-    
+
     func body(content: Content) -> some View {
         content
             .foregroundColor(ThemeColor.primaryText02(for: theme.activeTheme).color)
@@ -46,13 +46,12 @@ extension Text {
 
 struct HiddenListDividers: ViewModifier {
     @EnvironmentObject var theme: Theme
-    
+
     func body(content: Content) -> some View {
         if #available(iOS 15.0, *) {
             content
                 .listRowSeparator(.hidden)
-        }
-        else {
+        } else {
             content
         }
     }
@@ -107,6 +106,15 @@ struct ThemedTextField: ViewModifier {
     }
 
     func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            baseContent(content: content)
+                .scrollContentBackground(.hidden)
+        } else {
+            baseContent(content: content)
+        }
+    }
+
+    private func baseContent(content: Content) -> some View {
         content
             .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
             .padding(10)
@@ -117,7 +125,7 @@ struct ThemedTextField: ViewModifier {
 
 struct ThemedDivider: View {
     @EnvironmentObject var theme: Theme
-    
+
     var body: some View {
         Divider()
             .background(ThemeColor.primaryUi05(for: theme.activeTheme).color)
@@ -128,7 +136,7 @@ struct ThemedDivider: View {
 
 struct RoundedButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
-    
+
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             Spacer()
@@ -147,7 +155,7 @@ struct RoundedButtonStyle: ButtonStyle {
 
 struct RoundedButton: ViewModifier {
     @EnvironmentObject var theme: Theme
-    
+
     func body(content: Content) -> some View {
         HStack {
             Spacer()

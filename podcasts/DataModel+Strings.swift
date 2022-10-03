@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
-public extension UploadedSort {
+extension UploadedSort: AnalyticsDescribable {
     var description: String {
         switch self {
         case .newestToOldest:

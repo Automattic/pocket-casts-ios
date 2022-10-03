@@ -11,7 +11,7 @@ class WatchFilter: Equatable, Filter {
     var title = ""
     var uuid = ""
     var iconName: String? = ""
-    
+
     static func == (lhs: WatchFilter, rhs: WatchFilter) -> Bool {
         lhs.title == rhs.title && lhs.uuid == rhs.uuid && lhs.iconName == rhs.iconName
     }

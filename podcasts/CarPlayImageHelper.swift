@@ -4,10 +4,10 @@ import PocketCastsDataModel
 class CarPlayImageHelper {
     class func imageForPodcast(_ podcast: Podcast) -> UIImage {
         let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
-        
+
         return adjustImageIfRequired(image: image)
     }
-    
+
     class func imageForFolder(_ folder: Folder) -> UIImage {
         /// sj_snapshotImage is failing to generate the preview (artworks won't appear)
         /// A workaround is to wrap the view in a UIStackView. This prevents the folder
@@ -24,19 +24,18 @@ class CarPlayImageHelper {
 
         return adjustImageIfRequired(image: image)
     }
-    
+
     class func imageForEpisode(_ episode: BaseEpisode) -> UIImage {
         var image: UIImage?
         if let episode = episode as? Episode {
             image = ImageManager.sharedManager.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
-        }
-        else if let userEpisode = episode as? UserEpisode {
+        } else if let userEpisode = episode as? UserEpisode {
             image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
-        
+
         return adjustImageIfRequired(image: image ?? UIImage(named: "noartwork-list-dark")!)
     }
-    
+
     private class func adjustImageIfRequired(image: UIImage) -> UIImage {
         // CarPlay list rows have a bug where if the scale is 1, it will draw a half size image, so here we make sure to set the scale correctly
         if image.scale == 1, let cgImage = image.cgImage {

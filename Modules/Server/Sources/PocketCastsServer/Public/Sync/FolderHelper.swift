@@ -8,7 +8,7 @@ class FolderHelper {
             FileLog.shared.addMessage("addFolderToDatabase: skipping, folder \(folder.name) (\(folder.uuid)) it already exists")
             return
         }
-        
+
         FileLog.shared.addMessage("Adding folder \(folder.name) (\(folder.uuid))")
         let localFolder = Folder()
         localFolder.uuid = folder.uuid
@@ -17,7 +17,7 @@ class FolderHelper {
         localFolder.sortOrder = folder.sortOrder
         localFolder.color = folder.color
         localFolder.addedDate = folder.addedDate
-        
+
         DataManager.sharedManager.save(folder: localFolder)
     }
 }

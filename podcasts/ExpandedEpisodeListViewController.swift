@@ -18,7 +18,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         headerView = EpisodeListHeaderView(collection: podcastCollection)
         episodes = podcastCollection.episodes ?? []
         super.init(nibName: nil, bundle: nil)
-        
+
         title = podcastCollection.subtitle
         headerView.linkDelegate = self
     }
@@ -94,24 +94,29 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {
         guard let uuid = discoverEpisode.uuid else { return }
-        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast)
+        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
         episodeController.modalPresentationStyle = .formSheet
-        
+
         present(episodeController, animated: true)
     }
-    
+
     func linkTapped() {
         guard let link = podcastCollection.webUrl, let url = URL(string: link) else { return }
-        
+
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        else {
+        } else {
             let config = SFSafariViewController.Configuration()
             config.entersReaderIfAvailable = false
             let safariViewController = SFSafariViewController(url: url, configuration: config)
-            
+
             present(safariViewController, animated: true, completion: nil)
         }
+    }
+}
+
+extension ExpandedEpisodeListViewController: PlaybackSource {
+    var playbackSource: String {
+        "discover_episode_list"
     }
 }

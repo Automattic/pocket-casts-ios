@@ -30,17 +30,6 @@ public enum PodcastGrouping: Int32, CaseIterable {
 
 public enum AudioVideoFilter: Int32 {
     case all = 0, audioOnly = 1, videoOnly = 2
-
-    public var analyticsDescription: String {
-        switch self {
-        case .all:
-            return "all"
-        case .audioOnly:
-            return "audio"
-        case .videoOnly:
-            return "video"
-        }
-    }
 }
 
 public enum AutoAddToUpNextSetting: Int32 {
@@ -53,24 +42,11 @@ public enum SyncStatus: Int32 {
 
 public enum PlaylistSort: Int32 {
     case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3
-
-    public var analyticsDescription: String {
-        switch self {
-        case .newestToOldest:
-            return "newest_to_oldest"
-        case .oldestToNewest:
-            return "oldest_to_newest"
-        case .shortestToLongest:
-            return "shortest_to_longest"
-        case .longestToShortest:
-            return "longest_to_shortest"
-        }
-    }
 }
 
 public struct EpisodeBasicData {
     public init() {}
-    
+
     public var uuid: String?
     public var duration: Int?
     public var playingStatus: Int?

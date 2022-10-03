@@ -7,23 +7,22 @@ class SleepTimerButton: UIButton {
             animationView.transform = CGAffineTransform(scaleX: scaleAmount, y: scaleAmount)
         }
     }
-    
+
     var sleepTimerOn = false {
         didSet {
             // check for a state we're already in
             if sleepTimerOn == oldValue { return }
-            
+
             if sleepTimerOn {
                 animateToOn()
-            }
-            else {
+            } else {
                 animateToOff()
             }
         }
     }
-    
+
     private var animationView: AnimationView
-    
+
     override var tintColor: UIColor! {
         didSet {
             let colorValues = tintColor.getRGBA()
@@ -33,48 +32,48 @@ class SleepTimerButton: UIButton {
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 3.Color"))
         }
     }
-    
+
     override init(frame: CGRect) {
         animationView = AnimationView(name: "sleep_button")
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = 1.0
         animationView.currentProgress = 0.5
-        
+
         animationView.transform = CGAffineTransform(scaleX: scaleAmount, y: scaleAmount)
-        
+
         super.init(frame: frame)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         animationView = AnimationView(name: "sleep_button")
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = 1.0
         animationView.currentProgress = 0.5
-        
+
         animationView.transform = CGAffineTransform(scaleX: scaleAmount, y: scaleAmount)
-        
+
         super.init(coder: aDecoder)
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         setupAnimation()
     }
-    
+
     func setupAnimation() {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         animationView.loopMode = .loop
         addSubview(animationView)
-        
+
         animationView.anchorToAllSidesOf(view: self)
     }
-    
+
     private func animateToOn() {
         animationView.currentProgress = 0.5
         animationView.play()
     }
-    
+
     private func animateToOff() {
         animationView.stop()
         animationView.currentProgress = 0.5

@@ -25,7 +25,7 @@ class PodcastsListViewModel: ObservableObject {
         .receive(on: RunLoop.main)
         .assign(to: &$gridItems)
     }
-    
+
     func countOfPodcastsInFolder(_ folder: Folder) -> Int {
         DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
     }

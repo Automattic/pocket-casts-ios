@@ -6,7 +6,7 @@ class LastSupporterPodcastCell: ThemeableCell {
             yieldImage.tintColor = AppTheme.colorForStyle(.primaryUi05Selected)
         }
     }
-    
+
     @IBOutlet var borderView: ThemeableView! {
         didSet {
             borderView.style = .primaryUi06
@@ -15,13 +15,13 @@ class LastSupporterPodcastCell: ThemeableCell {
             borderView.layer.borderColor = AppTheme.colorForStyle(.primaryUi05).cgColor
         }
     }
-    
+
     @IBOutlet var descriptionLabel: ThemeableLabel! {
         didSet {
             descriptionLabel.style = .primaryText02
         }
     }
-    
+
     override func handleThemeDidChange() {
         yieldImage.tintColor = ThemeColor.primaryUi05Selected()
         borderView.layer.borderColor = ThemeColor.primaryUi05().cgColor

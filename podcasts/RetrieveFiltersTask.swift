@@ -4,53 +4,51 @@ import SwiftProtobuf
 
 class RetrieveFiltersTask: ApiBaseTask {
     var completion: (([EpisodeFilter]?) -> Void)?
-    
+
     private var filters = [EpisodeFilter]()
-    
+
     override func apiTokenAcquired(token: String) {
         let url = Server.Urls.api + "user/playlist/list"
-        
+
         do {
             var filterRequest = Api_UserPlaylistListRequest()
             filterRequest.m = Constants.Values.apiScope
             let data = try filterRequest.serializedData()
-            
+
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             guard let responseData = response, httpStatus == Server.HttpConstants.ok else {
                 completion?(nil)
-                
+
                 return
             }
-            
+
             do {
                 let serverFilters = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
                 if serverFilters.count == 0 {
                     completion?(nil)
-                    
+
                     return
                 }
-                
+
                 for serverFilter in serverFilters {
                     if serverFilter.manual.value { continue } // we don't care about manual playlists
-                    
+
                     let convertedFilter = convertFromProto(serverFilter)
                     filters.append(convertedFilter)
                 }
-                
+
                 completion?(filters)
-            }
-            catch {
+            } catch {
                 print("Decoding filters failed \(error.localizedDescription)")
                 completion?(nil)
             }
-        }
-        catch {
+        } catch {
             print("retrieve filters failed \(error.localizedDescription)")
             completion?(nil)
         }
     }
-    
+
     private func convertFromProto(_ protoFilter: Api_PlaylistSyncResponse) -> EpisodeFilter {
         let converted = EpisodeFilter()
         converted.customIcon = protoFilter.iconID.value
@@ -69,7 +67,7 @@ class RetrieveFiltersTask: ApiBaseTask {
         converted.podcastUuids = protoFilter.podcastUuids
         converted.wasDeleted = protoFilter.isDeleted.value
         converted.sortPosition = protoFilter.sortPosition.value
-        
+
         return converted
     }
 }

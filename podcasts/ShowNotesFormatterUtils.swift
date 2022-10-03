@@ -33,8 +33,7 @@ class ShowNotesFormatterUtils {
             }
 
             return outString
-        }
-        catch {
+        } catch {
             return stringWithTimes
         }
     }

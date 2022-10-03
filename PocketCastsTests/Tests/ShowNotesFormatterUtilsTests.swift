@@ -32,7 +32,7 @@ class ShowNotesFormatterUtilsTests: XCTestCase {
         actual = ShowNotesFormatterUtils.convertToLinks(stringWithTimes: "<li><a href=\"https://overcast.fm/+BtuyYAAIQ/16:45\">Confirmation of John's prediction about face swipe timing</a></li>")
         expected = "<li><a href=\"https://overcast.fm/+BtuyYAAIQ/16:45\">Confirmation of John's prediction about face swipe timing</a></li>"
         XCTAssertEqual(actual, expected)
-        
+
         // Large show notes tests
         actual = ShowNotesFormatterUtils.convertToLinks(stringWithTimes: "No timestamps in show notes")
         expected = "No timestamps in show notes"

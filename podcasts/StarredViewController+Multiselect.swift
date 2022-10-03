@@ -5,23 +5,23 @@ import UIKit
 
 extension StarredViewController: MultiSelectActionDelegate {
     // MARK: - MultiSelect action delegate
-    
+
     func multiSelectPresentingViewController() -> UIViewController {
         self
     }
-    
+
     func multiSelectedBaseEpisodes() -> [BaseEpisode] {
         selectedEpisodes.map(\.episode)
     }
-    
+
     func multiSelectedPlayListEpisodes() -> [PlaylistEpisode]? {
         nil
     }
-    
+
     func multiSelectActionBegan(status: String) {
         multiSelectFooter.setStatus(status: status)
     }
-    
+
     func multiSelectActionCompleted() {
         DispatchQueue.main.async {
             self.view.layoutIfNeeded()
@@ -33,23 +33,27 @@ extension StarredViewController: MultiSelectActionDelegate {
             })
         }
     }
-    
+
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
         preferredStatusBarStyle
     }
-    
+
+    var multiSelectViewSource: String {
+        playbackSource
+    }
+
     // MARK: - Selected Episode
-    
+
     func selectedEpisodesContains(uuid: String) -> Bool {
         selectedEpisodes.contains { $0.episode.uuid == uuid }
     }
-    
+
     func selectedEpisodesRemove(uuid: String) {
         if let currentEpisodeIndex = selectedEpisodes.firstIndex(where: { $0.episode.uuid == uuid }) {
             selectedEpisodes.remove(at: currentEpisodeIndex)
         }
     }
-    
+
     @IBAction func selectAllTapped() {
         let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count)
 
@@ -57,21 +61,20 @@ extension StarredViewController: MultiSelectActionDelegate {
 
         if shouldSelectAll {
             starredTable.selectAll()
-        }
-        else {
+        } else {
             starredTable.deselectAll()
         }
         updateSelectAllBtn()
     }
-    
+
     @IBAction func cancelTapped() {
         isMultiSelectEnabled = false
     }
-    
+
     @IBAction func selectTapped() {
         isMultiSelectEnabled = true
     }
-    
+
     func updateSelectAllBtn() {
         guard isMultiSelectEnabled else { return }
         let leftButtonTitle = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count) ? L10n.selectAll : L10n.deselectAll

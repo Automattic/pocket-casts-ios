@@ -1826,6 +1826,10 @@ internal enum L10n {
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened") }
   /// Total Unplayed
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed") }
+  /// Collect information
+  internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
+  /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
+  internal static var settingsCollectInformationAdditionalInformation: String { return L10n.tr("Localizable", "settings_collect_information_additional_information") }
   /// Create Siri Shortcut
   internal static var settingsCreateSiriShortcut: String { return L10n.tr("Localizable", "settings_create_siri_shortcut") }
   /// Create a Siri Shortcut to play the newest episode of %1$@
@@ -1998,8 +2002,12 @@ internal enum L10n {
   internal static func settingsPlusPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "settings_plus_pricing_format", String(describing: p1), String(describing: p2))
   }
+  /// Privacy
+  internal static var settingsPrivacy: String { return L10n.tr("Localizable", "settings_privacy") }
   /// Position in Queue
   internal static var settingsQueuePosition: String { return L10n.tr("Localizable", "settings_queue_position") }
+  /// Read privacy policy
+  internal static var settingsReadPrivacyPolicy: String { return L10n.tr("Localizable", "settings_read_privacy_policy") }
   /// Select Filter
   internal static var settingsSelectFilterSingular: String { return L10n.tr("Localizable", "settings_select_filter_singular") }
   /// Select Filters

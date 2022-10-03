@@ -27,6 +27,11 @@ let package = Package(
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],
             path: "Sources"
+        ),
+        .testTarget(
+            name: "PocketCastsDataModelTests",
+            dependencies: ["PocketCastsDataModel"],
+            path: "Tests"
         )
     ]
 )

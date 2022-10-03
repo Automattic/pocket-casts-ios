@@ -11,9 +11,9 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     var podcastCollection: PodcastCollection?
     var podcasts: [DiscoverPodcast]
     weak var delegate: DiscoverDelegate?
-    
+
     var cellStyle: CollectionCellStyle = .grid
-    
+
     let inset: CGFloat = 16
     let bigDevicePortraitWidth: CGFloat = 500
     let gridStyleSpacing: CGFloat = 16
@@ -23,7 +23,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     let descriptiveListPreferredMaxWidth: CGFloat = 280
     let descriptiveListPreferredMaxHeight: CGFloat = 200
     let descriptiveListSpacing: CGFloat = 16
-    
+
     @IBOutlet var collectionView: ThemeableCollectionView! {
         didSet {
             collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.gridCellId)
@@ -35,90 +35,89 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             }
         }
     }
-    
+
     @IBOutlet var collectionViewHeader: UICollectionReusableView!
     static let headerId = "DiscoverCollectionHeader"
     static let gridCellId = "LargeListCell"
     static let descriptiveCellId = "DescriptiveCollectionCell"
     private var lastWillLayoutWidth: CGFloat = 0
-    
+
     init(item: DiscoverItem, podcasts: [DiscoverPodcast]) {
         self.item = item
         self.podcasts = podcasts
-        
+
         super.init(nibName: "ExpandedCollectionViewController", bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
-        
+
         if let collectionSubtitle = podcastCollection?.subtitle?.localized.localizedCapitalized {
             title = collectionSubtitle
-        }
-        else {
+        } else {
             title = item.title?.localized.localizedCapitalized
         }
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
         if lastWillLayoutWidth != view.bounds.width {
             lastWillLayoutWidth = view.bounds.width
             updateFlowLayoutSize()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if podcastCollection == nil {
             navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         navigationController?.navigationBar.shadowImage = nil
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
     }
-    
+
     func linkTapped() {
         guard let link = podcastCollection?.webUrl, let url = URL(string: link) else { return }
-        
+
+        Analytics.track(.discoverCollectionLinkTapped, properties: ["list_id": item.inferredListId])
+
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        else {
+        } else {
             let config = SFSafariViewController.Configuration()
             config.entersReaderIfAvailable = false
             let safariViewController = SFSafariViewController(url: url, configuration: config)
             present(safariViewController, animated: true, completion: nil)
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
-    
+
     @objc private func miniPlayerStatusDidChange() {
         if PlaybackManager.shared.currentEpisode() != nil {
             collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        }
-        else {
+        } else {
             collectionView.contentInset = UIEdgeInsets.zero
         }
     }

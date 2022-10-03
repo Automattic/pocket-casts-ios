@@ -6,7 +6,7 @@ class TopLevelItemRowController: NSObject {
     @IBOutlet var episodeCountGroup: WKInterfaceGroup!
     @IBOutlet var episodeCountLabel: WKInterfaceLabel!
     @IBOutlet var topLevelGroup: WKInterfaceGroup!
-    
+
     func setCount(count: Int) {
         guard count > 0 else {
             episodeCountGroup.setHidden(true)
@@ -19,14 +19,13 @@ class TopLevelItemRowController: NSObject {
             episodeCountGroup.sizeToFitWidth()
         }
     }
-    
+
     func populate(title: String, count: Int = 0) {
         label.setText(title)
         setCount(count: count)
         if count > 0 {
             topLevelGroup.setAccessibilityLabel("\(title), \(count)")
-        }
-        else {
+        } else {
             topLevelGroup.setAccessibilityLabel(title)
         }
     }

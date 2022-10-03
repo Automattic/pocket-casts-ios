@@ -14,8 +14,9 @@ msgstr ""
 "Language-Team: \n"
 "Language: en\n"
 
-msgctxt "v7.19.1-whats-new"
+msgctxt "v7.23-whats-new"
 msgid ""
+"Never fear, a new feature is here! We took a poll in our virtual office about what gestures we most use on our devices and the results are in! Coming in a hot third behind shaking it out of frustration, and having to swipe back because you tapped on the wrong thing is… PULL TO REFRESH. Based on our super accurate definitely not made up scientific results we decided to add the ability to refresh your podcasts from both the podcasts and the profile screen!\n"
 msgstr ""
 
 #. translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!

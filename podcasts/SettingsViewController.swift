@@ -5,7 +5,7 @@ import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus
+        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -37,46 +37,48 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.appleWatch, UIImage(named: "settings_watch"))
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
+            case .privacy:
+                return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
             }
         }
     }
 
     private var tableData: [[TableRow]] = []
-    
+
     private let settingsCellId = "SettingsCell"
-    
+
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             settingsTable.applyInsetForMiniPlayer()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.settings
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         reloadTable()
     }
-    
+
     // MARK: - UITableView Methods
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableData.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableData[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
         cell.plusIndicator.isHidden = true
-        
+
         let tableRow = tableData[indexPath.section][indexPath.row]
         cell.settingsLabel.text = tableRow.display.text
         cell.settingsLabel.accessibilityIdentifier = tableRow.rawValue
@@ -88,13 +90,13 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         default:
             break
         }
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let tableRow = tableData[indexPath.section][indexPath.row]
         switch tableRow {
         case .general:
@@ -117,11 +119,13 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:
+            Analytics.track(.settingsAboutShown)
+
             let aboutView = AboutView(dismissAction: { [weak self] in
                 self?.navigationController?.dismiss(animated: true, completion: nil)
             }).environmentObject(Theme.sharedTheme)
             let hostingController = PCHostingController(rootView: aboutView)
-            
+
             navigationController?.present(hostingController, animated: true, completion: nil)
         case .siriShortcuts:
             navigationController?.pushViewController(SiriSettingsViewController(), animated: true)
@@ -131,25 +135,26 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
         case .pocketCastsPlus:
             navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
+        case .privacy:
+            navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         1
     }
-    
+
     private func reloadTable() {
         if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml, .about]]
-        }
-        else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml, .about]]
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml], [.privacy, .about]]
+        } else {
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml], [.privacy, .about]]
         }
 
         if !SubscriptionHelper.hasActiveSubscription() {
             tableData.insert([.pocketCastsPlus], at: 0)
         }
-        
+
         settingsTable.reloadData()
     }
 }

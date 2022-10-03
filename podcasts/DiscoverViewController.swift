@@ -3,106 +3,107 @@ import UIKit
 
 class DiscoverViewController: PCViewController {
     @IBOutlet var mainScrollView: UIScrollView!
-    
+
     @IBOutlet var noResultsView: UIView!
     @IBOutlet var infoHeaderLabel: UILabel!
     @IBOutlet var infoDetailLabel: UILabel!
-    
+
     @IBOutlet var noNetworkView: UIView!
     @IBOutlet var noInternetImage: UIImageView!
-    
+
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
-    
+
     private let sectionPadding = 16 as CGFloat
-    
+
     private var summaryViewControllers = [UIViewController]()
-    
+
     var searchController: PCSearchBarController!
     var searchResultsController: DiscoverPodcastSearchResultsController!
-    
+
     private var loadingContent = false
-    
+
     var discoverLayout: DiscoverLayout?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = L10n.discover
-        
+
         setupSearchBar()
         handleThemeChanged()
         reloadData()
-        
+
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         AnalyticsHelper.navigatedToDiscover()
+        Analytics.track(.discoverShown)
+
         reloadIfRequired()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequested), name: Constants.Notifications.searchRequested, object: nil)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+
         navigationController?.navigationBar.shadowImage = nil
-        
+
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.searchRequested, object: nil)
     }
-    
+
     @objc private func checkForScrollTap(_ notification: Notification) {
         guard let index = notification.object as? Int, index == tabBarItem.tag else { return }
-        
+
         let defaultOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
         if mainScrollView.contentOffset.y > defaultOffset {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
-        }
-        else {
+        } else {
             searchController.searchTextField.becomeFirstResponder()
         }
     }
-    
+
     @objc private func searchRequested() {
         mainScrollView.setContentOffset(CGPoint(x: 0, y: -PCSearchBarController.defaultHeight - view.safeAreaInsets.top), animated: false)
         searchController.searchTextField.becomeFirstResponder()
     }
-    
+
     @objc private func chartRegionDidChange() {
         reloadData()
     }
-    
+
     private func addCommonConstraintsFor(_ viewController: UIViewController) {
         viewController.view.translatesAutoresizingMaskIntoConstraints = false
         viewController.view.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true
         viewController.view.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true
         viewController.view.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true
     }
-    
+
     override func handleThemeChanged() {
         mainScrollView.backgroundColor = ThemeColor.primaryUi02()
     }
-    
+
     // MARK: - UI Actions
-    
+
     @IBAction func reloadDiscoverTapped(_ sender: AnyObject) {
         reloadData()
     }
-    
+
     // MARK: - Data Loading
-    
+
     private func reloadData() {
         showPageLoading()
-        
+
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, _ in
             DispatchQueue.main.async {
                 guard let strongSelf = self else { return }
@@ -110,22 +111,22 @@ class DiscoverViewController: PCViewController {
             }
         }
     }
-    
+
     private func reloadIfRequired() {
         if loadingContent { return }
-        
+
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, cachedResponse in
             if cachedResponse { return } // we got back a cached response, no need to reload the page
-            
+
             DispatchQueue.main.async {
                 guard let self = self else { return }
-                
+
                 self.showPageLoading()
                 self.populateFrom(discoverLayout: discoverLayout)
             }
         }
     }
-    
+
     private func showPageLoading() {
         loadingContent = true
         mainScrollView.removeAllSubviews()
@@ -133,32 +134,32 @@ class DiscoverViewController: PCViewController {
             viewController.removeFromParent()
         }
         summaryViewControllers.removeAll()
-        
+
         mainScrollView.isHidden = true
         noNetworkView.isHidden = true
         noResultsView.isHidden = true
-        
+
         loadingIndicator.startAnimating()
     }
-    
+
     private func populateFrom(discoverLayout: DiscoverLayout?) {
         loadingContent = false
-        
+
         guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
             handleLoadFailed()
             return
         }
-        
+
         self.discoverLayout = layout
         loadingIndicator.stopAnimating()
-        
+
         let currentRegion = Settings.discoverRegion(discoverLayout: layout)
         for discoverItem in items {
             guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle, discoverItem.regions.contains(currentRegion) else { continue }
             let expandedStyle = discoverItem.expandedStyle ?? ""
             // don't show sponsored items to active plus subscribers. Those who don't have a subscription, or have a gift (lifetime or otherwise) will still get them
             if discoverItem.isSponsored ?? false, SubscriptionHelper.hasActiveSubscription(), SubscriptionHelper.hasRenewingSubscription() { continue }
-            
+
             switch (type, summaryStyle, expandedStyle) {
             case ("podcast_list", "carousel", _):
                 addSummaryController(FeaturedSummaryViewController(), discoverItem: discoverItem)
@@ -183,53 +184,50 @@ class DiscoverViewController: PCViewController {
                 continue
             }
         }
-        
+
         let countrySummary = CountrySummaryViewController()
         countrySummary.discoverLayout = layout
         countrySummary.registerDiscoverDelegate(self)
         addToScrollView(viewController: countrySummary, isLast: true)
-        
+
         mainScrollView.isHidden = false
         noNetworkView.isHidden = true
     }
-    
+
     private func addSummaryController(_ controller: DiscoverSummaryProtocol, discoverItem: DiscoverItem) {
         guard let viewController = controller as? UIViewController else { return }
-        
+
         addToScrollView(viewController: viewController, isLast: false)
-        
+
         controller.registerDiscoverDelegate(self)
         controller.populateFrom(item: discoverItem)
     }
-    
+
     private func addToScrollView(viewController: UIViewController, isLast: Bool) {
         mainScrollView.addSubview(viewController.view)
         addCommonConstraintsFor(viewController)
-        
+
         // anchor the bottom view to the bottom, the middle ones to each other, and the last one to the bottom and the one above it
         if isLast {
             if let previousView = summaryViewControllers.last?.view {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
-        }
-        else if let previousView = summaryViewControllers.last?.view {
+        } else if let previousView = summaryViewControllers.last?.view {
             if summaryViewControllers.count == 1 {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
-            }
-            else {
+            } else {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
-        }
-        else {
+        } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
         }
-        
+
         summaryViewControllers.append(viewController)
         addChild(viewController)
     }
-    
+
     private func handleLoadFailed() {
         loadingIndicator.stopAnimating()
         noNetworkView.isHidden = false

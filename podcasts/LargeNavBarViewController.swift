@@ -19,21 +19,21 @@ class LargeNavBarViewController: PCViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
     }
-    
+
     func closeAction() {}
     @objc func closeTapped(_ sender: Any) {
         closeAction()
         dismiss(animated: true, completion: nil)
     }
-    
+
     override func handleThemeChanged() {
         setupLargeTitle()
     }
-    
+
     func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
         closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-        
+
         let backButtonItem = UIBarButtonItem(customView: closeButton)
         navigationItem.leftBarButtonItem = backButtonItem
     }

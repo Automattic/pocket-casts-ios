@@ -7,12 +7,12 @@ class FilterEpisodeListViewModel: ObservableObject {
     private var playSource = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
     let filter: Filter
-    
+
     convenience init?(filterUUID: String) {
         guard let filter = PlaySourceHelper.playSourceViewModel.fetchFilter(filterUUID) else { return nil }
         self.init(filter: filter)
     }
-    
+
     init(filter: Filter) {
         self.filter = filter
         episodes = []
@@ -23,7 +23,7 @@ class FilterEpisodeListViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     func loadFilterEpisodes() {
         isLoading = episodes.isEmpty
         playSource.fetchFilterEpisodes(filter)

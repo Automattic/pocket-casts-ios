@@ -17,13 +17,12 @@ class NowPlayingRowController: NSObject {
         playingPodcast.setHidden(false)
         topLevelGroup.setAccessibilityLabel(L10n.nowPlayingItem(name))
     }
-    
+
     func updatePlayingState(isPlaying: Bool) {
         if isPlaying {
             icon.setImageNamed("nowplaying")
             icon.startAnimating()
-        }
-        else {
+        } else {
             icon.stopAnimating()
             icon.setImageNamed("notplaying")
         }

@@ -5,7 +5,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     private let switchCellId = "SwitchCell"
     private let lockInfoCellId = "LockCell"
     private let disclosureCellId = "DisclosureCell"
-    
+
     private enum TableSections: Int { case upNext, lockedInfo }
     private enum TableRows: Int { case autoDownloadUpNext, numUpNextEpisodes, autoDeleteUpNext, lockedInfo }
     private let autoDownloadCounts = [3, 5, 8, 10]
@@ -17,37 +17,39 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             settingsTable.applyInsetForMiniPlayer()
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.appleWatch
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
+
+        Analytics.track(.settingsAppleWatchShown)
     }
-    
+
     @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.settingsTable.reloadData()
         }
     }
-    
+
     private func tableSections() -> [TableSections] {
         var sections: [TableSections] = [.upNext]
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnWatch() {
             sections.append(.lockedInfo)
         }
-        
+
         return sections
     }
-    
+
     private func tableRows() -> [[TableRows]] {
         let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-        
+
         var rows: [[TableRows]] = [[.autoDownloadUpNext]]
         if hasSubscription, Settings.watchAutoDownloadUpNextEnabled() {
             rows[0].append(.numUpNextEpisodes)
@@ -56,23 +58,23 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         if !hasSubscription, !Settings.plusInfoDismissedOnWatch() {
             rows.append([.lockedInfo])
         }
-        
+
         return rows
     }
-    
+
     // MARK: - UITableView Methods
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableSections().count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableRows()[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = tableRows()[indexPath.section][indexPath.row]
-        
+
         switch row {
         case .autoDownloadUpNext:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
@@ -103,7 +105,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             return cell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = tableSections()[indexPath.section]
         if section == .lockedInfo {
@@ -111,7 +113,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         }
         return 56
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = tableSections()[section]
         if section == .upNext {
@@ -119,9 +121,9 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             let footer = UIView(frame: CGRect(x: 0, y: 0, width: settingsTable.bounds.width, height: footerHeight))
             let infoLabel = ThemeableLabel()
             infoLabel.style = .primaryText02
-            
+
             let numEpisodes = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 5
-            
+
             var infoText: String
             var useSmallTextBox = true
             if Settings.watchAutoDownloadUpNextEnabled() {
@@ -131,17 +133,15 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
                 let secondInfoTextLine: String
                 if Settings.watchAutoDeleteUpNext() {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOnSubtitle
-                }
-                else {
+                } else {
                     secondInfoTextLine = L10n.settingsWatchDeleteDownloadsOffSubtitle
                 }
 
                 infoText.append("\n\n" + secondInfoTextLine)
-            }
-            else {
+            } else {
                 infoText = L10n.settingsWatchAutoDownloadOffSubtitle
             }
-            
+
             infoLabel.text = infoText
             infoLabel.numberOfLines = 0
             infoLabel.font = UIFont.systemFont(ofSize: 13)
@@ -154,12 +154,12 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
                 infoLabel.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -16),
                 infoLabel.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: bottomContraintConstant)
             ])
-            
+
             return footer
         }
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = tableSections()[section]
         if section == .upNext {
@@ -167,7 +167,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         }
         return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let thisSection = tableSections()[section]
         if thisSection == .upNext {
@@ -175,7 +175,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         }
         return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         let title: String
@@ -186,13 +186,13 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         default:
             return nil
         }
-        
+
         let showLockIcon = (!SubscriptionHelper.hasActiveSubscription() && section == .upNext)
         let headerView = SettingsTableHeader(frame: headerFrame, title: title, showLockedImage: showLockIcon, lockedSelector: #selector(showSubscriptionRequired), target: self)
-        
+
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let section = tableSections()[indexPath.section]
         if section == .lockedInfo {
@@ -200,16 +200,16 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         }
         return indexPath
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableSections()[indexPath.section]
-        
+
         if !SubscriptionHelper.hasActiveSubscription(), section == .upNext {
             showSubscriptionRequired()
             return
         }
         let row = tableRows()[indexPath.section][indexPath.row]
-        
+
         switch row {
         case .numUpNextEpisodes:
             let upNextPicker = OptionsPicker(title: L10n.settingsWatchEpisodeLimit)
@@ -219,7 +219,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
                     self.settingsTable.reloadData()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
                 })
-                
+
                 upNextPicker.addAction(action: action)
             }
             upNextPicker.show(statusBarStyle: preferredStatusBarStyle)
@@ -235,19 +235,19 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             showSubscriptionRequired()
         }
     }
-    
+
     @objc func showSubscriptionRequired() {
         NavigationManager.sharedManager.showUpsellView(from: self, source: .watch)
     }
-    
+
     // MARK: - Switch Actions
-    
+
     @objc private func upNextToggled(_ sender: UISwitch) {
         Settings.setWatchAutoDownloadUpNextEnabled(isEnabled: sender.isOn)
         settingsTable.reloadData()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.watchAutoDownloadSettingsChanged)
     }
-    
+
     @objc private func upNextAutoDeleteToggled(_ sender: UISwitch) {
         Settings.setWatchAutoDeleteUpNext(isEnabled: sender.isOn)
         settingsTable.reloadData()

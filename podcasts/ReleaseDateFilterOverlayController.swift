@@ -1,6 +1,6 @@
 import UIKit
 
-enum ReleaseDateFilterOption: Int32 {
+enum ReleaseDateFilterOption: Int32, AnalyticsDescribable {
     case anytime = 0
     case last24hours = 24
     case last3Days = 72
@@ -48,35 +48,39 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
     let choices: [ReleaseDateFilterOption] = [.anytime, .last24hours, .last3Days, .lastWeek, .last2Weeks, .lastMonth]
     var selectedIndex = 0
 
+    override var playbackSource: String {
+        "release_date"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tableView.separatorStyle = .none
         tableView.register(UINib(nibName: "RadioButtonCell", bundle: nil), forCellReuseIdentifier: ReleaseDateFilterOverlayController.releaseCellId)
-        
+
         setCurrentReleaseDate()
         setupLargeTitle()
         title = L10n.filterReleaseDate
         tableView.contentInsetAdjustmentBehavior = .never
-        
+
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         addCloseButton()
         addTableViewHeader()
     }
-    
+
     // MARK: - TableView DataSource
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         choices.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReleaseDateFilterOverlayController.releaseCellId) as! RadioButtonCell
         cell.title.text = choices[indexPath.row].description
@@ -89,18 +93,18 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
         cell.selectButton.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
         tableView.reloadData()
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         51
     }
-    
+
     // MARK: - Helper functions
-    
+
     func setCurrentReleaseDate() {
         for (index, element) in choices.enumerated() {
             if filterToEdit.filterHours <= element.rawValue {
@@ -109,15 +113,15 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
             }
         }
     }
-    
+
     override func saveFilter() {
         filterToEdit.filterHours = choices[selectedIndex].rawValue
         super.saveFilter()
     }
-    
+
     @objc func selectButtonTapped(_ sender: AnyObject) {
         guard let buttonTag = sender.tag else { return }
-        
+
         selectedIndex = buttonTag
         tableView.reloadData()
     }

@@ -10,8 +10,7 @@ struct UpNextLockScreenWidget: Widget {
             .configurationDisplayName(L10n.upNext)
             .description(L10n.widgetsUpNextDescription)
             .supportedFamilies([.accessoryCircular, .accessoryRectangular])
-        }
-        else {
+        } else {
             return EmptyWidgetConfiguration()
         }
     }
@@ -47,13 +46,13 @@ struct UpNextCircularWidgetView: View {
     }
 
     var widgetURL: String {
-        return numberOfEpisodeInUpNext != 0 ? "pktc://upnext" : "pktc://discover"
+        return numberOfEpisodeInUpNext != 0 ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover"
     }
 
     var font: Font {
         numberOfEpisodeInUpNext > 99 ? .callout : .title
     }
-    
+
     var body: some View {
         ZStack {
             AccessoryWidgetBackground()
@@ -100,7 +99,7 @@ struct UpNextRectangularWidgetView: View {
     }
 
     var widgetURL: String {
-        return nextEpisode != nil ? "pktc://upnext" : "pktc://discover"
+        return nextEpisode != nil ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover"
     }
 
     var body: some View {

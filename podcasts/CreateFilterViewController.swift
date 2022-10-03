@@ -16,19 +16,19 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             saveButton.setTitle(L10n.filterCreateSave, for: .normal)
         }
     }
-    
+
     var filterToEdit: EpisodeFilter
     private let iconChooserCellId = "IconChooserCellId"
     private let colorChooserCellId = "ColorChooserCell"
     private let textEntryCellId = "TextEntryCellId"
     private static let nameSection = 0
     private static let colorIconSection = 1
-    
+
     private enum TableRow: Int { case filterName, color, icon }
     private static let tableData: [[TableRow]] = [[.filterName], [.color, .icon]]
-    
+
     private var filterNameTextField: UITextField!
-   
+
     init(filter: EpisodeFilter, delegate: FilterCreatedDelegate?) {
         filterToEdit = filter
         self.delegate = delegate
@@ -49,22 +49,22 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
         tableView.addGestureRecognizer(tapRecognizer)
         tableView.separatorStyle = .none
         tableView.backgroundColor = AppTheme.viewBackgroundColor()
-        
+
         title = L10n.filterDetails
         tableView.register(UINib(nibName: "TextEntryCell", bundle: nil), forCellReuseIdentifier: textEntryCellId)
-        
+
         tableView.register(UINib(nibName: "PlaylistIconChooserCell", bundle: nil), forCellReuseIdentifier: iconChooserCellId)
         tableView.register(UINib(nibName: "PlaylistColorChooserCell", bundle: nil), forCellReuseIdentifier: colorChooserCellId)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(colorChanged), name: Constants.Notifications.playlistTempChange, object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         filterNameTextField?.becomeFirstResponder()
         colorChanged()
     }
-    
+
     // MARK: - Tableivew Data source
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -74,18 +74,18 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         CreateFilterViewController.tableData[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == CreateFilterViewController.nameSection {
             return 56
         }
         return 90
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = CreateFilterViewController.tableData[indexPath.section]
         let tableRow = section[indexPath.row]
-        
+
         switch tableRow {
         case .filterName:
             let cell = tableView.dequeueReusableCell(withIdentifier: textEntryCellId) as! TextEntryCell
@@ -95,7 +95,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             cell.style = .primaryUi01
             cell.borderView.style = .primaryField02
             return cell
-            
+
         case .color:
             let cell = tableView.dequeueReusableCell(withIdentifier: colorChooserCellId) as! PlaylistColorChooserCell
             cell.playlist = filterToEdit
@@ -116,15 +116,15 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             return cell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         Constants.Values.tableSectionHeaderHeight
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: 2 * Constants.Values.tableSectionHeaderHeight)
         let title: String
-       
+
         switch section {
         case CreateFilterViewController.nameSection:
             title = L10n.filterDetailsName
@@ -133,21 +133,21 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
         default:
             return nil
         }
-        
+
         let headerView = SettingsTableHeader(frame: headerFrame, title: title, themeStyle: .primaryUi01)
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         24
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         ThemeableView(frame: CGRect(x: 0, y: 0, width: 0, height: 24))
     }
-    
+
     // MARK: Actions
-    
+
     @IBAction func saveTapped(_ sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         filterToEdit.isNew = false
@@ -160,19 +160,19 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
 
         Analytics.track(.filterCreated, properties: [
             "all_podcasts": filterToEdit.filterAllPodcasts,
-            "media_type": (AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all).analyticsDescription,
+            "media_type": AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all,
             "downloaded": filterToEdit.filterDownloaded,
             "episode_status_played": filterToEdit.filterFinished,
             "episode_status_unplayed": filterToEdit.filterUnplayed,
             "episode_status_in_progress": filterToEdit.filterPartiallyPlayed,
-            "release_date": (ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime).analyticsDescription,
+            "release_date": ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime,
             "starred": filterToEdit.filterStarred,
             "duration": filterToEdit.filterDuration,
             "color": filterToEdit.playlistColor().hexString(),
             "icon_name": filterToEdit.iconImageName() ?? "unknown"
         ])
     }
-    
+
     @objc func backgroundTapped(_ sender: UITapGestureRecognizer) {
         if let nameTextField = filterNameTextField {
             if nameTextField.isFirstResponder {
@@ -180,52 +180,52 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             }
         }
     }
-    
+
     @IBAction func closeTapped(sender: Any) {
         PlaylistManager.delete(filter: filterToEdit, fireEvent: true)
         dismiss(animated: true, completion: nil)
     }
-    
+
     @objc func colorChanged() {
         tableView.reloadData()
         saveButton.backgroundColor = filterToEdit.playlistColor()
     }
-    
+
     // MARK: - UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let filterNameTextField = filterNameTextField else { return }
-        
+
         // dismiss the keyboard on scroll up
         if scrollView.contentOffset.y > 40, filterNameTextField.isFirstResponder {
             filterNameTextField.resignFirstResponder()
         }
     }
-    
+
     // MARK: - TextFieldDelegate
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidStart)
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
         textField.resignFirstResponder()
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
+
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }
-    
+
     override func handleThemeChanged() {
         saveButton.backgroundColor = filterToEdit.playlistColor()
         tableView.backgroundColor = AppTheme.viewBackgroundColor()

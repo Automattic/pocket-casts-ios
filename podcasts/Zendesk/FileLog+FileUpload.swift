@@ -24,8 +24,7 @@ extension FileLog: EventLoggingDelegate {
         do {
             let eventLogging = EventLogging(dataSource: dataProvider, delegate: self)
             try eventLogging.enqueueLogForUpload(log: logFile)
-        }
-        catch {
+        } catch {
             throw LogError.logGenerationFailed
         }
 
@@ -51,8 +50,7 @@ extension FileLog: EventLoggingDelegate {
                 let file = self.watchUploadLog
                 do {
                     try wearableLog.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
-                }
-                catch {
+                } catch {
                     promise(.failure(LogError.logGenerationFailed))
                 }
 

@@ -8,7 +8,7 @@ class SubscriptionStatusTask: ApiBaseTask {
         let url = ServerConstants.Urls.api() + "subscription/status"
         do {
             let (response, httpStatus) = getToServer(url: url, token: token)
-            
+
             guard let responseData = response, httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Subscription status failed \(httpStatus?.statusCode ?? -1)")
                 return
@@ -24,7 +24,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                 SubscriptionHelper.setSubscriptionFrequency(Int(status.frequency))
                 SubscriptionHelper.setSubscriptionType(Int(status.type))
                 var podcastSubscriptions = [PodcastSubscription]()
-                
+
                 for subscription in status.subscriptions {
                     if subscription.type == SubscriptionType.supporter.rawValue {
                         for podcastUuids in subscription.podcasts {
@@ -46,8 +46,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                     ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
                 }
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("SubscriptionStatusTask: Protobuf Encoding failed \(error.localizedDescription)")
         }
     }

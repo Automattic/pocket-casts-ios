@@ -7,8 +7,7 @@ class WhatsNewHelper: NSObject {
             do {
                 let whatsNewInfo = try JSONDecoder().decode(WhatsNewInfo.self, from: Data(contentsOf: URL(fileURLWithPath: filepath)))
                 return whatsNewInfo
-            }
-            catch {}
+            } catch {}
         }
         return nil
     }

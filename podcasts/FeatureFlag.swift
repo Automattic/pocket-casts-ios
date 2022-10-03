@@ -5,5 +5,11 @@ enum FeatureFlag {
     static let freeTrialsEnabled = false
 
     /// Whether the Tracks analytics are enabled
-    static let tracksEnabled = false
+    static let tracksEnabled = true
+
+    /// Whether logging of Tracks events in console are enabled
+    static let tracksLoggingEnabled = false
+
+    /// Whether logging of Firebase events in console are enabled
+    static let firebaseLoggingEnabled = false
 }

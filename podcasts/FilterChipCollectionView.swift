@@ -46,7 +46,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let chip = FilterChipCollectionView.chipData[indexPath.row]
-    
+
         let width = titleForChip(chip: chip).size(withAttributes: nil)
         return CGSize(width: width.width + 50, height: 30)
     }
@@ -65,7 +65,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             filterSettingsVC.filterToEdit = filter
             let navVC = SJUIUtils.navController(for: filterSettingsVC)
             chipActionDelegate?.presentingViewController().present(navVC, animated: true, completion: nil)
-         
+
         case .downloadStatus:
             let filterSettingsVC = DownloadFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = filter
@@ -125,11 +125,9 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         case .mediaType:
             if filter.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
                 returnedString = AudioVideoFilter.audioOnly.description
-            }
-            else if filter.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
+            } else if filter.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
                 returnedString = AudioVideoFilter.videoOnly.description
-            }
-            else {
+            } else {
                 returnedString = L10n.filterMediaType
             }
         case .duration:
@@ -137,18 +135,15 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
                 let shortTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(filter.shorterThan * 60))
                 let longTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(filter.longerThan * 60))
                 returnedString = "\(longTime) - \(shortTime)"
-            }
-            else {
+            } else {
                 returnedString = L10n.filterChipsDuration
             }
         case .downloadStatus:
             if filter.filterDownloaded, !filter.filterNotDownloaded {
                 returnedString = L10n.statusDownloaded
-            }
-            else if !filter.filterDownloaded, filter.filterNotDownloaded {
+            } else if !filter.filterDownloaded, filter.filterNotDownloaded {
                 returnedString = L10n.statusNotDownloaded
-            }
-            else {
+            } else {
                 returnedString = L10n.filterDownloadStatus
             }
         case .releaseDate:
@@ -184,11 +179,9 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     func filterLengthToTime(filterHours: Int32) -> String {
         if filterHours <= ReleaseDateFilterOption.anytime.rawValue {
             return L10n.filterReleaseDate
-        }
-        else if let filter = ReleaseDateFilterOption(rawValue: filterHours) {
+        } else if let filter = ReleaseDateFilterOption(rawValue: filterHours) {
             return filter.description
-        }
-        else {
+        } else {
             // fallback in case another client sets some unexpected amount of hours
             return L10n.hoursPluralFormat(filterHours)
         }
@@ -201,7 +194,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
 
         if !filter.isNew {
-            Analytics.track(.filterUpdated)
+            Analytics.track(.filterUpdated, properties: ["group": "starred", "source": "filters"])
         }
     }
 
@@ -209,7 +202,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         guard let lastSelectedIndexPath = lastSelectedIndexPath else { return }
         scrollToItem(at: lastSelectedIndexPath, at: .left, animated: false)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }

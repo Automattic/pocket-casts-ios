@@ -6,7 +6,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
     private let lockInfoCellId = "LockCell"
     private enum TableSections: Int { case autoSync, autoAddToUpNext, afterPlaying, onlyOnWifi, lockedInfo }
     private enum TableRows: Int { case autoDownload, autoUpload, autoAddToUpNext, removeFileAfterPlaying, removeFromCloudAfterPlaying, onlyOnWifi, lockedInfo }
-    
+
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
@@ -14,37 +14,37 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
             settingsTable.applyInsetForMiniPlayer()
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.settingsFiles
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
     }
-    
+
     @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             self.settingsTable.reloadData()
         }
     }
-    
+
     private func tableSections() -> [TableSections] {
         var sections: [TableSections] = [.autoAddToUpNext, .afterPlaying, .autoSync, .onlyOnWifi]
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnFilesSettings() {
             sections.append(.lockedInfo)
         }
-        
+
         return sections
     }
-    
+
     private func tableRows() -> [[TableRows]] {
         let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-        
+
         var rows: [[TableRows]] = [[.autoAddToUpNext], [.removeFileAfterPlaying], [.autoUpload, .autoDownload], [.onlyOnWifi]]
         if hasSubscription {
             rows[1].append(.removeFromCloudAfterPlaying)
@@ -52,32 +52,32 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         if !hasSubscription, !Settings.plusInfoDismissedOnFilesSettings() {
             rows.append([.lockedInfo])
         }
-        
+
         return rows
     }
-    
+
     // MARK: - UITableView Methods
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         tableSections().count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableRows()[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = tableRows()[indexPath.section][indexPath.row]
-        
+
         if row == .lockedInfo {
             let cell = tableView.dequeueReusableCell(withIdentifier: lockInfoCellId, for: indexPath) as! PlusLockedInfoCell
             cell.lockView.delegate = self
             return cell
         }
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
         cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-        
+
         switch row {
         case .autoDownload:
             cell.cellLabel?.text = L10n.settingsFilesAutoDownload
@@ -118,7 +118,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = tableSections()[indexPath.section]
         if section == .lockedInfo {
@@ -126,7 +126,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         }
         return 56
     }
-    
+
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let section = tableSections()[section]
         switch section {
@@ -142,11 +142,11 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
             return nil
         }
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         ThemeableTable.setHeaderFooterTextColor(on: view)
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = tableSections()[section]
         if section == .autoSync, !SubscriptionHelper.hasActiveSubscription() {
@@ -165,12 +165,12 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
                 syncLabel.trailingAnchor.constraint(equalTo: fadedFooter.trailingAnchor, constant: -16),
                 syncLabel.bottomAnchor.constraint(equalTo: fadedFooter.bottomAnchor)
             ])
-            
+
             return fadedFooter
         }
         return nil
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = tableSections()[section]
         if section == .autoSync, !SubscriptionHelper.hasActiveSubscription() {
@@ -178,11 +178,11 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         }
         return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         Constants.Values.tableSectionHeaderHeight
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
         let title: String
@@ -195,13 +195,13 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         default:
             title = ""
         }
-        
+
         let showLockIcon = (!SubscriptionHelper.hasActiveSubscription() && section == .autoSync)
         let headerView = SettingsTableHeader(frame: headerFrame, title: title, showLockedImage: showLockIcon, lockedSelector: #selector(showSubscriptionRequired), target: self)
-        
+
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let section = tableSections()[indexPath.section]
         if section == .lockedInfo {
@@ -209,44 +209,46 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         }
         return indexPath
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableSections()[indexPath.section]
         if !SubscriptionHelper.hasActiveSubscription(), section == .autoSync || section == .onlyOnWifi {
             showSubscriptionRequired()
         }
     }
-    
+
     @objc func showSubscriptionRequired() {
         NavigationManager.sharedManager.showUpsellView(from: self, source: .files)
     }
-    
+
     // MARK: - Switch Actions
-    
+
     @objc private func autoDownloadToggled(_ sender: UISwitch) {
         ServerSettings.setUserEpisodeAutoDownload(sender.isOn)
         settingsTable.reloadData()
+        Settings.trackValueToggled(.settingsFilesAutoDownloadFromCloudToggled, enabled: sender.isOn)
     }
-    
+
     @objc private func autoUploadToggled(_ sender: UISwitch) {
         Settings.setUserEpisodeAutoUpload(sender.isOn)
         settingsTable.reloadData()
     }
-    
+
     @objc private func autoAddToUpNextToggled(_ sender: UISwitch) {
         Settings.setUserEpisodeAutoAddToUpNext(sender.isOn)
     }
-    
+
     @objc private func removeFileAfterPlayingToggled(_ sender: UISwitch) {
         Settings.setUserEpisodeRemoveFileAfterPlaying(sender.isOn)
     }
-    
+
     @objc private func removeFromCloudAfterPlayingToggled(_ sender: UISwitch) {
         Settings.setUserEpisodeRemoveFromCloudAfterPlayingKey(sender.isOn)
     }
-    
+
     @objc private func onlyOnWifiToggled(_ sender: UISwitch) {
         ServerSettings.setUserEpisodeOnlyOnWifi(sender.isOn)
+        Settings.trackValueToggled(.settingsFilesOnlyOnWifiToggled, enabled: sender.isOn)
     }
 }
 
