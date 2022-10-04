@@ -21,6 +21,10 @@ class HapticsHelper {
         triggerImpactOccurredHaptic(style: .light)
     }
 
+    class func triggerPullToRefreshHaptic() {
+        triggerImpactOccurredHaptic(style: .heavy)
+    }
+
     private class func triggerImpactOccurredHaptic(style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let feedbackGenerator = UIImpactFeedbackGenerator(style: style)
         feedbackGenerator.impactOccurred()
