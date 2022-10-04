@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-09-27 14:54:03+0000 */
+/* Translation-Revision-Date: 2022-10-03 12:54:03+0000 */
 /* Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: ru */
@@ -2396,10 +2396,10 @@
 "settings_badge_total_unplayed" = "Всего не прослушано";
 
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
-"settings_collect_information" = "";
+"settings_collect_information" = "Сбор информации";
 
 /* Additional information about how the information collected is and how it's used */
-"settings_collect_information_additional_information" = "";
+"settings_collect_information_additional_information" = "Разрешая собирать аналитические данные, вы помогаете нам улучшать приложение. Мы поймём, если вы решите не предоставлять эту информацию.";
 
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Создать шорткат Siri";
@@ -2636,13 +2636,13 @@
 "settings_plus_pricing_format" = "%1$@ в месяц\/%2$@ в год";
 
 /* A common string used throughout the app. Refers to the Privacy settings menu */
-"settings_privacy" = "";
+"settings_privacy" = "Политика конфиденциальности";
 
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Позиция в очереди";
 
 /* Label for an input that takes the user to the privacy policy */
-"settings_read_privacy_policy" = "";
+"settings_read_privacy_policy" = "Ознакомиться с политикой конфиденциальности";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Выбрать фильтр";

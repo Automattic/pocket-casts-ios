@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-09-28 14:54:21+0000 */
+/* Translation-Revision-Date: 2022-10-04 15:54:03+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: nl */
@@ -2396,10 +2396,10 @@
 "settings_badge_total_unplayed" = "Totaal niet-afgespeeld";
 
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
-"settings_collect_information" = "";
+"settings_collect_information" = "Gegevens verzamelen";
 
 /* Additional information about how the information collected is and how it's used */
-"settings_collect_information_additional_information" = "";
+"settings_collect_information_additional_information" = "Wanneer we analytische gegevens mogen verzamelen, helpt dat ons met het verbeteren van de app. We begrijpen het als je deze gegevens liever niet deelt.";
 
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Siri-snelkoppeling aanmaken";
@@ -2636,13 +2636,13 @@
 "settings_plus_pricing_format" = "%1$@ per maand \/ %2$@ per jaar";
 
 /* A common string used throughout the app. Refers to the Privacy settings menu */
-"settings_privacy" = "";
+"settings_privacy" = "Privacy";
 
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Positie in wachtrij";
 
 /* Label for an input that takes the user to the privacy policy */
-"settings_read_privacy_policy" = "";
+"settings_read_privacy_policy" = "Privacybeleid lezen";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Filter selecteren";

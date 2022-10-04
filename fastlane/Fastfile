@@ -271,7 +271,7 @@ platform :ios do
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link}."
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://bit.ly/3ybEyzc|need help?>)"
       else
         "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link}."
       end
@@ -561,8 +561,25 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_from_glotpress
+    download_localized_strings_and_metadata
     download_localized_app_store_metadata_from_glotpress
+  end
+
+  # Downloads the localized app strings and App Store Connect metadata from GlotPress.
+  #
+  desc 'Downloads localized metadata for App Store Connect from GlotPress'
+  lane :download_localized_strings_and_metadata do
+    # FIXME: This is a copy of what the release toolkit `ios_update_metadata` action does.
+    # We'll soon replace this with the new `ios_download_strings_files_from_glotpress`-based workflow.
+    sh("cd #{PROJECT_ROOT_FOLDER} && ./scripts/update-translations.rb")
+
+    files_to_commit = Dir.glob(File.join(PROJECT_ROOT_FOLDER, 'podcasts', '**', '*.strings'))
+    git_add(path: files_to_commit, shell_escape: false)
+    git_commit(
+      path: files_to_commit,
+      message: 'Update translations',
+      allow_nothing_to_commit: true
+    )
   end
 
   desc 'Lint the `.strings` files'
