@@ -391,7 +391,6 @@
 		468A0FC327D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468A0FC227D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift */; };
 		468C0EF027BDA691003E4CFA /* EffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468C0EEF27BDA691003E4CFA /* EffectsView.swift */; };
 		468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		468F00D127CD575C00FFAAAA /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */; };
 		468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D227CD575C00FFAAAA /* FirebasePerformance */; };
 		468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */; };
 		468F800D27CFCFB500E6D764 /* PlaySourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468F800C27CFCFB500E6D764 /* PlaySourceViewModel.swift */; };
@@ -2909,7 +2908,6 @@
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
-				468F00D127CD575C00FFAAAA /* FirebaseCrashlytics in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
 			);
@@ -5998,7 +5996,6 @@
 				BDD239BC267C869B0047750C /* SwipeCellKit */,
 				46305CEF272B082C003AC87B /* AutomatticEncryptedLogs */,
 				468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */,
-				468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */,
 				468F00D227CD575C00FFAAAA /* FirebasePerformance */,
 				468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */,
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
@@ -9519,11 +9516,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
 		};
 		468F00D227CD575C00FFAAAA /* FirebasePerformance */ = {
 			isa = XCSwiftPackageProductDependency;
