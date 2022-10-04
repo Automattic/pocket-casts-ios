@@ -6,3 +6,8 @@ github.dismiss_out_of_range_messages
 warn('PR is classed as Work in Progress') if github.pr_title.include? '[WIP]'
 
 rubocop.lint inline_comment: true, fail_on_inline_comment: true
+
+# Lint all files to ensure maximum coverage.
+swiftlint.binary_path = './Pods/SwiftLint/swiftlint'
+swiftlint.lint_all_files = true
+swiftlint.lint_files
