@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-10-01 09:29:12+0000 */
+/* Translation-Revision-Date: 2022-10-04 11:54:03+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: sv_SE */
@@ -2399,7 +2399,7 @@
 "settings_collect_information" = "Samla information";
 
 /* Additional information about how the information collected is and how it's used */
-"settings_collect_information_additional_information" = "";
+"settings_collect_information_additional_information" = "Att tillåta oss att samla in analyser hjälper oss att bygga en bättre app. Vi förstår om du föredrar att inte dela denna information.";
 
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Skapa Siri-genväg";
