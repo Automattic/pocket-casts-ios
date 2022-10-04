@@ -15,14 +15,28 @@ common_params:
     queue: mac
 
 steps:
-  - label: Build and Test
-    command: .buildkite/commands/build.sh
-    agents: *common_agents
-    env: *common_env
-    plugins: *common_plugins
+  - label: ":cocoapods: Rebuild CocoaPods cache"
+    command: |
+      echo "--- :rubygems: Setting up Gems"
+      install_gems
 
-  - label: Lints via Danger
-    command: .buildkite/commands/danger.sh
-    agents: *common_agents
+      echo "--- :cocoapods: Rebuilding CocoaPods Cache"
+      cache_cocoapods_specs_repos
+    plugins: *common_plugins
+    agents:
+      queue: mac
+    env:
+      IMAGE_ID: xcode-14
+
+  - label: ":git: Rebuild git cache"
+    command: cache_repo a8c-repo-mirrors
+    plugins: *common_plugins
+    agents:
+      queue: default
+
+  - label: "🛠 Release Build (App Store Connect)"
+    command: ".buildkite/commands/release-build.sh $BETA_RELEASE"
     env: *common_env
     plugins: *common_plugins
+    notify:
+    - slack: "#build-and-ship"
