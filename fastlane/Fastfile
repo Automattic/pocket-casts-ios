@@ -271,7 +271,7 @@ platform :ios do
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link}."
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://bit.ly/3ybEyzc|need help?>)"
       else
         "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link}."
       end
