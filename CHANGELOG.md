@@ -1,7 +1,7 @@
 7.25
 -----
-- Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
 - Fixed a crash that could happen when playing an episode while the app is in the background (#345)
+- Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
 
 7.24
 -----
