@@ -567,7 +567,7 @@ platform :ios do
 
   desc 'Lint the `.strings` files'
   lane :lint_localizations do
-    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
+    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true, check_duplicate_keys: false)
   end
 
   # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
