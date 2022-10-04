@@ -9,10 +9,10 @@ public class Folder: NSObject, Identifiable {
     @objc public var sortType: Int32 = 0
     @objc public var wasDeleted = false
     @objc public var syncModified: Int64 = 0
-    
+
     // transient not saved to database
     public var cachedUnreadCount = 0
-    
+
     func folderSort() -> FolderSort {
         FolderSort(rawValue: sortType) ?? .dateAddedNewestToOldest
     }

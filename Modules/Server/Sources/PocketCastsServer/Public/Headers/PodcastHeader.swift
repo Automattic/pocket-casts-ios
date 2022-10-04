@@ -6,7 +6,7 @@ public class PodcastHeader {
     public var author: String?
     public var uuid: String?
     public var itunesId: NSNumber?
-    
+
     public init(json: [String: AnyObject]) {
         if let jsonTitle = json["title"] as? String {
             title = jsonTitle
@@ -20,12 +20,12 @@ public class PodcastHeader {
         if let jsonAuthor = json["author"] as? String {
             author = jsonAuthor
         }
-        
+
         if let jsonItunesId = json["collection_id"] as? NSNumber {
             itunesId = jsonItunesId
         }
     }
-    
+
     public init(sharedPodcast: SharedPodcast) {
         title = sharedPodcast.title
         uuid = sharedPodcast.uuid
@@ -35,15 +35,15 @@ public class PodcastHeader {
             itunesId = NSNumber(value: iTunesId)
         }
     }
-    
+
     public init(uuid: String) {
         self.uuid = uuid
     }
-    
+
     public func iTunesOnly() -> Bool {
         uuid == nil && itunesId != nil
     }
-    
+
     public func toDiscoverPodcast() -> DiscoverPodcast {
         var discoverPodcast = DiscoverPodcast()
         discoverPodcast.author = author
@@ -53,7 +53,7 @@ public class PodcastHeader {
         if let iTunesId = itunesId?.intValue {
             discoverPodcast.iTunesId = "\(iTunesId)"
         }
-        
+
         return discoverPodcast
     }
 }

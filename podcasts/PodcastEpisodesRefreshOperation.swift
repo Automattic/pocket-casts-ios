@@ -6,23 +6,23 @@ class PodcastEpisodesRefreshOperation: Operation {
     private let podcast: Podcast
     private let uuidsToFilter: [String]?
     private let completion: (([ArraySection<String, ListItem>]) -> Void)?
-    
+
     init(podcast: Podcast, uuidsToFilter: [String]?, completion: (([ArraySection<String, ListItem>]) -> Void)?) {
         self.podcast = podcast
         self.uuidsToFilter = uuidsToFilter
         self.completion = completion
-        
+
         super.init()
     }
-    
+
     override func main() {
         autoreleasepool {
             if self.isCancelled { return }
-            
+
             // the podcast page has a header, for simplicity in table animations, we add it here
             let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
             var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
-            
+
             let tintColor = AppTheme.appTintColor()
             let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
             switch podcast.podcastGrouping() {
@@ -58,18 +58,18 @@ class PodcastEpisodesRefreshOperation: Operation {
                 })
                 newData.append(contentsOf: groupedEpisodes)
             }
-            
+
             if self.isCancelled { return }
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
-                
+
                 if strongSelf.isCancelled { return }
-                
+
                 strongSelf.completion?(newData)
             }
         }
     }
-    
+
     func createEpisodesQuery() -> String {
         let sortStr: String
         let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? PodcastEpisodeSortOrder.newestToOldest
@@ -90,7 +90,7 @@ class PodcastEpisodesRefreshOperation: Operation {
         if !podcast.showArchived {
             return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
         }
-        
+
         return "podcast_id = \(podcast.id) \(sortStr)"
     }
 }

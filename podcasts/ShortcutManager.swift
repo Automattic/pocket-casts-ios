@@ -8,31 +8,31 @@ class ShortcutManager: CustomObserver {
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(shortcutsRequireUpdate))
-        
+
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(shortcutsRequireUpdate))
-        
+
         shortcutsRequireUpdate()
     }
-    
+
     func stopListeningForShortcutChanges() {
         removeAllCustomObservers()
     }
-    
+
     @objc private func shortcutsRequireUpdate() {
         DispatchQueue.global().async { [weak self] () in
             guard let strongSelf = self else { return }
-            
+
             strongSelf.updateShortcuts()
         }
     }
-    
+
     private func updateShortcuts() {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
-        
+
         // top filter
         if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first, let iconName = topFilter.iconImageName() {
             shortcutItems.append(
@@ -45,7 +45,7 @@ class ShortcutManager: CustomObserver {
                 )
             )
         }
-        
+
         if let currentEpisode = PlaybackManager.shared.currentEpisode() {
             // add a play/pause shortcut
             if PlaybackManager.shared.playing() {
@@ -58,8 +58,7 @@ class ShortcutManager: CustomObserver {
                         userInfo: ["url": "pktc://shortcuts/pause" as NSSecureCoding]
                     )
                 )
-            }
-            else {
+            } else {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
@@ -70,8 +69,7 @@ class ShortcutManager: CustomObserver {
                     )
                 )
             }
-        }
-        else {
+        } else {
             // discover
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
@@ -83,7 +81,7 @@ class ShortcutManager: CustomObserver {
                 )
             )
         }
-        
+
         DispatchQueue.main.async {
             UIApplication.shared.shortcutItems = shortcutItems
         }

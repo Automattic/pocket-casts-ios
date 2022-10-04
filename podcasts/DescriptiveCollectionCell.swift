@@ -7,48 +7,48 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
         didSet {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
-            
+
             subscribeButton.offAccessibilityLabel = L10n.subscribe
             subscribeButton.onAccessibilityLabel = L10n.subscribed
         }
     }
-    
+
     @IBOutlet var podcastTitle: ThemeableLabel!
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var podcastDescription: ThemeableLabel! {
         didSet {
             podcastDescription.style = .primaryText02
         }
     }
-    
+
     var onSubscribe: (() -> Void)?
     private var discoverPodcast: DiscoverPodcast?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override var isSelected: Bool {
         didSet {
             setHighlightedState(isSelected)
         }
     }
-    
+
     override var isHighlighted: Bool {
         didSet {
             setHighlightedState(isHighlighted)
         }
     }
-    
+
     private func setHighlightedState(_ highlighted: Bool) {
         podcastImage.alpha = highlighted ? 0.6 : 1.0
     }
-    
+
     func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool) {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {
@@ -64,10 +64,10 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
             podcastDescription.text = description
         }
         subscribeButton.currentlyOn = isSubscribed
-        
+
         subscribeButton.shouldAnimate = true
     }
-    
+
     @IBAction func subscribeTapped(_ sender: AnyObject) {
         if !subscribeButton.currentlyOn {
             subscribeButton.currentlyOn = true
@@ -75,10 +75,10 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.subscribeRequestedFromCell, object: self)
         }
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         podcastImage.clearArtwork()
         subscribeButton.shouldAnimate = false
         subscribeButton.currentlyOn = false

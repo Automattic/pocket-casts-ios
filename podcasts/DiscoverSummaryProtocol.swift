@@ -14,10 +14,10 @@ protocol DiscoverDelegate: UIViewController {
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?)
     func replaceRegionCode(string: String?) -> String?
     func replaceRegionName(string: String) -> String
-    
+
     func isSubscribed(podcast: DiscoverPodcast) -> Bool
     func subscribe(podcast: DiscoverPodcast)
-    
+
     func navController() -> UINavigationController?
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast)

@@ -9,16 +9,16 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             podcastImageView.addGestureRecognizer(longPressGesture)
         }
     }
-    
+
     @IBOutlet var podcastImageHeightConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet var podcastName: UILabel!
     @IBOutlet var podcastCategory: ThemeableLabel! {
         didSet {
             podcastCategory.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var podcastDescription: ExpandableLabel! {
         didSet {
             podcastDescription.desiredLinedHeightMultiple = 1.3
@@ -26,14 +26,14 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             podcastDescription.maxLines = 3
         }
     }
-    
+
     @IBOutlet var scrollTopBackgroundVIew: UIView!
     @IBOutlet var topPodcastNameSpacer: UIView!
     @IBOutlet var topAuthorSpacer: UIView!
     @IBOutlet var bottomAuthorSpacer: UIView!
     @IBOutlet var authorView: UIView!
     @IBOutlet var author: UILabel!
-    
+
     @IBOutlet var linkView: UIView!
     @IBOutlet var link: UILabel! {
         didSet {
@@ -42,35 +42,35 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             link.isUserInteractionEnabled = true
         }
     }
-    
+
     @IBOutlet var scheduleView: UIView!
     @IBOutlet var schedule: UILabel!
-    
+
     @IBOutlet var nextEpisodeView: UIView!
     @IBOutlet var nextEpisode: UILabel!
-    
+
     @IBOutlet var topBackgroundView: UIView!
-    
+
     @IBOutlet var topSectionView: UIView! {
         didSet {
             let tapRecogniser = UITapGestureRecognizer(target: self, action: #selector(expandButtonTapped(_:)))
             topSectionView.addGestureRecognizer(tapRecogniser)
         }
     }
-    
+
     @IBOutlet var topSectionHeightConstraint: NSLayoutConstraint!
     @IBOutlet var gradientHeightConstraint: NSLayoutConstraint!
     @IBOutlet var subscribeButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet var subscribeButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet var settingsButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var contentViewBottomConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet var supporterHeartView: ThemeableView! {
         didSet {
             supporterHeartView.style = .support02
         }
     }
-    
+
     @IBOutlet var supporterHeart: UIImageView!
     @IBOutlet var supporterBadge: UIImageView!
     @IBOutlet var supportDetailsView: ThemeableView! {
@@ -78,7 +78,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             supportDetailsView.style = .primaryUi06
         }
     }
-    
+
     @IBOutlet var supportMessageHeart: UIImageView!
     @IBOutlet var supportMessage: ThemeableLabel!
     @IBOutlet var supportDate: ThemeableLabel! {
@@ -86,10 +86,10 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             supportDate.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var supporterDateImageView: UIImageView!
     @IBOutlet var manageSupportBtn: ThemeableUIButton!
-    
+
     @IBOutlet var roundedBorder: RoundedBorderView! {
         didSet {
             roundedBorder.cornerRadius = 8
@@ -97,7 +97,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             roundedBorder.layer.borderWidth = 1
         }
     }
-    
+
     @IBOutlet var subscribeButton: SubscribeButton! {
         didSet {
             subscribeButton.delegate = self
@@ -107,45 +107,45 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             subscribeButton.addGestureRecognizer(longPress)
         }
     }
-    
+
     @IBOutlet var extraContentStackView: UIStackView!
-    
+
     @IBOutlet var settingsBtn: ThemeableUIButton! {
         didSet {
             settingsBtn.style = .primaryIcon02
         }
     }
-    
+
     @IBOutlet var categoryDescriptionSpacer: UIView!
     @IBOutlet var descriptionInfoSpacer: UIView!
-    
+
     @IBOutlet var folderButton: ThemeableUIButton! {
         didSet {
             folderButton.style = .primaryIcon02
             folderButton.accessibilityLabel = L10n.folder
         }
     }
-    
+
     @IBOutlet var supporterView: UIView!
     @IBOutlet var supporterLabel: ThemeableLabel! {
         didSet {
             supporterLabel.style = .contrast02
         }
     }
-    
+
     @IBOutlet var expandButton: ExpandCollapseButton!
     private weak var delegate: PodcastActionsDelegate? {
         didSet {
             tableViewWidth = Int(delegate?.tableView().bounds.width ?? 351)
         }
     }
-    
+
     private var tableViewWidth: Int = 351
     private var isAnimatingToSubscribed = false
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     var buttonsEnabled: Bool = true {
         didSet {
             subscribeButton.isEnabled = buttonsEnabled
@@ -156,34 +156,34 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             link.isUserInteractionEnabled = buttonsEnabled
         }
     }
-    
+
     // we don't want a selection state
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
-    
+
     func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate) {
         self.delegate = delegate
-        
+
         guard let podcast = delegate.displayedPodcast() else { return }
         podcastImageView.setPodcast(uuid: podcast.uuid, size: .page)
-        
+
         let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
         topBackgroundView.backgroundColor = ThemeColor.podcastUi03(podcastColor: podcastBgColor)
         scrollTopBackgroundVIew.backgroundColor = topBackgroundView.backgroundColor
-        
+
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
         podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
-        
+
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
-        
+
         if podcast.isPaid {
             supporterView.isHidden = false
             supporterBadge.tintColor = ThemeColor.contrast02()
             supporterView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
             supporterHeart.tintColor = ThemeColor.primaryInteractive02()
-            
+
             supportMessage.text = SyncManager.isUserLoggedIn() ? L10n.subscriptionsThankYou : L10n.paidPodcastSupporterOnlyMsg
             supporterLabel.text = L10n.supporter.localizedUppercase
             if let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) {
@@ -194,21 +194,18 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                     supportDate.text = L10n.nextPaymentFormat(expiryDateStr)
                     supportMessage.style = .support02
                     supportMessageHeart.tintColor = ThemeColor.support02()
-                }
-                else {
+                } else {
                     supportDate.text = podcast.displayableExpiryLanguage(expiryDate: expiryDate)
                     supportMessage.style = .primaryText02
                     supportMessageHeart.tintColor = ThemeColor.primaryText02()
                 }
-            }
-            else {
+            } else {
                 supportMessage.style = .primaryText02
-                
+
                 if SyncManager.isUserLoggedIn() {
                     supportDate.text = L10n.paidPodcastGenericError
                     manageSupportBtn.setTitle(L10n.paidPodcastManage, for: .normal)
-                }
-                else {
+                } else {
                     supportDate.text = L10n.paidPodcastSigninPromptTitle
                     manageSupportBtn.setTitle(L10n.signIn, for: .normal)
                     supporterBadge.image = UIImage(named: "podcast-supporter-warning")
@@ -221,98 +218,92 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         supportDetailsView.isHidden = !podcast.isPaid
         supporterHeartView.isHidden = !(podcast.isPaid && podcast.isSubscribed())
         supporterView.isHidden = !podcast.isPaid
-        
+
         let folderImage = (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check"
         folderButton.setImage(UIImage(named: folderImage), for: .normal)
-        
+
         if !isAnimatingToSubscribed {
             updateLayout()
             setupButtons()
-            
+
             podcastImageHeightConstraint.constant = artworkSize()
             subscribeButtonTopConstraint.constant = tableViewWidth < 350 ? 131 : 151
             gradientHeightConstraint.constant = tableViewWidth < 350 ? 117 : 137
             topSectionHeightConstraint.constant = tableViewWidth < 350 ? 183 : 203
             expandButton.setExpanded(delegate.isSummaryExpanded(), animated: false)
             podcastDescription.collapsed = !delegate.isDescriptionExpanded()
-            
+
             layoutIfNeeded()
         }
     }
-    
+
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             delegate?.refreshArtwork(fromRect: podcastImageView.frame, inView: self)
         }
     }
-    
+
     private func updateLayout() {
         guard let podcast = delegate?.displayedPodcast(), let expanded = delegate?.isSummaryExpanded() else { return }
-        
+
         podcastName.isHidden = !expanded
         podcastCategory.isHidden = !expanded || podcastCategory.text == nil
         podcastDescription.isHidden = !expanded
-        
+
         descriptionInfoSpacer.isHidden = !expanded
         categoryDescriptionSpacer.isHidden = !expanded
-        
+
         topAuthorSpacer.isHidden = !expanded
         bottomAuthorSpacer.isHidden = !expanded
         topPodcastNameSpacer.isHidden = !expanded
-        
+
         if expanded, let podcastAuthor = podcast.author {
             author.text = podcastAuthor
             authorView.isHidden = false
-        }
-        else {
+        } else {
             authorView.isHidden = true
         }
-        
+
         if expanded, let websiteUrl = podcast.podcastUrl, let host = URL(string: websiteUrl)?.host {
             if host.startsWith(string: "www.") {
                 let wwwIndex = host.index(host.startIndex, offsetBy: 4)
                 link.text = String(host[wwwIndex...])
-            }
-            else {
+            } else {
                 link.text = host
             }
             linkView.isHidden = false
-        }
-        else {
+        } else {
             linkView.isHidden = true
         }
-        
+
         if expanded, let frequency = podcast.displayableFrequency() {
             schedule.text = L10n.paidPodcastReleaseFrequencyFormat(frequency)
             scheduleView.isHidden = false
-        }
-        else {
+        } else {
             scheduleView.isHidden = true
         }
-        
+
         if expanded, let estimatedDate = podcast.displayableNextEpisodeDate() {
             nextEpisode.text = L10n.paidPodcastNextEpisodeFormat(estimatedDate)
             nextEpisodeView.isHidden = false
-        }
-        else {
+        } else {
             nextEpisodeView.isHidden = true
         }
-        
+
         contentView.removeConstraint(contentViewBottomConstraint)
         if expanded {
             contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
-        }
-        else {
+        } else {
             contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
         }
         contentView.addConstraint(contentViewBottomConstraint)
-        
+
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
     }
-    
+
     private func setupButtons() {
         guard let podcast = delegate?.displayedPodcast(), let _ = delegate?.isSummaryExpanded() else { return }
-        
+
         subscribeButton.isSelected = podcast.isSubscribed()
         subscribeButton.accessibilityLabel = podcast.isSubscribed() ? L10n.subscribed : L10n.subscribe
         subscribeButton.setBackgroundColors()
@@ -323,47 +314,46 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             settingsBtn.alpha = 1
             settingsButtonTrailingConstraint.constant = 48
             subscribeButtonWidthConstraint.constant = 32
-        }
-        else {
+        } else {
             subscribeButtonWidthConstraint.constant = tableViewWidth < 350 ? 120 : 147
             folderButton.isHidden = true
             settingsBtn.isHidden = true
         }
         layoutIfNeeded()
     }
-    
+
     private func showFolderButton() -> Bool {
         SubscriptionHelper.hasActiveSubscription()
     }
-    
+
     @IBAction func manageSupportTapped(_ sender: Any) {
         delegate?.manageSubscriptionTapped()
     }
-    
+
     @IBAction func expandButtonTapped(_ sender: Any) {
         guard let delegate = delegate, expandButton.isEnabled else { return }
-        
+
         toggleExpanded(delegate: delegate)
     }
-    
+
     @IBAction func settingsTapped(_ sender: Any) {
         delegate?.settingsTapped()
     }
-    
+
     @IBAction func folderBtnTapped(_ sender: Any) {
         delegate?.folderTapped()
     }
-    
+
     @IBAction func subscribedButtonTapped(_ sender: Any) {
         subscribeButtonTapped()
     }
-    
+
     func toggleExpanded(delegate: PodcastActionsDelegate) {
         let willBeExpanded = !delegate.isSummaryExpanded()
         expandButton.setExpanded(willBeExpanded)
-        
+
         delegate.tableView().beginUpdates()
-        
+
         delegate.setSummaryExpanded(expanded: willBeExpanded)
         extraContentStackView.alpha = willBeExpanded ? 0 : 1
 
@@ -374,16 +364,15 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             UIView.animate(withDuration: 0.2, delay: 0.10, options: [], animations: {
                 self.extraContentStackView.alpha = 1
             }, completion: nil)
-            
+
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.podcastImageHeightConstraint.constant = self.artworkSize()
                 self.superview?.layoutIfNeeded()
             }
-            
+
             updateLayout()
             superview?.layoutIfNeeded()
-        }
-        else {
+        } else {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.extraContentStackView.alpha = 0
                 self.podcastImageHeightConstraint.constant = self.artworkSize()
@@ -391,59 +380,58 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                 self.superview?.layoutIfNeeded()
             }
         }
-        
+
         delegate.tableView().endUpdates()
     }
-    
+
     // MARK: - ExpandableLabelDelegate
-    
+
     func willExpandLabel(_ label: ExpandableLabel) {
         delegate?.tableView().beginUpdates()
     }
-    
+
     func didExpandLabel(_ label: ExpandableLabel) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: true)
     }
-    
+
     func willCollapseLabel(_ label: ExpandableLabel) {
         delegate?.tableView().beginUpdates()
     }
-    
+
     func didCollapseLabel(_ label: ExpandableLabel) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: false)
     }
-    
+
     @objc private func websiteLinkTapped() {
         guard let website = delegate?.displayedPodcast()?.podcastUrl, let url = URL(string: website) else { return }
-        
+
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
-    
+
     private func artworkSize() -> CGFloat {
         let baseSize: CGFloat = tableViewWidth < 350 ? 151 : 171
         let expanded = delegate?.isSummaryExpanded() ?? false
         return expanded ? baseSize + 10 : baseSize
     }
-    
+
     // MARK: - SubscribeButtonDelegate
-    
+
     func subscribeButtonTapped() {
         guard let delegate = delegate, let podcast = delegate.displayedPodcast() else { return }
-        
+
         if podcast.isSubscribed() {
             delegate.unsubscribe()
-        }
-        else {
+        } else {
             delegate.subscribe()
             animateToSubscribed()
             toggleExpanded(delegate: delegate)
         }
     }
-    
+
     // MARK: - Subscribe button animation
-    
+
     private func animateToSubscribed() {
         folderButton.alpha = 0
         settingsBtn.alpha = 0
@@ -456,7 +444,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.subscribeButton.isSelected = true
             self.subscribeButton.isHighlighted = false
-            
+
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
                 self.subscribeButton.setBackgroundColors()
                 self.subscribeButtonWidthConstraint.constant = 32
@@ -470,32 +458,28 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             })
         }
     }
-    
+
     @objc func subscribeLongPressHandler(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
-        }
-        else if gesture.state == .ended {
+        } else if gesture.state == .ended {
             subscribeButtonTapped()
-        }
-        else if gesture.state == .cancelled {
+        } else if gesture.state == .cancelled {
             subscribeButton.isHighlighted = false
             subscribeButton.setBackgroundColors()
         }
     }
-    
+
     @objc func subscribeTapHandler(gesture: UITapGestureRecognizer) {
         if gesture.state == .began {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
-        }
-        else if gesture.state == .ended {
+        } else if gesture.state == .ended {
             subscribeButton.isHighlighted = true
             subscribeButton.setBackgroundColors()
             subscribeButtonTapped()
-        }
-        else if gesture.state == .cancelled {
+        } else if gesture.state == .cancelled {
             subscribeButton.isHighlighted = false
         }
     }

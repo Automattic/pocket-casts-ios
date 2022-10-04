@@ -5,7 +5,7 @@ struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
     @State var compactView: Bool = false
-    
+
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
@@ -47,8 +47,7 @@ struct EpisodeView: View {
     static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
         if #available(iOS 15, *) {
             CompactWhenNecessaryEpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-        }
-        else {
+        } else {
             EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
         }
     }

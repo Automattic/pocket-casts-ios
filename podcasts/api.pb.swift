@@ -23,26 +23,26 @@ struct Api_UserChangeResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var success: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._success ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._success = newValue }
     }
-    
+
     /// Returns true if `success` has been explicitly set.
     var hasSuccess: Bool { _storage._success != nil }
     /// Clears the value of `success`. Subsequent reads from it will return its default value.
     mutating func clearSuccess() { _uniqueStorage()._success = nil }
-    
+
     var message: String {
         get { _storage._message }
         set { _uniqueStorage()._message = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -50,15 +50,15 @@ struct Api_UserResetPasswordRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var resetPasswordToken = String()
-    
+
     var password = String()
-    
+
     var scope = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -66,11 +66,11 @@ struct Api_EmailRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var email = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -78,15 +78,15 @@ struct Api_UserChangeEmailRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var email = String()
-    
+
     var password = String()
-    
+
     var scope = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -94,15 +94,15 @@ struct Api_UserChangePasswordRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var oldPassword = String()
-    
+
     var newPassword = String()
-    
+
     var scope = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -110,9 +110,9 @@ struct Api_EmptyRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -120,9 +120,9 @@ struct Api_EmptyResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -130,17 +130,17 @@ struct Api_SupportFeedbackRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var message = String()
-    
+
     var email = String()
-    
+
     var subject = String()
-    
+
     var debug = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -148,11 +148,11 @@ struct Api_CreateBetaUserRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var email = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -160,37 +160,37 @@ struct Api_UserLoginRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var email = String()
-    
+
     var password = String()
-    
+
     var scope = String()
-    
+
     var dt = String()
-    
+
     var device = String()
-    
+
     /// app version
     var v = String()
-    
+
     /// device model
     var m = String()
-    
+
     /// api version
     var av = String()
-    
+
     /// lite version
     var f = String()
-    
+
     /// language code
     var l = String()
-    
+
     /// country code
     var c = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -198,13 +198,13 @@ struct Api_UserLoginResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var token = String()
-    
+
     var uuid = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -212,13 +212,13 @@ struct Api_BasicRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -226,11 +226,11 @@ struct Api_UserIdResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var id = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -238,13 +238,13 @@ struct Api_UserPlaylistListRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -252,13 +252,13 @@ struct Api_UserPodcastListRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -266,31 +266,31 @@ struct Api_NamedSettingsRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v: String {
         get { _storage._v }
         set { _uniqueStorage()._v = newValue }
     }
-    
+
     var m: String {
         get { _storage._m }
         set { _uniqueStorage()._m = newValue }
     }
-    
+
     var settings: Api_NamedSettings {
         get { _storage._settings ?? Api_NamedSettings() }
         set { _uniqueStorage()._settings = newValue }
     }
-    
+
     /// Returns true if `settings` has been explicitly set.
     var hasSettings: Bool { _storage._settings != nil }
     /// Clears the value of `settings`. Subsequent reads from it will return its default value.
     mutating func clearSettings() { _uniqueStorage()._settings = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -298,201 +298,201 @@ struct Api_NamedSettings {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._gridLayout ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._gridLayout = newValue }
     }
-    
+
     /// Returns true if `gridLayout` has been explicitly set.
     var hasGridLayout: Bool { _storage._gridLayout != nil }
     /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
     mutating func clearGridLayout() { _uniqueStorage()._gridLayout = nil }
-    
+
     var gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._gridOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._gridOrder = newValue }
     }
-    
+
     /// Returns true if `gridOrder` has been explicitly set.
     var hasGridOrder: Bool { _storage._gridOrder != nil }
     /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
     mutating func clearGridOrder() { _uniqueStorage()._gridOrder = nil }
-    
+
     var showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._showPlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._showPlayed = newValue }
     }
-    
+
     /// Returns true if `showPlayed` has been explicitly set.
     var hasShowPlayed: Bool { _storage._showPlayed != nil }
     /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
     mutating func clearShowPlayed() { _uniqueStorage()._showPlayed = nil }
-    
+
     var theme: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._theme ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._theme = newValue }
     }
-    
+
     /// Returns true if `theme` has been explicitly set.
     var hasTheme: Bool { _storage._theme != nil }
     /// Clears the value of `theme`. Subsequent reads from it will return its default value.
     mutating func clearTheme() { _uniqueStorage()._theme = nil }
-    
+
     var skipForward: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._skipForward ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._skipForward = newValue }
     }
-    
+
     /// Returns true if `skipForward` has been explicitly set.
     var hasSkipForward: Bool { _storage._skipForward != nil }
     /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
     mutating func clearSkipForward() { _uniqueStorage()._skipForward = nil }
-    
+
     var skipBack: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._skipBack ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._skipBack = newValue }
     }
-    
+
     /// Returns true if `skipBack` has been explicitly set.
     var hasSkipBack: Bool { _storage._skipBack != nil }
     /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
     mutating func clearSkipBack() { _uniqueStorage()._skipBack = nil }
-    
+
     var webVersion: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._webVersion ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._webVersion = newValue }
     }
-    
+
     /// Returns true if `webVersion` has been explicitly set.
     var hasWebVersion: Bool { _storage._webVersion != nil }
     /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
     mutating func clearWebVersion() { _uniqueStorage()._webVersion = nil }
-    
+
     var language: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._language ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._language = newValue }
     }
-    
+
     /// Returns true if `language` has been explicitly set.
     var hasLanguage: Bool { _storage._language != nil }
     /// Clears the value of `language`. Subsequent reads from it will return its default value.
     mutating func clearLanguage() { _uniqueStorage()._language = nil }
-    
+
     var recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._recommendationsOn ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._recommendationsOn = newValue }
     }
-    
+
     /// Returns true if `recommendationsOn` has been explicitly set.
     var hasRecommendationsOn: Bool { _storage._recommendationsOn != nil }
     /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
     mutating func clearRecommendationsOn() { _uniqueStorage()._recommendationsOn = nil }
-    
+
     var streamByDefault: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._streamByDefault ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._streamByDefault = newValue }
     }
-    
+
     /// Returns true if `streamByDefault` has been explicitly set.
     var hasStreamByDefault: Bool { _storage._streamByDefault != nil }
     /// Clears the value of `streamByDefault`. Subsequent reads from it will return its default value.
     mutating func clearStreamByDefault() { _uniqueStorage()._streamByDefault = nil }
-    
+
     var useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._useEmbeddedArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._useEmbeddedArtwork = newValue }
     }
-    
+
     /// Returns true if `useEmbeddedArtwork` has been explicitly set.
     var hasUseEmbeddedArtwork: Bool { _storage._useEmbeddedArtwork != nil }
     /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
     mutating func clearUseEmbeddedArtwork() { _uniqueStorage()._useEmbeddedArtwork = nil }
-    
+
     var playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._playbackSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._playbackSpeed = newValue }
     }
-    
+
     /// Returns true if `playbackSpeed` has been explicitly set.
     var hasPlaybackSpeed: Bool { _storage._playbackSpeed != nil }
     /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
     mutating func clearPlaybackSpeed() { _uniqueStorage()._playbackSpeed = nil }
-    
+
     var silenceRemoval: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._silenceRemoval ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._silenceRemoval = newValue }
     }
-    
+
     /// Returns true if `silenceRemoval` has been explicitly set.
     var hasSilenceRemoval: Bool { _storage._silenceRemoval != nil }
     /// Clears the value of `silenceRemoval`. Subsequent reads from it will return its default value.
     mutating func clearSilenceRemoval() { _uniqueStorage()._silenceRemoval = nil }
-    
+
     var volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._volumeBoost ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._volumeBoost = newValue }
     }
-    
+
     /// Returns true if `volumeBoost` has been explicitly set.
     var hasVolumeBoost: Bool { _storage._volumeBoost != nil }
     /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
     mutating func clearVolumeBoost() { _uniqueStorage()._volumeBoost = nil }
-    
+
     var badges: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._badges ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._badges = newValue }
     }
-    
+
     /// Returns true if `badges` has been explicitly set.
     var hasBadges: Bool { _storage._badges != nil }
     /// Clears the value of `badges`. Subsequent reads from it will return its default value.
     mutating func clearBadges() { _uniqueStorage()._badges = nil }
-    
+
     var freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._freeGiftAcknowledgement ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._freeGiftAcknowledgement = newValue }
     }
-    
+
     /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
     var hasFreeGiftAcknowledgement: Bool { _storage._freeGiftAcknowledgement != nil }
     /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
     mutating func clearFreeGiftAcknowledgement() { _uniqueStorage()._freeGiftAcknowledgement = nil }
-    
+
     var marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._marketingOptIn ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._marketingOptIn = newValue }
     }
-    
+
     /// Returns true if `marketingOptIn` has been explicitly set.
     var hasMarketingOptIn: Bool { _storage._marketingOptIn != nil }
     /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
     mutating func clearMarketingOptIn() { _uniqueStorage()._marketingOptIn = nil }
-    
+
     var autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._autoArchivePlayedEpisodes ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._autoArchivePlayedEpisodes = newValue }
     }
-    
+
     /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
     var hasAutoArchivePlayedEpisodes: Bool { _storage._autoArchivePlayedEpisodes != nil }
     /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
     mutating func clearAutoArchivePlayedEpisodes() { _uniqueStorage()._autoArchivePlayedEpisodes = nil }
-    
+
     var autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._autoArchiveIncludesStarred ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._autoArchiveIncludesStarred = newValue }
     }
-    
+
     /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
     var hasAutoArchiveIncludesStarred: Bool { _storage._autoArchiveIncludesStarred != nil }
     /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
     mutating func clearAutoArchiveIncludesStarred() { _uniqueStorage()._autoArchiveIncludesStarred = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -500,201 +500,201 @@ struct Api_NamedSettingsResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var gridLayout: Api_Int32Setting {
         get { _storage._gridLayout ?? Api_Int32Setting() }
         set { _uniqueStorage()._gridLayout = newValue }
     }
-    
+
     /// Returns true if `gridLayout` has been explicitly set.
     var hasGridLayout: Bool { _storage._gridLayout != nil }
     /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
     mutating func clearGridLayout() { _uniqueStorage()._gridLayout = nil }
-    
+
     var gridOrder: Api_Int32Setting {
         get { _storage._gridOrder ?? Api_Int32Setting() }
         set { _uniqueStorage()._gridOrder = newValue }
     }
-    
+
     /// Returns true if `gridOrder` has been explicitly set.
     var hasGridOrder: Bool { _storage._gridOrder != nil }
     /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
     mutating func clearGridOrder() { _uniqueStorage()._gridOrder = nil }
-    
+
     var showPlayed: Api_Int32Setting {
         get { _storage._showPlayed ?? Api_Int32Setting() }
         set { _uniqueStorage()._showPlayed = newValue }
     }
-    
+
     /// Returns true if `showPlayed` has been explicitly set.
     var hasShowPlayed: Bool { _storage._showPlayed != nil }
     /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
     mutating func clearShowPlayed() { _uniqueStorage()._showPlayed = nil }
-    
+
     var theme: Api_Int32Setting {
         get { _storage._theme ?? Api_Int32Setting() }
         set { _uniqueStorage()._theme = newValue }
     }
-    
+
     /// Returns true if `theme` has been explicitly set.
     var hasTheme: Bool { _storage._theme != nil }
     /// Clears the value of `theme`. Subsequent reads from it will return its default value.
     mutating func clearTheme() { _uniqueStorage()._theme = nil }
-    
+
     var skipForward: Api_Int32Setting {
         get { _storage._skipForward ?? Api_Int32Setting() }
         set { _uniqueStorage()._skipForward = newValue }
     }
-    
+
     /// Returns true if `skipForward` has been explicitly set.
     var hasSkipForward: Bool { _storage._skipForward != nil }
     /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
     mutating func clearSkipForward() { _uniqueStorage()._skipForward = nil }
-    
+
     var skipBack: Api_Int32Setting {
         get { _storage._skipBack ?? Api_Int32Setting() }
         set { _uniqueStorage()._skipBack = newValue }
     }
-    
+
     /// Returns true if `skipBack` has been explicitly set.
     var hasSkipBack: Bool { _storage._skipBack != nil }
     /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
     mutating func clearSkipBack() { _uniqueStorage()._skipBack = nil }
-    
+
     var webVersion: Api_Int32Setting {
         get { _storage._webVersion ?? Api_Int32Setting() }
         set { _uniqueStorage()._webVersion = newValue }
     }
-    
+
     /// Returns true if `webVersion` has been explicitly set.
     var hasWebVersion: Bool { _storage._webVersion != nil }
     /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
     mutating func clearWebVersion() { _uniqueStorage()._webVersion = nil }
-    
+
     var language: Api_StringSetting {
         get { _storage._language ?? Api_StringSetting() }
         set { _uniqueStorage()._language = newValue }
     }
-    
+
     /// Returns true if `language` has been explicitly set.
     var hasLanguage: Bool { _storage._language != nil }
     /// Clears the value of `language`. Subsequent reads from it will return its default value.
     mutating func clearLanguage() { _uniqueStorage()._language = nil }
-    
+
     var recommendationsOn: Api_BoolSetting {
         get { _storage._recommendationsOn ?? Api_BoolSetting() }
         set { _uniqueStorage()._recommendationsOn = newValue }
     }
-    
+
     /// Returns true if `recommendationsOn` has been explicitly set.
     var hasRecommendationsOn: Bool { _storage._recommendationsOn != nil }
     /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
     mutating func clearRecommendationsOn() { _uniqueStorage()._recommendationsOn = nil }
-    
+
     var streamByDefault: Api_BoolSetting {
         get { _storage._streamByDefault ?? Api_BoolSetting() }
         set { _uniqueStorage()._streamByDefault = newValue }
     }
-    
+
     /// Returns true if `streamByDefault` has been explicitly set.
     var hasStreamByDefault: Bool { _storage._streamByDefault != nil }
     /// Clears the value of `streamByDefault`. Subsequent reads from it will return its default value.
     mutating func clearStreamByDefault() { _uniqueStorage()._streamByDefault = nil }
-    
+
     var useEmbeddedArtwork: Api_BoolSetting {
         get { _storage._useEmbeddedArtwork ?? Api_BoolSetting() }
         set { _uniqueStorage()._useEmbeddedArtwork = newValue }
     }
-    
+
     /// Returns true if `useEmbeddedArtwork` has been explicitly set.
     var hasUseEmbeddedArtwork: Bool { _storage._useEmbeddedArtwork != nil }
     /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
     mutating func clearUseEmbeddedArtwork() { _uniqueStorage()._useEmbeddedArtwork = nil }
-    
+
     var playbackSpeed: Api_DoubleSetting {
         get { _storage._playbackSpeed ?? Api_DoubleSetting() }
         set { _uniqueStorage()._playbackSpeed = newValue }
     }
-    
+
     /// Returns true if `playbackSpeed` has been explicitly set.
     var hasPlaybackSpeed: Bool { _storage._playbackSpeed != nil }
     /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
     mutating func clearPlaybackSpeed() { _uniqueStorage()._playbackSpeed = nil }
-    
+
     var silenceRemoval: Api_BoolSetting {
         get { _storage._silenceRemoval ?? Api_BoolSetting() }
         set { _uniqueStorage()._silenceRemoval = newValue }
     }
-    
+
     /// Returns true if `silenceRemoval` has been explicitly set.
     var hasSilenceRemoval: Bool { _storage._silenceRemoval != nil }
     /// Clears the value of `silenceRemoval`. Subsequent reads from it will return its default value.
     mutating func clearSilenceRemoval() { _uniqueStorage()._silenceRemoval = nil }
-    
+
     var volumeBoost: Api_BoolSetting {
         get { _storage._volumeBoost ?? Api_BoolSetting() }
         set { _uniqueStorage()._volumeBoost = newValue }
     }
-    
+
     /// Returns true if `volumeBoost` has been explicitly set.
     var hasVolumeBoost: Bool { _storage._volumeBoost != nil }
     /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
     mutating func clearVolumeBoost() { _uniqueStorage()._volumeBoost = nil }
-    
+
     var badges: Api_Int32Setting {
         get { _storage._badges ?? Api_Int32Setting() }
         set { _uniqueStorage()._badges = newValue }
     }
-    
+
     /// Returns true if `badges` has been explicitly set.
     var hasBadges: Bool { _storage._badges != nil }
     /// Clears the value of `badges`. Subsequent reads from it will return its default value.
     mutating func clearBadges() { _uniqueStorage()._badges = nil }
-    
+
     var freeGiftAcknowledgement: Api_BoolSetting {
         get { _storage._freeGiftAcknowledgement ?? Api_BoolSetting() }
         set { _uniqueStorage()._freeGiftAcknowledgement = newValue }
     }
-    
+
     /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
     var hasFreeGiftAcknowledgement: Bool { _storage._freeGiftAcknowledgement != nil }
     /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
     mutating func clearFreeGiftAcknowledgement() { _uniqueStorage()._freeGiftAcknowledgement = nil }
-    
+
     var marketingOptIn: Api_BoolSetting {
         get { _storage._marketingOptIn ?? Api_BoolSetting() }
         set { _uniqueStorage()._marketingOptIn = newValue }
     }
-    
+
     /// Returns true if `marketingOptIn` has been explicitly set.
     var hasMarketingOptIn: Bool { _storage._marketingOptIn != nil }
     /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
     mutating func clearMarketingOptIn() { _uniqueStorage()._marketingOptIn = nil }
-    
+
     var autoArchivePlayedEpisodes: Api_BoolSetting {
         get { _storage._autoArchivePlayedEpisodes ?? Api_BoolSetting() }
         set { _uniqueStorage()._autoArchivePlayedEpisodes = newValue }
     }
-    
+
     /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
     var hasAutoArchivePlayedEpisodes: Bool { _storage._autoArchivePlayedEpisodes != nil }
     /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
     mutating func clearAutoArchivePlayedEpisodes() { _uniqueStorage()._autoArchivePlayedEpisodes = nil }
-    
+
     var autoArchiveIncludesStarred: Api_BoolSetting {
         get { _storage._autoArchiveIncludesStarred ?? Api_BoolSetting() }
         set { _uniqueStorage()._autoArchiveIncludesStarred = newValue }
     }
-    
+
     /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
     var hasAutoArchiveIncludesStarred: Bool { _storage._autoArchiveIncludesStarred != nil }
     /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
     mutating func clearAutoArchiveIncludesStarred() { _uniqueStorage()._autoArchiveIncludesStarred = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -702,31 +702,31 @@ struct Api_Int32Setting {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var value: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._value ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._value = newValue }
     }
-    
+
     /// Returns true if `value` has been explicitly set.
     var hasValue: Bool { _storage._value != nil }
     /// Clears the value of `value`. Subsequent reads from it will return its default value.
     mutating func clearValue() { _uniqueStorage()._value = nil }
-    
+
     var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._changed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._changed = newValue }
     }
-    
+
     /// Returns true if `changed` has been explicitly set.
     var hasChanged: Bool { _storage._changed != nil }
     /// Clears the value of `changed`. Subsequent reads from it will return its default value.
     mutating func clearChanged() { _uniqueStorage()._changed = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -734,31 +734,31 @@ struct Api_BoolSetting {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var value: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._value ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._value = newValue }
     }
-    
+
     /// Returns true if `value` has been explicitly set.
     var hasValue: Bool { _storage._value != nil }
     /// Clears the value of `value`. Subsequent reads from it will return its default value.
     mutating func clearValue() { _uniqueStorage()._value = nil }
-    
+
     var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._changed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._changed = newValue }
     }
-    
+
     /// Returns true if `changed` has been explicitly set.
     var hasChanged: Bool { _storage._changed != nil }
     /// Clears the value of `changed`. Subsequent reads from it will return its default value.
     mutating func clearChanged() { _uniqueStorage()._changed = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -766,31 +766,31 @@ struct Api_StringSetting {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var value: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._value ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._value = newValue }
     }
-    
+
     /// Returns true if `value` has been explicitly set.
     var hasValue: Bool { _storage._value != nil }
     /// Clears the value of `value`. Subsequent reads from it will return its default value.
     mutating func clearValue() { _uniqueStorage()._value = nil }
-    
+
     var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._changed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._changed = newValue }
     }
-    
+
     /// Returns true if `changed` has been explicitly set.
     var hasChanged: Bool { _storage._changed != nil }
     /// Clears the value of `changed`. Subsequent reads from it will return its default value.
     mutating func clearChanged() { _uniqueStorage()._changed = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -798,31 +798,31 @@ struct Api_DoubleSetting {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var value: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._value ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._value = newValue }
     }
-    
+
     /// Returns true if `value` has been explicitly set.
     var hasValue: Bool { _storage._value != nil }
     /// Clears the value of `value`. Subsequent reads from it will return its default value.
     mutating func clearValue() { _uniqueStorage()._value = nil }
-    
+
     var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._changed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._changed = newValue }
     }
-    
+
     /// Returns true if `changed` has been explicitly set.
     var hasChanged: Bool { _storage._changed != nil }
     /// Clears the value of `changed`. Subsequent reads from it will return its default value.
     mutating func clearChanged() { _uniqueStorage()._changed = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -830,19 +830,19 @@ struct Api_ApiPodcastResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var title = String()
-    
+
     var author = String()
-    
+
     var description_p = String()
-    
+
     var url = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -850,11 +850,11 @@ struct Api_ApiPodcastListResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var podcasts: [Api_ApiPodcastResponse] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -862,81 +862,81 @@ struct Api_UserPodcastResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var episodesSortOrder: Int32 {
         get { _storage._episodesSortOrder }
         set { _uniqueStorage()._episodesSortOrder = newValue }
     }
-    
+
     var autoStartFrom: Int32 {
         get { _storage._autoStartFrom }
         set { _uniqueStorage()._autoStartFrom = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var author: String {
         get { _storage._author }
         set { _uniqueStorage()._author = newValue }
     }
-    
+
     var description_p: String {
         get { _storage._description_p }
         set { _uniqueStorage()._description_p = newValue }
     }
-    
+
     var url: String {
         get { _storage._url }
         set { _uniqueStorage()._url = newValue }
     }
-    
+
     var lastEpisodePublished: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._lastEpisodePublished ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._lastEpisodePublished = newValue }
     }
-    
+
     /// Returns true if `lastEpisodePublished` has been explicitly set.
     var hasLastEpisodePublished: Bool { _storage._lastEpisodePublished != nil }
     /// Clears the value of `lastEpisodePublished`. Subsequent reads from it will return its default value.
     mutating func clearLastEpisodePublished() { _uniqueStorage()._lastEpisodePublished = nil }
-    
+
     var unplayed: Bool {
         get { _storage._unplayed }
         set { _uniqueStorage()._unplayed = newValue }
     }
-    
+
     var lastEpisodeUuid: String {
         get { _storage._lastEpisodeUuid }
         set { _uniqueStorage()._lastEpisodeUuid = newValue }
     }
-    
+
     var lastEpisodePlayingStatus: Int32 {
         get { _storage._lastEpisodePlayingStatus }
         set { _uniqueStorage()._lastEpisodePlayingStatus = newValue }
     }
-    
+
     var lastEpisodeArchived: Bool {
         get { _storage._lastEpisodeArchived }
         set { _uniqueStorage()._lastEpisodeArchived = newValue }
     }
-    
+
     var autoSkipLast: Int32 {
         get { _storage._autoSkipLast }
         set { _uniqueStorage()._autoSkipLast = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -944,11 +944,11 @@ struct Api_UserPlaylistListResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var playlists: [Api_PlaylistSyncResponse] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -956,11 +956,11 @@ struct Api_UserPodcastListResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var podcasts: [Api_UserPodcastResponse] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -968,13 +968,13 @@ struct Api_UserLastSyncAtResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var lastSyncAt = String()
-    
+
     var lastSyncAtMs: Int64 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -982,15 +982,15 @@ struct Api_UuidRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var uuid = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -998,15 +998,15 @@ struct Api_KeywordRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var keyword = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1014,46 +1014,46 @@ struct Api_SyncEpisodesResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var episodes: [Api_EpisodeSyncResponse] {
         get { _storage._episodes }
         set { _uniqueStorage()._episodes = newValue }
     }
-    
+
     var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoStartFrom = newValue }
     }
-    
+
     /// Returns true if `autoStartFrom` has been explicitly set.
     var hasAutoStartFrom: Bool { _storage._autoStartFrom != nil }
     /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
     mutating func clearAutoStartFrom() { _uniqueStorage()._autoStartFrom = nil }
-    
+
     var episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._episodesSortOrder = newValue }
     }
-    
+
     /// Returns true if `episodesSortOrder` has been explicitly set.
     var hasEpisodesSortOrder: Bool { _storage._episodesSortOrder != nil }
     /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
     mutating func clearEpisodesSortOrder() { _uniqueStorage()._episodesSortOrder = nil }
-    
+
     var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoSkipLast = newValue }
     }
-    
+
     /// Returns true if `autoSkipLast` has been explicitly set.
     var hasAutoSkipLast: Bool { _storage._autoSkipLast != nil }
     /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
     mutating func clearAutoSkipLast() { _uniqueStorage()._autoSkipLast = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1061,19 +1061,19 @@ struct Api_FindUserEpisodesRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var podcastUuid = String()
-    
+
     var page: Int32 = 0
-    
+
     var sort: Int32 = 0
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1081,13 +1081,13 @@ struct Api_EpisodesResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var total: Int32 = 0
-    
+
     var episodes: [Api_EpisodeResponse] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1095,15 +1095,15 @@ struct Api_FindUserEpisodeRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var v = String()
-    
+
     var m = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1111,96 +1111,96 @@ struct Api_EpisodeResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var url: String {
         get { _storage._url }
         set { _uniqueStorage()._url = newValue }
     }
-    
+
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._published = newValue }
     }
-    
+
     /// Returns true if `published` has been explicitly set.
     var hasPublished: Bool { _storage._published != nil }
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() { _uniqueStorage()._published = nil }
-    
+
     var duration: Int32 {
         get { _storage._duration }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     var fileType: String {
         get { _storage._fileType }
         set { _uniqueStorage()._fileType = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var size: Int64 {
         get { _storage._size }
         set { _uniqueStorage()._size = newValue }
     }
-    
+
     var playingStatus: Int32 {
         get { _storage._playingStatus }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     var playedUpTo: Int32 {
         get { _storage._playedUpTo }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     var starred: Bool {
         get { _storage._starred }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     var podcastUuid: String {
         get { _storage._podcastUuid }
         set { _uniqueStorage()._podcastUuid = newValue }
     }
-    
+
     var podcastTitle: String {
         get { _storage._podcastTitle }
         set { _uniqueStorage()._podcastTitle = newValue }
     }
-    
+
     var episodeType: String {
         get { _storage._episodeType }
         set { _uniqueStorage()._episodeType = newValue }
     }
-    
+
     var episodeSeason: Int32 {
         get { _storage._episodeSeason }
         set { _uniqueStorage()._episodeSeason = newValue }
     }
-    
+
     var episodeNumber: Int32 {
         get { _storage._episodeNumber }
         set { _uniqueStorage()._episodeNumber = newValue }
     }
-    
+
     var isDeleted: Bool {
         get { _storage._isDeleted }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1208,9 +1208,9 @@ struct Api_SyncUpdateEpisodeResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1218,51 +1218,51 @@ struct Api_UpdateEpisodeRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var podcast: String {
         get { _storage._podcast }
         set { _uniqueStorage()._podcast = newValue }
     }
-    
+
     var position: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._position ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._position = newValue }
     }
-    
+
     /// Returns true if `position` has been explicitly set.
     var hasPosition: Bool { _storage._position != nil }
     /// Clears the value of `position`. Subsequent reads from it will return its default value.
     mutating func clearPosition() { _uniqueStorage()._position = nil }
-    
+
     var status: Int32 {
         get { _storage._status }
         set { _uniqueStorage()._status = newValue }
     }
-    
+
     var duration: Int32 {
         get { _storage._duration }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     var stats: Api_StatsRequest {
         get { _storage._stats ?? Api_StatsRequest() }
         set { _uniqueStorage()._stats = newValue }
     }
-    
+
     /// Returns true if `stats` has been explicitly set.
     var hasStats: Bool { _storage._stats != nil }
     /// Clears the value of `stats`. Subsequent reads from it will return its default value.
     mutating func clearStats() { _uniqueStorage()._stats = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1270,9 +1270,9 @@ struct Api_UpdateEpisodeResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1280,23 +1280,23 @@ struct Api_StatsRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var deviceID = String()
-    
+
     var timeSilenceRemoval: Int32 = 0
-    
+
     var timeSkipping: Int32 = 0
-    
+
     var timeIntroSkipping: Int32 = 0
-    
+
     var timeVariableSpeed: Int32 = 0
-    
+
     var timeListened: Int32 = 0
-    
+
     var deviceType: Int32 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1304,15 +1304,15 @@ struct Api_UpdateEpisodeStarRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var podcast = String()
-    
+
     var star: Bool = false
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1320,9 +1320,9 @@ struct Api_UpdateEpisodeStarResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1330,13 +1330,13 @@ struct Api_EpisodeWithPodcast {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var podcast = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1344,13 +1344,13 @@ struct Api_UpdateEpisodesArchiveRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var archive: Bool = false
-    
+
     var episodes: [Api_EpisodeWithPodcast] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1358,36 +1358,36 @@ struct Api_UpNextSyncRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var deviceTime: Int64 {
         get { _storage._deviceTime }
         set { _uniqueStorage()._deviceTime = newValue }
     }
-    
+
     var version: String {
         get { _storage._version }
         set { _uniqueStorage()._version = newValue }
     }
-    
+
     var model: String {
         get { _storage._model }
         set { _uniqueStorage()._model = newValue }
     }
-    
+
     var upNext: Api_UpNextChanges {
         get { _storage._upNext ?? Api_UpNextChanges() }
         set { _uniqueStorage()._upNext = newValue }
     }
-    
+
     /// Returns true if `upNext` has been explicitly set.
     var hasUpNext: Bool { _storage._upNext != nil }
     /// Clears the value of `upNext`. Subsequent reads from it will return its default value.
     mutating func clearUpNext() { _uniqueStorage()._upNext = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1395,31 +1395,31 @@ struct Api_UpNextPlayRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var version: String {
         get { _storage._version }
         set { _uniqueStorage()._version = newValue }
     }
-    
+
     var model: String {
         get { _storage._model }
         set { _uniqueStorage()._model = newValue }
     }
-    
+
     var episode: Api_UpNextEpisodeRequest {
         get { _storage._episode ?? Api_UpNextEpisodeRequest() }
         set { _uniqueStorage()._episode = newValue }
     }
-    
+
     /// Returns true if `episode` has been explicitly set.
     var hasEpisode: Bool { _storage._episode != nil }
     /// Clears the value of `episode`. Subsequent reads from it will return its default value.
     mutating func clearEpisode() { _uniqueStorage()._episode = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1427,17 +1427,17 @@ struct Api_UpNextListRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var limit: Int32 = 0
-    
+
     var version = String()
-    
+
     var model = String()
-    
+
     var serverModified: Int64 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1445,41 +1445,41 @@ struct Api_UpNextEpisodeRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var url: String {
         get { _storage._url }
         set { _uniqueStorage()._url = newValue }
     }
-    
+
     var podcast: String {
         get { _storage._podcast }
         set { _uniqueStorage()._podcast = newValue }
     }
-    
+
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._published = newValue }
     }
-    
+
     /// Returns true if `published` has been explicitly set.
     var hasPublished: Bool { _storage._published != nil }
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() { _uniqueStorage()._published = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1487,72 +1487,72 @@ struct Api_UpNextChanges {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var serverModified: Int64 = 0
-    
+
     var changes: [Api_UpNextChanges.Change] = []
-    
+
     var order: [String] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     struct Change {
         // SwiftProtobuf.Message conformance is added in an extension below. See the
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
-        
+
         var uuid: String {
             get { _storage._uuid }
             set { _uniqueStorage()._uuid = newValue }
         }
-        
+
         var action: Int32 {
             get { _storage._action }
             set { _uniqueStorage()._action = newValue }
         }
-        
+
         var modified: Int64 {
             get { _storage._modified }
             set { _uniqueStorage()._modified = newValue }
         }
-        
+
         var title: String {
             get { _storage._title }
             set { _uniqueStorage()._title = newValue }
         }
-        
+
         var url: String {
             get { _storage._url }
             set { _uniqueStorage()._url = newValue }
         }
-        
+
         var podcast: String {
             get { _storage._podcast }
             set { _uniqueStorage()._podcast = newValue }
         }
-        
+
         var episodes: [Api_UpNextEpisodeRequest] {
             get { _storage._episodes }
             set { _uniqueStorage()._episodes = newValue }
         }
-        
+
         var published: SwiftProtobuf.Google_Protobuf_Timestamp {
             get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
             set { _uniqueStorage()._published = newValue }
         }
-        
+
         /// Returns true if `published` has been explicitly set.
         var hasPublished: Bool { _storage._published != nil }
         /// Clears the value of `published`. Subsequent reads from it will return its default value.
         mutating func clearPublished() { _uniqueStorage()._published = nil }
-        
+
         var unknownFields = SwiftProtobuf.UnknownStorage()
-        
+
         init() {}
-        
+
         fileprivate var _storage = _StorageClass.defaultInstance
     }
-    
+
     init() {}
 }
 
@@ -1560,55 +1560,55 @@ struct Api_UpNextResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var serverModified: Int64 = 0
-    
+
     var episodes: [Api_UpNextResponse.EpisodeResponse] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     struct EpisodeResponse {
         // SwiftProtobuf.Message conformance is added in an extension below. See the
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
-        
+
         var title: String {
             get { _storage._title }
             set { _uniqueStorage()._title = newValue }
         }
-        
+
         var url: String {
             get { _storage._url }
             set { _uniqueStorage()._url = newValue }
         }
-        
+
         var podcast: String {
             get { _storage._podcast }
             set { _uniqueStorage()._podcast = newValue }
         }
-        
+
         var uuid: String {
             get { _storage._uuid }
             set { _uniqueStorage()._uuid = newValue }
         }
-        
+
         var published: SwiftProtobuf.Google_Protobuf_Timestamp {
             get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
             set { _uniqueStorage()._published = newValue }
         }
-        
+
         /// Returns true if `published` has been explicitly set.
         var hasPublished: Bool { _storage._published != nil }
         /// Clears the value of `published`. Subsequent reads from it will return its default value.
         mutating func clearPublished() { _uniqueStorage()._published = nil }
-        
+
         var unknownFields = SwiftProtobuf.UnknownStorage()
-        
+
         init() {}
-        
+
         fileprivate var _storage = _StorageClass.defaultInstance
     }
-    
+
     init() {}
 }
 
@@ -1616,51 +1616,51 @@ struct Api_HistoryChange {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var action: Int32 {
         get { _storage._action }
         set { _uniqueStorage()._action = newValue }
     }
-    
+
     var podcast: String {
         get { _storage._podcast }
         set { _uniqueStorage()._podcast = newValue }
     }
-    
+
     var episode: String {
         get { _storage._episode }
         set { _uniqueStorage()._episode = newValue }
     }
-    
+
     var modifiedAt: Int64 {
         get { _storage._modifiedAt }
         set { _uniqueStorage()._modifiedAt = newValue }
     }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var url: String {
         get { _storage._url }
         set { _uniqueStorage()._url = newValue }
     }
-    
+
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._published = newValue }
     }
-    
+
     /// Returns true if `published` has been explicitly set.
     var hasPublished: Bool { _storage._published != nil }
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() { _uniqueStorage()._published = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1668,17 +1668,17 @@ struct Api_HistorySyncRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var deviceTime: Int64 = 0
-    
+
     var serverModified: Int64 = 0
-    
+
     var changes: [Api_HistoryChange] = []
-    
+
     var version = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1686,15 +1686,15 @@ struct Api_HistoryResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var serverModified: Int64 = 0
-    
+
     var lastCleared: Int64 = 0
-    
+
     var changes: [Api_HistoryChange] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1702,13 +1702,13 @@ struct Api_UpNextRemoveRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuids: [String] = []
-    
+
     var version = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1716,21 +1716,21 @@ struct Api_EpisodeSyncResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var playingStatus: Int32 = 0
-    
+
     var playedUpTo: Int32 = 0
-    
+
     var isDeleted: Bool = false
-    
+
     var starred: Bool = false
-    
+
     var duration: Int32 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1738,11 +1738,11 @@ struct Api_SearchPodcastsRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var term = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1750,13 +1750,13 @@ struct Api_HealthResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var ok: Bool = false
-    
+
     var messages: [String] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1764,46 +1764,46 @@ struct Api_StatsResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var timeSilenceRemoval: Int64 {
         get { _storage._timeSilenceRemoval }
         set { _uniqueStorage()._timeSilenceRemoval = newValue }
     }
-    
+
     var timeSkipping: Int64 {
         get { _storage._timeSkipping }
         set { _uniqueStorage()._timeSkipping = newValue }
     }
-    
+
     var timeIntroSkipping: Int64 {
         get { _storage._timeIntroSkipping }
         set { _uniqueStorage()._timeIntroSkipping = newValue }
     }
-    
+
     var timeVariableSpeed: Int64 {
         get { _storage._timeVariableSpeed }
         set { _uniqueStorage()._timeVariableSpeed = newValue }
     }
-    
+
     var timeListened: Int64 {
         get { _storage._timeListened }
         set { _uniqueStorage()._timeListened = newValue }
     }
-    
+
     var timesStartedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._timesStartedAt = newValue }
     }
-    
+
     /// Returns true if `timesStartedAt` has been explicitly set.
     var hasTimesStartedAt: Bool { _storage._timesStartedAt != nil }
     /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
     mutating func clearTimesStartedAt() { _uniqueStorage()._timesStartedAt = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1811,15 +1811,15 @@ struct Api_RegisterRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var email = String()
-    
+
     var password = String()
-    
+
     var scope = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1827,41 +1827,41 @@ struct Api_RegisterResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var success: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._success ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._success = newValue }
     }
-    
+
     /// Returns true if `success` has been explicitly set.
     var hasSuccess: Bool { _storage._success != nil }
     /// Clears the value of `success`. Subsequent reads from it will return its default value.
     mutating func clearSuccess() { _uniqueStorage()._success = nil }
-    
+
     var message: String {
         get { _storage._message }
         set { _uniqueStorage()._message = newValue }
     }
-    
+
     var token: String {
         get { _storage._token }
         set { _uniqueStorage()._token = newValue }
     }
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var errors: [String] {
         get { _storage._errors }
         set { _uniqueStorage()._errors = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -1869,11 +1869,11 @@ struct Api_StarredEpisodesResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var episodes: [Api_StarredEpisode] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1881,21 +1881,21 @@ struct Api_StarredEpisode {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid = String()
-    
+
     var podcastUuid = String()
-    
+
     var duration: Int32 = 0
-    
+
     var playingStatus: Int32 = 0
-    
+
     var playedUpTo: Int32 = 0
-    
+
     var isDeleted: Bool = false
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -1903,186 +1903,186 @@ struct Api_PlaylistSyncResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var title: String {
         get { _storage._title }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._audioVideo = newValue }
     }
-    
+
     /// Returns true if `audioVideo` has been explicitly set.
     var hasAudioVideo: Bool { _storage._audioVideo != nil }
     /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
     mutating func clearAudioVideo() { _uniqueStorage()._audioVideo = nil }
-    
+
     var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._notDownloaded = newValue }
     }
-    
+
     /// Returns true if `notDownloaded` has been explicitly set.
     var hasNotDownloaded: Bool { _storage._notDownloaded != nil }
     /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
     mutating func clearNotDownloaded() { _uniqueStorage()._notDownloaded = nil }
-    
+
     var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloaded = newValue }
     }
-    
+
     /// Returns true if `downloaded` has been explicitly set.
     var hasDownloaded: Bool { _storage._downloaded != nil }
     /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
     mutating func clearDownloaded() { _uniqueStorage()._downloaded = nil }
-    
+
     var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloading = newValue }
     }
-    
+
     /// Returns true if `downloading` has been explicitly set.
     var hasDownloading: Bool { _storage._downloading != nil }
     /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
     mutating func clearDownloading() { _uniqueStorage()._downloading = nil }
-    
+
     var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._finished = newValue }
     }
-    
+
     /// Returns true if `finished` has been explicitly set.
     var hasFinished: Bool { _storage._finished != nil }
     /// Clears the value of `finished`. Subsequent reads from it will return its default value.
     mutating func clearFinished() { _uniqueStorage()._finished = nil }
-    
+
     var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._partiallyPlayed = newValue }
     }
-    
+
     /// Returns true if `partiallyPlayed` has been explicitly set.
     var hasPartiallyPlayed: Bool { _storage._partiallyPlayed != nil }
     /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
     mutating func clearPartiallyPlayed() { _uniqueStorage()._partiallyPlayed = nil }
-    
+
     var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._unplayed = newValue }
     }
-    
+
     /// Returns true if `unplayed` has been explicitly set.
     var hasUnplayed: Bool { _storage._unplayed != nil }
     /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
     mutating func clearUnplayed() { _uniqueStorage()._unplayed = nil }
-    
+
     var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     /// Returns true if `starred` has been explicitly set.
     var hasStarred: Bool { _storage._starred != nil }
     /// Clears the value of `starred`. Subsequent reads from it will return its default value.
     mutating func clearStarred() { _uniqueStorage()._starred = nil }
-    
+
     var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._manual = newValue }
     }
-    
+
     /// Returns true if `manual` has been explicitly set.
     var hasManual: Bool { _storage._manual != nil }
     /// Clears the value of `manual`. Subsequent reads from it will return its default value.
     mutating func clearManual() { _uniqueStorage()._manual = nil }
-    
+
     var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortPosition = newValue }
     }
-    
+
     /// Returns true if `sortPosition` has been explicitly set.
     var hasSortPosition: Bool { _storage._sortPosition != nil }
     /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
     mutating func clearSortPosition() { _uniqueStorage()._sortPosition = nil }
-    
+
     var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortType = newValue }
     }
-    
+
     /// Returns true if `sortType` has been explicitly set.
     var hasSortType: Bool { _storage._sortType != nil }
     /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
     mutating func clearSortType() { _uniqueStorage()._sortType = nil }
-    
+
     var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._iconID = newValue }
     }
-    
+
     /// Returns true if `iconID` has been explicitly set.
     var hasIconID: Bool { _storage._iconID != nil }
     /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
     mutating func clearIconID() { _uniqueStorage()._iconID = nil }
-    
+
     var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._allPodcasts = newValue }
     }
-    
+
     /// Returns true if `allPodcasts` has been explicitly set.
     var hasAllPodcasts: Bool { _storage._allPodcasts != nil }
     /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
     mutating func clearAllPodcasts() { _uniqueStorage()._allPodcasts = nil }
-    
+
     var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._filterHours = newValue }
     }
-    
+
     /// Returns true if `filterHours` has been explicitly set.
     var hasFilterHours: Bool { _storage._filterHours != nil }
     /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
     mutating func clearFilterHours() { _uniqueStorage()._filterHours = nil }
-    
+
     var podcastUuids: String {
         get { _storage._podcastUuids }
         set { _uniqueStorage()._podcastUuids = newValue }
     }
-    
+
     var episodeUuids: String {
         get { _storage._episodeUuids }
         set { _uniqueStorage()._episodeUuids = newValue }
     }
-    
+
     var originalUuid: String {
         get { _storage._originalUuid }
         set { _uniqueStorage()._originalUuid = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2090,13 +2090,13 @@ struct Api_SubscriptionsPurchaseAndroidRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var purchaseToken = String()
-    
+
     var sku = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2104,11 +2104,11 @@ struct Api_SubscriptionsPurchaseAppleRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var receipt = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2116,17 +2116,17 @@ struct Api_SubscriptionsPurchaseWebRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var transactionID = String()
-    
+
     var email = String()
-    
+
     var paddleUserID: Int64 = 0
-    
+
     var productID = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2134,56 +2134,56 @@ struct Api_SubscriptionsStatusResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var paid: Int32 {
         get { _storage._paid }
         set { _uniqueStorage()._paid = newValue }
     }
-    
+
     var platform: Int32 {
         get { _storage._platform }
         set { _uniqueStorage()._platform = newValue }
     }
-    
+
     var expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp {
         get { _storage._expiryDate ?? SwiftProtobuf.Google_Protobuf_Timestamp() }
         set { _uniqueStorage()._expiryDate = newValue }
     }
-    
+
     /// Returns true if `expiryDate` has been explicitly set.
     var hasExpiryDate: Bool { _storage._expiryDate != nil }
     /// Clears the value of `expiryDate`. Subsequent reads from it will return its default value.
     mutating func clearExpiryDate() { _uniqueStorage()._expiryDate = nil }
-    
+
     var autoRenewing: Bool {
         get { _storage._autoRenewing }
         set { _uniqueStorage()._autoRenewing = newValue }
     }
-    
+
     var giftDays: Int32 {
         get { _storage._giftDays }
         set { _uniqueStorage()._giftDays = newValue }
     }
-    
+
     var cancelURL: String {
         get { _storage._cancelURL }
         set { _uniqueStorage()._cancelURL = newValue }
     }
-    
+
     var updateURL: String {
         get { _storage._updateURL }
         set { _uniqueStorage()._updateURL = newValue }
     }
-    
+
     var frequency: Int32 {
         get { _storage._frequency }
         set { _uniqueStorage()._frequency = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2191,96 +2191,96 @@ struct Api_LegacyRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var device: String {
         get { _storage._device }
         set { _uniqueStorage()._device = newValue }
     }
-    
+
     var datetime: String {
         get { _storage._datetime }
         set { _uniqueStorage()._datetime = newValue }
     }
-    
+
     var v: String {
         get { _storage._v }
         set { _uniqueStorage()._v = newValue }
     }
-    
+
     var av: String {
         get { _storage._av }
         set { _uniqueStorage()._av = newValue }
     }
-    
+
     var ac: String {
         get { _storage._ac }
         set { _uniqueStorage()._ac = newValue }
     }
-    
+
     var h: String {
         get { _storage._h }
         set { _uniqueStorage()._h = newValue }
     }
-    
+
     var dt: String {
         get { _storage._dt }
         set { _uniqueStorage()._dt = newValue }
     }
-    
+
     var c: String {
         get { _storage._c }
         set { _uniqueStorage()._c = newValue }
     }
-    
+
     var l: String {
         get { _storage._l }
         set { _uniqueStorage()._l = newValue }
     }
-    
+
     var m: String {
         get { _storage._m }
         set { _uniqueStorage()._m = newValue }
     }
-    
+
     var email: String {
         get { _storage._email }
         set { _uniqueStorage()._email = newValue }
     }
-    
+
     var password: String {
         get { _storage._password }
         set { _uniqueStorage()._password = newValue }
     }
-    
+
     var token: String {
         get { _storage._token }
         set { _uniqueStorage()._token = newValue }
     }
-    
+
     var deviceUtcTimeMs: String {
         get { _storage._deviceUtcTimeMs }
         set { _uniqueStorage()._deviceUtcTimeMs = newValue }
     }
-    
+
     var data: String {
         get { _storage._data }
         set { _uniqueStorage()._data = newValue }
     }
-    
+
     var message: String {
         get { _storage._message }
         set { _uniqueStorage()._message = newValue }
     }
-    
+
     var lastModified: String {
         get { _storage._lastModified }
         set { _uniqueStorage()._lastModified = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2288,17 +2288,17 @@ struct Api_LegacyResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var status = String()
-    
+
     var token = String()
-    
+
     var copyright = String()
-    
+
     var result = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2306,19 +2306,19 @@ struct Api_SyncUpdateRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var deviceUtcTimeMs: Int64 = 0
-    
+
     var lastModified: Int64 = 0
-    
+
     var country = String()
-    
+
     var deviceID = String()
-    
+
     var records: [Api_Record] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2326,13 +2326,13 @@ struct Api_SyncUpdateResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var lastModified: Int64 = 0
-    
+
     var records: [Api_Record] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2340,12 +2340,12 @@ struct Api_Record {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var record: OneOf_Record? {
         get { _storage._record }
         set { _uniqueStorage()._record = newValue }
     }
-    
+
     var podcast: Api_SyncUserPodcast {
         get {
             if case let .podcast(v)? = _storage._record { return v }
@@ -2353,7 +2353,7 @@ struct Api_Record {
         }
         set { _uniqueStorage()._record = .podcast(newValue) }
     }
-    
+
     var episode: Api_SyncUserEpisode {
         get {
             if case let .episode(v)? = _storage._record { return v }
@@ -2361,7 +2361,7 @@ struct Api_Record {
         }
         set { _uniqueStorage()._record = .episode(newValue) }
     }
-    
+
     var playlist: Api_SyncUserPlaylist {
         get {
             if case let .playlist(v)? = _storage._record { return v }
@@ -2369,7 +2369,7 @@ struct Api_Record {
         }
         set { _uniqueStorage()._record = .playlist(newValue) }
     }
-    
+
     var device: Api_SyncUserDevice {
         get {
             if case let .device(v)? = _storage._record { return v }
@@ -2377,15 +2377,15 @@ struct Api_Record {
         }
         set { _uniqueStorage()._record = .device(newValue) }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     enum OneOf_Record: Equatable {
         case podcast(Api_SyncUserPodcast)
         case episode(Api_SyncUserEpisode)
         case playlist(Api_SyncUserPlaylist)
         case device(Api_SyncUserDevice)
-        
+
         #if !swift(>=4.1)
             static func == (lhs: Api_Record.OneOf_Record, rhs: Api_Record.OneOf_Record) -> Bool {
                 switch (lhs, rhs) {
@@ -2398,9 +2398,9 @@ struct Api_Record {
             }
         #endif
     }
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2408,66 +2408,66 @@ struct Api_SyncUserPodcast {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var subscribed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._subscribed = newValue }
     }
-    
+
     /// Returns true if `subscribed` has been explicitly set.
     var hasSubscribed: Bool { _storage._subscribed != nil }
     /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
     mutating func clearSubscribed() { _uniqueStorage()._subscribed = nil }
-    
+
     var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoStartFrom = newValue }
     }
-    
+
     /// Returns true if `autoStartFrom` has been explicitly set.
     var hasAutoStartFrom: Bool { _storage._autoStartFrom != nil }
     /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
     mutating func clearAutoStartFrom() { _uniqueStorage()._autoStartFrom = nil }
-    
+
     var episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._episodesSortOrder = newValue }
     }
-    
+
     /// Returns true if `episodesSortOrder` has been explicitly set.
     var hasEpisodesSortOrder: Bool { _storage._episodesSortOrder != nil }
     /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
     mutating func clearEpisodesSortOrder() { _uniqueStorage()._episodesSortOrder = nil }
-    
+
     var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoSkipLast = newValue }
     }
-    
+
     /// Returns true if `autoSkipLast` has been explicitly set.
     var hasAutoSkipLast: Bool { _storage._autoSkipLast != nil }
     /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
     mutating func clearAutoSkipLast() { _uniqueStorage()._autoSkipLast = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2475,121 +2475,121 @@ struct Api_SyncUserEpisode {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var podcastUuid: String {
         get { _storage._podcastUuid }
         set { _uniqueStorage()._podcastUuid = newValue }
     }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._isDeletedModified = newValue }
     }
-    
+
     /// Returns true if `isDeletedModified` has been explicitly set.
     var hasIsDeletedModified: Bool { _storage._isDeletedModified != nil }
     /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
     mutating func clearIsDeletedModified() { _uniqueStorage()._isDeletedModified = nil }
-    
+
     var duration: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._duration ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     /// Returns true if `duration` has been explicitly set.
     var hasDuration: Bool { _storage._duration != nil }
     /// Clears the value of `duration`. Subsequent reads from it will return its default value.
     mutating func clearDuration() { _uniqueStorage()._duration = nil }
-    
+
     var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._durationModified = newValue }
     }
-    
+
     /// Returns true if `durationModified` has been explicitly set.
     var hasDurationModified: Bool { _storage._durationModified != nil }
     /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
     mutating func clearDurationModified() { _uniqueStorage()._durationModified = nil }
-    
+
     var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     /// Returns true if `playingStatus` has been explicitly set.
     var hasPlayingStatus: Bool { _storage._playingStatus != nil }
     /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatus() { _uniqueStorage()._playingStatus = nil }
-    
+
     var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playingStatusModified = newValue }
     }
-    
+
     /// Returns true if `playingStatusModified` has been explicitly set.
     var hasPlayingStatusModified: Bool { _storage._playingStatusModified != nil }
     /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatusModified() { _uniqueStorage()._playingStatusModified = nil }
-    
+
     var playedUpTo: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     /// Returns true if `playedUpTo` has been explicitly set.
     var hasPlayedUpTo: Bool { _storage._playedUpTo != nil }
     /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpTo() { _uniqueStorage()._playedUpTo = nil }
-    
+
     var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playedUpToModified = newValue }
     }
-    
+
     /// Returns true if `playedUpToModified` has been explicitly set.
     var hasPlayedUpToModified: Bool { _storage._playedUpToModified != nil }
     /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpToModified() { _uniqueStorage()._playedUpToModified = nil }
-    
+
     var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     /// Returns true if `starred` has been explicitly set.
     var hasStarred: Bool { _storage._starred != nil }
     /// Clears the value of `starred`. Subsequent reads from it will return its default value.
     mutating func clearStarred() { _uniqueStorage()._starred = nil }
-    
+
     var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._starredModified = newValue }
     }
-    
+
     /// Returns true if `starredModified` has been explicitly set.
     var hasStarredModified: Bool { _storage._starredModified != nil }
     /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
     mutating func clearStarredModified() { _uniqueStorage()._starredModified = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2597,92 +2597,92 @@ struct Api_SyncUserDevice {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var deviceID: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._deviceID ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._deviceID = newValue }
     }
-    
+
     /// Returns true if `deviceID` has been explicitly set.
     var hasDeviceID: Bool { _storage._deviceID != nil }
     /// Clears the value of `deviceID`. Subsequent reads from it will return its default value.
     mutating func clearDeviceID() { _uniqueStorage()._deviceID = nil }
-    
+
     var deviceType: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._deviceType = newValue }
     }
-    
+
     /// Returns true if `deviceType` has been explicitly set.
     var hasDeviceType: Bool { _storage._deviceType != nil }
     /// Clears the value of `deviceType`. Subsequent reads from it will return its default value.
     mutating func clearDeviceType() { _uniqueStorage()._deviceType = nil }
-    
+
     /// times in seconds
     var timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timesStartedAt = newValue }
     }
-    
+
     /// Returns true if `timesStartedAt` has been explicitly set.
     var hasTimesStartedAt: Bool { _storage._timesStartedAt != nil }
     /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
     mutating func clearTimesStartedAt() { _uniqueStorage()._timesStartedAt = nil }
-    
+
     var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeSilenceRemoval = newValue }
     }
-    
+
     /// Returns true if `timeSilenceRemoval` has been explicitly set.
     var hasTimeSilenceRemoval: Bool { _storage._timeSilenceRemoval != nil }
     /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
     mutating func clearTimeSilenceRemoval() { _uniqueStorage()._timeSilenceRemoval = nil }
-    
+
     var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeVariableSpeed = newValue }
     }
-    
+
     /// Returns true if `timeVariableSpeed` has been explicitly set.
     var hasTimeVariableSpeed: Bool { _storage._timeVariableSpeed != nil }
     /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
     mutating func clearTimeVariableSpeed() { _uniqueStorage()._timeVariableSpeed = nil }
-    
+
     var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeIntroSkipping = newValue }
     }
-    
+
     /// Returns true if `timeIntroSkipping` has been explicitly set.
     var hasTimeIntroSkipping: Bool { _storage._timeIntroSkipping != nil }
     /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeIntroSkipping() { _uniqueStorage()._timeIntroSkipping = nil }
-    
+
     var timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeSkipping = newValue }
     }
-    
+
     /// Returns true if `timeSkipping` has been explicitly set.
     var hasTimeSkipping: Bool { _storage._timeSkipping != nil }
     /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeSkipping() { _uniqueStorage()._timeSkipping = nil }
-    
+
     var timeListened: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeListened = newValue }
     }
-    
+
     /// Returns true if `timeListened` has been explicitly set.
     var hasTimeListened: Bool { _storage._timeListened != nil }
     /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
     mutating func clearTimeListened() { _uniqueStorage()._timeListened = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2690,201 +2690,201 @@ struct Api_SyncUserPlaylist {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: String {
         get { _storage._uuid }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var title: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     /// Returns true if `title` has been explicitly set.
     var hasTitle: Bool { _storage._title != nil }
     /// Clears the value of `title`. Subsequent reads from it will return its default value.
     mutating func clearTitle() { _uniqueStorage()._title = nil }
-    
+
     var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._allPodcasts = newValue }
     }
-    
+
     /// Returns true if `allPodcasts` has been explicitly set.
     var hasAllPodcasts: Bool { _storage._allPodcasts != nil }
     /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
     mutating func clearAllPodcasts() { _uniqueStorage()._allPodcasts = nil }
-    
+
     var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._podcastUuids = newValue }
     }
-    
+
     /// Returns true if `podcastUuids` has been explicitly set.
     var hasPodcastUuids: Bool { _storage._podcastUuids != nil }
     /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
     mutating func clearPodcastUuids() { _uniqueStorage()._podcastUuids = nil }
-    
+
     var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._episodeUuids = newValue }
     }
-    
+
     /// Returns true if `episodeUuids` has been explicitly set.
     var hasEpisodeUuids: Bool { _storage._episodeUuids != nil }
     /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
     mutating func clearEpisodeUuids() { _uniqueStorage()._episodeUuids = nil }
-    
+
     var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._audioVideo = newValue }
     }
-    
+
     /// Returns true if `audioVideo` has been explicitly set.
     var hasAudioVideo: Bool { _storage._audioVideo != nil }
     /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
     mutating func clearAudioVideo() { _uniqueStorage()._audioVideo = nil }
-    
+
     var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._notDownloaded = newValue }
     }
-    
+
     /// Returns true if `notDownloaded` has been explicitly set.
     var hasNotDownloaded: Bool { _storage._notDownloaded != nil }
     /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
     mutating func clearNotDownloaded() { _uniqueStorage()._notDownloaded = nil }
-    
+
     var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloaded = newValue }
     }
-    
+
     /// Returns true if `downloaded` has been explicitly set.
     var hasDownloaded: Bool { _storage._downloaded != nil }
     /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
     mutating func clearDownloaded() { _uniqueStorage()._downloaded = nil }
-    
+
     var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloading = newValue }
     }
-    
+
     /// Returns true if `downloading` has been explicitly set.
     var hasDownloading: Bool { _storage._downloading != nil }
     /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
     mutating func clearDownloading() { _uniqueStorage()._downloading = nil }
-    
+
     var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._finished = newValue }
     }
-    
+
     /// Returns true if `finished` has been explicitly set.
     var hasFinished: Bool { _storage._finished != nil }
     /// Clears the value of `finished`. Subsequent reads from it will return its default value.
     mutating func clearFinished() { _uniqueStorage()._finished = nil }
-    
+
     var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._partiallyPlayed = newValue }
     }
-    
+
     /// Returns true if `partiallyPlayed` has been explicitly set.
     var hasPartiallyPlayed: Bool { _storage._partiallyPlayed != nil }
     /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
     mutating func clearPartiallyPlayed() { _uniqueStorage()._partiallyPlayed = nil }
-    
+
     var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._unplayed = newValue }
     }
-    
+
     /// Returns true if `unplayed` has been explicitly set.
     var hasUnplayed: Bool { _storage._unplayed != nil }
     /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
     mutating func clearUnplayed() { _uniqueStorage()._unplayed = nil }
-    
+
     var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     /// Returns true if `starred` has been explicitly set.
     var hasStarred: Bool { _storage._starred != nil }
     /// Clears the value of `starred`. Subsequent reads from it will return its default value.
     mutating func clearStarred() { _uniqueStorage()._starred = nil }
-    
+
     var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._manual = newValue }
     }
-    
+
     /// Returns true if `manual` has been explicitly set.
     var hasManual: Bool { _storage._manual != nil }
     /// Clears the value of `manual`. Subsequent reads from it will return its default value.
     mutating func clearManual() { _uniqueStorage()._manual = nil }
-    
+
     var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortPosition = newValue }
     }
-    
+
     /// Returns true if `sortPosition` has been explicitly set.
     var hasSortPosition: Bool { _storage._sortPosition != nil }
     /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
     mutating func clearSortPosition() { _uniqueStorage()._sortPosition = nil }
-    
+
     var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortType = newValue }
     }
-    
+
     /// Returns true if `sortType` has been explicitly set.
     var hasSortType: Bool { _storage._sortType != nil }
     /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
     mutating func clearSortType() { _uniqueStorage()._sortType = nil }
-    
+
     var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._iconID = newValue }
     }
-    
+
     /// Returns true if `iconID` has been explicitly set.
     var hasIconID: Bool { _storage._iconID != nil }
     /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
     mutating func clearIconID() { _uniqueStorage()._iconID = nil }
-    
+
     var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._filterHours = newValue }
     }
-    
+
     /// Returns true if `filterHours` has been explicitly set.
     var hasFilterHours: Bool { _storage._filterHours != nil }
     /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
     mutating func clearFilterHours() { _uniqueStorage()._filterHours = nil }
-    
+
     var originalUuid: String {
         get { _storage._originalUuid }
         set { _uniqueStorage()._originalUuid = newValue }
     }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2892,11 +2892,11 @@ struct Api_LegacySyncData {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var records: [Api_LegacySyncRecord] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -2904,26 +2904,26 @@ struct Api_LegacySyncRecord {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var type: String {
         get { _storage._type }
         set { _uniqueStorage()._type = newValue }
     }
-    
+
     var fields: Api_LegacyRecord {
         get { _storage._fields ?? Api_LegacyRecord() }
         set { _uniqueStorage()._fields = newValue }
     }
-    
+
     /// Returns true if `fields` has been explicitly set.
     var hasFields: Bool { _storage._fields != nil }
     /// Clears the value of `fields`. Subsequent reads from it will return its default value.
     mutating func clearFields() { _uniqueStorage()._fields = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -2931,403 +2931,403 @@ struct Api_LegacyRecord {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     /// Returns true if `uuid` has been explicitly set.
     var hasUuid: Bool { _storage._uuid != nil }
     /// Clears the value of `uuid`. Subsequent reads from it will return its default value.
     mutating func clearUuid() { _uniqueStorage()._uuid = nil }
-    
+
     var userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._userPodcastUuid = newValue }
     }
-    
+
     /// Returns true if `userPodcastUuid` has been explicitly set.
     var hasUserPodcastUuid: Bool { _storage._userPodcastUuid != nil }
     /// Clears the value of `userPodcastUuid`. Subsequent reads from it will return its default value.
     mutating func clearUserPodcastUuid() { _uniqueStorage()._userPodcastUuid = nil }
-    
+
     var episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._episodeUuid = newValue }
     }
-    
+
     /// Returns true if `episodeUuid` has been explicitly set.
     var hasEpisodeUuid: Bool { _storage._episodeUuid != nil }
     /// Clears the value of `episodeUuid`. Subsequent reads from it will return its default value.
     mutating func clearEpisodeUuid() { _uniqueStorage()._episodeUuid = nil }
-    
+
     var podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._podcastUuid = newValue }
     }
-    
+
     /// Returns true if `podcastUuid` has been explicitly set.
     var hasPodcastUuid: Bool { _storage._podcastUuid != nil }
     /// Clears the value of `podcastUuid`. Subsequent reads from it will return its default value.
     mutating func clearPodcastUuid() { _uniqueStorage()._podcastUuid = nil }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._isDeletedModified = newValue }
     }
-    
+
     /// Returns true if `isDeletedModified` has been explicitly set.
     var hasIsDeletedModified: Bool { _storage._isDeletedModified != nil }
     /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
     mutating func clearIsDeletedModified() { _uniqueStorage()._isDeletedModified = nil }
-    
+
     var duration: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     /// Returns true if `duration` has been explicitly set.
     var hasDuration: Bool { _storage._duration != nil }
     /// Clears the value of `duration`. Subsequent reads from it will return its default value.
     mutating func clearDuration() { _uniqueStorage()._duration = nil }
-    
+
     var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._durationModified = newValue }
     }
-    
+
     /// Returns true if `durationModified` has been explicitly set.
     var hasDurationModified: Bool { _storage._durationModified != nil }
     /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
     mutating func clearDurationModified() { _uniqueStorage()._durationModified = nil }
-    
+
     var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     /// Returns true if `playingStatus` has been explicitly set.
     var hasPlayingStatus: Bool { _storage._playingStatus != nil }
     /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatus() { _uniqueStorage()._playingStatus = nil }
-    
+
     var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playingStatusModified = newValue }
     }
-    
+
     /// Returns true if `playingStatusModified` has been explicitly set.
     var hasPlayingStatusModified: Bool { _storage._playingStatusModified != nil }
     /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatusModified() { _uniqueStorage()._playingStatusModified = nil }
-    
+
     var playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     /// Returns true if `playedUpTo` has been explicitly set.
     var hasPlayedUpTo: Bool { _storage._playedUpTo != nil }
     /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpTo() { _uniqueStorage()._playedUpTo = nil }
-    
+
     var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playedUpToModified = newValue }
     }
-    
+
     /// Returns true if `playedUpToModified` has been explicitly set.
     var hasPlayedUpToModified: Bool { _storage._playedUpToModified != nil }
     /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpToModified() { _uniqueStorage()._playedUpToModified = nil }
-    
+
     var starred: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._starred ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     /// Returns true if `starred` has been explicitly set.
     var hasStarred: Bool { _storage._starred != nil }
     /// Clears the value of `starred`. Subsequent reads from it will return its default value.
     mutating func clearStarred() { _uniqueStorage()._starred = nil }
-    
+
     var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._starredModified = newValue }
     }
-    
+
     /// Returns true if `starredModified` has been explicitly set.
     var hasStarredModified: Bool { _storage._starredModified != nil }
     /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
     mutating func clearStarredModified() { _uniqueStorage()._starredModified = nil }
-    
+
     var timesStartedAt: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timesStartedAt = newValue }
     }
-    
+
     /// Returns true if `timesStartedAt` has been explicitly set.
     var hasTimesStartedAt: Bool { _storage._timesStartedAt != nil }
     /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
     mutating func clearTimesStartedAt() { _uniqueStorage()._timesStartedAt = nil }
-    
+
     var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timeSilenceRemoval = newValue }
     }
-    
+
     /// Returns true if `timeSilenceRemoval` has been explicitly set.
     var hasTimeSilenceRemoval: Bool { _storage._timeSilenceRemoval != nil }
     /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
     mutating func clearTimeSilenceRemoval() { _uniqueStorage()._timeSilenceRemoval = nil }
-    
+
     var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timeVariableSpeed = newValue }
     }
-    
+
     /// Returns true if `timeVariableSpeed` has been explicitly set.
     var hasTimeVariableSpeed: Bool { _storage._timeVariableSpeed != nil }
     /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
     mutating func clearTimeVariableSpeed() { _uniqueStorage()._timeVariableSpeed = nil }
-    
+
     var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timeIntroSkipping = newValue }
     }
-    
+
     /// Returns true if `timeIntroSkipping` has been explicitly set.
     var hasTimeIntroSkipping: Bool { _storage._timeIntroSkipping != nil }
     /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeIntroSkipping() { _uniqueStorage()._timeIntroSkipping = nil }
-    
+
     var timeSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timeSkipping = newValue }
     }
-    
+
     /// Returns true if `timeSkipping` has been explicitly set.
     var hasTimeSkipping: Bool { _storage._timeSkipping != nil }
     /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeSkipping() { _uniqueStorage()._timeSkipping = nil }
-    
+
     var timeListened: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._timeListened ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._timeListened = newValue }
     }
-    
+
     /// Returns true if `timeListened` has been explicitly set.
     var hasTimeListened: Bool { _storage._timeListened != nil }
     /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
     mutating func clearTimeListened() { _uniqueStorage()._timeListened = nil }
-    
+
     var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoStartFrom = newValue }
     }
-    
+
     /// Returns true if `autoStartFrom` has been explicitly set.
     var hasAutoStartFrom: Bool { _storage._autoStartFrom != nil }
     /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
     mutating func clearAutoStartFrom() { _uniqueStorage()._autoStartFrom = nil }
-    
+
     var subscribed: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._subscribed ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._subscribed = newValue }
     }
-    
+
     /// Returns true if `subscribed` has been explicitly set.
     var hasSubscribed: Bool { _storage._subscribed != nil }
     /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
     mutating func clearSubscribed() { _uniqueStorage()._subscribed = nil }
-    
+
     var title: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     /// Returns true if `title` has been explicitly set.
     var hasTitle: Bool { _storage._title != nil }
     /// Clears the value of `title`. Subsequent reads from it will return its default value.
     mutating func clearTitle() { _uniqueStorage()._title = nil }
-    
+
     /// then a heap of playlist fields
     var allPodcasts: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._allPodcasts = newValue }
     }
-    
+
     /// Returns true if `allPodcasts` has been explicitly set.
     var hasAllPodcasts: Bool { _storage._allPodcasts != nil }
     /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
     mutating func clearAllPodcasts() { _uniqueStorage()._allPodcasts = nil }
-    
+
     var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._podcastUuids = newValue }
     }
-    
+
     /// Returns true if `podcastUuids` has been explicitly set.
     var hasPodcastUuids: Bool { _storage._podcastUuids != nil }
     /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
     mutating func clearPodcastUuids() { _uniqueStorage()._podcastUuids = nil }
-    
+
     var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._episodeUuids = newValue }
     }
-    
+
     /// Returns true if `episodeUuids` has been explicitly set.
     var hasEpisodeUuids: Bool { _storage._episodeUuids != nil }
     /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
     mutating func clearEpisodeUuids() { _uniqueStorage()._episodeUuids = nil }
-    
+
     var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._audioVideo = newValue }
     }
-    
+
     /// Returns true if `audioVideo` has been explicitly set.
     var hasAudioVideo: Bool { _storage._audioVideo != nil }
     /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
     mutating func clearAudioVideo() { _uniqueStorage()._audioVideo = nil }
-    
+
     var notDownloaded: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._notDownloaded = newValue }
     }
-    
+
     /// Returns true if `notDownloaded` has been explicitly set.
     var hasNotDownloaded: Bool { _storage._notDownloaded != nil }
     /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
     mutating func clearNotDownloaded() { _uniqueStorage()._notDownloaded = nil }
-    
+
     var downloaded: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._downloaded = newValue }
     }
-    
+
     /// Returns true if `downloaded` has been explicitly set.
     var hasDownloaded: Bool { _storage._downloaded != nil }
     /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
     mutating func clearDownloaded() { _uniqueStorage()._downloaded = nil }
-    
+
     var downloading: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._downloading ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._downloading = newValue }
     }
-    
+
     /// Returns true if `downloading` has been explicitly set.
     var hasDownloading: Bool { _storage._downloading != nil }
     /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
     mutating func clearDownloading() { _uniqueStorage()._downloading = nil }
-    
+
     var finished: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._finished ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._finished = newValue }
     }
-    
+
     /// Returns true if `finished` has been explicitly set.
     var hasFinished: Bool { _storage._finished != nil }
     /// Clears the value of `finished`. Subsequent reads from it will return its default value.
     mutating func clearFinished() { _uniqueStorage()._finished = nil }
-    
+
     var partiallyPlayed: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._partiallyPlayed = newValue }
     }
-    
+
     /// Returns true if `partiallyPlayed` has been explicitly set.
     var hasPartiallyPlayed: Bool { _storage._partiallyPlayed != nil }
     /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
     mutating func clearPartiallyPlayed() { _uniqueStorage()._partiallyPlayed = nil }
-    
+
     var unplayed: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._unplayed = newValue }
     }
-    
+
     /// Returns true if `unplayed` has been explicitly set.
     var hasUnplayed: Bool { _storage._unplayed != nil }
     /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
     mutating func clearUnplayed() { _uniqueStorage()._unplayed = nil }
-    
+
     var manual: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._manual ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._manual = newValue }
     }
-    
+
     /// Returns true if `manual` has been explicitly set.
     var hasManual: Bool { _storage._manual != nil }
     /// Clears the value of `manual`. Subsequent reads from it will return its default value.
     mutating func clearManual() { _uniqueStorage()._manual = nil }
-    
+
     var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortPosition = newValue }
     }
-    
+
     /// Returns true if `sortPosition` has been explicitly set.
     var hasSortPosition: Bool { _storage._sortPosition != nil }
     /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
     mutating func clearSortPosition() { _uniqueStorage()._sortPosition = nil }
-    
+
     var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortType = newValue }
     }
-    
+
     /// Returns true if `sortType` has been explicitly set.
     var hasSortType: Bool { _storage._sortType != nil }
     /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
     mutating func clearSortType() { _uniqueStorage()._sortType = nil }
-    
+
     var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._iconID = newValue }
     }
-    
+
     /// Returns true if `iconID` has been explicitly set.
     var hasIconID: Bool { _storage._iconID != nil }
     /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
     mutating func clearIconID() { _uniqueStorage()._iconID = nil }
-    
+
     var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._filterHours = newValue }
     }
-    
+
     /// Returns true if `filterHours` has been explicitly set.
     var hasFilterHours: Bool { _storage._filterHours != nil }
     /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
     mutating func clearFilterHours() { _uniqueStorage()._filterHours = nil }
-    
+
     /// new fields
     var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoSkipLast = newValue }
     }
-    
+
     /// Returns true if `autoSkipLast` has been explicitly set.
     var hasAutoSkipLast: Bool { _storage._autoSkipLast != nil }
     /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
     mutating func clearAutoSkipLast() { _uniqueStorage()._autoSkipLast = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -3335,13 +3335,13 @@ struct Api_LegacySyncResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var lastModified = String()
-    
+
     var changes: [Api_LegacySyncResponseRecord] = []
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -3349,26 +3349,26 @@ struct Api_LegacySyncResponseRecord {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var type: String {
         get { _storage._type }
         set { _uniqueStorage()._type = newValue }
     }
-    
+
     var fields: Api_LegacyResponseRecord {
         get { _storage._fields ?? Api_LegacyResponseRecord() }
         set { _uniqueStorage()._fields = newValue }
     }
-    
+
     /// Returns true if `fields` has been explicitly set.
     var hasFields: Bool { _storage._fields != nil }
     /// Clears the value of `fields`. Subsequent reads from it will return its default value.
     mutating func clearFields() { _uniqueStorage()._fields = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -3376,403 +3376,403 @@ struct Api_LegacyResponseRecord {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var uuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._uuid = newValue }
     }
-    
+
     /// Returns true if `uuid` has been explicitly set.
     var hasUuid: Bool { _storage._uuid != nil }
     /// Clears the value of `uuid`. Subsequent reads from it will return its default value.
     mutating func clearUuid() { _uniqueStorage()._uuid = nil }
-    
+
     var userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._userPodcastUuid = newValue }
     }
-    
+
     /// Returns true if `userPodcastUuid` has been explicitly set.
     var hasUserPodcastUuid: Bool { _storage._userPodcastUuid != nil }
     /// Clears the value of `userPodcastUuid`. Subsequent reads from it will return its default value.
     mutating func clearUserPodcastUuid() { _uniqueStorage()._userPodcastUuid = nil }
-    
+
     var episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._episodeUuid = newValue }
     }
-    
+
     /// Returns true if `episodeUuid` has been explicitly set.
     var hasEpisodeUuid: Bool { _storage._episodeUuid != nil }
     /// Clears the value of `episodeUuid`. Subsequent reads from it will return its default value.
     mutating func clearEpisodeUuid() { _uniqueStorage()._episodeUuid = nil }
-    
+
     var podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._podcastUuid = newValue }
     }
-    
+
     /// Returns true if `podcastUuid` has been explicitly set.
     var hasPodcastUuid: Bool { _storage._podcastUuid != nil }
     /// Clears the value of `podcastUuid`. Subsequent reads from it will return its default value.
     mutating func clearPodcastUuid() { _uniqueStorage()._podcastUuid = nil }
-    
+
     var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._isDeleted = newValue }
     }
-    
+
     /// Returns true if `isDeleted` has been explicitly set.
     var hasIsDeleted: Bool { _storage._isDeleted != nil }
     /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
     mutating func clearIsDeleted() { _uniqueStorage()._isDeleted = nil }
-    
+
     var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._isDeletedModified = newValue }
     }
-    
+
     /// Returns true if `isDeletedModified` has been explicitly set.
     var hasIsDeletedModified: Bool { _storage._isDeletedModified != nil }
     /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
     mutating func clearIsDeletedModified() { _uniqueStorage()._isDeletedModified = nil }
-    
+
     var duration: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._duration = newValue }
     }
-    
+
     /// Returns true if `duration` has been explicitly set.
     var hasDuration: Bool { _storage._duration != nil }
     /// Clears the value of `duration`. Subsequent reads from it will return its default value.
     mutating func clearDuration() { _uniqueStorage()._duration = nil }
-    
+
     var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._durationModified = newValue }
     }
-    
+
     /// Returns true if `durationModified` has been explicitly set.
     var hasDurationModified: Bool { _storage._durationModified != nil }
     /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
     mutating func clearDurationModified() { _uniqueStorage()._durationModified = nil }
-    
+
     var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._playingStatus = newValue }
     }
-    
+
     /// Returns true if `playingStatus` has been explicitly set.
     var hasPlayingStatus: Bool { _storage._playingStatus != nil }
     /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatus() { _uniqueStorage()._playingStatus = nil }
-    
+
     var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playingStatusModified = newValue }
     }
-    
+
     /// Returns true if `playingStatusModified` has been explicitly set.
     var hasPlayingStatusModified: Bool { _storage._playingStatusModified != nil }
     /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayingStatusModified() { _uniqueStorage()._playingStatusModified = nil }
-    
+
     var playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue {
         get { _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue() }
         set { _uniqueStorage()._playedUpTo = newValue }
     }
-    
+
     /// Returns true if `playedUpTo` has been explicitly set.
     var hasPlayedUpTo: Bool { _storage._playedUpTo != nil }
     /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpTo() { _uniqueStorage()._playedUpTo = nil }
-    
+
     var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._playedUpToModified = newValue }
     }
-    
+
     /// Returns true if `playedUpToModified` has been explicitly set.
     var hasPlayedUpToModified: Bool { _storage._playedUpToModified != nil }
     /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpToModified() { _uniqueStorage()._playedUpToModified = nil }
-    
+
     var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._starred = newValue }
     }
-    
+
     /// Returns true if `starred` has been explicitly set.
     var hasStarred: Bool { _storage._starred != nil }
     /// Clears the value of `starred`. Subsequent reads from it will return its default value.
     mutating func clearStarred() { _uniqueStorage()._starred = nil }
-    
+
     var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._starredModified = newValue }
     }
-    
+
     /// Returns true if `starredModified` has been explicitly set.
     var hasStarredModified: Bool { _storage._starredModified != nil }
     /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
     mutating func clearStarredModified() { _uniqueStorage()._starredModified = nil }
-    
+
     var timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timesStartedAt = newValue }
     }
-    
+
     /// Returns true if `timesStartedAt` has been explicitly set.
     var hasTimesStartedAt: Bool { _storage._timesStartedAt != nil }
     /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
     mutating func clearTimesStartedAt() { _uniqueStorage()._timesStartedAt = nil }
-    
+
     var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeSilenceRemoval = newValue }
     }
-    
+
     /// Returns true if `timeSilenceRemoval` has been explicitly set.
     var hasTimeSilenceRemoval: Bool { _storage._timeSilenceRemoval != nil }
     /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
     mutating func clearTimeSilenceRemoval() { _uniqueStorage()._timeSilenceRemoval = nil }
-    
+
     var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeVariableSpeed = newValue }
     }
-    
+
     /// Returns true if `timeVariableSpeed` has been explicitly set.
     var hasTimeVariableSpeed: Bool { _storage._timeVariableSpeed != nil }
     /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
     mutating func clearTimeVariableSpeed() { _uniqueStorage()._timeVariableSpeed = nil }
-    
+
     var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeIntroSkipping = newValue }
     }
-    
+
     /// Returns true if `timeIntroSkipping` has been explicitly set.
     var hasTimeIntroSkipping: Bool { _storage._timeIntroSkipping != nil }
     /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeIntroSkipping() { _uniqueStorage()._timeIntroSkipping = nil }
-    
+
     var timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeSkipping = newValue }
     }
-    
+
     /// Returns true if `timeSkipping` has been explicitly set.
     var hasTimeSkipping: Bool { _storage._timeSkipping != nil }
     /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
     mutating func clearTimeSkipping() { _uniqueStorage()._timeSkipping = nil }
-    
+
     var timeListened: SwiftProtobuf.Google_Protobuf_Int64Value {
         get { _storage._timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value() }
         set { _uniqueStorage()._timeListened = newValue }
     }
-    
+
     /// Returns true if `timeListened` has been explicitly set.
     var hasTimeListened: Bool { _storage._timeListened != nil }
     /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
     mutating func clearTimeListened() { _uniqueStorage()._timeListened = nil }
-    
+
     var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoStartFrom = newValue }
     }
-    
+
     /// Returns true if `autoStartFrom` has been explicitly set.
     var hasAutoStartFrom: Bool { _storage._autoStartFrom != nil }
     /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
     mutating func clearAutoStartFrom() { _uniqueStorage()._autoStartFrom = nil }
-    
+
     var subscribed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._subscribed = newValue }
     }
-    
+
     /// Returns true if `subscribed` has been explicitly set.
     var hasSubscribed: Bool { _storage._subscribed != nil }
     /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
     mutating func clearSubscribed() { _uniqueStorage()._subscribed = nil }
-    
+
     var title: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._title = newValue }
     }
-    
+
     /// Returns true if `title` has been explicitly set.
     var hasTitle: Bool { _storage._title != nil }
     /// Clears the value of `title`. Subsequent reads from it will return its default value.
     mutating func clearTitle() { _uniqueStorage()._title = nil }
-    
+
     /// then a heap of playlist fields
     var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._allPodcasts = newValue }
     }
-    
+
     /// Returns true if `allPodcasts` has been explicitly set.
     var hasAllPodcasts: Bool { _storage._allPodcasts != nil }
     /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
     mutating func clearAllPodcasts() { _uniqueStorage()._allPodcasts = nil }
-    
+
     var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._podcastUuids = newValue }
     }
-    
+
     /// Returns true if `podcastUuids` has been explicitly set.
     var hasPodcastUuids: Bool { _storage._podcastUuids != nil }
     /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
     mutating func clearPodcastUuids() { _uniqueStorage()._podcastUuids = nil }
-    
+
     var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
         get { _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue() }
         set { _uniqueStorage()._episodeUuids = newValue }
     }
-    
+
     /// Returns true if `episodeUuids` has been explicitly set.
     var hasEpisodeUuids: Bool { _storage._episodeUuids != nil }
     /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
     mutating func clearEpisodeUuids() { _uniqueStorage()._episodeUuids = nil }
-    
+
     var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._audioVideo = newValue }
     }
-    
+
     /// Returns true if `audioVideo` has been explicitly set.
     var hasAudioVideo: Bool { _storage._audioVideo != nil }
     /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
     mutating func clearAudioVideo() { _uniqueStorage()._audioVideo = nil }
-    
+
     var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._notDownloaded = newValue }
     }
-    
+
     /// Returns true if `notDownloaded` has been explicitly set.
     var hasNotDownloaded: Bool { _storage._notDownloaded != nil }
     /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
     mutating func clearNotDownloaded() { _uniqueStorage()._notDownloaded = nil }
-    
+
     var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloaded = newValue }
     }
-    
+
     /// Returns true if `downloaded` has been explicitly set.
     var hasDownloaded: Bool { _storage._downloaded != nil }
     /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
     mutating func clearDownloaded() { _uniqueStorage()._downloaded = nil }
-    
+
     var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._downloading = newValue }
     }
-    
+
     /// Returns true if `downloading` has been explicitly set.
     var hasDownloading: Bool { _storage._downloading != nil }
     /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
     mutating func clearDownloading() { _uniqueStorage()._downloading = nil }
-    
+
     var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._finished = newValue }
     }
-    
+
     /// Returns true if `finished` has been explicitly set.
     var hasFinished: Bool { _storage._finished != nil }
     /// Clears the value of `finished`. Subsequent reads from it will return its default value.
     mutating func clearFinished() { _uniqueStorage()._finished = nil }
-    
+
     var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._partiallyPlayed = newValue }
     }
-    
+
     /// Returns true if `partiallyPlayed` has been explicitly set.
     var hasPartiallyPlayed: Bool { _storage._partiallyPlayed != nil }
     /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
     mutating func clearPartiallyPlayed() { _uniqueStorage()._partiallyPlayed = nil }
-    
+
     var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._unplayed = newValue }
     }
-    
+
     /// Returns true if `unplayed` has been explicitly set.
     var hasUnplayed: Bool { _storage._unplayed != nil }
     /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
     mutating func clearUnplayed() { _uniqueStorage()._unplayed = nil }
-    
+
     var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
         get { _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue() }
         set { _uniqueStorage()._manual = newValue }
     }
-    
+
     /// Returns true if `manual` has been explicitly set.
     var hasManual: Bool { _storage._manual != nil }
     /// Clears the value of `manual`. Subsequent reads from it will return its default value.
     mutating func clearManual() { _uniqueStorage()._manual = nil }
-    
+
     var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortPosition = newValue }
     }
-    
+
     /// Returns true if `sortPosition` has been explicitly set.
     var hasSortPosition: Bool { _storage._sortPosition != nil }
     /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
     mutating func clearSortPosition() { _uniqueStorage()._sortPosition = nil }
-    
+
     var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._sortType = newValue }
     }
-    
+
     /// Returns true if `sortType` has been explicitly set.
     var hasSortType: Bool { _storage._sortType != nil }
     /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
     mutating func clearSortType() { _uniqueStorage()._sortType = nil }
-    
+
     var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._iconID = newValue }
     }
-    
+
     /// Returns true if `iconID` has been explicitly set.
     var hasIconID: Bool { _storage._iconID != nil }
     /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
     mutating func clearIconID() { _uniqueStorage()._iconID = nil }
-    
+
     var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._filterHours = newValue }
     }
-    
+
     /// Returns true if `filterHours` has been explicitly set.
     var hasFilterHours: Bool { _storage._filterHours != nil }
     /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
     mutating func clearFilterHours() { _uniqueStorage()._filterHours = nil }
-    
+
     /// new fields
     var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
         get { _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value() }
         set { _uniqueStorage()._autoSkipLast = newValue }
     }
-    
+
     /// Returns true if `autoSkipLast` has been explicitly set.
     var hasAutoSkipLast: Bool { _storage._autoSkipLast != nil }
     /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
     mutating func clearAutoSkipLast() { _uniqueStorage()._autoSkipLast = nil }
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
-    
+
     fileprivate var _storage = _StorageClass.defaultInstance
 }
 
@@ -3780,21 +3780,21 @@ struct Api_LegacyStatsResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var timesStartedAt: Int32 = 0
-    
+
     var timeSilenceRemoval: Int32 = 0
-    
+
     var timeVariableSpeed: Int32 = 0
-    
+
     var timeIntroSkipping: Int32 = 0
-    
+
     var timeSkipping: Int32 = 0
-    
+
     var timeListened: Int32 = 0
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -3802,11 +3802,11 @@ struct Api_PromotionCode {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var code = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -3814,17 +3814,17 @@ struct Api_Promotion {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
-    
+
     var code = String()
-    
+
     var description_p = String()
-    
+
     var startsAt = String()
-    
+
     var endsAt = String()
-    
+
     var unknownFields = SwiftProtobuf.UnknownStorage()
-    
+
     init() {}
 }
 
@@ -3838,28 +3838,28 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         1: .same(proto: "success"),
         2: .same(proto: "message")
     ]
-    
+
     fileprivate class _StorageClass {
         var _success: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _message = String()
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _success = source._success
             _message = source._message
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -3872,7 +3872,7 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._success {
@@ -3884,7 +3884,7 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserChangeResponse, rhs: Api_UserChangeResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -3908,7 +3908,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
         2: .same(proto: "password"),
         3: .same(proto: "scope")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -3919,7 +3919,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !resetPasswordToken.isEmpty {
             try visitor.visitSingularStringField(value: resetPasswordToken, fieldNumber: 1)
@@ -3932,7 +3932,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserResetPasswordRequest, rhs: Api_UserResetPasswordRequest) -> Bool {
         if lhs.resetPasswordToken != rhs.resetPasswordToken { return false }
         if lhs.password != rhs.password { return false }
@@ -3947,7 +3947,7 @@ extension Api_EmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "email")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -3956,14 +3956,14 @@ extension Api_EmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !email.isEmpty {
             try visitor.visitSingularStringField(value: email, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EmailRequest, rhs: Api_EmailRequest) -> Bool {
         if lhs.email != rhs.email { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -3978,7 +3978,7 @@ extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         2: .same(proto: "password"),
         3: .same(proto: "scope")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -3989,7 +3989,7 @@ extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !email.isEmpty {
             try visitor.visitSingularStringField(value: email, fieldNumber: 1)
@@ -4002,7 +4002,7 @@ extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserChangeEmailRequest, rhs: Api_UserChangeEmailRequest) -> Bool {
         if lhs.email != rhs.email { return false }
         if lhs.password != rhs.password { return false }
@@ -4019,7 +4019,7 @@ extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._M
         2: .standard(proto: "new_password"),
         4: .same(proto: "scope")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4030,7 +4030,7 @@ extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._M
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !oldPassword.isEmpty {
             try visitor.visitSingularStringField(value: oldPassword, fieldNumber: 1)
@@ -4043,7 +4043,7 @@ extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._M
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserChangePasswordRequest, rhs: Api_UserChangePasswordRequest) -> Bool {
         if lhs.oldPassword != rhs.oldPassword { return false }
         if lhs.newPassword != rhs.newPassword { return false }
@@ -4056,15 +4056,15 @@ extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._M
 extension Api_EmptyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".EmptyRequest"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EmptyRequest, rhs: Api_EmptyRequest) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -4074,15 +4074,15 @@ extension Api_EmptyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 extension Api_EmptyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".EmptyResponse"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EmptyResponse, rhs: Api_EmptyResponse) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -4097,7 +4097,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         3: .same(proto: "subject"),
         4: .same(proto: "debug")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4109,7 +4109,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !message.isEmpty {
             try visitor.visitSingularStringField(value: message, fieldNumber: 1)
@@ -4125,7 +4125,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SupportFeedbackRequest, rhs: Api_SupportFeedbackRequest) -> Bool {
         if lhs.message != rhs.message { return false }
         if lhs.email != rhs.email { return false }
@@ -4141,7 +4141,7 @@ extension Api_CreateBetaUserRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "email")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4150,14 +4150,14 @@ extension Api_CreateBetaUserRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !email.isEmpty {
             try visitor.visitSingularStringField(value: email, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_CreateBetaUserRequest, rhs: Api_CreateBetaUserRequest) -> Bool {
         if lhs.email != rhs.email { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -4180,7 +4180,7 @@ extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         10: .same(proto: "l"),
         11: .same(proto: "c")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4199,7 +4199,7 @@ extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !email.isEmpty {
             try visitor.visitSingularStringField(value: email, fieldNumber: 1)
@@ -4236,7 +4236,7 @@ extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserLoginRequest, rhs: Api_UserLoginRequest) -> Bool {
         if lhs.email != rhs.email { return false }
         if lhs.password != rhs.password { return false }
@@ -4260,7 +4260,7 @@ extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         1: .same(proto: "token"),
         2: .same(proto: "uuid")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4270,7 +4270,7 @@ extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !token.isEmpty {
             try visitor.visitSingularStringField(value: token, fieldNumber: 1)
@@ -4280,7 +4280,7 @@ extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserLoginResponse, rhs: Api_UserLoginResponse) -> Bool {
         if lhs.token != rhs.token { return false }
         if lhs.uuid != rhs.uuid { return false }
@@ -4295,7 +4295,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         1: .same(proto: "v"),
         2: .same(proto: "m")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4305,7 +4305,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !v.isEmpty {
             try visitor.visitSingularStringField(value: v, fieldNumber: 1)
@@ -4315,7 +4315,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_BasicRequest, rhs: Api_BasicRequest) -> Bool {
         if lhs.v != rhs.v { return false }
         if lhs.m != rhs.m { return false }
@@ -4329,7 +4329,7 @@ extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "id")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4338,14 +4338,14 @@ extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !id.isEmpty {
             try visitor.visitSingularStringField(value: id, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserIdResponse, rhs: Api_UserIdResponse) -> Bool {
         if lhs.id != rhs.id { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -4359,7 +4359,7 @@ extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
         1: .same(proto: "v"),
         2: .same(proto: "m")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4369,7 +4369,7 @@ extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !v.isEmpty {
             try visitor.visitSingularStringField(value: v, fieldNumber: 1)
@@ -4379,7 +4379,7 @@ extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserPlaylistListRequest, rhs: Api_UserPlaylistListRequest) -> Bool {
         if lhs.v != rhs.v { return false }
         if lhs.m != rhs.m { return false }
@@ -4394,7 +4394,7 @@ extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         1: .same(proto: "v"),
         2: .same(proto: "m")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -4404,7 +4404,7 @@ extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !v.isEmpty {
             try visitor.visitSingularStringField(value: v, fieldNumber: 1)
@@ -4414,7 +4414,7 @@ extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserPodcastListRequest, rhs: Api_UserPodcastListRequest) -> Bool {
         if lhs.v != rhs.v { return false }
         if lhs.m != rhs.m { return false }
@@ -4430,30 +4430,30 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         2: .same(proto: "m"),
         3: .same(proto: "settings")
     ]
-    
+
     fileprivate class _StorageClass {
         var _v = String()
         var _m = String()
         var _settings: Api_NamedSettings?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _v = source._v
             _m = source._m
             _settings = source._settings
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -4467,7 +4467,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._v.isEmpty {
@@ -4482,7 +4482,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_NamedSettingsRequest, rhs: Api_NamedSettingsRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -4523,7 +4523,7 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         18: .standard(proto: "auto_archive_played_episodes"),
         19: .standard(proto: "auto_archive_includes_starred")
     ]
-    
+
     fileprivate class _StorageClass {
         var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
@@ -4544,11 +4544,11 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         var _marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _gridLayout = source._gridLayout
             _gridOrder = source._gridOrder
@@ -4571,14 +4571,14 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             _autoArchiveIncludesStarred = source._autoArchiveIncludesStarred
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -4608,7 +4608,7 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._gridLayout {
@@ -4671,7 +4671,7 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_NamedSettings, rhs: Api_NamedSettings) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -4728,7 +4728,7 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         18: .standard(proto: "auto_archive_played_episodes"),
         19: .standard(proto: "auto_archive_includes_starred")
     ]
-    
+
     fileprivate class _StorageClass {
         var _gridLayout: Api_Int32Setting?
         var _gridOrder: Api_Int32Setting?
@@ -4749,11 +4749,11 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         var _marketingOptIn: Api_BoolSetting?
         var _autoArchivePlayedEpisodes: Api_BoolSetting?
         var _autoArchiveIncludesStarred: Api_BoolSetting?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _gridLayout = source._gridLayout
             _gridOrder = source._gridOrder
@@ -4776,14 +4776,14 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
             _autoArchiveIncludesStarred = source._autoArchiveIncludesStarred
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -4813,7 +4813,7 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._gridLayout {
@@ -4876,7 +4876,7 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_NamedSettingsResponse, rhs: Api_NamedSettingsResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -4916,28 +4916,28 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         1: .same(proto: "value"),
         2: .same(proto: "changed")
     ]
-    
+
     fileprivate class _StorageClass {
         var _value: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _value = source._value
             _changed = source._changed
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -4950,7 +4950,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._value {
@@ -4962,7 +4962,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_Int32Setting, rhs: Api_Int32Setting) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -4985,28 +4985,28 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
         1: .same(proto: "value"),
         2: .same(proto: "changed")
     ]
-    
+
     fileprivate class _StorageClass {
         var _value: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _value = source._value
             _changed = source._changed
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5019,7 +5019,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._value {
@@ -5031,7 +5031,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_BoolSetting, rhs: Api_BoolSetting) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5054,28 +5054,28 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         1: .same(proto: "value"),
         2: .same(proto: "changed")
     ]
-    
+
     fileprivate class _StorageClass {
         var _value: SwiftProtobuf.Google_Protobuf_StringValue?
         var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _value = source._value
             _changed = source._changed
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5088,7 +5088,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._value {
@@ -5100,7 +5100,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_StringSetting, rhs: Api_StringSetting) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5123,28 +5123,28 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         1: .same(proto: "value"),
         2: .same(proto: "changed")
     ]
-    
+
     fileprivate class _StorageClass {
         var _value: SwiftProtobuf.Google_Protobuf_DoubleValue?
         var _changed: SwiftProtobuf.Google_Protobuf_BoolValue?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _value = source._value
             _changed = source._changed
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5157,7 +5157,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._value {
@@ -5169,7 +5169,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_DoubleSetting, rhs: Api_DoubleSetting) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5195,7 +5195,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         4: .same(proto: "description"),
         5: .same(proto: "url")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5208,7 +5208,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -5227,7 +5227,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_ApiPodcastResponse, rhs: Api_ApiPodcastResponse) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.title != rhs.title { return false }
@@ -5244,7 +5244,7 @@ extension Api_ApiPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "podcasts")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5253,14 +5253,14 @@ extension Api_ApiPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !podcasts.isEmpty {
             try visitor.visitRepeatedMessageField(value: podcasts, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_ApiPodcastListResponse, rhs: Api_ApiPodcastListResponse) -> Bool {
         if lhs.podcasts != rhs.podcasts { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -5285,7 +5285,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         12: .standard(proto: "last_episode_archived"),
         13: .standard(proto: "auto_skip_last")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _episodesSortOrder: Int32 = 0
@@ -5300,11 +5300,11 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         var _lastEpisodePlayingStatus: Int32 = 0
         var _lastEpisodeArchived: Bool = false
         var _autoSkipLast: Int32 = 0
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _episodesSortOrder = source._episodesSortOrder
@@ -5321,14 +5321,14 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
             _autoSkipLast = source._autoSkipLast
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5352,7 +5352,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -5397,7 +5397,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserPodcastResponse, rhs: Api_UserPodcastResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5430,7 +5430,7 @@ extension Api_UserPlaylistListResponse: SwiftProtobuf.Message, SwiftProtobuf._Me
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "playlists")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5439,14 +5439,14 @@ extension Api_UserPlaylistListResponse: SwiftProtobuf.Message, SwiftProtobuf._Me
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !playlists.isEmpty {
             try visitor.visitRepeatedMessageField(value: playlists, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserPlaylistListResponse, rhs: Api_UserPlaylistListResponse) -> Bool {
         if lhs.playlists != rhs.playlists { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -5459,7 +5459,7 @@ extension Api_UserPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "podcasts")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5468,14 +5468,14 @@ extension Api_UserPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !podcasts.isEmpty {
             try visitor.visitRepeatedMessageField(value: podcasts, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserPodcastListResponse, rhs: Api_UserPodcastListResponse) -> Bool {
         if lhs.podcasts != rhs.podcasts { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -5489,7 +5489,7 @@ extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
         1: .standard(proto: "last_sync_at"),
         2: .standard(proto: "last_sync_at_ms")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5499,7 +5499,7 @@ extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !lastSyncAt.isEmpty {
             try visitor.visitSingularStringField(value: lastSyncAt, fieldNumber: 1)
@@ -5509,7 +5509,7 @@ extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UserLastSyncAtResponse, rhs: Api_UserLastSyncAtResponse) -> Bool {
         if lhs.lastSyncAt != rhs.lastSyncAt { return false }
         if lhs.lastSyncAtMs != rhs.lastSyncAtMs { return false }
@@ -5525,7 +5525,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
         2: .same(proto: "m"),
         3: .same(proto: "uuid")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5536,7 +5536,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !v.isEmpty {
             try visitor.visitSingularStringField(value: v, fieldNumber: 1)
@@ -5549,7 +5549,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UuidRequest, rhs: Api_UuidRequest) -> Bool {
         if lhs.v != rhs.v { return false }
         if lhs.m != rhs.m { return false }
@@ -5566,7 +5566,7 @@ extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         2: .same(proto: "m"),
         3: .same(proto: "keyword")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5577,7 +5577,7 @@ extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !v.isEmpty {
             try visitor.visitSingularStringField(value: v, fieldNumber: 1)
@@ -5590,7 +5590,7 @@ extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_KeywordRequest, rhs: Api_KeywordRequest) -> Bool {
         if lhs.v != rhs.v { return false }
         if lhs.m != rhs.m { return false }
@@ -5608,17 +5608,17 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         3: .standard(proto: "episodes_sort_order"),
         4: .standard(proto: "auto_skip_last")
     ]
-    
+
     fileprivate class _StorageClass {
         var _episodes: [Api_EpisodeSyncResponse] = []
         var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _episodes = source._episodes
             _autoStartFrom = source._autoStartFrom
@@ -5626,14 +5626,14 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _autoSkipLast = source._autoSkipLast
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5648,7 +5648,7 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._episodes.isEmpty {
@@ -5666,7 +5666,7 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncEpisodesResponse, rhs: Api_SyncEpisodesResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5694,7 +5694,7 @@ extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
         4: .same(proto: "v"),
         5: .same(proto: "m")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5707,7 +5707,7 @@ extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !podcastUuid.isEmpty {
             try visitor.visitSingularStringField(value: podcastUuid, fieldNumber: 1)
@@ -5726,7 +5726,7 @@ extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_FindUserEpisodesRequest, rhs: Api_FindUserEpisodesRequest) -> Bool {
         if lhs.podcastUuid != rhs.podcastUuid { return false }
         if lhs.page != rhs.page { return false }
@@ -5744,7 +5744,7 @@ extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         1: .same(proto: "total"),
         2: .same(proto: "episodes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5754,7 +5754,7 @@ extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if total != 0 {
             try visitor.visitSingularInt32Field(value: total, fieldNumber: 1)
@@ -5764,7 +5764,7 @@ extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EpisodesResponse, rhs: Api_EpisodesResponse) -> Bool {
         if lhs.total != rhs.total { return false }
         if lhs.episodes != rhs.episodes { return false }
@@ -5780,7 +5780,7 @@ extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         2: .same(proto: "v"),
         3: .same(proto: "m")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -5791,7 +5791,7 @@ extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -5804,7 +5804,7 @@ extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_FindUserEpisodeRequest, rhs: Api_FindUserEpisodeRequest) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.v != rhs.v { return false }
@@ -5834,7 +5834,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         15: .standard(proto: "episode_number"),
         16: .standard(proto: "is_deleted")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _url = String()
@@ -5852,11 +5852,11 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         var _episodeSeason: Int32 = 0
         var _episodeNumber: Int32 = 0
         var _isDeleted: Bool = false
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _url = source._url
@@ -5876,14 +5876,14 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             _isDeleted = source._isDeleted
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -5910,7 +5910,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -5964,7 +5964,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EpisodeResponse, rhs: Api_EpisodeResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -5998,15 +5998,15 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 extension Api_SyncUpdateEpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".SyncUpdateEpisodeResponse"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUpdateEpisodeResponse, rhs: Api_SyncUpdateEpisodeResponse) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -6023,7 +6023,7 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         5: .same(proto: "duration"),
         6: .same(proto: "stats")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _podcast = String()
@@ -6031,11 +6031,11 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         var _status: Int32 = 0
         var _duration: Int32 = 0
         var _stats: Api_StatsRequest?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _podcast = source._podcast
@@ -6045,14 +6045,14 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _stats = source._stats
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6069,7 +6069,7 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -6093,7 +6093,7 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpdateEpisodeRequest, rhs: Api_UpdateEpisodeRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6117,15 +6117,15 @@ extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 extension Api_UpdateEpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".UpdateEpisodeResponse"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpdateEpisodeResponse, rhs: Api_UpdateEpisodeResponse) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -6143,7 +6143,7 @@ extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         6: .standard(proto: "time_listened"),
         7: .standard(proto: "device_type")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6158,7 +6158,7 @@ extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !deviceID.isEmpty {
             try visitor.visitSingularStringField(value: deviceID, fieldNumber: 1)
@@ -6183,7 +6183,7 @@ extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_StatsRequest, rhs: Api_StatsRequest) -> Bool {
         if lhs.deviceID != rhs.deviceID { return false }
         if lhs.timeSilenceRemoval != rhs.timeSilenceRemoval { return false }
@@ -6204,7 +6204,7 @@ extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
         2: .same(proto: "podcast"),
         3: .same(proto: "star")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6215,7 +6215,7 @@ extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -6228,7 +6228,7 @@ extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpdateEpisodeStarRequest, rhs: Api_UpdateEpisodeStarRequest) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.podcast != rhs.podcast { return false }
@@ -6241,15 +6241,15 @@ extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 extension Api_UpdateEpisodeStarResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
     static let protoMessageName: String = _protobuf_package + ".UpdateEpisodeStarResponse"
     static let _protobuf_nameMap = SwiftProtobuf._NameMap()
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let _ = try decoder.nextFieldNumber() {}
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpdateEpisodeStarResponse, rhs: Api_UpdateEpisodeStarResponse) -> Bool {
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
@@ -6262,7 +6262,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         1: .same(proto: "uuid"),
         2: .same(proto: "podcast")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6272,7 +6272,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -6282,7 +6282,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EpisodeWithPodcast, rhs: Api_EpisodeWithPodcast) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.podcast != rhs.podcast { return false }
@@ -6297,7 +6297,7 @@ extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf
         1: .same(proto: "archive"),
         2: .same(proto: "episodes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6307,7 +6307,7 @@ extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if archive != false {
             try visitor.visitSingularBoolField(value: archive, fieldNumber: 1)
@@ -6317,7 +6317,7 @@ extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpdateEpisodesArchiveRequest, rhs: Api_UpdateEpisodesArchiveRequest) -> Bool {
         if lhs.archive != rhs.archive { return false }
         if lhs.episodes != rhs.episodes { return false }
@@ -6334,17 +6334,17 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         3: .same(proto: "model"),
         4: .standard(proto: "up_next")
     ]
-    
+
     fileprivate class _StorageClass {
         var _deviceTime: Int64 = 0
         var _version = String()
         var _model = String()
         var _upNext: Api_UpNextChanges?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _deviceTime = source._deviceTime
             _version = source._version
@@ -6352,14 +6352,14 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             _upNext = source._upNext
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6374,7 +6374,7 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if _storage._deviceTime != 0 {
@@ -6392,7 +6392,7 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextSyncRequest, rhs: Api_UpNextSyncRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6418,30 +6418,30 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         2: .same(proto: "model"),
         3: .same(proto: "episode")
     ]
-    
+
     fileprivate class _StorageClass {
         var _version = String()
         var _model = String()
         var _episode: Api_UpNextEpisodeRequest?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _version = source._version
             _model = source._model
             _episode = source._episode
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6455,7 +6455,7 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._version.isEmpty {
@@ -6470,7 +6470,7 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextPlayRequest, rhs: Api_UpNextPlayRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6496,7 +6496,7 @@ extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         3: .same(proto: "model"),
         4: .standard(proto: "server_modified")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6508,7 +6508,7 @@ extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if limit != 0 {
             try visitor.visitSingularInt32Field(value: limit, fieldNumber: 1)
@@ -6524,7 +6524,7 @@ extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextListRequest, rhs: Api_UpNextListRequest) -> Bool {
         if lhs.limit != rhs.limit { return false }
         if lhs.version != rhs.version { return false }
@@ -6544,18 +6544,18 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         6: .same(proto: "podcast"),
         7: .same(proto: "published")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _title = String()
         var _url = String()
         var _podcast = String()
         var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _title = source._title
@@ -6564,14 +6564,14 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _published = source._published
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6587,7 +6587,7 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -6608,7 +6608,7 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextEpisodeRequest, rhs: Api_UpNextEpisodeRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6635,7 +6635,7 @@ extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         2: .same(proto: "changes"),
         3: .same(proto: "order")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6646,7 +6646,7 @@ extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if serverModified != 0 {
             try visitor.visitSingularInt64Field(value: serverModified, fieldNumber: 1)
@@ -6659,7 +6659,7 @@ extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextChanges, rhs: Api_UpNextChanges) -> Bool {
         if lhs.serverModified != rhs.serverModified { return false }
         if lhs.changes != rhs.changes { return false }
@@ -6681,7 +6681,7 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
         7: .same(proto: "episodes"),
         8: .same(proto: "published")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _action: Int32 = 0
@@ -6691,11 +6691,11 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
         var _podcast = String()
         var _episodes: [Api_UpNextEpisodeRequest] = []
         var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _action = source._action
@@ -6707,14 +6707,14 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _published = source._published
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6733,7 +6733,7 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -6763,7 +6763,7 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextChanges.Change, rhs: Api_UpNextChanges.Change) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6792,7 +6792,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         1: .standard(proto: "server_modified"),
         4: .same(proto: "episodes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -6802,7 +6802,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if serverModified != 0 {
             try visitor.visitSingularInt64Field(value: serverModified, fieldNumber: 1)
@@ -6812,7 +6812,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextResponse, rhs: Api_UpNextResponse) -> Bool {
         if lhs.serverModified != rhs.serverModified { return false }
         if lhs.episodes != rhs.episodes { return false }
@@ -6830,18 +6830,18 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
         4: .same(proto: "uuid"),
         5: .same(proto: "published")
     ]
-    
+
     fileprivate class _StorageClass {
         var _title = String()
         var _url = String()
         var _podcast = String()
         var _uuid = String()
         var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _title = source._title
             _url = source._url
@@ -6850,14 +6850,14 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
             _published = source._published
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6873,7 +6873,7 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._title.isEmpty {
@@ -6894,7 +6894,7 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextResponse.EpisodeResponse, rhs: Api_UpNextResponse.EpisodeResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -6925,7 +6925,7 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         6: .same(proto: "url"),
         7: .same(proto: "published")
     ]
-    
+
     fileprivate class _StorageClass {
         var _action: Int32 = 0
         var _podcast = String()
@@ -6934,11 +6934,11 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         var _title = String()
         var _url = String()
         var _published: SwiftProtobuf.Google_Protobuf_Timestamp?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _action = source._action
             _podcast = source._podcast
@@ -6949,14 +6949,14 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             _published = source._published
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -6974,7 +6974,7 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if _storage._action != 0 {
@@ -7001,7 +7001,7 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_HistoryChange, rhs: Api_HistoryChange) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -7031,7 +7031,7 @@ extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         3: .same(proto: "changes"),
         4: .same(proto: "version")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7043,7 +7043,7 @@ extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if deviceTime != 0 {
             try visitor.visitSingularInt64Field(value: deviceTime, fieldNumber: 1)
@@ -7059,7 +7059,7 @@ extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_HistorySyncRequest, rhs: Api_HistorySyncRequest) -> Bool {
         if lhs.deviceTime != rhs.deviceTime { return false }
         if lhs.serverModified != rhs.serverModified { return false }
@@ -7077,7 +7077,7 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         2: .standard(proto: "last_cleared"),
         3: .same(proto: "changes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7088,7 +7088,7 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if serverModified != 0 {
             try visitor.visitSingularInt64Field(value: serverModified, fieldNumber: 1)
@@ -7101,7 +7101,7 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_HistoryResponse, rhs: Api_HistoryResponse) -> Bool {
         if lhs.serverModified != rhs.serverModified { return false }
         if lhs.lastCleared != rhs.lastCleared { return false }
@@ -7117,7 +7117,7 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
         1: .same(proto: "uuids"),
         2: .same(proto: "version")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7127,7 +7127,7 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuids.isEmpty {
             try visitor.visitRepeatedStringField(value: uuids, fieldNumber: 1)
@@ -7137,7 +7137,7 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_UpNextRemoveRequest, rhs: Api_UpNextRemoveRequest) -> Bool {
         if lhs.uuids != rhs.uuids { return false }
         if lhs.version != rhs.version { return false }
@@ -7156,7 +7156,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         5: .same(proto: "starred"),
         6: .same(proto: "duration")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7170,7 +7170,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -7192,7 +7192,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_EpisodeSyncResponse, rhs: Api_EpisodeSyncResponse) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.playingStatus != rhs.playingStatus { return false }
@@ -7210,7 +7210,7 @@ extension Api_SearchPodcastsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "term")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7219,14 +7219,14 @@ extension Api_SearchPodcastsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !term.isEmpty {
             try visitor.visitSingularStringField(value: term, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SearchPodcastsRequest, rhs: Api_SearchPodcastsRequest) -> Bool {
         if lhs.term != rhs.term { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -7240,7 +7240,7 @@ extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         1: .same(proto: "ok"),
         2: .same(proto: "messages")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7250,7 +7250,7 @@ extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if ok != false {
             try visitor.visitSingularBoolField(value: ok, fieldNumber: 1)
@@ -7260,7 +7260,7 @@ extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_HealthResponse, rhs: Api_HealthResponse) -> Bool {
         if lhs.ok != rhs.ok { return false }
         if lhs.messages != rhs.messages { return false }
@@ -7279,7 +7279,7 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         5: .standard(proto: "time_listened"),
         6: .standard(proto: "times_started_at")
     ]
-    
+
     fileprivate class _StorageClass {
         var _timeSilenceRemoval: Int64 = 0
         var _timeSkipping: Int64 = 0
@@ -7287,11 +7287,11 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         var _timeVariableSpeed: Int64 = 0
         var _timeListened: Int64 = 0
         var _timesStartedAt: SwiftProtobuf.Google_Protobuf_Timestamp?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _timeSilenceRemoval = source._timeSilenceRemoval
             _timeSkipping = source._timeSkipping
@@ -7301,14 +7301,14 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             _timesStartedAt = source._timesStartedAt
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -7325,7 +7325,7 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if _storage._timeSilenceRemoval != 0 {
@@ -7349,7 +7349,7 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_StatsResponse, rhs: Api_StatsResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -7377,7 +7377,7 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         2: .same(proto: "password"),
         3: .same(proto: "scope")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7388,7 +7388,7 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !email.isEmpty {
             try visitor.visitSingularStringField(value: email, fieldNumber: 1)
@@ -7401,7 +7401,7 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_RegisterRequest, rhs: Api_RegisterRequest) -> Bool {
         if lhs.email != rhs.email { return false }
         if lhs.password != rhs.password { return false }
@@ -7420,18 +7420,18 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         4: .same(proto: "uuid"),
         5: .same(proto: "errors")
     ]
-    
+
     fileprivate class _StorageClass {
         var _success: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _message = String()
         var _token = String()
         var _uuid = String()
         var _errors: [String] = []
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _success = source._success
             _message = source._message
@@ -7440,14 +7440,14 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             _errors = source._errors
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -7463,7 +7463,7 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._success {
@@ -7484,7 +7484,7 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_RegisterResponse, rhs: Api_RegisterResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -7509,7 +7509,7 @@ extension Api_StarredEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "episodes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7518,14 +7518,14 @@ extension Api_StarredEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !episodes.isEmpty {
             try visitor.visitRepeatedMessageField(value: episodes, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_StarredEpisodesResponse, rhs: Api_StarredEpisodesResponse) -> Bool {
         if lhs.episodes != rhs.episodes { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -7543,7 +7543,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         5: .standard(proto: "played_up_to"),
         6: .standard(proto: "is_deleted")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7557,7 +7557,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !uuid.isEmpty {
             try visitor.visitSingularStringField(value: uuid, fieldNumber: 1)
@@ -7579,7 +7579,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_StarredEpisode, rhs: Api_StarredEpisode) -> Bool {
         if lhs.uuid != rhs.uuid { return false }
         if lhs.podcastUuid != rhs.podcastUuid { return false }
@@ -7616,7 +7616,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         19: .standard(proto: "episode_uuids"),
         20: .standard(proto: "original_uuid")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
@@ -7638,11 +7638,11 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         var _podcastUuids = String()
         var _episodeUuids = String()
         var _originalUuid = String()
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _isDeleted = source._isDeleted
@@ -7666,14 +7666,14 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _originalUuid = source._originalUuid
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -7704,7 +7704,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -7770,7 +7770,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_PlaylistSyncResponse, rhs: Api_PlaylistSyncResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -7811,7 +7811,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftP
         1: .same(proto: "purchaseToken"),
         2: .same(proto: "sku")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7821,7 +7821,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftP
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !purchaseToken.isEmpty {
             try visitor.visitSingularStringField(value: purchaseToken, fieldNumber: 1)
@@ -7831,7 +7831,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftP
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SubscriptionsPurchaseAndroidRequest, rhs: Api_SubscriptionsPurchaseAndroidRequest) -> Bool {
         if lhs.purchaseToken != rhs.purchaseToken { return false }
         if lhs.sku != rhs.sku { return false }
@@ -7845,7 +7845,7 @@ extension Api_SubscriptionsPurchaseAppleRequest: SwiftProtobuf.Message, SwiftPro
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "receipt")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7854,14 +7854,14 @@ extension Api_SubscriptionsPurchaseAppleRequest: SwiftProtobuf.Message, SwiftPro
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !receipt.isEmpty {
             try visitor.visitSingularStringField(value: receipt, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SubscriptionsPurchaseAppleRequest, rhs: Api_SubscriptionsPurchaseAppleRequest) -> Bool {
         if lhs.receipt != rhs.receipt { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -7877,7 +7877,7 @@ extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProto
         3: .same(proto: "paddleUserId"),
         4: .same(proto: "productId")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -7889,7 +7889,7 @@ extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProto
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !transactionID.isEmpty {
             try visitor.visitSingularStringField(value: transactionID, fieldNumber: 1)
@@ -7905,7 +7905,7 @@ extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProto
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SubscriptionsPurchaseWebRequest, rhs: Api_SubscriptionsPurchaseWebRequest) -> Bool {
         if lhs.transactionID != rhs.transactionID { return false }
         if lhs.email != rhs.email { return false }
@@ -7928,7 +7928,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         7: .same(proto: "updateUrl"),
         8: .same(proto: "frequency")
     ]
-    
+
     fileprivate class _StorageClass {
         var _paid: Int32 = 0
         var _platform: Int32 = 0
@@ -7938,11 +7938,11 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         var _cancelURL = String()
         var _updateURL = String()
         var _frequency: Int32 = 0
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _paid = source._paid
             _platform = source._platform
@@ -7954,14 +7954,14 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
             _frequency = source._frequency
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -7980,7 +7980,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if _storage._paid != 0 {
@@ -8010,7 +8010,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SubscriptionsStatusResponse, rhs: Api_SubscriptionsStatusResponse) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8054,7 +8054,7 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         16: .same(proto: "message"),
         17: .standard(proto: "last_modified")
     ]
-    
+
     fileprivate class _StorageClass {
         var _device = String()
         var _datetime = String()
@@ -8073,11 +8073,11 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         var _data = String()
         var _message = String()
         var _lastModified = String()
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _device = source._device
             _datetime = source._datetime
@@ -8098,14 +8098,14 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             _lastModified = source._lastModified
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8133,7 +8133,7 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._device.isEmpty {
@@ -8190,7 +8190,7 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacyRequest, rhs: Api_LegacyRequest) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8230,7 +8230,7 @@ extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         3: .same(proto: "copyright"),
         4: .same(proto: "result")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -8242,7 +8242,7 @@ extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !status.isEmpty {
             try visitor.visitSingularStringField(value: status, fieldNumber: 1)
@@ -8258,7 +8258,7 @@ extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacyResponse, rhs: Api_LegacyResponse) -> Bool {
         if lhs.status != rhs.status { return false }
         if lhs.token != rhs.token { return false }
@@ -8278,7 +8278,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         4: .standard(proto: "device_id"),
         5: .same(proto: "records")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -8291,7 +8291,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if deviceUtcTimeMs != 0 {
             try visitor.visitSingularInt64Field(value: deviceUtcTimeMs, fieldNumber: 1)
@@ -8310,7 +8310,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUpdateRequest, rhs: Api_SyncUpdateRequest) -> Bool {
         if lhs.deviceUtcTimeMs != rhs.deviceUtcTimeMs { return false }
         if lhs.lastModified != rhs.lastModified { return false }
@@ -8328,7 +8328,7 @@ extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         1: .standard(proto: "last_modified"),
         2: .same(proto: "records")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -8338,7 +8338,7 @@ extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if lastModified != 0 {
             try visitor.visitSingularInt64Field(value: lastModified, fieldNumber: 1)
@@ -8348,7 +8348,7 @@ extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUpdateResponse, rhs: Api_SyncUpdateResponse) -> Bool {
         if lhs.lastModified != rhs.lastModified { return false }
         if lhs.records != rhs.records { return false }
@@ -8365,26 +8365,26 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         3: .same(proto: "playlist"),
         4: .same(proto: "device")
     ]
-    
+
     fileprivate class _StorageClass {
         var _record: Api_Record.OneOf_Record?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _record = source._record
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8427,7 +8427,7 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             switch _storage._record {
@@ -8444,7 +8444,7 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_Record, rhs: Api_Record) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8470,7 +8470,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         5: .standard(proto: "episodes_sort_order"),
         6: .standard(proto: "auto_skip_last")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
@@ -8478,11 +8478,11 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         var _autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _isDeleted = source._isDeleted
@@ -8492,14 +8492,14 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             _autoSkipLast = source._autoSkipLast
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8516,7 +8516,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -8540,7 +8540,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUserPodcast, rhs: Api_SyncUserPodcast) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8577,7 +8577,7 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         11: .same(proto: "starred"),
         12: .standard(proto: "starred_modified")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _podcastUuid = String()
@@ -8591,11 +8591,11 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value?
         var _starred: SwiftProtobuf.Google_Protobuf_BoolValue?
         var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _podcastUuid = source._podcastUuid
@@ -8611,14 +8611,14 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             _starredModified = source._starredModified
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8641,7 +8641,7 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -8683,7 +8683,7 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUserEpisode, rhs: Api_SyncUserEpisode) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8722,7 +8722,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         7: .standard(proto: "time_skipping"),
         8: .standard(proto: "time_listened")
     ]
-    
+
     fileprivate class _StorageClass {
         var _deviceID: SwiftProtobuf.Google_Protobuf_StringValue?
         var _deviceType: SwiftProtobuf.Google_Protobuf_Int32Value?
@@ -8732,11 +8732,11 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         var _timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
         var _timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value?
         var _timeListened: SwiftProtobuf.Google_Protobuf_Int64Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _deviceID = source._deviceID
             _deviceType = source._deviceType
@@ -8748,14 +8748,14 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             _timeListened = source._timeListened
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8774,7 +8774,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._deviceID {
@@ -8804,7 +8804,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUserDevice, rhs: Api_SyncUserDevice) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -8851,7 +8851,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         19: .standard(proto: "filter_hours"),
         20: .standard(proto: "original_uuid")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid = String()
         var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue?
@@ -8873,11 +8873,11 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _originalUuid = String()
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _isDeleted = source._isDeleted
@@ -8901,14 +8901,14 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             _originalUuid = source._originalUuid
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -8939,7 +8939,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._uuid.isEmpty {
@@ -9005,7 +9005,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_SyncUserPlaylist, rhs: Api_SyncUserPlaylist) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -9045,7 +9045,7 @@ extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         4: .same(proto: "records")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -9054,14 +9054,14 @@ extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !records.isEmpty {
             try visitor.visitRepeatedMessageField(value: records, fieldNumber: 4)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacySyncData, rhs: Api_LegacySyncData) -> Bool {
         if lhs.records != rhs.records { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -9075,28 +9075,28 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         1: .same(proto: "type"),
         2: .same(proto: "fields")
     ]
-    
+
     fileprivate class _StorageClass {
         var _type = String()
         var _fields: Api_LegacyRecord?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _type = source._type
             _fields = source._fields
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -9109,7 +9109,7 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._type.isEmpty {
@@ -9121,7 +9121,7 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacySyncRecord, rhs: Api_LegacySyncRecord) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -9181,7 +9181,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         38: .standard(proto: "filter_hours"),
         39: .standard(proto: "auto_skip_last")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid: SwiftProtobuf.Google_Protobuf_StringValue?
         var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
@@ -9222,11 +9222,11 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _userPodcastUuid = source._userPodcastUuid
@@ -9269,14 +9269,14 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             _autoSkipLast = source._autoSkipLast
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -9326,7 +9326,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._uuid {
@@ -9449,7 +9449,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacyRecord, rhs: Api_LegacyRecord) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -9509,7 +9509,7 @@ extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         1: .standard(proto: "last_modified"),
         2: .same(proto: "changes")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -9519,7 +9519,7 @@ extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !lastModified.isEmpty {
             try visitor.visitSingularStringField(value: lastModified, fieldNumber: 1)
@@ -9529,7 +9529,7 @@ extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacySyncResponse, rhs: Api_LegacySyncResponse) -> Bool {
         if lhs.lastModified != rhs.lastModified { return false }
         if lhs.changes != rhs.changes { return false }
@@ -9544,28 +9544,28 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
         1: .same(proto: "type"),
         2: .same(proto: "fields")
     ]
-    
+
     fileprivate class _StorageClass {
         var _type = String()
         var _fields: Api_LegacyResponseRecord?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _type = source._type
             _fields = source._fields
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -9578,7 +9578,7 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if !_storage._type.isEmpty {
@@ -9590,7 +9590,7 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacySyncResponseRecord, rhs: Api_LegacySyncResponseRecord) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -9650,7 +9650,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         38: .standard(proto: "filter_hours"),
         39: .standard(proto: "auto_skip_last")
     ]
-    
+
     fileprivate class _StorageClass {
         var _uuid: SwiftProtobuf.Google_Protobuf_StringValue?
         var _userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue?
@@ -9691,11 +9691,11 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         var _iconID: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _filterHours: SwiftProtobuf.Google_Protobuf_Int32Value?
         var _autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value?
-        
+
         static let defaultInstance = _StorageClass()
-        
+
         private init() {}
-        
+
         init(copying source: _StorageClass) {
             _uuid = source._uuid
             _userPodcastUuid = source._userPodcastUuid
@@ -9738,14 +9738,14 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
             _autoSkipLast = source._autoSkipLast
         }
     }
-    
+
     fileprivate mutating func _uniqueStorage() -> _StorageClass {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _StorageClass(copying: _storage)
         }
         return _storage
     }
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         _ = _uniqueStorage()
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
@@ -9795,7 +9795,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
             if let v = _storage._uuid {
@@ -9918,7 +9918,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacyResponseRecord, rhs: Api_LegacyResponseRecord) -> Bool {
         if lhs._storage !== rhs._storage {
             let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
@@ -9982,7 +9982,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         5: .standard(proto: "time_skipping"),
         6: .standard(proto: "time_listened")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -9996,7 +9996,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if timesStartedAt != 0 {
             try visitor.visitSingularInt32Field(value: timesStartedAt, fieldNumber: 1)
@@ -10018,7 +10018,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_LegacyStatsResponse, rhs: Api_LegacyStatsResponse) -> Bool {
         if lhs.timesStartedAt != rhs.timesStartedAt { return false }
         if lhs.timeSilenceRemoval != rhs.timeSilenceRemoval { return false }
@@ -10036,7 +10036,7 @@ extension Api_PromotionCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
         1: .same(proto: "code")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -10045,14 +10045,14 @@ extension Api_PromotionCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !code.isEmpty {
             try visitor.visitSingularStringField(value: code, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_PromotionCode, rhs: Api_PromotionCode) -> Bool {
         if lhs.code != rhs.code { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
@@ -10068,7 +10068,7 @@ extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
         3: .standard(proto: "starts_at"),
         4: .standard(proto: "ends_at")
     ]
-    
+
     mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
         while let fieldNumber = try decoder.nextFieldNumber() {
             switch fieldNumber {
@@ -10080,7 +10080,7 @@ extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
             }
         }
     }
-    
+
     func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
         if !code.isEmpty {
             try visitor.visitSingularStringField(value: code, fieldNumber: 1)
@@ -10096,7 +10096,7 @@ extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
         }
         try unknownFields.traverse(visitor: &visitor)
     }
-    
+
     static func == (lhs: Api_Promotion, rhs: Api_Promotion) -> Bool {
         if lhs.code != rhs.code { return false }
         if lhs.description_p != rhs.description_p { return false }

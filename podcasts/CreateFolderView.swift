@@ -5,30 +5,28 @@ struct CreateFolderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject private var pickerModel = PodcastPickerModel()
     @ObservedObject private var model = FolderModel()
-    
+
     var dismissAction: (String?) -> Void
-    
+
     var preselectPodcastUuid: String?
-    
+
     var addButtonTitle: String {
         let selectedCount = pickerModel.selectedPodcastUuids.count
         if selectedCount == 1 {
             return L10n.folderAddPodcastsSingular
-        }
-        else {
+        } else {
             return L10n.folderAddPodcastsPluralFormat(selectedCount)
         }
     }
-    
+
     var body: some View {
         if let _ = preselectPodcastUuid {
             mainBody
-        }
-        else {
+        } else {
             navWrappedBody
         }
     }
-    
+
     var mainBody: some View {
         VStack {
             PodcastPickerView(pickerModel: pickerModel)
@@ -36,8 +34,9 @@ struct CreateFolderView: View {
                 Text(addButtonTitle)
                     .textStyle(RoundedButton())
             }
+            .padding(.horizontal)
         }
-        .padding()
+        .padding(.vertical)
         .navigationTitle(L10n.folderCreate)
         .onAppear {
             pickerModel.setup()
@@ -51,7 +50,7 @@ struct CreateFolderView: View {
         }
         .applyDefaultThemeOptions()
     }
-    
+
     var navWrappedBody: some View {
         NavigationView {
             mainBody

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PodcastViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="episodesTable" destination="vOg-9D-tbz" id="Ukt-9k-CXv"/>
+                <outlet property="episodesTableTopConstraint" destination="YIb-Ui-04J" id="aF1-sQ-VzU"/>
                 <outlet property="loadingBgView" destination="Z6r-n2-drA" id="KSb-Gy-IIA"/>
                 <outlet property="loadingImageBg" destination="iLx-g1-Ro1" id="0sn-Hu-Ekg"/>
                 <outlet property="loadingIndicator" destination="AZp-uk-Ky7" id="ohZ-Kv-fdg"/>
@@ -80,8 +82,8 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rCn-kh-SHx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w24-UV-dAv">
-                            <rect key="frame" x="16" y="46" width="74" height="44"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w24-UV-dAv">
+                            <rect key="frame" x="16" y="46" width="73" height="44"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="xtn-4c-tFJ"/>
@@ -92,7 +94,7 @@
                                 <action selector="selectAllTapped" destination="-1" eventType="touchUpInside" id="Xno-wB-iQX"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-vB-nD5">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-vB-nD5">
                             <rect key="frame" x="305" y="46" width="54" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="FPZ-Vv-F5t"/>
@@ -104,7 +106,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="gVg-vB-nD5" secondAttribute="trailing" constant="16" id="aTJ-Zl-Q6k"/>
                         <constraint firstItem="w24-UV-dAv" firstAttribute="leading" secondItem="rCn-kh-SHx" secondAttribute="leading" constant="16" id="hsU-ID-8ex"/>
@@ -115,12 +117,13 @@
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lj6-2A-raj" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="603" width="359" height="64"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="G0W-33-ngx"/>
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="rCn-kh-SHx" secondAttribute="trailing" id="1oY-el-j1A"/>
@@ -142,8 +145,12 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="NiC-SX-rde" secondAttribute="bottom" id="hY0-eI-TJM"/>
                 <constraint firstItem="AZp-uk-Ky7" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ydq-vK-s3H"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="-1242.4000000000001" y="-182.15892053973016"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -5,22 +5,22 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
     func registerCells() {
         actionTable.register(UINib(nibName: "UserEpisodeActionCell", bundle: nil), forCellReuseIdentifier: actionCellId)
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableData().count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = actionTable.dequeueReusableCell(withIdentifier: actionCellId) as! UserEpisodeActionCell
         cell.themeOverride = themeOverride
         cell.titleLabel.themeOverride = themeOverride
         cell.style = .primaryUi01
         let tableRow = tableData()[indexPath.row]
-        
+
         switch tableRow {
         case .download:
             cell.titleLabel.text = L10n.download
@@ -71,10 +71,10 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tableRow = tableData()[indexPath.row]
-        
+
         switch tableRow {
         case .download:
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "download"])
@@ -89,8 +89,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload"])
                 PlaybackActionHelper.upload(episodeUuid: episode.uuid)
                 animateOut()
-            }
-            else {
+            } else {
                 animateOut()
                 delegate?.showUpgradeRequired()
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload_upgrade_required"])
@@ -107,32 +106,30 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             if PlaybackManager.shared.inUpNext(episode: episode) {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_delete"])
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-            }
-            else {
+            } else {
                 let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
                 let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
                     Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_top"])
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
                 }
                 addToUpNextPicker.addAction(action: playNextAction)
-                
+
                 let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
                     Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_add_bottom"])
                     PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false)
                 }
                 addToUpNextPicker.addAction(action: playLastAction)
-                
+
                 addToUpNextPicker.show(statusBarStyle: preferredStatusBarStyle)
             }
             animateOut()
         case .markAsPlayed:
             AnalyticsEpisodeHelper.shared.currentSource = playbackSource
-            
+
             if episode.played() {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_unplayed"])
                 EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
-            }
-            else {
+            } else {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_played"])
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
@@ -147,33 +144,29 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete"])
         }
     }
-    
+
     private func tableData() -> [TableRow] {
         var data: [TableRow] = [.upNext, .markAsPlayed, .editDetails, .delete]
-        
+
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             data.insert(.cancelDownload, at: 3)
-        }
-        else if episode.uploadQueued() || episode.uploading() || episode.uploadWaitingForWifi() {
+        } else if episode.uploadQueued() || episode.uploading() || episode.uploadWaitingForWifi() {
             data.insert(.cancelUpload, at: 3)
-        }
-        else if !episode.downloaded(pathFinder: DownloadManager.shared) {
+        } else if !episode.downloaded(pathFinder: DownloadManager.shared) {
             data.insert(.download, at: 3)
-        }
-        else if episode.uploaded() {
+        } else if episode.uploaded() {
             data.insert(.removeFromCloud, at: 3)
-        }
-        else {
+        } else {
             data.insert(.upload, at: 3)
         }
         return data
     }
-    
+
     // MARK: Actions
-    
+
     @IBAction func playPauseTapped(_ sender: UIButton) {
         playPauseButton.isPlaying = !playPauseButton.isPlaying
-        
+
         let option = playPauseButton.isPlaying ? "play" : "pause"
         Analytics.track(.userFilePlayPauseButtonTapped, properties: ["option": option])
 
@@ -182,10 +175,9 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             if !PlaybackManager.shared.playing() {
                 animateOut()
             }
-            
+
             PlaybackActionHelper.playPause()
-        }
-        else {
+        } else {
             PlaybackActionHelper.play(episode: episode)
             animateOut()
         }

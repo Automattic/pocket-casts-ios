@@ -4,7 +4,7 @@ import Foundation
 public extension Episode {
     func encodeToMap() -> [String: String] {
         var episodeMap = [String: String]()
-        
+
         episodeMap["addedDate"] = encode(date: addedDate)
         episodeMap["downloadUrl"] = downloadUrl ?? ""
         episodeMap["episodeDescription"] = episodeDescription ?? ""
@@ -27,10 +27,10 @@ public extension Episode {
         episodeMap["podcastId"] = "\(podcast_id)"
         episodeMap["episodeNumber"] = "\(episodeNumber)"
         episodeMap["seasonNumber"] = "\(seasonNumber)"
-        
+
         return episodeMap
     }
-    
+
     func populateFromMap(_ episodeMap: [String: String]) {
         addedDate = decodeDateFromString(date: episodeMap["addedDate"])
         downloadUrl = episodeMap["downloadUrl"]

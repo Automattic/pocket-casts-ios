@@ -8,9 +8,9 @@ protocol PlayerItemContainerDelegate: AnyObject {
 class PlayerItemViewController: SimpleNotificationsViewController {
     func willBeAddedToPlayer() {}
     func willBeRemovedFromPlayer() {}
-    
+
     func themeDidChange() {}
-    
+
     weak var scrollViewHandler: UIScrollViewDelegate?
     weak var containerDelegate: PlayerItemContainerDelegate?
 }

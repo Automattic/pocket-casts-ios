@@ -9,7 +9,7 @@ extension AddCustomViewController: UIImagePickerControllerDelegate, UINavigation
             present(pickerController, animated: true, completion: nil)
         }
     }
-    
+
     func showCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let pickerController = UIImagePickerController()
@@ -18,13 +18,13 @@ extension AddCustomViewController: UIImagePickerControllerDelegate, UINavigation
             present(pickerController, animated: true, completion: nil)
         }
     }
-    
+
     // MARK: UIImagePickerControllerDelegate
-    
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] {
             artwork = (image as! UIImage)
@@ -33,8 +33,7 @@ extension AddCustomViewController: UIImagePickerControllerDelegate, UINavigation
             colorPickerView.reloadData()
             colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
             picker.dismiss(animated: true, completion: nil)
-        }
-        else if let image = info[UIImagePickerController.InfoKey.originalImage] {
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] {
             artwork = (image as! UIImage)
             selectedColorIndex = 0
             artworkNeedsUpdating = true

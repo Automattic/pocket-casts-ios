@@ -4,17 +4,15 @@ import SwiftUI
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
-    
+
     var body: some View {
         if let episodes = entry.episodes, episodes.count > 0 {
             if family == .systemMedium {
                 UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
-            }
-            else {
+            } else {
                 UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
             }
-        }
-        else {
+        } else {
             VStack(alignment: .center) {
                 HStack(alignment: .top) {
                     Text(L10n.widgetsNothingPlaying)
@@ -28,13 +26,12 @@ struct UpNextWidgetEntryView: View {
                         .accessibility(hidden: true)
                 }
                 .padding(.init(top: 16, leading: 16, bottom: 0, trailing: 16))
-                
+
                 Spacer()
                 if family == .systemMedium {
                     HungryForMoreView()
                         .offset(x: 0, y: -4)
-                }
-                else {
+                } else {
                     HungryForMoreLargeView()
                         .offset(x: 0, y: -8)
                 }

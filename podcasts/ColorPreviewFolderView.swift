@@ -4,11 +4,11 @@ import SwiftUI
 
 struct ColorPreviewFolderView: View {
     @EnvironmentObject var theme: Theme
-    
+
     @ObservedObject var model: FolderModel
-    
+
     var dismissAction: (String?) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Group {
@@ -65,7 +65,7 @@ struct ColorPreviewFolderView: View {
         }
         .applyDefaultThemeOptions()
     }
-    
+
     private func previewTileSize() -> CGFloat {
         switch Settings.libraryType() {
         case .list:
@@ -80,7 +80,7 @@ struct ColorPreviewFolderView: View {
 
 struct PodcastPreviewImage: View {
     @State var podcastUuid: String?
-    
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 2)

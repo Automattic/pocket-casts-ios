@@ -22,8 +22,7 @@ struct NowPlayingContainerView: View {
                     }
                     .animation(.easeInOut)
                 }
-            }
-            else {
+            } else {
                 NowPlayingEmptyView()
             }
         }
@@ -35,7 +34,7 @@ struct NowPlayingContainerView: View {
             }
         }
     }
-    
+
     // MARK: Navigation
 
     /// Hidden Navigation items to allow nested screens the ability to push new views outside of the paged TabView

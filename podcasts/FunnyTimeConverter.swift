@@ -8,7 +8,7 @@ class FunnyTimeConverter {
         if timeInSeconds < 60 {
             return L10n.funnyTimeNotEnough
         }
-        
+
         while true {
             let randomIndex = arc4random_uniform(UInt32(timeUnits.count))
             let unit = timeUnits[Int(randomIndex)]
@@ -17,7 +17,7 @@ class FunnyTimeConverter {
             }
         }
     }
-    
+
     enum FunnyTimeUnit: CaseIterable {
         case births
         case blinks
@@ -97,11 +97,11 @@ class FunnyTimeConverter {
                 return L10n.funnyTimeUnitPhoneProduction(amount.localized())
             }
         }
-        
+
         func suitableFor(_ seconds: Double) -> Bool {
             let minutes = seconds / 60
             let amount = minutes * timesPerMinute
-            
+
             return amount >= 1
         }
     }

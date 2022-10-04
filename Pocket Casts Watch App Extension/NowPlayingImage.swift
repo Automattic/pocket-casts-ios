@@ -14,8 +14,7 @@ struct NowPlayingImage: View {
         Group {
             if self.isPlaying {
                 images[imageIndex]
-            }
-            else {
+            } else {
                 Image("notplaying", bundle: .watchAssets)
             }
         }

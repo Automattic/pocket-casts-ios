@@ -1,5 +1,7 @@
 #include "Version.xcconfig"
 
+SWIFT_VERSION = 5.0
+
 // Map our custom version values (used by the automation tooling) to the values
 // Xcode uses
 MARKETING_VERSION=$(VERSION_SHORT)

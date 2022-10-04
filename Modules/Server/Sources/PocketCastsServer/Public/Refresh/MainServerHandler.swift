@@ -121,8 +121,7 @@ public class MainServerHandler {
             do {
                 let refreshResponse = try JSONDecoder().decode(ImportOpmlResponse.self, from: data)
                 completion(refreshResponse)
-            }
-            catch {
+            } catch {
                 completion(ImportOpmlResponse.failedResponse())
             }
 
@@ -156,8 +155,7 @@ public class MainServerHandler {
             do {
                 let refreshResponse = try JSONDecoder().decode(ExportPodcastsResponse.self, from: data)
                 completion(refreshResponse)
-            }
-            catch {
+            } catch {
                 completion(ExportPodcastsResponse.failedResponse())
             }
 
@@ -188,8 +186,7 @@ public class MainServerHandler {
             do {
                 let refreshResponse = try JSONDecoder().decode(ShareListResponse.self, from: data)
                 completion(refreshResponse)
-            }
-            catch {
+            } catch {
                 completion(ShareListResponse.failedResponse())
             }
 
@@ -208,8 +205,7 @@ public class MainServerHandler {
             guard statusCode == ServerConstants.HttpConstants.ok, let data = data else {
                 if let error = error {
                     FileLog.shared.addMessage("Refresh failed: with error \(error.localizedDescription), status code \(statusCode)")
-                }
-                else {
+                } else {
                     FileLog.shared.addMessage("Refresh failed: response returned no data, status code \(statusCode)")
                 }
                 completion(PodcastRefreshResponse.failedResponse())
@@ -328,8 +324,7 @@ public class MainServerHandler {
             do {
                 let searchResponse = try JSONDecoder().decode(PodcastSearchResponse.self, from: data)
                 completion(searchResponse.result?.podcast?.uuid)
-            }
-            catch {
+            } catch {
                 completion(nil)
             }
 

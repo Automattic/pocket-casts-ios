@@ -12,10 +12,10 @@ public class DataConverter {
             convertedData.playedUpTo = episodeSyncInfo.playedUpTo
             convertedData.isArchived = episodeSyncInfo.isArchived
             convertedData.starred = episodeSyncInfo.starred
-            
+
             allConvertedEpisodes.append(convertedData)
         }
-        
+
         return allConvertedEpisodes
     }
 }

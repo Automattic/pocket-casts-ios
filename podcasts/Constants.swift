@@ -24,7 +24,7 @@ struct Constants {
         static let dimmingViewTapped = NSNotification.Name(rawValue: "SJDimViewTapped")
         static let downloadProgress = NSNotification.Name(rawValue: "SJDwnProg")
         static let podcastImageReCacheRequired = NSNotification.Name(rawValue: "PCPodcastImageReCacheRequired")
-        
+
         static let skipTimesChanged = NSNotification.Name(rawValue: "SJSkipTimesChanged")
         static let subscribeRequestedFromCell = NSNotification.Name(rawValue: "SJSubscribeRequestFromCell")
         static let chartRegionChanged = NSNotification.Name(rawValue: "SJChartRegionChanged")
@@ -47,7 +47,7 @@ struct Constants {
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
         static let unhideNavBarRequested = NSNotification.Name(rawValue: "SJUnhideNavBar")
         static let videoPlaybackEngineSwitched = NSNotification.Name(rawValue: "SJVideoPlaybackEngineSwitched")
-        
+
         // episode notifications
         static let episodePlayStatusChanged = NSNotification.Name(rawValue: "SJEpPlayStatusChanged")
         static let episodeArchiveStatusChanged = NSNotification.Name(rawValue: "SJEpArchiveStatusChanged")
@@ -55,48 +55,48 @@ struct Constants {
         static let episodeStarredChanged = NSNotification.Name(rawValue: "SJEpisodeStarredChanged")
         static let episodeDownloadStatusChanged = NSNotification.Name(rawValue: "SJEpisodeDownloadChanged")
         static let manyEpisodesChanged = NSNotification.Name(rawValue: "SJManyEpisodesChanged")
-        
+
         // podcast notifications
         static let podcastUpdated = NSNotification.Name(rawValue: "SJPodcastUpdated")
         static let podcastAdded = NSNotification.Name(rawValue: "SJPodcastAdded")
         static let podcastDeleted = NSNotification.Name(rawValue: "SJPodDeleted")
-        
+
         // user episode notifications
         static let userEpisodeDeleted = NSNotification.Name(rawValue: "SJUserEpisodeDeleted")
         static let userEpisodeUpdated = NSNotification.Name(rawValue: "SJUserEpisodeUpdated")
-        
+
         // text editing
         static let textEditingDidStart = NSNotification.Name(rawValue: "SJTextEditingStarted")
         static let textEditingDidEnd = NSNotification.Name(rawValue: "SJTextEditingEnded")
-        
+
         // shelf icons
         static let playerActionsUpdated = NSNotification.Name(rawValue: "SJPlayerActionsUpdated")
-        
+
         // tabs
         static let tappedOnSelectedTab = NSNotification.Name(rawValue: "SJTappedOnSelectedTab")
         static let searchRequested = NSNotification.Name(rawValue: "SJTriggerSearch")
-        
+
         // modal popups
         static let openingNonOverlayableWindow = NSNotification.Name(rawValue: "SJPresentingNonOverlayableWindow")
         static let closedNonOverlayableWindow = NSNotification.Name(rawValue: "SJClosedNonOverlayableWindow")
-        
+
         static let opmlImportCompleted = NSNotification.Name(rawValue: "SJOpmlImportCompleted")
-        
+
         // watch
         static let watchAutoDownloadSettingsChanged = NSNotification.Name(rawValue: "SJWatchAutoDownloadSettingsChanged")
-        
+
         // folders
         static let folderChanged = NSNotification.Name(rawValue: "SJFolderChanged")
         static let folderDeleted = NSNotification.Name(rawValue: "SJFolderDeleted")
     }
-    
+
     enum UserDefaults {
         static let globalRemoveSilence = "GlobalRemSilenceSetting"
         static let globalVolumeBoost = "GlobalVolBoostSetting"
         static let globalPlaybackSpeed = "SJGlobalSpeedSetting"
         static let episodeFinishedAction = "SJPodcastFinishedAction"
         static let appId = "SJUniqueAppId"
-        
+
         static let keepScreenOnWhilePlaying = "SJKeepScreenOnWhenPlaying"
         static let openPlayerAutomatically = "SJOpenPlayerAutomatically"
         static let intelligentPlaybackResumption = "SJIntelligentPlaybackResumption"
@@ -106,21 +106,21 @@ struct Constants {
         static let pushEnabled = "PushEnabled"
         static let globalEpisodesToKeep = "SJPodcastsToKeep"
         static let openLinksInExternalBrowser = "SJOpenLinksInExternalBrowser"
-        
+
         static let appBadgeFilterUuid = "SJEppBadgeFilterId"
         static let lastAppCloseDate = "SJLastAppCloseDate"
         static let lastPlayEvent = "SJLastPlayEvent"
         static let cleanupUnplayed = "CleanupUnplayed"
         static let cleanupInProgress = "CleanupInProgress"
         static let cleanupPlayed = "CleanupPlayed"
-        
+
         static let upNextLastModified = "SJUpNextLastModified"
         static let cleanupStarred = "CleanupStarred"
         static let lastFilterShown = "SJLastFilter"
         static let lastTabOpened = "SJLastTabOpened"
         static let lastImageRefreshTime = "SJLastImageRefreshDate"
         static let promotionFinishedAcknowledged = "SJPromotionFinishedAcknowledged"
-        
+
         static let loginDetailsUpdated = "SJLoginDetailsUpdated"
         static let watchAutoDownloadUpNextEnabled = "SJWatchAutoDownloadUpNextEnabled"
         static let watchAutoDownloadUpNextCount = "SJWatchAutoDownloadCountUpNext"
@@ -131,9 +131,9 @@ struct Constants {
         static let supportName = "PCSupportRequestName"
         static let supportEmail = "PCSupportRequestEmail"
         static let supportRemoveDebugInfo = "PCSupportRemoveDebugInfo"
-        
+
         static let lastPickerSort = "PCLastPickerSort"
-        
+
         static let shouldFollowSystemThemeKey = "FollowSystemTheme"
         static let themeKey = "theme"
 
@@ -141,22 +141,22 @@ struct Constants {
 
         static let reviewRequestDates = "reviewRequestDates"
     }
-    
+
     enum Values {
         static let maxWidthForCompactView = 1000 as CGFloat
         static let sideBarWidthCompact = 88 as CGFloat
         static let sideBarWidthExpanded = 320 as CGFloat
-        
+
         static let miniPlayerOffset = 72 as CGFloat
         static let extraShowNotesVerticalSpacing: CGFloat = 60
         static let defaultFilterDownloadLimit = 10 as Int32
         static let siriArtworkSize = 680
-        
+
         static let minTimeBetweenPodcastImageUpdates = 4.weeks
-        
+
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
-        
+
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
         /// We show the free trial by default since if the app was just downloaded
@@ -164,15 +164,15 @@ struct Constants {
         /// However Apple considers this user to be eligible
         public static let freeTrialDefaultValue = true
     }
-    
+
     enum Limits {
         static let minTimeBetweenRemoteSkips: TimeInterval = 0.2
         static let maxDownloadConnectionsPerHost = 2
         static let upNextClearWithoutWarning = 2
-        
+
         static let minSleepTime = 5.minutes
         static let maxSleepTime = 5.hours
-        
+
         #if os(watchOS)
             static let watchListItems = 50
         #else
@@ -184,14 +184,14 @@ struct Constants {
             static let maxShelfActions = 4
         #endif
     }
-    
+
     enum Animation {
         static let defaultAnimationTime = 0.3 as TimeInterval
         static let bottomCardAnimationTime = 0.2 as TimeInterval
         static let playerDragLineFadeTime = 0.6 as TimeInterval
         static let multiSelectStatusDelayTime = 0.8 as TimeInterval
     }
-    
+
     #if !os(watchOS)
         enum SiriActions {
             static let resumeId = "Resume ID"
@@ -205,11 +205,11 @@ struct Constants {
             static let previousChapterId = "Previous Chapter ID"
         }
     #endif
-    
+
     enum Audio {
         static let defaultFrameSize = 1152
     }
-    
+
     #if !os(watchOS)
         enum IapProducts: String {
             case yearly = "com.pocketcasts.plus.yearly"
@@ -225,17 +225,17 @@ struct Constants {
             }
         }
     #endif
-    
+
     enum RemoteParams {
         static let periodicSaveTimeMs = "periodic_playback_save_ms"
         static let periodicSaveTimeMsDefault: Double = 60000
-        
+
         static let podcastSearchDebounceMs = "podcast_search_debounce_ms"
         static let podcastSearchDebounceMsDefault: Double = 800
-        
+
         static let episodeSearchDebounceMs = "episode_search_debounce_ms"
         static let episodeSearchDebounceMsDefault: Double = 800
-        
+
         static let customStorageLimitGB = "custom_storage_limit_gb"
         static let customStorageLimitGBDefault: Int = 10
     }

@@ -1,6 +1,7 @@
 BUNDLE=rbenv exec bundle
 LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
+SWIFTLINT=./Pods/SwiftLint/swiftlint
 
 help: ## Show this list of commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -10,10 +11,12 @@ swift_percentage: ## Swift and Obj-C percentage on the project
 
 generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
-	swiftformat --commas inline --stripunusedargs closure-only --elseposition next-line --trimwhitespace nonblank-lines ./podcasts/ThemeColor.swift ./podcasts/ThemeStyle.swift
 
-swiftformat: ## Run swiftformat
-	./Pods/SwiftFormat/CommandLineTool/swiftformat --commas inline --stripunusedargs closure-only --elseposition next-line --trimwhitespace nonblank-lines --swiftversion 5 podcasts PodcastsIntents Modules fastlane "Pocket Casts Watch App Extension" "WidgetExtension" PocketCastsTests --exclude podcasts/Strings+Generated.swift --exclude fastlane/SnapshotHelper.swift --exclude **/Protobuffer/*.swift
+lint:
+	$(SWIFTLINT) lint --quiet
+
+format:
+	$(SWIFTLINT) lint --autocorrect --quiet
 
 upload_dsyms: ## Upload dSYMs
 	./scripts/upload-symbols -gsp $(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist -p ios ./podcasts.app.dSYM.zip

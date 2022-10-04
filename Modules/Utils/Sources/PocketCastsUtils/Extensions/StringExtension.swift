@@ -5,30 +5,30 @@ public extension String {
     func trim() -> String {
         trimmingCharacters(in: .whitespacesAndNewlines)
     }
-    
+
     func startsWith(string: String?) -> Bool {
         guard let string = string else { return false }
-        
+
         guard let range = range(of: string, options: .caseInsensitive) else { return false }
-        
+
         return range.lowerBound == string.startIndex
     }
-    
+
     func toDouble() -> Double {
         (self as NSString).doubleValue
     }
-    
+
     func toInt() -> Int {
         Int(self) ?? 0
     }
-    
+
     func stringByRemovingEmoji() -> String {
         String(filter { !$0.isEmoji() })
     }
-    
+
     var digits: Int {
         let numberStr = components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-        
+
         return numberStr.toInt()
     }
 
@@ -52,13 +52,12 @@ public extension String {
 
         return true
     }
-    
+
     func widthOfString(usingFont font: UIFont) -> CGFloat {
         let fontAttributes = [NSAttributedString.Key.font: font]
 
-        // swiftformat:disable:next redundantSelf
         let attributedSize = self.size(withAttributes: fontAttributes)
-        
+
         return attributedSize.width
     }
 }

@@ -3,18 +3,18 @@ import SwiftUI
 
 struct ThemeSelectorView: View {
     @EnvironmentObject var theme: Theme
-    
+
     var title: String
     var onThemeSelected: (Theme.ThemeType) -> Void
     var dismissAction: () -> Void
     @State var selectedTheme: Theme.ThemeType
-    
+
     let columns = [
         GridItem(.flexible(), alignment: .top),
         GridItem(.flexible(), alignment: .top),
         GridItem(.flexible(), alignment: .top)
     ]
-    
+
     var body: some View {
         ZStack {
             ThemeColor.primaryUi01(for: theme.activeTheme).color
@@ -48,11 +48,11 @@ struct ThemeSelectorView: View {
 
 struct ThemePreviewView: View {
     @EnvironmentObject var theme: Theme
-    
+
     @State var themeType: Theme.ThemeType
     @State var isSelected: Bool
     @State var isLocked: Bool
-    
+
     var body: some View {
         VStack {
             ZStack(alignment: .bottomTrailing) {
@@ -64,8 +64,7 @@ struct ThemePreviewView: View {
                     )
                 if isSelected {
                     Image("tickBlueCircle")
-                }
-                else if isLocked {
+                } else if isLocked {
                     Image("plusGoldCircle")
                 }
             }
@@ -83,7 +82,7 @@ struct ThemePreviewView: View {
 struct ThemeSelectorView_Previews: PreviewProvider {
     static var previews: some View {
         ThemeSelectorView(title: L10n.appearanceThemeSelect, onThemeSelected: { _ in
-            
+
         }, dismissAction: {}, selectedTheme: .dark)
             .environmentObject(Theme.sharedTheme)
     }

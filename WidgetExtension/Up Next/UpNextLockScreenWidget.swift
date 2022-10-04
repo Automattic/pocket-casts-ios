@@ -10,8 +10,7 @@ struct UpNextLockScreenWidget: Widget {
             .configurationDisplayName(L10n.upNext)
             .description(L10n.widgetsUpNextDescription)
             .supportedFamilies([.accessoryCircular, .accessoryRectangular])
-        }
-        else {
+        } else {
             return EmptyWidgetConfiguration()
         }
     }
@@ -53,7 +52,7 @@ struct UpNextCircularWidgetView: View {
     var font: Font {
         numberOfEpisodeInUpNext > 99 ? .callout : .title
     }
-    
+
     var body: some View {
         ZStack {
             AccessoryWidgetBackground()
