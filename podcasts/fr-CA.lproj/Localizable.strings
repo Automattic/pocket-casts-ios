@@ -2396,10 +2396,10 @@
 "settings_badge_total_unplayed" = "Total non lus";
 
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
-"settings_collect_information" = "";
+"settings_collect_information" = "Collecter des informations";
 
 /* Additional information about how the information collected is and how it's used */
-"settings_collect_information_additional_information" = "";
+"settings_collect_information_additional_information" = "En nous autorisant à collecter des statistiques, vous nous permettez de créer une meilleure application. Nous comprendrions toutefois que vous préfériez ne pas partager ces informations.";
 
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Créer un raccourci Siri";
@@ -2636,13 +2636,13 @@
 "settings_plus_pricing_format" = "%1$@ par mois ou %2$@ par année";
 
 /* A common string used throughout the app. Refers to the Privacy settings menu */
-"settings_privacy" = "";
+"settings_privacy" = "Confidentialité";
 
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Placer dans la file d’attente";
 
 /* Label for an input that takes the user to the privacy policy */
-"settings_read_privacy_policy" = "";
+"settings_read_privacy_policy" = "Lire notre politique de confidentialité";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Sélectionner le filtre";

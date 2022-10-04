@@ -204,6 +204,10 @@ class PCRefreshControl: UIView {
 
     // MARK: - Scroll Events
 
+    /// Track whether we've triggered the haptic.
+    /// Defaults to true to prevent the haptic from being fired when the refresh control is initially created
+    private var didTriggerHaptic = true
+
     func didPullDown(_ amount: CGFloat) {
         if refreshing {
             return
@@ -212,8 +216,16 @@ class PCRefreshControl: UIView {
         let adjustedAmount = min(pullDownAmountForRefresh, amount)
         if adjustedAmount < pullDownAmountForRefresh {
             refreshLabel.text = L10n.refreshControlPullToRefresh
+            didTriggerHaptic = false
         } else {
             refreshLabel.text = L10n.refreshControlReleaseToRefresh
+
+            // Only fire the haptic once per "release" state
+            if !didTriggerHaptic {
+                didTriggerHaptic = true
+
+                HapticsHelper.triggerPullToRefreshHaptic()
+            }
         }
 
         innerRotationAngle = (amount * 4).degreesToRadians
