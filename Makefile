@@ -13,7 +13,7 @@ generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
 
 lint:
-	$(SWIFTLINT) lint --quiet
+	$(SWIFTLINT) lint
 
 format:
 	$(SWIFTLINT) lint --autocorrect --quiet
