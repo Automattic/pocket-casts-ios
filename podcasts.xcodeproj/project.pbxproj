@@ -6774,7 +6774,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Pods/SwiftLint/swiftlint lint # does it make a difference if called directly?\nexit 1 # force failure for testing\n";
+			shellScript = "make lint\nexit 1 # force failure for testing\n";
 			showEnvVarsInLog = 0;
 		};
 		462EE0C527025346003D67DC /* GenerateCredentials */ = {
