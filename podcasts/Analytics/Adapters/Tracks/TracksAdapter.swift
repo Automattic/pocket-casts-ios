@@ -1,5 +1,6 @@
 import AutomatticTracksEvents
 import AutomatticTracksModel
+import AutomatticRemoteLogging
 import Foundation
 import os
 import PocketCastsServer
@@ -34,6 +35,9 @@ class TracksAdapter: AnalyticsAdapter {
         return uuid
     }
 
+    // Crash Logging
+    private let crashLogging: CrashLogging?
+
     deinit {
         notificationCenter.removeObserver(self)
     }
@@ -44,7 +48,7 @@ class TracksAdapter: AnalyticsAdapter {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
-
+        self.crashLogging = try? CrashLogging(dataProvider: CrashLoggingDataProvider()).start()
         let context = TracksContextManager()
         tracksService = TracksService(contextManager: context)
         tracksService.eventNamePrefix = TracksConfig.prefix
