@@ -1,6 +1,2 @@
-parent_config: https://raw.githubusercontent.com/Automattic/swiftlint-config/37b80c60da84780a5780749e6af72bcde4fd1705/.swiftlint.yml
+parent_config: https://raw.githubusercontent.com/Automattic/swiftlint-config/16560cc1db19447a7cd9ddf268b5e8290f153a6c/.swiftlint.yml
 remote_timeout: 10.0
-
-excluded:
-  # Automattic's CI caching setup may generate this in the project folder
-  - Users/builder/Library/Caches/CocoaPods/Pods
