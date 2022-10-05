@@ -35,5 +35,4 @@ echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
 echo "--- Build & Test"
-# bundle exec fastlane test
-make lint
+bundle exec fastlane test
