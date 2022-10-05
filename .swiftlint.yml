@@ -6,4 +6,5 @@ disabled_rules:
   # the build because of them. They ought to be addressed ASAP.
   - inverse_text_alignment
   - natural_content_alignment
-  - natural_text_alignment
+  # Disabled to test Danger behavior
+  # - natural_text_alignment
