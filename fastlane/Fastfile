@@ -123,7 +123,8 @@ platform :ios do
 
     run_tests(
       scheme: 'pocketcasts',
-      cloned_source_packages_path: SPM_CACHE_FOLDER
+      cloned_source_packages_path: SPM_CACHE_FOLDER,
+      xcodebuild_formatter: '' # see if raw logs tell us more about the SwiftLint issues
     )
 
     save_ci_spm_cache
