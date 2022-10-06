@@ -698,7 +698,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 guard let listEpisode = object as? ListEpisode else { continue }
                 if listEpisode.episode.archived || (playedOnly && !listEpisode.episode.played()) { continue }
 
-                EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false)
+                EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false, userInitiated: false)
             }
 
             DispatchQueue.main.async { [weak self] in
