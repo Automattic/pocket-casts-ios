@@ -16,7 +16,7 @@ extension AppDelegate {
 
             Settings.setShouldDeleteWhenPlayed(true)
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
-            Settings.setMobileDataAllowed(true, userInitiated: false)
+            Settings.setMobileDataAllowed(true)
             setWhatsNewAcknowledgeToLatest()
         }
 
@@ -24,7 +24,7 @@ extension AppDelegate {
             let query = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE autoDownloadSetting == 1 AND subscribed == 1"
             let podcastsWithAutoDownloadOn = dataManager.count(query: query, values: nil)
             let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0
-            Settings.setAutoDownloadEnabled(autoDownloadEnabled, userInitiated: false)
+            Settings.setAutoDownloadEnabled(autoDownloadEnabled)
         }
 
         performUpdateIfRequired(updateKey: "v6_5Run") {
@@ -39,13 +39,13 @@ extension AppDelegate {
         }
 
         performUpdateIfRequired(updateKey: "v7bRun") {
-            Settings.setAutoDownloadMobileDataAllowed(false, userInitiated: false)
+            Settings.setAutoDownloadMobileDataAllowed(false)
         }
 
         performUpdateIfRequired(updateKey: "v7cRun") {
-            Settings.setAutoArchivePlayedAfter(0, userInitiated: false)
-            Settings.setAutoArchiveInactiveAfter(-1, userInitiated: false)
-            Settings.setArchiveStarredEpisodes(false, userInitiated: false)
+            Settings.setAutoArchivePlayedAfter(0)
+            Settings.setAutoArchiveInactiveAfter(-1)
+            Settings.setArchiveStarredEpisodes(false)
         }
 
         performUpdateIfRequired(updateKey: "v7_3Run") {
@@ -66,7 +66,7 @@ extension AppDelegate {
             }
         }
         performUpdateIfRequired(updateKey: "v7_12Run") {
-            Settings.setMultiSelectGestureEnabled(true, userInitiated: false)
+            Settings.setMultiSelectGestureEnabled(true)
         }
         performUpdateIfRequired(updateKey: "v7_15Run") {
             defaults.setValue(true, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
@@ -78,7 +78,7 @@ extension AppDelegate {
             // we didn't previously need a default value for this key, but due to changes in this release we do, otherwise it will default to the first item in the ThemeType enum
             let preferredDarkTheme = Theme.preferredDarkTheme()
             if preferredDarkTheme.rawValue == 0 {
-                Theme.setPreferredDarkTheme(.dark, systemIsDark: false, userInitiated: false)
+                Theme.setPreferredDarkTheme(.dark, systemIsDark: false)
             }
         }
         performUpdateIfRequired(updateKey: "FoldersInitialRun") {

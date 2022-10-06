@@ -159,7 +159,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             }
         } else if row == .darkTheme {
             presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { [weak self] theme in
-                Theme.setPreferredDarkTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+                Theme.setPreferredDarkTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark, userInitiated: true)
             }
         }
     }

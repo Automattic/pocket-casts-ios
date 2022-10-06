@@ -78,7 +78,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
     }
 
-    class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = true) {
+    class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
 
         guard userInitiated else { return }
@@ -92,7 +92,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
     }
 
-    class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = true) {
+    class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
 
         guard userInitiated else { return }
@@ -106,7 +106,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
-    class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = true) {
+    class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.autoDownloadEnabledKey)
 
         guard userInitiated else { return }
@@ -265,7 +265,7 @@ class Settings: NSObject {
         UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
     }
 
-    class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = true) {
+    class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
 
         guard userInitiated else { return }
@@ -279,7 +279,7 @@ class Settings: NSObject {
         UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
     }
 
-    class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = true) {
+    class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
 
         guard userInitiated else { return }
@@ -293,7 +293,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
     }
 
-    class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = true) {
+    class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
 
         guard userInitiated else { return }
@@ -584,7 +584,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: multiSelectGestureKey)
     }
 
-    class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = true) {
+    class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
 
         guard userInitiated else { return }

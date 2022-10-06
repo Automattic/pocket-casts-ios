@@ -168,7 +168,7 @@ class Theme: ObservableObject {
         return themeType
     }
 
-    class func setPreferredDarkTheme(_ preferredType: ThemeType, systemIsDark: Bool, userInitiated: Bool = true) {
+    class func setPreferredDarkTheme(_ preferredType: ThemeType, systemIsDark: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredDarkThemeKey)
 
         // change the active theme if it needs to change
