@@ -1,7 +1,7 @@
 import Foundation
 
 protocol AnalyticsSourceProvider {
-    /// Used for analytics purpose when playing/pausing
+    /// Used to define the source view for the various analytics actions
     var analyticsSource: AnalyticsSource { get }
 }
 
