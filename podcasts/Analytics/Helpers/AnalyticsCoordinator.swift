@@ -20,15 +20,17 @@ class AnalyticsCoordinator {
         }
 
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else {
-                    return
+            // Only dispatch async on the main thread if needed
+            guard Thread.isMainThread else {
+                DispatchQueue.main.async {
+                    self.track(event, properties: properties)
                 }
-
-                let defaultProperties: [String: Any] = ["source": self.currentPlaybackSource]
-                let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
-                Analytics.track(event, properties: mergedProperties)
+                return
             }
+
+            let defaultProperties: [String: Any] = ["source": currentPlaybackSource]
+            let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
+            Analytics.track(event, properties: mergedProperties)
         }
 
         func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
