@@ -55,6 +55,8 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func playPauseTapped(withEpisode episode: BaseEpisode) {
+        AnalyticsPlaybackHelper.shared.currentSource = "watch"
+
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
@@ -63,6 +65,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func skip(forward: Bool) {
+        AnalyticsPlaybackHelper.shared.currentSource = "watch"
         if forward {
             PlaybackManager.shared.skipForward()
         } else {
@@ -71,6 +74,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func changeChapter(next: Bool) {
+        AnalyticsPlaybackHelper.shared.currentSource = "watch"
         if next {
             PlaybackManager.shared.skipToNextChapter()
         } else {
