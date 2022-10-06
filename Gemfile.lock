@@ -191,6 +191,8 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-sentry (1.14.0)
+      os (~> 1.1, >= 1.1.4)
     fastlane-plugin-wpmreleasetoolkit (5.4.0)
       activesupport (~> 5)
       bigdecimal (~> 1.4)
@@ -388,10 +390,11 @@ DEPENDENCIES
   danger-rubocop (~> 0.10)
   danger-swiftlint
   fastlane (~> 2.210.0)
+  fastlane-plugin-sentry
   fastlane-plugin-wpmreleasetoolkit (~> 5.4)
   rake (>= 12.0, < 14.0)
   rubocop (~> 1.30)
   watchbuild
 
 BUNDLED WITH
-   2.3.20
+   2.3.22

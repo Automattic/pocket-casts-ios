@@ -10,6 +10,7 @@ gem 'danger-rubocop', '~> 0.10'
 gem 'danger-swiftlint'
 gem 'fastlane', '~> 2.210.0'
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 5.4'
+gem 'fastlane-plugin-sentry'
 gem 'rubocop', '~> 1.30'
 gem 'watchbuild'
 
