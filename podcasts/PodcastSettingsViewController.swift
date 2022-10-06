@@ -122,7 +122,7 @@ class PodcastSettingsViewController: PCViewController {
     }
 }
 
-extension PodcastSettingsViewController: AnalyticsSource {
+extension PodcastSettingsViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "podcast_settings"
     }

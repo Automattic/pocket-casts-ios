@@ -1,6 +1,6 @@
 import Foundation
 
-protocol AnalyticsSource {
+protocol AnalyticsSourceProvider {
     /// Used for analytics purpose when playing/pausing
     var analyticsSource: String { get }
 }
@@ -16,7 +16,7 @@ class AnalyticsCoordinator {
                 return currentSource
             }
 
-            return (getTopViewController() as? AnalyticsSource)?.analyticsSource ?? "unknown"
+            return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? "unknown"
         }
 
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {

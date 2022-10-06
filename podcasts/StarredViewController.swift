@@ -183,7 +183,7 @@ class StarredViewController: PCViewController {
 
 // MARK: - Analytics
 
-extension StarredViewController: AnalyticsSource {
+extension StarredViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "starred"
     }

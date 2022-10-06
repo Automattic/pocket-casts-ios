@@ -583,7 +583,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
 // MARK: - Analytics
 
-extension PlaylistViewController: AnalyticsSource {
+extension PlaylistViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "filters"
     }

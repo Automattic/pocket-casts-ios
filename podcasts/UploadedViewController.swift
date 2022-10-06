@@ -366,7 +366,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
 // MARK: - Analytics
 
-extension UploadedViewController: AnalyticsSource {
+extension UploadedViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "files"
     }

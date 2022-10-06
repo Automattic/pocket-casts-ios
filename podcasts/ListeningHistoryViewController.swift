@@ -180,7 +180,7 @@ class ListeningHistoryViewController: PCViewController {
 
 // MARK: - Analytics
 
-extension ListeningHistoryViewController: AnalyticsSource {
+extension ListeningHistoryViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "listening_history"
     }

@@ -304,7 +304,7 @@ class DownloadsViewController: PCViewController {
 
 // MARK: - Analytics
 
-extension DownloadsViewController: AnalyticsSource {
+extension DownloadsViewController: AnalyticsSourceProvider {
     var analyticsSource: String {
         "downloads"
     }
