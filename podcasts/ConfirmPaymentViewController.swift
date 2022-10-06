@@ -89,8 +89,8 @@ class ConfirmPaymentViewController: UIViewController {
         buyButton.setNeedsLayout()
         NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseCompleted), name: ServerNotifications.iapPurchaseCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseDeferred), name: ServerNotifications.iapPurchaseDeferred, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseFailed), name: ServerNotifications.iapPurchaseFailed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseCancelled), name: ServerNotifications.iapPurchaseCancelled, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseFailedFromNotification(notification:)), name: ServerNotifications.iapPurchaseFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseCancelled(notification:)), name: ServerNotifications.iapPurchaseCancelled, object: nil)
 
         Analytics.track(.confirmPaymentShown, properties: ["product": newSubscription.iap_identifier])
     }
@@ -105,7 +105,14 @@ class ConfirmPaymentViewController: UIViewController {
         cancelledLabel.isHidden = true
 
         if !IapHelper.shared.buyProduct(identifier: newSubscription.iap_identifier) {
-            iapPurchaseFailed()
+            // Make a fake error for us to track the reason
+            let userInfo = [
+                NSLocalizedDescriptionKey: "Failed to initiate purchase.",
+                NSLocalizedFailureReasonErrorKey: "Failed because the product isn't available, or the user isn't signed in"
+            ]
+
+            let error = NSError(domain: "com.pocketcasts.iap", code: 1, userInfo: userInfo)
+            iapPurchaseFailed(error: error)
         }
 
         Analytics.track(.confirmPaymentConfirmButtonTapped)
@@ -161,6 +168,9 @@ class ConfirmPaymentViewController: UIViewController {
 
         Settings.setLoginDetailsUpdated()
         showAccountUpdated()
+
+        AnalyticsHelper.plusPlanPurchased()
+        IapHelper.shared.purchaseWasSuccessful(newSubscription.iap_identifier)
     }
 
     @objc func iapPurchaseDeferred() {
@@ -171,7 +181,15 @@ class ConfirmPaymentViewController: UIViewController {
         navigationController?.pushViewController(upgradedVC, animated: true)
     }
 
-    @objc func iapPurchaseFailed() {
+    @objc func iapPurchaseFailedFromNotification(notification: Notification) {
+        guard let error = notification.userInfo?["error"] as? NSError else {
+            return
+        }
+
+        iapPurchaseFailed(error: error)
+    }
+
+    @objc func iapPurchaseFailed(error: NSError) {
         activityIndicator.stopAnimating()
         buyButton.titleLabel?.isHidden = false
         buyButton.setTitle(L10n.tryAgain, for: .normal)
@@ -184,15 +202,23 @@ class ConfirmPaymentViewController: UIViewController {
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         closeButton.tintColor = ThemeColor.primaryIcon01()
         navigationItem.leftBarButtonItem = closeButton
+
+        IapHelper.shared.purchaseFailed(newSubscription.iap_identifier, error: error)
     }
 
-    @objc func iapPurchaseCancelled() {
+    @objc func iapPurchaseCancelled(notification: Notification) {
         activityIndicator.stopAnimating()
         buyButton.titleLabel?.isHidden = false
         buyButton.isEnabled = true
         cancelledLabel.isHidden = false
 
         updateBuyButton()
+
+        guard let error = notification.userInfo?["error"] as? NSError else {
+            return
+        }
+
+        IapHelper.shared.purchaseWasCancelled(newSubscription.iap_identifier, error: error)
     }
 
     // MARK: - Orientation
