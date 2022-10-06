@@ -175,8 +175,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var lastBoundsAdjustedFor = CGRect.zero
 
-    var analyticsSource: String {
-        "player"
+    var analyticsSource: AnalyticsSource {
+        .player
     }
 
     override func viewDidLayoutSubviews() {
@@ -288,7 +288,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = "player_skip_forward_long_press"
+            AnalyticsEpisodeHelper.shared.currentSource = .playerSkipForwardLongPress
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)

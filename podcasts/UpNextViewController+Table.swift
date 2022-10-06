@@ -144,7 +144,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             track(.upNextQueueEpisodeTapped, properties: ["will_play": playOnTap])
 
             if playOnTap {
-                AnalyticsPlaybackHelper.shared.currentSource = "up_next"
+                AnalyticsPlaybackHelper.shared.currentSource = .upNext
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             } else {
                 showEpisodeDetailViewController(for: episode)
@@ -296,7 +296,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             if isMultiSelectEnabled {
                 showLongPressSelectOptions(indexPath: indexPath)
             } else if !Settings.playUpNextOnTap() {
-                AnalyticsPlaybackHelper.shared.currentSource = "up_next"
+                AnalyticsPlaybackHelper.shared.currentSource = .upNext
                 PlaybackActionHelper.play(episode: episode)
                 track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])
             } else {

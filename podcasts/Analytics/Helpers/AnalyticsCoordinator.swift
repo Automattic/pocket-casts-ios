@@ -2,21 +2,62 @@ import Foundation
 
 protocol AnalyticsSourceProvider {
     /// Used for analytics purpose when playing/pausing
-    var analyticsSource: String { get }
+    var analyticsSource: AnalyticsSource { get }
+}
+
+enum AnalyticsSource: String, AnalyticsDescribable {
+    case appIconMenu = "app_icon_menu"
+    case carPlay = "carplay"
+    case chooseFolder = "choose_folder"
+    case chromecast
+    case discover
+    case discoverCategory = "discover_category"
+    case discoverEpisodeList = "discover_episode_list"
+    case discoverRankedList = "discover_ranked_list"
+    case downloads
+    case downloadStatus = "download_status"
+    case episodeDetail = "episode_detail"
+    case episodeStatus = "episode_status"
+    case files
+    case filters
+    case incomingShareList = "incoming_share_list"
+    case listeningHistory = "listening_history"
+    case mediaType = "media_type"
+    case miniplayer
+    case noFiles = "no_files"
+    case noFilters = "no_filters"
+    case nowPlayingWidget = "now_playing_widget"
+    case player
+    case playerPlaybackEffects = "player_playback_effects"
+    case playerSkipForwardLongPress = "player_skip_forward_long_press"
+    case podcastScreen = "podcast_screen"
+    case podcastSettings = "podcast_settings"
+    case podcastsList = "podcasts_list"
+    case profile
+    case releaseDate = "release_date"
+    case siri
+    case starred
+    case sync
+    case upNext = "up_next"
+    case userEpisode = "user_episode"
+    case videoPlayerSkipForwardLongPress = "video_player_skip_forward_long_press"
+    case unknown
+
+    var analyticsDescription: String { rawValue }
 }
 
 class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
-    var currentSource: String?
+    var currentSource: AnalyticsSource?
 
     #if !os(watchOS)
-        var currentAnalyticsSource: String {
+        var currentAnalyticsSource: AnalyticsSource {
             if let currentSource = currentSource {
                 self.currentSource = nil
                 return currentSource
             }
 
-            return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? "unknown"
+            return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? .unknown
         }
 
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {

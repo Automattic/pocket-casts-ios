@@ -38,7 +38,7 @@ extension StarredViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
+    var multiSelectViewSource: AnalyticsSource {
         analyticsSource
     }
 

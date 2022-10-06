@@ -149,7 +149,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         if let navController = navigationController {
             tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar, source: analyticsSource)
-            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_filters")
+            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFilters)
         }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(navTitleTapped(shortPress:)))
@@ -584,7 +584,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 // MARK: - Analytics
 
 extension PlaylistViewController: AnalyticsSourceProvider {
-    var analyticsSource: String {
-        "filters"
+    var analyticsSource: AnalyticsSource {
+        .filters
     }
 }

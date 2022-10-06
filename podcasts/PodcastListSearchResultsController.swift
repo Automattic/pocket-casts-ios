@@ -138,7 +138,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 }
 
 extension PodcastListSearchResultsController: AnalyticsSourceProvider {
-    var analyticsSource: String {
-        "podcasts_list"
+    var analyticsSource: AnalyticsSource {
+        .podcastsList
     }
 }

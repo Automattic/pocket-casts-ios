@@ -38,7 +38,7 @@ extension ListeningHistoryViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
+    var multiSelectViewSource: AnalyticsSource {
         analyticsSource
     }
 

@@ -398,5 +398,5 @@ class UserEpisodeDetailViewController: UIViewController {
 }
 
 extension UserEpisodeDetailViewController: AnalyticsSourceProvider {
-    var analyticsSource: String { "user_episode" }
+    var analyticsSource: AnalyticsSource { .userEpisode }
 }

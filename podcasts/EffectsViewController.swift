@@ -148,8 +148,8 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var analyticsSource: String {
-        "player_playback_effects"
+    private var analyticsSource: AnalyticsSource {
+        .playerPlaybackEffects
     }
 
     private var didChangePlaybackSpeed: Bool = false

@@ -10,8 +10,8 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
     private var filterPartiallyPlayed: Bool!
     private var filterFinished: Bool!
 
-    override var analyticsSource: String {
-        "episode_status"
+    override var analyticsSource: AnalyticsSource {
+        .episodeStatus
     }
 
     override func viewDidLoad() {

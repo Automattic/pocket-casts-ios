@@ -105,8 +105,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         title = L10n.files
 
         if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
-            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: "files")
-            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_files")
+            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: .files)
+            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
         }
 
         noEpisodesScrollView.alwaysBounceVertical = true
@@ -367,7 +367,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 // MARK: - Analytics
 
 extension UploadedViewController: AnalyticsSourceProvider {
-    var analyticsSource: String {
-        "files"
+    var analyticsSource: AnalyticsSource {
+        .files
     }
 }

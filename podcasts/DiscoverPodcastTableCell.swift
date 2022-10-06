@@ -55,7 +55,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
         super.setSelected(selected, animated: animated)
     }
 
-    var subscribeSource: String?
+    var subscribeSource: AnalyticsSource?
 
     func populateFrom(_ discoverPodcast: DiscoverPodcast, number: Int) {
         self.discoverPodcast = discoverPodcast

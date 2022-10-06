@@ -7,8 +7,8 @@ import PocketCastsUtils
 class SiriShortcutsManager: CustomObserver {
     static let shared = SiriShortcutsManager()
 
-    var analyticsSource: String {
-        "siri"
+    var analyticsSource: AnalyticsSource {
+        .siri
     }
 
     func setup() {

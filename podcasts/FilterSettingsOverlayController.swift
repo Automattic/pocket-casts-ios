@@ -2,8 +2,8 @@ import PocketCastsDataModel
 import UIKit
 
 class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSourceProvider {
-    var analyticsSource: String {
-        "unknown"
+    var analyticsSource: AnalyticsSource {
+        .unknown
     }
 
     var filterToEdit: EpisodeFilter!

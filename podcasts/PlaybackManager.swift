@@ -334,7 +334,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
-        analyticsPlaybackHelper.currentSource = "sync"
+        analyticsPlaybackHelper.currentSource = .sync
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
@@ -1854,5 +1854,5 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Analytics
 
-    private let commandCenterSource = "now_playing_widget"
+    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 }
