@@ -148,7 +148,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var playbackSource: String {
+    private var analyticsSource: String {
         "player_playback_effects"
     }
 
@@ -205,7 +205,7 @@ class EffectsViewController: SimpleNotificationsViewController {
             return
         }
 
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
 
         let speed = PlaybackManager.shared.effects().playbackSpeed
         AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: speed)
@@ -231,7 +231,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         PlaybackManager.shared.changeEffects(effects)
 
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
     }
 
@@ -242,7 +242,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         PlaybackManager.shared.changeEffects(effects)
 
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
     }
 
@@ -252,7 +252,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         PlaybackManager.shared.changeEffects(effects)
 
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
     }
 

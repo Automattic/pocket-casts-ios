@@ -39,7 +39,7 @@ extension DownloadsViewController: MultiSelectActionDelegate {
     }
 
     var multiSelectViewSource: String {
-        playbackSource
+        analyticsSource
     }
 
     // MARK: - Selected Episode

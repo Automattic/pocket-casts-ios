@@ -42,7 +42,7 @@ extension PodcastViewController {
     }
 
     var multiSelectViewSource: String {
-        playbackSource
+        analyticsSource
     }
 
     // MARK: - Selected Episode

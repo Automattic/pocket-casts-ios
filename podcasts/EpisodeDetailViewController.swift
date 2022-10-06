@@ -425,7 +425,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         let shareTime = sharePosition ? episode.playedUpTo : 0
 
         let type = shareTime == 0 ? "episode" : "current_position"
-        Analytics.track(.podcastShared, properties: ["type": type, "source": playbackSource])
+        Analytics.track(.podcastShared, properties: ["type": type, "source": analyticsSource])
 
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
@@ -436,7 +436,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         docController?.name = episode.displayableTitle()
         docController?.delegate = self
 
-        Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": playbackSource])
+        Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": analyticsSource])
 
         let canOpen = docController?.presentOpenInMenu(from: sourceRect, in: view, animated: true) ?? false
         if !canOpen {
@@ -476,7 +476,7 @@ extension EpisodeDetailViewController: UIAdaptivePresentationControllerDelegate 
 // MARK: - Analytics
 
 extension EpisodeDetailViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "episode_detail"
     }
 }

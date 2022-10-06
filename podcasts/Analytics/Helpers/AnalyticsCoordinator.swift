@@ -2,7 +2,7 @@ import Foundation
 
 protocol AnalyticsSource {
     /// Used for analytics purpose when playing/pausing
-    var playbackSource: String { get }
+    var analyticsSource: String { get }
 }
 
 class AnalyticsCoordinator {
@@ -16,7 +16,7 @@ class AnalyticsCoordinator {
                 return currentSource
             }
 
-            return (getTopViewController() as? AnalyticsSource)?.playbackSource ?? "unknown"
+            return (getTopViewController() as? AnalyticsSource)?.analyticsSource ?? "unknown"
         }
 
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {

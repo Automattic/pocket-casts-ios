@@ -53,7 +53,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IncomingShareListViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
-        cell.subscribeSource = playbackSource
+        cell.subscribeSource = analyticsSource
 
         let podcast = podcasts[indexPath.row]
         cell.populateFrom(podcast, number: -1)
@@ -128,7 +128,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         }
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: { _ in
-            Analytics.track(.podcastSubscribed, properties: ["source": self.playbackSource, "uuid": uuid])
+            Analytics.track(.podcastSubscribed, properties: ["source": self.analyticsSource, "uuid": uuid])
             self.subscribeNext(loadingAlert: loadingAlert)
         })
     }
@@ -184,7 +184,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 }
 
 extension IncomingShareListViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "incoming_share_list"
     }
 }

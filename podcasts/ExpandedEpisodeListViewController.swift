@@ -116,7 +116,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
 }
 
 extension ExpandedEpisodeListViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "discover_episode_list"
     }
 }

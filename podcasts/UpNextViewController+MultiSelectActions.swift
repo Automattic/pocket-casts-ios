@@ -28,7 +28,7 @@ extension UpNextViewController: MultiSelectActionDelegate {
     }
 
     var multiSelectViewSource: String {
-        playbackSource
+        analyticsSource
     }
 
     // MARK: - Long Press Multi Select Option Picker

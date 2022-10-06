@@ -8,7 +8,7 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
 
     private var selectedRow: TableRow = .all
 
-    override var playbackSource: String {
+    override var analyticsSource: String {
         "download_status"
     }
 

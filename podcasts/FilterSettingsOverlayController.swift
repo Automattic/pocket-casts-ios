@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import UIKit
 
 class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "unknown"
     }
 
@@ -34,7 +34,7 @@ class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSourc
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated, properties: ["group": playbackSource, "source": "filters"])
+            Analytics.track(.filterUpdated, properties: ["group": analyticsSource, "source": "filters"])
         }
     }
 

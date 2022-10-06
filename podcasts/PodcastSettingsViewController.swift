@@ -112,7 +112,7 @@ class PodcastSettingsViewController: PCViewController {
     private func performUnsubscribe() {
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popToRootViewController(animated: true)
-        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
+        Analytics.track(.podcastUnsubscribed, properties: ["source": analyticsSource, "uuid": podcast.uuid])
     }
 
     @objc func podcastUpdated(_ notification: Notification) {
@@ -123,7 +123,7 @@ class PodcastSettingsViewController: PCViewController {
 }
 
 extension PodcastSettingsViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "podcast_settings"
     }
 }

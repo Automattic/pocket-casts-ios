@@ -184,7 +184,7 @@ class StarredViewController: PCViewController {
 // MARK: - Analytics
 
 extension StarredViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "starred"
     }
 }

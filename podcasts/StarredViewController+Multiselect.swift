@@ -39,7 +39,7 @@ extension StarredViewController: MultiSelectActionDelegate {
     }
 
     var multiSelectViewSource: String {
-        playbackSource
+        analyticsSource
     }
 
     // MARK: - Selected Episode

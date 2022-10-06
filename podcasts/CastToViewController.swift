@@ -175,7 +175,7 @@ class CastToViewController: PCViewController {
 }
 
 extension CastToViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "chromecast"
     }
 }

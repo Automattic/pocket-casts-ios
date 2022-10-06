@@ -181,7 +181,7 @@ class ListeningHistoryViewController: PCViewController {
 // MARK: - Analytics
 
 extension ListeningHistoryViewController: AnalyticsSource {
-    var playbackSource: String {
+    var analyticsSource: String {
         "listening_history"
     }
 }
