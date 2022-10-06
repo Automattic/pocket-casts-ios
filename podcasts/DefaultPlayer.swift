@@ -192,7 +192,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func routeDidChange(shouldPause: Bool) {
         if shouldPause {
-            PlaybackManager.shared.pause()
+            PlaybackManager.shared.pause(userInitiated: false)
         }
     }
 
