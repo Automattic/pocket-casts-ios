@@ -475,7 +475,7 @@ extension EpisodeDetailViewController: UIAdaptivePresentationControllerDelegate 
 
 // MARK: - Analytics
 
-extension EpisodeDetailViewController: PlaybackSource {
+extension EpisodeDetailViewController: AnalyticsSource {
     var playbackSource: String {
         "episode_detail"
     }

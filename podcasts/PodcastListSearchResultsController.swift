@@ -137,7 +137,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
     }
 }
 
-extension PodcastListSearchResultsController: PlaybackSource {
+extension PodcastListSearchResultsController: AnalyticsSource {
     var playbackSource: String {
         "podcasts_list"
     }

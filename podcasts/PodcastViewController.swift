@@ -872,7 +872,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
 // MARK: - Analytics
 
-extension PodcastViewController: PlaybackSource {
+extension PodcastViewController: AnalyticsSource {
     var playbackSource: String {
         "podcast_screen"
     }

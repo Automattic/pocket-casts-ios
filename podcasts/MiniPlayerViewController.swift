@@ -308,7 +308,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 }
 
-extension MiniPlayerViewController: PlaybackSource {
+extension MiniPlayerViewController: AnalyticsSource {
     var playbackSource: String {
         "miniplayer"
     }

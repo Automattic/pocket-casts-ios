@@ -183,7 +183,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     }
 }
 
-extension IncomingShareListViewController: PlaybackSource {
+extension IncomingShareListViewController: AnalyticsSource {
     var playbackSource: String {
         "incoming_share_list"
     }

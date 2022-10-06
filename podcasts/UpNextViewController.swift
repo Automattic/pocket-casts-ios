@@ -293,7 +293,7 @@ enum UpNextViewSource: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
-extension UpNextViewController: PlaybackSource {
+extension UpNextViewController: AnalyticsSource {
     var playbackSource: String {
         "up_next"
     }

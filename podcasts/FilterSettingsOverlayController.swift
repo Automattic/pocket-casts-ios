@@ -1,7 +1,7 @@
 import PocketCastsDataModel
 import UIKit
 
-class FilterSettingsOverlayController: LargeNavBarViewController, PlaybackSource {
+class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSource {
     var playbackSource: String {
         "unknown"
     }

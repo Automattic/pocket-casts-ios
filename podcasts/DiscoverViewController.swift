@@ -236,7 +236,7 @@ class DiscoverViewController: PCViewController {
 
 // MARK: - Analytics
 
-extension DiscoverViewController: PlaybackSource {
+extension DiscoverViewController: AnalyticsSource {
     var playbackSource: String {
         "discover"
     }

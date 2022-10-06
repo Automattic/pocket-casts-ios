@@ -1,6 +1,6 @@
 import Foundation
 
-protocol PlaybackSource {
+protocol AnalyticsSource {
     /// Used for analytics purpose when playing/pausing
     var playbackSource: String { get }
 }
@@ -10,13 +10,13 @@ class AnalyticsCoordinator {
     var currentSource: String?
 
     #if !os(watchOS)
-        var currentPlaybackSource: String {
+        var currentAnalyticsSource: String {
             if let currentSource = currentSource {
                 self.currentSource = nil
                 return currentSource
             }
 
-            return (getTopViewController() as? PlaybackSource)?.playbackSource ?? "unknown"
+            return (getTopViewController() as? AnalyticsSource)?.playbackSource ?? "unknown"
         }
 
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
@@ -25,7 +25,7 @@ class AnalyticsCoordinator {
                     return
                 }
 
-                let defaultProperties: [String: Any] = ["source": self.currentPlaybackSource]
+                let defaultProperties: [String: Any] = ["source": self.currentAnalyticsSource]
                 let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
                 Analytics.track(event, properties: mergedProperties)
             }

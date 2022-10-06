@@ -397,6 +397,6 @@ class UserEpisodeDetailViewController: UIViewController {
     }
 }
 
-extension UserEpisodeDetailViewController: PlaybackSource {
+extension UserEpisodeDetailViewController: AnalyticsSource {
     var playbackSource: String { "user_episode" }
 }
