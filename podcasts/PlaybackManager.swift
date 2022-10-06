@@ -808,7 +808,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
         AnalyticsPlaybackHelper.shared.currentSource = "playback_failed"
-        
+
         guard let episode = currentEpisode() else {
             endPlayback()
 
