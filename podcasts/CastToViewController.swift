@@ -91,6 +91,7 @@ class CastToViewController: PCViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
+        AnalyticsPlaybackHelper.shared.currentSource = "chromecast"
         PlaybackManager.shared.playPause()
     }
 

@@ -202,7 +202,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     // MARK: - Switch Settings
 
     @objc private func automaticDownloadToggled(_ slider: UISwitch) {
-        Settings.setAutoDownloadEnabled(slider.isOn)
+        Settings.setAutoDownloadEnabled(slider.isOn, userInitiated: true)
         settingsTable.reloadData()
     }
 
@@ -213,7 +213,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     }
 
     @objc private func useMobileDataToggled(_ slider: UISwitch) {
-        Settings.setAutoDownloadMobileDataAllowed(!slider.isOn)
+        Settings.setAutoDownloadMobileDataAllowed(!slider.isOn, userInitiated: true)
     }
 
     private func tableRows() -> [[TableRow]] {
