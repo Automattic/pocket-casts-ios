@@ -1,6 +1,7 @@
 7.25
 -----
 - Fixed a crash that could happen when playing an episode while the app is in the background (#345)
+- Fixed a crash where a sync account has started listening to a local file on one device and visits the up next queue on a different device. (#371)
 
 7.24
 -----
