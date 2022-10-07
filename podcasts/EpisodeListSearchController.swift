@@ -282,35 +282,35 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let noneAction = OptionAction(label: L10n.none, selected: podcast.episodeGrouping == PodcastGrouping.none.rawValue) { [weak self] in
             self?.setGroupingSetting(.none)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["grouping": PodcastGrouping.none])
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.none])
 
         }
         optionPicker.addAction(action: noneAction)
 
         let downloadedAction = OptionAction(label: L10n.statusDownloaded, selected: podcast.episodeGrouping == PodcastGrouping.downloaded.rawValue) { [weak self] in
             self?.setGroupingSetting(.downloaded)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["grouping": PodcastGrouping.downloaded])
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.downloaded])
 
         }
         optionPicker.addAction(action: downloadedAction)
 
         let unplayedAction = OptionAction(label: L10n.statusUnplayed, selected: podcast.episodeGrouping == PodcastGrouping.unplayed.rawValue) { [weak self] in
             self?.setGroupingSetting(.unplayed)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["grouping": PodcastGrouping.unplayed])
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.unplayed])
 
         }
         optionPicker.addAction(action: unplayedAction)
 
         let seasonAction = OptionAction(label: L10n.season, selected: podcast.episodeGrouping == PodcastGrouping.season.rawValue) { [weak self] in
             self?.setGroupingSetting(.season)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["grouping": PodcastGrouping.season])
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.season])
 
         }
         optionPicker.addAction(action: seasonAction)
 
         let starAction = OptionAction(label: L10n.statusStarred, selected: podcast.episodeGrouping == PodcastGrouping.starred.rawValue) { [weak self] in
             self?.setGroupingSetting(.starred)
-            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["grouping": PodcastGrouping.starred])
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.starred])
 
         }
         optionPicker.addAction(action: starAction)
