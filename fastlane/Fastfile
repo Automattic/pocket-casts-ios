@@ -936,17 +936,44 @@ inal copy, and try again.")
     # truth for what the cache key is. The alternative would be to call the
     # save and restore cache commands in the CI pipeline and then duplicate the
     # logic to get the key here.
-    sh(command: %(restore_cache "#{ci_spm_cache_key}")) if is_ci
+    return unless is_ci
+
+    # Need to cd into the project root otherwise Fastlane will run the command
+    # in its own project folder, `./fastlane`
+    Dir.chdir(PROJECT_ROOT_FOLDER) do
+      sh(command: %(restore_cache "#{ci_spm_cache_key}"))
+    end
   end
 
   def save_ci_spm_cache
-    sh(command: %(save_cache #{SPM_CACHE_FOLDER} "#{ci_spm_cache_key}")) if is_ci
+    return unless is_ci
+
+    # Need to cd into the project root otherwise Fastlane will run the command
+    # in its own project folder, ./fastlane
+    Dir.chdir(PROJECT_ROOT_FOLDER) do
+      # We need to make the SPM path relative, otherwise the tar will include
+      # nested folders starting from the machines `/Users`, which is not
+      # deterministic and would not be able to be referenced when needed.
+
+      require 'pathname'
+
+      project_root = Pathname.new(PROJECT_ROOT_FOLDER)
+      spm_cache = Pathname.new(SPM_CACHE_FOLDER)
+      spm_cache_relative_path = spm_cache.relative_path_from(project_root)
+
+      sh(command: %(save_cache #{spm_cache_relative_path} "#{ci_spm_cache_key}"))
+    end
   end
 
   def ci_spm_cache_key
     UI.user_error! 'This function should be called from the Buildkite CI only!' unless is_ci
 
-    hash = sh(command: 'hash_file "../podcasts.xcworkspace/xcshareddata/swiftpm/Package.resolved"').rstrip
+    # Use absolute path to insulate from the runtime location Fastlane might be
+    # executing the command
+    package_resolved_path = File.expand_path(
+      File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcworkspace', 'xcshareddata', 'swiftpm', 'Package.resolved')
+    )
+    hash = sh(command: "hash_file #{package_resolved_path}").rstrip
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 
