@@ -25,8 +25,7 @@ struct PlaybackTimeHelper {
             // Is the last interaction within the last 7 days?
             if lastSevenDays.contains(lastPlaybackInteractionDate) {
                 totalPlaytime += episode.playedUpTo
-            }
-            else {
+            } else {
                 break
             }
         }

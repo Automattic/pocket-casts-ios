@@ -3,7 +3,7 @@ import Foundation
 extension MiniPlayerViewController {
     func hideMiniPlayer(_ animated: Bool) {
         if !miniPlayerShowing() { return } // already hidden
-        
+
         if animated {
             view.superview?.layoutIfNeeded()
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: { () in
@@ -12,20 +12,19 @@ extension MiniPlayerViewController {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
                 self.view.isHidden = true
             })
-        }
-        else {
+        } else {
             moveToHiddenBottomPosition()
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
             view.isHidden = true
         }
     }
-    
+
     func showMiniPlayer() {
         if miniPlayerShowing() { return }
-        
+
         // only show if something is playing
         if PlaybackManager.shared.currentEpisode() == nil { return }
-        
+
         changeHeightTo(desiredHeight())
         moveToHiddenBottomPosition()
         if playerOpenState != .open { view.isHidden = false }
@@ -37,12 +36,12 @@ extension MiniPlayerViewController {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
         })
     }
-    
+
     func openFullScreenPlayer() {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
-        
+
         if playerOpenState == .open || playerOpenState == .animating { return }
-        
+
         playerOpenState = .animating
         aboutToDisplayFullScreenPlayer()
         view.superview?.layoutIfNeeded()
@@ -59,18 +58,18 @@ extension MiniPlayerViewController {
             AnalyticsHelper.nowPlayingOpened()
         }
     }
-    
+
     func closeFullScreenPlayer(completion: (() -> Void)? = nil) {
         if playerOpenState == .closed || playerOpenState == .animating {
             completion?()
-            
+
             return
         }
-        
+
         playerOpenState = .animating
         DispatchQueue.main.async { () in
             guard let parentView = self.view.superview else { return }
-            
+
             let isSomethingPlaying = PlaybackManager.shared.currentEpisode() != nil
             self.view.isHidden = !isSomethingPlaying
             let parentViewHeight = parentView.bounds.height
@@ -86,31 +85,31 @@ extension MiniPlayerViewController {
             })
         }
     }
-    
+
     func moveToHiddenTopPosition() {
         guard let parentView = view.superview, let tabBar = rootViewController()?.tabBar else { return }
-        
+
         view.transform = CGAffineTransform(translationX: 0, y: tabBar.bounds.height - parentView.bounds.height)
         view.superview?.layoutIfNeeded()
     }
-    
+
     func moveWhileDragging(offsetFromTop: CGFloat) {
         view.transform = CGAffineTransform.identity
         let tabBarHeight = rootViewController()?.tabBar.bounds.height ?? 0
         view.transform = offsetFromTop < -tabBarHeight ? CGAffineTransform(translationX: 0, y: offsetFromTop + tabBarHeight) : CGAffineTransform(translationX: 0, y: 0)
         view.superview?.layoutIfNeeded()
     }
-    
+
     private func moveToHiddenBottomPosition() {
         view.transform = CGAffineTransform(translationX: 0, y: desiredHeight())
         view.superview?.layoutIfNeeded()
     }
-    
+
     private func moveToShownPosition() {
         view.transform = .identity
         view.superview?.layoutIfNeeded()
     }
-    
+
     func closeUpNextAndFullPlayer(completion: (() -> Void)? = nil) {
         if let fullScreenPlayer = fullScreenPlayer {
             _ = fullScreenPlayer.children.map { $0.dismiss(animated: false, completion: nil) }
@@ -119,7 +118,7 @@ extension MiniPlayerViewController {
             })
             return
         }
-        
+
         if let upNextViewController = upNextViewController {
             upNextViewController.dismiss(animated: true, completion: nil)
         }

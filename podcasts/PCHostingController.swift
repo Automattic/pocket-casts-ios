@@ -13,23 +13,23 @@ class PCHostingController<Content>: UIHostingController<Content> where Content: 
         setupNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
-    
+
     @objc private func themeDidChange() {
         setupNavBar()
     }
-    
+
     private func setupNavBar() {
         configureNavBarFor(theme: Theme.preferredLightTheme(), traits: UITraitCollection(userInterfaceStyle: .light))
-        
+
         let preferredThemeWhenDark = Settings.shouldFollowSystemTheme() ? Theme.preferredDarkTheme() : Theme.preferredLightTheme()
         configureNavBarFor(theme: preferredThemeWhenDark, traits: UITraitCollection(userInterfaceStyle: .dark))
     }
-    
+
     private func configureNavBarFor(theme: Theme.ThemeType, traits: UITraitCollection) {
         let titleColor = AppTheme.navBarTitleColor(themeOverride: theme)
         let iconsColor = AppTheme.navBarIconsColor(themeOverride: theme)
         let backgroundColor = ThemeColor.secondaryUi01(for: theme)
-        
+
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = backgroundColor
@@ -39,7 +39,7 @@ class PCHostingController<Content>: UIHostingController<Content> where Content: 
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 31, weight: .bold)
         ]
         appearance.shadowColor = nil
-        
+
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).standardAppearance = appearance
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).compactAppearance = appearance
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).scrollEdgeAppearance = appearance

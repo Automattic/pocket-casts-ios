@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-09-19 14:54:03+0000 */
+/* Translation-Revision-Date: 2022-10-04 11:54:03+0000 */
 /* Plural-Forms: nplurals=2; plural=n != 1; */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: sv_SE */
@@ -151,10 +151,10 @@
 "account_sign_out_supporter_subtitle" = "Du kan logga in igen för att återfå åtkomst.";
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
-"account_signed_out_alert_message" = "";
+"account_signed_out_alert_message" = "Tänka sig, om du skriver Google i Google kan du krascha internet. 🫢 \n\nTryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.";
 
 /* Title of an alert that informs the user that they have been signed out of their account */
-"account_signed_out_alert_title" = "";
+"account_signed_out_alert_title" = "Du har blivit utloggad.";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Pocket Casts-konto";
@@ -300,17 +300,11 @@
 /* A common string used throughout the app. Title for the back button. Used with the accessibility settings. */
 "back" = "Tillbaka";
 
-/* This is for an iOS permission prompt for bluetooth access */
-"bluetooth_plist_description" = "Pocket Casts behöver åtkomst till din Bluetooth för att detektera Google Cast-enheter som finns i närheten.";
-
 /* A common string used throughout the app. Title option to place the item at the bottom of the queue. */
 "bottom" = "Längst ner";
 
 /* A common string used throughout the app. Informs the user of the maximum amount of bulk downloads. '%1$@' is a placeholder for maximum amount of bulk downloads. */
 "bulk_download_max_format" = "Massnedladdningar är begränsade till %1$@.";
-
-/* This is for an iOS permission prompt for adding custom images to a file */
-"camera_plist_description" = "Detta gör det möjligt att lägga till anpassade bilder till dina filer";
 
 /* A common string used throughout the app. Prompt to cancel the current flow. */
 "cancel" = "Avbryt";
@@ -1302,9 +1296,6 @@
 /* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
 "mark_unplayed_short" = "Markera som ospelad";
 
-/* This is for an iOS permission prompt for microphone access. Please note that "Google Cast" should not be translated and is a product name */
-"microphone_plist_description" = "Pocket Casts behöver åtkomst till din mikrofon för att detektera Google Cast-enheter som finns i närheten.";
-
 /* Prompt to close the mini player and clear the queue. */
 "mini_player_close" = "Stäng och rensa Nästa";
 
@@ -1415,9 +1406,6 @@
 
 /* Common word used as a title when asking the user to name something */
 "name" = "Namn";
-
-/* This is for an iOS permission prompt for network access. Please note that "Google Cast" should not be translated and is a product name */
-"network_plist_description" = "Pocket Casts använder detta för att hitta Google Cast-enheter i ditt nätverk. Om du inte använder denna funktion står det dig fritt att säga nej.";
 
 /* Email change form new email address field prompt */
 "new_email_address_prompt" = "Ny e-postadress";
@@ -1530,9 +1518,6 @@
 
 /* A common string used throughout the app. Used to reference the Phone as the playing source with in the Apple Watch App (Watch is the other option for this use case) */
 "phone" = "Telefon";
-
-/* This is for an iOS permission prompt for photo saving access */
-"photo_plist_description" = "Pocket Casts behöver tillåtelse att spara denna bild i ditt fotobibliotek.";
 
 /* A common string used throughout the app. Prompt to start playback. */
 "play" = "Spela upp";
@@ -2410,6 +2395,12 @@
 /* Option for setting the app badge based on the total unplayed episodes. */
 "settings_badge_total_unplayed" = "Totalt antal ospelade";
 
+/* Label displayed right next the button to opt-in/out for Analytics tracking */
+"settings_collect_information" = "Samla information";
+
+/* Additional information about how the information collected is and how it's used */
+"settings_collect_information_additional_information" = "Att tillåta oss att samla in analyser hjälper oss att bygga en bättre app. Vi förstår om du föredrar att inte dela denna information.";
+
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Skapa Siri-genväg";
 
@@ -2644,8 +2635,14 @@
 /* Informational label breaking down the pricing structure for Pocket Casts Plus. '%1$@' is a placeholder for the localized price if paid per month, '%2$@' is a placeholder for the localized price if paid per year */
 "settings_plus_pricing_format" = "%1$@ per månad\/%2$@ per år";
 
+/* A common string used throughout the app. Refers to the Privacy settings menu */
+"settings_privacy" = "Integritet";
+
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Plats i kön";
+
+/* Label for an input that takes the user to the privacy policy */
+"settings_read_privacy_policy" = "Läs integritetspolicy";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Välj filter";
@@ -2823,147 +2820,6 @@
 
 /* Label indicating which account is not signed in. */
 "signed_out" = "Ej inloggad";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut. ${filterName} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_0EmR82" = "Öppna ${filterName} Filter";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_0YXvyS" = "Föregående";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_1uT6VF" = "Mediasökning";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_3aWmex" = "Kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${playbackSpeed} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_5yWeuV" = "Spela med ${playbackSpeed}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_CXbd65" = "Ställ in Sovtimer";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_E6Nzn4-No0K9w" = "återuppta Pocket Casts";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_E6Nzn4-Pk1Fkx" = "återuppta inte Pocket Casts";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_ErAaNp" = "Upprepningsläge";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_EwNFJ5" = "Förläng Sovtimer";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_G0iCil" = "Kan inte hoppa över kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_G3J6fP" = "Spela podcast";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
-"siri_intent_definition_key_IyhbAH" = "Öppna filter";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_LdrEPN" = "En begäran om att spela media";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_MbU5ep" = "Blanda ${mediaItems}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_No0K9w" = "återuppta";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_Ntulol" = "Hoppa över kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_OJvsVr" = "Förläng Insomningstimer med 5 Minuter";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_Pk1Fkx" = "återuppta inte";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
-"siri_intent_definition_key_QektJm" = "Öppna filter";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_QqdHiR" = "blandade";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_RvX3Zd" = "Uppspelningshastighet";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_WEjMGd" = "Spela ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_Wj0EAI" = "Hoppa över";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_WktFNa" = "Blandade";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_YYfsKp" = "Spela ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_bVm1vW" = "Ställ in sovtimer";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_cV2HLF" = "Köplats";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_cfJexL" = "Artiklar";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_dBTobY" = "Hoppa över kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_emhqzv" = "Podcast stöder inte kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_gD0dlx" = "Nästa";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-0YXvyS" = "Föregående kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-Wj0EAI" = "Hoppa över kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-gD0dlx" = "Nästa kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_mCAocc" = "ej blandade";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_nAv25k" = "Blanda ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_nNozW1" = "Blanda ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_nR0neu" = "Sovtimer";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_ny98Lo" = "Förläng Sovtimer";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_o6CuZu" = "Återuppta ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} and ${playbackSpeed} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_q8QY8B" = "Spela ${mediaItems} med ${playbackSpeed}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_rnkZnd" = "Hoppa över kapitel";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_rvNMpm" = "Återuppta";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_sLPQxZ" = "Spela ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_xdnqvn" = "Behållare";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_zvlpk3" = "Överhoppade kapitel";
 
 /* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
 "siri_shortcut_extend_sleep_timer" = "Ställ in Sovtimer på %1$@";

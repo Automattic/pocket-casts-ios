@@ -13,16 +13,16 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             descriptionLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var secondDescriptionLabel: ThemeableLabel! {
         didSet {
             secondDescriptionLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var centreImageView: ThemeableImageView!
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
-    
+
     @IBOutlet var buttonContainerView: TopShadowView!
     @IBOutlet var doneButton: UIButton! {
         didSet {
@@ -30,14 +30,14 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             doneButton.tintColor = AppTheme.colorForStyle(.primaryInteractive01)
         }
     }
-    
+
     @IBOutlet var createAccountWithPromoButton: ThemeableRoundedButton! {
         didSet {
             createAccountWithPromoButton.layer.cornerRadius = 12
             createAccountWithPromoButton.tintColor = AppTheme.colorForStyle(.primaryInteractive01)
         }
     }
-    
+
     @IBOutlet var signInWithPromoButton: ThemeableRoundedButton! {
         didSet {
             signInWithPromoButton.layer.cornerRadius = 12
@@ -45,7 +45,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             signInWithPromoButton.tintColor = AppTheme.colorForStyle(.primaryInteractive01)
         }
     }
-    
+
     @IBOutlet var upgradeToPlusButton: ThemeableRoundedButton! {
         didSet {
             upgradeToPlusButton.layer.cornerRadius = 12
@@ -53,7 +53,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             upgradeToPlusButton.tintColor = AppTheme.colorForStyle(.primaryInteractive01)
         }
     }
-    
+
     @IBOutlet var signUpNoPromoButton: ThemeableRoundedButton! {
         didSet {
             signUpNoPromoButton.layer.cornerRadius = 12
@@ -61,61 +61,57 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             signUpNoPromoButton.tintColor = AppTheme.colorForStyle(.primaryInteractive01)
         }
     }
-    
+
     var promoCode: String?
     var serverMessage: String?
     var userDidSignIn = false
     enum PromoStatusType: Int { case validating = 0, codeExpired, codeInvalid, existingPlusUser, signIn, codeReused }
-    
+
     private var promoStatus: PromoStatusType = .validating {
         didSet {
             updateDisplayMessage()
         }
     }
-    
+
     private var updatedPromoStatus: PromoStatusType?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         (view as? ThemeableView)?.style = .primaryUi01
-        
+
         if let code = promoCode, code.count > 0 {
             if SyncManager.isUserLoggedIn() {
                 redeemCode()
-            }
-            else {
+            } else {
                 ValidatePromoCodeTask.validatePromoCode(promoCode: code, completion: { isValid, successMessage, error in
                     self.serverMessage = error?.localizedDescription ?? successMessage
                     if isValid {
                         self.processValidCode()
-                    }
-                    else {
+                    } else {
                         self.promoStatus = .codeExpired
                     }
                 })
             }
-        }
-        else {
+        } else {
             if SyncManager.isUserLoggedIn(), SubscriptionHelper.hasActiveSubscription() {
                 promoStatus = .existingPlusUser
-            }
-            else {
+            } else {
                 promoStatus = .codeInvalid
             }
         }
-        
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if userDidSignIn {
             showAnimatingActivityIndicator()
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if userDidSignIn {
@@ -124,10 +120,10 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
         }
         updateDisplayMessage()
     }
-    
+
     private func updateDisplayMessage() {
         DispatchQueue.main.async { () in
-            
+
             switch self.promoStatus {
             case .validating:
                 self.showAnimatingActivityIndicator()
@@ -162,8 +158,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
-                }
-                else {
+                } else {
                     self.signUpNoPromoButton.isHidden = false
                 }
                 self.buttonContainerView.isHidden = false
@@ -180,8 +175,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.doneButton.isHidden = false
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
-                }
-                else {
+                } else {
                     self.signUpNoPromoButton.isHidden = false
                 }
                 self.buttonContainerView.isHidden = false
@@ -203,7 +197,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.titleLabel.isHidden = false
                 self.titleLabel.text = " " + L10n.signInPrompt
                 self.descriptionLabel.isHidden = false
-                
+
                 self.descriptionLabel.text = L10n.plusAccountRequiredPrompt
                 self.secondDescriptionLabel.text = L10n.plusAccountRequiredPromptDetails
                 self.secondDescriptionLabel.isHidden = false
@@ -216,81 +210,77 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
             }
         }
     }
-    
+
     private func processValidCode() {
         if SyncManager.isUserLoggedIn() {
             redeemCode()
-        }
-        else {
+        } else {
             promoStatus = .signIn
         }
     }
-    
+
     private func redeemCode() { // called for signed in users only
         guard let promoCode = promoCode else {
             promoStatus = .codeInvalid
             return
         }
         ApiServerHandler.shared.redeemPromoCode(promoCode: promoCode, completion: { status, successMessage, error in
-            
+
             self.serverMessage = error?.localizedDescription ?? successMessage
             if status == ServerConstants.HttpConstants.ok {
                 self.codeRedeemed()
-            }
-            else if status == ServerConstants.HttpConstants.badRequest {
+            } else if status == ServerConstants.HttpConstants.badRequest {
                 self.promoStatus = .codeReused
-            }
-            else if status == ServerConstants.HttpConstants.conflict {
+            } else if status == ServerConstants.HttpConstants.conflict {
                 self.promoStatus = .existingPlusUser
-            }
-            else if status == ServerConstants.HttpConstants.notFound {
+            } else if status == ServerConstants.HttpConstants.notFound {
                 self.promoStatus = .codeExpired
             }
         })
     }
-    
+
     private func codeRedeemed() {
         SubscriptionHelper.setSubscriptionGiftAcknowledgement(true)
         ApiServerHandler.shared.retrieveSubscriptionStatus()
         Settings.setPromotionFinishedAcknowledged(false)
         delegate?.promotionRedeemed(message: serverMessage ?? "")
-        
+
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @IBAction func createAccountTapped(_ sender: Any) {
         let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "", promoCode: promoCode)
         let emailVC = NewEmailViewController(newSubscription: newSubscription)
         emailVC.accountUpdatedDelegate = self
         navigationController?.pushViewController(emailVC, animated: true)
     }
-    
+
     @IBAction func signInWithValidPromoTapped(_ sender: Any) {
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
-        
+
         navigationController?.pushViewController(signinPage, animated: true)
     }
-    
+
     @IBAction func upgradeToPlusTapped(_ sender: Any) {
         let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
         let termsVC = TermsViewController(newSubscription: newSubscription)
         navigationController?.pushViewController(termsVC, animated: true)
     }
-    
+
     @IBAction func signUpNoPromoTapped(_ sender: Any) {
         let signinPage = ProfileIntroViewController()
         navigationController?.pushViewController(signinPage, animated: true)
     }
-    
+
     // MARK: - Private helpers
-    
+
     private func showAnimatingActivityIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -300,53 +290,52 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
         centreImageView.isHidden = true
         buttonContainerView.isHidden = true
     }
-    
+
     private func setNavigationTitleToLogo() {
         let logoImageView = ThemeableImageView(frame: CGRect(x: 0, y: 0, width: 170, height: 34))
         logoImageView.imageNameFunc = AppTheme.pcLogoHorizontalImageName
         logoImageView.contentMode = .scaleAspectFill
         navigationItem.titleView = logoImageView
     }
-    
+
     private func setNavigationTitleToPlusLogo() {
         let logoImageView = ThemeableImageView(frame: CGRect(x: 0, y: 0, width: 240, height: 34))
         logoImageView.imageNameFunc = AppTheme.pcPlusLogoHorizontalImageName
         logoImageView.contentMode = .scaleAspectFill
         navigationItem.titleView = logoImageView
     }
-    
+
     // MARK: - SyncSigninDelegate
-    
+
     func signingProcessCompleted() {
         navigationController?.popToRootViewController(animated: true)
         userDidSignIn = true
     }
-    
+
     // MARK: - AccountUpdatedDelegate
-    
+
     func accountUpdatedAcknowledged() {
         navigationController?.popToRootViewController(animated: true)
         userDidSignIn = true
     }
-    
+
     private func redeemAfterSignIn() {
         if promoStatus == .codeInvalid || promoStatus == .codeExpired || promoStatus == .codeReused {
             dismiss(animated: true, completion: nil)
-        }
-        else {
+        } else {
             promoStatus = .validating
             redeemCode()
         }
     }
-    
+
     // MARK: - Orientation
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }
-    
+
     // MARK: - Status bar
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.popupStatusBarStyle()
     }

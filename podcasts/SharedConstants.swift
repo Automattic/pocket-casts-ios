@@ -9,7 +9,7 @@ enum SharedConstants {
         public static let isPlaying = "isPlaying"
         public static let appIcon = "appIcon"
     }
-    
+
     enum PlaybackEffects {
         public static let maximumPlaybackSpeed = 3.0
         public static let minimumPlaybackSpeed = 0.5

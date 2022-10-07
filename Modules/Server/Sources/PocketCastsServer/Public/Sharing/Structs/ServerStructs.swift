@@ -4,15 +4,15 @@ public struct ImportOpmlResponse: Decodable {
     public var status: String? = nil
     public var message: String? = nil
     public var result: ImportOpmlResult?
-    
+
     public func success() -> Bool {
         status == "ok"
     }
-    
+
     public static func failedResponse() -> ImportOpmlResponse {
         var failed = ImportOpmlResponse()
         failed.status = "failed"
-        
+
         return failed
     }
 }
@@ -21,7 +21,7 @@ public struct ImportOpmlResult: Decodable {
     public var uuids: [String]?
     public var pollUuids: [String]?
     public var failedCount: Int
-    
+
     public enum CodingKeys: String, CodingKey {
         case uuids
         case pollUuids = "poll_uuids"
@@ -33,15 +33,15 @@ public struct ExportPodcastsResponse: Decodable {
     public var status: String? = nil
     public var message: String? = nil
     public var result: [String: String]?
-    
+
     public func success() -> Bool {
         status == "ok"
     }
-    
+
     public static func failedResponse() -> ExportPodcastsResponse {
         var failed = ExportPodcastsResponse()
         failed.status = "failed"
-        
+
         return failed
     }
 }
@@ -50,15 +50,15 @@ public struct ShareListResponse: Decodable {
     public var status: String? = nil
     public var message: String? = nil
     public var result: ShareListResult? = nil
-    
+
     public func success() -> Bool {
         status == "ok"
     }
-    
+
     public static func failedResponse() -> ShareListResponse {
         var failed = ShareListResponse()
         failed.status = "failed"
-        
+
         return failed
     }
 }
@@ -67,7 +67,7 @@ public struct ShareListResult: Decodable {
     public var time: String?
     public var podcast: SharedPodcast?
     public var episode: RefreshEpisode?
-    
+
     public enum CodingKeys: String, CodingKey {
         case time, podcast
         case episode = "shared_episode"
@@ -80,7 +80,7 @@ public struct SharedPodcast: Decodable {
     public var podcastDescription: String?
     public var author: String?
     public var iTunesId: Int?
-    
+
     public enum CodingKeys: String, CodingKey {
         case title, uuid, author
         case podcastDescription = "description"
@@ -92,15 +92,15 @@ public struct PodcastRefreshResponse {
     public var status: String?
     public var message: String?
     public var result: RefreshResult?
-    
+
     public func success() -> Bool {
         status == "ok"
     }
-    
+
     public static func failedResponse() -> PodcastRefreshResponse {
         var failed = PodcastRefreshResponse()
         failed.status = "failed"
-        
+
         return failed
     }
 }
@@ -128,15 +128,15 @@ public struct PodcastSearchResponse: Decodable {
     public var status: String? = nil
     public var message: String? = nil
     public var result: SearchResult? = nil
-    
+
     public func success() -> Bool {
         status == "ok"
     }
-    
+
     public static func failedResponse() -> PodcastSearchResponse {
         var failed = PodcastSearchResponse()
         failed.status = "failed"
-        
+
         return failed
     }
 }
@@ -144,10 +144,10 @@ public struct PodcastSearchResponse: Decodable {
 public struct SearchResult: Decodable {
     public var podcast: PodcastInfo?
     public var searchResults: [PodcastInfo]?
-    
+
     public enum CodingKeys: String, CodingKey {
         case searchResults = "search_results"
-        
+
         case podcast
     }
 }
@@ -158,16 +158,16 @@ public struct PodcastInfo: Codable {
     public var title: String?
     public var uuid: String?
     public var iTunesId: Int?
-    
+
     public init() {}
-    
+
     public enum CodingKeys: String, CodingKey {
         case shortDescription = "description"
         case iTunesId = "collection_id"
-        
+
         case title, uuid, author
     }
-    
+
     public mutating func populateFrom(discoverPodcast: DiscoverPodcast) {
         author = discoverPodcast.author
         shortDescription = discoverPodcast.shortDescription
@@ -177,7 +177,7 @@ public struct PodcastInfo: Codable {
             iTunesId = Int(iTunes)
         }
     }
-    
+
     public func iTunesOnly() -> Bool {
         uuid == nil && iTunesId != nil
     }
@@ -216,12 +216,12 @@ public struct DiscoverLayout: Decodable {
     public var regionCodeToken: String
     public var regionNameToken: String
     public var defaultRegionCode: String
-    
+
     public enum CodingKeys: String, CodingKey {
         case regionCodeToken = "region_code_token"
         case regionNameToken = "region_name_token"
         case defaultRegionCode = "default_region_code"
-        
+
         case layout, regions
     }
 }
@@ -243,7 +243,7 @@ public struct DiscoverItem: Decodable {
     public var curated: Bool?
     public var regions: [String]
     public var isSponsored: Bool?
-    
+
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
         case expandedStyle = "expanded_style"
@@ -259,10 +259,10 @@ public struct PodcastNetwork: Decodable {
     public var description: String?
     public var imageUrl: String?
     public var color: String?
-    
+
     public enum CodingKeys: String, CodingKey {
         case imageUrl = "image_url"
-        
+
         case title, source, description, color
     }
 }
@@ -305,16 +305,16 @@ public struct DiscoverPodcast: Codable {
     public var uuid: String?
     public var website: String?
     public var iTunesId: String?
-    
+
     public init() {}
-    
+
     public enum CodingKeys: String, CodingKey {
         case shortDescription = "description"
         case iTunesId = "itunes"
-        
+
         case title, uuid, author, website
     }
-    
+
     public func iTunesOnly() -> Bool {
         uuid == nil && iTunesId != nil
     }

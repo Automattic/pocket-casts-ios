@@ -5,39 +5,39 @@ public enum ServerConstants {
         public static func main() -> String {
             production() ? "https://refresh.pocketcasts.com/" : "https://refresh.pocketcasts.net/"
         }
-        
+
         public static func api() -> String {
             production() ? "https://api.pocketcasts.com/" : "https://api.pocketcasts.net/"
         }
-        
+
         public static func cache() -> String {
             production() ? "https://cache.pocketcasts.com/" : "https://podcast-api.pocketcasts.net/"
         }
-        
+
         public static func sharing() -> String {
             production() ? "https://sharing.pocketcasts.com/" : "https://sharing.pocketcasts.net/"
         }
-        
+
         public static func discover() -> String {
             production() ? "https://static.pocketcasts.com/discover/" : "https://static.pocketcasts.net/discover/"
         }
-        
+
         public static func image() -> String {
             production() ? "https://static.pocketcasts.com/" : "https://static.pocketcasts.net/"
         }
-        
+
         public static func files() -> String {
             production() ? "https://files.pocketcasts.com/files/" : "https://files.pocketcasts.com/files/"
         }
-        
+
         public static func share() -> String {
             production() ? "https://pca.st/" : "https://pcast.pocketcasts.net/"
         }
-        
+
         public static func lists() -> String {
             production() ? "https://lists.pocketcasts.com/" : "https://lists.pocketcasts.net/"
         }
-        
+
         public static let support = "https://support.pocketcasts.com/ios/"
         public static let cancelSubscription = "https://support.pocketcasts.com/article/subscription-info/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
@@ -48,11 +48,11 @@ public enum ServerConstants {
         public static let automatticWorkWithUs = "https://automattic.com/work-with-us/"
         public static let appStoreReview = "https://itunes.apple.com/app/id414834813?action=write-review"
     }
-    
+
     private static func production() -> Bool {
         ServerConfig.shared.syncDelegate?.production() ?? true
     }
-    
+
     public enum HttpConstants {
         public static let ok = 200
         public static let notModified = 304
@@ -62,7 +62,7 @@ public enum ServerConstants {
         public static let badRequest = 400
         public static let conflict = 409
     }
-    
+
     public enum HttpHeaders {
         public static let lastModified = "Last-Modified"
         public static let ifModifiedSince = "If-Modified-Since"
@@ -76,13 +76,13 @@ public enum ServerConstants {
         public static let date = "Date"
         public static let etag = "ETag"
     }
-    
+
     public enum Timeouts {
         static let sync = 60 as TimeInterval
         static let general = 60 as TimeInterval
         static let cache = 30 as TimeInterval
     }
-    
+
     public enum Values {
         static let apiScope = "mobile"
         static let deviceTypeiOS: Int32 = 1
@@ -93,10 +93,10 @@ public enum ServerConstants {
         static let customStorageUsed = "SJCustomStorageUsed"
         static let customStorageNumFiles = "SJCustomStorageNumFiles"
         static let customStorageUserLimit = "SJCustomStorageUserLimit"
-        
+
         static let oldEpisodeCutoff = 2.weeks
     }
-    
+
     public enum UserDefaults {
         static let lastModifiedServerDate = "PCLastModifiedServerDate"
         static let lastSyncStartDate = "PCLastSyncStartDate"
@@ -136,7 +136,7 @@ public enum ServerConstants {
         static let statsStartedDateServer = "StatsStartedDateServer"
         static let userId = "UserId"
     }
-    
+
     public enum Limits {
         static let maxHistoryItems = 100
         static let maxEpisodesToSync = 2000

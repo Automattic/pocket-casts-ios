@@ -6,41 +6,40 @@ class NowPlayingAnimationView: UIView {
         didSet {
             // check for a state we're already in
             if animating == oldValue { return }
-            
+
             if animating {
                 animateToOn()
-            }
-            else {
+            } else {
                 animateToOff()
             }
         }
     }
-    
+
     private var animationView: AnimationView
-    
+
     required init?(coder aDecoder: NSCoder) {
         animationView = AnimationView(name: "nowplaying")
-        
+
         super.init(coder: aDecoder)
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         animationView.isUserInteractionEnabled = false
         animationView.isHidden = true
         animationView.loopMode = .loop
         animationView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animationView)
-        
+
         animationView.anchorToAllSidesOf(view: self)
     }
-    
+
     private func animateToOn() {
         animationView.isHidden = false
         animationView.play()
     }
-    
+
     private func animateToOff() {
         animationView.isHidden = true
         animationView.stop()

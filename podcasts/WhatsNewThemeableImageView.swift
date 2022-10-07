@@ -7,12 +7,12 @@ class WhatsNewThemeableImageView: ThemeableImageView {
         super.init(frame: CGRect.zero)
         imageNameFunc = themedImageName
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("WhatsNewThemeableImageView init(coder) not implemented")
     }
-    
+
     func themedImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark:

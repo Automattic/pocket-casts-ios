@@ -2,97 +2,96 @@ import UIKit
 
 class PCViewController: SimpleNotificationsViewController {
     var supportsGoogleCast = false
-    
+
     var googleCastBtn: UIBarButtonItem?
     var customRightBtn: UIBarButtonItem? {
         didSet {
             refreshRightButtons()
         }
     }
-    
+
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav-back")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav-back")
-        
+
         navigationItem.backButtonDisplayMode = .minimal
-        
+
         if supportsGoogleCast {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
             googleCastBtn = UIBarButtonItem(customView: castButton)
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
-            
+
             refreshRightButtons()
-        }
-        else if let _ = customRightBtn {
+        } else if let _ = customRightBtn {
             refreshRightButtons()
         }
         setupNavBar(animated: false)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
-    
+
     @objc func castButtonTapped() {
         let castController = CastToViewController()
         let navController = SJUIUtils.navController(for: castController)
         navController.modalPresentationStyle = .fullScreen
-        
+
         present(navController, animated: true, completion: nil)
     }
-    
+
     deinit {
         navigationController?.delegate = nil
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if let title = title, title.count > 0 {
             setupNavBar(animated: animated)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         refreshRightButtons()
-        
+
         if supportsGoogleCast {
             NotificationCenter.default.addObserver(self, selector: #selector(refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(appWasBackgrounded), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         if customRightBtn != nil || supportsGoogleCast {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = nil
         }
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+
         navigationController?.delegate = nil
-        
+
         if supportsGoogleCast {
             NotificationCenter.default.removeObserver(self, name: Constants.Notifications.googleCastStatusChanged, object: nil)
         }
-        
+
         NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-    
+
     @objc func refreshRightButtons() {
         if supportsGoogleCast {
             var buttons = [UIBarButtonItem]()
@@ -103,21 +102,20 @@ class PCViewController: SimpleNotificationsViewController {
                 buttons.append(googleCastBtn)
             }
             navigationItem.rightBarButtonItems = buttons
-        }
-        else {
+        } else {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = customRightBtn
         }
     }
-    
+
     func changeNavTint(titleColor: UIColor?, iconsColor: UIColor?, backgroundColor: UIColor? = nil) {
         navTitleColor = titleColor
         navIconsColor = iconsColor
         navBgColor = backgroundColor
-        
+
         setupNavBar(animated: false)
     }
-    
+
     func createStandardCloseButton(imageName: String) -> UIButton {
         let closeButton = UIButton(type: .custom)
         closeButton.setTitle("", for: .normal)
@@ -126,27 +124,27 @@ class PCViewController: SimpleNotificationsViewController {
         closeButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         closeButton.bounds = CGRect(x: 0, y: 0, width: 44, height: 44)
         closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 22)
-        
+
         return closeButton
     }
-    
+
     @objc private func themeDidChange() {
         setupNavBar(animated: false)
         handleThemeChanged()
     }
-    
+
     private func setupNavBar(animated: Bool) {
         guard let navController = navigationController else { return }
-        
+
         let navigationBar = navController.navigationBar
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
         let iconsColor = navIconsColor ?? AppTheme.navBarIconsColor()
         let backgroundColor = navBgColor ?? ThemeColor.secondaryUi01()
-        
+
         navigationBar.backIndicatorImage = UIImage(named: "nav-back")?.tintedImage(iconsColor)
         navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav-back")?.tintedImage(iconsColor)
         googleCastBtn?.customView?.tintColor = iconsColor
-        
+
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = backgroundColor
@@ -163,30 +161,29 @@ class PCViewController: SimpleNotificationsViewController {
                 navigationBar.scrollEdgeAppearance = appearance
                 navigationBar.tintColor = iconsColor
             })
-        }
-        else {
+        } else {
             navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
-    
+
     override var prefersHomeIndicatorAutoHidden: Bool {
         appDelegate()?.miniPlayer()?.playerOpenState == .open
     }
-    
+
     @objc private func appWasBackgrounded() {
         handleAppDidEnterBackground()
     }
-    
+
     @objc private func appWillBecomeActive() {
         handleAppWillBecomeActive()
     }
-    
+
     func handleAppDidEnterBackground() {}
     func handleAppWillBecomeActive() {}
     func handleThemeChanged() {}

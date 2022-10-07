@@ -1,4 +1,4 @@
-/* Translation-Revision-Date: 2022-09-19 14:54:03+0000 */
+/* Translation-Revision-Date: 2022-10-03 12:54:03+0000 */
 /* Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); */
 /* Generator: GlotPress/2.4.0-alpha */
 /* Language: ru */
@@ -151,10 +151,10 @@
 "account_sign_out_supporter_subtitle" = "Чтобы восстановить доступ, вы можете снова войти в систему.";
 
 /* Message/Body of an alert that explains that the user should tap a button and sign in again */
-"account_signed_out_alert_message" = "";
+"account_signed_out_alert_message" = "Оказывается, если в Google ввести текст Google, можно сломать Интернет. 🫢 \n\nКоснитесь кнопки ниже, чтобы повторно войти в учётную запись Pocket Casts.";
 
 /* Title of an alert that informs the user that they have been signed out of their account */
-"account_signed_out_alert_title" = "";
+"account_signed_out_alert_title" = "Вы вышли из системы.";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Учетная запись Pocket Casts";
@@ -300,17 +300,11 @@
 /* A common string used throughout the app. Title for the back button. Used with the accessibility settings. */
 "back" = "Назад";
 
-/* This is for an iOS permission prompt for bluetooth access */
-"bluetooth_plist_description" = "Pocket Casts требуется доступ к Bluetooth для обнаружения ближайших устройств Google Cast.";
-
 /* A common string used throughout the app. Title option to place the item at the bottom of the queue. */
 "bottom" = "Низ";
 
 /* A common string used throughout the app. Informs the user of the maximum amount of bulk downloads. '%1$@' is a placeholder for maximum amount of bulk downloads. */
 "bulk_download_max_format" = "Массовое скачивание ограничено %1$@.";
-
-/* This is for an iOS permission prompt for adding custom images to a file */
-"camera_plist_description" = "Это разрешение позволит добавлять пользовательские изображения в ваши файлы";
 
 /* A common string used throughout the app. Prompt to cancel the current flow. */
 "cancel" = "Отмена";
@@ -1302,9 +1296,6 @@
 /* A common string used throughout the app. Prompt to mark the selected item(s) as not played. */
 "mark_unplayed_short" = "Отметить как непрослушанный";
 
-/* This is for an iOS permission prompt for microphone access. Please note that "Google Cast" should not be translated and is a product name */
-"microphone_plist_description" = "Pocket Casts требуется доступ к микрофону для обнаружения ближайших устройств Google Cast.";
-
 /* Prompt to close the mini player and clear the queue. */
 "mini_player_close" = "Закрыть и очистить очередь";
 
@@ -1415,9 +1406,6 @@
 
 /* Common word used as a title when asking the user to name something */
 "name" = "Название";
-
-/* This is for an iOS permission prompt for network access. Please note that "Google Cast" should not be translated and is a product name */
-"network_plist_description" = "Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отменить соответствующее разрешение.";
 
 /* Email change form new email address field prompt */
 "new_email_address_prompt" = "Новый адрес электронной почты";
@@ -1530,9 +1518,6 @@
 
 /* A common string used throughout the app. Used to reference the Phone as the playing source with in the Apple Watch App (Watch is the other option for this use case) */
 "phone" = "Телефон";
-
-/* This is for an iOS permission prompt for photo saving access */
-"photo_plist_description" = "Pocket Casts требуется разрешение для сохранения этого изображения в библиотеке фотографий.";
 
 /* A common string used throughout the app. Prompt to start playback. */
 "play" = "Воспроизвести";
@@ -2410,6 +2395,12 @@
 /* Option for setting the app badge based on the total unplayed episodes. */
 "settings_badge_total_unplayed" = "Всего не прослушано";
 
+/* Label displayed right next the button to opt-in/out for Analytics tracking */
+"settings_collect_information" = "Сбор информации";
+
+/* Additional information about how the information collected is and how it's used */
+"settings_collect_information_additional_information" = "Разрешая собирать аналитические данные, вы помогаете нам улучшать приложение. Мы поймём, если вы решите не предоставлять эту информацию.";
+
 /* Prompt to open the menu to create a new Siri shortcut. 'Siri' refers to Apple's voice assistant. */
 "settings_create_siri_shortcut" = "Создать шорткат Siri";
 
@@ -2644,8 +2635,14 @@
 /* Informational label breaking down the pricing structure for Pocket Casts Plus. '%1$@' is a placeholder for the localized price if paid per month, '%2$@' is a placeholder for the localized price if paid per year */
 "settings_plus_pricing_format" = "%1$@ в месяц\/%2$@ в год";
 
+/* A common string used throughout the app. Refers to the Privacy settings menu */
+"settings_privacy" = "Политика конфиденциальности";
+
 /* Title for the options to configure the queue position when a podcast is set to be auto added to the up next queue. */
 "settings_queue_position" = "Позиция в очереди";
+
+/* Label for an input that takes the user to the privacy policy */
+"settings_read_privacy_policy" = "Ознакомиться с политикой конфиденциальности";
 
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Выбрать фильтр";
@@ -2823,147 +2820,6 @@
 
 /* Label indicating which account is not signed in. */
 "signed_out" = "Вход не выполнен";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut. ${filterName} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_0EmR82" = "Открыть фильтр ${filterName}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_0YXvyS" = "Назад";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_1uT6VF" = "Поиск медиафайлов";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_3aWmex" = "Глава";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${playbackSpeed} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_5yWeuV" = "Воспроизвести со скоростью ${playbackSpeed}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_CXbd65" = "Установить таймер сна";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_E6Nzn4-No0K9w" = "возобновить Pocket Casts";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_E6Nzn4-Pk1Fkx" = "не возобновлять Pocket Casts";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_ErAaNp" = "Режим повтора";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_EwNFJ5" = "Отложить таймер сна";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_G0iCil" = "Невозможно пропустить главу";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_G3J6fP" = "Воспроизвести подкаст";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
-"siri_intent_definition_key_IyhbAH" = "Открыть фильтр";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_LdrEPN" = "Запрос на воспроизведение медиафайла";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_MbU5ep" = "Перемешать ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_No0K9w" = "возобновить";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_Ntulol" = "Пропустить главу";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_OJvsVr" = "Отложить таймер сна на 5 мин.";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_Pk1Fkx" = "не возобновлять";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Open Filter shortcut */
-"siri_intent_definition_key_QektJm" = "Открыть фильтр";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_QqdHiR" = "в случайном порядке";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_RvX3Zd" = "Скорость воспроизведения";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_WEjMGd" = "Воспроизвести ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_Wj0EAI" = "Пропустить";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_WktFNa" = "В случайном порядке";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_YYfsKp" = "Воспроизвести ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_bVm1vW" = "Установить таймер сна";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_cV2HLF" = "Расположение очереди";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_cfJexL" = "Позиции";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_dBTobY" = "Пропустить главу";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_emhqzv" = "В этом подкасте не поддерживаются главы";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_gD0dlx" = "Следующая";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-0YXvyS" = "Предыдущая глава";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-Wj0EAI" = "Пропустить главу";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_iQo0yQ-gD0dlx" = "Следующая глава";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_mCAocc" = "подряд";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_nAv25k" = "Перемешать ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_nNozW1" = "Перемешать ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_nR0neu" = "Таймер сна";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Set Sleep Timer shortcut */
-"siri_intent_definition_key_ny98Lo" = "Отложить таймер сна";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_o6CuZu" = "Возобновить ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaItems} and ${playbackSpeed} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_q8QY8B" = "Воспроизвести ${mediaItems} со скоростью ${playbackSpeed}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_rnkZnd" = "Пропустить главу";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_rvNMpm" = "Резюме";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut. ${mediaContainer} is used as a placeholder and should remain intact. */
-"siri_intent_definition_key_sLPQxZ" = "Воспроизвести ${mediaContainer}";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Play Media shortcut */
-"siri_intent_definition_key_xdnqvn" = "Контейнер";
-
-/* Siri custom intent key. This value is used as part of the Siri Suggestions for the Skip Chapter shortcut */
-"siri_intent_definition_key_zvlpk3" = "Пропущенная глава";
 
 /* Siri shortcut title for increasing the sleep timer by a specified amount. '%1$@' is the placeholder for the time specified amount or time. */
 "siri_shortcut_extend_sleep_timer" = "Установить таймер спящего режима на %1$@";

@@ -6,7 +6,7 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
             collectionView.style = .primaryUi02
         }
     }
-    
+
     var isPeekEnabled = false {
         didSet {
             collectionView.isPagingEnabled = false
@@ -24,21 +24,21 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         let maxWidth = maxCellWidth > 0 ? maxCellWidth : widthAvailable
         return min(maxWidth, (widthAvailable - peekWidth - (cellSpacing * (numVisibleColumns + 1))) / numVisibleColumns)
     }
-    
+
     // this is a sensible default for all the current places in the app, though children can override this value if they choose to
     // setting it to 0 = off
     var maxCellWidth = 200 as CGFloat
-    
+
     private var currentScrollOffset: CGPoint!
     private var scrollThreshold = 40 as CGFloat
-    
+
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         currentScrollOffset = scrollView.contentOffset
     }
-    
+
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard isPeekEnabled == true else { return }
-        
+
         guard let currentScrollOffset = currentScrollOffset else { return }
         let target = targetContentOffset.pointee
         let currentScrollDistance = target.x - currentScrollOffset.x
@@ -64,7 +64,7 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         let total = Int(ceil(numberOfItems / numVisibleColumns))
         pageDidChange(to: currentPage, totalPages: total)
     }
-    
+
     func pageDidChange(to currentPage: Int, totalPages: Int) {
         /* Subclasses can override this */
     }

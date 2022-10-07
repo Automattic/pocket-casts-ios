@@ -3,11 +3,11 @@ import SwipeCellKit
 
 class TableSwipeActions {
     private var actions = [TableSwipeAction]()
-    
+
     func addAction(_ action: TableSwipeAction) {
         actions.append(action)
     }
-    
+
     func swipeActions() -> UISwipeActionsConfiguration? {
         var swipeActions = [UIContextualAction]()
         for tableAction in actions {
@@ -25,10 +25,10 @@ class TableSwipeActions {
             }
             swipeActions.append(convertedAction)
         }
-        
+
         return UISwipeActionsConfiguration(actions: swipeActions)
     }
-    
+
     func swipeKitActions() -> [SwipeAction] {
         var swipeActions = [SwipeAction]()
         for tableAction in actions {
@@ -43,7 +43,7 @@ class TableSwipeActions {
             swipeAction.accessibilityLabel = tableAction.title
             swipeActions.append(swipeAction)
         }
-        
+
         return swipeActions
     }
 }

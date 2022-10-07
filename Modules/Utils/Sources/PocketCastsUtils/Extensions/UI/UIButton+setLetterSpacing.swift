@@ -1,6 +1,6 @@
 #if !os(watchOS)
     import UIKit
-    
+
     public extension UIButton {
         func setLetterSpacing(_ letterSpacing: CGFloat) {
             guard let title = titleLabel?.text else { return }

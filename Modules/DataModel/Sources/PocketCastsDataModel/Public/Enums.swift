@@ -46,7 +46,7 @@ public enum PlaylistSort: Int32 {
 
 public struct EpisodeBasicData {
     public init() {}
-    
+
     public var uuid: String?
     public var duration: Int?
     public var playingStatus: Int?

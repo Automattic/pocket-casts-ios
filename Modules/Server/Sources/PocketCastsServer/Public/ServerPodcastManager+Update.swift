@@ -10,26 +10,25 @@ extension ServerPodcastManager {
                     FileLog.shared.addMessage("\(podcast.title ?? "") updated from cache server")
                     completion?(true)
                 })
-            }
-            else {
+            } else {
                 FileLog.shared.addMessage("\(podcast.title ?? "") didn't need to be updated from cache server")
                 completion?(false)
             }
         }
     }
-    
+
     private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], completion: (() -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
-            
+
             strongSelf.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: lastModified)
             completion?()
         }
     }
-    
+
     private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
-        
+
         podcast.lastUpdatedAt = lastModified
         if let title = podcastJson["title"] as? String {
             podcast.title = title
@@ -64,12 +63,12 @@ extension ServerPodcastManager {
         if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
             podcast.refreshAvailable = refreshAvailable
         }
-        
+
         DataManager.sharedManager.save(podcast: podcast)
-        
+
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
-            
+
             // for existing episodes, update the fields we want to pick up when they change
             if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: uuid) {
                 var episodeChanged = false
@@ -97,19 +96,19 @@ extension ServerPodcastManager {
                     existingEpisode.episodeType = type
                     episodeChanged = true
                 }
-                
+
                 if episodeChanged {
                     DataManager.sharedManager.save(episode: existingEpisode)
                 }
-                
+
                 continue
             }
-            
+
             // for subscribed podcasts, only add older episodes, newer ones are handled by a refresh
             if podcast.isSubscribed(), episodeDate.timeIntervalSinceNow >= podcast.latestEpisodeDate?.timeIntervalSinceNow ?? TimeInterval.greatestFiniteMagnitude {
                 continue
             }
-            
+
             // if we get to here then we need to add this episode because we are missing it
             let episode = Episode()
             episode.addedDate = Date()
@@ -146,39 +145,38 @@ extension ServerPodcastManager {
             if let type = episodeJson["type"] as? String {
                 episode.episodeType = type
             }
-            
+
             DataManager.sharedManager.save(episode: episode)
         }
-        
+
         if !podcast.isSubscribed() {
             ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false)
-        }
-        else {
+        } else {
             // for subscribed podcasts remove any non-interacted with episodes that aren't in the server JSON
             cleanupDeletedEpisodes(podcast: podcast, serverEpisodes: episodesJson)
         }
     }
-    
+
     public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool) {
         guard let latestEpisode = podcast.latestEpisode() else { return }
-        
+
         // no need to re-save one we already have
         if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return }
-        
+
         podcast.latestEpisodeDate = latestEpisode.publishedDate
         podcast.latestEpisodeUuid = latestEpisode.uuid
         DataManager.sharedManager.save(podcast: podcast)
-        
+
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisode: latestEpisode)
         }
     }
-    
+
     private func setDefaultsAndLoadMetadataForNewlyAddedPodcast(_ podcast: Podcast, latestEpisode: Episode?) {
         // if all the podcasts the user currently has are auto download, set this one to be as well
         let autoDownloadQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1 AND autoDownloadSetting = 1"
         let totalQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1"
-        
+
         let autoDownloadCount = DataManager.sharedManager.count(query: autoDownloadQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, autoDownloadCount >= totalCount {
@@ -186,14 +184,13 @@ extension ServerPodcastManager {
             if let latestEpisode = latestEpisode {
                 ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisode(episode: latestEpisode)
             }
-        }
-        else {
+        } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
         }
-        
+
         podcast.episodeGrouping = ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0
         podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
-        
+
         DataManager.sharedManager.save(podcast: podcast)
         DataManager.sharedManager.setPushDefaultForNewPodcast(podcast)
         #if !os(watchOS)
@@ -202,20 +199,20 @@ extension ServerPodcastManager {
             }
         #endif
     }
-    
+
     private func cleanupDeletedEpisodes(podcast: Podcast, serverEpisodes: [[String: Any]]) {
         // looks for episodes we have locally, that no longer exist online and that the user hasn't done anything with and deletes them
         let serverUuids = serverEpisodes.compactMap { $0["uuid"] as? String }.map { "\"\($0)\"" }
         if serverUuids.count == 0 { return } // don't clean up based on empty episodes results
-        
+
         let inStr = serverUuids.joined(separator: ",")
         let nonServerEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcast_id == ? AND uuid NOT IN (\(inStr))", arguments: [podcast.id])
         for episode in nonServerEpisodes {
             guard ServerConfig.shared.syncDelegate?.episodeCanBeCleanedUp(episode: episode) == true else { continue }
-            
+
             // don't cleanup episodes that are less than Constants.Values.oldEpisodeCutoff old (currently 2 weeks)
             if let publishedDate = episode.publishedDate, fabs(publishedDate.timeIntervalSinceNow) < ServerConstants.Values.oldEpisodeCutoff { continue }
-            
+
             // this is an old episode we can safely blow away
             DataManager.sharedManager.delete(episodeUuid: episode.uuid)
         }

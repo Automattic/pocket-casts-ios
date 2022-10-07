@@ -55,11 +55,9 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
                 // Download actions
                 if self.playSourceViewModel.downloaded(episode: episode) {
                     actions.append(.deleteDownload)
-                }
-                else if episode.downloading() || episode.queued() {
+                } else if episode.downloading() || episode.queued() {
                     actions.append(.pauseDownload)
-                }
-                else {
+                } else {
                     actions.append(.download)
                 }
 
@@ -114,8 +112,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
             .sink(receiveValue: { [unowned self] fetchedEpisode in
                 if let fetchedEpisode = fetchedEpisode {
                     self.episode = fetchedEpisode
-                }
-                else {
+                } else {
                     self.shouldDismiss = true
                 }
             })

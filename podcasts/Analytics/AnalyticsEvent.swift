@@ -119,7 +119,7 @@ enum AnalyticsEvent: String {
 
     case statsShown
     case statsDismissed
-    
+
     // MARK: - Folders
 
     case folderShown
@@ -325,7 +325,7 @@ enum AnalyticsEvent: String {
     case playerTabSelected
     case playerShowNotesLinkTapped
     case playerChapterSelected
-    
+
     case playerPreviousChapterTapped
     case playerNextChapterTapped
 
@@ -402,13 +402,13 @@ enum AnalyticsEvent: String {
     case pulledToRefresh
 
     // MARK: - Push notifications
-    
+
     case notificationsOptInShown
     case notificationsOptInAllowed
     case notificationsOptInDenied
 
     // MARK: - Podcast Settings
-    
+
     case podcastSettingsFeedErrorTapped
     case podcastSettingsFeedErrorUpdateTapped
     case podcastSettingsFeedErrorFixSucceeded
@@ -464,7 +464,7 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
-    
+
     // MARK: - Settings: Appearance
 
     case settingsAppearanceShown
@@ -554,6 +554,12 @@ enum AnalyticsEvent: String {
 
     case podcastSubscribed
     case podcastUnsubscribed
+
+    // MARK: - Podcast Search
+
+    case searchPerformed
+    case searchFailed
+    case searchResultTapped
 
     // MARK: - Chromecast
 

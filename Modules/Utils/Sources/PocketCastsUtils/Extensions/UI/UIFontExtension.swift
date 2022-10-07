@@ -9,14 +9,14 @@ public extension UIFont {
                 UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector
             ]
         ]
-        
+
         let fontDescriptor = UIFont.systemFont(ofSize: size).fontDescriptor.addingAttributes(
             [UIFontDescriptor.AttributeName.featureSettings: features]
         )
-        
+
         return UIFont(descriptor: fontDescriptor, size: size)
     }
-    
+
     func monospaced() -> UIFont {
         let fontDescriptorFeatureSettings = [
             [
@@ -24,10 +24,10 @@ public extension UIFont {
                 UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector
             ]
         ]
-        
+
         let fontDescriptorAttributes = [UIFontDescriptor.AttributeName.featureSettings: fontDescriptorFeatureSettings]
         let fontDescriptor = fontDescriptor.addingAttributes(fontDescriptorAttributes)
-        
+
         return UIFont(descriptor: fontDescriptor, size: pointSize)
     }
 }

@@ -7,7 +7,7 @@ public extension UIColor {
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
         var alpha: CGFloat = 1.0
-        
+
         if hex.hasPrefix("#") {
             let index = hex.index(hex.startIndex, offsetBy: 1)
             let hexString = String(hex[index...])
@@ -36,37 +36,35 @@ public extension UIColor {
                 default:
                     print("Invalid RGB string, number of characters after '#' should be either 3, 4, 6 or 8")
                 }
-            }
-            else {
+            } else {
                 print("Scan hex error")
             }
-        }
-        else {
+        } else {
             print("Invalid RGB string, missing '#' as prefix")
         }
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
-    
+
     func hexString() -> String {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
         var a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
-        
+
         return String(format: "#%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
     }
-    
+
     func getRGBA() -> [Double] {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
         var a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
-        
+
         return [Double(r), Double(g), Double(b), Double(a)]
     }
-    
+
     static func calculateColor(orgColor: UIColor, overlayColor: UIColor) -> UIColor {
         // Helper function to clamp values to range (0.0 ... 1.0)
         func clampValue(_ v: CGFloat) -> CGFloat {
@@ -74,29 +72,29 @@ public extension UIColor {
             guard v < 1 else { return 1 }
             return v
         }
-        
+
         var (r1, g1, b1, a1) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
         var (r2, g2, b2, a2) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
-        
+
         orgColor.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
         overlayColor.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
-        
+
         // Make sure the input colors are well behaved
         // Components should be in the range (0.0 ... 1.0)
         r1 = clampValue(r1)
         g1 = clampValue(g1)
         b1 = clampValue(b1)
-        
+
         r2 = clampValue(r2)
         g2 = clampValue(g2)
         b2 = clampValue(b2)
         a2 = clampValue(a2)
-        
+
         let color = UIColor(red: r1 * (1 - a2) + r2 * a2,
                             green: g1 * (1 - a2) + g2 * a2,
                             blue: b1 * (1 - a2) + b2 * a2,
                             alpha: 1)
-        
+
         return color
     }
 }

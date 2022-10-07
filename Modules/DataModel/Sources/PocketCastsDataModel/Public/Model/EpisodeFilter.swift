@@ -3,7 +3,7 @@ import Foundation
 public class EpisodeFilter: NSObject {
     @objc public static let iconTypeCount = 8
     @objc public static let iconsPerType = 5
-    
+
     @objc public var id = 0 as Int64
     @objc public var autoDownloadEpisodes = false
     @objc public var customIcon = 0 as Int32
@@ -31,62 +31,60 @@ public class EpisodeFilter: NSObject {
 
     // Internal tracking
     public var isNew: Bool = false
-    
+
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {
             playlistName = defaultTitle
-            
+
             return
         }
 
         playlistName = title
     }
-    
+
     public func markingAsPlayedRemovesItem() -> Bool {
         !filterFinished
     }
-    
+
     public func markingAsUnplayedRemovesItem() -> Bool {
         !filterUnplayed
     }
-    
+
     public func deletingFileRemovesItem() -> Bool {
         !filterDownloaded
     }
-    
+
     public func addPodcast(podcastUuid: String) {
         if podcastUuids.count == 0 {
             filterAllPodcasts = false
             podcastUuids = podcastUuid
-        }
-        else {
+        } else {
             podcastUuids.append(",\(podcastUuid)")
         }
-        
+
         syncStatus = SyncStatus.notSynced.rawValue
     }
-    
+
     public func removePodcast(podcastUuid: String) {
         var podcasts = podcastUuids.components(separatedBy: ",")
         podcasts.removeAll(where: { uuid -> Bool in
             podcastUuid == uuid
         })
-        
+
         if podcasts.count == 0 {
             filterAllPodcasts = true
             podcastUuids = ""
-        }
-        else {
+        } else {
             podcastUuids = podcasts.joined(separator: ",")
         }
     }
-    
+
     override public func isEqual(_ object: Any?) -> Bool {
         guard let otherFilter = object as? EpisodeFilter else { return false }
-        
+
         return otherFilter.uuid == uuid
     }
-    
+
     override public var hash: Int {
         Int(truncatingIfNeeded: id)
     }

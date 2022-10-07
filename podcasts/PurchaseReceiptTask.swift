@@ -7,7 +7,7 @@ class PurchaseReceiptTask: ApiBaseTask {
     var completion: ((Bool) -> Void)?
     override func apiTokenAcquired(token: String) {
         let url = Server.Urls.api + "subscription/purchase/ios"
-        
+
         // Load the receipt into a Data object
         guard
             let receiptUrl = Bundle.main.appStoreReceiptURL,
@@ -18,15 +18,15 @@ class PurchaseReceiptTask: ApiBaseTask {
             // so we can do something if the receipt doesn't exist
             return
         }
-        
+
         let receiptString = receiptData.base64EncodedString()
         var updateRequest = Api_SubscriptionsPurchaseAppleRequest()
         updateRequest.receipt = receiptString
-        
+
         do {
             let data = try updateRequest.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             guard let responseData = response, httpStatus == Server.HttpConstants.ok else {
                 FileLog.shared.addMessage("Purchase Receipt send failed \(httpStatus)")
                 completion?(false)
@@ -48,12 +48,10 @@ class PurchaseReceiptTask: ApiBaseTask {
                 completion?(true)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.subscriptionStatusChanged)
                 FileLog.shared.addMessage("Receipt sent to server, got subscription status \n \(status)")
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Purchase receipt status failed")
             }
-        }
-        catch {
+        } catch {
             FileLog.shared.addMessage("Protobuf Encoding failed")
         }
     }

@@ -8,8 +8,7 @@ public class PlaylistHelper {
         if let episodeUuidToAdd = episodeUuidToAdd {
             queryString += "AND ((uuid = '\(episodeUuidToAdd)') OR ("
             addedUuid = true
-        }
-        else {
+        } else {
             queryString += "AND ("
         }
 
@@ -132,14 +131,11 @@ public class PlaylistHelper {
 
         if filter.sortType == PlaylistSort.oldestToNewest.rawValue {
             queryString += " ORDER BY publishedDate ASC, addedDate ASC"
-        }
-        else if filter.sortType == PlaylistSort.newestToOldest.rawValue {
+        } else if filter.sortType == PlaylistSort.newestToOldest.rawValue {
             queryString += " ORDER BY publishedDate DESC, addedDate DESC"
-        }
-        else if filter.sortType == PlaylistSort.shortestToLongest.rawValue {
+        } else if filter.sortType == PlaylistSort.shortestToLongest.rawValue {
             queryString += " ORDER BY duration ASC, addedDate ASC"
-        }
-        else if filter.sortType == PlaylistSort.longestToShortest.rawValue {
+        } else if filter.sortType == PlaylistSort.longestToShortest.rawValue {
             queryString += " ORDER BY duration DESC, addedDate DESC"
         }
 

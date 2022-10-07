@@ -23,8 +23,7 @@ struct ItemListContainer<Content: View>: View {
                     .frame(width: 50, height: 50)
                 Text(L10n.loading)
             }
-        }
-        else if isEmpty {
+        } else if isEmpty {
             VStack(spacing: 5) {
                 Text(noItemsTitle)
                     .font(.dynamic(size: 16, weight: .medium))
@@ -35,8 +34,7 @@ struct ItemListContainer<Content: View>: View {
                         .multilineTextAlignment(.center)
                 }
             }
-        }
-        else {
+        } else {
             content
         }
     }

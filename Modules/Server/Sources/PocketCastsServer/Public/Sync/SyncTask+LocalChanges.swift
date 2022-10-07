@@ -5,9 +5,9 @@ import SwiftProtobuf
 extension SyncTask {
     func changedPodcasts() -> [Api_Record]? {
         let podcastsToSync = DataManager.sharedManager.allUnsyncedPodcasts()
-        
+
         if podcastsToSync.count == 0 { return nil }
-        
+
         var podcastRecords = [Api_Record]()
         for podcast in podcastsToSync {
             var podcastRecord = Api_SyncUserPodcast()
@@ -21,24 +21,24 @@ extension SyncTask {
             if let addedDate = podcast.addedDate {
                 podcastRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
-            
+
             var apiRecord = Api_Record()
             apiRecord.podcast = podcastRecord
             podcastRecords.append(apiRecord)
         }
-        
+
         return podcastRecords
     }
-    
+
     func changedEpisodes(for episodesToSync: [Episode]) -> [Api_Record]? {
         if episodesToSync.count == 0 { return nil }
-        
+
         var episodeRecords = [Api_Record]()
         for episode in episodesToSync {
             var episodeRecord = Api_SyncUserEpisode()
             episodeRecord.podcastUuid = episode.podcastUuid
             episodeRecord.uuid = episode.uuid
-            
+
             if episode.playingStatusModified > 0 {
                 episodeRecord.playingStatus.value = episode.playingStatus
                 episodeRecord.playingStatusModified.value = episode.playingStatusModified
@@ -59,20 +59,20 @@ extension SyncTask {
                 episodeRecord.isDeleted.value = episode.archived
                 episodeRecord.isDeletedModified.value = episode.archivedModified
             }
-            
+
             var apiRecord = Api_Record()
             apiRecord.episode = episodeRecord
             episodeRecords.append(apiRecord)
         }
-        
+
         return episodeRecords
     }
-    
+
     func changedFolders() -> [Api_Record]? {
         let foldersToSync = DataManager.sharedManager.allUnsyncedFolders()
-        
+
         if foldersToSync.count == 0 { return nil }
-        
+
         var folderRecords = [Api_Record]()
         for folder in foldersToSync {
             var folderRecord = Api_SyncUserFolder()
@@ -85,20 +85,20 @@ extension SyncTask {
             if let addedDate = folder.addedDate {
                 folderRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
-            
+
             var apiRecord = Api_Record()
             apiRecord.folder = folderRecord
             folderRecords.append(apiRecord)
         }
-        
+
         return folderRecords
     }
-    
+
     func changedFilters() -> [Api_Record]? {
         let filtersToSync = DataManager.sharedManager.allUnsyncedFilters()
-        
+
         if filtersToSync.count == 0 { return nil }
-        
+
         var filterRecords = [Api_Record]()
         for filter in filtersToSync {
             var filterRecord = Api_SyncUserPlaylist()
@@ -123,15 +123,15 @@ extension SyncTask {
             filterRecord.filterDuration.value = filter.filterDuration
             filterRecord.shorterThan.value = filter.shorterThan
             filterRecord.longerThan.value = filter.longerThan
-            
+
             var apiRecord = Api_Record()
             apiRecord.playlist = filterRecord
             filterRecords.append(apiRecord)
         }
-        
+
         return filterRecords
     }
-    
+
     func changedStats() -> Api_Record? {
         let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed())
         let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime())
@@ -139,12 +139,12 @@ extension SyncTask {
         let timeSavedVariableSpeed = convertStat(StatsManager.shared.timeSavedVariableSpeed())
         let totalListeningTime = convertStat(StatsManager.shared.totalListeningTime())
         let startSyncTime = Int64(StatsManager.shared.statsStartDate().timeIntervalSince1970)
-        
+
         // check to see if there's actually any stats we need to sync
         if StatsManager.shared.syncStatus() != .notSynced || (timeSavedDynamicSpeed == nil && totalSkippedTime == nil && totalSkippedTime == nil && timeSavedVariableSpeed == nil && totalListeningTime == nil) {
             return nil
         }
-        
+
         var deviceRecord = Api_SyncUserDevice()
         deviceRecord.timeSilenceRemoval.value = timeSavedDynamicSpeed ?? 0
         deviceRecord.timeSkipping.value = totalSkippedTime ?? 0
@@ -154,16 +154,16 @@ extension SyncTask {
         deviceRecord.timesStartedAt.value = startSyncTime
         deviceRecord.deviceID.value = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
         deviceRecord.deviceType.value = ServerConstants.Values.deviceTypeiOS
-        
+
         var apiRecord = Api_Record()
         apiRecord.device = deviceRecord
-        
+
         return apiRecord
     }
-    
+
     private func convertStat(_ stat: TimeInterval) -> Int64? {
         if stat < 1 { return nil }
-        
+
         return Int64(stat)
     }
 }

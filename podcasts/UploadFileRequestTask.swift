@@ -6,13 +6,13 @@ import Utils
 class UploadFileRequestTask: ApiBaseTask {
     var completion: ((URL?) -> Void)?
     private let episode: UserEpisode
-    
+
     init(episode: UserEpisode) {
         self.episode = episode
-        
+
         super.init()
     }
-    
+
     override func apiTokenAcquired(token: String) {
         let url = Server.Urls.api + "files/upload/request"
         do {
@@ -26,23 +26,21 @@ class UploadFileRequestTask: ApiBaseTask {
             uploadRequest.hasCustomImage_p = episode.hasCustomImage
             let data = try uploadRequest.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            
+
             guard let responseData = response, httpStatus == Server.HttpConstants.ok else {
                 FileLog.shared.addMessage("Upload file request failed \(httpStatus)")
                 completion?(nil)
                 return
             }
-            
+
             do {
                 let uploadResponse = try Files_FileUploadResponse(serializedData: responseData)
                 FileLog.shared.addMessage("Upload request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
-            }
-            catch {
+            } catch {
                 FileLog.shared.addMessage("Upload request response failed")
             }
-        }
-        catch {
+        } catch {
             print("Protobuf Encoding failed")
         }
     }

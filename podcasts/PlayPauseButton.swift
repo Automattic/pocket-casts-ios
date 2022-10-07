@@ -3,29 +3,29 @@ import UIKit
 
 class PlayPauseButton: BasePlayPauseButton {
     private let circleView = UIView()
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         backgroundColor = UIColor.clear
-        
+
         circleView.clipsToBounds = true
         circleView.isUserInteractionEnabled = false
         circleView.backgroundColor = circleColor
     }
-    
+
     var circleColor = UIColor.white {
         didSet {
             circleView.backgroundColor = circleColor
         }
     }
-    
+
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
+
         circleView.layer.cornerRadius = 0.5 * circleView.bounds.width
     }
-    
+
     override func place(animation: AnimationView) {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(circleView)
@@ -35,7 +35,7 @@ class PlayPauseButton: BasePlayPauseButton {
             circleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             circleView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
-        
+
         animation.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animation)
         NSLayoutConstraint.activate([

@@ -60,8 +60,7 @@ struct FilterEpisodeListView: View {
                     content()
                     Spacer()
                 }
-            }
-            else {
+            } else {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         header

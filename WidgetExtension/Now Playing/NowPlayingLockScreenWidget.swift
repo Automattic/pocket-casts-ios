@@ -10,8 +10,7 @@ struct NowPlayingLockScreenWidget: Widget {
             .configurationDisplayName(L10n.nowPlaying)
             .description(L10n.widgetsNowPlayingDesc)
             .supportedFamilies([.accessoryRectangular])
-        }
-        else {
+        } else {
             return EmptyWidgetConfiguration()
         }
     }
@@ -27,8 +26,7 @@ struct NowPlayingLockscreenWidgetEntryView: View {
     var subtitle: String {
         if let playingEpisode = entry.episode {
             return entry.isPlaying ? L10n.nowPlaying : L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration))
-        }
-        else {
+        } else {
             return L10n.widgetsNothingPlaying
         }
     }

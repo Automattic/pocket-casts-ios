@@ -14,10 +14,10 @@ class NowPlayingViewModel: ObservableObject {
     @Published var effectsIconName: String
     @Published var upNextCount: Int
     @Published var hasChapters: Bool
-    
+
     private var playSource = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
-    
+
     private var playbackChanged: AnyPublisher<BaseEpisode?, Never> {
         Publishers.Merge(
             $episode,
@@ -25,7 +25,7 @@ class NowPlayingViewModel: ObservableObject {
         )
         .eraseToAnyPublisher()
     }
-    
+
     private var dataUpdated: AnyPublisher<Notification, Never> {
         Publishers.Merge3(
             Publishers.Notification.dataUpdated,
@@ -34,13 +34,13 @@ class NowPlayingViewModel: ObservableObject {
         )
         .eraseToAnyPublisher()
     }
-    
+
     init() {
         episode = playSource.nowPlayingEpisode
         effectsIconName = playSource.effectsIconName
         upNextCount = playSource.upNextCount
         hasChapters = playSource.playingEpisodeHasChapters
-        
+
         Publishers.Merge(
             $episode,
             Publishers.Notification.podcastChapterChanged.map { [unowned self] _ in self.episode }
@@ -56,7 +56,7 @@ class NowPlayingViewModel: ObservableObject {
         }
         .receive(on: RunLoop.main)
         .assign(to: &$episodeName)
-        
+
         Publishers.Merge(
             $episode,
             Publishers.Notification.progressUpdated.map { [unowned self] _ in self.episode }
@@ -69,7 +69,7 @@ class NowPlayingViewModel: ObservableObject {
             self.timeRemaining = self.playSource.nowPlayingTimeRemaining(forEpisode: episode)
         }
         .store(in: &cancellables)
-        
+
         playbackChanged
             .map { [unowned self] episode in
                 guard let episode = episode else { return false }
@@ -77,14 +77,14 @@ class NowPlayingViewModel: ObservableObject {
             }
             .receive(on: RunLoop.main)
             .assign(to: &$isPlaying)
-        
+
         dataUpdated
             .map { [unowned self] _ in
                 self.playSource.nowPlayingEpisode
             }
             .receive(on: RunLoop.main)
             .assign(to: &$episode)
-        
+
         $episode
             .map { [unowned self] episode in
                 guard let episode = episode else { return Color.white }
@@ -92,7 +92,7 @@ class NowPlayingViewModel: ObservableObject {
             }
             .receive(on: RunLoop.main)
             .assign(to: &$episodeAccentColor)
-        
+
         Publishers.Merge(
             dataUpdated,
             Publishers.Notification.playbackEffectsChanged
@@ -102,14 +102,14 @@ class NowPlayingViewModel: ObservableObject {
         }
         .receive(on: RunLoop.main)
         .assign(to: &$effectsIconName)
-        
+
         dataUpdated
             .map { [unowned self] _ in
                 self.playSource.upNextCount
             }
             .receive(on: RunLoop.main)
             .assign(to: &$upNextCount)
-        
+
         Publishers.Merge(
             $episode,
             Publishers.Notification.podcastChaptersDidUpdate.map { [unowned self] _ in self.episode }
@@ -124,7 +124,7 @@ class NowPlayingViewModel: ObservableObject {
     func skip(forward: Bool) {
         playSource.skip(forward: forward)
     }
-    
+
     func playPauseTapped() {
         guard let episode = episode else { return }
         playSource.playPauseTapped(withEpisode: episode)

@@ -8,7 +8,7 @@ class CheckboxSubtitleCell: ThemeableCell {
             subtitleLabel.style = .primaryText02
         }
     }
-    
+
     @IBOutlet var selectButton: BouncyButton! {
         didSet {
             selectButton.onImage = UIImage(named: "checkbox-selected")
@@ -16,12 +16,12 @@ class CheckboxSubtitleCell: ThemeableCell {
             selectButton.tintColor = ThemeColor.primaryInteractive01()
         }
     }
-    
+
     func setSelectedState(_ selected: Bool) {
         selectButton.currentlyOn = selected
         tickImageView?.isHidden = !selected
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         let tickImage = UIImage(named: "tick")
@@ -30,7 +30,7 @@ class CheckboxSubtitleCell: ThemeableCell {
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
         selectButton.imageView?.addSubview(tickImageView)
     }
-    
+
     override func handleThemeDidChange() {
         selectButton.tintColor = ThemeColor.primaryInteractive01()
         tickImageView?.tintColor = ThemeColor.primaryInteractive02()

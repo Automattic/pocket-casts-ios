@@ -2,7 +2,7 @@ import UIKit
 
 class BundleHeartCountView: PodcastHeartView {
     var countLabel: ThemeableLabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         countLabel = ThemeableLabel()
@@ -13,7 +13,7 @@ class BundleHeartCountView: PodcastHeartView {
         countLabel.anchorToAllSidesOf(view: self)
         countLabel.isHidden = true
     }
-    
+
     func setBundleCount(_ count: Int) {
         guard count > 0 else {
             heartImageView.isHidden = false

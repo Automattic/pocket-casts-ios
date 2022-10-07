@@ -33,6 +33,7 @@ abstract_target 'CI' do
 
   pod 'SwiftGen', '~> 6.0'
   pod 'SwiftFormat/CLI'
+  pod 'SwiftLint', '~> 0.49'
 end
 
 post_install do |pi|
