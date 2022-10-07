@@ -807,7 +807,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
-        AnalyticsPlaybackHelper.shared.currentSource = "playback_failed"
+        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
             endPlayback()
@@ -1720,10 +1720,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsHelper.didConnectToChromecast()
         if let episode = currentEpisode() {
             if playerSwitchRequired() {
-                AnalyticsPlaybackHelper.shared.currentSource = "chromecast"
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 pause()
 
-                AnalyticsPlaybackHelper.shared.currentSource = "chromecast"
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }

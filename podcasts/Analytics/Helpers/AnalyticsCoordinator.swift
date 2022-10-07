@@ -41,6 +41,8 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case upNext = "up_next"
     case userEpisode = "user_episode"
     case videoPlayerSkipForwardLongPress = "video_player_skip_forward_long_press"
+    case playbackFailed = "playback_failed"
+    case watch
     case unknown
 
     var analyticsDescription: String { rawValue }
@@ -69,7 +71,7 @@ class AnalyticsCoordinator {
                 return
             }
 
-            let defaultProperties: [String: Any] = ["source": currentPlaybackSource]
+            let defaultProperties: [String: Any] = ["source": currentAnalyticsSource]
             let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
             Analytics.track(event, properties: mergedProperties)
         }
