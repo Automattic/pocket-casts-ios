@@ -135,7 +135,6 @@ platform :ios do
   lane :beta do
     ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t Aspera'
 
-    sentry_check_cli_installed
     configure_code_signing
 
     gym(scheme: 'pocketcasts',
@@ -148,7 +147,7 @@ platform :ios do
           api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
           skip_waiting_for_build_processing: true)
 
-    symbols_upload
+    sh 'cd .. && make upload_dsyms'
     clean_build_artifacts
     increment_version_on_config
   end
