@@ -4,7 +4,7 @@ import XCTest
 
 class AnalyticsPlaybackHelperTests: XCTestCase {
     func testCurrentSourceIsRemovedAfterEventIsTriggered() {
-        AnalyticsPlaybackHelper.shared.currentSource = "test"
+        AnalyticsPlaybackHelper.shared.currentSource = .unknown
 
         AnalyticsPlaybackHelper.shared.play()
 
