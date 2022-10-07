@@ -85,6 +85,7 @@ public class MainServerHandler {
 
     private struct UploadOpmlRequest: BaseRequest {
         var urls: [String]?
+        var pollUuids: [String]?
         var device: String?
         var m: String?
         var av: String?
@@ -92,9 +93,13 @@ public class MainServerHandler {
         var c: String?
         var dt: String?
         var v: String?
+
+        public enum CodingKeys: String, CodingKey {
+            case urls, pollUuids = "poll_uuids", device, m, av, l, c, dt, v
+        }
     }
 
-    public func sendOpmlChunk(feedUrls: [String], completion: @escaping (ImportOpmlResponse?) -> Void) {
+    public func sendOpmlChunk(feedUrls: [String] = [], pollUuids: [String] = [], completion: @escaping (ImportOpmlResponse?) -> Void) {
         guard let uniqueId = ServerConfig.shared.syncDelegate?.uniqueAppId() else {
             completion(ImportOpmlResponse.failedResponse())
             return
@@ -105,6 +110,7 @@ public class MainServerHandler {
 
         var uploadRequest = baseRequest as! UploadOpmlRequest
         uploadRequest.urls = feedUrls
+        uploadRequest.pollUuids = pollUuids
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.main() + "import/opml")
         guard let request = ServerHelper.createJsonRequest(url: url, params: uploadRequest, timeout: MainServerHandler.callTimeout, cachePolicy: .reloadIgnoringCacheData) else {
