@@ -159,6 +159,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             // even if the episode isn't changing, we might have a stale copy of it, so update ours
             queue.nowPlayingEpisodeChanged()
+
+            if overrideUpNext {
+                queue.clearUpNextList()
+            }
         }
         uuidOfPlayingList = ""
 
