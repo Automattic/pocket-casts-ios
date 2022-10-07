@@ -697,12 +697,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         DispatchQueue.global().async { [weak self] in
             guard let allObjects = self?.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
 
+            var count = 0
             for object in allObjects {
                 guard let listEpisode = object as? ListEpisode else { continue }
                 if listEpisode.episode.archived || (playedOnly && !listEpisode.episode.played()) { continue }
 
                 EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false, userInitiated: false)
+                count += 1
             }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
