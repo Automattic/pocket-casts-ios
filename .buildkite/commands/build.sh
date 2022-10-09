@@ -35,4 +35,21 @@ echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
 echo "--- Build & Test"
+
+set +e
 bundle exec fastlane test
+TESTS_EXIT_STATUS=$?
+set -e
+
+if [[ $TESTS_EXIT_STATUS -ne 0 ]]; then
+  # Keep the (otherwise collapsed) current "Testing" section open in Buildkite logs on error. See https://buildkite.com/docs/pipelines/managing-log-output#collapsing-output
+  echo "^^^ +++"
+  echo "Unit Tests failed!"
+fi
+
+echo "--- 📦 Zipping test results"
+zip -rq spm_cache.zip vendor/spm/
+
+buildkite-agent artifact upload spm_cache.zip
+
+exit $TESTS_EXIT_STATUS
