@@ -942,6 +942,11 @@ inal copy, and try again.")
     # in its own project folder, `./fastlane`
     Dir.chdir(PROJECT_ROOT_FOLDER) do
       sh(command: %(restore_cache "#{ci_spm_cache_key}"))
+      sh(command: "ls #{PROJECT_ROOT_FOLDER}")
+      sh(command: "ls #{PROJECT_ROOT_FOLDER}/vendor")
+      sh(command: "ls #{PROJECT_ROOT_FOLDER}/vendor/spm")
+      sh(command: "ls #{PROJECT_ROOT_FOLDER}/vendor/spm/artifacts")
+      sh(command: "ls #{PROJECT_ROOT_FOLDER}/vendor/spm/artifacts/firebase-ios-sdk")
     end
   end
 
