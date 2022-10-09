@@ -418,7 +418,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func multiSelectGestureToggled(_ sender: UISwitch) {
-        Settings.setMultiSelectGestureEnabled(sender.isOn)
+        Settings.setMultiSelectGestureEnabled(sender.isOn, userInitiated: true)
     }
 
     @objc private func extraMediaSessionActionsToggled(_ sender: UISwitch) {

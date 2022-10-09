@@ -2,6 +2,7 @@
 -----
 - Fixed a crash that could happen when playing an episode while the app is in the background (#345)
 - Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
+- Fixed an issue where the episode totals would not display above the podcast episode list in iOS 14 (#287)
 
 7.24
 -----

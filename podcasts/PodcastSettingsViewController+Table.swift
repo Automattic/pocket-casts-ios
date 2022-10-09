@@ -337,7 +337,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     @objc private func autoDownloadChanged(_ sender: UISwitch) {
         if sender.isOn {
             podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
-            Settings.setAutoDownloadEnabled(true)
+            Settings.setAutoDownloadEnabled(true, userInitiated: true)
         } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
         }

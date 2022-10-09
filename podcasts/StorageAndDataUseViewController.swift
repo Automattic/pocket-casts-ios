@@ -83,6 +83,6 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
     }
 
     @objc private func warnWhenNotOnWifiToggled(_ sender: UISwitch) {
-        Settings.setMobileDataAllowed(!sender.isOn)
+        Settings.setMobileDataAllowed(!sender.isOn, userInitiated: true)
     }
 }

@@ -58,6 +58,7 @@ public class SyncManager {
     }
 
     public class func clearTokensFromKeyChain() {
+        KeychainHelper.removeKey(ServerConstants.Values.syncingEmailKey)
         KeychainHelper.removeKey(ServerConstants.Values.syncingPasswordKey)
         KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
     }
