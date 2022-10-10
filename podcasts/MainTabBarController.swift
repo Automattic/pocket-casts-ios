@@ -52,7 +52,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        EndOfYear().showIfAvailable(in: self)
+        EndOfYear().showPrompt(in: self)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

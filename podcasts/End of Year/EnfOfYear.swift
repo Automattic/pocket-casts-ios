@@ -2,7 +2,7 @@ import SwiftUI
 import MaterialComponents.MaterialBottomSheet
 
 struct EndOfYear {
-    func showIfAvailable(in viewController: UIViewController) {
+    func showPrompt(in viewController: UIViewController) {
         guard FeatureFlag.endOfYear else {
             return
         }
