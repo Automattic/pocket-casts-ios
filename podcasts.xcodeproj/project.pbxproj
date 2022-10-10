@@ -3621,10 +3621,18 @@
 		8BCB22AE28F47EFC001A0315 /* End of Year */ = {
 			isa = PBXGroup;
 			children = (
-				8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */,
+				8BCB22B528F48A4E001A0315 /* Views */,
 				8BCB22B328F48282001A0315 /* EnfOfYear.swift */,
 			);
 			path = "End of Year";
+			sourceTree = "<group>";
+		};
+		8BCB22B528F48A4E001A0315 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8BE36DC928734F6500E35313 /* Modules */ = {
