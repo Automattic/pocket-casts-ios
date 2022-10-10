@@ -7,7 +7,7 @@ struct EndOfYear {
             return
         }
 
-        let endfOfYearModalViewController = UIHostingController(rootView: EndOfYearModal())
+        let endfOfYearModalViewController = UIHostingController(rootView: EndOfYearModal().environmentObject(Theme.sharedTheme))
         let bottomSheet = MDCBottomSheetController(contentViewController: endfOfYearModalViewController)
         viewController.present(bottomSheet, animated: true, completion: nil)
     }
