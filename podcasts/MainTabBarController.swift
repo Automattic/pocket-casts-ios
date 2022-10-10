@@ -51,6 +51,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkSubscriptionStatusChanged()
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
+
+        EndOfYear().showIfAvailable(in: self)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

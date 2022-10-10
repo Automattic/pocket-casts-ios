@@ -466,6 +466,7 @@
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
 		8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */; };
+		8BCB22B428F48282001A0315 /* EnfOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B328F48282001A0315 /* EnfOfYear.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1975,6 +1976,7 @@
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
 		8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearModal.swift; sourceTree = "<group>"; };
+		8BCB22B328F48282001A0315 /* EnfOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnfOfYear.swift; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -3620,6 +3622,7 @@
 			isa = PBXGroup;
 			children = (
 				8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */,
+				8BCB22B328F48282001A0315 /* EnfOfYear.swift */,
 			);
 			path = "End of Year";
 			sourceTree = "<group>";
@@ -7552,6 +7555,7 @@
 				BD3334501FC65A510017C3A8 /* EpisodeTableHelper.swift in Sources */,
 				BD2DE2321E65224900BE21A4 /* ShowNotesUpdater.swift in Sources */,
 				BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */,
+				8BCB22B428F48282001A0315 /* EnfOfYear.swift in Sources */,
 				BDCC55141CD0A448006BE239 /* AEXML.swift in Sources */,
 				40484F0122F1507F007DBD55 /* ThemeableRoundedButton.swift in Sources */,
 				BDEBD3A91BA0108800AD038F /* BufferedAudio.swift in Sources */,
