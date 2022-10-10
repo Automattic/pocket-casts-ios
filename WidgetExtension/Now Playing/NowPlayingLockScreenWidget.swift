@@ -37,7 +37,7 @@ struct NowPlayingLockscreenWidgetEntryView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Image("logo-transparent")
                         .resizable()
