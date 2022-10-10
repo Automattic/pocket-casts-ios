@@ -367,7 +367,7 @@ platform :ios do
       include_bitcode: false,
       include_symbols: true,
       clean: true,
-      export_options: { method: 'app-store' }
+      export_options: { method: 'app-store', manageAppVersionAndBuildNumber: false }
     )
 
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
