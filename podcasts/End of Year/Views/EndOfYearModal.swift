@@ -12,7 +12,8 @@ struct EndOfYearModal: View {
                 .multilineTextAlignment(.center)
 
             Button(action: {
-
+                presentationMode.wrappedValue.dismiss()
+                NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
             }) {
                 HStack {
                     Spacer()
