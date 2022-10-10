@@ -7,7 +7,7 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity
+    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity, pumpkin
 
     init(rawName: String) {
         self = IconType.allCases.first(where: { $0.iconName == rawName }) ?? IconType.primary
@@ -41,6 +41,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconElectricPink
         case .radioactivity:
             return L10n.appIconRadioactivity
+        case .pumpkin:
+            return "Pumpkin"
         }
     }
 
@@ -72,6 +74,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return UIImage(named: "AppIcon-Electric-Pink108x108")
         case .radioactivity:
             return UIImage(named: "AppIcon-Radioactive108x108")
+        case .pumpkin:
+            return UIImage(named: "AppIcon-Pocket-Pumpkin108x108")
         }
     }
 
@@ -103,6 +107,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Electric-Pink"
         case .radioactivity:
             return "AppIcon-Radioactive"
+        case .pumpkin:
+            return "AppIcon-Pumpkinn"
         }
     }
 
@@ -134,6 +140,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "electric_pink"
         case .radioactivity:
             return "radioactive"
+        case .pumpkin:
+            return "pumpkin"
         }
     }
 }
@@ -191,7 +199,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        13
+        14
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

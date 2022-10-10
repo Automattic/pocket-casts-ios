@@ -454,6 +454,8 @@
 		8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */; };
 		8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */; };
 		8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */; };
+		8B5F9A6728EFBB9800DE1C12 /* AppIcon-Pumpkin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6528EFBB9700DE1C12 /* AppIcon-Pumpkin@2x.png */; };
+		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Pumpkin@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Pumpkin@3x.png */; };
 		8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */; };
 		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
 		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
@@ -1963,6 +1965,8 @@
 		8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBuilder.swift; sourceTree = "<group>"; };
 		8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerMock.swift; sourceTree = "<group>"; };
 		8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+requestReview.swift"; sourceTree = "<group>"; };
+		8B5F9A6528EFBB9700DE1C12 /* AppIcon-Pumpkin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pumpkin@2x.png"; sourceTree = "<group>"; };
+		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Pumpkin@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pumpkin@3x.png"; sourceTree = "<group>"; };
 		8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLockScreenWidget.swift; sourceTree = "<group>"; };
 		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
 		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
@@ -4820,6 +4824,8 @@
 		BDA002781F7B2C7E00DCB4AE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				8B5F9A6528EFBB9700DE1C12 /* AppIcon-Pumpkin@2x.png */,
+				8B5F9A6628EFBB9800DE1C12 /* AppIcon-Pumpkin@3x.png */,
 				BD6B6685245BC28600CF5245 /* AppIcon-Red-Velvet20x20@2x.png */,
 				BD6B6692245BC28800CF5245 /* AppIcon-Red-Velvet20x20@2x~ipad.png */,
 				BD6B668E245BC28700CF5245 /* AppIcon-Red-Velvet20x20@3x.png */,
@@ -6668,6 +6674,7 @@
 				405471292163346D00341BF6 /* PodcastSelectionHeaderView.xib in Resources */,
 				BD7114C020E224BF003DF634 /* AutoArchiveViewController.xib in Resources */,
 				40FFAD8E2149E1C200024FCF /* EpisodeFilterChipCell.xib in Resources */,
+				8B5F9A6728EFBB9800DE1C12 /* AppIcon-Pumpkin@2x.png in Resources */,
 				404367C423BAD4E200328B1D /* DiscoverCollectionHeader.xib in Resources */,
 				BD12931322F809F8004608A6 /* AppIcon-Electric-Pink60x60@2x.png in Resources */,
 				BD6B6676245BC25C00CF5245 /* AppIcon-Indigo40x40@3x.png in Resources */,
@@ -6691,6 +6698,7 @@
 				460C375326D831E3008B3609 /* Localizable.strings in Resources */,
 				BDFB53CC2362B9080001806E /* UpNextViewController.xib in Resources */,
 				BD12927D22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@2x~ipad.png in Resources */,
+				8B5F9A6828EFBB9800DE1C12 /* AppIcon-Pumpkin@3x.png in Resources */,
 				BD95ED6F1BAFA571004335B0 /* CountryCell.xib in Resources */,
 				BDFB26E81CD08B3C00787B7E /* ImportExportViewController.xib in Resources */,
 				BD93FDA720159A9A00F6EF55 /* PlaylistsViewController.xib in Resources */,
