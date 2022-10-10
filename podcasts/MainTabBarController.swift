@@ -10,6 +10,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
+    private lazy var endOfYear = EndOfYear()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,7 +54,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        EndOfYear().showPrompt(in: self)
+        endOfYear.showPrompt(in: self)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -336,6 +338,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             navController.pushViewController(AccountViewController(), animated: false)
             navController.pushViewController(supporterVC, animated: true)
         }
+    }
+
+    func showEndOfYearStories() {
+        endOfYear.showStories(in: self)
     }
 
     private func topController() -> UIViewController {
