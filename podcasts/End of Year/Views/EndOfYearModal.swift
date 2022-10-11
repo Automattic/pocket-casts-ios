@@ -24,7 +24,6 @@ struct EndOfYearModal: View {
             .textStyle(RoundedButton())
             .contentShape(Rectangle())
 
-
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }) {
