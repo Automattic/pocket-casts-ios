@@ -1,6 +1,5 @@
 import AutomatticTracksEvents
 import AutomatticTracksModel
-import AutomatticRemoteLogging
 import Foundation
 import os
 import PocketCastsServer
@@ -45,6 +44,7 @@ class TracksAdapter: AnalyticsAdapter {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
+
         let context = TracksContextManager()
         tracksService = TracksService(contextManager: context)
         tracksService.eventNamePrefix = TracksConfig.prefix
