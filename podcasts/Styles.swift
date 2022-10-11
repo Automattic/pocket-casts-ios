@@ -44,6 +44,12 @@ extension Text {
     }
 }
 
+extension Button {
+    func textStyle<Style: ViewModifier>(_ style: Style) -> some View {
+        ModifiedContent(content: self, modifier: style)
+    }
+}
+
 struct HiddenListDividers: ViewModifier {
     @EnvironmentObject var theme: Theme
 
