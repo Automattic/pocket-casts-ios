@@ -178,6 +178,9 @@
 /* The name for the Round Light App Icon */
 "app_icon_round_light" = "Round Light";
 
+/* Halloween app icon name */
+"app_icon_halloween" = "Halloween";
+
 /* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
 "app_version" = "Version %1$@ (%2$@)";
 

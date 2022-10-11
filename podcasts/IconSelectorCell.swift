@@ -42,7 +42,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
         case .radioactivity:
             return L10n.appIconRadioactivity
         case .halloween:
-            return "Halloween"
+            return L10n.appIconHalloween
         }
     }
 
