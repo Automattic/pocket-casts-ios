@@ -6,9 +6,10 @@ struct StoriesView: View {
     var body: some View {
         VStack {
             ZStack {
+                Spacer()
                 fakeStory
                 header
-                Spacer()
+                storySwitcher
             }
 
             ZStack {}
@@ -74,6 +75,24 @@ struct StoriesView: View {
                         .cornerRadius(5)
                 }
             }
+    }
+
+    // Invisible component to go to the next/prev story
+    var storySwitcher: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Rectangle()
+                .foregroundColor(.clear)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print("Previous")
+            }
+            Rectangle()
+                .foregroundColor(.clear)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print("Next")
+            }
+        }
     }
 
     var shareButton: some View {
