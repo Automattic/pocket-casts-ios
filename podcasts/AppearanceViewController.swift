@@ -278,8 +278,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         let name = icon.iconName
 
         AnalyticsHelper.didChooseIcon(iconName: name)
-        UIApplication.shared.setAlternateIconName(name, completionHandler: { error in
-            print("$$ \(error)")
+        UIApplication.shared.setAlternateIconName(name, completionHandler: { _ in
             WidgetHelper.shared.updateWidgetAppIcon()
             DispatchQueue.main.async {
                 self.updateTableAndData()
