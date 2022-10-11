@@ -71,7 +71,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
         let podcast = podcasts[podcastIndexRow]
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryPodcastsViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
-        cell.subscribeSource = "discover_category"
+        cell.subscribeSource = .discoverCategory
         cell.populateFrom(podcast, number: -1)
 
         return cell

@@ -28,9 +28,9 @@ class PCRefreshControl: UIView {
         }
     }
 
-    let source: String
+    let source: AnalyticsSource
 
-    init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil, source: String) {
+    init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil, source: AnalyticsSource) {
         self.source = source
         super.init(frame: CGRect.zero)
 

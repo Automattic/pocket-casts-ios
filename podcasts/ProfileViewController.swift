@@ -479,7 +479,7 @@ extension ProfileViewController {
 
         refreshControl = PCRefreshControl(scrollView: profileTable,
                                           navBar: navController.navigationBar,
-                                          source: "profile")
+                                          source: .profile)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
