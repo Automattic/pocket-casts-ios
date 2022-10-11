@@ -941,7 +941,7 @@ inal copy, and try again.")
       auth_token: get_required_env('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
       project_slug: SENTRY_PROJECT_SLUG,
-      dsym_path:  symbols_path
+      dsym_path: symbols_path
     )
   end
 
