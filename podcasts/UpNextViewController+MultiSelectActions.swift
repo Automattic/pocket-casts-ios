@@ -27,8 +27,8 @@ extension UpNextViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
-        playbackSource
+    var multiSelectViewSource: AnalyticsSource {
+        analyticsSource
     }
 
     // MARK: - Long Press Multi Select Option Picker

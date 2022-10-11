@@ -1,5 +1,6 @@
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/7040243/190481901-1b47101c-da98-400f-b92b-bca9e66f4c8c.svg" />
+    <img src="https://user-images.githubusercontent.com/308331/194037473-41ad7eba-8602-4be5-be73-49e3c0c48c12.svg#gh-light-mode-only" />
+    <img src="https://user-images.githubusercontent.com/308331/194041226-4c6d8181-cafa-4ea8-8735-1d8106f5e5f6.svg#gh-dark-mode-only" />
 </p>
 
 <p align="center">
@@ -29,17 +30,11 @@ If you're an external contributor run `make external_contributor`. After that yo
 
 ## Swift Formatting
 
-We use a tool called Swift Format to ensure our code is spaced and formatted the same way and follows the same general conventions. We have a script that will run it over the whole project. The necessary depedencies will be installed with CocoaPods but you can also install it globally using:
+We use [SwiftLint](https://github.com/realm/SwiftLint) to is spaced and formatted the same way and follows the same [general conventions](https://github.com/Automattic/swiftlint-config). We have a script that will run it over the whole project.
 
-```
-brew update
-brew install swiftformat
-```
-***Note:*** Homebrew doesn't enforce versioning so if you use the brew version it _may_ get out of sync with the CocoaPods install.
+Once the required dependencies are installed via `bundle exec pod install`, you can run:
 
-Once the required dependencies are installed, you can run:
-
-`make swiftformat`
+`make format`
 
 You should do this before making a pull request.
 

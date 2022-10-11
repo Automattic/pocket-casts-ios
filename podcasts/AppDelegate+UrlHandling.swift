@@ -53,18 +53,18 @@ extension AppDelegate {
             guard let strongSelf = self, let shortcut = parameters["shortcut"] as? String else { return false }
 
             if shortcut == "pause" {
-                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
+                AnalyticsPlaybackHelper.shared.currentSource = .appIconMenu
                 PlaybackManager.shared.pause()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPause()
             } else if shortcut == "play" {
-                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
+                AnalyticsPlaybackHelper.shared.currentSource = .appIconMenu
                 PlaybackManager.shared.play()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
                 AnalyticsHelper.forceTouchPlay()
             } else if shortcut == "markAsPlayed" {
                 if let episode = PlaybackManager.shared.currentEpisode() {
-                    AnalyticsEpisodeHelper.shared.currentSource = "app_icon_menu"
+                    AnalyticsEpisodeHelper.shared.currentSource = .appIconMenu
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                     AnalyticsHelper.forceTouchMarkPlayed()
                 }

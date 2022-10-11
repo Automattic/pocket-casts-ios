@@ -247,22 +247,28 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let newestToOldestAction = OptionAction(label: PodcastEpisodeSortOrder.newestToOldest.description, selected: podcast.episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest.rawValue) { [weak self] in
             self?.setSortSetting(.newestToOldest)
+            Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.newestToOldest])
         }
 
         optionPicker.addAction(action: newestToOldestAction)
 
         let oldestToNewestAction = OptionAction(label: PodcastEpisodeSortOrder.oldestToNewest.description, selected: podcast.episodeSortOrder == PodcastEpisodeSortOrder.oldestToNewest.rawValue) { [weak self] in
             self?.setSortSetting(.oldestToNewest)
+            Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.oldestToNewest])
         }
         optionPicker.addAction(action: oldestToNewestAction)
 
         let shortestToLongestAction = OptionAction(label: PodcastEpisodeSortOrder.shortestToLongest.description, selected: podcast.episodeSortOrder == PodcastEpisodeSortOrder.shortestToLongest.rawValue) { [weak self] in
             self?.setSortSetting(.shortestToLongest)
+            Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.shortestToLongest])
+
         }
         optionPicker.addAction(action: shortestToLongestAction)
 
         let longestToShortestAction = OptionAction(label: PodcastEpisodeSortOrder.longestToShortest.description, selected: podcast.episodeSortOrder == PodcastEpisodeSortOrder.longestToShortest.rawValue) { [weak self] in
             self?.setSortSetting(.longestToShortest)
+            Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.longestToShortest])
+
         }
         optionPicker.addAction(action: longestToShortestAction)
 
@@ -276,26 +282,36 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let noneAction = OptionAction(label: L10n.none, selected: podcast.episodeGrouping == PodcastGrouping.none.rawValue) { [weak self] in
             self?.setGroupingSetting(.none)
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.none])
+
         }
         optionPicker.addAction(action: noneAction)
 
         let downloadedAction = OptionAction(label: L10n.statusDownloaded, selected: podcast.episodeGrouping == PodcastGrouping.downloaded.rawValue) { [weak self] in
             self?.setGroupingSetting(.downloaded)
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.downloaded])
+
         }
         optionPicker.addAction(action: downloadedAction)
 
         let unplayedAction = OptionAction(label: L10n.statusUnplayed, selected: podcast.episodeGrouping == PodcastGrouping.unplayed.rawValue) { [weak self] in
             self?.setGroupingSetting(.unplayed)
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.unplayed])
+
         }
         optionPicker.addAction(action: unplayedAction)
 
         let seasonAction = OptionAction(label: L10n.season, selected: podcast.episodeGrouping == PodcastGrouping.season.rawValue) { [weak self] in
             self?.setGroupingSetting(.season)
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.season])
+
         }
         optionPicker.addAction(action: seasonAction)
 
         let starAction = OptionAction(label: L10n.statusStarred, selected: podcast.episodeGrouping == PodcastGrouping.starred.rawValue) { [weak self] in
             self?.setGroupingSetting(.starred)
+            Analytics.track(.podcastsScreenEpisodeGroupingChanged, properties: ["value": PodcastGrouping.starred])
+
         }
         optionPicker.addAction(action: starAction)
 

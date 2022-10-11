@@ -40,8 +40,8 @@ extension PlaylistViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
-        playbackSource
+    var multiSelectViewSource: AnalyticsSource {
+        analyticsSource
     }
 
     // MARK: - Selected Episode

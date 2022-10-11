@@ -13,6 +13,7 @@
 			buildPhases = (
 				462EE0C527025346003D67DC /* GenerateCredentials */,
 				462F3AA2274EB4C3005FEB1F /* L10n */,
+				3F407FBC28EC30B800818E41 /* SwiftLint */,
 			);
 			dependencies = (
 			);
@@ -6768,6 +6769,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3F407FBC28EC30B800818E41 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make lint\n";
+			showEnvVarsInLog = 0;
+		};
 		462EE0C527025346003D67DC /* GenerateCredentials */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

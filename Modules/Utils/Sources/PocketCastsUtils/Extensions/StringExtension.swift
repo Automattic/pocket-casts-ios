@@ -56,7 +56,6 @@ public extension String {
     func widthOfString(usingFont font: UIFont) -> CGFloat {
         let fontAttributes = [NSAttributedString.Key.font: font]
 
-        // swiftformat:disable:next redundantSelf
         let attributedSize = self.size(withAttributes: fontAttributes)
 
         return attributedSize.width

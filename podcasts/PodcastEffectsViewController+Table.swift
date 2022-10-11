@@ -112,7 +112,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             DataManager.sharedManager.save(podcast: self.podcast)
 
             self.effectsTable.reloadData()
-            AnalyticsPlaybackHelper.shared.currentSource = self.playbackSource
+            AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
             AnalyticsPlaybackHelper.shared.trimSilenceAmountChanged(amount: level)
         }
         to.addAction(action: action)
@@ -143,7 +143,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         saveUpdates()
 
         playbackSpeedDebouncer.call {
-            AnalyticsPlaybackHelper.shared.currentSource = self.playbackSource
+            AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
             AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed)
         }
     }
