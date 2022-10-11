@@ -680,6 +680,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         DispatchQueue.global().async {
             DataManager.sharedManager.markAllUnarchivedForPodcast(id: podcast.id)
 
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkUnarchiveEpisodes(count: self.episodeCount())
+
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
 
@@ -694,12 +697,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         DispatchQueue.global().async { [weak self] in
             guard let allObjects = self?.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
 
+            var count = 0
             for object in allObjects {
                 guard let listEpisode = object as? ListEpisode else { continue }
                 if listEpisode.episode.archived || (playedOnly && !listEpisode.episode.played()) { continue }
 
-                EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false)
+                EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false, userInitiated: false)
+                count += 1
             }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkArchiveEpisodes(count: count)
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -712,6 +720,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func downloadAllTapped() {
         DispatchQueue.global().async { [weak self] in
             guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+
+            let episodes = allObjects.compactMap { ($0 as? ListEpisode)?.episode }
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+
             self.downloadItems(allObjects: allObjects)
         }
     }

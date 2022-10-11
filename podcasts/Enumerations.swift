@@ -53,7 +53,7 @@ enum PodcastLicensing: Int32 {
     case keepEpisodesAfterExpiry = 0, deleteEpisodesAfterExpiry = 1
 }
 
-enum PodcastEpisodeSortOrder: Int32, CaseIterable {
+enum PodcastEpisodeSortOrder: Int32, CaseIterable, AnalyticsDescribable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 
     var description: String {
@@ -66,6 +66,20 @@ enum PodcastEpisodeSortOrder: Int32, CaseIterable {
             return L10n.podcastsEpisodeSortShortestToLongest
         case .longestToShortest:
             return L10n.podcastsEpisodeSortLongestToShortest
+        }
+    }
+
+    var analyticsDescription: String {
+        switch self {
+
+        case .newestToOldest:
+            return "newest_to_oldest"
+        case .oldestToNewest:
+            return "oldest_to_newest"
+        case .shortestToLongest:
+            return "shortest_to_longest"
+        case .longestToShortest:
+            return "longest_to_shortest"
         }
     }
 }
