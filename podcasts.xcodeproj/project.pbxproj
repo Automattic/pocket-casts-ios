@@ -401,6 +401,7 @@
 		4694FA712799E73E00E9CF70 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		46972D2527C8075600C50D3E /* EpisodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46972D2427C8075600C50D3E /* EpisodeView.swift */; };
 		46A2763D27C6ADAD0053557E /* SwiftUI+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */; };
+		46A6AC0028F5B65F000E6254 /* CrashLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */; };
 		46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA2E022767EF92001D647A /* PlayPauseLabeledButton.swift */; };
 		46AB84D627AC392F00B219BA /* XCUIElement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */; };
 		46AC053027CEC2BD00D6AABB /* Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AC052F27CEC2BD00D6AABB /* Publishers.swift */; };
@@ -1898,6 +1899,7 @@
 		4694FA6C2799C85500E9CF70 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		46972D2427C8075600C50D3E /* EpisodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeView.swift; sourceTree = "<group>"; };
 		46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Constants.swift"; sourceTree = "<group>"; };
+		46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoggingAdapter.swift; sourceTree = "<group>"; };
 		46AA2E022767EF92001D647A /* PlayPauseLabeledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseLabeledButton.swift; sourceTree = "<group>"; };
 		46AC052F27CEC2BD00D6AABB /* Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publishers.swift; sourceTree = "<group>"; };
 		46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Screenshot Automation Watch.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3463,6 +3465,15 @@
 				46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */,
 			);
 			path = "Screenshot Automation";
+			sourceTree = "<group>";
+		};
+		46A6AC0128F5B67D000E6254 /* Crash Logging */ = {
+			isa = PBXGroup;
+			children = (
+				46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */,
+				4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */,
+			);
+			path = "Crash Logging";
 			sourceTree = "<group>";
 		};
 		46AFC23527AB19CE004B026F /* Screenshot Automation Watch */ = {
@@ -5753,8 +5764,9 @@
 		C72CED30289DA17F0017883A /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				C7C4CAEC28AB0BE300CFC8CF /* Tracks */,
 				C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */,
+				46A6AC0128F5B67D000E6254 /* Crash Logging */,
+				C7C4CAEC28AB0BE300CFC8CF /* Tracks */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -5788,7 +5800,6 @@
 			children = (
 				C72CED31289DA1900017883A /* TracksAdapter.swift */,
 				C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */,
-				4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */,
 			);
 			path = Tracks;
 			sourceTree = "<group>";
@@ -7079,6 +7090,7 @@
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
 				4006E30B23A35F1500174DEB /* CollectionSummaryViewController.swift in Sources */,
+				46A6AC0028F5B65F000E6254 /* CrashLoggingAdapter.swift in Sources */,
 				4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */,
 				BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */,
 				BDAA3CEF2122754700649F81 /* PlayerChapterCell.swift in Sources */,

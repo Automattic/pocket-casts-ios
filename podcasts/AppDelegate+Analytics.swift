@@ -16,7 +16,7 @@ extension AppDelegate {
     }
 
     private func setupAdapters() {
-        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
+        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
     }
 
     private func addAnalyticsObservers() {

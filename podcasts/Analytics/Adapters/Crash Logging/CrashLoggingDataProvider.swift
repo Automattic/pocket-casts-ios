@@ -3,9 +3,9 @@ import AutomatticRemoteLogging
 
 class CrashLoggingDataProvider: AutomatticRemoteLogging.CrashLoggingDataProvider {
     let sentryDSN = ApiCredentials.sentryDSN
-    var userHasOptedOut: Bool {
-        Settings.analyticsOptOut()
-    }
+    let userHasOptedOut = false
+    let shouldEnableAutomaticSessionTracking = true
+    var currentUser: AutomatticTracksModel.TracksUser? = nil
 
     var buildType: String {
     #if STAGING
@@ -15,11 +15,5 @@ class CrashLoggingDataProvider: AutomatticRemoteLogging.CrashLoggingDataProvider
     #else
         return "appStore"
     #endif
-    }
-
-    var currentUser: AutomatticTracksModel.TracksUser? = nil
-
-    var shouldEnableAutomaticSessionTracking: Bool {
-        !userHasOptedOut
     }
 }
