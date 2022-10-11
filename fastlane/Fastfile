@@ -526,8 +526,8 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_and_metadata
-    download_localized_app_store_metadata_from_glotpress
+    #download_localized_strings_and_metadata
+    #download_localized_app_store_metadata_from_glotpress
   end
 
   # Downloads the localized app strings and App Store Connect metadata from GlotPress.
