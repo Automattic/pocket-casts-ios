@@ -7,7 +7,7 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity, pumpkin
+    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity, halloween
 
     init(rawName: String) {
         self = IconType.allCases.first(where: { $0.iconName == rawName }) ?? IconType.primary
@@ -41,8 +41,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconElectricPink
         case .radioactivity:
             return L10n.appIconRadioactivity
-        case .pumpkin:
-            return "Pumpkin"
+        case .halloween:
+            return "Halloween"
         }
     }
 
@@ -74,8 +74,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return UIImage(named: "AppIcon-Electric-Pink108x108")
         case .radioactivity:
             return UIImage(named: "AppIcon-Radioactive108x108")
-        case .pumpkin:
-            return UIImage(named: "AppIcon-Pocket-Pumpkin108x108")
+        case .halloween:
+            return UIImage(named: "AppIcon-Pocket-Halloween108x108")
         }
     }
 
@@ -107,8 +107,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Electric-Pink"
         case .radioactivity:
             return "AppIcon-Radioactive"
-        case .pumpkin:
-            return "AppIcon-Pumpkinn"
+        case .halloween:
+            return "AppIcon-Halloween"
         }
     }
 
@@ -140,8 +140,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "electric_pink"
         case .radioactivity:
             return "radioactive"
-        case .pumpkin:
-            return "pumpkin"
+        case .halloween:
+            return "halloween"
         }
     }
 }
