@@ -6,45 +6,43 @@ struct StoriesView: View {
     var body: some View {
         VStack {
             ZStack {
-
-                VStack {
-                    HStack {
-                        storyIndicator
-                        storyIndicator
-                    }
-                    .frame(height: 2)
-                    Spacer()
-                }
-                .padding(.leading, 5)
-                .padding(.trailing, 5)
-
-                closeButton
+                fakeStory
+                header
                 Spacer()
             }
 
-            Button(action: {
+            ZStack {}
+                .frame(height: 15)
 
-            }) {
-                HStack {
-                    Spacer()
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(.white)
-                    Text("Share")
-                        .foregroundColor(.white)
-                    Spacer()
-                }
-            }
-            .contentShape(Rectangle())
-            .padding(.top, 10)
-            .padding(.bottom, 10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.white, style: StrokeStyle(lineWidth: 1))
-            )
-            .padding(.leading, 5)
-            .padding(.trailing, 5)
+            shareButton
         }
         .background(Color.black)
+    }
+
+    // Header containing the close button and the rectangles
+    var header: some View {
+        ZStack {
+            VStack {
+                HStack {
+                    storyIndicator
+                    storyIndicator
+                }
+                .frame(height: 2)
+                Spacer()
+            }
+            .padding(.leading, 13)
+            .padding(.trailing, 13)
+
+            closeButton
+        }
+        .padding(.top, 5)
+    }
+
+    var fakeStory: some View {
+        ZStack {
+            Color.purple
+        }
+        .cornerRadius(15)
     }
 
     var closeButton: some View {
@@ -76,6 +74,30 @@ struct StoriesView: View {
                         .cornerRadius(5)
                 }
             }
+    }
+
+    var shareButton: some View {
+        Button(action: {
+
+        }) {
+            HStack {
+                Spacer()
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(.white)
+                Text("Share")
+                    .foregroundColor(.white)
+                Spacer()
+            }
+        }
+        .contentShape(Rectangle())
+        .padding(.top, 10)
+        .padding(.bottom, 10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.white, style: StrokeStyle(lineWidth: 1))
+        )
+        .padding(.leading, 5)
+        .padding(.trailing, 5)
     }
 }
 
