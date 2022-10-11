@@ -364,6 +364,7 @@
 		463FCE7F27BEAE6400E5AF89 /* WatchHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FCE7E27BEAE6400E5AF89 /* WatchHostingController.swift */; };
 		4649404327D94757007F29C8 /* EpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4649404227D94757007F29C8 /* EpisodeViewModel.swift */; };
 		464B481F27E8FC7E00107CBF /* NowPlayingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464B481E27E8FC7E00107CBF /* NowPlayingViewModel.swift */; };
+		4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */; };
 		46666F0627D1289F00A141AA /* EpisodeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46666F0527D1289F00A141AA /* EpisodeAction.swift */; };
 		46673A2F27A9B66A005F9EF5 /* ScreenshotAutomation_iPad_Light_Interface.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 46673A2E27A9B66A005F9EF5 /* ScreenshotAutomation_iPad_Light_Interface.xctestplan */; };
 		46673A3127A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46673A3027A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift */; };
@@ -391,7 +392,6 @@
 		468A0FC327D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468A0FC227D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift */; };
 		468C0EF027BDA691003E4CFA /* EffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468C0EEF27BDA691003E4CFA /* EffectsView.swift */; };
 		468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		468F00D127CD575C00FFAAAA /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */; };
 		468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D227CD575C00FFAAAA /* FirebasePerformance */; };
 		468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */; };
 		468F800D27CFCFB500E6D764 /* PlaySourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468F800C27CFCFB500E6D764 /* PlaySourceViewModel.swift */; };
@@ -401,6 +401,7 @@
 		4694FA712799E73E00E9CF70 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		46972D2527C8075600C50D3E /* EpisodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46972D2427C8075600C50D3E /* EpisodeView.swift */; };
 		46A2763D27C6ADAD0053557E /* SwiftUI+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */; };
+		46A6AC0028F5B65F000E6254 /* CrashLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */; };
 		46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA2E022767EF92001D647A /* PlayPauseLabeledButton.swift */; };
 		46AB84D627AC392F00B219BA /* XCUIElement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */; };
 		46AC053027CEC2BD00D6AABB /* Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AC052F27CEC2BD00D6AABB /* Publishers.swift */; };
@@ -1852,6 +1853,7 @@
 		463FCE7E27BEAE6400E5AF89 /* WatchHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchHostingController.swift; sourceTree = "<group>"; };
 		4649404227D94757007F29C8 /* EpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewModel.swift; sourceTree = "<group>"; };
 		464B481E27E8FC7E00107CBF /* NowPlayingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewModel.swift; sourceTree = "<group>"; };
+		4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoggingDataProvider.swift; sourceTree = "<group>"; };
 		46666F0527D1289F00A141AA /* EpisodeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeAction.swift; sourceTree = "<group>"; };
 		46673A2E27A9B66A005F9EF5 /* ScreenshotAutomation_iPad_Light_Interface.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ScreenshotAutomation_iPad_Light_Interface.xctestplan; sourceTree = "<group>"; };
 		46673A3027A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iPad_GenerateScreenshots.swift; sourceTree = "<group>"; };
@@ -1900,6 +1902,7 @@
 		4694FA6C2799C85500E9CF70 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		46972D2427C8075600C50D3E /* EpisodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeView.swift; sourceTree = "<group>"; };
 		46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Constants.swift"; sourceTree = "<group>"; };
+		46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoggingAdapter.swift; sourceTree = "<group>"; };
 		46AA2E022767EF92001D647A /* PlayPauseLabeledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseLabeledButton.swift; sourceTree = "<group>"; };
 		46AC052F27CEC2BD00D6AABB /* Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publishers.swift; sourceTree = "<group>"; };
 		46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Screenshot Automation Watch.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2915,7 +2918,6 @@
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
-				468F00D127CD575C00FFAAAA /* FirebaseCrashlytics in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
 			);
@@ -3469,6 +3471,15 @@
 				46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */,
 			);
 			path = "Screenshot Automation";
+			sourceTree = "<group>";
+		};
+		46A6AC0128F5B67D000E6254 /* Crash Logging */ = {
+			isa = PBXGroup;
+			children = (
+				46A6ABFF28F5B65F000E6254 /* CrashLoggingAdapter.swift */,
+				4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */,
+			);
+			path = "Crash Logging";
 			sourceTree = "<group>";
 		};
 		46AFC23527AB19CE004B026F /* Screenshot Automation Watch */ = {
@@ -5762,8 +5773,9 @@
 		C72CED30289DA17F0017883A /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				C7C4CAEC28AB0BE300CFC8CF /* Tracks */,
 				C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */,
+				46A6AC0128F5B67D000E6254 /* Crash Logging */,
+				C7C4CAEC28AB0BE300CFC8CF /* Tracks */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -6007,7 +6019,6 @@
 				BDD239BC267C869B0047750C /* SwipeCellKit */,
 				46305CEF272B082C003AC87B /* AutomatticEncryptedLogs */,
 				468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */,
-				468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */,
 				468F00D227CD575C00FFAAAA /* FirebasePerformance */,
 				468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */,
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
@@ -7091,6 +7102,8 @@
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
 				4006E30B23A35F1500174DEB /* CollectionSummaryViewController.swift in Sources */,
+				46A6AC0028F5B65F000E6254 /* CrashLoggingAdapter.swift in Sources */,
+				4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */,
 				BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */,
 				BDAA3CEF2122754700649F81 /* PlayerChapterCell.swift in Sources */,
 				BD240C47231F475500FB2CDD /* PCSearchBarController+Scrolling.swift in Sources */,
@@ -9528,11 +9541,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		468F00D027CD575C00FFAAAA /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
 		};
 		468F00D227CD575C00FFAAAA /* FirebasePerformance */ = {
 			isa = XCSwiftPackageProductDependency;
