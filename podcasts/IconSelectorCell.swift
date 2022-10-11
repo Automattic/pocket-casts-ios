@@ -75,7 +75,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
         case .radioactivity:
             return UIImage(named: "AppIcon-Radioactive108x108")
         case .halloween:
-            return UIImage(named: "AppIcon-Pocket-Halloween108x108")
+            return UIImage(named: "AppIcon-Halloween108x108")
         }
     }
 
