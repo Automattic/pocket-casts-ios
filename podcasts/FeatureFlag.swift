@@ -13,5 +13,6 @@ enum FeatureFlag {
     /// Whether logging of Firebase events in console are enabled
     static let firebaseLoggingEnabled = false
 
+    /// Whether End Of Year feature is enabled
     static let endOfYear = false
 }
