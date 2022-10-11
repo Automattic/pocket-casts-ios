@@ -31,6 +31,8 @@ extension CarPlaySceneDelegate {
     }
 
     func episodeTapped(_ episode: BaseEpisode, closeListOnTap: Bool) {
+        AnalyticsPlaybackHelper.shared.currentSource = .carPlay
+
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
@@ -57,6 +59,8 @@ extension CarPlaySceneDelegate {
     }
 
     func chaptersTapped() {
+        AnalyticsPlaybackHelper.shared.currentSource = .carPlay
+
         let chapterCount = PlaybackManager.shared.chapterCount()
         guard chapterCount > 0 else { return }
 

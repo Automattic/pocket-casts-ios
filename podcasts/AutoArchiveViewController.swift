@@ -128,14 +128,14 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
     private func addArchiveInactiveAction(time: TimeInterval, to: OptionsPicker) {
         let selectedSetting = Settings.autoArchiveInactiveAfter()
         let action = OptionAction(label: ArchiveHelper.archiveTimeToText(time), selected: selectedSetting == time) { [weak self] in
-            Settings.setAutoArchiveInactiveAfter(time)
+            Settings.setAutoArchiveInactiveAfter(time, userInitiated: true)
             self?.archiveTable.reloadData()
         }
         to.addAction(action: action)
     }
 
     @objc private func archiveStarredChanged(_ sender: UISwitch) {
-        Settings.setArchiveStarredEpisodes(sender.isOn)
+        Settings.setArchiveStarredEpisodes(sender.isOn, userInitiated: true)
 
         archiveTable.beginUpdates()
         if let containerView = archiveTable.footerView(forSection: starredSection) {

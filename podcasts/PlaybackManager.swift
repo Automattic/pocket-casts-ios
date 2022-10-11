@@ -159,6 +159,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             // even if the episode isn't changing, we might have a stale copy of it, so update ours
             queue.nowPlayingEpisodeChanged()
+
+            if overrideUpNext {
+                queue.clearUpNextList()
+            }
         }
         uuidOfPlayingList = ""
 
@@ -184,10 +188,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func play(completion: (() -> Void)? = nil) {
+    func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 
-        analyticsPlaybackHelper.play()
+        if userInitiated {
+            analyticsPlaybackHelper.play()
+        }
 
         aboutToPlay.value = true
 
@@ -221,11 +227,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         })
     }
 
-    func pause() {
+    func pause(userInitiated: Bool = true) {
         guard let episode = currentEpisode() else { return }
 
         // Only trigger the event if we are already playing
-        if playing() {
+        if playing(), userInitiated == true {
             analyticsPlaybackHelper.pause()
         }
 
@@ -334,7 +340,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
-        analyticsPlaybackHelper.currentSource = "sync"
+        analyticsPlaybackHelper.currentSource = .sync
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
@@ -378,7 +384,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             if startPlaybackAfterSeek, !playing() {
-                play()
+                play(userInitiated: false)
             }
         }
 
@@ -523,7 +529,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: nextEpisode)
 
         if autoPlay {
-            play()
+            play(userInitiated: false)
         } else {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
@@ -805,6 +811,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
+        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
             endPlayback()
@@ -1685,7 +1692,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio = \(interruptionOption) )")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
-                play()
+                play(userInitiated: false)
                 wasPlayingBeforeInterruption = false
             }
         } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
@@ -1717,7 +1724,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsHelper.didConnectToChromecast()
         if let episode = currentEpisode() {
             if playerSwitchRequired() {
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 pause()
+
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }
@@ -1854,5 +1864,5 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Analytics
 
-    private let commandCenterSource = "now_playing_widget"
+    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 }

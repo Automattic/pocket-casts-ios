@@ -61,7 +61,7 @@ class UpNextNowPlayingCell: ThemeableCell {
 
     @IBOutlet var progressViewWidthConstraint: NSLayoutConstraint!
 
-    private var episode: BaseEpisode!
+    private var episode: BaseEpisode? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -99,8 +99,17 @@ class UpNextNowPlayingCell: ThemeableCell {
     @objc func progressUpdated(animated: Bool = true) {
         layoutIfNeeded()
 
-        let duration = episode.duration
-        let currentTime = PlaybackManager.shared.currentTime()
+        let duration: Double
+        let currentTime: TimeInterval
+
+        if let episode = episode {
+            duration = episode.duration
+            currentTime = PlaybackManager.shared.currentTime()
+        }
+        else {
+            duration = 1
+            currentTime = 1
+        }
 
         guard duration > 0, currentTime.isFinite else { return }
 
@@ -136,6 +145,11 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     func updateDownloadStatus() {
+        guard let episode = episode else {
+            downloadingIndicator.isHidden = true
+            downloadedIndicator.isHidden = true
+            return
+        }
         if let episode = episode as? UserEpisode, episode.uploadStatus == UploadStatus.missing.rawValue {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true

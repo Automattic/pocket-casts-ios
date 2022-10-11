@@ -78,8 +78,10 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
     }
 
-    class func setMobileDataAllowed(_ allow: Bool) {
+    class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
+
+        guard userInitiated else { return }
         trackValueToggled(.settingsStorageWarnBeforeUsingDataToggled, enabled: allow)
     }
 
@@ -90,8 +92,10 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
     }
 
-    class func setAutoDownloadMobileDataAllowed(_ allow: Bool) {
+    class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
+
+        guard userInitiated else { return }
         trackValueToggled(.settingsAutoDownloadOnlyOnWifiToggled, enabled: !allow)
     }
 
@@ -102,8 +106,10 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
-    class func setAutoDownloadEnabled(_ allow: Bool) {
+    class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(allow, forKey: Settings.autoDownloadEnabledKey)
+
+        guard userInitiated else { return }
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
 
@@ -259,9 +265,10 @@ class Settings: NSObject {
         UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
     }
 
-    class func setAutoArchivePlayedAfter(_ after: TimeInterval) {
+    class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
 
+        guard userInitiated else { return }
         if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
             trackValueChanged(.settingsAutoArchivePlayedChanged, value: archiveTime)
         }
@@ -272,9 +279,10 @@ class Settings: NSObject {
         UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
     }
 
-    class func setAutoArchiveInactiveAfter(_ after: TimeInterval) {
+    class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
 
+        guard userInitiated else { return }
         if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
             trackValueChanged(.settingsAutoArchiveInactiveChanged, value: archiveTime)
         }
@@ -285,8 +293,10 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
     }
 
-    class func setArchiveStarredEpisodes(_ archive: Bool) {
+    class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
+
+        guard userInitiated else { return }
         trackValueToggled(.settingsAutoArchiveIncludeStarredToggled, enabled: archive)
     }
 
@@ -574,8 +584,10 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: multiSelectGestureKey)
     }
 
-    class func setMultiSelectGestureEnabled(_ enabled: Bool) {
+    class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = false) {
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
+
+        guard userInitiated else { return }
         Settings.trackValueToggled(.settingsGeneralMultiSelectGestureToggled, enabled: enabled)
     }
 

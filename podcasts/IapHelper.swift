@@ -254,20 +254,17 @@ extension IapHelper: SKPaymentTransactionObserver {
                     hasNewPurchasedReceipt = true
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
-                    AnalyticsHelper.plusPlanPurchased()
-
-                    purchaseWasSuccessful(product)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
                     queue.finishTransaction(transaction)
 
+                    let userInfo = ["error": e]
+
                     if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
-                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled)
-                        purchaseWasCancelled(product, error: e)
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled, userInfo: userInfo)
                     } else { // report error to user
-                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed)
-                        purchaseFailed(product, error: e)
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed, userInfo: userInfo)
                     }
                 case .deferred:
                     FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
