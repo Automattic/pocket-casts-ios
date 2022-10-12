@@ -149,9 +149,9 @@ struct TestStoriesDataSource: StoriesDataSource {
     func story(for storyNumber: Int) -> any View {
         switch storyNumber {
         case 0:
-            return FakeStory()
+            FakeStory()
         default:
-            return FakeStoryTwo()
+            FakeStoryTwo()
         }
     }
 }
