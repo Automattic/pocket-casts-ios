@@ -5,18 +5,15 @@ struct StoriesView: View {
 
     @State var currentStory = 0
 
+    var dataSource: StoriesDataSource = TestStoriesDataSource()
+
     var body: some View {
         VStack {
             ZStack {
                 Spacer()
 
                 ZStack {
-                    switch $currentStory.wrappedValue {
-                    case 0:
-                        fakeStory
-                    default:
-                        fakeStoryTwo
-                    }
+                    dataSource.storyView(for: $currentStory.wrappedValue)
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 
@@ -49,18 +46,6 @@ struct StoriesView: View {
             closeButton
         }
         .padding(.top, Constants.headerTopPadding)
-    }
-
-    var fakeStory: some View {
-        ZStack {
-            Color.purple
-        }
-    }
-
-    var fakeStoryTwo: some View {
-        ZStack {
-            Color.yellow
-        }
     }
 
     var closeButton: some View {
@@ -162,6 +147,38 @@ private extension StoriesView {
         static let spaceBetweenShareAndStory: CGFloat = 15
 
         static let storyCornerRadius: CGFloat = 15
+    }
+}
+
+// MARK: - Data Source
+
+struct TestStoriesDataSource: StoriesDataSource {
+    var numberOfStories: Int = 2
+
+    @ViewBuilder
+    func story(for storyNumber: Int) -> any View {
+        switch storyNumber {
+        case 0:
+            return FakeStory()
+        default:
+            return FakeStoryTwo()
+        }
+    }
+}
+
+struct FakeStory: View {
+    var body: some View {
+        ZStack {
+            Color.purple
+        }
+    }
+}
+
+struct FakeStoryTwo: View {
+    var body: some View {
+        ZStack {
+            Color.yellow
+        }
     }
 }
 
