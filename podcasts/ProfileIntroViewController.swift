@@ -137,5 +137,51 @@ extension ProfileIntroViewController {
 
     @objc
     func handleAppleAuthButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.email]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+}
+
+extension ProfileIntroViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        guard let window = view.window else { return UIApplication.shared.windows.first! }
+        return window
+    }
+}
+
+extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            DispatchQueue.main.async {
+                self.handleAppleIDCredential(appleIDCredential)
+            }
+        default:
+            break
+        }
+    }
+
+    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
+        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+        progressAlert.showAlert(self, hasProgress: false, completion: {
+            AuthenticationHelper.processAppleIDCredential(appleIDCredential) { [unowned self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        progressAlert.hideAlert(false)
+                        self.signingProcessCompleted()
+                    case .failure:
+                        // TODO: Handle Error Case
+                        print("Display Error")
+                    }
+                }
+            }
+        })
     }
 }

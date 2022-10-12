@@ -112,12 +112,18 @@ public class ServerHelper: NSObject {
     }
 
     class func createProtoRequest(url: URL, data: Data) -> URLRequest? {
+        var request = createEmptyProtoRequest(url: url)
+        request?.httpBody = data
+
+        return request
+    }
+
+    class func createEmptyProtoRequest(url: URL) -> URLRequest? {
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 15.seconds)
         request.httpMethod = "POST"
         request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
         request.setValue(ServerConfig.shared.syncDelegate?.privateUserAgent(), forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
-        request.httpBody = data
 
         return request
     }

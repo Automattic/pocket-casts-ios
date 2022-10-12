@@ -124,7 +124,27 @@ public extension ApiServerHandler {
         }
     }
 
-    private class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
+    internal func obtainToken(request: URLRequest, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
+        urlSession.dataTask(with: request) { data, response, error in
+            guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
+                let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
+                FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
+                completion(.failure(errorResponse ?? .UNKNOWN))
+                return
+            }
+
+            do {
+                let response = try Api_UserLoginResponse(serializedData: responseData)
+                completion(.success(AuthenticationResponse(from: response)))
+            } catch {
+                FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
+                completion(.failure(.UNKNOWN))
+            }
+
+        }.resume()
+    }
+
+    internal class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
         if let data = data {
             do {
                 let errorJson = try JSON(data: data)

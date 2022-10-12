@@ -372,7 +372,7 @@ class EpisodeManager: NSObject {
         } else if let episode = episode as? Episode, let url = episode.downloadUrl {
             return URL(string: url)
         } else if let episode = episode as? UserEpisode {
-            if let token = ServerSettings.syncingV2Token(), episode.uploadStatus != UploadStatus.missing.rawValue {
+            if let token = ServerSettings.syncingV2Token, episode.uploadStatus != UploadStatus.missing.rawValue {
                 return URL(string: "\(ServerConstants.Urls.api())files/url/\(episode.uuid)?token=\(token)")
             }
         }
