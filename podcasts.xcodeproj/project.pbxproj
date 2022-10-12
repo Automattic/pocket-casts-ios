@@ -456,6 +456,7 @@
 		8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */; };
 		8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */; };
 		8B6B68E528F744520032BFFF /* StoriesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B68E428F744520032BFFF /* StoriesDataSource.swift */; };
+		8B6B68E928F7527C0032BFFF /* StoryIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B68E828F7527C0032BFFF /* StoryIndicator.swift */; };
 		8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */; };
 		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
 		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
@@ -1969,6 +1970,7 @@
 		8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerMock.swift; sourceTree = "<group>"; };
 		8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+requestReview.swift"; sourceTree = "<group>"; };
 		8B6B68E428F744520032BFFF /* StoriesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesDataSource.swift; sourceTree = "<group>"; };
+		8B6B68E828F7527C0032BFFF /* StoryIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryIndicator.swift; sourceTree = "<group>"; };
 		8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLockScreenWidget.swift; sourceTree = "<group>"; };
 		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
 		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
@@ -3637,6 +3639,7 @@
 				8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */,
 				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
 				8B738F3028F5CBE0004E7526 /* StoriesView.swift */,
+				8B6B68E828F7527C0032BFFF /* StoryIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7235,6 +7238,7 @@
 				BD83DE082068B7A100012C06 /* MiniPlayerViewController.swift in Sources */,
 				408ADBCA22B1D6A900E10AE6 /* OptionsPickerHelper.swift in Sources */,
 				BD22DF0B1BB7911F005FFA28 /* ShortcutManager.swift in Sources */,
+				8B6B68E928F7527C0032BFFF /* StoryIndicator.swift in Sources */,
 				BDF15A421B54E088000EC323 /* EffectsPlayer.swift in Sources */,
 				BD2A8D701FD50AEA00EB485A /* SwipeActionsHelper.swift in Sources */,
 				46737E6C2730400500739C3E /* ThemedSwitchToggleStyle.swift in Sources */,
