@@ -1,4 +1,5 @@
 import UIKit
+import AuthenticationServices
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
@@ -10,11 +11,21 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         }
     }
 
+    @IBOutlet var authenticationProviders: UIStackView!
     @IBOutlet var signInBtn: ThemeableRoundedButton! {
         didSet {
+            signInBtn.isHidden = FeatureFlag.signInWithApple
             signInBtn.setTitle(L10n.signIn, for: .normal)
             signInBtn.shouldFill = false
             signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+        }
+    }
+
+    @IBOutlet var passwordAuthOption: ThemeableUIButton! {
+        didSet {
+            passwordAuthOption.isHidden = !FeatureFlag.signInWithApple
+            passwordAuthOption.setTitle(L10n.accountLogin, for: .normal)
+            passwordAuthOption.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         }
     }
 
@@ -51,6 +62,8 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        setupProviderLoginView()
 
         Analytics.track(.setupAccountShown)
     }
@@ -107,5 +120,22 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+}
+
+// MARK: - Apple Auth
+extension ProfileIntroViewController {
+    func setupProviderLoginView() {
+        guard FeatureFlag.signInWithApple else { return }
+
+        let authorizationButton = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
+        authorizationButton.cornerRadius = createAccountBtn.cornerRadius
+        authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
+        authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
+      }
+
+    @objc
+    func handleAppleAuthButtonPress() {
     }
 }
