@@ -3631,6 +3631,8 @@
 			children = (
 				8BCB22B528F48A4E001A0315 /* Views */,
 				8BCB22B328F48282001A0315 /* EndOfYear.swift */,
+				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
+				8B6B68E628F74A010032BFFF /* StoriesModel.swift */,
 			);
 			path = "End of Year";
 			sourceTree = "<group>";
@@ -3639,8 +3641,6 @@
 			isa = PBXGroup;
 			children = (
 				8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */,
-				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
-				8B6B68E628F74A010032BFFF /* StoriesModel.swift */,
 				8B738F3028F5CBE0004E7526 /* StoriesView.swift */,
 				8B6B68E828F7527C0032BFFF /* StoryIndicator.swift */,
 			);
