@@ -102,13 +102,9 @@ GEM
       no_proxy_fix
       octokit (~> 4.7)
       terminal-table (>= 1, < 4)
-    danger-plugin-api (1.0.0)
-      danger (> 2.0)
     danger-rubocop (0.10.0)
       danger
       rubocop (~> 1.0)
-    danger-swiftformat (0.8.1)
-      danger-plugin-api (~> 1.0)
     danger-swiftlint (0.30.2)
       danger
       rake (> 10)
@@ -195,6 +191,8 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-sentry (1.14.0)
+      os (~> 1.1, >= 1.1.4)
     fastlane-plugin-wpmreleasetoolkit (5.4.0)
       activesupport (~> 5)
       bigdecimal (~> 1.4)
@@ -390,9 +388,9 @@ DEPENDENCIES
   commonmarker
   danger
   danger-rubocop (~> 0.10)
-  danger-swiftformat
   danger-swiftlint
   fastlane (~> 2.210.0)
+  fastlane-plugin-sentry (~> 1.14)
   fastlane-plugin-wpmreleasetoolkit (~> 5.4)
   rake (>= 12.0, < 14.0)
   rubocop (~> 1.30)

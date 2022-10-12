@@ -21,4 +21,8 @@ struct ApiCredentials {
     /// Sharing Server Secret
     ///
     static let sharingServerSecret = "%{sharing_server_secret}"
+
+    /// Sharing Server Secret
+    ///
+    static let sentryDSN = "%{sentry_dsn}"
 }

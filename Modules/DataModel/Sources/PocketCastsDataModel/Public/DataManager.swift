@@ -1,5 +1,6 @@
 import FMDB
 import PocketCastsUtils
+import SQLite3
 
 public class DataManager {
     public static let podcastTableName = "SJPodcast"
@@ -27,7 +28,8 @@ public class DataManager {
     public init() {
         DataManager.ensureDbFolderExists()
 
-        dbQueue = FMDatabaseQueue(path: DataManager.pathToDb())!
+        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+        dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
         dbQueue.inDatabase { db in
             DatabaseHelper.setup(db: db)
         }

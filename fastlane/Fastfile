@@ -15,6 +15,8 @@ SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'CHANGELOG.md')
 EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
+SENTRY_ORG_SLUG = 'a8c'
+SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
@@ -236,9 +238,9 @@ platform :ios do
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link}."
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ju|need help?>)"
       else
-        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link}."
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ku|need help?>)"
       end
     elsif (build_number_split[2] || '0').to_i.positive?
       "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
@@ -360,6 +362,7 @@ platform :ios do
     ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
     ios_build_preflight unless options[:skip_prechecks]
 
+    sentry_check_cli_installed
     configure_code_signing
 
     gym(
@@ -377,7 +380,7 @@ platform :ios do
       api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
     )
 
-    sh 'cd .. && make upload_dsyms'
+    symbols_upload
 
     next unless options[:create_release]
 
@@ -894,6 +897,17 @@ inal copy, and try again.")
     styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
 
     File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  end
+
+  desc 'Uploads DSYM Symbols'
+  lane :symbols_upload do |options|
+    symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    sentry_upload_dsym(
+      auth_token: get_required_env('SENTRY_AUTH_TOKEN'),
+      org_slug: SENTRY_ORG_SLUG,
+      project_slug: SENTRY_PROJECT_SLUG,
+      dsym_path: symbols_path
+    )
   end
 
   def load_ci_spm_cache

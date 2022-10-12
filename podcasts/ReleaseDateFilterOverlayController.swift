@@ -48,8 +48,8 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
     let choices: [ReleaseDateFilterOption] = [.anytime, .last24hours, .last3Days, .lastWeek, .last2Weeks, .lastMonth]
     var selectedIndex = 0
 
-    override var playbackSource: String {
-        "release_date"
+    override var analyticsSource: AnalyticsSource {
+        .releaseDate
     }
 
     override func viewDidLoad() {

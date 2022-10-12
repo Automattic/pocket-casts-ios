@@ -41,4 +41,6 @@ protocol NavigationProtocol: AnyObject {
     func showWhatsNew(whatsNewInfo: WhatsNewInfo)
 
     func showInSafariViewController(urlString: String)
+
+    func showEndOfYearStories()
 }

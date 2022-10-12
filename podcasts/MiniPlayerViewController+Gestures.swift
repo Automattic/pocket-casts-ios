@@ -80,7 +80,7 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
         let markAsPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") {
             Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
             if let episode = PlaybackManager.shared.currentEpisode() {
-                AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
+                AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
         }
