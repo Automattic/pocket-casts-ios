@@ -3,8 +3,6 @@ import SwiftUI
 struct StoriesView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    @State var currentStory = 0
-
     @ObservedObject var model: StoriesModel = StoriesModel(dataSource: TestStoriesDataSource())
 
     var body: some View {
