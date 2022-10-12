@@ -5,7 +5,7 @@ struct StoriesView: View {
 
     @State var currentStory = 0
 
-    @ObservedObject var storiesModel: StoriesModel = StoriesModel(dataSource: TestStoriesDataSource())
+    @ObservedObject var model: StoriesModel = StoriesModel(dataSource: TestStoriesDataSource())
 
     var body: some View {
         VStack {
@@ -13,7 +13,7 @@ struct StoriesView: View {
                 Spacer()
 
                 ZStack {
-                    storiesModel.story(index: Int(storiesModel.progress))
+                    model.story(index: Int(model.progress))
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 
@@ -28,7 +28,7 @@ struct StoriesView: View {
         }
         .background(Color.black)
         .onAppear {
-            storiesModel.start()
+            model.start()
         }
     }
 
@@ -37,8 +37,8 @@ struct StoriesView: View {
         ZStack {
             VStack {
                 HStack {
-                    ForEach(0 ..< storiesModel.numberOfStories, id: \.self) { x in
-                        StoryIndicator(progress: min(max((CGFloat(storiesModel.progress) - CGFloat(x)), 0.0), 1.0))
+                    ForEach(0 ..< model.numberOfStories, id: \.self) { x in
+                        StoryIndicator(progress: min(max((CGFloat(model.progress) - CGFloat(x)), 0.0), 1.0))
                     }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
@@ -76,13 +76,13 @@ struct StoriesView: View {
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    storiesModel.previous()
+                    model.previous()
             }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    storiesModel.next()
+                    model.next()
             }
         }
     }
