@@ -8,12 +8,13 @@ struct StoriesView: View {
             ZStack {
                 Spacer()
                 fakeStory
-                header
+                    .cornerRadius(Constants.storyCornerRadius)
                 storySwitcher
+                header
             }
 
             ZStack {}
-                .frame(height: 15)
+                .frame(height: Constants.spaceBetweenShareAndStory)
 
             shareButton
         }
@@ -28,22 +29,21 @@ struct StoriesView: View {
                     storyIndicator
                     storyIndicator
                 }
-                .frame(height: 2)
+                .frame(height: Constants.storyIndicatorHeight)
                 Spacer()
             }
-            .padding(.leading, 13)
-            .padding(.trailing, 13)
+            .padding(.leading, Constants.storyIndicatorVerticalPadding)
+            .padding(.trailing, Constants.storyIndicatorVerticalPadding)
 
             closeButton
         }
-        .padding(.top, 5)
+        .padding(.top, Constants.headerTopPadding)
     }
 
     var fakeStory: some View {
         ZStack {
             Color.purple
         }
-        .cornerRadius(15)
     }
 
     var closeButton: some View {
@@ -55,10 +55,10 @@ struct StoriesView: View {
                     }) {
                         Image(systemName: "xmark")
                             .foregroundColor(.white)
-                            .padding(13)
+                            .padding(Constants.closeButtonPadding)
                     }
                 }
-                .padding(.top, 5)
+                .padding(.top, Constants.closeButtonTopPadding)
                 Spacer()
             }
         }
@@ -67,19 +67,19 @@ struct StoriesView: View {
         GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .foregroundColor(Color.white.opacity(0.3))
-                        .cornerRadius(5)
+                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorBackgroundOpacity))
+                        .cornerRadius(Constants.storyIndicatorBorderRadius)
 
                     Rectangle()
-                        .foregroundColor(Color.white.opacity(0.9))
-                        .cornerRadius(5)
+                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorForegroundOpacity))
+                        .cornerRadius(Constants.storyIndicatorBorderRadius)
                 }
             }
     }
 
     // Invisible component to go to the next/prev story
     var storySwitcher: some View {
-        HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .center, spacing: Constants.storySwitcherSpacing) {
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
@@ -109,16 +109,46 @@ struct StoriesView: View {
             }
         }
         .contentShape(Rectangle())
-        .padding(.top, 10)
-        .padding(.bottom, 10)
+        .padding(.top, Constants.shareButtonVerticalPadding)
+        .padding(.bottom, Constants.shareButtonVerticalPadding)
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.white, style: StrokeStyle(lineWidth: 1))
+            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
+                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
         )
-        .padding(.leading, 5)
-        .padding(.trailing, 5)
+        .padding(.leading, Constants.shareButtonHorizontalPadding)
+        .padding(.trailing, Constants.shareButtonHorizontalPadding)
     }
 }
+
+// MARK: - Constants
+
+private extension StoriesView {
+    struct Constants {
+        static let storyIndicatorHeight: CGFloat = 2
+        static let storyIndicatorVerticalPadding: CGFloat = 13
+        static let headerTopPadding: CGFloat = 5
+
+        static let closeButtonPadding: CGFloat = 13
+        static let closeButtonTopPadding: CGFloat = 5
+
+        static let storyIndicatorBorderRadius: CGFloat = 5
+        static let storyIndicatorBackgroundOpacity: CGFloat = 0.3
+        static let storyIndicatorForegroundOpacity: CGFloat = 0.9
+
+        static let storySwitcherSpacing: CGFloat = 0
+
+        static let shareButtonVerticalPadding: CGFloat = 10
+        static let shareButtonHorizontalPadding: CGFloat = 5
+        static let shareButtonCornerRadius: CGFloat = 10
+        static let shareButtonBorderSize: CGFloat = 1
+
+        static let spaceBetweenShareAndStory: CGFloat = 15
+
+        static let storyCornerRadius: CGFloat = 15
+    }
+}
+
+// MARK: - Preview Provider
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
