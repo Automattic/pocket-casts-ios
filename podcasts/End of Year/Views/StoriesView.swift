@@ -3,12 +3,23 @@ import SwiftUI
 struct StoriesView: View {
     @Environment(\.presentationMode) var presentationMode
 
+    @State var currentStory = 0
+
     var body: some View {
         VStack {
             ZStack {
                 Spacer()
-                fakeStory
-                    .cornerRadius(Constants.storyCornerRadius)
+
+                ZStack {
+                    switch $currentStory.wrappedValue {
+                    case 0:
+                        fakeStory
+                    default:
+                        fakeStoryTwo
+                    }
+                }
+                .cornerRadius(Constants.storyCornerRadius)
+
                 storySwitcher
                 header
             }
@@ -43,6 +54,12 @@ struct StoriesView: View {
     var fakeStory: some View {
         ZStack {
             Color.purple
+        }
+    }
+
+    var fakeStoryTwo: some View {
+        ZStack {
+            Color.yellow
         }
     }
 
@@ -84,13 +101,13 @@ struct StoriesView: View {
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("Previous")
+                    currentStory -= 1
             }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("Next")
+                    currentStory += 1
             }
         }
     }
