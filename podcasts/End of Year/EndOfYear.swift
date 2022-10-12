@@ -26,6 +26,10 @@ struct EndOfYear {
 
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
     }
 }
