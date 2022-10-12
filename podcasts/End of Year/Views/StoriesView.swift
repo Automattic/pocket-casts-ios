@@ -7,13 +7,15 @@ struct StoriesView: View {
 
     var dataSource: StoriesDataSource = TestStoriesDataSource()
 
+    @ObservedObject var storiesModel: StoriesModel = StoriesModel(items: 2)
+
     var body: some View {
         VStack {
             ZStack {
                 Spacer()
 
                 ZStack {
-                    dataSource.storyView(for: $currentStory.wrappedValue)
+                    dataSource.storyView(for: Int(storiesModel.progress))
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 
@@ -27,6 +29,9 @@ struct StoriesView: View {
             shareButton
         }
         .background(Color.black)
+        .onAppear {
+            storiesModel.start()
+        }
     }
 
     // Header containing the close button and the rectangles
@@ -34,8 +39,9 @@ struct StoriesView: View {
         ZStack {
             VStack {
                 HStack {
-                    storyIndicator
-                    storyIndicator
+                    ForEach(0 ..< dataSource.numberOfStories, id: \.self) { x in
+                        StoryIndicator(progress: min(max((CGFloat(storiesModel.progress) - CGFloat(x)), 0.0), 1.0))
+                    }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
                 Spacer()
@@ -64,20 +70,6 @@ struct StoriesView: View {
                 Spacer()
             }
         }
-
-    var storyIndicator: some View {
-        GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorBackgroundOpacity))
-                        .cornerRadius(Constants.storyIndicatorBorderRadius)
-
-                    Rectangle()
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorForegroundOpacity))
-                        .cornerRadius(Constants.storyIndicatorBorderRadius)
-                }
-            }
-    }
 
     // Invisible component to go to the next/prev story
     var storySwitcher: some View {
