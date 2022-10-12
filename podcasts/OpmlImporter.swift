@@ -49,7 +49,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
 
             // send urls to server 100 at a time
             initialPodcastCount = parsedUrls.count
-            importPodcasts(uuids: parsedUrls)
+            importPodcasts(urls: parsedUrls)
 
             var amountOfTimesPolled = 0
             while amountOfTimesPolled < 20, pollUuids.count > 0 {
@@ -57,7 +57,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
 
                 let pollUuidsToSend = pollUuids
                 pollUuids.removeAll()
-                importPodcasts(uuids: pollUuidsToSend)
+                pollImportPodcasts(pollUuids: pollUuidsToSend)
                 Thread.sleep(forTimeInterval: TimeInterval(amountOfTimesPolled))
             }
 
@@ -80,33 +80,46 @@ class OpmlImporter: Operation, XMLParserDelegate {
         parsedUrls.append(url)
     }
 
-    private func importPodcasts(uuids: [String]) {
-        let serverCallDispathGroup = DispatchGroup()
-        uuids.chunked(into: 100).forEach { chunk in
-            serverCallDispathGroup.enter()
+    private func importPodcasts(urls: [String]) {
+        let serverCallDispatchGroup = DispatchGroup()
+        urls.chunked(into: 100).forEach { chunk in
+            serverCallDispatchGroup.enter()
 
             MainServerHandler.shared.sendOpmlChunk(feedUrls: chunk) { response in
-                guard let uploadResponse = response, uploadResponse.success() else {
-                    // since there might be multiple chunks, if this one fails, just go to the next one
-                    serverCallDispathGroup.leave()
-                    return
-                }
-
-                // since the code below is going to be making more network requests, get this call off the URLSession delegate queue
-                DispatchQueue.global().async {
-                    if let result = uploadResponse.result {
-                        self.podcastsToAdd = result.uuids ?? []
-                        self.pollUuids += result.pollUuids ?? []
-                        self.failedCount += result.failedCount
-
-                        self.addAllPendingPodcasts()
-                        self.podcastsToAdd.removeAll()
-                    }
-                    serverCallDispathGroup.leave()
-                }
+                self.processImportPodcastsResponse(response: response, dispatchGroup: serverCallDispatchGroup)
             }
 
-            _ = serverCallDispathGroup.wait(timeout: .now() + 2.minutes)
+            _ = serverCallDispatchGroup.wait(timeout: .now() + 2.minutes)
+        }
+    }
+
+    private func pollImportPodcasts(pollUuids: [String]) {
+        let serverCallDispatchGroup = DispatchGroup()
+        serverCallDispatchGroup.enter()
+        MainServerHandler.shared.sendOpmlChunk(pollUuids: pollUuids) { response in
+            self.processImportPodcastsResponse(response: response, dispatchGroup: serverCallDispatchGroup)
+        }
+        _ = serverCallDispatchGroup.wait(timeout: .now() + 2.minutes)
+    }
+
+    private func processImportPodcastsResponse(response: ImportOpmlResponse?, dispatchGroup: DispatchGroup) {
+        guard let uploadResponse = response, uploadResponse.success() else {
+            // since there might be multiple chunks, if this one fails, just go to the next one
+            dispatchGroup.leave()
+            return
+        }
+
+        // since the code below is going to be making more network requests, get this call off the URLSession delegate queue
+        DispatchQueue.global().async {
+            if let result = uploadResponse.result {
+                self.podcastsToAdd = result.uuids ?? []
+                self.pollUuids += result.pollUuids ?? []
+                self.failedCount += result.failedCount
+
+                self.addAllPendingPodcasts()
+                self.podcastsToAdd.removeAll()
+            }
+            dispatchGroup.leave()
         }
     }
 
