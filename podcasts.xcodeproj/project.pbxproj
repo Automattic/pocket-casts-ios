@@ -467,6 +467,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1978,6 +1979,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -4829,6 +4831,7 @@
 				8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */,
 				8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */,
 				8B2FEA8C28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png */,
+				8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */,
 				BD6B6685245BC28600CF5245 /* AppIcon-Red-Velvet20x20@2x.png */,
 				BD6B6692245BC28800CF5245 /* AppIcon-Red-Velvet20x20@2x~ipad.png */,
 				BD6B668E245BC28700CF5245 /* AppIcon-Red-Velvet20x20@3x.png */,
@@ -6479,6 +6482,7 @@
 				BDA002FB1F7B318B00DCB4AE /* AppIcon20x20@3x.png in Resources */,
 				40888F112563792300887D9A /* AppIcon-Round-Pink20x20@2x.png in Resources */,
 				404A080824E215A200308722 /* CheckboxSubtitleCell.xib in Resources */,
+				8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */,
 				BD96F4761CC9FEB900AB09B0 /* ForgotPasswordViewController.xib in Resources */,
 				BDBCE6D5244E7755004FFE13 /* AppIcon-Radioactive20x20~ipad.png in Resources */,
 				BDB1E4FF1B8C5C2B009AD30F /* CategorySummaryViewController.xib in Resources */,

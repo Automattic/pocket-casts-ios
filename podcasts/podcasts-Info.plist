@@ -724,6 +724,7 @@
                 <key>CFBundleIconFiles</key>
                 <array>
                     <string>AppIcon-Halloween</string>
+                    <string>AppIcon-Halloween-152</string>
                 </array>
             </dict>
 		</dict>
