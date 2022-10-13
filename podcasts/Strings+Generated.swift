@@ -96,6 +96,8 @@ internal enum L10n {
   internal static var accountDeleteAccountFirstAlertMsg: String { return L10n.tr("Localizable", "account_delete_account_first_alert_msg") }
   /// Delete Account?
   internal static var accountDeleteAccountTitle: String { return L10n.tr("Localizable", "account_delete_account_title") }
+  /// Log in
+  internal static var accountLogin: String { return L10n.tr("Localizable", "account_login") }
   /// Renews automatically monthly
   internal static var accountPaymentRenewsMonthly: String { return L10n.tr("Localizable", "account_payment_renews_monthly") }
   /// Renews automatically yearly

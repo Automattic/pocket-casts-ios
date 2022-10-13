@@ -17,9 +17,15 @@ struct EndOfYear {
             return
         }
 
-        let storiesViewController = UIViewController()
-        storiesViewController.view.backgroundColor = .systemBackground
+        let storiesViewController = StoriesHostingController(rootView: StoriesView())
+        storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = .fullScreen
         viewController.present(storiesViewController, animated: true, completion: nil)
+    }
+}
+
+class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

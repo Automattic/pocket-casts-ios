@@ -15,4 +15,7 @@ enum FeatureFlag {
 
     /// Whether End Of Year feature is enabled
     static let endOfYear = false
+
+    /// Adds the Sign In With Apple options to the login flow
+    static let signInWithApple = false
 }
