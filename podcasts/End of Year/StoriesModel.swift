@@ -4,6 +4,8 @@ import SwiftUI
 class StoriesModel: ObservableObject {
     @Published var progress: Double
 
+    @Published var currentStory: Int = 0
+
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
     private var cancellable: Cancellable?
@@ -20,9 +22,18 @@ class StoriesModel: ObservableObject {
     }
 
     func start() {
-        cancellable = publisher.autoconnect().sink(receiveValue: {  _ in
+        cancellable = publisher.autoconnect().sink(receiveValue: { _ in
             var newProgress = self.progress + (0.01 / self.interval)
-            if Int(newProgress) >= self.numberOfStories { newProgress = 0 }
+
+            let currentStory = Int(newProgress)
+
+            if currentStory >= self.numberOfStories {
+                newProgress = 0
+                self.currentStory = 0
+            } else if currentStory != self.currentStory {
+                self.currentStory = currentStory
+            }
+
             self.progress = newProgress
         })
     }

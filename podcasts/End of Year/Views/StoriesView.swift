@@ -11,7 +11,7 @@ struct StoriesView: View {
                 Spacer()
 
                 ZStack {
-                    model.story(index: Int(model.progress))
+                    model.story(index: model.currentStory)
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 
