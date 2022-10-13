@@ -111,6 +111,7 @@ class TokenHelper {
     }
 
     // MARK: - SSO Identity Token
+
     private class func acquireIdentityToken() -> String? {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil

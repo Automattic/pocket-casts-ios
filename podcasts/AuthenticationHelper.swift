@@ -20,6 +20,7 @@ class AuthenticationHelper {
         handleSuccessfulSignIn(response)
         if let identityToken = appleIDCredential.identityToken {
             ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
+            ServerSettings.appleAuthUserID = appleIDCredential.user
         }
     }
 

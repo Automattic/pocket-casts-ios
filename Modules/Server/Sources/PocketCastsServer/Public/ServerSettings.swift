@@ -345,4 +345,14 @@ public extension ServerSettings {
             KeychainHelper.save(string: newValue, key: ServerConstants.Values.appleAuthIdentityTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         }
     }
+
+    class var appleAuthUserID: String? {
+        get {
+            KeychainHelper.string(for: ServerConstants.Values.appleAuthUserIDKey)
+        }
+
+        set {
+            KeychainHelper.save(string: newValue, key: ServerConstants.Values.appleAuthUserIDKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+        }
+    }
 }
