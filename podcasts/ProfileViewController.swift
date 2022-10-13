@@ -114,7 +114,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     var promoRedeemedMessage: String?
     private let settingsCellId = "SettingsCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -405,6 +405,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
+        case .endOfYearPrompt:
+            return UITableViewCell()
         }
 
         return cell
@@ -430,6 +432,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
+        case .endOfYearPrompt:
+            EndOfYear().showStories(in: self)
         }
     }
 
@@ -442,11 +446,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
+        var data: [[ProfileViewController.TableRow]]
         if !SyncManager.isUserLoggedIn() {
-            return [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
+            data = [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
         } else {
-            return [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
+            data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
         }
+
+        if FeatureFlag.endOfYear {
+            data[0].insert(.endOfYearPrompt, at: 0)
+        }
+
+        return data
     }
 
     private func updateFooterFrame() {
