@@ -6,7 +6,7 @@ protocol DiscoverSummaryProtocol: AnyObject {
     func populateFrom(item: DiscoverItem)
 }
 
-protocol DiscoverDelegate: UIViewController {
+protocol DiscoverDelegate: AnyObject {
     func show(podcastInfo: PodcastInfo, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)
     func show(discoverPodcast: DiscoverPodcast, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)
     func show(podcast: Podcast)
@@ -21,4 +21,6 @@ protocol DiscoverDelegate: UIViewController {
     func navController() -> UINavigationController?
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast)
+
+    func failedToLoadEpisode()
 }

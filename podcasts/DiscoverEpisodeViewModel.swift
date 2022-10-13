@@ -125,9 +125,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
                 guard let podcast = podcast else {
-                    DispatchQueue.main.async {
-                        SJUIUtils.showAlert(title: L10n.error, message: L10n.discoverFeaturedEpisodeErrorNotFound, from: self?.delegate)
-                    }
+                    self?.delegate?.failedToLoadEpisode()
                     return
                 }
                 self?.delegate?.show(discoverEpisode: episode, podcast: podcast)

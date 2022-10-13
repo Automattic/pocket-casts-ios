@@ -110,4 +110,8 @@ extension DiscoverViewController: DiscoverDelegate {
         episodeController.modalPresentationStyle = .formSheet
         present(episodeController, animated: true)
     }
+
+    func failedToLoadEpisode() {
+        SJUIUtils.showAlert(title: L10n.error, message: L10n.discoverFeaturedEpisodeErrorNotFound, from: self)
+    }
 }
