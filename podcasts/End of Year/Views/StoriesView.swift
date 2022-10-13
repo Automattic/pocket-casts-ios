@@ -3,7 +3,11 @@ import SwiftUI
 struct StoriesView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    @ObservedObject var model: StoriesModel = StoriesModel(dataSource: TestStoriesDataSource())
+    @ObservedObject private var model: StoriesModel
+
+    init(dataSource: StoriesDataSource) {
+        model = StoriesModel(dataSource: dataSource)
+    }
 
     var body: some View {
         VStack {
@@ -193,6 +197,6 @@ struct FakeStoryTwo: View {
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView()
+        StoriesView(dataSource: TestStoriesDataSource())
     }
 }

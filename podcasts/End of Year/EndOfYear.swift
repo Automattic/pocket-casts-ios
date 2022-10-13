@@ -17,7 +17,7 @@ struct EndOfYear {
             return
         }
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView())
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: TestStoriesDataSource()))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = .fullScreen
         viewController.present(storiesViewController, animated: true, completion: nil)
