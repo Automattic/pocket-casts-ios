@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import AuthenticationServices
 
 class AuthenticationHelper {
@@ -13,6 +14,34 @@ class AuthenticationHelper {
             case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+
+    static func validateAppleSSOCredentials() {
+        guard ServerSettings.appleAuthUserID != nil else {
+            // No need to Check if we don't have a user ID
+            return
+        }
+        Task {
+            let state = try await ApiServerHandler.shared.ssoCredentialState()
+            switch state {
+            case .revoked, .transferred:
+                FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
+                SyncManager.signout()
+            default:
+                break
+            }
+        }
+    }
+
+    static func observeAppleSSOEvents() {
+        guard ServerSettings.appleAuthUserID != nil else {
+            // No need to observe if we don't have a user ID
+            return
+        }
+        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
+            FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
+            SyncManager.signout()
         }
     }
 
@@ -38,7 +67,7 @@ class AuthenticationHelper {
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         // TODO: Track login source details
-//        Analytics.track(.userSignedIn)
+        //        Analytics.track(.userSignedIn)
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)

@@ -49,7 +49,7 @@ public extension ApiServerHandler {
         guard let userID = ServerSettings.appleAuthUserID else { return .notFound }
         return try await ASAuthorizationAppleIDProvider().credentialState(forUserID: userID)
     }
-    
+
     func hasValidSSOToken() async throws -> Bool {
         let tokenState = try await ssoCredentialState()
 
