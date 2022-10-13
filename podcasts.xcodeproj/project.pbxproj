@@ -362,6 +362,7 @@
 		463D169E27CE7E5C008FA135 /* EpisodeDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D169D27CE7E5C008FA135 /* EpisodeDetailsViewModel.swift */; };
 		463FCE7D27BEA90B00E5AF89 /* WatchInterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FCE7C27BEA90B00E5AF89 /* WatchInterfaceType.swift */; };
 		463FCE7F27BEAE6400E5AF89 /* WatchHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FCE7E27BEAE6400E5AF89 /* WatchHostingController.swift */; };
+		4647623328F733D4006D005A /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4647623228F733D3006D005A /* AuthenticationServices.framework */; };
 		4649404327D94757007F29C8 /* EpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4649404227D94757007F29C8 /* EpisodeViewModel.swift */; };
 		464B481F27E8FC7E00107CBF /* NowPlayingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464B481E27E8FC7E00107CBF /* NowPlayingViewModel.swift */; };
 		4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */; };
@@ -1854,6 +1855,7 @@
 		463D169D27CE7E5C008FA135 /* EpisodeDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewModel.swift; sourceTree = "<group>"; };
 		463FCE7C27BEA90B00E5AF89 /* WatchInterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchInterfaceType.swift; sourceTree = "<group>"; };
 		463FCE7E27BEAE6400E5AF89 /* WatchHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchHostingController.swift; sourceTree = "<group>"; };
+		4647623228F733D3006D005A /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		4649404227D94757007F29C8 /* EpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewModel.swift; sourceTree = "<group>"; };
 		464B481E27E8FC7E00107CBF /* NowPlayingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingViewModel.swift; sourceTree = "<group>"; };
 		4650F5C028ECC6D1006A5704 /* CrashLoggingDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoggingDataProvider.swift; sourceTree = "<group>"; };
@@ -2911,6 +2913,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4647623328F733D4006D005A /* AuthenticationServices.framework in Frameworks */,
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
@@ -5217,6 +5220,7 @@
 		BDBD53EE17019B2A0048C8C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4647623228F733D3006D005A /* AuthenticationServices.framework */,
 				BD11C41C2524741C00E308E6 /* CarPlay.framework */,
 				BD3C61A5221A91150061341D /* liblottie-ios.a */,
 				BD3C61A3221A90EA0061341D /* liblottie-ios.a */,

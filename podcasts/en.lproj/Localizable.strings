@@ -88,6 +88,9 @@
 /* Title for the confirmation dialog asking the user to confirm they want to delete their account. */
 "account_delete_account_title" = "Delete Account?";
 
+/* Button title to prompt a user to login. */
+"account_login" = "Log in";
+
 /* Informs the user that their purchase will be automatically renewed monthly */
 "account_payment_renews_monthly" = "Renews automatically monthly";
 
