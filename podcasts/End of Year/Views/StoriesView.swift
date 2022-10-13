@@ -144,10 +144,6 @@ private extension StoriesView {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonTopPadding: CGFloat = 5
 
-        static let storyIndicatorBorderRadius: CGFloat = 5
-        static let storyIndicatorBackgroundOpacity: CGFloat = 0.3
-        static let storyIndicatorForegroundOpacity: CGFloat = 0.9
-
         static let storySwitcherSpacing: CGFloat = 0
 
         static let shareButtonVerticalPadding: CGFloat = 10
