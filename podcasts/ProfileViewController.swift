@@ -412,6 +412,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return cell
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if FeatureFlag.endOfYear && indexPath.row == 0 {
+            return UITableView.automaticDimension
+        } else {
+            return 70
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
