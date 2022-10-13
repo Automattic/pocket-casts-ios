@@ -9,7 +9,7 @@ public extension ApiServerHandler {
               let identityToken = identityToken,
               let token = String(data: identityToken, encoding: .utf8)
         else {
-            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
+            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
             completion(.failure(.UNKNOWN))
             return
         }
