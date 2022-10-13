@@ -15,6 +15,8 @@ SPM_CACHE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'vendor', 'spm')
 RESOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'podcasts', 'Resources')
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'CHANGELOG.md')
 EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
+SENTRY_ORG_SLUG = 'a8c'
+SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
@@ -129,27 +131,6 @@ platform :ios do
     save_ci_spm_cache
   end
 
-  desc 'Submit a new Beta Build to Apple TestFlight'
-  lane :beta do
-    ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS'] = '-t Aspera'
-
-    configure_code_signing
-
-    gym(scheme: 'pocketcasts',
-        include_bitcode: false,
-        include_symbols: true,
-        clean: true)
-
-    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
-    pilot(skip_submission: true,
-          api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json'),
-          skip_waiting_for_build_processing: true)
-
-    sh 'cd .. && make upload_dsyms'
-    clean_build_artifacts
-    increment_version_on_config
-  end
-
   desc 'Build the project only'
   lane :build do
     # CI has its own mechanism to setup the Ruby gems and CocoaPods
@@ -189,20 +170,6 @@ platform :ios do
 
       readonly: true
     )
-  end
-
-  # Increment the value of `VERSION_LONG` from the `Version.xcconfig` file
-  #
-  def increment_version_on_config
-    fastlane_require 'Xcodeproj'
-
-    # Get the current build version, and update it if needed
-    versions = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    build_number = versions['VERSION_LONG'].to_i + 1
-    UI.message("Updating build version to #{build_number}")
-    versions['VERSION_LONG'] = build_number
-    new_config = Xcodeproj::Config.new(versions)
-    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
   end
 
   #####################################################################################
@@ -395,6 +362,7 @@ platform :ios do
     ios_build_prechecks(skip_confirm: options[:skip_confirm], external: true) unless options[:skip_prechecks]
     ios_build_preflight unless options[:skip_prechecks]
 
+    sentry_check_cli_installed
     configure_code_signing
 
     gym(
@@ -402,7 +370,7 @@ platform :ios do
       include_bitcode: false,
       include_symbols: true,
       clean: true,
-      export_options: { method: 'app-store' }
+      export_options: { method: 'app-store', manageAppVersionAndBuildNumber: false }
     )
 
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
@@ -412,7 +380,7 @@ platform :ios do
       api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
     )
 
-    sh 'cd .. && make upload_dsyms'
+    symbols_upload
 
     next unless options[:create_release]
 
@@ -561,8 +529,8 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    download_localized_strings_and_metadata
-    download_localized_app_store_metadata_from_glotpress
+    # download_localized_strings_and_metadata
+    # download_localized_app_store_metadata_from_glotpress
   end
 
   # Downloads the localized app strings and App Store Connect metadata from GlotPress.
@@ -929,6 +897,17 @@ inal copy, and try again.")
     styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
 
     File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  end
+
+  desc 'Uploads DSYM Symbols'
+  lane :symbols_upload do |options|
+    symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    sentry_upload_dsym(
+      auth_token: get_required_env('SENTRY_AUTH_TOKEN'),
+      org_slug: SENTRY_ORG_SLUG,
+      project_slug: SENTRY_PROJECT_SLUG,
+      dsym_path: symbols_path
+    )
   end
 
   def load_ci_spm_cache

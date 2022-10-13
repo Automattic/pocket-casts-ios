@@ -159,6 +159,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             // even if the episode isn't changing, we might have a stale copy of it, so update ours
             queue.nowPlayingEpisodeChanged()
+
+            if overrideUpNext {
+                queue.clearUpNextList()
+            }
         }
         uuidOfPlayingList = ""
 
@@ -336,7 +340,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
-        analyticsPlaybackHelper.currentSource = "sync"
+        analyticsPlaybackHelper.currentSource = .sync
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
@@ -807,7 +811,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
-        AnalyticsPlaybackHelper.shared.currentSource = "playback_failed"
+        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
             endPlayback()
@@ -1720,10 +1724,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsHelper.didConnectToChromecast()
         if let episode = currentEpisode() {
             if playerSwitchRequired() {
-                AnalyticsPlaybackHelper.shared.currentSource = "chromecast"
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 pause()
 
-                AnalyticsPlaybackHelper.shared.currentSource = "chromecast"
+                AnalyticsPlaybackHelper.shared.currentSource = .chromecast
                 load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }
@@ -1860,5 +1864,5 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Analytics
 
-    private let commandCenterSource = "now_playing_widget"
+    private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 }

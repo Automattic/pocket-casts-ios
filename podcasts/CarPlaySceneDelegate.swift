@@ -95,7 +95,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
         let markPlayedBtn = CPNowPlayingImageButton(image: markPlayedImage) { _ in
             guard let episode = PlaybackManager.shared.currentEpisode() else { return }
-            AnalyticsEpisodeHelper.shared.currentSource = "carplay"
+            AnalyticsEpisodeHelper.shared.currentSource = .carPlay
 
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }

@@ -54,6 +54,8 @@ class NavigationManager {
     static let settingsProfileKey = "profilePage"
     static let signInPage = "signInPage"
 
+    static let endOfYearStories = "endOfYearStories"
+
     static let sharedManager = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
@@ -182,6 +184,8 @@ class NavigationManager {
             if let data = data, let urlString = data[NavigationManager.safariVCUrlKey] as? String {
                 mainController?.showInSafariViewController(urlString: urlString)
             }
+        } else if place == NavigationManager.endOfYearStories {
+            mainController?.showEndOfYearStories()
         }
     }
 }

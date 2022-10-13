@@ -273,7 +273,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
+            AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         markPlayedAction.destructive = true
@@ -283,7 +283,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func delete() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         UserEpisodeManager.presentDeleteOptions(episode: episode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: .dark)
     }
@@ -291,7 +291,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func archive() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
 
@@ -320,7 +320,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func performStarAction(starBtn: UIButton? = nil) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
 

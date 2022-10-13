@@ -7,5 +7,5 @@ protocol MultiSelectActionDelegate: AnyObject {
     func multiSelectActionBegan(status: String)
     func multiSelectActionCompleted()
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle
-    var multiSelectViewSource: String { get }
+    var multiSelectViewSource: AnalyticsSource { get }
 }

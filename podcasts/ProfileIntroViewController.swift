@@ -1,20 +1,35 @@
 import UIKit
+import AuthenticationServices
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
 
+    private var buttonFont: UIFont {
+        .systemFont(ofSize: 18, weight: .semibold)
+    }
+
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
             createAccountBtn.setTitle(L10n.createAccount, for: .normal)
-            createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+            createAccountBtn.titleLabel?.font = buttonFont
         }
     }
 
+    @IBOutlet var authenticationProviders: UIStackView!
     @IBOutlet var signInBtn: ThemeableRoundedButton! {
         didSet {
+            signInBtn.isHidden = FeatureFlag.signInWithApple
             signInBtn.setTitle(L10n.signIn, for: .normal)
             signInBtn.shouldFill = false
-            signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+            signInBtn.titleLabel?.font = buttonFont
+        }
+    }
+
+    @IBOutlet var passwordAuthOption: ThemeableUIButton! {
+        didSet {
+            passwordAuthOption.isHidden = !FeatureFlag.signInWithApple
+            passwordAuthOption.setTitle(L10n.accountLogin, for: .normal)
+            passwordAuthOption.titleLabel?.font = buttonFont
         }
     }
 
@@ -51,6 +66,8 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        setupProviderLoginView()
 
         Analytics.track(.setupAccountShown)
     }
@@ -107,5 +124,68 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+}
+
+// MARK: - Apple Auth
+extension ProfileIntroViewController {
+    func setupProviderLoginView() {
+        guard FeatureFlag.signInWithApple else { return }
+
+        let authorizationButton = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
+        authorizationButton.cornerRadius = createAccountBtn.cornerRadius
+        authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
+        authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
+      }
+
+    @objc
+    func handleAppleAuthButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.email]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+}
+
+extension ProfileIntroViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        guard let window = view.window else { return UIApplication.shared.windows.first! }
+        return window
+    }
+}
+
+extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            DispatchQueue.main.async {
+                self.handleAppleIDCredential(appleIDCredential)
+            }
+        default:
+            break
+        }
+    }
+
+    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
+        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+        progressAlert.showAlert(self, hasProgress: false, completion: {
+            AuthenticationHelper.processAppleIDCredential(appleIDCredential) { [unowned self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        progressAlert.hideAlert(false)
+                        self.signingProcessCompleted()
+                    case .failure:
+                        // TODO: Handle Error Case
+                        print("Display Error")
+                    }
+                }
+            }
+        })
     }
 }

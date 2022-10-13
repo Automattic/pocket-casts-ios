@@ -28,7 +28,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     func seek(from: TimeInterval, to: TimeInterval, duration: TimeInterval) {
         // Currently ignore a seek event that is triggered by a sync process
         // Using the skip buttons triggers a seek, ignore this as well
-        guard currentSource != "sync", ignoreNextSeek == false else {
+        guard currentSource != .sync, ignoreNextSeek == false else {
             ignoreNextSeek = false
             return
         }

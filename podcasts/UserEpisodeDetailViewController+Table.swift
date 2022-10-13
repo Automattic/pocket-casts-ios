@@ -124,7 +124,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             }
             animateOut()
         case .markAsPlayed:
-            AnalyticsEpisodeHelper.shared.currentSource = playbackSource
+            AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
             if episode.played() {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_unplayed"])
