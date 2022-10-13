@@ -83,6 +83,25 @@ struct StoriesView: View {
                     model.next()
             }
         }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                .onChanged { _ in
+                    model.pause()
+                }
+                .onEnded { value in
+                    let velocity = CGSize(
+                        width: value.predictedEndLocation.x - value.location.x,
+                        height: value.predictedEndLocation.y - value.location.y
+                    )
+
+                    // If a quick swipe down is performed, dismiss the view
+                    if velocity.height > 200 {
+                        presentationMode.wrappedValue.dismiss()
+                    } else {
+                        model.start()
+                    }
+                }
+        )
     }
 
     var shareButton: some View {

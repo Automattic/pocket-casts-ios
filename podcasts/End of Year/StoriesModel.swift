@@ -38,4 +38,8 @@ class StoriesModel: ObservableObject {
     func previous() {
         progress = Double(Int(progress) - 1)
     }
+
+    func pause() {
+        cancellable?.cancel()
+    }
 }
