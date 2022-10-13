@@ -23,7 +23,7 @@ extension NowPlayingPlayerItemViewController: TimeSliderDelegate {
     }
 
     func sliderDidSlide(to time: TimeInterval) {
-        AnalyticsPlaybackHelper.shared.currentSource = playbackSource
+        AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
         PlaybackManager.shared.seekTo(time: time)
     }
 }

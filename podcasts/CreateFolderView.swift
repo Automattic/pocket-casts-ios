@@ -70,8 +70,8 @@ struct CreateFolderView: View {
     }
 
     /// From when the flow was initiated
-    var analyticsSource: String {
-        preselectPodcastUuid != nil ? "choose_folder" : "podcasts_list"
+    var analyticsSource: AnalyticsSource {
+        preselectPodcastUuid != nil ? .chooseFolder : .podcastsList
     }
 }
 

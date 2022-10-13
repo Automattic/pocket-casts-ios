@@ -101,7 +101,7 @@ extension DiscoverViewController: DiscoverDelegate {
         HapticsHelper.triggerSubscribedHaptic()
 
         let uuid = podcast.uuid ?? podcast.iTunesId ?? "unknown"
-        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": uuid])
+        Analytics.track(.podcastSubscribed, properties: ["source": analyticsSource, "uuid": uuid])
     }
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {

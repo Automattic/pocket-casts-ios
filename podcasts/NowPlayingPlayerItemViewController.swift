@@ -175,8 +175,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var lastBoundsAdjustedFor = CGRect.zero
 
-    var playbackSource: String {
-        "player"
+    var analyticsSource: AnalyticsSource {
+        .player
     }
 
     override func viewDidLayoutSubviews() {
@@ -211,19 +211,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: - Interface Actions
 
     @IBAction func skipBackTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
 
     @IBAction func skipFwdTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
@@ -288,7 +288,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = "player_skip_forward_long_press"
+            AnalyticsEpisodeHelper.shared.currentSource = .playerSkipForwardLongPress
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)

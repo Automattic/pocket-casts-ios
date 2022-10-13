@@ -306,11 +306,6 @@ public class ServerSettings {
         UserDefaults.standard.setValue(action.rawValue, forKey: onAutoAddLimitReachedKey)
     }
 
-    // Sync Token
-    public class func syncingV2Token() -> String? {
-        KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey)
-    }
-
     public class func syncSettings() {
         guard SyncManager.isUserLoggedIn(), ServerSettings.marketingOptInNeedsSyncing() || SubscriptionHelper.subscriptionGiftAcknowledgementNeedsSyncing() else { return }
 
@@ -318,7 +313,7 @@ public class ServerSettings {
     }
 }
 
-// MARK: - User ID Support
+// MARK: - Authentication Support
 
 public extension ServerSettings {
     class var userId: String? {
@@ -328,6 +323,16 @@ public extension ServerSettings {
 
         set {
             UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.userId)
+        }
+    }
+
+    class var syncingV2Token: String? {
+        get {
+            KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey)
+        }
+
+        set {
+            KeychainHelper.save(string: newValue, key: ServerConstants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         }
     }
 }
