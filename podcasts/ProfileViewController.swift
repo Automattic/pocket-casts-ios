@@ -113,12 +113,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var promoRedeemedMessage: String?
     private let settingsCellId = "SettingsCell"
+    private let endOfYearPromptCell = "EndOfYearPromptCell"
 
     private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
+            profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.applyInsetForMiniPlayer()
         }
     }
@@ -384,11 +386,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = tableData()[indexPath.section][indexPath.row]
+
+        guard row != .endOfYearPrompt else {
+            return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
-        let row = tableData()[indexPath.section][indexPath.row]
         switch row {
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
