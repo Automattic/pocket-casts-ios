@@ -52,6 +52,7 @@ class TokenHelper {
 
     class func acquireToken() -> String? {
         if let token = acquirePasswordToken() ?? acquireIdentityToken() {
+            KeychainHelper.save(string: token, key: ServerConstants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
             return token
         }
         else {
@@ -94,8 +95,6 @@ class TokenHelper {
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
                 let token = try Api_UserLoginResponse(serializedData: validData).token
-                KeychainHelper.save(string: token, key: ServerConstants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
-
                 return token
             }
 
