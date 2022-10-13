@@ -51,9 +51,22 @@ class TokenHelper {
     }
 
     class func acquireToken() -> String? {
+        if let token = acquirePasswordToken() ?? acquireIdentityToken() {
+            return token
+        }
+        else {
+            // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+            tokenCleanUp()
+            return nil
+        }
+    }
+
+    // MARK: - Email / Password Token
+
+    class func acquirePasswordToken() -> String? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
-            return acquireIdentityToken()
+            return nil
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
@@ -97,20 +110,41 @@ class TokenHelper {
         return nil
     }
 
+    // MARK: - SSO Identity Token
     private class func acquireIdentityToken() -> String? {
-        guard let token = ApiServerHandler.shared.refreshIdentityToken() else {
-            // if the user doesn't have an email and password or an ID Token, they aren't going to be able to acquire a sync token
-            if ServerSettings.syncingEmail() == nil {
-                FileLog.shared.addMessage("Acquire Token was called, however the user has no email address")
-            } else {
-                FileLog.shared.addMessage("Acquire Token was called, and the user has an email, but no password or sso token")
+        let semaphore = DispatchSemaphore(value: 0)
+        var refreshedToken: String? = nil
+        ApiServerHandler.shared.refreshIdentityToken { result in
+            switch result {
+            case .success(let token):
+                refreshedToken = token
+            case .failure:
+                refreshedToken = nil
             }
+            semaphore.signal()
+        }
+        semaphore.wait()
+        return refreshedToken
+    }
 
-            FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
-            SyncManager.signout()
-            return nil
+    // MARK: Cleanup
+
+    private class func tokenCleanUp() {
+        var logMessages = [String]()
+        if ServerSettings.syncingEmail() == nil {
+            logMessages.append("no email address")
         }
 
-        return token
+        if ServerSettings.syncingPassword() == nil {
+            logMessages.append("no password")
+        }
+
+        if ServerSettings.appleAuthIdentityToken == nil {
+            logMessages.append("no SSO token")
+        }
+
+        FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")
+        FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
+        SyncManager.signout()
     }
 }

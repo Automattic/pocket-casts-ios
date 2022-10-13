@@ -16,15 +16,24 @@ public extension ApiServerHandler {
         obtainToken(request: request, completion: completion)
     }
 
-    func refreshIdentityToken() -> String? {
+    func refreshIdentityToken(completion: @escaping (Result<String?, APIError>) -> Void) {
         guard
             let identityToken = ServerSettings.appleAuthIdentityToken,
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         else {
-            return nil
+            FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")
+            completion(.failure(.UNKNOWN))
+            return
         }
 
-        return syncObtainToken(request: request)
+        obtainToken(request: request) { result in
+            switch result {
+            case .success(let response):
+                completion(.success(response.token))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
