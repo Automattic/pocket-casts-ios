@@ -27,7 +27,7 @@ class StoriesModel: ObservableObject {
 
             let currentStory = Int(newProgress)
 
-            if currentStory >= self.numberOfStories {
+            if currentStory >= self.numberOfStories || newProgress < 0 {
                 newProgress = 0
                 self.currentStory = 0
             } else if currentStory != self.currentStory {
