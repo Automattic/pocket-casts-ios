@@ -124,8 +124,8 @@ public extension ApiServerHandler {
         }
     }
 
-    internal func obtainToken(request: URLRequest, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
-        urlSession.dataTask(with: request) { data, response, error in
+    func obtainToken(request: URLRequest, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
+        URLSession.shared.dataTask(with: request) { data, response, error in
             guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
                 let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
                 FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
@@ -144,7 +144,7 @@ public extension ApiServerHandler {
         }.resume()
     }
 
-    internal class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
+    class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
         if let data = data {
             do {
                 let errorJson = try JSON(data: data)

@@ -5,11 +5,6 @@ import SwiftProtobuf
 
 public class ApiServerHandler {
     public static let shared = ApiServerHandler()
-    internal let urlSession: URLSession
-
-    init(urlSession: URLSession = URLSession.shared) {
-        self.urlSession = urlSession
-    }
 
     lazy var apiQueue: OperationQueue = {
         let queue = OperationQueue()
