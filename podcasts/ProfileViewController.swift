@@ -169,6 +169,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             showPromotionRedeemedAcknowledgement()
             promoRedeemedMessage = nil
         }
+
+        if FeatureFlag.endOfYear {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
