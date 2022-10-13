@@ -335,4 +335,14 @@ public extension ServerSettings {
             KeychainHelper.save(string: newValue, key: ServerConstants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         }
     }
+
+    class var appleAuthIdentityToken: String? {
+        get {
+            KeychainHelper.string(for: ServerConstants.Values.appleAuthIdentityTokenKey)
+        }
+
+        set {
+            KeychainHelper.save(string: newValue, key: ServerConstants.Values.appleAuthIdentityTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+        }
+    }
 }

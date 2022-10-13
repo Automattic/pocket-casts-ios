@@ -144,6 +144,31 @@ public extension ApiServerHandler {
         }.resume()
     }
 
+    func syncObtainToken(request: URLRequest) -> String? {
+        do {
+            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            guard let validData = responseData, let httpResponse = response as? HTTPURLResponse else {
+                FileLog.shared.addMessage("TokenHelper: Unable to acquire token")
+                return nil
+            }
+
+            if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
+                let token = try Api_UserLoginResponse(serializedData: validData).token
+                ServerSettings.syncingV2Token = token
+                return token
+            }
+
+            if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
+                FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
+                SyncManager.signout()
+            }
+        } catch {
+            FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
     class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
         if let data = data {
             do {

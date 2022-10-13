@@ -8,11 +8,18 @@ class AuthenticationHelper {
         ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken) { result in
             switch result {
             case .success(let response):
-                handleSuccessfulSignIn(response)
+                handleSSO(appleIDCredential, response)
                 completion(.success(true))
             case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+
+    private static func handleSSO(_ appleIDCredential: ASAuthorizationAppleIDCredential, _ response: AuthenticationResponse) {
+        handleSuccessfulSignIn(response)
+        if let identityToken = appleIDCredential.identityToken {
+            ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
         }
     }
 

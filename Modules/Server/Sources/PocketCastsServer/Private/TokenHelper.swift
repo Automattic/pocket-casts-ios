@@ -51,18 +51,9 @@ class TokenHelper {
     }
 
     class func acquireToken() -> String? {
-        guard let email = ServerSettings.syncingEmail(), let password = KeychainHelper.string(for: ServerConstants.Values.syncingPasswordKey) else {
-            // if the user doesn't have an email and password, they aren't going to be able to acquire a sync token
-            if ServerSettings.syncingEmail() == nil {
-                FileLog.shared.addMessage("Acquire Token was called, however the user has no email address")
-            } else {
-                FileLog.shared.addMessage("Acquire Token was called, and the user has an email, but no password")
-            }
-
-            FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
-            SyncManager.signout()
-
-            return nil
+        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
+            // if the user doesn't have an email and password, then we'll check if they're using SSO
+            return acquireIdentityToken()
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
@@ -104,5 +95,22 @@ class TokenHelper {
         }
 
         return nil
+    }
+
+    private class func acquireIdentityToken() -> String? {
+        guard let token = ApiServerHandler.shared.refreshIdentityToken() else {
+            // if the user doesn't have an email and password or an ID Token, they aren't going to be able to acquire a sync token
+            if ServerSettings.syncingEmail() == nil {
+                FileLog.shared.addMessage("Acquire Token was called, however the user has no email address")
+            } else {
+                FileLog.shared.addMessage("Acquire Token was called, and the user has an email, but no password or sso token")
+            }
+
+            FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
+            SyncManager.signout()
+            return nil
+        }
+
+        return token
     }
 }
