@@ -719,6 +719,18 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
+    // MARK: - Profile Badge for End of Year 2022
+
+    class var showBadgeFor2022EndOfYear: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear)
+        }
+
+        get {
+            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
