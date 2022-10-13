@@ -406,7 +406,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
         case .endOfYearPrompt:
-            return UITableViewCell()
+            return EndOfYearPromptCell()
         }
 
         return cell
