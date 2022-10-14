@@ -144,10 +144,9 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    /// Query that return LOCAL most listened podcasts
-    /// It probably won't be used for EoY (calculation will happen on backend)
+    /// Returns 5 random podcasts from the DB
     /// This is here for development purposes.
-    func mostListenedPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func randomPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.inDatabase { db in
             do {
@@ -160,7 +159,7 @@ class PodcastDataManager {
                     allPodcasts.append(podcast)
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.mostListenedPodcasts error: \(error)")
+                FileLog.shared.addMessage("PodcastDataManager.randomPodcasts error: \(error)")
             }
         }
 

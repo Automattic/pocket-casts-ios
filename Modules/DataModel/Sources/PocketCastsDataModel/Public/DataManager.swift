@@ -623,8 +623,8 @@ public class DataManager {
         episodeManager.deleteAllEpisodesInPodcast(podcastId: podcastId, dbQueue: dbQueue)
     }
 
-    public func mostListenedPodcasts() -> [Podcast] {
-        podcastManager.mostListenedPodcasts(dbQueue: dbQueue)
+    public func randomPodcasts() -> [Podcast] {
+        podcastManager.randomPodcasts(dbQueue: dbQueue)
     }
 
     // MARK: - User Episodes

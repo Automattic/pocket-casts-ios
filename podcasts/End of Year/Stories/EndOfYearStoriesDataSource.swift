@@ -4,13 +4,13 @@ import PocketCastsDataModel
 struct EndOfYearStoriesDataSource: StoriesDataSource {
     var numberOfStories: Int = 2
 
-    let mostListenedPodcats = DataManager.sharedManager.mostListenedPodcasts()
+    let randomPodcasts = DataManager.sharedManager.randomPodcasts()
 
     @ViewBuilder
     func story(for storyNumber: Int) -> any View {
         switch storyNumber {
         case 0:
-            DummyStory(podcasts: mostListenedPodcats)
+            DummyStory(podcasts: randomPodcasts)
         default:
             FakeStoryTwo()
         }
