@@ -9,7 +9,19 @@ struct StoriesView: View {
         model = StoriesModel(dataSource: dataSource)
     }
 
+    @ViewBuilder
     var body: some View {
+        if model.isReady {
+            stories
+            .onAppear {
+                model.start()
+            }
+        } else {
+            loading
+        }
+    }
+
+    var stories: some View {
         VStack {
             ZStack {
                 Spacer()
@@ -29,8 +41,21 @@ struct StoriesView: View {
             shareButton
         }
         .background(Color.black)
-        .onAppear {
-            model.start()
+    }
+
+    // View shown while data source is preparing
+    var loading: some View {
+        ZStack {
+            Spacer()
+
+            ProgressView()
+                .colorInvert() /// make the spinner a semi-opaque white
+                            .brightness(1) /// ramp up the brightness
+                            .padding()
+                            .background(Color.black)
+
+            storySwitcher
+            header
         }
     }
 

@@ -15,6 +15,10 @@ struct EndOfYearStoriesDataSource: StoriesDataSource {
             FakeStoryTwo()
         }
     }
+
+    func isReady() async -> Bool {
+        true
+    }
 }
 
 struct FakeStory: View {

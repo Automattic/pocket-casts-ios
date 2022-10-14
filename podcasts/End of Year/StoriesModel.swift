@@ -1,10 +1,13 @@
 import Combine
 import SwiftUI
 
+@MainActor
 class StoriesModel: ObservableObject {
     @Published var progress: Double
 
     @Published var currentStory: Int = 0
+
+    @Published var isReady: Bool = false
 
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
@@ -19,6 +22,9 @@ class StoriesModel: ObservableObject {
         self.dataSource = dataSource
         self.progress = 0
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
+        Task.init {
+            await isReady = dataSource.isReady()
+        }
     }
 
     func start() {
