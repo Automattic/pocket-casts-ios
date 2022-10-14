@@ -122,6 +122,8 @@ internal enum L10n {
   internal static var accountSignedOutAlertMessage: String { return L10n.tr("Localizable", "account_signed_out_alert_message") }
   /// You've been signed out.
   internal static var accountSignedOutAlertTitle: String { return L10n.tr("Localizable", "account_signed_out_alert_title") }
+  /// Something went wrong, please try again later.
+  internal static var accountSsoFailed: String { return L10n.tr("Localizable", "account_sso_failed") }
   /// Pocket Casts Account
   internal static var accountTitle: String { return L10n.tr("Localizable", "account_title") }
   /// Account Upgraded
