@@ -471,6 +471,7 @@
 		8B71829128CF755D00B98F04 /* UpNextLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */; };
 		8B738F3128F5CBE0004E7526 /* StoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B738F3028F5CBE0004E7526 /* StoriesView.swift */; };
 		8B9D459C28F9A6260034219E /* DummyStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9D459B28F9A6260034219E /* DummyStory.swift */; };
+		8B9D459F28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */; };
 		8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
 		8BA55A0E28CA46E4002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */; };
 		8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */; };
@@ -1996,6 +1997,7 @@
 		8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextLockScreenWidget.swift; sourceTree = "<group>"; };
 		8B738F3028F5CBE0004E7526 /* StoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesView.swift; sourceTree = "<group>"; };
 		8B9D459B28F9A6260034219E /* DummyStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyStory.swift; sourceTree = "<group>"; };
+		8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearStoriesDataSource.swift; sourceTree = "<group>"; };
 		8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelper.swift; sourceTree = "<group>"; };
 		8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPlaybackHelperTests.swift; sourceTree = "<group>"; };
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
@@ -3657,6 +3659,7 @@
 			isa = PBXGroup;
 			children = (
 				8B9D459B28F9A6260034219E /* DummyStory.swift */,
+				8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
@@ -7514,6 +7517,7 @@
 				BD998AC827B2257D00B38857 /* PodcastPickerRow.swift in Sources */,
 				403946EC2285898400F55162 /* CustomStorageColorCell.swift in Sources */,
 				BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */,
+				8B9D459F28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift in Sources */,
 				BDC377631C44E6BD001FD219 /* EmptyHeaderView.swift in Sources */,
 				BD9324772398BC9D004F19A1 /* FeatureTour.swift in Sources */,
 				BDFB53C72362A2570001806E /* NowPlayingPlayerItemViewController.swift in Sources */,
