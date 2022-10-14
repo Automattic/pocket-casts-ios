@@ -150,7 +150,7 @@ class PodcastDataManager {
         var allPodcasts = [Podcast]()
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT * FROM SJPodcast WHERE id IN (SELECT id FROM SJPodcast ORDER BY RANDOM() LIMIT 5)"
+                let query = "SELECT * FROM SJPodcast ORDER BY RANDOM() LIMIT 5"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
