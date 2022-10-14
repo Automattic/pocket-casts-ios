@@ -157,42 +157,10 @@ private extension StoriesView {
     }
 }
 
-// MARK: - Data Source
-
-struct TestStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 2
-
-    @ViewBuilder
-    func story(for storyNumber: Int) -> any View {
-        switch storyNumber {
-        case 0:
-            FakeStory()
-        default:
-            FakeStoryTwo()
-        }
-    }
-}
-
-struct FakeStory: View {
-    var body: some View {
-        ZStack {
-            Color.purple
-        }
-    }
-}
-
-struct FakeStoryTwo: View {
-    var body: some View {
-        ZStack {
-            Color.yellow
-        }
-    }
-}
-
 // MARK: - Preview Provider
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView(dataSource: TestStoriesDataSource())
+        StoriesView(dataSource: EndOfYearStoriesDataSource())
     }
 }
