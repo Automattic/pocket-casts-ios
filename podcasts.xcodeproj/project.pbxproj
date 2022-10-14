@@ -442,6 +442,7 @@
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B2FEA8D28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B2FEA8C28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png */; };
 		8B317BA028906A8900A26A13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317B9F28906A8900A26A13 /* main.swift */; };
 		8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */; };
 		8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */; };
@@ -454,6 +455,8 @@
 		8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */; };
 		8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */; };
 		8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */; };
+		8B5F9A6728EFBB9800DE1C12 /* AppIcon-Halloween@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */; };
+		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */; };
 		8B71828A28CF651D00B98F04 /* NowPlayingLockScreenWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */; };
 		8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828C28CF68E800B98F04 /* AppIconWidget.swift */; };
 		8B71828F28CF6ED900B98F04 /* StaticWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */; };
@@ -464,6 +467,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1951,6 +1955,7 @@
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8B2FEA8C28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@2x~ipad.png"; sourceTree = "<group>"; };
 		8B317B9F28906A8900A26A13 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
@@ -1963,6 +1968,8 @@
 		8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBuilder.swift; sourceTree = "<group>"; };
 		8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerMock.swift; sourceTree = "<group>"; };
 		8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+requestReview.swift"; sourceTree = "<group>"; };
+		8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@2x.png"; sourceTree = "<group>"; };
+		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@3x.png"; sourceTree = "<group>"; };
 		8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLockScreenWidget.swift; sourceTree = "<group>"; };
 		8B71828C28CF68E800B98F04 /* AppIconWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconWidget.swift; sourceTree = "<group>"; };
 		8B71828E28CF6ED900B98F04 /* StaticWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticWidgetProvider.swift; sourceTree = "<group>"; };
@@ -1972,6 +1979,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -4820,6 +4828,10 @@
 		BDA002781F7B2C7E00DCB4AE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */,
+				8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */,
+				8B2FEA8C28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png */,
+				8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */,
 				BD6B6685245BC28600CF5245 /* AppIcon-Red-Velvet20x20@2x.png */,
 				BD6B6692245BC28800CF5245 /* AppIcon-Red-Velvet20x20@2x~ipad.png */,
 				BD6B668E245BC28700CF5245 /* AppIcon-Red-Velvet20x20@3x.png */,
@@ -6288,6 +6300,7 @@
 				BD6B6696245BC28800CF5245 /* AppIcon-Red-Velvet40x40@3x.png in Resources */,
 				40888F062563792300887D9A /* AppIcon-Round-Pink20x20@2x~ipad.png in Resources */,
 				4065143F2485EB8E00B7E789 /* LastSupporterPodcastCell.xib in Resources */,
+				8B2FEA8D28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png in Resources */,
 				BD618BD81702BE6800967A6B /* PlaylistViewController.xib in Resources */,
 				BD6D4181200C5BD600CA8993 /* Podcasts.xcassets in Resources */,
 				46C3D554275EA19B00DDE116 /* SingleEpisodeViewController.xib in Resources */,
@@ -6469,6 +6482,7 @@
 				BDA002FB1F7B318B00DCB4AE /* AppIcon20x20@3x.png in Resources */,
 				40888F112563792300887D9A /* AppIcon-Round-Pink20x20@2x.png in Resources */,
 				404A080824E215A200308722 /* CheckboxSubtitleCell.xib in Resources */,
+				8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */,
 				BD96F4761CC9FEB900AB09B0 /* ForgotPasswordViewController.xib in Resources */,
 				BDBCE6D5244E7755004FFE13 /* AppIcon-Radioactive20x20~ipad.png in Resources */,
 				BDB1E4FF1B8C5C2B009AD30F /* CategorySummaryViewController.xib in Resources */,
@@ -6668,6 +6682,7 @@
 				405471292163346D00341BF6 /* PodcastSelectionHeaderView.xib in Resources */,
 				BD7114C020E224BF003DF634 /* AutoArchiveViewController.xib in Resources */,
 				40FFAD8E2149E1C200024FCF /* EpisodeFilterChipCell.xib in Resources */,
+				8B5F9A6728EFBB9800DE1C12 /* AppIcon-Halloween@2x.png in Resources */,
 				404367C423BAD4E200328B1D /* DiscoverCollectionHeader.xib in Resources */,
 				BD12931322F809F8004608A6 /* AppIcon-Electric-Pink60x60@2x.png in Resources */,
 				BD6B6676245BC25C00CF5245 /* AppIcon-Indigo40x40@3x.png in Resources */,
@@ -6691,6 +6706,7 @@
 				460C375326D831E3008B3609 /* Localizable.strings in Resources */,
 				BDFB53CC2362B9080001806E /* UpNextViewController.xib in Resources */,
 				BD12927D22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@2x~ipad.png in Resources */,
+				8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */,
 				BD95ED6F1BAFA571004335B0 /* CountryCell.xib in Resources */,
 				BDFB26E81CD08B3C00787B7E /* ImportExportViewController.xib in Resources */,
 				BD93FDA720159A9A00F6EF55 /* PlaylistsViewController.xib in Resources */,
@@ -8699,7 +8715,6 @@
 				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
-				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Staging;
@@ -9049,7 +9064,6 @@
 				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
-				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -9078,7 +9092,6 @@
 				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
-				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

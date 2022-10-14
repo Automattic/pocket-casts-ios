@@ -28,8 +28,7 @@ echo "--- Setup Ruby tooling"
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-# Workaround for https://github.com/Automattic/buildkite-ci/issues/79
-gem install bundler
+
 install_gems # see bash-cache Automattic's Buildkite plugin
 
 echo "--- Install Pods"

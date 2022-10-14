@@ -144,6 +144,8 @@ internal enum L10n {
   internal static var appIconElectricBlue: String { return L10n.tr("Localizable", "app_icon_electric_blue") }
   /// Electric Pink
   internal static var appIconElectricPink: String { return L10n.tr("Localizable", "app_icon_electric_pink") }
+  /// Halloween
+  internal static var appIconHalloween: String { return L10n.tr("Localizable", "app_icon_halloween") }
   /// Indigo
   internal static var appIconIndigo: String { return L10n.tr("Localizable", "app_icon_indigo") }
   /// Plus
