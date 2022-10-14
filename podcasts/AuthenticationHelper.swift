@@ -5,15 +5,12 @@ import PocketCastsUtils
 import AuthenticationServices
 
 class AuthenticationHelper {
-    static func processAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential, _ completion: @escaping (Result<Bool, Error>) -> Void) {
-        ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken) { result in
-            switch result {
-            case .success(let response):
-                handleSSO(appleIDCredential, response)
-                completion(.success(true))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+    static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken)
+        handleSuccessfulSignIn(response)
+        if let identityToken = appleIDCredential.identityToken {
+            ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
+            ServerSettings.appleAuthUserID = appleIDCredential.user
         }
     }
 
@@ -42,14 +39,6 @@ class AuthenticationHelper {
         NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
             FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
             SyncManager.signout()
-        }
-    }
-
-    private static func handleSSO(_ appleIDCredential: ASAuthorizationAppleIDCredential, _ response: AuthenticationResponse) {
-        handleSuccessfulSignIn(response)
-        if let identityToken = appleIDCredential.identityToken {
-            ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
-            ServerSettings.appleAuthUserID = appleIDCredential.user
         }
     }
 

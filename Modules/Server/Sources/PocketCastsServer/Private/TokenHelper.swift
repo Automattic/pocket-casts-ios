@@ -51,15 +51,32 @@ class TokenHelper {
     }
 
     class func acquireToken() -> String? {
-        if let token = acquirePasswordToken() ?? acquireIdentityToken() {
-            KeychainHelper.save(string: token, key: ServerConstants.Values.syncingV2TokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
-            return token
+        let semaphore = DispatchSemaphore(value: 0)
+        var refreshedToken: String? = nil
+
+        asyncAcquireToken { result in
+            switch result {
+            case .success(let token):
+                refreshedToken = token
+                ServerSettings.syncingV2Token = token
+            case .failure:
+                refreshedToken = nil
+            }
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+
+        if let token = refreshedToken, !token.isEmpty {
+            ServerSettings.syncingV2Token = token
         }
         else {
             // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
             tokenCleanUp()
             return nil
         }
+
+        return refreshedToken
     }
 
     // MARK: - Email / Password Token
@@ -109,22 +126,29 @@ class TokenHelper {
         return nil
     }
 
+
+    // MARK: - Email / Password Token
+
+    private class func asyncAcquireToken(completion: @escaping (Result<String?, APIError>) -> Void) {
+        if let token = acquirePasswordToken() {
+            completion(.success(token))
+            return
+        }
+
+        Task {
+            if let token = await acquireIdentityToken() {
+                completion(.success(token))
+            }
+            else {
+                completion(.failure(.UNKNOWN))
+            }
+        }
+    }
+
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() -> String? {
-        let semaphore = DispatchSemaphore(value: 0)
-        var refreshedToken: String? = nil
-        ApiServerHandler.shared.refreshIdentityToken { result in
-            switch result {
-            case .success(let token):
-                refreshedToken = token
-            case .failure:
-                refreshedToken = nil
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-        return refreshedToken
+    private class func acquireIdentityToken() async -> String? {
+        return try? await ApiServerHandler.shared.refreshIdentityToken()
     }
 
     // MARK: Cleanup

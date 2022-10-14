@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsUtils
 import AuthenticationServices
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
@@ -170,15 +171,19 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
     func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
         let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
         progressAlert.showAlert(self, hasProgress: false, completion: {
-            AuthenticationHelper.processAppleIDCredential(appleIDCredential) { [unowned self] result in
+            Task {
+                var success = false
+                do {
+                    try await AuthenticationHelper.validateLogin(appleIDCredential)
+                    success = true
+                } catch {
+                    FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+                }
+
                 DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        progressAlert.hideAlert(false)
+                    progressAlert.hideAlert(false)
+                    if success {
                         self.signingProcessCompleted()
-                    case .failure:
-                        // TODO: Handle Error Case
-                        print("Display Error")
                     }
                 }
             }

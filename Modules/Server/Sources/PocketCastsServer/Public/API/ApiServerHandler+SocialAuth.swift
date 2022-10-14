@@ -4,28 +4,16 @@ import PocketCastsUtils
 import AuthenticationServices
 
 public extension ApiServerHandler {
-    func validateLogin(identityToken: Data?, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
+    func validateLogin(identityToken: Data?) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
               let token = String(data: identityToken, encoding: .utf8),
               let request = tokenRequest(identityToken: token)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
-            completion(.failure(.UNKNOWN))
-            return
+            throw APIError.UNKNOWN
         }
 
-        obtainToken(request: request, completion: completion)
-    }
-
-    func refreshIdentityToken(completion: @escaping (Result<String?, APIError>) -> Void) {
-        Task {
-            do {
-                let token = try await refreshIdentityToken()
-                completion(.success(token))
-            } catch {
-                completion(.failure((error as? APIError) ?? .UNKNOWN))
-            }
-        }
+        return try await obtainToken(request: request)
     }
 
     func refreshIdentityToken() async throws -> String? {
