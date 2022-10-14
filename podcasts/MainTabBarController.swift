@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         profileViewController.tabBarItem = profileTabBarItem
 
         if FeatureFlag.endOfYear && Settings.showBadgeFor2022EndOfYear {
-            profileTabBarItem.badgeValue = ""
+            profileTabBarItem.badgeValue = "●"
         }
 
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
@@ -395,6 +395,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
+
+        if FeatureFlag.endOfYear {
+            // Change badge colors
+            [appearance.stackedLayoutAppearance,
+             appearance.inlineLayoutAppearance,
+             appearance.compactInlineLayoutAppearance]
+                .forEach {
+                    $0.normal.badgeBackgroundColor = .clear
+                    $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+                }
+        }
 
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
