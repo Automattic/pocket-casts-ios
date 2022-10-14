@@ -10,7 +10,7 @@ struct EndOfYearStoriesDataSource: StoriesDataSource {
     func story(for storyNumber: Int) -> any View {
         switch storyNumber {
         case 0:
-            DummyStory()
+            DummyStory(podcasts: mostListenedPodcats)
         default:
             FakeStoryTwo()
         }
