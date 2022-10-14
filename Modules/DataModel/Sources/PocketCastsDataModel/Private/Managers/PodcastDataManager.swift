@@ -151,7 +151,7 @@ class PodcastDataManager {
         var allPodcasts = [Podcast]()
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT COUNT(SJEpisode.id) as played_episodes, SJPodcast.title, SJPodcast.uuid from SJEpisode, SJPodcast WHERE `SJPodcast`.uuid = `SJEpisode`.podcastUuid and lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', date('now','start of year')) and strftime('%s', 'now')  GROUP BY podcastUuid ORDER BY played_episodes DESC"
+                let query = "SELECT * FROM SJPodcast WHERE id IN (SELECT id FROM SJPodcast ORDER BY RANDOM() LIMIT 5)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
