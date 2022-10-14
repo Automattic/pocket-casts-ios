@@ -49,10 +49,10 @@ struct StoriesView: View {
             Spacer()
 
             ProgressView()
-                .colorInvert() /// make the spinner a semi-opaque white
-                            .brightness(1) /// ramp up the brightness
-                            .padding()
-                            .background(Color.black)
+                .colorInvert()
+                .brightness(1)
+                .padding()
+                .background(Color.black)
 
             storySwitcher
             header
