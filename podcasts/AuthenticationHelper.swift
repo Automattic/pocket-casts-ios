@@ -4,10 +4,15 @@ import PocketCastsServer
 import PocketCastsUtils
 import AuthenticationServices
 
+enum AuthenticationSource: String {
+    case password = "password"
+    case ssoApple = "sso_apple"
+}
+
 class AuthenticationHelper {
     static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken)
-        handleSuccessfulSignIn(response)
+        handleSuccessfulSignIn(response, .ssoApple)
         if let identityToken = appleIDCredential.identityToken {
             ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
             ServerSettings.appleAuthUserID = appleIDCredential.user
@@ -42,7 +47,7 @@ class AuthenticationHelper {
         SyncManager.signout()
     }
 
-    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {
+    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
         SyncManager.clearTokensFromKeyChain()
 
         ServerSettings.userId = response.uuid
@@ -55,8 +60,7 @@ class AuthenticationHelper {
         ServerSettings.setSyncingEmail(email: response.email)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        // TODO: Track login source details
-        //        Analytics.track(.userSignedIn)
+        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)
