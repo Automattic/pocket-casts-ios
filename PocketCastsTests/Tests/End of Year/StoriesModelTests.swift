@@ -3,6 +3,7 @@ import SwiftUI
 
 @testable import podcasts
 
+@MainActor
 class StoriesModelTests: XCTestCase {
     func testCurrentStoryAndProgressStartsInZero() {
         let model = StoriesModel(dataSource: MockStoriesDataSource())
@@ -74,6 +75,10 @@ class MockStoriesDataSource: StoriesDataSource {
         default:
             return FakeStoryTwo()
         }
+    }
+
+    func isReady() async -> Bool {
+        true
     }
 }
 
