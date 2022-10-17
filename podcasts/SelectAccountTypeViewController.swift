@@ -233,7 +233,7 @@ class SelectAccountTypeViewController: UIViewController {
 
     private func handleNextForFreeAccount() {
         if SyncManager.isUserLoggedIn() {
-            presentWeclome()
+            presentWelcome()
         }
         else {
             presentNewEmailPrompt()
@@ -245,7 +245,7 @@ class SelectAccountTypeViewController: UIViewController {
         navigationController?.pushViewController(emailVC, animated: true)
     }
 
-    private func presentWeclome() {
+    private func presentWelcome() {
         let accountCreatedVC = AccountUpdatedViewController()
         accountCreatedVC.titleText = L10n.accountCreated
         accountCreatedVC.detailText = L10n.accountWelcome
