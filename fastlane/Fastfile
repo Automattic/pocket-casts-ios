@@ -529,8 +529,8 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    # download_localized_strings_and_metadata
-    # download_localized_app_store_metadata_from_glotpress
+    download_localized_strings_from_glotpress
+    download_localized_app_store_metadata_from_glotpress
   end
 
   # Downloads the localized app strings and App Store Connect metadata from GlotPress.
@@ -552,7 +552,11 @@ platform :ios do
 
   desc 'Lint the `.strings` files'
   lane :lint_localizations do
-    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
+    ios_lint_localizations(
+      input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'),
+      allow_retry: true,
+      check_duplicate_keys: false
+    )
   end
 
   # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
