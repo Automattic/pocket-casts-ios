@@ -446,6 +446,7 @@
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B2E055028F8579700C2DBDE /* StoriesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E054F28F8579700C2DBDE /* StoriesModelTests.swift */; };
 		8B2E055228F88D7300C2DBDE /* EndOfYearPromptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E055128F88D7300C2DBDE /* EndOfYearPromptCell.swift */; };
 		8B2E055428F891F900C2DBDE /* EndOfYearCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E055328F891F900C2DBDE /* EndOfYearCard.swift */; };
@@ -1974,6 +1975,7 @@
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B2E054F28F8579700C2DBDE /* StoriesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesModelTests.swift; sourceTree = "<group>"; };
 		8B2E055128F88D7300C2DBDE /* EndOfYearPromptCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearPromptCell.swift; sourceTree = "<group>"; };
 		8B2E055328F891F900C2DBDE /* EndOfYearCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearCard.swift; sourceTree = "<group>"; };
@@ -3664,6 +3666,7 @@
 			children = (
 				8B9D459B28F9A6260034219E /* DummyStory.swift */,
 				8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */,
+				8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
@@ -7654,6 +7657,7 @@
 				BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */,
 				8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */,
 				BDCC55141CD0A448006BE239 /* AEXML.swift in Sources */,
+				8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */,
 				40484F0122F1507F007DBD55 /* ThemeableRoundedButton.swift in Sources */,
 				BDEBD3A91BA0108800AD038F /* BufferedAudio.swift in Sources */,
 				402772D721B6105D00769811 /* PodcastManager+Delete.swift in Sources */,
