@@ -487,7 +487,7 @@ platform :ios do
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
     # Push and trigger build
-    after_confirming_push do
+    after_confirming_push(push_merge_branch: false) do
       ios_finalize_prechecks(options)
       trigger_release_build(branch_to_build: release_branch_name)
     end
@@ -944,9 +944,9 @@ inal copy, and try again.")
     Fastlane::Helper::GitHelper.create_branch(merge_branch_name, from: release_branch_name)
   end
 
-  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
+  def after_confirming_push(push_merge_branch:, message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_release_branches
+      push_merge_branch ? push_release_branches : push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
@@ -956,8 +956,6 @@ inal copy, and try again.")
   def push_release_branches
     [merge_branch_name, release_branch_name].each do |branch_name|
       push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
-    rescue StandardError
-      UI.message("#{branch_name} doesn't exist. Skip pushing it.")
     end
   end
 
