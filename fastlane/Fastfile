@@ -289,6 +289,7 @@ platform :ios do
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
     generate_strings_file_for_glotpress
+    create_merge_release_branch
 
     after_confirming_push do
       trigger_beta_build(branch_to_build: release_branch_name)
