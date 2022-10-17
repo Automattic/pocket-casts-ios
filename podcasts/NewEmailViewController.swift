@@ -4,6 +4,7 @@ import PocketCastsUtils
 import UIKit
 
 class NewEmailViewController: UIViewController, UITextFieldDelegate {
+    private let authSource = AuthenticationSource.password.rawValue
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
             emailField.delegate = self
@@ -171,7 +172,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
 
                 if !success {
-                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
+                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue, "source": self.authSource])
 
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
@@ -242,7 +243,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
 
-        Analytics.track(.userAccountCreated)
+        Analytics.track(.userAccountCreated, properties: ["source": authSource])
     }
 
     // MARK: - UITextField Methods

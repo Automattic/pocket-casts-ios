@@ -9,14 +9,29 @@ enum AuthenticationSource: String {
     case ssoApple = "sso_apple"
 }
 
+
+extension AuthenticationResponse {
+    // TODO: Determine what signifies a new account vs login
+    var accountCreated: Bool {
+        return true
+    }
+}
+
 class AuthenticationHelper {
-    static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
+    enum Result {
+        case accountCreated
+        case loggedIn
+    }
+
+    static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws -> Result {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken)
         handleSuccessfulSignIn(response, .ssoApple)
         if let identityToken = appleIDCredential.identityToken {
             ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
             ServerSettings.appleAuthUserID = appleIDCredential.user
         }
+
+        return response.accountCreated ? .accountCreated : .loggedIn
     }
 
     static func validateAppleSSOCredentials() {
@@ -60,7 +75,12 @@ class AuthenticationHelper {
         ServerSettings.setSyncingEmail(email: response.email)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+
+        if response.accountCreated {
+            Analytics.track(.userAccountCreated, properties: ["source": source.rawValue])
+        } else {
+            Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+        }
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)

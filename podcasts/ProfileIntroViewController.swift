@@ -182,18 +182,17 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
         let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
         progressAlert.showAlert(self, hasProgress: false, completion: {
             Task {
-                var success = false
+                var result: AuthenticationHelper.Result?
                 do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential)
-                    success = true
+                    result = try await AuthenticationHelper.validateLogin(appleIDCredential)
                 } catch {
                     self.showError(error)
                 }
 
                 DispatchQueue.main.async {
                     progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
+                    if let result = result {
+                        self.ssoLoginComplete(result)
                     }
                 }
             }
@@ -213,5 +212,19 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
             self.errorLabel.text = message
             self.errorLabel.isHidden = false
         }
+    }
+
+    func ssoLoginComplete(_ result: AuthenticationHelper.Result) {
+        switch result {
+        case .loggedIn:
+            signingProcessCompleted()
+        case .accountCreated:
+            showUpsell()
+        }
+    }
+
+    func showUpsell() {
+        let selectAccountVC = SelectAccountTypeViewController()
+        navigationController?.pushViewController(selectAccountVC, animated: true)
     }
 }

@@ -172,11 +172,10 @@ class SelectAccountTypeViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func nextTapped(_ sender: Any) {
-        let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "")
         if isFreeAccount {
-            let enailVC = NewEmailViewController(newSubscription: newSubscription)
-            navigationController?.pushViewController(enailVC, animated: true)
+            handleNextForFreeAccount()
         } else {
+            let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "")
             let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(termsOfUseVC, animated: true)
         }
@@ -228,6 +227,31 @@ class SelectAccountTypeViewController: UIViewController {
         freeRadioButton.setImage(UIImage(named: "radio-unselected")?.tintedImage(ThemeColor.primaryField03()), for: .normal)
         freeRadioButton.setImage(UIImage(named: "radio-selected")?.tintedImage(ThemeColor.primaryField03Active()), for: .selected)
         learnMoreButton.setTitleColor(ThemeColor.primaryInteractive01(), for: .normal)
+    }
+
+    // MARK: Free Account Selected
+
+    private func handleNextForFreeAccount() {
+        if SyncManager.isUserLoggedIn() {
+            presentWeclome()
+        }
+        else {
+            presentNewEmailPrompt()
+        }
+    }
+    private func presentNewEmailPrompt() {
+        let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "")
+        let emailVC = NewEmailViewController(newSubscription: newSubscription)
+        navigationController?.pushViewController(emailVC, animated: true)
+    }
+
+    private func presentWeclome() {
+        let accountCreatedVC = AccountUpdatedViewController()
+        accountCreatedVC.titleText = L10n.accountCreated
+        accountCreatedVC.detailText = L10n.accountWelcome
+        accountCreatedVC.imageName = AppTheme.accountCreatedImageName
+        accountCreatedVC.hideNewsletter = false
+        navigationController?.pushViewController(accountCreatedVC, animated: true)
     }
 }
 
