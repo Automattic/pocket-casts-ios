@@ -21,10 +21,10 @@ class AuthenticationHelper {
         }
         Task {
             let state = try await ApiServerHandler.shared.ssoCredentialState()
+            FileLog.shared.addMessage("Validated Apple SSO token state: \(state.loggingValue)")
             switch state {
             case .revoked, .transferred:
-                FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
-                SyncManager.signout()
+                handleSSOTokenRevoked()
             default:
                 break
             }
@@ -32,14 +32,14 @@ class AuthenticationHelper {
     }
 
     static func observeAppleSSOEvents() {
-        guard ServerSettings.appleAuthUserID != nil else {
-            // No need to observe if we don't have a user ID
-            return
-        }
         NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
-            FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
-            SyncManager.signout()
+            handleSSOTokenRevoked()
         }
+    }
+
+    private static func handleSSOTokenRevoked() {
+        FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
+        SyncManager.signout()
     }
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {

@@ -3,6 +3,23 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import AuthenticationServices
 
+public extension ASAuthorizationAppleIDProvider.CredentialState {
+    var loggingValue: String {
+        switch self {
+        case .revoked:
+            return "revoked (\(rawValue))"
+        case .authorized:
+            return "authorized (\(rawValue))"
+        case .notFound:
+            return "notFound (\(rawValue))"
+        case .transferred:
+            return "transferred (\(rawValue))"
+        default:
+            return "unknown raw value: \(rawValue)}"
+        }
+    }
+}
+
 public extension ApiServerHandler {
     func validateLogin(identityToken: Data?) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
@@ -40,6 +57,7 @@ public extension ApiServerHandler {
 
     func hasValidSSOToken() async throws -> Bool {
         let tokenState = try await ssoCredentialState()
+        FileLog.shared.addMessage("Validated Apple SSO token state: \(tokenState.loggingValue)")
 
         switch tokenState {
         case .authorized:
