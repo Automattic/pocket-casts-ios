@@ -956,6 +956,8 @@ inal copy, and try again.")
   def push_release_branches
     [merge_branch_name, release_branch_name].each do |branch_name|
       push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
+    rescue StandardError
+      UI.message("#{branch_name} doesn't exist. Skip pushing it.")
     end
   end
 
