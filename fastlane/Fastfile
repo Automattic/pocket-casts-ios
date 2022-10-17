@@ -299,6 +299,10 @@ platform :ios do
     "release/#{ios_get_app_version}"
   end
 
+  def merge_branch_name
+    "merge/release-#{build_version}-into-trunk"
+  end
+
   # Triggers a beta build on CI
   #
   # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
