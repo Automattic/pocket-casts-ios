@@ -421,7 +421,7 @@ platform :ios do
       body: {
         title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} into `trunk`",
         body: "Merge changes from #{ios_get_app_version} (#{ios_get_build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: release_branch_name,
+        head: options[:beta_release] ? merge_branch_name : release_branch_name,
         base: 'trunk'
       },
       error_handlers: {
