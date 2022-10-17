@@ -460,6 +460,8 @@ platform :ios do
     lint_localizations
 
     ios_bump_version_beta
+    create_merge_release_branch
+    push_release_branches
 
     trigger_beta_build(branch_to_build: release_branch_name)
   end
