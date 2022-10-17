@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 /// A SwiftUI representation of UIImageView
 ///

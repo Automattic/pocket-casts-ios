@@ -1,7 +1,6 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
-import Kingfisher
 
 struct DummyStory: View {
     let podcasts: [Podcast]
@@ -29,8 +28,7 @@ struct DummyStory: View {
                             Text("\(x + 1).")
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundColor(tintColor)
-                            KFImage(ServerHelper.imageUrl(podcastUuid: podcasts[x].uuid, size: 280))
-                                .resizable()
+                            ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[x].uuid, size: 280))
                                 .frame(width: 76, height: 76)
                                 .aspectRatio(1, contentMode: .fit)
                                 .cornerRadius(4)
