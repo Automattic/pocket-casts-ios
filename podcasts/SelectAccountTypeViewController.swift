@@ -175,7 +175,7 @@ class SelectAccountTypeViewController: UIViewController {
         if isFreeAccount {
             handleNextForFreeAccount()
         } else {
-            let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "")
+            let newSubscription = NewSubscription(isNewAccount: !SyncManager.isUserLoggedIn(), iap_identifier: "")
             let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(termsOfUseVC, animated: true)
         }
