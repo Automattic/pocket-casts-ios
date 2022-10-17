@@ -301,7 +301,7 @@ platform :ios do
   end
 
   def merge_branch_name
-    "merge/release-#{build_version}-into-trunk"
+    "merge/release-#{ios_get_build_version}-into-trunk"
   end
 
   # Triggers a beta build on CI
