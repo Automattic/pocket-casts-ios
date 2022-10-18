@@ -623,6 +623,10 @@ public class DataManager {
         episodeManager.deleteAllEpisodesInPodcast(podcastId: podcastId, dbQueue: dbQueue)
     }
 
+    public func randomPodcasts() -> [Podcast] {
+        podcastManager.randomPodcasts(dbQueue: dbQueue)
+    }
+
     // MARK: - User Episodes
 
     public func findUserEpisode(uuid: String) -> UserEpisode? {
