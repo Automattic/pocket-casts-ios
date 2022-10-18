@@ -88,6 +88,9 @@ struct Constants {
         // folders
         static let folderChanged = NSNotification.Name(rawValue: "SJFolderChanged")
         static let folderDeleted = NSNotification.Name(rawValue: "SJFolderDeleted")
+
+        // End of Year
+        static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
     }
 
     enum UserDefaults {
@@ -140,6 +143,8 @@ struct Constants {
         static let lastRunVersion = "lastRunVersion"
 
         static let reviewRequestDates = "reviewRequestDates"
+
+        static let showBadgeFor2022EndOfYear = "showBadgeFor2022EndOfYear"
     }
 
     enum Values {

@@ -1,3 +1,7 @@
+7.26
+-----
+
+
 7.25
 -----
 - Fixed a crash that could happen when playing an episode while the app is in the background (#345)

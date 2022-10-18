@@ -12,6 +12,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private lazy var endOfYear = EndOfYear()
 
+    private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,7 +27,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
+        profileViewController.tabBarItem = profileTabBarItem
+
+        if FeatureFlag.endOfYear && Settings.showBadgeFor2022EndOfYear {
+            profileTabBarItem.badgeValue = "●"
+        }
 
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
@@ -44,6 +50,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(handleFollowSystemThemeTurnedOn), name: Constants.Notifications.followSystemThemeTurnedOn, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -376,6 +383,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return true
     }
 
+    // MARK: - End of Year badge
+
+    @objc private func profileSeen() {
+        profileTabBarItem.badgeValue = nil
+        Settings.showBadgeFor2022EndOfYear = false
+    }
+
     // MARK: - Orientation
 
     // we implement this here to lock all views (except presented modal VCs to portrait)
@@ -387,6 +401,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
+
+        if FeatureFlag.endOfYear {
+            // Change badge colors
+            [appearance.stackedLayoutAppearance,
+             appearance.inlineLayoutAppearance,
+             appearance.compactInlineLayoutAppearance]
+                .forEach {
+                    $0.normal.badgeBackgroundColor = .clear
+                    $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+                }
+        }
 
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
