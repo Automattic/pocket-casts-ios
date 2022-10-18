@@ -2308,6 +2308,8 @@ internal enum L10n {
   internal static var supporterPaymentCanceled: String { return L10n.tr("Localizable", "supporter_payment_canceled") }
   /// Check your username and password.
   internal static var syncAccountError: String { return L10n.tr("Localizable", "sync_account_error") }
+  /// Logging in...
+  internal static var syncAccountLoggingIn: String { return L10n.tr("Localizable", "sync_account_logging_in") }
   /// Logged in...
   internal static var syncAccountLogin: String { return L10n.tr("Localizable", "sync_account_login") }
   /// Sync failed

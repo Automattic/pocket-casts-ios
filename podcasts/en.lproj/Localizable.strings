@@ -2819,6 +2819,9 @@
 /* Notice the sync failed due to an account error. */
 "sync_account_error" = "Check your username and password.";
 
+/* Sync status update notifying the user that the app is logging the user in. */
+"sync_account_logging_in" = "Logging in...";
+
 /* Sync status update notifying the user that the app is logged in. */
 "sync_account_login" = "Logged in...";
 

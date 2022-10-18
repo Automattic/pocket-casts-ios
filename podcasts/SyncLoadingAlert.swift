@@ -5,7 +5,7 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
     private var totalPodcastsToImport: Int = 0
 
     init() {
-        super.init(title: L10n.syncAccountLogin)
+        super.init(title: L10n.syncAccountLoggingIn)
     }
 
     override func showAlert(_ presentingController: UIViewController, hasProgress: Bool, completion: (() -> Void)?) {
@@ -22,10 +22,17 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
         NotificationCenter.default.addObserver(self, selector: #selector(syncProgressCountKnown(_:)), name: ServerNotifications.syncProgressPodcastCount, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncUpToChanged(_:)), name: ServerNotifications.syncProgressPodcastUpto, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsImported), name: ServerNotifications.syncProgressImportedPodcasts, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loggedIn), name: .userLoginDidChange, object: nil)
     }
 
     private func unSubscribeToSyncChanges() {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func loggedIn() {
+        DispatchQueue.main.async {
+            self.title = L10n.syncAccountLogin
+        }
     }
 
     @objc private func syncProgressCountKnown(_ notification: Notification) {
@@ -37,9 +44,7 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
     @objc private func syncUpToChanged(_ notification: Notification) {
         guard let number = notification.object as? NSNumber else { return }
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-
+        DispatchQueue.main.async {
             let upTo = number.intValue
             if self.totalPodcastsToImport > 0 {
                 self.title = L10n.syncProgress(upTo.localized(), self.totalPodcastsToImport.localized())
