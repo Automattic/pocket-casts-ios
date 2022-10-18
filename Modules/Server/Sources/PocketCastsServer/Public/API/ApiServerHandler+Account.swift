@@ -24,8 +24,16 @@ public extension ApiServerHandler {
     }
 
     func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
-        obtainToken(username: username, password: password, scope: ServerConstants.Values.apiScope) { token, userId, error in
-            completion(token != nil, userId, error)
+        Task {
+            do {
+                let response = try await validateLogin(username: username, password: password, scope: ServerConstants.Values.apiScope)
+                completion(response.token != nil, response.uuid, nil)
+            }
+            catch {
+                let err = (error as? APIError) ?? APIError.UNKNOWN
+                completion(false, nil, err)
+
+            }
         }
     }
 
@@ -97,57 +105,6 @@ public extension ApiServerHandler {
         } catch {
             FileLog.shared.addMessage("registerAccount failed \(error.localizedDescription)")
             completion(false, nil, nil)
-        }
-    }
-
-    func obtainToken(username: String, password: String, scope: String, completion: @escaping (_ token: String?, _ userId: String?, _ error: APIError?) -> Void) {
-        var loginRequest = Api_UserLoginRequest()
-        loginRequest.email = username
-        loginRequest.password = password
-        loginRequest.scope = scope
-
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
-        do {
-            let data = try loginRequest.serializedData()
-
-            guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
-                FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
-                completion(nil, nil, nil)
-                return
-            }
-
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
-                    FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
-                    completion(nil, nil, errorResponse)
-
-                    return
-                }
-
-                do {
-                    let response = try Api_UserLoginResponse(serializedData: responseData)
-                    completion(response.token, response.uuid, nil)
-                } catch {
-                    FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
-                    completion(nil, nil, nil)
-                }
-
-            }.resume()
-        } catch {
-            FileLog.shared.addMessage("obtainToken failed \(error.localizedDescription)")
-            completion(nil, nil, nil)
-        }
-    }
-
-    func obtainToken(request: URLRequest, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
-        Task {
-            do {
-                let response = try await obtainToken(request: request)
-                completion(.success(response))
-            } catch {
-                completion(.failure((error as? APIError) ?? .UNKNOWN))
-            }
         }
     }
 
