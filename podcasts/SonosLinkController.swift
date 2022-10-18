@@ -74,6 +74,8 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
                     return
                 }
+
+                FileLog.shared.addMessage("Sync Token refreshed source: Sonos")
                 guard let strongSelf = self else { return }
 
                 let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
