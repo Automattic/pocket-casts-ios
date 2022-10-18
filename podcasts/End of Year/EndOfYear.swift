@@ -22,6 +22,21 @@ struct EndOfYear {
         storiesViewController.modalPresentationStyle = .fullScreen
         viewController.present(storiesViewController, animated: true, completion: nil)
     }
+
+    func share(view: any View, onDismiss: (() -> Void)? = nil) {
+        let presenter = SceneHelper.rootViewController()?.presentedViewController
+
+        let imageToShare = [view.snapshot()]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = presenter?.view
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
+
+        activityViewController.completionWithItemsHandler = { _, _, _, _ in
+            onDismiss?()
+        }
+
+        presenter?.present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
