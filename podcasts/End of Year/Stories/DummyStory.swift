@@ -2,8 +2,10 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct DummyStory: View {
+struct DummyStory: StoryView {
     let podcasts: [Podcast]
+
+    let duration: TimeInterval = 5.seconds
 
     var backgroundColor: Color {
         Color(podcasts.first?.bgColor() ?? UIColor.black)

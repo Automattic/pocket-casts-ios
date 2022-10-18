@@ -12,7 +12,9 @@ class StoriesModel: ObservableObject {
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
     private var cancellable: Cancellable?
-    private var interval: TimeInterval = 5.seconds
+    private var interval: TimeInterval {
+        dataSource.story(for: currentStory).duration
+    }
 
     var numberOfStories: Int {
         dataSource.numberOfStories

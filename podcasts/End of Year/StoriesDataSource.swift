@@ -3,7 +3,7 @@ import SwiftUI
 protocol StoriesDataSource {
     var numberOfStories: Int { get }
 
-    func story(for: Int) -> any View
+    func story(for: Int) -> any StoryView
     func storyView(for: Int) -> AnyView
 
     /// Whether the data source is ready to be used.
@@ -18,4 +18,11 @@ extension StoriesDataSource {
     func storyView(for storyNumber: Int) -> AnyView {
         return AnyView(story(for: storyNumber))
     }
+}
+
+typealias StoryView = Story & View
+
+protocol Story {
+    /// The amount of time this story should be show
+    var duration: TimeInterval { get }
 }

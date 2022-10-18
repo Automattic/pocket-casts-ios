@@ -6,13 +6,12 @@ struct EndOfYearStoriesDataSource: StoriesDataSource {
 
     let randomPodcasts = DataManager.sharedManager.randomPodcasts()
 
-    @ViewBuilder
-    func story(for storyNumber: Int) -> any View {
+    func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
-            DummyStory(podcasts: randomPodcasts)
+            return DummyStory(podcasts: randomPodcasts)
         default:
-            FakeStoryTwo()
+            return FakeStory()
         }
     }
 
@@ -21,15 +20,9 @@ struct EndOfYearStoriesDataSource: StoriesDataSource {
     }
 }
 
-struct FakeStory: View {
-    var body: some View {
-        ZStack {
-            Color.purple
-        }
-    }
-}
+struct FakeStory: StoryView {
+    var duration: TimeInterval = 5.seconds
 
-struct FakeStoryTwo: View {
     var body: some View {
         ZStack {
             Color.yellow
