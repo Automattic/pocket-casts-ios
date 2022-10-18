@@ -50,6 +50,10 @@ class StoriesModel: ObservableObject {
         dataSource.storyView(for: index)
     }
 
+    func shareableAsset(index: Int) -> Any {
+        dataSource.shareableAsset(for: index)
+    }
+
     func next() {
         progress = Double(Int(progress) + 1)
     }

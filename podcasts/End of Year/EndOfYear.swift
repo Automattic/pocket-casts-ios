@@ -2,6 +2,8 @@ import SwiftUI
 import MaterialComponents.MaterialBottomSheet
 
 struct EndOfYear {
+    static var finishedImage: UIImage?
+
     func showPrompt(in viewController: UIViewController) {
         guard FeatureFlag.endOfYear else {
             return
@@ -23,10 +25,10 @@ struct EndOfYear {
         viewController.present(storiesViewController, animated: true, completion: nil)
     }
 
-    func share(view: any View, onDismiss: (() -> Void)? = nil) {
+    func share(asset: @escaping () -> Any, onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()?.presentedViewController
 
-        let imageToShare = [view.snapshot()]
+        let imageToShare = [StoryShareableProvider()]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
         activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
@@ -35,7 +37,12 @@ struct EndOfYear {
             onDismiss?()
         }
 
-        presenter?.present(activityViewController, animated: true, completion: nil)
+        presenter?.present(activityViewController, animated: true) {
+            // After the share sheet is presented we take the snapshot
+            // This action needs to happen on the main thread because
+            // the view needs to be rendered.
+            StoryShareableProvider.generatedItem = asset() as? UIImage
+        }
     }
 }
 

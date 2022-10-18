@@ -18,6 +18,14 @@ extension StoriesDataSource {
     func storyView(for storyNumber: Int) -> AnyView {
         return AnyView(story(for: storyNumber))
     }
+
+    func shareableAsset(for storyNumber: Int) -> Any {
+        VStack {
+            storyView(for: storyNumber)
+        }
+        .frame(width: 540, height: 960)
+        .snapshot()
+    }
 }
 
 typealias StoryView = Story & View

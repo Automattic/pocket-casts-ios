@@ -482,6 +482,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */; };
 		8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */; };
 		8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B328F48282001A0315 /* EndOfYear.swift */; };
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
@@ -2011,6 +2012,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableProvider.swift; sourceTree = "<group>"; };
 		8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearModal.swift; sourceTree = "<group>"; };
 		8BCB22B328F48282001A0315 /* EndOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear.swift; sourceTree = "<group>"; };
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
@@ -3690,6 +3692,7 @@
 				8BCB22B328F48282001A0315 /* EndOfYear.swift */,
 				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
 				8B6B68E628F74A010032BFFF /* StoriesModel.swift */,
+				8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */,
 			);
 			path = "End of Year";
 			sourceTree = "<group>";
@@ -7160,6 +7163,7 @@
 				BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */,
 				BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */,
 				BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */,
+				8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */,
 				408426322134CBE60076D82E /* SmallPagedListSummaryViewController.swift in Sources */,
 				BD4098801B9EFE3C007F36BD /* AudioPlayTask.swift in Sources */,
 				40AA12732488AE1F006B9D48 /* MultiSelectFooterView.swift in Sources */,
