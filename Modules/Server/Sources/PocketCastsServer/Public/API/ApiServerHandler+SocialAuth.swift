@@ -21,10 +21,9 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
 }
 
 public extension ApiServerHandler {
-    func validateLogin(identityToken: Data?) async throws -> AuthenticationResponse {
+    func validateLogin(identityToken: String?) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
-              let token = String(data: identityToken, encoding: .utf8),
-              let request = tokenRequest(identityToken: token)
+              let request = tokenRequest(identityToken: identityToken)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
             throw APIError.UNKNOWN

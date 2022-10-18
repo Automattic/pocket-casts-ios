@@ -176,7 +176,7 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
             Task {
                 var success = false
                 do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential)
+                    try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
                     success = true
                 } catch {
                     self.showError(error)

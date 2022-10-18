@@ -5,7 +5,7 @@ import UIKit
 
 public class SyncManager {
     public class func isUserLoggedIn() -> Bool {
-        if let email = ServerSettings.syncingEmail(), email.count > 0 {
+        if let email = ServerSettings.syncingEmail(), !email.isEmpty {
             return true
         }
         return false
