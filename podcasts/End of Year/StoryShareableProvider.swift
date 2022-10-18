@@ -1,6 +1,6 @@
 import UIKit
 
-/// A Activity Provider used for the share sheet
+/// An Activity Provider used for the share sheet
 ///
 /// Given stories assets are generated in the main thread
 /// and when the user taps "Share" we use this provider to
