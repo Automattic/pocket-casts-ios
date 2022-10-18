@@ -144,6 +144,28 @@ class PodcastDataManager {
         return allPodcasts
     }
 
+    /// Returns 5 random podcasts from the DB
+    /// This is here for development purposes.
+    func randomPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+        var allPodcasts = [Podcast]()
+        dbQueue.inDatabase { db in
+            do {
+                let query = "SELECT * FROM SJPodcast ORDER BY RANDOM() LIMIT 5"
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let podcast = self.createPodcastFrom(resultSet: resultSet)
+                    allPodcasts.append(podcast)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.randomPodcasts error: \(error)")
+            }
+        }
+
+        return allPodcasts
+    }
+
     func allUnsubscribedPodcastUuids(dbQueue: FMDatabaseQueue) -> [String] {
         var allUnsubscribed = [String]()
         cachedPodcastsQueue.sync {

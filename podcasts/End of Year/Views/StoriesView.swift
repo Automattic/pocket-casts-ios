@@ -9,7 +9,19 @@ struct StoriesView: View {
         model = StoriesModel(dataSource: dataSource)
     }
 
+    @ViewBuilder
     var body: some View {
+        if model.isReady {
+            stories
+            .onAppear {
+                model.start()
+            }
+        } else {
+            loading
+        }
+    }
+
+    var stories: some View {
         VStack {
             ZStack {
                 Spacer()
@@ -29,8 +41,21 @@ struct StoriesView: View {
             shareButton
         }
         .background(Color.black)
-        .onAppear {
-            model.start()
+    }
+
+    // View shown while data source is preparing
+    var loading: some View {
+        ZStack {
+            Spacer()
+
+            ProgressView()
+                .colorInvert()
+                .brightness(1)
+                .padding()
+                .background(Color.black)
+
+            storySwitcher
+            header
         }
     }
 
@@ -157,42 +182,10 @@ private extension StoriesView {
     }
 }
 
-// MARK: - Data Source
-
-struct TestStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 2
-
-    @ViewBuilder
-    func story(for storyNumber: Int) -> any View {
-        switch storyNumber {
-        case 0:
-            FakeStory()
-        default:
-            FakeStoryTwo()
-        }
-    }
-}
-
-struct FakeStory: View {
-    var body: some View {
-        ZStack {
-            Color.purple
-        }
-    }
-}
-
-struct FakeStoryTwo: View {
-    var body: some View {
-        ZStack {
-            Color.yellow
-        }
-    }
-}
-
 // MARK: - Preview Provider
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView(dataSource: TestStoriesDataSource())
+        StoriesView(dataSource: EndOfYearStoriesDataSource())
     }
 }
