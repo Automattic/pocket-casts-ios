@@ -43,13 +43,6 @@ struct StoriesView: View {
         .background(Color.black)
     }
 
-    var forSnapshot: some View {
-        VStack {
-            model.story(index: model.currentStory)
-        }
-        .frame(width: 540, height: 960)
-    }
-
     // View shown while data source is preparing
     var loading: some View {
         ZStack {
