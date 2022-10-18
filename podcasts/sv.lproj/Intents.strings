@@ -1,93 +1,101 @@
-﻿"0EmR82" = "Öppna ${filterName} Filter";
-
-"0YXvyS" = "Föregående";
-
-"1uT6VF" = "Mediasökning";
-
-"3aWmex" = "Kapitel";
-
-"5yWeuV" = "Spela med ${playbackSpeed}";
-
-"CXbd65" = "Ställ in Sovtimer";
-
-"E6Nzn4-No0K9w" = "återuppta Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "återuppta inte Pocket Casts";
-
-"ErAaNp" = "Upprepningsläge";
-
-"EwNFJ5" = "Förläng Sovtimer";
-
-"G0iCil" = "Kan inte hoppa över kapitel";
-
-"G3J6fP" = "Spela podcast";
-
-"IyhbAH" = "Öppna filter";
-
-"LdrEPN" = "En begäran om att spela media";
-
-"MbU5ep" = "Blanda ${mediaItems}";
-
-"No0K9w" = "återuppta";
-
-"Ntulol" = "Hoppa över kapitel";
-
-"OJvsVr" = "Förläng Insomningstimer med 5 Minuter";
-
-"Pk1Fkx" = "återuppta inte";
-
-"QektJm" = "Öppna filter";
-
-"QqdHiR" = "blandade";
-
-"RvX3Zd" = "Uppspelningshastighet";
-
-"WEjMGd" = "Spela ${mediaContainer}";
-
-"Wj0EAI" = "Hoppa över";
-
-"WktFNa" = "Blandade";
-
-"YYfsKp" = "Spela ${mediaContainer}";
-
-"bVm1vW" = "Ställ in sovtimer";
-
-"cV2HLF" = "Köplats";
-
-"cfJexL" = "Artiklar";
-
-"dBTobY" = "Hoppa över kapitel";
-
-"emhqzv" = "Podcast stöder inte kapitel";
-
-"gD0dlx" = "Nästa";
-
-"iQo0yQ-0YXvyS" = "Föregående kapitel";
-
-"iQo0yQ-Wj0EAI" = "Hoppa över kapitel";
-
-"iQo0yQ-gD0dlx" = "Nästa kapitel";
-
-"mCAocc" = "ej blandade";
-
-"nAv25k" = "Blanda ${mediaContainer}";
-
-"nNozW1" = "Blanda ${mediaContainer}";
-
-"nR0neu" = "Sovtimer";
-
-"ny98Lo" = "Förläng Sovtimer";
-
-"o6CuZu" = "Återuppta ${mediaContainer}";
-
-"q8QY8B" = "Spela ${mediaItems} med ${playbackSpeed}";
-
-"rnkZnd" = "Hoppa över kapitel";
-
-"rvNMpm" = "Återuppta";
-
-"sLPQxZ" = "Spela ${mediaContainer}";
-
-"xdnqvn" = "Behållare";
-
-"zvlpk3" = "Överhoppade kapitel";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>Öppna ${filterName} Filter</string>
+    <key>0YXvyS</key>
+    <string>Föregående</string>
+    <key>1uT6VF</key>
+    <string>Mediasökning</string>
+    <key>3aWmex</key>
+    <string>Kapitel</string>
+    <key>5yWeuV</key>
+    <string>Spela med ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Ställ in Sovtimer</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>återuppta Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>återuppta inte Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>Upprepningsläge</string>
+    <key>EwNFJ5</key>
+    <string>Förläng Sovtimer</string>
+    <key>G0iCil</key>
+    <string>Kan inte hoppa över kapitel</string>
+    <key>G3J6fP</key>
+    <string>Spela podcast</string>
+    <key>IyhbAH</key>
+    <string>Öppna filter</string>
+    <key>LdrEPN</key>
+    <string>En begäran om att spela media</string>
+    <key>MbU5ep</key>
+    <string>Blanda ${mediaItems}</string>
+    <key>No0K9w</key>
+    <string>återuppta</string>
+    <key>Ntulol</key>
+    <string>Hoppa över kapitel</string>
+    <key>OJvsVr</key>
+    <string>Förläng Insomningstimer med 5 Minuter</string>
+    <key>Pk1Fkx</key>
+    <string>återuppta inte</string>
+    <key>QektJm</key>
+    <string>Öppna filter</string>
+    <key>QqdHiR</key>
+    <string>blandade</string>
+    <key>RvX3Zd</key>
+    <string>Uppspelningshastighet</string>
+    <key>WEjMGd</key>
+    <string>Spela ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>Hoppa över</string>
+    <key>WktFNa</key>
+    <string>Blandade</string>
+    <key>YYfsKp</key>
+    <string>Spela ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>Ställ in sovtimer</string>
+    <key>cV2HLF</key>
+    <string>Köplats</string>
+    <key>cfJexL</key>
+    <string>Artiklar</string>
+    <key>dBTobY</key>
+    <string>Hoppa över kapitel</string>
+    <key>emhqzv</key>
+    <string>Podcast stöder inte kapitel</string>
+    <key>gD0dlx</key>
+    <string>Nästa</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Föregående kapitel</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Hoppa över kapitel</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Nästa kapitel</string>
+    <key>mCAocc</key>
+    <string>ej blandade</string>
+    <key>nAv25k</key>
+    <string>Blanda ${mediaContainer}</string>
+    <key>nNozW1</key>
+    <string>Blanda ${mediaContainer}</string>
+    <key>nR0neu</key>
+    <string>Sovtimer</string>
+    <key>ny98Lo</key>
+    <string>Förläng Sovtimer</string>
+    <key>o6CuZu</key>
+    <string>Återuppta ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>Spela ${mediaItems} med ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Hoppa över kapitel</string>
+    <key>rvNMpm</key>
+    <string>Återuppta</string>
+    <key>sLPQxZ</key>
+    <string>Spela ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Behållare</string>
+    <key>zvlpk3</key>
+    <string>Överhoppade kapitel</string>
+  </dict>
+</plist>

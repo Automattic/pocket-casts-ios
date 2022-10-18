@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import UIDeviceIdentifier
 
 protocol PodcastActionsDelegate: AnyObject {
     func isSummaryExpanded() -> Bool
@@ -214,12 +215,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func updateTopConstraintForiPhone14Pro() {
-        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else {
-            return
-        }
+        // Retrieve the name of the device
+        var deviceName = UIDeviceHardware.platformString()
 
-        let statusBarHeight = UIUtil.statusBarHeight(in: window)
-        if statusBarHeight > 50 {
+        #if targetEnvironment(simulator)
+        // If we're running in the simulator, grab the model that we're simulating
+        if let simulatorIdentifier = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
+            deviceName = UIDeviceHardware.platformString(forType: simulatorIdentifier)
+        }
+        #endif
+
+        if deviceName.startsWith(string: "iPhone 14 Pro") {
             // On iPhone 14 Pro and iPhone 14 Pro Max there's a space
             // between the nav bar and the content
             // Here we change the table top constraint to take into account that
