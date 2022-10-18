@@ -39,23 +39,15 @@ extension AppDelegate {
     /// This should only need to be ran once.
     func retrieveUserIdIfNeeded() {
         guard
-            let username = ServerSettings.syncingEmail(),
-            let password = ServerSettings.syncingPassword(),
+            ServerSettings.syncingEmail() != nil,
             ServerSettings.userId == nil
         else {
             return
         }
 
         FileLog.shared.addMessage("Missing User ID - Retrieving from the server")
-
-        // Refresh the login, but only retrieve the userId
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, _ in
-            guard success, let userId else {
-                return
-            }
-
-            ServerSettings.userId = userId
-            NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        Task {
+            try? await AuthenticationHelper.refreshLogin()
         }
     }
 }

@@ -271,37 +271,37 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         activityIndicatorView.isHidden = false
 
         mainButton.setTitle("", for: .normal)
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
-            DispatchQueue.main.async {
-                if !success {
-                    Analytics.track(.userSignInFailed, properties: ["source": self.authSource, "error_code": (error ?? .UNKNOWN).rawValue])
 
-                    if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
-                        self.showErrorMessage(message)
-                    } else {
-                        self.showErrorMessage(L10n.syncAccountError)
-                    }
-
-                    self.mainButton.setTitle(L10n.signIn, for: .normal)
-                    self.contentView.alpha = 1
-                    self.activityIndicatorView.stopAnimating()
-                    self.progressAlert?.hideAlert(false)
-                    self.progressAlert = nil
-                    return
+        self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+        self.progressAlert?.showAlert(self, hasProgress: false, completion: {
+            Task {
+                do {
+                    try await AuthenticationHelper.validateLogin(username: username, password: password)
                 }
-
-                self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-                self.progressAlert?.showAlert(self, hasProgress: false, completion: {
-                    // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
-                    SyncManager.clearTokensFromKeyChain()
-
-                    self.handleSuccessfulSignIn(username, password: password, userId: userId)
-                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-                    Settings.setPromotionFinishedAcknowledged(true)
-                    Settings.setLoginDetailsUpdated()
-                })
+                catch {
+                    DispatchQueue.main.async {
+                        self.handleError(error)
+                    }
+                }
             }
+        })
+    }
+
+    private func handleError(_ error: Error) {
+        let error = (error as? APIError) ?? APIError.UNKNOWN
+        Analytics.track(.userSignInFailed, properties: ["source": self.authSource, "error_code": error.rawValue])
+
+        var message = L10n.syncAccountError
+        if error != .UNKNOWN, !error.localizedDescription.isEmpty {
+            message = error.localizedDescription
         }
+
+        showErrorMessage(message)
+        mainButton.setTitle(L10n.signIn, for: .normal)
+        contentView.alpha = 1
+        activityIndicatorView.stopAnimating()
+        progressAlert?.hideAlert(false)
+        progressAlert = nil
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -323,21 +323,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
 
     // MARK: - Private Helpers
-
-    private func handleSuccessfulSignIn(_ username: String, password: String, userId: String?) {
-        ServerSettings.userId = userId
-        ServerSettings.saveSyncingPassword(password)
-
-        // we've signed in, set all our existing podcasts to be non synced
-        DataManager.sharedManager.markAllPodcastsUnsynced()
-
-        ServerSettings.clearLastSyncTime()
-        ServerSettings.setSyncingEmail(email: username)
-
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-
-        Analytics.track(.userSignedIn, properties: ["source": authSource])
-    }
 
     private func showErrorMessage(_ message: String) {
         errorLabel.text = message

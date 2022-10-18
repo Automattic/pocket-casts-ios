@@ -30,16 +30,19 @@ class AuthenticationHelper {
 
     // MARK: Password
 
-    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+    @discardableResult
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope = .mobile) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
-        handleSuccessfulSignIn(response, .password)
+        SyncManager.clearTokensFromKeyChain()
+        ServerSettings.setSyncingEmail(email: username)
         ServerSettings.saveSyncingPassword(password)
-
+        handleSuccessfulSignIn(response, .password)
         return response
     }
 
     // MARK: Apple SSO
 
+    @discardableResult
     static func validateLogin(appleIDCredential: ASAuthorizationAppleIDCredential) async throws -> AuthenticationResponse {
         guard let identityToken = appleIDCredential.identityToken,
               let token = String(data: identityToken, encoding: .utf8)
@@ -58,6 +61,7 @@ class AuthenticationHelper {
 
     static func validateLogin(identityToken: String) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
+        SyncManager.clearTokensFromKeyChain()
         handleSuccessfulSignIn(response, .ssoApple)
         return response
     }
@@ -93,16 +97,15 @@ class AuthenticationHelper {
     // MARK: Common
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
-        SyncManager.clearTokensFromKeyChain()
-
         ServerSettings.userId = response.uuid
         ServerSettings.syncingV2Token = response.token
+        if let email = response.email, !email.isEmpty {
+            ServerSettings.setSyncingEmail(email: email)
+        }
 
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
-
         ServerSettings.clearLastSyncTime()
-        ServerSettings.setSyncingEmail(email: response.email)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         Analytics.track(.userSignedIn, properties: ["source": source.rawValue])

@@ -23,20 +23,6 @@ public extension ApiServerHandler {
         return try await obtainToken(request: request)
     }
 
-    func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
-        Task {
-            do {
-                let response = try await validateLogin(username: username, password: password, scope: ServerConstants.Values.apiScope)
-                completion(response.token != nil, response.uuid, nil)
-            }
-            catch {
-                let err = (error as? APIError) ?? APIError.UNKNOWN
-                completion(false, nil, err)
-
-            }
-        }
-    }
-
     func forgotPassword(email: String, completion: @escaping (_ success: Bool, _ error: APIError?) -> Void) {
         var request = Api_EmailRequest()
         request.email = email
