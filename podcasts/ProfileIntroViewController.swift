@@ -205,7 +205,6 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
         let error = (error as? APIError) ?? .UNKNOWN
         var message = L10n.accountSsoFailed
         if error != .UNKNOWN, !error.localizedDescription.isEmpty {
-            FileLog.shared.addMessage(error.localizedDescription)
             message = error.localizedDescription
         }
 
