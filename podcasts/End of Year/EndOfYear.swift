@@ -17,7 +17,7 @@ struct EndOfYear {
             return
         }
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView())
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: TestStoriesDataSource()))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = .fullScreen
         viewController.present(storiesViewController, animated: true, completion: nil)
@@ -26,6 +26,10 @@ struct EndOfYear {
 
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
     }
 }
