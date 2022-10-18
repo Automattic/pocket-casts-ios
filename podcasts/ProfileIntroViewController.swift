@@ -1,6 +1,8 @@
 import UIKit
 import PocketCastsUtils
 import AuthenticationServices
+import PocketCastsUtils
+import PocketCastsServer
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
@@ -138,7 +140,7 @@ extension ProfileIntroViewController {
         authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
         authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
-      }
+    }
 
     @objc
     func handleAppleAuthButtonPress() {
@@ -181,7 +183,7 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
                     try await AuthenticationHelper.validateLogin(appleIDCredential)
                     success = true
                 } catch {
-                    FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+                    self.showError(error)
                 }
 
                 DispatchQueue.main.async {
@@ -192,5 +194,13 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
                 }
             }
         })
+    }
+
+    func showError(_ error: Error) {
+        FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+        let error = (error as? APIError) ?? .UNKNOWN
+        Analytics.track(.userSignInFailed, properties: ["source": AuthenticationSource.ssoApple.rawValue, "error_code": error.rawValue])
+
+        // TODO: Present Error
     }
 }
