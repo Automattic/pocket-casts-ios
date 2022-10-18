@@ -1,19 +1,45 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import AuthenticationServices
 
 class AuthenticationHelper {
-    static func processAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential, _ completion: @escaping (Result<Bool, Error>) -> Void) {
-        ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken) { result in
-            switch result {
-            case .success(let response):
-                handleSuccessfulSignIn(response)
-                completion(.success(true))
-            case .failure(let error):
-                completion(.failure(error))
+    static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken)
+        handleSuccessfulSignIn(response)
+        if let identityToken = appleIDCredential.identityToken {
+            ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
+            ServerSettings.appleAuthUserID = appleIDCredential.user
+        }
+    }
+
+    static func validateAppleSSOCredentials() {
+        guard ServerSettings.appleAuthUserID != nil else {
+            // No need to Check if we don't have a user ID
+            return
+        }
+        Task {
+            let state = try await ApiServerHandler.shared.ssoCredentialState()
+            FileLog.shared.addMessage("Validated Apple SSO token state: \(state.loggingValue)")
+            switch state {
+            case .revoked, .transferred:
+                handleSSOTokenRevoked()
+            default:
+                break
             }
         }
+    }
+
+    static func observeAppleSSOEvents() {
+        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
+            handleSSOTokenRevoked()
+        }
+    }
+
+    private static func handleSSOTokenRevoked() {
+        FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
+        SyncManager.signout()
     }
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {
@@ -30,7 +56,7 @@ class AuthenticationHelper {
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         // TODO: Track login source details
-//        Analytics.track(.userSignedIn)
+        //        Analytics.track(.userSignedIn)
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)

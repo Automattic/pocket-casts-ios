@@ -5,7 +5,7 @@ import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy
+        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy, developer
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -39,6 +39,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
             case .privacy:
                 return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
+            case .developer:
+                return ("Developer", UIImage(systemName: "ladybug.fill"))
             }
         }
     }
@@ -137,6 +139,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
         case .privacy:
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
+        case .developer:
+            let hostingController = UIHostingController(rootView: DeveloperMenu())
+            navigationController?.pushViewController(hostingController, animated: true)
         }
     }
 
@@ -154,6 +159,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         if !SubscriptionHelper.hasActiveSubscription() {
             tableData.insert([.pocketCastsPlus], at: 0)
         }
+
+        #if DEBUG
+        tableData.append([.developer])
+        #endif
 
         settingsTable.reloadData()
     }

@@ -416,6 +416,7 @@
 		46B5DFD827EA2A80006FC2ED /* NowPlayingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B5DFD727EA2A80006FC2ED /* NowPlayingOptions.swift */; };
 		46B5DFDA27EA4F12006FC2ED /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B5DFD927EA4F12006FC2ED /* VolumeControl.swift */; };
 		46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C22EDF28F73D9900F4173B /* AuthenticationServices.framework */; };
+		46C22EE328F7497300F4173B /* DeveloperMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C22EE228F7497300F4173B /* DeveloperMenu.swift */; };
 		46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3D551275EA16200DDE116 /* SingleEpisodeViewController.swift */; };
 		46C3D554275EA19B00DDE116 /* SingleEpisodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46C3D553275EA19B00DDE116 /* SingleEpisodeViewController.xib */; };
 		46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3D555275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift */; };
@@ -1930,6 +1931,7 @@
 		46B867C227A08C35006CDBA0 /* ScreenshotAutomation_iPhone_Light_Interface.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotAutomation_iPhone_Light_Interface.xctestplan; sourceTree = "<group>"; };
 		46B867C327A08C85006CDBA0 /* ScreenshotAutomation_iPhone_Dark_Interface.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ScreenshotAutomation_iPhone_Dark_Interface.xctestplan; sourceTree = "<group>"; };
 		46C22EDF28F73D9900F4173B /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		46C22EE228F7497300F4173B /* DeveloperMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenu.swift; sourceTree = "<group>"; };
 		46C3D551275EA16200DDE116 /* SingleEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEpisodeViewController.swift; sourceTree = "<group>"; };
 		46C3D553275EA19B00DDE116 /* SingleEpisodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SingleEpisodeViewController.xib; sourceTree = "<group>"; };
 		46C3D555275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverEpisodeViewModel.swift; sourceTree = "<group>"; };
@@ -3547,6 +3549,14 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
+		46C22EE128F7496000F4173B /* Developer Menu */ = {
+			isa = PBXGroup;
+			children = (
+				46C22EE228F7497300F4173B /* DeveloperMenu.swift */,
+			);
+			name = "Developer Menu";
+			sourceTree = "<group>";
+		};
 		46C3D550275EA0E400DDE116 /* Single Episode */ = {
 			isa = PBXGroup;
 			children = (
@@ -4391,6 +4401,7 @@
 		BD5B79191783F9CF00A0F407 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				46C22EE128F7496000F4173B /* Developer Menu */,
 				BD69EBBD1CD1D39F007F273B /* Helpers */,
 				BD69EBB61CD1C7EE007F273B /* Support */,
 				BDFB26E41CD08AB900787B7E /* About */,
@@ -7519,6 +7530,7 @@
 				BDF7BDD51CA24F5C0045AB6D /* FunnyTimeConverter.swift in Sources */,
 				4006E31723AC935700174DEB /* DescriptiveCollectionCell.swift in Sources */,
 				BD90134F275F3346004AC104 /* ThemeSelectorView.swift in Sources */,
+				46C22EE328F7497300F4173B /* DeveloperMenu.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
