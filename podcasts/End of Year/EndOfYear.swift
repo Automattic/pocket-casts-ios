@@ -31,7 +31,6 @@ struct EndOfYear {
         let imageToShare = [StoryShareableProvider()]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
-        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
 
         activityViewController.completionWithItemsHandler = { _, _, _, _ in
             onDismiss?()
