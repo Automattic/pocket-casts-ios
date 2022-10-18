@@ -15,7 +15,7 @@ public extension ApiServerHandler {
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
         let data = try loginRequest.serializedData()
-        guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
+        guard let request = ServerHelper.createProtoRequest(url: url, data: data, cachePolicy: .reloadIgnoringCacheData) else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
             throw APIError.UNKNOWN
         }

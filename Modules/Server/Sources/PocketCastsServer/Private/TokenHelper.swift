@@ -17,7 +17,7 @@ class TokenHelper {
 
         if SyncManager.isUserLoggedIn() {
             let token: String
-            if let storedToken = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
+            if let storedToken = ServerSettings.syncingV2Token {
                 token = storedToken
             } else if let newToken = TokenHelper.acquireToken() {
                 token = newToken
@@ -58,7 +58,6 @@ class TokenHelper {
             switch result {
             case .success(let token):
                 refreshedToken = token
-                ServerSettings.syncingV2Token = token
             case .failure:
                 refreshedToken = nil
             }
@@ -79,64 +78,9 @@ class TokenHelper {
         return refreshedToken
     }
 
-    // MARK: - Email / Password Token
-
-    class func acquirePasswordToken() -> String? {
-        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
-            // if the user doesn't have an email and password, then we'll check if they're using SSO
-            return nil
-        }
-
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
-        do {
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
-            request.httpMethod = "POST"
-            request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
-            request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
-            if let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() {
-                request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
-            }
-
-            var loginRequest = Api_UserLoginRequest()
-            loginRequest.email = email
-            loginRequest.password = password
-            loginRequest.scope = ServerConstants.Values.apiScope
-            let data = try loginRequest.serializedData()
-            request.httpBody = data
-
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
-            guard let validData = responseData, let httpResponse = response as? HTTPURLResponse else {
-                FileLog.shared.addMessage("TokenHelper: Unable to acquire token")
-                return nil
-            }
-
-            if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
-                let token = try Api_UserLoginResponse(serializedData: validData).token
-                return token
-            }
-
-            if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
-                SyncManager.signout()
-            }
-        } catch {
-            FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
-        }
-
-        return nil
-    }
-
-
-    // MARK: - Email / Password Token
-
     private class func asyncAcquireToken(completion: @escaping (Result<String?, APIError>) -> Void) {
-        if let token = acquirePasswordToken() {
-            completion(.success(token))
-            return
-        }
-
         Task {
-            if let token = await acquireIdentityToken() {
+            if async let token = await acquirePasswordToken() ?? await acquireIdentityToken() {
                 completion(.success(token))
             }
             else {
@@ -145,10 +89,36 @@ class TokenHelper {
         }
     }
 
+
+    // MARK: - Email / Password Token
+
+    class func acquirePasswordToken() async -> String? {
+        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty else {
+            // if the user doesn't have an email and password, then we'll check if they're using SSO
+            return nil
+        }
+
+        do {
+            return try await ApiServerHandler.shared.validateLogin(username: email, password: password, scope: ServerConstants.Values.apiScope)
+        }
+        catch {
+            FileLog.shared.addMessage("TokenHelper Password acquireToken failed \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
     // MARK: - SSO Identity Token
 
     private class func acquireIdentityToken() async -> String? {
-        return try? await ApiServerHandler.shared.refreshIdentityToken()
+        do {
+            return try await ApiServerHandler.shared.refreshIdentityToken()
+        }
+        catch {
+            FileLog.shared.addMessage("TokenHelper SSO acquireToken failed \(error.localizedDescription)")
+        }
+
+        return nil
     }
 
     // MARK: Cleanup

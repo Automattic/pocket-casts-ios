@@ -35,7 +35,7 @@ public extension ApiServerHandler {
     func refreshIdentityToken() async throws -> String? {
         guard
             let identityToken = ServerSettings.appleAuthIdentityToken,
-            let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
+            let request = tokenRequest(identityToken: identityToken)
         else {
             FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")
             throw APIError.UNKNOWN
@@ -67,10 +67,10 @@ public extension ApiServerHandler {
         }
     }
 
-    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
+    private func tokenRequest(identityToken: String?) -> URLRequest? {
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login_apple")
         guard let identityToken = identityToken,
-              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData)
         else { return nil }
 
         request.setValue("Bearer \(identityToken)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
