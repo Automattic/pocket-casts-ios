@@ -9,28 +9,38 @@ enum AuthenticationSource: String {
     case ssoApple = "sso_apple"
 }
 
+enum AuthenticationScope: String {
+    case mobile
+    case sonos
+}
+
 class AuthenticationHelper {
 
-    static func refreshLogin() async throws {
+    @discardableResult
+    static func refreshLogin(scope: AuthenticationScope = .mobile) async throws -> String? {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
-            try await validateLogin(username: username, password: password)
+            return try await validateLogin(username: username, password: password, scope: scope).token
         }
         else if FeatureFlag.signInWithApple, let token = ServerSettings.appleAuthIdentityToken {
-            try await validateLogin(identityToken: token)
+            return try await validateLogin(identityToken: token).token
         }
+
+        return nil
     }
 
     // MARK: Password
 
-    static func validateLogin(username: String, password: String) async throws {
-        let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password)
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
         handleSuccessfulSignIn(response, .password)
         ServerSettings.saveSyncingPassword(password)
+
+        return response
     }
 
     // MARK: Apple SSO
 
-    static func validateLogin(appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
+    static func validateLogin(appleIDCredential: ASAuthorizationAppleIDCredential) async throws -> AuthenticationResponse {
         guard let identityToken = appleIDCredential.identityToken,
               let token = String(data: identityToken, encoding: .utf8)
         else {
@@ -38,15 +48,18 @@ class AuthenticationHelper {
             throw APIError.UNKNOWN
         }
 
-        try await validateLogin(identityToken: token)
+        let response = try await validateLogin(identityToken: token)
 
         ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
         ServerSettings.appleAuthUserID = appleIDCredential.user
+
+        return response
     }
 
-    static func validateLogin(identityToken: String) async throws {
+    static func validateLogin(identityToken: String) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
         handleSuccessfulSignIn(response, .ssoApple)
+        return response
     }
 
     static func validateAppleSSOCredentials() {

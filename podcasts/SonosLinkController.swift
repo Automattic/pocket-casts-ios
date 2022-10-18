@@ -60,20 +60,20 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
 
     func connectWithSonos() {
         connectBtn.buttonTitle = L10n.sonosConnecting
-        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
+        guard ServerSettings.syncingEmail() != nil else {
             connectBtn.buttonTitle = L10n.retry.localizedUppercase
             return
         }
 
-        ApiServerHandler.shared.obtainToken(username: email, password: password, scope: "sonos") { token, _, _ in
+        Task {
+            let token = try? await AuthenticationHelper.refreshLogin(scope: .sonos)
+
             DispatchQueue.main.async { [weak self] in
                 guard let token = token else {
                     self?.connectBtn.buttonTitle = L10n.retry.localizedUppercase
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
-
                     return
                 }
-
                 guard let strongSelf = self else { return }
 
                 let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
