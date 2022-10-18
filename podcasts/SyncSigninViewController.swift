@@ -85,7 +85,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
     var dismissOnCancel = false
 
-    private var progressAlert: ShiftyLoadingAlert?
+    private var progressAlert: SyncLoadingAlert?
 
     private var totalPodcastsToImport = -1
 
@@ -127,9 +127,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
 
         emailField.becomeFirstResponder()
-        addCustomObserver(ServerNotifications.syncProgressPodcastCount, selector: #selector(syncProgressCountKnown(_:)))
-        addCustomObserver(ServerNotifications.syncProgressPodcastUpto, selector: #selector(syncUpToChanged(_:)))
-        addCustomObserver(ServerNotifications.syncProgressImportedPodcasts, selector: #selector(podcastsImported))
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.podcastRefreshFailed, selector: #selector(syncCompleted))
@@ -169,37 +166,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
 
     // MARK: - Syncing Progress
-
-    @objc private func syncProgressCountKnown(_ notification: Notification) {
-        if let number = notification.object as? NSNumber {
-            totalPodcastsToImport = number.intValue
-        }
-    }
-
-    @objc private func syncUpToChanged(_ notification: Notification) {
-        guard let progressAlert = progressAlert, let number = notification.object as? NSNumber else { return }
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-
-            let upTo = number.intValue
-            if self.totalPodcastsToImport > 0 {
-                progressAlert.title = L10n.syncProgress(upTo.localized(), self.totalPodcastsToImport.localized())
-                progressAlert.progress = CGFloat(upTo / self.totalPodcastsToImport)
-            } else {
-                // Used when the total number of podcasts to sync isn't known.
-                progressAlert.title = upTo == 1 ? L10n.syncProgressUnknownCountSingular : L10n.syncProgressUnknownCountPluralFormat(upTo.localized())
-            }
-        }
-    }
-
-    @objc private func podcastsImported() {
-        guard let progressAlert = progressAlert else { return }
-
-        DispatchQueue.main.async {
-            progressAlert.title = L10n.syncInProgress
-        }
-    }
 
     @objc private func syncCompleted() {
         DispatchQueue.main.async { [weak self] in
@@ -272,7 +238,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
         mainButton.setTitle("", for: .normal)
 
-        self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+        self.progressAlert = SyncLoadingAlert()
         self.progressAlert?.showAlert(self, hasProgress: false, completion: {
             Task {
                 do {

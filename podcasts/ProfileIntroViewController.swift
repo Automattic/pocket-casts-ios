@@ -6,6 +6,7 @@ import PocketCastsServer
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
+    var progressAlert: SyncLoadingAlert?
 
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
@@ -69,6 +70,10 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         setupProviderLoginView()
 
         Analytics.track(.setupAccountShown)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
     override func handleThemeChanged() {
@@ -171,21 +176,14 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
     }
 
     func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
-        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-        progressAlert.showAlert(self, hasProgress: false, completion: {
+        progressAlert = SyncLoadingAlert()
+        progressAlert?.showAlert(self, hasProgress: false, completion: {
             Task {
-                var success = false
                 do {
                     try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
-                    success = true
                 } catch {
-                    self.showError(error)
-                }
-
-                DispatchQueue.main.async {
-                    progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
+                    DispatchQueue.main.async {
+                        self.showError(error)
                     }
                 }
             }
@@ -196,7 +194,16 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
         FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
         let error = (error as? APIError) ?? .UNKNOWN
         Analytics.track(.userSignInFailed, properties: ["source": AuthenticationSource.ssoApple.rawValue, "error_code": error.rawValue])
-
+        progressAlert?.hideAlert(false)
+        progressAlert = nil
         // TODO: Present Error
+    }
+
+    @objc private func syncCompleted() {
+        DispatchQueue.main.async {
+            self.progressAlert?.hideAlert(false)
+            self.progressAlert = nil
+            self.signingProcessCompleted()
+        }
     }
 }
