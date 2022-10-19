@@ -904,4 +904,8 @@ public extension DataManager {
     func listenedCategories() -> [ListenedCategory] {
         endOfYearManager.listenedCategories(dbQueue: dbQueue)
     }
+
+    func listenedNumbers() -> ListenedNumbers {
+        endOfYearManager.listenedNumbers(dbQueue: dbQueue)
+    }
 }
