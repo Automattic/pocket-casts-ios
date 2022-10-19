@@ -95,6 +95,37 @@ class EndOfYearDataManager {
         return listenedNumbers
     }
 
+    /// Return the top podcasts ordered by listening time
+    func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [Podcast] {
+        var allPodcasts = [Podcast]()
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(\(DataManager.episodeTableName).id) as played_episodes,
+                                \(DataManager.podcastTableName).title
+                            FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
+                            WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
+                                lastPlaybackInteractionDate IS NOT NULL AND
+                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                            GROUP BY podcastUuid
+                            ORDER BY played_episodes DESC
+                            LIMIT \(limit)
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    allPodcasts.append(Podcast.from(resultSet: resultSet))
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
+            }
+        }
+
+        return allPodcasts
+    }
+
+
 }
 
 public struct ListenedCategory {
