@@ -442,6 +442,7 @@
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
+		8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */; };
 		8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -1978,6 +1979,7 @@
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningTimeStory.swift; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
@@ -3680,6 +3682,7 @@
 			children = (
 				8B9D459B28F9A6260034219E /* DummyStory.swift */,
 				8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */,
+				8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
@@ -7584,6 +7587,7 @@
 				408529A3247C9A53007FE8AA /* PodcastSupporterCell.swift in Sources */,
 				BDCD1E82244D636D00B83602 /* LenticularFilter.swift in Sources */,
 				4006E31423AC453700174DEB /* ExpandedCollectionViewController+CollectionView.swift in Sources */,
+				8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */,
 				BD27B8C92756FA20007A0EA7 /* ModalCloseButton.swift in Sources */,
 				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,

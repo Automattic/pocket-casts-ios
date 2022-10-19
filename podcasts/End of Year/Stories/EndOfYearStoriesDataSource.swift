@@ -11,9 +11,9 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
-            return DummyStory(podcasts: randomPodcasts)
+            return ListeningTimeStory(listeningTime: listeningTime!)
         default:
-            return FakeStory()
+            return DummyStory(podcasts: randomPodcasts)
         }
     }
 
@@ -22,16 +22,6 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             self.listeningTime = DataManager.sharedManager.listeningTime()
 
             continuation.resume(returning: true)
-        }
-    }
-}
-
-struct FakeStory: StoryView {
-    var duration: TimeInterval = 5.seconds
-
-    var body: some View {
-        ZStack {
-            Color.yellow
         }
     }
 }
