@@ -447,6 +447,7 @@
 		8B0EEDE429006C9B00075772 /* TopListenedCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */; };
 		8B0EEDE6290081E400075772 /* ListenedNumbersStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */; };
 		8B0EEDE829008B6300075772 /* TopOnePodcastStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */; };
+		8B0EEDEA2900990D00075772 /* LongestEpisodeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE92900990D00075772 /* LongestEpisodeStory.swift */; };
 		8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -1988,6 +1989,7 @@
 		8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListenedCategories.swift; sourceTree = "<group>"; };
 		8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenedNumbersStory.swift; sourceTree = "<group>"; };
 		8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopOnePodcastStory.swift; sourceTree = "<group>"; };
+		8B0EEDE92900990D00075772 /* LongestEpisodeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestEpisodeStory.swift; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
@@ -3692,6 +3694,7 @@
 				8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */,
 				8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */,
 				8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */,
+				8B0EEDE92900990D00075772 /* LongestEpisodeStory.swift */,
 				8B9D459B28F9A6260034219E /* TopFivePodcastsStory.swift */,
 				8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */,
 				8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */,
@@ -7644,6 +7647,7 @@
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				400A3EEE226FF12B007361C7 /* SelectPaymentFreqViewController.swift in Sources */,
+				8B0EEDEA2900990D00075772 /* LongestEpisodeStory.swift in Sources */,
 				BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */,
 				4006E31123A88AE600174DEB /* ExpandedCollectionViewController.swift in Sources */,
 				BD240C45231F471B00FB2CDD /* PCSearchBarController+Animation.swift in Sources */,

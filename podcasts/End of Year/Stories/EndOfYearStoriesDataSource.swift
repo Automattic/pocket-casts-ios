@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 6
+    var numberOfStories: Int = 7
 
     var listeningTime: Double?
 
@@ -26,8 +26,10 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return ListenedNumbersStory(listenedNumbers: listenedNumbers!)
         case 4:
             return TopOnePodcastStory(topPodcast: topPodcasts[0])
-        default:
+        case 5:
             return TopFivePodcastsStory(podcasts: topPodcasts.map { $0.podcast })
+        default:
+            return LongestEpisodeStory(episode: longestEpisode!, podcast: longestEpisode!.parentPodcast()!)
         }
     }
 
