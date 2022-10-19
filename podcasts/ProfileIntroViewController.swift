@@ -11,6 +11,12 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         .systemFont(ofSize: 18, weight: .semibold)
     }
 
+    @IBOutlet var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.style = .support05
+        }
+    }
+
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
             createAccountBtn.setTitle(L10n.createAccount, for: .normal)
@@ -105,6 +111,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     }
 
     @IBAction func signInTapped() {
+        errorLabel.isHidden = true
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
 
@@ -144,6 +151,7 @@ extension ProfileIntroViewController {
 
     @objc
     func handleAppleAuthButtonPress() {
+        errorLabel.isHidden = true
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -198,9 +206,10 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
 
     func showError(_ error: Error) {
         FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
-        let error = (error as? APIError) ?? .UNKNOWN
-        Analytics.track(.userSignInFailed, properties: ["source": AuthenticationSource.ssoApple.rawValue, "error_code": error.rawValue])
 
-        // TODO: Present Error
+        DispatchQueue.main.async {
+            self.errorLabel.text = L10n.accountSsoFailed
+            self.errorLabel.isHidden = false
+        }
     }
 }
