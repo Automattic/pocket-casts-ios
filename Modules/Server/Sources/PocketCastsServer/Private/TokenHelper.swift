@@ -80,7 +80,10 @@ class TokenHelper {
 
     private class func asyncAcquireToken(completion: @escaping (Result<String?, APIError>) -> Void) {
         Task {
-            if async let token = await acquirePasswordToken() ?? await acquireIdentityToken() {
+            if let token = await acquirePasswordToken() {
+                completion(.success(token))
+            }
+            else if let token = await acquireIdentityToken() {
                 completion(.success(token))
             }
             else {
@@ -99,7 +102,7 @@ class TokenHelper {
         }
 
         do {
-            return try await ApiServerHandler.shared.validateLogin(username: email, password: password, scope: ServerConstants.Values.apiScope)
+            return try await ApiServerHandler.shared.validateLogin(username: email, password: password, scope: ServerConstants.Values.apiScope).token
         }
         catch {
             FileLog.shared.addMessage("TokenHelper Password acquireToken failed \(error.localizedDescription)")
