@@ -102,7 +102,7 @@ class EndOfYearDataManager {
             do {
                 let query = """
                             SELECT COUNT(\(DataManager.episodeTableName).id) as played_episodes,
-                                \(DataManager.podcastTableName).title
+                                \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
                                 lastPlaybackInteractionDate IS NOT NULL AND
