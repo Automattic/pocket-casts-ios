@@ -6,11 +6,16 @@ struct ListeningTimeStory: StoryView {
     let listeningTime: Double
 
     var body: some View {
-        VStack {
-            Text("In 2022, you spent \(listeningTime.localizedTimeDescription ?? "") listening to podcasts")
-                .foregroundColor(.white)
-            Text(FunnyTimeConverter.timeSecsToFunnyText(listeningTime))
-                .foregroundColor(.white)
+        ZStack {
+            Color.black
+
+            VStack {
+                Text("In 2022, you spent \(listeningTime.localizedTimeDescription ?? "") listening to podcasts")
+                    .foregroundColor(.white)
+                Text(FunnyTimeConverter.timeSecsToFunnyText(listeningTime))
+                    .foregroundColor(.white)
+            }
+            .padding()
         }
     }
 }
