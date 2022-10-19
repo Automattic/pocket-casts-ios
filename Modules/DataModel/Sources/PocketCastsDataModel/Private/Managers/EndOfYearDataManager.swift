@@ -63,9 +63,46 @@ class EndOfYearDataManager {
         return listenedCategories
     }
 
+    /// Return the number of podcasts and episodes listened
+    ///
+    func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
+        var listenedNumbers: ListenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(\(DataManager.episodeTableName).id) as episodes,
+                                COUNT(DISTINCT \(DataManager.podcastTableName).uuid) as podcasts
+                            FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
+                            WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
+                                lastPlaybackInteractionDate IS NOT NULL AND
+                                lastPlaybackInteractionDate BETWEEN strftime('%s', date('now','start of year')) and strftime('%s', 'now')
+                            """
+
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    let numberOfPodcasts = Int(resultSet.int(forColumn: "podcasts"))
+                    let numberOfEpisodes = Int(resultSet.int(forColumn: "episodes"))
+                    listenedNumbers = ListenedNumbers(numberOfPodcasts: numberOfPodcasts, numberOfEpisodes: numberOfEpisodes)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.listenedNumbers error: \(error)")
+            }
+        }
+
+        return listenedNumbers
+    }
+
 }
 
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
     public let categoryTitle: String
+}
+
+public struct ListenedNumbers {
+    public let numberOfPodcasts: Int
+    public let numberOfEpisodes: Int
 }
