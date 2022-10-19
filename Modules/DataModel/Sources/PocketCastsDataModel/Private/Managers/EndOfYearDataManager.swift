@@ -19,7 +19,7 @@ class EndOfYearDataManager {
                     listeningTime = resultSet.double(forColumn: "totalPlayedTime")
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.listeningTime error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.listeningTime error: \(error)")
             }
         }
 
@@ -56,7 +56,7 @@ class EndOfYearDataManager {
                     }
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.listenedCategories error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.listenedCategories error: \(error)")
             }
         }
 
@@ -88,7 +88,7 @@ class EndOfYearDataManager {
                     listenedNumbers = ListenedNumbers(numberOfPodcasts: numberOfPodcasts, numberOfEpisodes: numberOfEpisodes)
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.listenedNumbers error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.listenedNumbers error: \(error)")
             }
         }
 
@@ -121,7 +121,7 @@ class EndOfYearDataManager {
                     allPodcasts.append(TopPodcast(podcast: Podcast.from(resultSet: resultSet), numberOfPlayedEpisodes: numberOfPlayedEpisodes, totalPlayedTime: totalPlayedTime))
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.topPodcasts error: \(error)")
             }
         }
 
@@ -148,7 +148,7 @@ class EndOfYearDataManager {
                     episode = Episode.from(resultSet: resultSet)
                 }
             } catch {
-                FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.topPodcasts error: \(error)")
             }
         }
 
