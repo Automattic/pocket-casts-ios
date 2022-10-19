@@ -255,7 +255,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
     private func handleError(_ error: Error) {
         let error = (error as? APIError) ?? APIError.UNKNOWN
-        Analytics.track(.userSignInFailed, properties: ["source": self.authSource, "error_code": error.rawValue])
+        Analytics.track(.userSignInFailed, properties: ["source": authSource, "error_code": error.rawValue])
 
         var message = L10n.syncAccountError
         if error != .UNKNOWN, !error.localizedDescription.isEmpty {
