@@ -66,6 +66,6 @@ class EndOfYearDataManager {
 }
 
 public struct ListenedCategory {
-    let numberOfPodcasts: Int
-    let categoryTitle: String
+    public let numberOfPodcasts: Int
+    public let categoryTitle: String
 }
