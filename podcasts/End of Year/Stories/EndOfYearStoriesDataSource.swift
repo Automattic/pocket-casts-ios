@@ -4,8 +4,6 @@ import PocketCastsDataModel
 class EndOfYearStoriesDataSource: StoriesDataSource {
     var numberOfStories: Int = 6
 
-    let randomPodcasts = DataManager.sharedManager.randomPodcasts()
-
     var listeningTime: Double?
 
     var listenedCategories: [ListenedCategory] = []
@@ -27,7 +25,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case 4:
             return TopOnePodcastStory(topPodcast: topPodcasts[0])
         default:
-            return TopFivePodcastsStory(podcasts: randomPodcasts)
+            return TopFivePodcastsStory(podcasts: topPodcasts.map { $0.podcast })
         }
     }
 
