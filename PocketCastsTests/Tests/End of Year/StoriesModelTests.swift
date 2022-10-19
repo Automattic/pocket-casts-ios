@@ -66,14 +66,14 @@ class MockStoriesDataSource: StoriesDataSource {
 
     var didCallStoryForWithStoryNumber: Int?
 
-    func story(for storyNumber: Int) -> any View {
+    func story(for storyNumber: Int) -> any StoryView {
         didCallStoryForWithStoryNumber = storyNumber
 
         switch storyNumber {
         case 0:
-            return FakeStory()
+            return MockedStory()
         default:
-            return FakeStoryTwo()
+            return MockedStoryTwo()
         }
     }
 
@@ -82,7 +82,9 @@ class MockStoriesDataSource: StoriesDataSource {
     }
 }
 
-struct MockedStory: View {
+struct MockedStory: StoryView {
+    var duration: TimeInterval = 5 * 60
+
     var body: some View {
         ZStack {
             Color.purple
@@ -90,7 +92,9 @@ struct MockedStory: View {
     }
 }
 
-struct MockedStoryTwo: View {
+struct MockedStoryTwo: StoryView {
+    var duration: TimeInterval = 5 * 60
+
     var body: some View {
         ZStack {
             Color.yellow

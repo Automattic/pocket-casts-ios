@@ -1,10 +1,11 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
-import Kingfisher
 
-struct DummyStory: View {
+struct DummyStory: StoryView {
     let podcasts: [Podcast]
+
+    let duration: TimeInterval = 5.seconds
 
     var backgroundColor: Color {
         Color(podcasts.first?.bgColor() ?? UIColor.black)
@@ -29,8 +30,7 @@ struct DummyStory: View {
                             Text("\(x + 1).")
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundColor(tintColor)
-                            KFImage(ServerHelper.imageUrl(podcastUuid: podcasts[x].uuid, size: 280))
-                                .resizable()
+                            ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[x].uuid, size: 280))
                                 .frame(width: 76, height: 76)
                                 .aspectRatio(1, contentMode: .fit)
                                 .cornerRadius(4)
