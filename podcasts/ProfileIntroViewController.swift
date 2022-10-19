@@ -206,14 +206,9 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
 
     func showError(_ error: Error) {
         FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
-        let error = (error as? APIError) ?? .UNKNOWN
-        var message = L10n.accountSsoFailed
-        if error != .UNKNOWN, !error.localizedDescription.isEmpty {
-            message = error.localizedDescription
-        }
 
         DispatchQueue.main.async {
-            self.errorLabel.text = message
+            self.errorLabel.text = L10n.accountSsoFailed
             self.errorLabel.isHidden = false
         }
     }
