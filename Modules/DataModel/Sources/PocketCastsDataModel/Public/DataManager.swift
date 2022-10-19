@@ -908,4 +908,8 @@ public extension DataManager {
     func listenedNumbers() -> ListenedNumbers {
         endOfYearManager.listenedNumbers(dbQueue: dbQueue)
     }
+
+    func topPodcasts() -> [Podcast] {
+        endOfYearManager.topPodcasts(dbQueue: dbQueue)
+    }
 }
