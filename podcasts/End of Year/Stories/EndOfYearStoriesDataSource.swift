@@ -12,7 +12,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
 
     var listenedNumbers: ListenedNumbers?
 
-    var topPodcasts: [Podcast] = []
+    var topPodcasts: [TopPodcast] = []
 
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
