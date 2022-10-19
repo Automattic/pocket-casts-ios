@@ -12,6 +12,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
 
     var listenedNumbers: ListenedNumbers?
 
+    var topPodcasts: [Podcast] = []
+
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
@@ -34,6 +36,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             self.listenedCategories = DataManager.sharedManager.listenedCategories()
 
             self.listenedNumbers = DataManager.sharedManager.listenedNumbers()
+
+            self.topPodcasts = DataManager.sharedManager.topPodcasts()
 
             continuation.resume(returning: true)
         }
