@@ -96,12 +96,13 @@ class EndOfYearDataManager {
     }
 
     /// Return the top podcasts ordered by listening time
-    func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [Podcast] {
-        var allPodcasts = [Podcast]()
+    func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
+        var allPodcasts = [TopPodcast]()
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(\(DataManager.episodeTableName).id) as played_episodes,
+                            SELECT SUM(playedUpTo) as totalPlayedTime,
+                                COUNT(\(DataManager.episodeTableName).id) as played_episodes,
                                 \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
@@ -115,7 +116,9 @@ class EndOfYearDataManager {
                 defer { resultSet.close() }
 
                 while resultSet.next() {
-                    allPodcasts.append(Podcast.from(resultSet: resultSet))
+                    let numberOfPlayedEpisodes = Int(resultSet.int(forColumn: "played_episodes"))
+                    let totalPlayedTime = resultSet.double(forColumn: "totalPlayedTime")
+                    allPodcasts.append(TopPodcast(podcast: Podcast.from(resultSet: resultSet), numberOfPlayedEpisodes: numberOfPlayedEpisodes, totalPlayedTime: totalPlayedTime))
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
@@ -140,5 +143,17 @@ public struct ListenedNumbers {
     public init(numberOfPodcasts: Int, numberOfEpisodes: Int) {
         self.numberOfPodcasts = numberOfPodcasts
         self.numberOfEpisodes = numberOfEpisodes
+    }
+}
+
+public struct TopPodcast {
+    public let podcast: Podcast
+    public let numberOfPlayedEpisodes: Int
+    public let totalPlayedTime: Double
+
+    public init(podcast: Podcast, numberOfPlayedEpisodes: Int, totalPlayedTime: Double) {
+        self.podcast = podcast
+        self.numberOfPlayedEpisodes = numberOfPlayedEpisodes
+        self.totalPlayedTime = totalPlayedTime
     }
 }
