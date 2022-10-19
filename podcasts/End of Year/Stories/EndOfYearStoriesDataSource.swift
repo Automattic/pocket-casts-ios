@@ -27,7 +27,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case 4:
             return TopOnePodcastStory(topPodcast: topPodcasts[0])
         default:
-            return DummyStory(podcasts: randomPodcasts)
+            return TopFivePodcastsStory(podcasts: randomPodcasts)
         }
     }
 

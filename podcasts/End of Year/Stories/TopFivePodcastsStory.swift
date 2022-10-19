@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct DummyStory: StoryView {
+struct TopFivePodcastsStory: StoryView {
     let podcasts: [Podcast]
 
     let duration: TimeInterval = 5.seconds
@@ -58,6 +58,6 @@ struct DummyStory: StoryView {
 struct DummyStory_Previews: PreviewProvider {
     static var previews: some View {
         let podcast = Podcast()
-        DummyStory(podcasts: [Podcast.previewPodcast()])
+        TopFivePodcastsStory(podcasts: [Podcast.previewPodcast()])
     }
 }
