@@ -20,6 +20,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let settingsManager = UserSettingsManager()
     private let folderManager = FolderDataManager()
+    private lazy var endOfYearManager = EndOfYearDataManager()
 
     private let dbQueue: FMDatabaseQueue
 
