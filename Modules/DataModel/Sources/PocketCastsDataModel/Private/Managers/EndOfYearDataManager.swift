@@ -5,7 +5,7 @@ import PocketCastsUtils
 class EndOfYearDataManager {
     private let endPeriod = "2022-12-01"
 
-    /// Returns the aproximately listening time for the current year
+    /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
 
