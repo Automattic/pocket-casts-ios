@@ -128,6 +128,32 @@ class EndOfYearDataManager {
         return allPodcasts
     }
 
+    /// Return the longest listened episode
+    func longestEpisode(dbQueue: FMDatabaseQueue) -> Episode? {
+        var episode: Episode?
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT MAX(playedUpTo), *
+                            FROM \(DataManager.podcastTableName)
+                            WHERE lastPlaybackInteractionDate IS NOT NULL AND
+                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                            ORDER BY lastPlaybackInteractionDate DESC
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    episode = Episode.from(resultSet: resultSet)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
+            }
+        }
+
+        return episode
+    }
 
 }
 
