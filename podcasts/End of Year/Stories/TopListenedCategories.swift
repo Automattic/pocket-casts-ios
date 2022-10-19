@@ -26,7 +26,7 @@ struct TopListenedCategories: StoryView {
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.white)
-                            Text(listenedCategories[x].categoryTitle ?? "")
+                            Text(listenedCategories[x].categoryTitle.localized ?? "")
                                 .lineLimit(2)
                                 .font(.system(size: 22, weight: .bold))
                                 .foregroundColor(.white)
