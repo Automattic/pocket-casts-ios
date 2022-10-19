@@ -11,7 +11,7 @@ class EndOfYearDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from SJEpisode WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', date('now','start of year')) and strftime('%s', 'now')"
+                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', date('now','start of year')) and strftime('%s', 'now')"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
