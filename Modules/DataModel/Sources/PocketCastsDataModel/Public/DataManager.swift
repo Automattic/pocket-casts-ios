@@ -893,3 +893,11 @@ public extension DataManager {
         }
     }
 }
+
+// MARK: - End of Year stats
+
+public extension DataManager {
+    func listeningTime() -> Double? {
+        endOfYearManager.listeningTime(dbQueue: dbQueue)
+    }
+}
