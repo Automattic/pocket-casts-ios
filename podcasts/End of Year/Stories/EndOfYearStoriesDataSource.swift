@@ -8,6 +8,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
 
     var listeningTime: Double?
 
+    var listenedCategories: [ListenedCategory] = []
+
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
@@ -20,6 +22,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     func isReady() async -> Bool {
         await withCheckedContinuation { continuation in
             self.listeningTime = DataManager.sharedManager.listeningTime()
+
+            self.listenedCategories = DataManager.sharedManager.listenedCategories()
 
             continuation.resume(returning: true)
         }
