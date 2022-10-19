@@ -105,4 +105,9 @@ public struct ListenedCategory {
 public struct ListenedNumbers {
     public let numberOfPodcasts: Int
     public let numberOfEpisodes: Int
+
+    public init(numberOfPodcasts: Int, numberOfEpisodes: Int) {
+        self.numberOfPodcasts = numberOfPodcasts
+        self.numberOfEpisodes = numberOfEpisodes
+    }
 }
