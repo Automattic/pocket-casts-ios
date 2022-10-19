@@ -900,4 +900,8 @@ public extension DataManager {
     func listeningTime() -> Double? {
         endOfYearManager.listeningTime(dbQueue: dbQueue)
     }
+
+    func listenedCategories() -> [ListenedCategory] {
+        endOfYearManager.listenedCategories(dbQueue: dbQueue)
+    }
 }
