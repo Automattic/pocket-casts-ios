@@ -1,7 +1,10 @@
 import Foundation
 
 extension Double {
-    public func formatStat() -> String? {
+    /// Returns a localized time description
+    ///
+    /// Eg.: 5400 will return "1 hour 30 min"
+    public var localizedTimeDescription: String? {
         let days = Int(safeDouble: self / 86400)
         let hours = Int(safeDouble: self / 3600) - (days * 24)
         let mins = Int(safeDouble: self / 60) - (hours * 60) - (days * 24 * 60)
