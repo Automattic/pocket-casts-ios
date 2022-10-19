@@ -4,8 +4,7 @@ import PocketCastsUtils
 /// Calculates user End of Year stats
 class EndOfYearDataManager {
 
-    /// Returns 5 random podcasts from the DB
-    /// This is here for development purposes.
+    /// Returns the aproximately listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
 
