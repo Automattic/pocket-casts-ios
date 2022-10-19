@@ -15,7 +15,7 @@ class EndOfYearDataManager {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
-                while resultSet.next() {
+                if resultSet.next() {
                     listeningTime = resultSet.double(forColumn: "totalPlayedTime")
                 }
             } catch {
