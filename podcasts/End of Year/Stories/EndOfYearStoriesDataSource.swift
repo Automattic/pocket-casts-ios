@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 2
+    var numberOfStories: Int = 3
 
     let randomPodcasts = DataManager.sharedManager.randomPodcasts()
 
@@ -14,6 +14,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         switch storyNumber {
         case 0:
             return ListeningTimeStory(listeningTime: listeningTime!)
+        case 1:
+            return ListenedCategoriesStory(listenedCategories: listenedCategories)
         default:
             return DummyStory(podcasts: randomPodcasts)
         }
