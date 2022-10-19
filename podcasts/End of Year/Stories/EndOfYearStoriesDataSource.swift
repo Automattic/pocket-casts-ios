@@ -1,31 +1,27 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct EndOfYearStoriesDataSource: StoriesDataSource {
+class EndOfYearStoriesDataSource: StoriesDataSource {
     var numberOfStories: Int = 2
 
     let randomPodcasts = DataManager.sharedManager.randomPodcasts()
 
+    var listeningTime: Double?
+
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
-            return DummyStory(podcasts: randomPodcasts)
+            return ListeningTimeStory(listeningTime: listeningTime!)
         default:
-            return FakeStory()
+            return DummyStory(podcasts: randomPodcasts)
         }
     }
 
     func isReady() async -> Bool {
-        true
-    }
-}
+        await withCheckedContinuation { continuation in
+            self.listeningTime = DataManager.sharedManager.listeningTime()
 
-struct FakeStory: StoryView {
-    var duration: TimeInterval = 5.seconds
-
-    var body: some View {
-        ZStack {
-            Color.yellow
+            continuation.resume(returning: true)
         }
     }
 }
