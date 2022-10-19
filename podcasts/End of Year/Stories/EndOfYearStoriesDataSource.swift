@@ -16,7 +16,11 @@ struct EndOfYearStoriesDataSource: StoriesDataSource {
     }
 
     func isReady() async -> Bool {
-        true
+        await withCheckedContinuation { continuation in
+            let listeningTime = DataManager.sharedManager.listeningTime()
+
+            continuation.resume(returning: true)
+        }
     }
 }
 
