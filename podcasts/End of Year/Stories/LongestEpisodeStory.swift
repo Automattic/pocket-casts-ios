@@ -47,8 +47,11 @@ struct LongestEpisodeStory: StoryView {
     }
 }
 
-//struct LongestEpisodeStory_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LongestEpisodeStory(episode: <#T##Episode#>)
-//    }
-//}
+struct LongestEpisodeStory_Previews: PreviewProvider {
+    static var previews: some View {
+        let episode = Episode()
+        episode.title = "Episode title"
+        episode.duration = 3600
+        return LongestEpisodeStory(episode: episode, podcast: Podcast.previewPodcast())
+    }
+}
