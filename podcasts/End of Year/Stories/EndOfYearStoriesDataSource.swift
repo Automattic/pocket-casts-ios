@@ -17,16 +17,18 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
-            return ListeningTimeStory(listeningTime: listeningTime!)
+            return IntroStory()
         case 1:
-            return ListenedCategoriesStory(listenedCategories: listenedCategories)
+            return ListeningTimeStory(listeningTime: listeningTime!)
         case 2:
-            return TopListenedCategories(listenedCategories: listenedCategories)
+            return ListenedCategoriesStory(listenedCategories: listenedCategories)
         case 3:
-            return ListenedNumbersStory(listenedNumbers: listenedNumbers!)
+            return TopListenedCategories(listenedCategories: listenedCategories)
         case 4:
-            return TopOnePodcastStory(topPodcast: topPodcasts[0])
+            return ListenedNumbersStory(listenedNumbers: listenedNumbers!)
         case 5:
+            return TopOnePodcastStory(topPodcast: topPodcasts[0])
+        case 6:
             return TopFivePodcastsStory(podcasts: topPodcasts.map { $0.podcast })
         default:
             return LongestEpisodeStory(episode: longestEpisode!, podcast: longestEpisode!.parentPodcast()!)
