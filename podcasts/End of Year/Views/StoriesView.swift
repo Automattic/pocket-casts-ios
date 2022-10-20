@@ -5,8 +5,8 @@ struct StoriesView: View {
 
     @ObservedObject private var model: StoriesModel
 
-    init(dataSource: StoriesDataSource) {
-        model = StoriesModel(dataSource: dataSource)
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+        model = StoriesModel(dataSource: dataSource, configuration: configuration)
     }
 
     @ViewBuilder
@@ -32,6 +32,12 @@ struct StoriesView: View {
                 .cornerRadius(Constants.storyCornerRadius)
 
                 storySwitcher
+
+                ZStack {
+                    model.interactive(index: model.currentStory)
+                }
+                .cornerRadius(Constants.storyCornerRadius)
+
                 header
             }
 

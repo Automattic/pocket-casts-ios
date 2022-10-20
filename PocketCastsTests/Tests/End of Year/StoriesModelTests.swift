@@ -6,20 +6,23 @@ import SwiftUI
 @MainActor
 class StoriesModelTests: XCTestCase {
     func testCurrentStoryAndProgressStartsInZero() {
-        let model = StoriesModel(dataSource: MockStoriesDataSource())
+        let model = StoriesModel(dataSource: MockStoriesDataSource(),
+                                 configuration: StoriesConfiguration())
 
         XCTAssertEqual(model.currentStory, 0)
         XCTAssertEqual(model.progress, 0)
     }
 
     func testNumberOfStoriesReflectDataSourceValue() {
-        let model = StoriesModel(dataSource: MockStoriesDataSource())
+        let model = StoriesModel(dataSource: MockStoriesDataSource(),
+                                 configuration: StoriesConfiguration())
 
         XCTAssertEqual(model.numberOfStories, 2)
     }
 
     func testProgressChangesAfterStart() {
-        let model = StoriesModel(dataSource: MockStoriesDataSource())
+        let model = StoriesModel(dataSource: MockStoriesDataSource(),
+                                 configuration: StoriesConfiguration())
 
         model.start()
 
@@ -29,7 +32,8 @@ class StoriesModelTests: XCTestCase {
     }
 
     func testNext() {
-        let model = StoriesModel(dataSource: MockStoriesDataSource())
+        let model = StoriesModel(dataSource: MockStoriesDataSource(),
+                                 configuration: StoriesConfiguration())
         model.start()
 
         model.next()
@@ -40,7 +44,8 @@ class StoriesModelTests: XCTestCase {
     }
 
     func testPrevious() {
-        let model = StoriesModel(dataSource: MockStoriesDataSource())
+        let model = StoriesModel(dataSource: MockStoriesDataSource(),
+                                 configuration: StoriesConfiguration())
         model.start()
         model.next()
 
@@ -53,7 +58,8 @@ class StoriesModelTests: XCTestCase {
 
     func testWhenCallingStoryTheDataSourceIsCalledForTheView() {
         let dataSource = MockStoriesDataSource()
-        let model = StoriesModel(dataSource: dataSource)
+        let model = StoriesModel(dataSource: dataSource,
+                                 configuration: StoriesConfiguration())
 
         _ = model.story(index: 0)
 
