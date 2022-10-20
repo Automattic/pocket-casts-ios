@@ -89,7 +89,11 @@ class AuthenticationHelper {
         DataManager.sharedManager.markAllPodcastsUnsynced()
 
         ServerSettings.clearLastSyncTime()
-        ServerSettings.setSyncingEmail(email: response.email)
+
+        // This check may not be necessary in the long run see: https://github.com/Automattic/pocket-casts-ios/issues/412
+        if let email = response.email, !email.isEmpty {
+            ServerSettings.setSyncingEmail(email: response.email)
+        }
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
