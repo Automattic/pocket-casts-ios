@@ -2,16 +2,22 @@ import SwiftUI
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 2
+    var numberOfStories: Int = 4
 
     let randomPodcasts = DataManager.sharedManager.randomPodcasts()
 
     var listeningTime: Double?
 
+    var listenedCategories: [ListenedCategory] = []
+
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
         case 0:
             return ListeningTimeStory(listeningTime: listeningTime!)
+        case 1:
+            return ListenedCategoriesStory(listenedCategories: listenedCategories)
+        case 2:
+            return TopListenedCategories(listenedCategories: listenedCategories)
         default:
             return DummyStory(podcasts: randomPodcasts)
         }
@@ -20,6 +26,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     func isReady() async -> Bool {
         await withCheckedContinuation { continuation in
             self.listeningTime = DataManager.sharedManager.listeningTime()
+
+            self.listenedCategories = DataManager.sharedManager.listenedCategories()
 
             continuation.resume(returning: true)
         }
