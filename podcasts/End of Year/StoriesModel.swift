@@ -70,11 +70,11 @@ class StoriesModel: ObservableObject {
     }
 
     func next() {
-        progress = Double(Int(progress) + 1)
+        progress = min(Double(numberOfStories), Double(Int(progress) + 1))
     }
 
     func previous() {
-        progress = Double(Int(progress) - 1)
+        progress = max(0, Double(Int(progress) - 1))
     }
 
     func pause() {
