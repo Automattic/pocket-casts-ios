@@ -445,6 +445,7 @@
 		8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */; };
 		8B0EEDE2290065C100075772 /* ListenedCategoriesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */; };
 		8B0EEDE429006C9B00075772 /* TopListenedCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */; };
+		8B0EEDE6290081E400075772 /* ListenedNumbersStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */; };
 		8B10E78628D9093E00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78728D9093F00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
@@ -1984,6 +1985,7 @@
 		8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningTimeStory.swift; sourceTree = "<group>"; };
 		8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenedCategoriesStory.swift; sourceTree = "<group>"; };
 		8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListenedCategories.swift; sourceTree = "<group>"; };
+		8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenedNumbersStory.swift; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
@@ -3688,6 +3690,7 @@
 				8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */,
 				8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */,
 				8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */,
+				8B0EEDE5290081E400075772 /* ListenedNumbersStory.swift */,
 				8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */,
 			);
 			path = Stories;
@@ -7450,6 +7453,7 @@
 				403946E9228587FC00F55162 /* AddCustomViewController+CollectionView.swift in Sources */,
 				BDB4E7D2240E3134005770E3 /* String+Differentiable.swift in Sources */,
 				BD2BE6791C5B11C20087EE1E /* ShiftyRoundButton.swift in Sources */,
+				8B0EEDE6290081E400075772 /* ListenedNumbersStory.swift in Sources */,
 				4007B04C230E1FB4008DDCF5 /* WhatsNewViewController.swift in Sources */,
 				BDB002C1211A9EDD00224A55 /* ProgressLineLayer.swift in Sources */,
 				BD4D91751B9933A800B62FD2 /* AngularActivityIndicator.swift in Sources */,
