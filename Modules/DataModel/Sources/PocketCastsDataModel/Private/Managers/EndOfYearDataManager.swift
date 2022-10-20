@@ -95,6 +95,46 @@ class EndOfYearDataManager {
         return listenedNumbers
     }
 
+    /// Return the top podcasts ordered by number of played episodes
+    func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
+        var allPodcasts = [TopPodcast]()
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT SUM(playedUpTo) as totalPlayedTime,
+                                COUNT(\(DataManager.episodeTableName).id) as played_episodes,
+                                \(DataManager.podcastTableName).*
+                            FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
+                            WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
+                                lastPlaybackInteractionDate IS NOT NULL AND
+                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                            GROUP BY podcastUuid
+                            ORDER BY played_episodes DESC
+                            LIMIT \(limit)
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let numberOfPlayedEpisodes = Int(resultSet.int(forColumn: "played_episodes"))
+                    let totalPlayedTime = resultSet.double(forColumn: "totalPlayedTime")
+                    allPodcasts.append(TopPodcast(podcast: Podcast.from(resultSet: resultSet), numberOfPlayedEpisodes: numberOfPlayedEpisodes, totalPlayedTime: totalPlayedTime))
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.topPodcasts error: \(error)")
+            }
+        }
+
+        // If there's a tie on number of played episodes, check played time
+        return allPodcasts.sorted(by: {
+            if $0.numberOfPlayedEpisodes == $1.numberOfPlayedEpisodes {
+                return $0.totalPlayedTime > $1.totalPlayedTime
+            }
+            return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+        })
+    }
+
+
 }
 
 public struct ListenedCategory {
@@ -109,5 +149,17 @@ public struct ListenedNumbers {
     public init(numberOfPodcasts: Int, numberOfEpisodes: Int) {
         self.numberOfPodcasts = numberOfPodcasts
         self.numberOfEpisodes = numberOfEpisodes
+    }
+}
+
+public struct TopPodcast {
+    public let podcast: Podcast
+    public let numberOfPlayedEpisodes: Int
+    public let totalPlayedTime: Double
+
+    public init(podcast: Podcast, numberOfPlayedEpisodes: Int, totalPlayedTime: Double) {
+        self.podcast = podcast
+        self.numberOfPlayedEpisodes = numberOfPlayedEpisodes
+        self.totalPlayedTime = totalPlayedTime
     }
 }
