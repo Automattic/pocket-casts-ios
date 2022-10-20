@@ -9,7 +9,7 @@ class EndOfYearDataManager {
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
                                            """
 
-    /// Returns the aproximately listening time for the current year
+    /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
 
@@ -19,7 +19,7 @@ class EndOfYearDataManager {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
-                while resultSet.next() {
+                if resultSet.next() {
                     listeningTime = resultSet.double(forColumn: "totalPlayedTime")
                 }
             } catch {
@@ -97,7 +97,7 @@ class EndOfYearDataManager {
         return listenedNumbers
     }
 
-    /// Return the top podcasts ordered by listening time
+    /// Return the top podcasts ordered by number of played episodes
     func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
         var allPodcasts = [TopPodcast]()
         dbQueue.inDatabase { db in
@@ -126,7 +126,13 @@ class EndOfYearDataManager {
             }
         }
 
-        return allPodcasts
+        // If there's a tie on number of played episodes, check played time
+        return allPodcasts.sorted(by: {
+            if $0.numberOfPlayedEpisodes == $1.numberOfPlayedEpisodes {
+                return $0.totalPlayedTime > $1.totalPlayedTime
+            }
+            return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+        })
     }
 
     /// Return the longest listened episode
