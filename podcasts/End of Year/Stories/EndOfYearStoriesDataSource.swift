@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 6
+    var numberOfStories: Int = 7
 
     var listeningTime: Double?
 
@@ -11,6 +11,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     var listenedNumbers: ListenedNumbers?
 
     var topPodcasts: [TopPodcast] = []
+
+    var longestEpisode: Episode?
 
     func story(for storyNumber: Int) -> any StoryView {
         switch storyNumber {
@@ -24,8 +26,10 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return ListenedNumbersStory(listenedNumbers: listenedNumbers!)
         case 4:
             return TopOnePodcastStory(topPodcast: topPodcasts[0])
-        default:
+        case 5:
             return TopFivePodcastsStory(podcasts: topPodcasts.map { $0.podcast })
+        default:
+            return LongestEpisodeStory(episode: longestEpisode!, podcast: longestEpisode!.parentPodcast()!)
         }
     }
 
@@ -38,6 +42,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             self.listenedNumbers = DataManager.sharedManager.listenedNumbers()
 
             self.topPodcasts = DataManager.sharedManager.topPodcasts()
+
+            self.longestEpisode = DataManager.sharedManager.longestEpisode()
 
             continuation.resume(returning: true)
         }

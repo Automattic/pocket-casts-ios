@@ -1,0 +1,46 @@
+import Foundation
+import FMDB
+
+extension Episode {
+    static func from(resultSet rs: FMResultSet) -> Episode {
+        let episode = Episode()
+        episode.id = rs.longLongInt(forColumn: "id")
+        episode.addedDate = DBUtils.convertDate(value: rs.double(forColumn: "addedDate"))
+        episode.lastDownloadAttemptDate = DBUtils.convertDate(value: rs.double(forColumn: "lastDownloadAttemptDate"))
+        episode.detailedDescription = rs.string(forColumn: "detailedDescription")
+        episode.downloadErrorDetails = rs.string(forColumn: "downloadErrorDetails")
+        episode.downloadTaskId = rs.string(forColumn: "downloadTaskId")
+        episode.downloadUrl = rs.string(forColumn: "downloadUrl")
+        episode.episodeDescription = rs.string(forColumn: "episodeDescription")
+        episode.episodeStatus = rs.int(forColumn: "episodeStatus")
+        episode.fileType = rs.string(forColumn: "fileType")
+        episode.keepEpisode = rs.bool(forColumn: "keepEpisode")
+        episode.playedUpTo = rs.double(forColumn: "playedUpTo")
+        episode.duration = rs.double(forColumn: "duration")
+        episode.playingStatus = rs.int(forColumn: "playingStatus")
+        episode.autoDownloadStatus = rs.int(forColumn: "autoDownloadStatus")
+        episode.publishedDate = DBUtils.convertDate(value: rs.double(forColumn: "publishedDate"))
+        episode.sizeInBytes = rs.longLongInt(forColumn: "sizeInBytes")
+        episode.playingStatusModified = rs.longLongInt(forColumn: "playingStatusModified")
+        episode.playedUpToModified = rs.longLongInt(forColumn: "playedUpToModified")
+        episode.durationModified = rs.longLongInt(forColumn: "durationModified")
+        episode.keepEpisodeModified = rs.longLongInt(forColumn: "keepEpisodeModified")
+        episode.title = rs.string(forColumn: "title")
+        episode.uuid = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "uuid")
+        episode.podcastUuid = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "podcastUuid")
+        episode.playbackErrorDetails = rs.string(forColumn: "playbackErrorDetails")
+        episode.cachedFrameCount = rs.longLongInt(forColumn: "cachedFrameCount")
+        episode.lastPlaybackInteractionDate = DBUtils.convertDate(value: rs.double(forColumn: "lastPlaybackInteractionDate"))
+        episode.lastPlaybackInteractionSyncStatus = rs.int(forColumn: "lastPlaybackInteractionSyncStatus")
+        episode.podcast_id = rs.longLongInt(forColumn: "podcast_id")
+        episode.episodeNumber = rs.longLongInt(forColumn: "episodeNumber")
+        episode.seasonNumber = rs.longLongInt(forColumn: "seasonNumber")
+        episode.episodeType = rs.string(forColumn: "episodeType")
+        episode.archived = rs.bool(forColumn: "archived")
+        episode.archivedModified = rs.longLongInt(forColumn: "archivedModified")
+        episode.lastArchiveInteractionDate = DBUtils.convertDate(value: rs.double(forColumn: "lastArchiveInteractionDate"))
+        episode.excludeFromEpisodeLimit = rs.bool(forColumn: "excludeFromEpisodeLimit")
+        episode.starredModified = rs.longLongInt(forColumn: "starredModified")
+        return episode
+    }
+}

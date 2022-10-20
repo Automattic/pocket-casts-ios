@@ -912,4 +912,8 @@ public extension DataManager {
     func topPodcasts() -> [TopPodcast] {
         endOfYearManager.topPodcasts(dbQueue: dbQueue)
     }
+
+    func longestEpisode() -> Episode? {
+        endOfYearManager.longestEpisode(dbQueue: dbQueue)
+    }
 }
