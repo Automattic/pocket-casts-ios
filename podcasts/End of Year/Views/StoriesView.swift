@@ -32,6 +32,12 @@ struct StoriesView: View {
                 .cornerRadius(Constants.storyCornerRadius)
 
                 storySwitcher
+
+                ZStack {
+                    model.interactive(index: model.currentStory)
+                }
+                .cornerRadius(Constants.storyCornerRadius)
+
                 header
             }
 

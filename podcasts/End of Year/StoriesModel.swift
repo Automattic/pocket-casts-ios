@@ -58,6 +58,10 @@ class StoriesModel: ObservableObject {
         dataSource.storyView(for: index)
     }
 
+    func interactive(index: Int) -> AnyView {
+        dataSource.interactiveView(for: index)
+    }
+
     func shareableAsset(index: Int) -> Any {
         dataSource.shareableAsset(for: index)
     }
