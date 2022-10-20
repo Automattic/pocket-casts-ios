@@ -27,9 +27,12 @@ class StoriesModel: ObservableObject {
         self.configuration = configuration
         self.progress = 0
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
+
         Task.init {
             await isReady = dataSource.isReady()
         }
+
+        subscribeToNotifications()
     }
 
     func start() {
@@ -76,5 +79,25 @@ class StoriesModel: ObservableObject {
 
     func pause() {
         cancellable?.cancel()
+    }
+
+    func replay() {
+        progress = 0
+        currentStory = 0
+        pause()
+        start()
+    }
+}
+
+private extension StoriesModel {
+    func subscribeToNotifications() {
+        StoriesController.Notifications.allCases.forEach { controller in
+            switch controller {
+            case .replay:
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { _ in
+                    self.replay()
+                }
+            }
+        }
     }
 }
