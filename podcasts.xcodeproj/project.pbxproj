@@ -3697,6 +3697,7 @@
 			isa = PBXGroup;
 			children = (
 				8B9D459E28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift */,
+				8B5AB48929018A950018C637 /* EpilogueStory.swift */,
 				8B5AB487290188F30018C637 /* IntroStory.swift */,
 				8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */,
 				8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */,
@@ -3705,7 +3706,6 @@
 				8B9D459B28F9A6260034219E /* TopFivePodcastsStory.swift */,
 				8B0EEDE329006C9B00075772 /* TopListenedCategories.swift */,
 				8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */,
-				8B5AB48929018A950018C637 /* EpilogueStory.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
