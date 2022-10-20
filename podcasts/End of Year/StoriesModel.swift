@@ -39,8 +39,13 @@ class StoriesModel: ObservableObject {
             let currentStory = Int(newProgress)
 
             if currentStory >= self.numberOfStories || newProgress < 0 {
-                newProgress = 0
-                self.currentStory = 0
+                if self.configuration.startOverFromBeginningAfterFinished {
+                    newProgress = 0
+                    self.currentStory = 0
+                }
+                else {
+                    self.pause()
+                }
             } else if currentStory != self.currentStory {
                 self.currentStory = currentStory
             }
