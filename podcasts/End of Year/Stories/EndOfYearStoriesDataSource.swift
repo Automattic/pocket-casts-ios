@@ -37,6 +37,11 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         }
     }
 
+    /// The only interactive view we have is the last one, with the replay button
+    func interactiveView(for storyNumber: Int) -> AnyView {
+        storyNumber == 8 ? AnyView(EpilogueStory()) : AnyView(EmptyView())
+    }
+
     func isReady() async -> Bool {
         await withCheckedContinuation { continuation in
             self.listeningTime = DataManager.sharedManager.listeningTime()

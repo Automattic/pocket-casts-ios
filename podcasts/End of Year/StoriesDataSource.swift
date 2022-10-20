@@ -6,6 +6,13 @@ protocol StoriesDataSource {
     func story(for: Int) -> any StoryView
     func storyView(for: Int) -> AnyView
 
+    /// An interactive view that is put on top of the Stories control
+    ///
+    /// This allows having interactive elements, such as buttons.
+    /// It's up to the view to control `allowsHitTesting`. So make
+    /// sure that your story doesn't entirely block user interactions.
+    func interactiveView(for: Int) -> AnyView
+
     /// Whether the data source is ready to be used.
     ///
     /// You may want to make a request, or preload images/video.
@@ -17,6 +24,10 @@ protocol StoriesDataSource {
 extension StoriesDataSource {
     func storyView(for storyNumber: Int) -> AnyView {
         return AnyView(story(for: storyNumber))
+    }
+
+    func interactiveView(for: Int) -> AnyView {
+        return AnyView(EmptyView())
     }
 
     func shareableAsset(for storyNumber: Int) -> Any {
