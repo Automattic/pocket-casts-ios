@@ -5,8 +5,8 @@ struct StoriesView: View {
 
     @ObservedObject private var model: StoriesModel
 
-    init(dataSource: StoriesDataSource) {
-        model = StoriesModel(dataSource: dataSource)
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+        model = StoriesModel(dataSource: dataSource, configuration: configuration)
     }
 
     @ViewBuilder

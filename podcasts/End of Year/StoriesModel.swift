@@ -11,6 +11,8 @@ class StoriesModel: ObservableObject {
 
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
+    private let configuration: StoriesConfiguration
+
     private var cancellable: Cancellable?
     private var interval: TimeInterval {
         dataSource.story(for: currentStory).duration
@@ -20,8 +22,9 @@ class StoriesModel: ObservableObject {
         dataSource.numberOfStories
     }
 
-    init(dataSource: StoriesDataSource) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration) {
         self.dataSource = dataSource
+        self.configuration = configuration
         self.progress = 0
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
         Task.init {
