@@ -134,11 +134,11 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT MAX(playedUpTo), *
+                            SELECT *
                             FROM \(DataManager.episodeTableName)
                             WHERE lastPlaybackInteractionDate IS NOT NULL AND
                                 lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
-                            ORDER BY MAX(playedUpTo) DESC
+                            ORDER BY playedUpTo DESC
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
