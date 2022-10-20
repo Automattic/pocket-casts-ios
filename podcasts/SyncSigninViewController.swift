@@ -258,7 +258,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         Analytics.track(.userSignInFailed, properties: ["source": self.authSource, "error_code": error.rawValue])
 
         var message = L10n.syncAccountError
-        if error != .UNKNOWN, !error.localizedDescription.isEmpty {
+        if !error.isGenericError, !error.localizedDescription.isEmpty {
             message = error.localizedDescription
         }
 

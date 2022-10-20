@@ -106,8 +106,8 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
                 self.progressAlert = nil
 
                 if !success {
-                    if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
-                        self.showErrorMessage(message)
+                    if let error = error, !error.isGenericError, !error.localizedDescription.isEmpty {
+                        self.showErrorMessage(error.localizedDescription)
                     } else {
                         self.showErrorMessage(L10n.profileSendingResetEmailFailed)
                     }

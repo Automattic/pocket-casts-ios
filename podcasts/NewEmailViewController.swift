@@ -173,10 +173,10 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 if !success {
                     Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
 
-                    FileLog.shared.addMessage("Failed to register new account")
-                    if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
-                        FileLog.shared.addMessage(message)
-                        self.showErrorMessage(message)
+                    FileLog.shared.addMessage("Failed to register new account. error \(error?.description ?? "unknown")")
+                    if let error = error, !error.isGenericError, !error.localizedDescription.isEmpty {
+                        FileLog.shared.addMessage(error.localizedDescription)
+                        self.showErrorMessage(error.localizedDescription)
                     } else {
                         self.showErrorMessage(L10n.accountRegistrationFailed)
                     }

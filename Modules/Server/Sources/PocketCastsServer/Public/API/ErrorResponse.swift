@@ -25,4 +25,5 @@ public enum APIError: String, Error {
     case PROMO_CODE_EXPIRED_OR_INVALID = "promo_code_expired_or_invalid"
     case PROMO_ALREADY_REDEEMED = "promo_already_redeemed"
     case NO_CONNECTION = "no_connection" // This error doesn't map to a code provided by the API but is added locallay for client errors.
+    case TOKEN_REFRESH_FAILED = "token_refresh_failed"
 }

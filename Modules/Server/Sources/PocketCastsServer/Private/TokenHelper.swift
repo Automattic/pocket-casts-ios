@@ -87,7 +87,7 @@ class TokenHelper {
                 completion(.success(token))
             }
             else {
-                completion(.failure(.UNKNOWN))
+                completion(.failure(.TOKEN_REFRESH_FAILED))
             }
         }
     }

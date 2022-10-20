@@ -22,7 +22,7 @@ public extension SubscriptionHelper {
 public extension APIError {
     var localizedDescription: String {
         switch self {
-        case .UNKNOWN: return L10n.serverErrorUnknown
+        case .UNKNOWN, .TOKEN_REFRESH_FAILED: return L10n.serverErrorUnknown
         case .INCORRECT_PASSWORD: return L10n.serverErrorLoginPasswordIncorrect
         case .PERMISSION_DENIED: return L10n.serverErrorLoginPermissionDeniedNotAdmin
         case .ACCOUNT_LOCKED: return L10n.serverErrorLoginAccountLocked
@@ -46,6 +46,15 @@ public extension APIError {
         case .PROMO_CODE_EXPIRED_OR_INVALID: return L10n.serverErrorPromoCodeExpiredOrInvalid
         case .PROMO_ALREADY_REDEEMED: return L10n.serverErrorPromoAlreadyRedeemed
         case .NO_CONNECTION: return L10n.playerErrorInternetConnection
+        }
+    }
+
+    var isGenericError: Bool {
+        switch self {
+        case .UNKNOWN, .TOKEN_REFRESH_FAILED:
+            return true
+        default:
+            return false
         }
     }
 }
