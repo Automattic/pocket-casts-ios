@@ -34,7 +34,7 @@ struct LongestEpisodeStory: StoryView {
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(tintColor)
                         .padding(.top)
-                    Text("This episode was \(episode.duration.localizedTimeDescription ?? "")")
+                    Text("This episode was \(episode.duration.localizedTimeDescription ?? "") long")
                         .multilineTextAlignment(.center)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(tintColor)
