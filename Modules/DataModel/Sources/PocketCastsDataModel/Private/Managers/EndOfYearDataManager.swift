@@ -95,7 +95,7 @@ class EndOfYearDataManager {
         return listenedNumbers
     }
 
-    /// Return the top podcasts ordered by listening time
+    /// Return the top podcasts ordered by number of played episodes
     func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
         var allPodcasts = [TopPodcast]()
         dbQueue.inDatabase { db in
@@ -125,7 +125,13 @@ class EndOfYearDataManager {
             }
         }
 
-        return allPodcasts
+        // If there's a tie on number of played episodes, check played time
+        return allPodcasts.sorted(by: {
+            if $0.numberOfPlayedEpisodes == $1.numberOfPlayedEpisodes {
+                return $0.totalPlayedTime > $1.totalPlayedTime
+            }
+            return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+        })
     }
 
 
