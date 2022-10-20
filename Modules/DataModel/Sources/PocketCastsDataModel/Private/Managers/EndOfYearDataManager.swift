@@ -5,13 +5,17 @@ import PocketCastsUtils
 class EndOfYearDataManager {
     private let endPeriod = "2022-12-01"
 
+    private lazy var listenedEpisodesThisYear = """
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                           """
+
     /// Returns the aproximately listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')"
+                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -40,8 +44,7 @@ class EndOfYearDataManager {
                                 replace(IFNULL( nullif(substr(\(DataManager.podcastTableName).podcastCategory, 0, INSTR(\(DataManager.podcastTableName).podcastCategory, char(10))), '') , \(DataManager.podcastTableName).podcastCategory), CHAR(10), '') as category
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE \(DataManager.podcastTableName).uuid = \(DataManager.episodeTableName).podcastUuid and
-                                lastPlaybackInteractionDate IS NOT NULL AND
-                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                \(listenedEpisodesThisYear)
                             GROUP BY category
                             ORDER BY totalPlayedTime DESC
 """
@@ -75,8 +78,7 @@ class EndOfYearDataManager {
                                 COUNT(DISTINCT \(DataManager.podcastTableName).uuid) as podcasts
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
-                                lastPlaybackInteractionDate IS NOT NULL AND
-                                lastPlaybackInteractionDate BETWEEN strftime('%s', date('now','start of year')) and strftime('%s', 'now')
+                                \(listenedEpisodesThisYear)
                             """
 
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -106,8 +108,7 @@ class EndOfYearDataManager {
                                 \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
-                                lastPlaybackInteractionDate IS NOT NULL AND
-                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                \(listenedEpisodesThisYear)
                             GROUP BY podcastUuid
                             ORDER BY played_episodes DESC
                             LIMIT \(limit)
@@ -136,8 +137,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT *
                             FROM \(DataManager.episodeTableName)
-                            WHERE lastPlaybackInteractionDate IS NOT NULL AND
-                                lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                            WHERE \(listenedEpisodesThisYear)
                             ORDER BY playedUpTo DESC
                             LIMIT 1
                             """
