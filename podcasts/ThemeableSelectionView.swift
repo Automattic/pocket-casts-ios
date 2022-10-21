@@ -16,6 +16,7 @@ class ThemeableSelectionView: UIView {
     var isSelected: Bool = false {
         didSet {
             updateColor()
+            updateAccessibilityLabel()
         }
     }
 
@@ -30,6 +31,8 @@ class ThemeableSelectionView: UIView {
             updateColor()
         }
     }
+
+    private var unselectedAccessibilityLabel: String?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,5 +67,14 @@ class ThemeableSelectionView: UIView {
     private func updateColor() {
         backgroundColor = AppTheme.colorForStyle(style, themeOverride: themeOverride)
         layer.borderColor = isSelected ? AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride).cgColor : AppTheme.colorForStyle(unselectedStyle, themeOverride: themeOverride).cgColor
+    }
+
+    private func updateAccessibilityLabel() {
+        if unselectedAccessibilityLabel == nil {
+            unselectedAccessibilityLabel = accessibilityLabel
+        }
+        let unselectedAccessibilityLabel = self.unselectedAccessibilityLabel ?? ""
+        let selectedAccessibilityLabel = "\(L10n.statusSelected), \(unselectedAccessibilityLabel)"
+        accessibilityLabel = isSelected ? selectedAccessibilityLabel : unselectedAccessibilityLabel
     }
 }
