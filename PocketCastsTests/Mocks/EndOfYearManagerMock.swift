@@ -14,6 +14,8 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     var longestEpisodeToReturn: Episode?
 
+    var isFullListeningHistoryToReturn = false
+
     override func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         listeningTimeToReturn
     }
@@ -32,5 +34,9 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     override func longestEpisode(dbQueue: FMDatabaseQueue) -> Episode? {
         return longestEpisodeToReturn
+    }
+
+    override func isFullListeningHistory(dbQueue: FMDatabaseQueue) -> Bool {
+        return isFullListeningHistoryToReturn
     }
 }

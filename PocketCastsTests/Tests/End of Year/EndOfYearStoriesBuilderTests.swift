@@ -158,6 +158,18 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertNil(stories.1.longestEpisode)
         XCTAssertNil(stories.1.longestEpisodePodcast)
     }
+
+    func testSyncWhenNeeded() async {
+        var syncCalled = false
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+
+        endOfYearManager.isFullListeningHistoryToReturn = false
+        let stories = await builder.build()
+
+        XCTAssertTrue(syncCalled)
+    }
 }
 
 private class EpisodeMock: Episode {
