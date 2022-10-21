@@ -906,6 +906,10 @@ public extension DataManager {
         endOfYearManager.isEligible(dbQueue: dbQueue)
     }
 
+    func isFullListeningHistory() -> Bool {
+        endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
+    }
+
     func listeningTime() -> Double? {
         endOfYearManager.listeningTime(dbQueue: dbQueue)
     }
