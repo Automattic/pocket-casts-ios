@@ -27,3 +27,8 @@ class EndOfYearStoriesBuilder {
 
     }
 }
+
+/// An entity that holds data to present EoY stories
+class EndOfYearStoriesData {
+    var listeningTime: Double = 0
+}
