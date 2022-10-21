@@ -145,6 +145,20 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertNotNil(stories.1.longestEpisode)
         XCTAssertNotNil(stories.1.longestEpisodePodcast)
     }
+
+    func testDontReturnLongestEpisode() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        let episode = EpisodeMock()
+        endOfYearManager.longestEpisodeToReturn = nil
+        let stories = await builder.build()
+
+        XCTAssertFalse(stories.0.contains(.longestEpisode))
+        XCTAssertNil(stories.1.longestEpisode)
+        XCTAssertNil(stories.1.longestEpisodePodcast)
+    }
 }
 
 private class EpisodeMock: Episode {
