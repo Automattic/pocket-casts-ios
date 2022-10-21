@@ -70,11 +70,6 @@ class ThemeableSelectionView: UIView {
     }
 
     private func updateAccessibilityLabel() {
-        if unselectedAccessibilityLabel == nil {
-            unselectedAccessibilityLabel = accessibilityLabel
-        }
-        let unselectedAccessibilityLabel = self.unselectedAccessibilityLabel ?? ""
-        let selectedAccessibilityLabel = "\(L10n.statusSelected), \(unselectedAccessibilityLabel)"
-        accessibilityLabel = isSelected ? selectedAccessibilityLabel : unselectedAccessibilityLabel
+        accessibilityValue = isSelected ? L10n.statusSelected : ""
     }
 }
