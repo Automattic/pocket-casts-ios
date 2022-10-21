@@ -1,6 +1,7 @@
 7.26
 -----
 - Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
+- Fixed About screen dark theme background in light mode (#339)
 
 7.25
 -----
