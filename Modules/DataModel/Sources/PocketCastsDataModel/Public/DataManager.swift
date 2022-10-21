@@ -43,6 +43,11 @@ public class DataManager {
         upNextManager.setup(dbQueue: dbQueue)
     }
 
+    convenience init(endOfYearManager: EndOfYearDataManager) {
+        self.init()
+        self.endOfYearManager = endOfYearManager
+    }
+
     // MARK: - Up Next
 
     public func allUpNextPlaylistEpisodes() -> [PlaylistEpisode] {

@@ -18,13 +18,25 @@ enum EndOfYearStory {
 class EndOfYearStoriesBuilder {
     private let dataManager: DataManager
 
+    private var stories: [EndOfYearStory] = []
+
+    private let data = EndOfYearStoriesData()
+
     init(dataManager: DataManager = DataManager.sharedManager) {
         self.dataManager = dataManager
     }
 
     // Call this method to build the list of stories and the data provider
-    func build() async {
+    func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
+        await withCheckedContinuation { continuation in
+            if let listeningTime = dataManager.listeningTime(),
+                listeningTime > 0 {
+                stories.append(.listeningTime)
+                data.listeningTime = listeningTime
+            }
 
+            continuation.resume(returning: (stories, data))
+        }
     }
 }
 
