@@ -4,9 +4,9 @@ import PocketCastsDataModel
 
 struct EndOfYear {
     // We'll calculate this just once
-    static var isEligible: Bool = {
+    static var isEligible: Bool {
         FeatureFlag.endOfYear && DataManager.sharedManager.isEligibleForEndOfYearStories()
-    }()
+    }
 
     func showPrompt(in viewController: UIViewController) {
         guard Self.isEligible else {
