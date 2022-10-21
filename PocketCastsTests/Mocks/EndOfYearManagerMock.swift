@@ -19,6 +19,6 @@ class EndOfYearManagerMock: EndOfYearDataManager {
     }
 
     override func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
-        return listenedNumbersToReturn!
+        return listenedNumbersToReturn ?? ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
     }
 }
