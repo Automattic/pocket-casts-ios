@@ -12,7 +12,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listeningTimeToReturn = 3000
         let stories = await builder.build()
 
-        XCTAssertFalse(stories.0.contains(.listeningTime))
+        XCTAssertTrue(stories.0.contains(.listeningTime))
         XCTAssertEqual(stories.1.listeningTime, 3000)
     }
 
@@ -42,5 +42,18 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertEqual(stories.0[1], EndOfYearStory.topFiveCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
+    }
+
+    func testDontReturnListenedCategoriesIfEmpty() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.listenedCategoriesToReturn = []
+        let stories = await builder.build()
+
+        XCTAssertFalse(stories.0.contains(.listenedCategories))
+        XCTAssertFalse(stories.0.contains(.topFiveCategories))
+        XCTAssertTrue(stories.1.listenedCategories.isEmpty)
     }
 }
