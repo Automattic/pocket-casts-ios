@@ -64,6 +64,14 @@ struct CreateFolderView: View {
                         }
                         .accessibilityLabel(L10n.close)
                     }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            pickerModel.toggleSelectAll()
+                        } label: {
+                            Text(pickerModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll)
+                        }
+                    }
                 }
         }
         .navigationViewStyle(StackNavigationViewStyle())

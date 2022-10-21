@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
+@MainActor
 class PodcastPickerModel: ObservableObject {
     @Published var selectedPodcastUuids: [String] = []
     @Published var allPodcasts: [Podcast] = []
@@ -28,6 +29,10 @@ class PodcastPickerModel: ObservableObject {
         didSet {
             filterPodcasts()
         }
+    }
+    
+    var hasSelectedAll: Bool {
+        selectedPodcastUuids.count == allPodcasts.count
     }
 
     func setup() {
@@ -58,6 +63,14 @@ class PodcastPickerModel: ObservableObject {
             selectedPodcastUuids.remove(at: selectedIndex)
         } else {
             selectedPodcastUuids.append(podcast.uuid)
+        }
+    }
+    
+    func toggleSelectAll() {
+        if selectedPodcastUuids.count == allPodcasts.count {
+            selectedPodcastUuids = []
+        } else {
+            selectedPodcastUuids = allPodcasts.map { $0.uuid }
         }
     }
 
