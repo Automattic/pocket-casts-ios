@@ -151,7 +151,6 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
-        let episode = EpisodeMock()
         endOfYearManager.longestEpisodeToReturn = nil
         let stories = await builder.build()
 
