@@ -44,7 +44,7 @@ Open the .xcworkspace file, select the Pocket Casts project and the Simulator De
 
 ## Localization
 
-You can learn more about localization at [docs/Localization.md](./documentation/localization.md)
+You can learn more about localization at [docs/Localization.md](./docs/localization.md)
 
 ## Protocol Buffers
 
