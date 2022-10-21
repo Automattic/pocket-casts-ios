@@ -64,7 +64,7 @@ class EndOfYearDataManager {
                 if resultSet.next() {
                     isFullListeningHistory = true
                 } else {
-                    isFullListeningHistory = numberOfItemsInListeningHistory(dbQueue: dbQueue) >= 100
+                    isFullListeningHistory = numberOfItemsInListeningHistory(db: db) <= 100
                 }
             } catch {
                 FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
@@ -72,33 +72,6 @@ class EndOfYearDataManager {
         }
 
         return isFullListeningHistory
-    }
-
-    private func numberOfItemsInListeningHistory(dbQueue: FMDatabaseQueue) -> Int {
-        var numberOfItemsInListeningHistory = 0
-
-        dbQueue.inDatabase { db in
-            do {
-                let query = """
-                            SELECT COUNT(*) as total from \(DataManager.episodeTableName)
-                            WHERE
-                            \(listenedEpisodesThisYear)
-                            LIMIT 1
-                            """
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
-
-                if resultSet.next() {
-                    numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
-                } else {
-
-                }
-            } catch {
-                FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
-            }
-        }
-
-        return numberOfItemsInListeningHistory
     }
 
     /// Returns the approximate listening time for the current year
@@ -251,6 +224,31 @@ class EndOfYearDataManager {
         }
 
         return episode
+    }
+
+    private func numberOfItemsInListeningHistory(db: FMDatabase) -> Int {
+        var numberOfItemsInListeningHistory = 0
+
+        do {
+            let query = """
+                        SELECT COUNT(*) as total from \(DataManager.episodeTableName)
+                        WHERE
+                        \(listenedEpisodesThisYear)
+                        LIMIT 1
+                        """
+            let resultSet = try db.executeQuery(query, values: nil)
+            defer { resultSet.close() }
+
+            if resultSet.next() {
+                numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
+            } else {
+
+            }
+        } catch {
+            FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
+        }
+
+        return numberOfItemsInListeningHistory
     }
 
 }
