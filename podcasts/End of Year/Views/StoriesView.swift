@@ -16,6 +16,8 @@ struct StoriesView: View {
             .onAppear {
                 model.start()
             }
+        } else if model.failed {
+            failed
         } else {
             loading
         }
@@ -59,6 +61,18 @@ struct StoriesView: View {
                 .brightness(1)
                 .padding()
                 .background(Color.black)
+
+            storySwitcher
+            header
+        }
+    }
+
+    var failed: some View {
+        ZStack {
+            Spacer()
+
+            Text("Failed to load stories.")
+                .foregroundColor(.white)
 
             storySwitcher
             header

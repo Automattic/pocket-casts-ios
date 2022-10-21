@@ -9,6 +9,8 @@ class StoriesModel: ObservableObject {
 
     @Published var isReady: Bool = false
 
+    @Published var failed: Bool = false
+
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
     private let configuration: StoriesConfiguration
@@ -30,6 +32,7 @@ class StoriesModel: ObservableObject {
 
         Task.init {
             await isReady = dataSource.isReady()
+            failed = !isReady
         }
 
         subscribeToNotifications()
