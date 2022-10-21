@@ -29,10 +29,19 @@ class EndOfYearStoriesBuilder {
     // Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
+            // Listening time
             if let listeningTime = dataManager.listeningTime(),
                 listeningTime > 0 {
                 stories.append(.listeningTime)
                 data.listeningTime = listeningTime
+            }
+
+            // Listened categories
+            let listenedCategories = dataManager.listenedCategories()
+            if !listenedCategories.isEmpty {
+                data.listenedCategories = listenedCategories
+                stories.append(.listenedCategories)
+                stories.append(.topFiveCategories)
             }
 
             continuation.resume(returning: (stories, data))
@@ -43,4 +52,6 @@ class EndOfYearStoriesBuilder {
 /// An entity that holds data to present EoY stories
 class EndOfYearStoriesData {
     var listeningTime: Double = 0
+
+    var listenedCategories: [ListenedCategory] = []
 }
