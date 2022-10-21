@@ -44,6 +44,14 @@ class EndOfYearStoriesBuilder {
                 stories.append(.topFiveCategories)
             }
 
+            // Listened podcasts and episodes
+            let listenedNumbers = dataManager.listenedNumbers()
+            if listenedNumbers.numberOfEpisodes > 0
+                && listenedNumbers.numberOfPodcasts > 0 {
+                data.listenedNumbers = listenedNumbers
+                stories.append(.listenedNumbers)
+            }
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -54,4 +62,6 @@ class EndOfYearStoriesData {
     var listeningTime: Double = 0
 
     var listenedCategories: [ListenedCategory] = []
+
+    var listenedNumbers: ListenedNumbers!
 }
