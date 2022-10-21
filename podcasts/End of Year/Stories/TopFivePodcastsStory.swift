@@ -57,7 +57,6 @@ struct TopFivePodcastsStory: StoryView {
 
 struct DummyStory_Previews: PreviewProvider {
     static var previews: some View {
-        let podcast = Podcast()
         TopFivePodcastsStory(podcasts: [Podcast.previewPodcast()])
     }
 }
