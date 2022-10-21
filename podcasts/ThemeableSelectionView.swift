@@ -32,8 +32,6 @@ class ThemeableSelectionView: UIView {
         }
     }
 
-    private var unselectedAccessibilityLabel: String?
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
