@@ -59,6 +59,11 @@ class EndOfYearStoriesBuilder {
                 stories.append(.topOnePodcast)
             }
 
+            // Top 5 podcasts
+            if topPodcasts.count > 1 {
+                stories.append(.topFivePodcasts)
+            }
+
             continuation.resume(returning: (stories, data))
         }
     }
