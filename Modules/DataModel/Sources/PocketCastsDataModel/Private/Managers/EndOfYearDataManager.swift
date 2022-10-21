@@ -38,6 +38,69 @@ class EndOfYearDataManager {
         return isEligible
     }
 
+    /// Check if the user has the full listening history or not.
+    ///
+    /// This is not 100% accurated. In order to determine if the user
+    /// has the full history we check for their latest episode listened.
+    /// If this episode was interacted in 2021 or before, we assume they
+    /// have the full history.
+    /// If this is not true, we check for the total number of items of
+    /// this year. If the number is small or equal 100, we assume they
+    /// have the full history.
+    func isFullListeningHistory(dbQueue: FMDatabaseQueue) -> Bool {
+        var isFullListeningHistory = false
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT * from SJEpisode
+                            WHERE
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    isFullListeningHistory = true
+                } else {
+                    isFullListeningHistory = numberOfItemsInListeningHistory(dbQueue: dbQueue) >= 100
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
+            }
+        }
+
+        return isFullListeningHistory
+    }
+
+    private func numberOfItemsInListeningHistory(dbQueue: FMDatabaseQueue) -> Int {
+        var numberOfItemsInListeningHistory = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(*) as total from SJEpisode
+                            WHERE
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '2022-12-01')
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
+                } else {
+
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
+            }
+        }
+
+        return numberOfItemsInListeningHistory
+    }
+
     /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
