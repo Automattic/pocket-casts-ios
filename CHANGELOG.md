@@ -2,7 +2,7 @@
 -----
 - Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
 - Fixed About screen dark theme background in light mode (#339)
-- Adding select/deselect all podcasts in folder creation (#143)
+- Adding select/deselect all podcasts button to folder creation (#143)
 
 7.25
 -----
