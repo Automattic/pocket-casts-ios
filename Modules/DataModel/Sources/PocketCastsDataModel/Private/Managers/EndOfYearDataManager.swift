@@ -9,6 +9,35 @@ class EndOfYearDataManager {
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
                                            """
 
+    /// If the user is eligible to see End of Year stats
+    ///
+    /// All it's needed is a single episode listened for more than 30 minutes.
+    func isEligible(dbQueue: FMDatabaseQueue) -> Bool {
+        var isEligible = false
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT playedUpTo from \(DataManager.episodeTableName)
+                            WHERE
+                            playedUpTo > 1800 AND
+                            \(listenedEpisodesThisYear)
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    isEligible = true
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.listeningTime error: \(error)")
+            }
+        }
+
+        return isEligible
+    }
+
     /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
