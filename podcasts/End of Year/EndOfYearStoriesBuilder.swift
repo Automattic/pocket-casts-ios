@@ -64,6 +64,13 @@ class EndOfYearStoriesBuilder {
                 stories.append(.topFivePodcasts)
             }
 
+            if let longestEpisode = dataManager.longestEpisode(),
+               let podcast = longestEpisode.parentPodcast() {
+                data.longestEpisode = longestEpisode
+                data.longestEpisodePodcast = podcast
+                stories.append(.longestEpisode)
+            }
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -78,4 +85,8 @@ class EndOfYearStoriesData {
     var listenedNumbers: ListenedNumbers!
 
     var topPodcasts: [TopPodcast] = []
+
+    var longestEpisode: Episode!
+
+    var longestEpisodePodcast: Podcast!
 }

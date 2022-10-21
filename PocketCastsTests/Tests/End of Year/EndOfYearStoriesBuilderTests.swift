@@ -131,4 +131,24 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertEqual(stories.0[1], EndOfYearStory.topFivePodcasts)
         XCTAssertEqual(stories.1.topPodcasts.count, 2)
     }
+
+    func testReturnLongestEpisode() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        let episode = EpisodeMock()
+        endOfYearManager.longestEpisodeToReturn = episode
+        let stories = await builder.build()
+
+        XCTAssertEqual(stories.0.first, EndOfYearStory.longestEpisode)
+        XCTAssertNotNil(stories.1.longestEpisode)
+        XCTAssertNotNil(stories.1.longestEpisodePodcast)
+    }
+}
+
+private class EpisodeMock: Episode {
+    override func parentPodcast() -> Podcast? {
+        return Podcast.previewPodcast()
+    }
 }

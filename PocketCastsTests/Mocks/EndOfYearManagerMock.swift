@@ -12,6 +12,8 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     var topPodcastsToReturn: [TopPodcast] = []
 
+    var longestEpisodeToReturn: Episode?
+
     override func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         listeningTimeToReturn
     }
@@ -26,5 +28,9 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     override func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
         topPodcastsToReturn
+    }
+
+    override func longestEpisode(dbQueue: FMDatabaseQueue) -> Episode? {
+        return longestEpisodeToReturn
     }
 }
