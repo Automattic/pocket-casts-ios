@@ -10,15 +10,21 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     var listenedNumbersToReturn: ListenedNumbers?
 
+    var topPodcastsToReturn: [TopPodcast] = []
+
     override func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
-        return listeningTimeToReturn
+        listeningTimeToReturn
     }
 
     override func listenedCategories(dbQueue: FMDatabaseQueue) -> [ListenedCategory] {
-        return listenedCategoriesToReturn
+        listenedCategoriesToReturn
     }
 
     override func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
-        return listenedNumbersToReturn ?? ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+        listenedNumbersToReturn ?? ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+    }
+
+    override func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
+        topPodcastsToReturn
     }
 }

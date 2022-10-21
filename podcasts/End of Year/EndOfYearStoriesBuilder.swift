@@ -52,6 +52,13 @@ class EndOfYearStoriesBuilder {
                 stories.append(.listenedNumbers)
             }
 
+            // Top podcasts
+            let topPodcasts = dataManager.topPodcasts()
+            if !topPodcasts.isEmpty {
+                data.topPodcasts = topPodcasts
+                stories.append(.topOnePodcast)
+            }
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -64,4 +71,6 @@ class EndOfYearStoriesData {
     var listenedCategories: [ListenedCategory] = []
 
     var listenedNumbers: ListenedNumbers!
+
+    var topPodcasts: [TopPodcast] = []
 }

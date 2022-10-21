@@ -81,4 +81,35 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertFalse(stories.0.contains(.listenedNumbers))
         XCTAssertNil(stories.1.listenedNumbers)
     }
+
+    func testReturnTopOnePodcast() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.topPodcastsToReturn = [
+            TopPodcast(podcast: Podcast.previewPodcast(),
+                       numberOfPlayedEpisodes: 3,
+                       totalPlayedTime: 3000)
+        ]
+        let stories = await builder.build()
+
+        XCTAssertEqual(stories.0.first, EndOfYearStory.topOnePodcast)
+        XCTAssertEqual(stories.1.topPodcasts.count, 1)
+        XCTAssertNotNil(stories.1.topPodcasts.first?.podcast)
+        XCTAssertEqual(stories.1.topPodcasts.first?.numberOfPlayedEpisodes, 3)
+        XCTAssertEqual(stories.1.topPodcasts.first?.totalPlayedTime, 3000)
+    }
+
+    func testDontReturnTopOnePodcast() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.topPodcastsToReturn = []
+        let stories = await builder.build()
+
+        XCTAssertFalse(stories.0.contains(.topOnePodcast))
+        XCTAssertEqual(stories.1.topPodcasts.count, 0)
+    }
 }
