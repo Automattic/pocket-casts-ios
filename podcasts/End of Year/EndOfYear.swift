@@ -1,11 +1,15 @@
 import SwiftUI
 import MaterialComponents.MaterialBottomSheet
+import PocketCastsDataModel
 
 struct EndOfYear {
-    static var finishedImage: UIImage?
+    // We'll calculate this just once
+    static var isEligible: Bool = {
+        FeatureFlag.endOfYear && DataManager.sharedManager.isEligibleForEndOfYearStories()
+    }()
 
     func showPrompt(in viewController: UIViewController) {
-        guard FeatureFlag.endOfYear else {
+        guard Self.isEligible else {
             return
         }
 
