@@ -53,7 +53,7 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT * from SJEpisode
+                            SELECT * from \(DataManager.episodeTableName)
                             WHERE
                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
                             LIMIT 1
@@ -80,9 +80,9 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(*) as total from SJEpisode
+                            SELECT COUNT(*) as total from \(DataManager.episodeTableName)
                             WHERE
-                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '2022-12-01')
+                            \(listenedEpisodesThisYear)
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
