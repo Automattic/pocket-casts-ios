@@ -16,7 +16,7 @@ class ThemeableSelectionView: UIView {
     var isSelected: Bool = false {
         didSet {
             updateColor()
-            updateAccessibilityLabel()
+            updateAccessibilityTraits()
         }
     }
 
@@ -67,7 +67,11 @@ class ThemeableSelectionView: UIView {
         layer.borderColor = isSelected ? AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride).cgColor : AppTheme.colorForStyle(unselectedStyle, themeOverride: themeOverride).cgColor
     }
 
-    private func updateAccessibilityLabel() {
-        accessibilityValue = isSelected ? L10n.statusSelected : ""
+    private func updateAccessibilityTraits() {
+        if isSelected {
+            accessibilityTraits.insert(.selected)
+        } else {
+            accessibilityTraits.remove(.selected)
+        }
     }
 }
