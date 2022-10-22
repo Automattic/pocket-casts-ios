@@ -46,4 +46,29 @@ class SwitchCell: ThemeableCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupAccessibility()
+    }
+
+    override func accessibilityActivate() -> Bool {
+        cellSwitch.setOn(!cellSwitch.isOn, animated: true)
+        cellSwitch.sendActions(for: .valueChanged)
+        matchAccessibilityValueWithSwitchControl()
+        return true
+    }
+
+    private func setupAccessibility() {
+        isAccessibilityElement = true
+        let labelText = cellLabel.text ?? ""
+        let secondaryLabelText = cellSecondaryLabel.text ?? ""
+        accessibilityLabel = "\(labelText), \(secondaryLabelText)"
+        accessibilityTraits = cellSwitch.accessibilityTraits
+        matchAccessibilityValueWithSwitchControl()
+    }
+
+    private func matchAccessibilityValueWithSwitchControl() {
+        accessibilityValue = cellSwitch.accessibilityValue
+    }
 }
