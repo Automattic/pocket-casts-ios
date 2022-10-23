@@ -30,7 +30,7 @@ If you're an external contributor run `make external_contributor`. After that yo
 
 ## Swift Formatting
 
-We use [SwiftLint](https://github.com/realm/SwiftLint) to is spaced and formatted the same way and follows the same [general conventions](https://github.com/Automattic/swiftlint-config). We have a script that will run it over the whole project.
+We use [SwiftLint](https://github.com/realm/SwiftLint) to ensure code is spaced and formatted the same way and follows the same [general conventions](https://github.com/Automattic/swiftlint-config). We have a script that will run it over the whole project.
 
 Once the required dependencies are installed via `bundle exec pod install`, you can run:
 
