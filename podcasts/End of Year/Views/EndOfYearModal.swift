@@ -26,6 +26,7 @@ struct EndOfYearModal: View {
             }
             .padding()
         }
+        .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
     }
 
@@ -96,6 +97,8 @@ struct EndOfYearModal: View {
     }
 
     private enum Constants {
+        static let maxWidth: CGFloat = 600
+
         static let verticalSpacing: CGFloat = 20
 
         static let smallTitleFontSize: CGFloat = 14
