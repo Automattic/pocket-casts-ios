@@ -3,8 +3,6 @@ import SwiftUI
 struct EndOfYearModal: View {
     @EnvironmentObject var theme: Theme
 
-    @Environment(\.presentationMode) var presentationMode
-
     var body: some View {
         VStack(spacing: 0) {
             pill
@@ -71,7 +69,6 @@ struct EndOfYearModal: View {
 
     var showStoriesButton: some View {
         Button(action: {
-            presentationMode.wrappedValue.dismiss()
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }) {
             HStack {
@@ -86,7 +83,7 @@ struct EndOfYearModal: View {
 
     var dismissButton: some View {
         Button(action: {
-            presentationMode.wrappedValue.dismiss()
+            NavigationManager.sharedManager.dismissPresentedViewController()
         }) {
             HStack {
                 Spacer()
