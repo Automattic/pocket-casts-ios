@@ -7,9 +7,42 @@ struct EndOfYearModal: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
-            Text("Your Year in Podcasts").font(.title3)
-            Text("See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!")
+            Text(L10n.eoyTitle)
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            ZStack {
+                Image("modal_background")
+                    .resizable()
+                ZStack {
+                    VStack {
+                        Image("2022_small")
+                        Text(L10n.eoySmallTitle)
+                            .foregroundColor(.white)
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .padding(.top, -30)
+                            .padding(.trailing, 10)
+                            .padding(.leading, 10)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.01)
+                    }
+                    .frame(width: 145, height: 145)
+                    .background(Color.black)
+                    .cornerRadius(8)
+                    .shadow(radius: 3, x: 0, y: 1)
+                }
+                .padding()
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 180)
+            .background(UIColor(hex: "#FF6262").color)
+            .cornerRadius(16)
+
+            Text(L10n.eoyDescription)
+                .font(.body)
                 .multilineTextAlignment(.center)
+                .allowsTightening(false)
 
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
@@ -17,11 +50,11 @@ struct EndOfYearModal: View {
             }) {
                 HStack {
                     Spacer()
-                    Text("View My 2022")
+                    Text(L10n.eoyViewYear)
                     Spacer()
                 }
             }
-            .textStyle(RoundedButton())
+            .textStyle(RoundedDarkButton())
             .contentShape(Rectangle())
 
             Button(action: {
@@ -29,11 +62,11 @@ struct EndOfYearModal: View {
             }) {
                 HStack {
                     Spacer()
-                    Text("Not Now")
+                    Text(L10n.eoyNotNow)
                     Spacer()
                 }
             }
-            .textStyle(RoundedButton())
+            .textStyle(StrokeButton())
             .contentShape(Rectangle())
         }
         .padding()
