@@ -3,13 +3,41 @@ import SwiftUI
 struct StoriesView: View {
     @Environment(\.presentationMode) var presentationMode
 
+    @ObservedObject private var model: StoriesModel
+
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+        model = StoriesModel(dataSource: dataSource, configuration: configuration)
+    }
+
+    @ViewBuilder
     var body: some View {
+        if model.isReady {
+            stories
+            .onAppear {
+                model.start()
+            }
+        } else {
+            loading
+        }
+    }
+
+    var stories: some View {
         VStack {
             ZStack {
                 Spacer()
-                fakeStory
-                    .cornerRadius(Constants.storyCornerRadius)
+
+                ZStack {
+                    model.story(index: model.currentStory)
+                }
+                .cornerRadius(Constants.storyCornerRadius)
+
                 storySwitcher
+
+                ZStack {
+                    model.interactive(index: model.currentStory)
+                }
+                .cornerRadius(Constants.storyCornerRadius)
+
                 header
             }
 
@@ -21,13 +49,30 @@ struct StoriesView: View {
         .background(Color.black)
     }
 
+    // View shown while data source is preparing
+    var loading: some View {
+        ZStack {
+            Spacer()
+
+            ProgressView()
+                .colorInvert()
+                .brightness(1)
+                .padding()
+                .background(Color.black)
+
+            storySwitcher
+            header
+        }
+    }
+
     // Header containing the close button and the rectangles
     var header: some View {
         ZStack {
             VStack {
                 HStack {
-                    storyIndicator
-                    storyIndicator
+                    ForEach(0 ..< model.numberOfStories, id: \.self) { x in
+                        StoryIndicator(progress: min(max((CGFloat(model.progress) - CGFloat(x)), 0.0), 1.0))
+                    }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
                 Spacer()
@@ -38,12 +83,6 @@ struct StoriesView: View {
             closeButton
         }
         .padding(.top, Constants.headerTopPadding)
-    }
-
-    var fakeStory: some View {
-        ZStack {
-            Color.purple
-        }
     }
 
     var closeButton: some View {
@@ -63,20 +102,6 @@ struct StoriesView: View {
             }
         }
 
-    var storyIndicator: some View {
-        GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorBackgroundOpacity))
-                        .cornerRadius(Constants.storyIndicatorBorderRadius)
-
-                    Rectangle()
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorForegroundOpacity))
-                        .cornerRadius(Constants.storyIndicatorBorderRadius)
-                }
-            }
-    }
-
     // Invisible component to go to the next/prev story
     var storySwitcher: some View {
         HStack(alignment: .center, spacing: Constants.storySwitcherSpacing) {
@@ -84,20 +109,42 @@ struct StoriesView: View {
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("Previous")
+                    model.previous()
             }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("Next")
+                    model.next()
             }
         }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                .onChanged { _ in
+                    model.pause()
+                }
+                .onEnded { value in
+                    let velocity = CGSize(
+                        width: value.predictedEndLocation.x - value.location.x,
+                        height: value.predictedEndLocation.y - value.location.y
+                    )
+
+                    // If a quick swipe down is performed, dismiss the view
+                    if velocity.height > 200 {
+                        presentationMode.wrappedValue.dismiss()
+                    } else {
+                        model.start()
+                    }
+                }
+        )
     }
 
     var shareButton: some View {
         Button(action: {
-
+            model.pause()
+            EndOfYear().share(asset: { model.shareableAsset(index: model.currentStory) }, onDismiss: {
+                model.start()
+            })
         }) {
             HStack {
                 Spacer()
@@ -131,10 +178,6 @@ private extension StoriesView {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonTopPadding: CGFloat = 5
 
-        static let storyIndicatorBorderRadius: CGFloat = 5
-        static let storyIndicatorBackgroundOpacity: CGFloat = 0.3
-        static let storyIndicatorForegroundOpacity: CGFloat = 0.9
-
         static let storySwitcherSpacing: CGFloat = 0
 
         static let shareButtonVerticalPadding: CGFloat = 10
@@ -152,6 +195,6 @@ private extension StoriesView {
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView()
+        StoriesView(dataSource: EndOfYearStoriesDataSource())
     }
 }

@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="authenticationProviders" destination="GOk-uO-NBJ" id="rsi-Es-uga"/>
                 <outlet property="createAccountBtn" destination="J6c-um-8gq" id="ZGj-eX-TLF"/>
+                <outlet property="errorLabel" destination="Sks-s3-sUx" id="4kw-OV-opz"/>
                 <outlet property="infoLabel" destination="xRp-Cs-cvI" id="jkd-bO-uIj"/>
                 <outlet property="passwordAuthOption" destination="1kp-ow-mWD" id="dKY-GU-hSm"/>
                 <outlet property="profileIllustration" destination="nY7-Sl-Gxg" id="FSe-pS-xhJ"/>
@@ -80,14 +81,22 @@
                         </view>
                     </subviews>
                 </stackView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sks-s3-sUx" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="377.5" width="343" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="nY7-Sl-Gxg" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="2XD-1P-gsU"/>
                 <constraint firstItem="xRp-Cs-cvI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="23" id="63H-tj-FKR"/>
+                <constraint firstItem="GOk-uO-NBJ" firstAttribute="top" secondItem="Sks-s3-sUx" secondAttribute="bottom" constant="10" id="BHy-Se-iWS"/>
                 <constraint firstItem="oOL-Vb-lE7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="8" id="BUi-ih-aEw"/>
                 <constraint firstItem="xRp-Cs-cvI" firstAttribute="top" secondItem="oOL-Vb-lE7" secondAttribute="bottom" constant="8" id="E6A-ke-Zci"/>
+                <constraint firstItem="Sks-s3-sUx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Ui5-Dk-k3n"/>
                 <constraint firstItem="xRp-Cs-cvI" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="-23" id="fQl-mz-Q3W"/>
                 <constraint firstItem="nY7-Sl-Gxg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" constant="60" id="gLh-ll-owx"/>
                 <constraint firstItem="GOk-uO-NBJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="hFj-W6-qY2"/>
@@ -97,6 +106,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="GOk-uO-NBJ" secondAttribute="bottom" constant="16" id="oV3-Ch-3vg"/>
                 <constraint firstItem="xRp-Cs-cvI" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="qa1-DW-bMa"/>
                 <constraint firstItem="GOk-uO-NBJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xRp-Cs-cvI" secondAttribute="bottom" constant="8" id="sNp-lB-e79"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Sks-s3-sUx" secondAttribute="trailing" constant="16" id="w1P-XZ-nzY"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="-816.79999999999995" y="23.838080959520241"/>

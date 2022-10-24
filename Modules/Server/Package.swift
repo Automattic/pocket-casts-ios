@@ -30,7 +30,10 @@ let package = Package(
                 "SwiftyJSON"
             ],
             path: "Sources",
-            linkerSettings: [.linkedFramework("CFNetwork", .when(platforms: [.iOS]))]
+            linkerSettings: [
+                .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
+                .linkedFramework("AuthenticationServices", .when(platforms: [.iOS, .watchOS]))
+            ]
         ),
         .testTarget(
             name: "PocketCastsServerTests",

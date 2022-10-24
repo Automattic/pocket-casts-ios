@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Hiermit kannst du deinen Dateien eigene Bilder hinzufügen";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts benögt Zugriff auf Bluetooth, um Google Cast-Geräte in der Nähe zu erkennen.";
-NSLocalNetworkUsageDescription = "Wird von Pocket Casts verwendet, um Google Cast-Geräte in deinem Netzwerk zu erkennen. Wenn du diese Funktion nicht verwendest, brauchst du nicht zustimmen.";
-NSMicrophoneUsageDescription = "Pocket Casts benögt Zugriff auf dein Mikrofon, um Google Cast-Geräte in der Nähe zu erkennen.";
-NSPhotoLibraryUsageDescription = "Pocket Casts braucht deine Erlaubnis, um dieses Bild deiner Fotogalerie hinzuzufügen.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts braucht deine Erlaubnis, um dieses Bild deiner Fotogalerie hinzuzufügen.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts benötigt Zugriff auf Bluetooth, um Google Cast-Geräte in der Nähe zu erkennen.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Hiermit kannst du deinen Dateien eigene Bilder hinzufügen</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Hiermit erkennt Pocket Casts Google Cast-Geräte in deinem Netzwerk. Wenn du diese Funktion nicht verwendest, brauchst du nicht zustimmen.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts benötigt Zugriff auf dein Mikrofon, um Google Cast-Geräte in der Nähe zu erkennen.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts benötigt die Berechtigung, um dieses Bild in deiner Foto-Bibliothek zu speichern.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts benötigt die Berechtigung, um dieses Bild in deiner Foto-Bibliothek zu speichern.</string>
+  </dict>
+</plist>

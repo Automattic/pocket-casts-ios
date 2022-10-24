@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "它允许您将自定义图像添加到文件中";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts 需要访问您的蓝牙，才能检测附近的 Google Cast 设备。";
-NSLocalNetworkUsageDescription = "Pocket Casts 使用它来查找您网络上的 Google Cast 设备。 如果您不使用此功能，请随时关闭。";
-NSMicrophoneUsageDescription = "Pocket Casts 需要访问您的麦克风，才能检测附近的 Google Cast 设备。";
-NSPhotoLibraryUsageDescription = "Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts 需要访问您的蓝牙，才能检测附近的 Google Cast 设备。</string>
+    <key>NSCameraUsageDescription</key>
+    <string>它允许您将自定义图像添加到文件中</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts 使用它来查找您网络上的 Google Cast 设备。 如果您不使用此功能，请随时关闭。</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts 需要访问您的麦克风，才能检测附近的 Google Cast 设备。</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。</string>
+  </dict>
+</plist>

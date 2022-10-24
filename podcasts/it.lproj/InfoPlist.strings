@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Questa opzione ti consente di aggiungere immagini personalizzate ai tuoi file";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts deve accedere al Bluetooth per rilevare i dispositivi Google Cast nelle vicinanze.";
-NSLocalNetworkUsageDescription = "Pocket Casts utilizza questa opzione per trovare i dispositivi Google Cast sulla tua rete. Se non utilizzi questa funzionalità, puoi anche dire no.";
-NSMicrophoneUsageDescription = "Pocket Casts deve accedere al microfono per rilevare i dispositivi Google Cast nelle vicinanze.";
-NSPhotoLibraryUsageDescription = "Pocket Casts necessita dell'autorizzazione per salvare questa immagine nella tua libreria di foto.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts necessita dell'autorizzazione per salvare questa immagine nella tua libreria di foto.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts deve accedere al Bluetooth per rilevare i dispositivi Google Cast nelle vicinanze.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Questa opzione ti consente di aggiungere immagini personalizzate ai tuoi file</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts utilizza questa opzione per trovare i dispositivi Google Cast sulla tua rete. Se non utilizzi questa funzionalità, puoi anche dire no.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts deve accedere al microfono per rilevare i dispositivi Google Cast nelle vicinanze.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts necessita dell'autorizzazione per salvare questa immagine nella tua libreria di foto.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts necessita dell'autorizzazione per salvare questa immagine nella tua libreria di foto.</string>
+  </dict>
+</plist>

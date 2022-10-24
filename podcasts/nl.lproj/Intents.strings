@@ -1,93 +1,101 @@
-﻿"0EmR82" = "${filterName} filter openen";
-
-"0YXvyS" = "Vorige";
-
-"1uT6VF" = "Media zoeken";
-
-"3aWmex" = "Hoofdstuk";
-
-"5yWeuV" = "Afspelen op ${playbackSpeed}";
-
-"CXbd65" = "Slaaptimer instellen";
-
-"E6Nzn4-No0K9w" = "Pocket Casts hervatten";
-
-"E6Nzn4-Pk1Fkx" = "Pocket Casts niet hervatten";
-
-"ErAaNp" = "Modus Herhalen";
-
-"EwNFJ5" = "Slaaptimer verlengen";
-
-"G0iCil" = "Kan hoofdstuk niet overslaan";
-
-"G3J6fP" = "Podcast afspelen";
-
-"IyhbAH" = "Filter openen";
-
-"LdrEPN" = "Een verzoek om media af te spelen";
-
-"MbU5ep" = "${mediaItems} afspelen met shuffle";
-
-"No0K9w" = "hervatten";
-
-"Ntulol" = "Hoofdstuk overslaan";
-
-"OJvsVr" = "Slaaptimer verlengen met 5 minuten";
-
-"Pk1Fkx" = "niet hervatten";
-
-"QektJm" = "Filter openen";
-
-"QqdHiR" = "shuffle ingesteld";
-
-"RvX3Zd" = "Afspeelsnelheid";
-
-"WEjMGd" = "${mediaContainer} afspelen";
-
-"Wj0EAI" = "Overslaan";
-
-"WktFNa" = "Shuffle ingesteld";
-
-"YYfsKp" = "${mediaContainer} afspelen";
-
-"bVm1vW" = "Slaaptimer instellen";
-
-"cV2HLF" = "Locatie wachtrij";
-
-"cfJexL" = "Artikelen";
-
-"dBTobY" = "Hoofdstuk overslaan";
-
-"emhqzv" = "Podcast ondersteunt geen hoofdstukken";
-
-"gD0dlx" = "Volgende";
-
-"iQo0yQ-0YXvyS" = "Eerder hoofdstuk";
-
-"iQo0yQ-Wj0EAI" = "Hoofdstuk overslaan";
-
-"iQo0yQ-gD0dlx" = "Volgende aflevering";
-
-"mCAocc" = "shuffle niet ingesteld";
-
-"nAv25k" = "${mediaContainer} afspelen met shuffle";
-
-"nNozW1" = "${mediaContainer} afspelen met shuffle";
-
-"nR0neu" = "Slaaptimer";
-
-"ny98Lo" = "Slaaptimer verlengen";
-
-"o6CuZu" = "${mediaContainer} hervatten";
-
-"q8QY8B" = "${mediaItems} afspelen op ${playbackSpeed}";
-
-"rnkZnd" = "Hoofdstuk overslaan";
-
-"rvNMpm" = "Hervatten";
-
-"sLPQxZ" = "${mediaContainer} afspelen";
-
-"xdnqvn" = "Container";
-
-"zvlpk3" = "Hoofdstuk overgeslagen";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>${filterName} filter openen</string>
+    <key>0YXvyS</key>
+    <string>Vorige</string>
+    <key>1uT6VF</key>
+    <string>Media zoeken</string>
+    <key>3aWmex</key>
+    <string>Hoofdstuk</string>
+    <key>5yWeuV</key>
+    <string>Afspelen op ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Slaaptimer instellen</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>Pocket Casts hervatten</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>Pocket Casts niet hervatten</string>
+    <key>ErAaNp</key>
+    <string>Modus Herhalen</string>
+    <key>EwNFJ5</key>
+    <string>Slaaptimer verlengen</string>
+    <key>G0iCil</key>
+    <string>Kan hoofdstuk niet overslaan</string>
+    <key>G3J6fP</key>
+    <string>Podcast afspelen</string>
+    <key>IyhbAH</key>
+    <string>Filter openen</string>
+    <key>LdrEPN</key>
+    <string>Een verzoek om media af te spelen</string>
+    <key>MbU5ep</key>
+    <string>${mediaItems} afspelen met shuffle</string>
+    <key>No0K9w</key>
+    <string>hervatten</string>
+    <key>Ntulol</key>
+    <string>Hoofdstuk overslaan</string>
+    <key>OJvsVr</key>
+    <string>Slaaptimer verlengen met 5 minuten</string>
+    <key>Pk1Fkx</key>
+    <string>niet hervatten</string>
+    <key>QektJm</key>
+    <string>Filter openen</string>
+    <key>QqdHiR</key>
+    <string>shuffle ingesteld</string>
+    <key>RvX3Zd</key>
+    <string>Afspeelsnelheid</string>
+    <key>WEjMGd</key>
+    <string>${mediaContainer} afspelen</string>
+    <key>Wj0EAI</key>
+    <string>Overslaan</string>
+    <key>WktFNa</key>
+    <string>Shuffle ingesteld</string>
+    <key>YYfsKp</key>
+    <string>${mediaContainer} afspelen</string>
+    <key>bVm1vW</key>
+    <string>Slaaptimer instellen</string>
+    <key>cV2HLF</key>
+    <string>Locatie wachtrij</string>
+    <key>cfJexL</key>
+    <string>Artikelen</string>
+    <key>dBTobY</key>
+    <string>Hoofdstuk overslaan</string>
+    <key>emhqzv</key>
+    <string>Podcast ondersteunt geen hoofdstukken</string>
+    <key>gD0dlx</key>
+    <string>Volgende</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Eerder hoofdstuk</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Hoofdstuk overslaan</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Volgende aflevering</string>
+    <key>mCAocc</key>
+    <string>shuffle niet ingesteld</string>
+    <key>nAv25k</key>
+    <string>${mediaContainer} afspelen met shuffle</string>
+    <key>nNozW1</key>
+    <string>${mediaContainer} afspelen met shuffle</string>
+    <key>nR0neu</key>
+    <string>Slaaptimer</string>
+    <key>ny98Lo</key>
+    <string>Slaaptimer verlengen</string>
+    <key>o6CuZu</key>
+    <string>${mediaContainer} hervatten</string>
+    <key>q8QY8B</key>
+    <string>${mediaItems} afspelen op ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Hoofdstuk overslaan</string>
+    <key>rvNMpm</key>
+    <string>Hervatten</string>
+    <key>sLPQxZ</key>
+    <string>${mediaContainer} afspelen</string>
+    <key>xdnqvn</key>
+    <string>Container</string>
+    <key>zvlpk3</key>
+    <string>Hoofdstuk overgeslagen</string>
+  </dict>
+</plist>

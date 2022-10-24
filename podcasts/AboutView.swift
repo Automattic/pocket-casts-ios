@@ -18,7 +18,6 @@ struct AboutView: View {
 
     init(dismissAction: @escaping (() -> Void)) {
         self.dismissAction = dismissAction
-        UITableView.appearance().backgroundColor = .clear
     }
 
     var body: some View {
@@ -37,7 +36,7 @@ struct AboutView: View {
                             .padding(.top, 5)
                     }
                     .padding(.top, 30)
-                    List {
+                    Form {
                         if model.shouldShowWhatsNew, let whatsNewInfo = model.whatsNewInfo {
                             Section {
                                 AboutRow(mainText: model.whatsNewText) {
@@ -104,7 +103,7 @@ struct AboutView: View {
                         }
                         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
                     }
-                    .listStyle(.insetGrouped)
+                    .colorScheme(theme.activeTheme.isDark ? .dark : .light)
                 }
                 NavigationLink(destination: LegalAndMore(), isActive: $showLegalAndMore) {}
             }
@@ -200,5 +199,6 @@ struct AboutRow: View {
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
         AboutView {}
+            .environmentObject(Theme(previewTheme: .dark))
     }
 }

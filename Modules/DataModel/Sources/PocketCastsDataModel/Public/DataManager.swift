@@ -20,6 +20,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let settingsManager = UserSettingsManager()
     private let folderManager = FolderDataManager()
+    private lazy var endOfYearManager = EndOfYearDataManager()
 
     private let dbQueue: FMDatabaseQueue
 
@@ -623,6 +624,10 @@ public class DataManager {
         episodeManager.deleteAllEpisodesInPodcast(podcastId: podcastId, dbQueue: dbQueue)
     }
 
+    public func randomPodcasts() -> [Podcast] {
+        podcastManager.randomPodcasts(dbQueue: dbQueue)
+    }
+
     // MARK: - User Episodes
 
     public func findUserEpisode(uuid: String) -> UserEpisode? {
@@ -886,5 +891,29 @@ public extension DataManager {
 
             try? db.executeUpdate(query, values: nil)
         }
+    }
+}
+
+// MARK: - End of Year stats
+
+public extension DataManager {
+    func listeningTime() -> Double? {
+        endOfYearManager.listeningTime(dbQueue: dbQueue)
+    }
+
+    func listenedCategories() -> [ListenedCategory] {
+        endOfYearManager.listenedCategories(dbQueue: dbQueue)
+    }
+
+    func listenedNumbers() -> ListenedNumbers {
+        endOfYearManager.listenedNumbers(dbQueue: dbQueue)
+    }
+
+    func topPodcasts() -> [TopPodcast] {
+        endOfYearManager.topPodcasts(dbQueue: dbQueue)
+    }
+
+    func longestEpisode() -> Episode? {
+        endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 }

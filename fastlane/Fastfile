@@ -289,14 +289,19 @@ platform :ios do
   lane :complete_code_freeze do |options|
     ios_completecodefreeze_prechecks(options)
     generate_strings_file_for_glotpress
+    create_merge_release_branch
 
-    after_confirming_push do
+    after_confirming_push(push_merge_branch: true) do
       trigger_beta_build(branch_to_build: release_branch_name)
     end
   end
 
   def release_branch_name
     "release/#{ios_get_app_version}"
+  end
+
+  def merge_branch_name
+    "merge/release-#{ios_get_build_version}-into-trunk"
   end
 
   # Triggers a beta build on CI
@@ -416,7 +421,7 @@ platform :ios do
       body: {
         title: "#{ios_get_app_version} Release: Merge changes from #{ios_get_build_version} into `trunk`",
         body: "Merge changes from #{ios_get_app_version} (#{ios_get_build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: release_branch_name,
+        head: options[:beta_release] ? merge_branch_name : release_branch_name,
         base: 'trunk'
       },
       error_handlers: {
@@ -455,6 +460,8 @@ platform :ios do
     lint_localizations
 
     ios_bump_version_beta
+    create_merge_release_branch
+    push_release_branches
 
     trigger_beta_build(branch_to_build: release_branch_name)
   end
@@ -480,7 +487,7 @@ platform :ios do
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |options|
     # Push and trigger build
-    after_confirming_push do
+    after_confirming_push(push_merge_branch: false) do
       ios_finalize_prechecks(options)
       trigger_release_build(branch_to_build: release_branch_name)
     end
@@ -529,8 +536,8 @@ platform :ios do
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
   lane :download_localized_strings_and_metadata_from_glotpress do
-    # download_localized_strings_and_metadata
-    # download_localized_app_store_metadata_from_glotpress
+    download_localized_strings_from_glotpress
+    download_localized_app_store_metadata_from_glotpress
   end
 
   # Downloads the localized app strings and App Store Connect metadata from GlotPress.
@@ -552,7 +559,11 @@ platform :ios do
 
   desc 'Lint the `.strings` files'
   lane :lint_localizations do
-    ios_lint_localizations(input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'), allow_retry: true)
+    ios_lint_localizations(
+      input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'),
+      allow_retry: true,
+      check_duplicate_keys: false
+    )
   end
 
   # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
@@ -903,7 +914,7 @@ inal copy, and try again.")
   lane :symbols_upload do |options|
     symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
     sentry_upload_dsym(
-      auth_token: get_required_env('SENTRY_AUTH_TOKEN'),
+      auth_token: ENV.fetch('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
       project_slug: SENTRY_PROJECT_SLUG,
       dsym_path: symbols_path
@@ -929,12 +940,22 @@ inal copy, and try again.")
     "$BUILDKITE_PIPELINE_SLUG-spm-cache-#{hash}"
   end
 
-  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
+  def create_merge_release_branch
+    Fastlane::Helper::GitHelper.create_branch(merge_branch_name, from: release_branch_name)
+  end
+
+  def after_confirming_push(push_merge_branch:, message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_to_git_remote(tags: false)
+      push_merge_branch ? push_release_branches : push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
+    end
+  end
+
+  def push_release_branches
+    [merge_branch_name, release_branch_name].each do |branch_name|
+      push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
     end
   end
 

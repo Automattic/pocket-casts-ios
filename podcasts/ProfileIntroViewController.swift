@@ -1,11 +1,20 @@
 import UIKit
+import PocketCastsUtils
 import AuthenticationServices
+import PocketCastsUtils
+import PocketCastsServer
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
 
     private var buttonFont: UIFont {
         .systemFont(ofSize: 18, weight: .semibold)
+    }
+
+    @IBOutlet var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.style = .support05
+        }
     }
 
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
@@ -102,6 +111,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     }
 
     @IBAction func signInTapped() {
+        errorLabel.isHidden = true
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
 
@@ -137,10 +147,11 @@ extension ProfileIntroViewController {
         authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
         authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
-      }
+    }
 
     @objc
     func handleAppleAuthButtonPress() {
+        errorLabel.isHidden = true
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -174,18 +185,31 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
     func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
         let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
         progressAlert.showAlert(self, hasProgress: false, completion: {
-            AuthenticationHelper.processAppleIDCredential(appleIDCredential) { [unowned self] result in
+            Task {
+                var success = false
+                do {
+                    try await AuthenticationHelper.validateLogin(appleIDCredential)
+                    success = true
+                } catch {
+                    self.showError(error)
+                }
+
                 DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        progressAlert.hideAlert(false)
+                    progressAlert.hideAlert(false)
+                    if success {
                         self.signingProcessCompleted()
-                    case .failure:
-                        // TODO: Handle Error Case
-                        print("Display Error")
                     }
                 }
             }
         })
+    }
+
+    func showError(_ error: Error) {
+        FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+
+        DispatchQueue.main.async {
+            self.errorLabel.text = L10n.accountSsoFailed
+            self.errorLabel.isHidden = false
+        }
     }
 }
