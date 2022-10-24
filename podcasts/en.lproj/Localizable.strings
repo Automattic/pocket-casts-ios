@@ -3287,3 +3287,6 @@
 
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
+
+/* End of Year card description that appears under Profile */
+"eoy_card_description" = "See your top podcasts, categories, listening stats and more.";

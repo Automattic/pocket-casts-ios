@@ -594,6 +594,8 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
+  /// See your top podcasts, categories, listening stats and more.
+  internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!
   internal static var eoyDescription: String { return L10n.tr("Localizable", "eoy_description") }
   /// Not Now
