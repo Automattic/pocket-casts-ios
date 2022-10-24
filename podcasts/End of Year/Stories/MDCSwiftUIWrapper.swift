@@ -6,6 +6,10 @@ import MaterialComponents.MaterialBottomSheet
 class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
     private let stackView = UIStackView()
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
+    }
+
     init(rootView content: ContentView) {
         super.init(nibName: nil, bundle: nil)
 
