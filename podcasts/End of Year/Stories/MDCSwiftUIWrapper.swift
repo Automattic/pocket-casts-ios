@@ -24,6 +24,7 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         )
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
+        hostingController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,8 +48,6 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         bottomSheet.isScrimAccessibilityElement = true
         bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
-
-        wrapperController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
 
         viewController.present(bottomSheet, animated: true, completion: nil)
     }

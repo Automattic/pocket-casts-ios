@@ -6,24 +6,38 @@ struct EndOfYearModal: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack(alignment: .center, spacing: Constants.verticalSpacing) {
-            Text(L10n.eoyTitle)
-                .font(.title2)
-                .fontWeight(.semibold)
+        VStack(spacing: 0) {
+            pill
 
-            cover
+            VStack(alignment: .center, spacing: Constants.verticalSpacing) {
 
-            Text(L10n.eoyDescription)
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .allowsTightening(false)
+                Text(L10n.eoyTitle)
+                    .font(.title2)
+                    .fontWeight(.semibold)
 
-            showStoriesButton
+                cover
 
-            dismissButton
+                Text(L10n.eoyDescription)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .allowsTightening(false)
+
+                showStoriesButton
+
+                dismissButton
+            }
+            .padding()
         }
-        .padding()
         .applyDefaultThemeOptions()
+    }
+
+    var pill: some View {
+        Rectangle()
+            .fill(ThemeColor.primaryText02(for: theme.activeTheme).color)
+            .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
+            .cornerRadius(Constants.pillCornerRadius)
+            .padding(.top, Constants.pillTopPadding)
+            .opacity(Constants.pillOpacity)
     }
 
     var cover: some View {
@@ -99,6 +113,11 @@ struct EndOfYearModal: View {
 
         static let coverWrapperHeight: CGFloat = 180
         static let coverWrapperCornerRadius: CGFloat = 16
+
+        static let pillSize: CGSize = .init(width: 60, height: 4)
+        static let pillCornerRadius: CGFloat = 10
+        static let pillTopPadding: CGFloat = 8
+        static let pillOpacity: CGFloat = 0.2
     }
 }
 
