@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct StoriesView: View {
-    @Environment(\.presentationMode) var presentationMode
-
     @ObservedObject private var model: StoriesModel
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
@@ -104,7 +102,7 @@ struct StoriesView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        NavigationManager.sharedManager.dismissPresentedViewController()
                     }) {
                         Image(systemName: "xmark")
                             .foregroundColor(.white)
@@ -145,7 +143,7 @@ struct StoriesView: View {
 
                     // If a quick swipe down is performed, dismiss the view
                     if velocity.height > 200 {
-                        presentationMode.wrappedValue.dismiss()
+                        NavigationManager.sharedManager.dismissPresentedViewController()
                     } else {
                         model.start()
                     }
