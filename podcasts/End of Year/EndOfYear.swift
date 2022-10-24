@@ -13,22 +13,7 @@ struct EndOfYear {
             return
         }
 
-        let endfOfYearModalViewController = UIHostingController(rootView: EndOfYearModal().edgesIgnoringSafeArea(.all).environmentObject(Theme.sharedTheme))
-        let vc = EndOfYearModalViewController()
-        vc.stackView.addArrangedSubview(endfOfYearModalViewController.view)
-        endfOfYearModalViewController.didMove(toParent: vc)
-        let bottomSheet = MDCBottomSheetController(contentViewController: vc)
-
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-        bottomSheet.isScrimAccessibilityElement = true
-        bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
-
-        endfOfYearModalViewController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-
-        viewController.present(bottomSheet, animated: true, completion: nil)
+        MDCSwiftUIWrapper.present(EndOfYearModal(), in: viewController)
     }
 
     func showStories(in viewController: UIViewController) {
@@ -69,30 +54,5 @@ class StoriesHostingController<ContentView: View>: UIHostingController<ContentVi
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
-    }
-}
-
-class EndOfYearModalViewController: UIViewController {
-    let stackView = UIStackView()
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        view.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
-        ])
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        preferredContentSize = .init(width: .zero, height: stackView.frame.height)
-
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
