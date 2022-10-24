@@ -354,7 +354,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showEndOfYearStories() {
-        endOfYear.showStories(in: self)
+        guard let presentedViewController else {
+            endOfYear.showStories(in: self)
+            return
+        }
+
+        presentedViewController.dismiss(animated: true) {
+            self.endOfYear.showStories(in: self)
+        }
+    }
+
+    func dismissPresentedViewController() {
+        presentedViewController?.dismiss(animated: true)
     }
 
     private func topController() -> UIViewController {

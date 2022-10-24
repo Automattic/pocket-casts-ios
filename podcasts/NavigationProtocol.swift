@@ -43,4 +43,5 @@ protocol NavigationProtocol: AnyObject {
     func showInSafariViewController(urlString: String)
 
     func showEndOfYearStories()
+    func dismissPresentedViewController()
 }
