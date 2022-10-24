@@ -5,7 +5,9 @@ class EndOfYearPromptCell: ThemeableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let childView = UIHostingController(rootView: EndOfYearCard())
+        let childView = UIHostingController(rootView: EndOfYearCard()
+            .environmentObject(Theme.sharedTheme))
+        childView.view.backgroundColor = .clear
         contentView.addSubview(childView.view)
 
         childView.view.translatesAutoresizingMaskIntoConstraints = false
