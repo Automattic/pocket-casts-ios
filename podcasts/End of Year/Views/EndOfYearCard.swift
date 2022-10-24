@@ -37,7 +37,7 @@ struct EndOfYearCard: View {
         static let eoyImageSize: CGSize = .init(width: 150, height: 150)
         static let eoyImageTopPadding: CGFloat = 20
 
-        static let lightThemeBackgroundColor: Color = .black
+        static let lightThemeBackgroundColor: Color = UIColor(hex: "#1A1A1A").color
         static let darkThemeBackgroundColor: Color = UIColor(hex: "#222222").color
 
         static let cornerRadius: CGFloat = 15
