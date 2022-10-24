@@ -3269,3 +3269,21 @@
 
 /* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
 "pricing_terms_after_trial" = "then %1$@";
+
+/* Title for the End of Year feature */
+"eoy_title" = "Your Year in Podcasts";
+
+/* Title for the End of Year feature */
+"eoy_title" = "Your Year in Podcasts";
+
+/* A smaller title for the End of Year feature */
+"eoy_small_title" = "Year in Podcasts";
+
+/* A description of the End of Year feature */
+"eoy_description" = "See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!";
+
+/* Label of the End of Year call to action button */
+"eoy_view_year" = "View My 2022";
+
+/* Label of the End of Year dismiss button */
+"eoy_not_now" = "Not Now";

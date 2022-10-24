@@ -594,6 +594,16 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
+  /// See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!
+  internal static var eoyDescription: String { return L10n.tr("Localizable", "eoy_description") }
+  /// Not Now
+  internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
+  /// Year in Podcasts
+  internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Your Year in Podcasts
+  internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
+  /// View My 2022
+  internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
   /// Episode
   internal static var episode: String { return L10n.tr("Localizable", "episode") }
   /// %1$@ episodes
