@@ -19,10 +19,6 @@ class PodcastSearchCell: ThemeableCell {
 
     @IBOutlet var subscribedIcon: UIImageView!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     func populateFrom(podcast: Podcast) {
         podcastName.text = podcast.title
         podcastAuthor.text = podcast.author

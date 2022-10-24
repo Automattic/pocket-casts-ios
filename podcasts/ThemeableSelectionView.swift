@@ -44,10 +44,6 @@ class ThemeableSelectionView: UIView {
         setup()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

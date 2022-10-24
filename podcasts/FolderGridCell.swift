@@ -6,10 +6,6 @@ class FolderGridCell: UICollectionViewCell {
 
     @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     func populateFrom(folder: Folder, badgeType: BadgeType, libraryType: LibraryType) {
         folderPreview.populateFrom(folder: folder)
 
