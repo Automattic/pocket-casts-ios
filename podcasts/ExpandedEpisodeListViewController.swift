@@ -66,8 +66,8 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EpisodeListTableViewCell
         cell.viewModel.listId = podcastCollection.listId
         cell.viewModel.discoverEpisode = episodes[indexPath.row]
-        cell.colors = podcastCollection.colors
         cell.viewModel.delegate = delegate
+        cell.colors = podcastCollection.colors
         return cell
     }
 
