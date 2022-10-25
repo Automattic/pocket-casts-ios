@@ -12,7 +12,6 @@ class DiscoverCoordinator {
         let platform = subscriptionData.subscriptionPlatform()
         let isSponsored = item.isSponsored ?? false
 
-        print("Should Display?", isSponsored, subscriptionData.hasActiveSubscription(), platform.isPaidSubscriptionPlatform)
         // don't show sponsored items to active plus subscribers. Those who don't have a subscription, or have a gift (lifetime or otherwise) will still get them
         if isSponsored, subscriptionData.hasActiveSubscription(), platform.isPaidSubscriptionPlatform {
             return false
