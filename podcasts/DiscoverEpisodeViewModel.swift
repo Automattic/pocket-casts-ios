@@ -137,26 +137,14 @@ class DiscoverEpisodeViewModel: ObservableObject {
 
     static func loadPodcast(_ podcastUUID: String, episodeUuid: String) -> AnyPublisher<Podcast?, Never> {
         Future<Podcast?, ClientError> { promise in
-
-            func ensureEpisode(_ episodeUuid: String, podcast: Podcast) {
-                DiscoverEpisodeViewModel.ensureEpisodeExists(podcast: podcast, episodeUuid: episodeUuid) { exists in
-                    guard exists else {
-                        promise(.failure(.episodeNotFound))
-                        return
-                    }
-
-                    promise(.success(podcast))
-                }
-            }
-
             if let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
-                ensureEpisode(episodeUuid, podcast: existingPodcast)
+                Self.ensureEpisodeExists(podcast: existingPodcast, episodeUuid: episodeUuid, promise: promise)
                 return
             }
 
             ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUUID, subscribe: false) { added in
                 if added, let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastUUID, includeUnsubscribed: true) {
-                    ensureEpisode(episodeUuid, podcast: existingPodcast)
+                    Self.ensureEpisodeExists(podcast: existingPodcast, episodeUuid: episodeUuid, promise: promise)
                     return
                 } else {
                     promise(.failure(.podcastNotFound))
@@ -168,22 +156,21 @@ class DiscoverEpisodeViewModel: ObservableObject {
     }
 
     /**
-        Checks if a specific episode of a podcast exists, if not refreshes the episode list and notifies if the episode was successfully found or not.
+     Checks if a specific episode of a podcast exists, if not refreshes the episode list and notifies if the episode was successfully found or not.
      */
-    static func ensureEpisodeExists(podcast: Podcast, episodeUuid: String, completion: ((Bool) -> Void)?) {
-        let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
-
-        if episode == nil {
-            ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-                guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) != nil else {
-                    completion?(false)
-                    return
-                }
-
-                completion?(true)
-            }
+    private static func ensureEpisodeExists(podcast: Podcast, episodeUuid: String, promise: @escaping (Result<Podcast?, ClientError>) -> Void) {
+        guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) == nil else {
+            promise(.success(podcast))
             return
         }
-        completion?(true)
+
+        ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
+            guard DataManager.sharedManager.findEpisode(uuid: episodeUuid) != nil else {
+                promise(.failure(.episodeNotFound))
+                return
+            }
+
+            promise(.success(podcast))
+        }
     }
 }
