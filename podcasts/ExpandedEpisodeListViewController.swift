@@ -12,6 +12,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
     private let episodes: [DiscoverEpisode]
     private let headerView: EpisodeListHeaderView
     private var cancellables = Set<AnyCancellable>()
+    public var delegate: DiscoverDelegate? = nil
 
     init(podcastCollection: PodcastCollection) {
         self.podcastCollection = podcastCollection
@@ -66,6 +67,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         cell.viewModel.listId = podcastCollection.listId
         cell.viewModel.discoverEpisode = episodes[indexPath.row]
         cell.colors = podcastCollection.colors
+        cell.delegate = delegate
         return cell
     }
 
@@ -87,7 +89,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
                 guard let podcast = podcast else {
-                    SJUIUtils.showAlert(title: L10n.error, message: L10n.discoverFeaturedEpisodeErrorNotFound, from: self)
+                    self?.delegate?.failedToLoadEpisode()
                     return
                 }
                 self?.show(discoverEpisode: episode, podcast: podcast)

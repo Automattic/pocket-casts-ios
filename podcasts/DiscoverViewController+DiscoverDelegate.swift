@@ -53,6 +53,7 @@ extension DiscoverViewController: DiscoverDelegate {
         }
 
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)
+        listView.delegate = self
         navController()?.pushViewController(listView, animated: true)
     }
 

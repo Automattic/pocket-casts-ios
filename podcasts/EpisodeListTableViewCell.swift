@@ -7,6 +7,7 @@ class EpisodeListTableViewCell: UITableViewCell {
     static let nib: UINib = .init(nibName: String(describing: EpisodeListTableViewCell.self), bundle: Bundle(for: EpisodeListTableViewCell.self))
 
     public let viewModel = DiscoverEpisodeViewModel()
+    public var delegate: DiscoverDelegate? = nil
     private var cancellables = Set<AnyCancellable>()
 
     @IBOutlet var episodeTitle: ThemeableLabel!
@@ -96,7 +97,9 @@ class EpisodeListTableViewCell: UITableViewCell {
     }
 
     @IBAction func didSelectPlayButton(_ sender: Any) {
-        viewModel.didSelectPlayEpisode()
+        viewModel.didSelectPlayEpisode() { [weak self] success in
+            self?.delegate?.failedToLoadEpisode()
+        }
     }
 
     private func updateTheme() {
