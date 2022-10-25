@@ -10,6 +10,7 @@ struct ListeningTimeStory: StoryView {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                DynamicBackgroundView(podcast: Podcast.previewPodcast())
 
                 VStack {
                     Text("In 2022, you spent \(listeningTime.localizedTimeDescription ?? "") listening to podcasts")
@@ -74,7 +75,6 @@ struct ListeningTimeStory: StoryView {
                 }
             }
         }
-        .background(UIColor(hex: "#DB5E59").color)
     }
 
     func androidValuesToIOSTransform() -> CGAffineTransform {
