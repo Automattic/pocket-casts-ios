@@ -1345,6 +1345,7 @@
 		C7AF578D289C60CA0089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578E289C60CD0089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
+		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
 		C7C4CAEB28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
 		C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */; };
 		C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
@@ -2871,6 +2872,7 @@
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinator.swift; sourceTree = "<group>"; };
 		C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts Watch App Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsLoggingAdapter.swift; sourceTree = "<group>"; };
 		C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksSubscriptionData.swift; sourceTree = "<group>"; };
@@ -5961,6 +5963,7 @@
 				BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */,
 				BD9FF6281B8EFC6F009F075E /* DiscoverSummaryProtocol.swift */,
 				40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */,
+				C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -7376,6 +7379,7 @@
 				BD96575E2469053600873BB5 /* GoogleCastCell.swift in Sources */,
 				8B9D459C28F9A6260034219E /* TopFivePodcastsStory.swift in Sources */,
 				BDD3018C1EFB94C9004A9972 /* WatchManager.swift in Sources */,
+				C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */,
 				BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */,
 				40B1613822F3B66900759E41 /* ThemeableTextField.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
