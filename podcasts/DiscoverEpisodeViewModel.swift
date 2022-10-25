@@ -90,15 +90,20 @@ class DiscoverEpisodeViewModel: ObservableObject {
         AnalyticsHelper.listImpression(listId: listId)
     }
 
-    public func didSelectPlayEpisode() {
+    public func didSelectPlayEpisode(completion: ((Bool) -> Void)? = nil) {
         guard let episodeUuid = discoverEpisode?.uuid,
               let podcastUuid = discoverEpisode?.podcastUuid else { return }
 
         let listId = discoverItem?.uuid ?? listId
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
-            .sink { [unowned self] _ in
+            .sink { [weak self] podcast in
                 // We don't need the fetched podcast but we want to make sure the episode is available.
+                guard podcast != nil, let self else {
+                    self?.delegate?.failedToLoadEpisode()
+                    completion?(false)
+                    return
+                }
 
                 if self.playbackManager.isActivelyPlaying(episodeUuid: episodeUuid) {
                     PlaybackActionHelper.pause()
@@ -108,6 +113,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
                     }
                     PlaybackActionHelper.play(episode: baseEpisode, podcastUuid: podcastUuid)
                 }
+                completion?(true)
             }
             .store(in: &cancellables)
     }
