@@ -67,7 +67,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         cell.viewModel.listId = podcastCollection.listId
         cell.viewModel.discoverEpisode = episodes[indexPath.row]
         cell.colors = podcastCollection.colors
-        cell.delegate = delegate
+        cell.viewModel.delegate = delegate
         return cell
     }
 
