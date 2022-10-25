@@ -86,7 +86,10 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
-                guard let podcast = podcast else { return }
+                guard let podcast = podcast else {
+                    SJUIUtils.showAlert(title: L10n.error, message: L10n.discoverFeaturedEpisodeErrorNotFound, from: self)
+                    return
+                }
                 self?.show(discoverEpisode: episode, podcast: podcast)
             }
             .store(in: &cancellables)
