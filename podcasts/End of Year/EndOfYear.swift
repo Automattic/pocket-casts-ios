@@ -8,6 +8,14 @@ struct EndOfYear {
         FeatureFlag.endOfYear && DataManager.sharedManager.isEligibleForEndOfYearStories()
     }
 
+    var presentationMode: UIModalPresentationStyle {
+        UIDevice.current.isiPad() ? .formSheet : .fullScreen
+    }
+
+    var storiesPadding: EdgeInsets {
+        .init(top: 0, leading: 0, bottom: UIDevice.current.isiPad() ? 5 : 0, trailing: 0)
+    }
+
     func showPrompt(in viewController: UIViewController) {
         guard Self.isEligible else {
             return
@@ -21,9 +29,15 @@ struct EndOfYear {
             return
         }
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()))
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
-        storiesViewController.modalPresentationStyle = .fullScreen
+        storiesViewController.modalPresentationStyle = presentationMode
+
+        // Define the size of the stories view for iPad
+        if UIDevice.current.isiPad() {
+            storiesViewController.preferredContentSize = .init(width: 370, height: 693)
+        }
+
         viewController.present(storiesViewController, animated: true, completion: nil)
     }
 
