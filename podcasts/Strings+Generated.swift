@@ -604,6 +604,8 @@ internal enum L10n {
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Let's celebrate your year of listening...
+  internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022

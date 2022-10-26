@@ -3290,3 +3290,6 @@
 
 /* End of Year card description that appears under Profile */
 "eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
+
+/* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
+"eoy_story_intro_title" = "Let's celebrate your year of listening...";
