@@ -640,6 +640,16 @@ class DatabaseHelper {
                 return
             }
         }
+        if schemaVersion < 41 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN filterSubscribed INTEGER NOT NULL DEFAULT 1;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN filterNotSubscribed INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 41
+            } catch {
+                failedAt(41)
+                return
+            }
+        }
 
         db.commit()
     }

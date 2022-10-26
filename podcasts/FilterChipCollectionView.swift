@@ -16,8 +16,8 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     var cellBackgroundIsPrimaryUI01 = false
     private static let chipCellIdentifier = "EpisodeFilterChipCell"
 
-    private enum ChipType: Int { case podcast, episode, downloadStatus, mediaType, releaseDate, starred, duration }
-    private static let chipData: [ChipType] = [.podcast, .episode, .releaseDate, .duration, .downloadStatus, .mediaType, .starred]
+    private enum ChipType: Int { case podcast, episode, downloadStatus, mediaType, releaseDate, starred, duration, subscriptionStatus }
+    private static let chipData: [ChipType] = [.podcast, .episode, .releaseDate, .duration, .downloadStatus, .mediaType, .starred, .subscriptionStatus]
     override func awakeFromNib() {
         super.awakeFromNib()
         registerCollectionViewCell()
@@ -90,6 +90,10 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             let filterSettingsVC = EpisodeFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = filter
             chipActionDelegate?.presentingViewController().present(SJUIUtils.navController(for: filterSettingsVC), animated: true, completion: nil)
+        case .subscriptionStatus:
+            let filterSettingsVC = SubscriptionStatusFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
+            filterSettingsVC.filterToEdit = filter
+            chipActionDelegate?.presentingViewController().present(SJUIUtils.navController(for: filterSettingsVC), animated: true, completion: nil)
         }
     }
 
@@ -150,6 +154,14 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             returnedString = filterLengthToTime(filterHours: filter.filterHours)
         case .starred:
             returnedString = L10n.statusStarred
+        case .subscriptionStatus:
+            if filter.filterSubscribed, !filter.filterNotSubscribed {
+                returnedString = L10n.statusSubscribed
+            } else if !filter.filterSubscribed, filter.filterNotSubscribed {
+                returnedString = L10n.statusNotSubscribed
+            } else {
+                returnedString = L10n.filterSubscriptionStatusAll
+            }
         }
         return returnedString
     }
@@ -172,6 +184,8 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             result = filter.filterStarred
         case .duration:
             result = filter.filterDuration
+        case .subscriptionStatus:
+            result = filter.filterNotSubscribed // remain unselected if only subscribed is true, since that's the default state (not 'All')
         }
         return result
     }

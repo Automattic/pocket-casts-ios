@@ -26,6 +26,8 @@ public class EpisodeFilter: NSObject {
     @objc public var filterDuration = false
     @objc public var longerThan = 0 as Int32
     @objc public var shorterThan = 0 as Int32
+    @objc public var filterSubscribed = true
+    @objc public var filterNotSubscribed = false
     @objc public var syncStatus = 0 as Int32
     @objc public var wasDeleted = false
 

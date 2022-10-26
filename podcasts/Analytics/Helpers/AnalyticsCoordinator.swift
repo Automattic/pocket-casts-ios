@@ -37,6 +37,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case releaseDate = "release_date"
     case siri
     case starred
+    case subscriptionStatus = "subscription_status"
     case sync
     case upNext = "up_next"
     case userEpisode = "user_episode"
