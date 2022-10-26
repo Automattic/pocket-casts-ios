@@ -12,8 +12,8 @@ final class DiscoverCoordinatorTests: XCTestCase {
         coordinator = DiscoverCoordinator(subscriptionData: subscriptionData)
     }
 
-    func testDoesNotDisplayWithPaidPlatforms() throws {
-        let item = try DiscoverItem.make(isSponsored: true)
+    func testDoesNotDisplayWithPaidPlatforms() {
+        let item = DiscoverItem.make(isSponsored: true)
         subscriptionData.mockHasActiveSubscription = true
 
         subscriptionData.mocksubscriptionPlatform = .iOS
@@ -26,24 +26,16 @@ final class DiscoverCoordinatorTests: XCTestCase {
         XCTAssertFalse(coordinator.shouldDisplay(item))
     }
 
-    func testDoesNotDisplayWithActiveSubscription() throws {
-        let item = try DiscoverItem.make(isSponsored: true)
-        subscriptionData.mockHasActiveSubscription = true
-        subscriptionData.mocksubscriptionPlatform = .iOS
-
-        XCTAssertFalse(coordinator.shouldDisplay(item))
-    }
-
-    func testDisplaysWithoutActiveSubscription() throws {
-        let item = try DiscoverItem.make(isSponsored: true)
+    func testDisplaysWithoutActiveSubscription() {
+        let item = DiscoverItem.make(isSponsored: true)
         subscriptionData.mockHasActiveSubscription = false
         subscriptionData.mocksubscriptionPlatform = .none
 
         XCTAssertTrue(coordinator.shouldDisplay(item))
     }
 
-    func testDisplaysNormalDiscoverItem() throws {
-        let item = try DiscoverItem.make(isSponsored: false)
+    func testDisplaysNormalDiscoverItem() {
+        let item = DiscoverItem.make(isSponsored: false)
         subscriptionData.mockHasActiveSubscription = true
         subscriptionData.mocksubscriptionPlatform = .web
 
@@ -66,10 +58,10 @@ private class MockSubscriptionHelper: SubscriptionHelper {
 }
 
 private extension DiscoverItem {
-    static func make(isSponsored: Bool) throws -> DiscoverItem {
+    static func make(isSponsored: Bool) -> DiscoverItem {
         let decoder = JSONDecoder()
 
         let data = Data("{\"sponsored\": \(isSponsored), \"regions\": [\"us\"]}".utf8)
-        return try decoder.decode(DiscoverItem.self, from: data)
+        return try! decoder.decode(DiscoverItem.self, from: data)
     }
 }
