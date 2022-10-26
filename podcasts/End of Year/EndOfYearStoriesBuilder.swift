@@ -81,6 +81,10 @@ class EndOfYearStoriesBuilder {
                 stories.append(.longestEpisode)
             }
 
+            // TODO: the color of podcasts is downloaded when needed
+            // We need to check here for the ones missing the color
+            // and download it.
+
             continuation.resume(returning: (stories, data))
         }
     }
