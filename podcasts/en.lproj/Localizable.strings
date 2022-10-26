@@ -532,6 +532,9 @@
 /* Informative label letting the users know that the displayed episode is a featured episode. */
 "discover_featured_episode" = "FEATURED EPISODE";
 
+/* Error message informing the user that the episode they tapped could not be found, with instructions on how to fix the issue. */
+"discover_featured_episode_error_not_found" = "Featured podcast or episode not found. Make sure you are connected to the internet and try again.";
+
 /* Informative label letting the users know that the displayed podcast is a featured new podcast. */
 "discover_fresh_pick" = "FRESH PICK";
 
