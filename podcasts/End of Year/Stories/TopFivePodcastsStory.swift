@@ -7,20 +7,13 @@ struct TopFivePodcastsStory: StoryView {
 
     let duration: TimeInterval = 5.seconds
 
-    var backgroundColor: Color {
-        Color(podcasts.first?.bgColor() ?? UIColor.black)
-    }
-
-    var tintColor: Color {
-        .white
-    }
-
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
+                    Spacer()
                     Text(L10n.eoyStoryTopPodcasts)
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
@@ -28,43 +21,61 @@ struct TopFivePodcastsStory: StoryView {
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .foregroundColor(tintColor)
                         .padding(.bottom)
+                        .padding(.top, geometry.size.height * 0.05)
                     VStack() {
-                        ForEach(0 ..< podcasts.count, id: \.self) { x in
-                            HStack(spacing: 16) {
-                                Text("\(x + 1).")
-                                    .frame(width: 30)
-                                    .font(.system(size: 32, weight: .bold))
-                                    .foregroundColor(tintColor)
-                                ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[x].uuid, size: 280))
-                                    .frame(width: 76, height: 76)
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .cornerRadius(4)
-                                    .shadow(radius: 2, x: 0, y: 1)
-                                    .accessibilityHidden(true)
-                                VStack(alignment: .leading) {
-                                    Text(podcasts[x].title ?? "")
-                                        .lineLimit(2)
-                                        .font(.system(size: 22, weight: .heavy))
-                                        .foregroundColor(.white)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .minimumScaleFactor(0.01)
-                                    Text(podcasts[x].author ?? "").font(.system(size: 12, weight: .semibold))
-                                        .lineLimit(1)
-                                        .font(.system(size: geometry.size.height * 0.07, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .opacity(0.8)
-                                }
-                                Spacer()
-                            }
+                        ForEach(0...4, id: \.self) {
+                            topPodcastRow($0)
                         }
                     }
                     .padding(.leading, 40)
                     .padding(.trailing, 40)
+
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("logo_white")
+                            .padding(.bottom, 40)
+                        Spacer()
+                    }
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    func topPodcastRow(_ index: Int) -> some View {
+        HStack(spacing: 16) {
+            Text("\(index + 1).")
+                .frame(width: 30)
+                .font(.system(size: 22, weight: .bold))
+                .foregroundColor(.white)
+
+                if let podcast = podcasts[safe: index] {
+                    ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                        .frame(width: 65, height: 65)
+                        .modifier(PodcastCover())
+                } else {
+                    Rectangle()
+                        .frame(width: 65, height: 65)
+                }
+
+            VStack(alignment: .leading) {
+                Text(podcasts[safe: index]?.title ?? "")
+                    .lineLimit(2)
+                    .font(.system(size: 22, weight: .heavy))
+                    .foregroundColor(.white)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .minimumScaleFactor(0.01)
+                Text(podcasts[safe: index]?.author ?? "").font(.system(size: 12, weight: .semibold))
+                    .lineLimit(1)
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(.white)
+                    .opacity(0.8)
+            }
+            Spacer()
+        }
+        .opacity(podcasts[safe: index] != nil ? 1 : 0)
     }
 }
 
