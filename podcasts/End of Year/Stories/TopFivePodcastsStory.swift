@@ -20,7 +20,7 @@ struct TopFivePodcastsStory: StoryView {
             backgroundColor.ignoresSafeArea()
 
             VStack {
-                Text("Your Top Podcasts")
+                Text(L10n.eoyStoryTopPodcasts)
                     .font(.system(size: 22, weight: .bold))
                     .foregroundColor(tintColor)
                     .padding(.bottom)
