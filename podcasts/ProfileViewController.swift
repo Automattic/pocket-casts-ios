@@ -172,7 +172,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             promoRedeemedMessage = nil
         }
 
-        if FeatureFlag.endOfYear {
+        if EndOfYear.isEligible {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
     }
@@ -420,7 +420,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if FeatureFlag.endOfYear && indexPath.row == 0 {
+        if EndOfYear.isEligible && indexPath.row == 0 {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -468,7 +468,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
         }
 
-        if FeatureFlag.endOfYear {
+        if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
         }
 

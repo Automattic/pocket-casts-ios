@@ -9,6 +9,71 @@ class EndOfYearDataManager {
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
                                            """
 
+    /// If the user is eligible to see End of Year stats
+    ///
+    /// All it's needed is a single episode listened for more than 30 minutes.
+    func isEligible(dbQueue: FMDatabaseQueue) -> Bool {
+        var isEligible = false
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT playedUpTo from \(DataManager.episodeTableName)
+                            WHERE
+                            playedUpTo > 1800 AND
+                            \(listenedEpisodesThisYear)
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    isEligible = true
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.listeningTime error: \(error)")
+            }
+        }
+
+        return isEligible
+    }
+
+    /// Check if the user has the full listening history or not.
+    ///
+    /// This is not 100% accurate. In order to determine if the user
+    /// has the full history we check for their latest episode listened.
+    /// If this episode was interacted in 2021 or before, we assume they
+    /// have the full history.
+    /// If this is not true, we check for the total number of items of
+    /// this year. If the number is less than or equal 100, we assume they
+    /// have the full history.
+    func isFullListeningHistory(dbQueue: FMDatabaseQueue) -> Bool {
+        var isFullListeningHistory = false
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT * from \(DataManager.episodeTableName)
+                            WHERE
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
+                            LIMIT 1
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    isFullListeningHistory = true
+                } else {
+                    isFullListeningHistory = numberOfItemsInListeningHistory(db: db) <= 100
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
+            }
+        }
+
+        return isFullListeningHistory
+    }
+
     /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
@@ -159,6 +224,31 @@ class EndOfYearDataManager {
         }
 
         return episode
+    }
+
+    private func numberOfItemsInListeningHistory(db: FMDatabase) -> Int {
+        var numberOfItemsInListeningHistory = 0
+
+        do {
+            let query = """
+                        SELECT COUNT(*) as total from \(DataManager.episodeTableName)
+                        WHERE
+                        \(listenedEpisodesThisYear)
+                        LIMIT 1
+                        """
+            let resultSet = try db.executeQuery(query, values: nil)
+            defer { resultSet.close() }
+
+            if resultSet.next() {
+                numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
+            } else {
+
+            }
+        } catch {
+            FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
+        }
+
+        return numberOfItemsInListeningHistory
     }
 
 }

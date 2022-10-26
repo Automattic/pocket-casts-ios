@@ -902,6 +902,14 @@ public extension DataManager {
 // MARK: - End of Year stats
 
 public extension DataManager {
+    func isEligibleForEndOfYearStories() -> Bool {
+        endOfYearManager.isEligible(dbQueue: dbQueue)
+    }
+
+    func isFullListeningHistory() -> Bool {
+        endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
+    }
+
     func listeningTime() -> Double? {
         endOfYearManager.listeningTime(dbQueue: dbQueue)
     }

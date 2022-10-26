@@ -29,7 +29,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = profileTabBarItem
 
-        if FeatureFlag.endOfYear && Settings.showBadgeFor2022EndOfYear {
+        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
 
@@ -402,7 +402,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
 
-        if FeatureFlag.endOfYear {
+        if EndOfYear.isEligible {
             // Change badge colors
             [appearance.stackedLayoutAppearance,
              appearance.inlineLayoutAppearance,
