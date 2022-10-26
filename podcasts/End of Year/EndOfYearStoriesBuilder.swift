@@ -26,7 +26,7 @@ class EndOfYearStoriesBuilder {
         self.dataManager = dataManager
     }
 
-    // Call this method to build the list of stories and the data provider
+    /// Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
             // Listening time
