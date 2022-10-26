@@ -39,23 +39,13 @@ struct ListeningTimeStory: StoryView {
                 VStack {
                     Spacer()
 
-                    GeometryReader { coversGeometry in
-                        HStack {
-                            leftPodcastCover
-                                .frame(width: 140, height: 140)
-                                .modifier(PodcastCover())
-
-                            ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
-                                .frame(width: 140, height: 140)
-                                .modifier(PodcastCover())
-
-                            rightPodcastCover
-                                .modifier(PodcastCover())
-                                .frame(width: 140, height: 140)
+                    HStack {
+                        ForEach([1, 0, 2], id: \.self) {
+                            podcastCover($0)
                         }
-                        .modifier(PodcastCoverPerspective())
-                        .position(x: coversGeometry.size.width / 2, y: geometry.size.height - 230)
                     }
+                    .modifier(PodcastCoverPerspective())
+                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
             }
 
@@ -72,21 +62,16 @@ struct ListeningTimeStory: StoryView {
     }
 
     @ViewBuilder
-    var leftPodcastCover: some View {
-        if let podcast = podcasts[safe: 1] {
-            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-        } else {
-            EmptyView()
+    func podcastCover(_ index: Int) -> some View {
+        Group {
+            if let podcast = podcasts[safe: index] {
+                ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+            } else {
+                Rectangle().opacity(0)
+            }
         }
-    }
-
-    @ViewBuilder
-    var rightPodcastCover: some View {
-        if let podcast = podcasts[safe: 2] {
-            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-        } else {
-            EmptyView()
-        }
+        .modifier(PodcastCover())
+        .frame(width: 140, height: 140)
     }
 }
 
