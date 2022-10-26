@@ -46,7 +46,7 @@ struct ListenedNumbersStory: StoryView {
                     }
                     .modifier(PodcastCoverPerspective())
                     .padding(.leading, -(geometry.size.width * 0.2))
-                    .padding(.top, geometry.size.width * 0.1)
+                    .padding(.top, geometry.size.width * 0.08)
 
                     Spacer()
                 }
@@ -69,7 +69,7 @@ struct ListenedNumbersStory: StoryView {
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .padding(.bottom, geometry.size.height * 0.2)
+                        .padding(.bottom, geometry.size.height * 0.18)
                 }
                 .padding(.trailing, 40)
                 .padding(.leading, 40)
