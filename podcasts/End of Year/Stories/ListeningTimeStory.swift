@@ -15,7 +15,7 @@ struct ListeningTimeStory: StoryView {
                 DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
-                    Text("In 2022, you spent \(listeningTime.localizedTimeDescription ?? "") listening to podcasts")
+                    Text(L10n.eoyStoryListenedTo(listeningTime.localizedTimeDescription ?? ""))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.white)
