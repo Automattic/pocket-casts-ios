@@ -614,6 +614,12 @@ internal enum L10n {
   }
   /// Let's take a look at some of your favorites...
   internal static var eoyStoryListenedToCategoriesSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_categories_subtitle") }
+  /// You listened to %1$@ different podcasts and %2$@ episodes
+  internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
+  }
+  /// But there was one that you kept coming back to...
+  internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
