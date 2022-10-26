@@ -2,59 +2,57 @@ import SwiftUI
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int = 9
+    var numberOfStories: Int {
+        stories.count
+    }
 
-    var listeningTime: Double?
+    var stories: [EndOfYearStory] = []
 
-    var listenedCategories: [ListenedCategory] = []
-
-    var listenedNumbers: ListenedNumbers?
-
-    var topPodcasts: [TopPodcast] = []
-
-    var longestEpisode: Episode?
+    var data: EndOfYearStoriesData!
 
     func story(for storyNumber: Int) -> any StoryView {
-        switch storyNumber {
-        case 0:
+        switch stories[storyNumber] {
+        case .intro:
             return IntroStory()
-        case 1:
-            return ListeningTimeStory(listeningTime: listeningTime!)
-        case 2:
-            return ListenedCategoriesStory(listenedCategories: listenedCategories)
-        case 3:
-            return TopListenedCategories(listenedCategories: listenedCategories)
-        case 4:
-            return ListenedNumbersStory(listenedNumbers: listenedNumbers!)
-        case 5:
-            return TopOnePodcastStory(topPodcast: topPodcasts[0])
-        case 6:
-            return TopFivePodcastsStory(podcasts: topPodcasts.map { $0.podcast })
-        case 7:
-            return LongestEpisodeStory(episode: longestEpisode!, podcast: longestEpisode!.parentPodcast()!)
-        default:
+        case .listeningTime:
+            return ListeningTimeStory(listeningTime: data.listeningTime)
+        case .listenedCategories:
+            return ListenedCategoriesStory(listenedCategories: data.listenedCategories)
+        case .topFiveCategories:
+            return TopListenedCategories(listenedCategories: data.listenedCategories)
+        case .listenedNumbers:
+            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers)
+        case .topOnePodcast:
+            return TopOnePodcastStory(topPodcast: data.topPodcasts[0])
+        case .topFivePodcasts:
+            return TopFivePodcastsStory(podcasts: data.topPodcasts.map { $0.podcast })
+        case .longestEpisode:
+            return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+        case .epilogue:
             return EpilogueStory()
         }
     }
 
     /// The only interactive view we have is the last one, with the replay button
     func interactiveView(for storyNumber: Int) -> AnyView {
-        storyNumber == 8 ? AnyView(EpilogueStory()) : AnyView(EmptyView())
+        switch stories[storyNumber] {
+        case .epilogue:
+            return AnyView(EpilogueStory())
+        default:
+            return AnyView(EmptyView())
+        }
     }
 
     func isReady() async -> Bool {
-        await withCheckedContinuation { continuation in
-            self.listeningTime = DataManager.sharedManager.listeningTime()
+        (stories, data) = await EndOfYearStoriesBuilder().build()
 
-            self.listenedCategories = DataManager.sharedManager.listenedCategories()
+        if !stories.isEmpty {
+            stories.insert(.intro, at: 0)
+            stories.append(.epilogue)
 
-            self.listenedNumbers = DataManager.sharedManager.listenedNumbers()
-
-            self.topPodcasts = DataManager.sharedManager.topPodcasts()
-
-            self.longestEpisode = DataManager.sharedManager.longestEpisode()
-
-            continuation.resume(returning: true)
+            return true
         }
+
+        return false
     }
 }
