@@ -7,12 +7,28 @@ struct ListenedNumbersStory: StoryView {
     let listenedNumbers: ListenedNumbers
 
     var body: some View {
-        ZStack {
-            Color.orange
+        GeometryReader { geometry in
+            ZStack {
+                Color.orange
 
-            Text("You listened to \(listenedNumbers.numberOfPodcasts) different podcasts and \(listenedNumbers.numberOfEpisodes) episodes, but there was one that you kept coming back to...")
-                .foregroundColor(.white)
-                .padding()
+                VStack {
+                    Text(L10n.eoyStoryListenedToNumbers("\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
+                        .foregroundColor(.white)
+                        .font(.system(size: 25, weight: .heavy))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .frame(maxHeight: geometry.size.height * 0.12)
+                        .minimumScaleFactor(0.01)
+
+                    Text(L10n.eoyStoryListenedToNumbersSubtitle)
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .frame(maxHeight: geometry.size.height * 0.07)
+                        .minimumScaleFactor(0.01)
+                        .opacity(0.8)
+                }
+            }
         }
     }
 }
