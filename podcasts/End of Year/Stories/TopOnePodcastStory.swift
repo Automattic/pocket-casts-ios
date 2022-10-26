@@ -64,6 +64,17 @@ struct TopOnePodcastStory: StoryView {
                     .padding(.trailing, 40)
                 }
             }
+            .padding(.top, -(0.05 * geometry.size.height))
+
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Image("logo_white")
+                        .padding(.bottom, 40)
+                    Spacer()
+                }
+            }
         }
     }
 }
