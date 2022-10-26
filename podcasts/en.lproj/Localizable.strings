@@ -3308,3 +3308,9 @@
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
 "eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
+
+/* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
+"eoy_story_top_podcast" = "Your top podcast was %1$@ by %2$@";
+
+/* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
+"eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";

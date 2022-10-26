@@ -16,30 +16,32 @@ struct TopOnePodcastStory: StoryView {
     }
 
     var body: some View {
-        ZStack {
-            backgroundColor.ignoresSafeArea()
+        GeometryReader { geometry in
+            ZStack {
+                backgroundColor.ignoresSafeArea()
 
-            VStack {
                 VStack {
-                    ImageView(ServerHelper.imageUrl(podcastUuid: topPodcast.podcast.uuid, size: 280))
-                        .frame(width: 230, height: 230)
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(4)
-                        .shadow(radius: 2, x: 0, y: 1)
-                        .accessibilityHidden(true)
-                    Text("Your top podcast was \(topPodcast.podcast.title ?? "") by \(topPodcast.podcast.author ?? "")")
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(tintColor)
-                        .padding(.top)
-                    Text("You listened to \(topPodcast.numberOfPlayedEpisodes) episodes for a total of \(topPodcast.totalPlayedTime.localizedTimeDescription ?? "")")
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(tintColor)
-                        .padding(.top)
+                    VStack {
+                        ImageView(ServerHelper.imageUrl(podcastUuid: topPodcast.podcast.uuid, size: 280))
+                            .frame(width: 230, height: 230)
+                            .aspectRatio(1, contentMode: .fit)
+                            .cornerRadius(4)
+                            .shadow(radius: 2, x: 0, y: 1)
+                            .accessibilityHidden(true)
+                        Text(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""))
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundColor(tintColor)
+                            .padding(.top)
+                        Text(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.localizedTimeDescription ?? ""))
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(tintColor)
+                            .padding(.top)
+                    }
+                    .padding(.leading, 40)
+                    .padding(.trailing, 40)
                 }
-                .padding(.leading, 40)
-                .padding(.trailing, 40)
             }
         }
     }
