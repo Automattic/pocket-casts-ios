@@ -61,8 +61,7 @@ struct ListeningTimeStory: StoryView {
                             .shadow(radius: 2, x: 0, y: 1)
                             .accessibilityHidden(true)
                     }
-                    .transformEffect(androidValuesToIOSTransform())
-                    .rotationEffect(.init(degrees: -30))
+                    .modifier(PodcastsCoverPerspective())
                     .position(x: 170, y: geometry.size.height - 230)
                 }
             }
@@ -96,15 +95,22 @@ struct ListeningTimeStory: StoryView {
             EmptyView()
         }
     }
+}
 
-    func androidValuesToIOSTransform() -> CGAffineTransform {
-
-        let androidValues: [CGFloat] = [0.89, 0, 0.58, 1, 0, 0]
+/// Apply a perspective to the podcasts cover
+struct PodcastsCoverPerspective: ViewModifier {
+    private var transform: CGAffineTransform {
+        let values: [CGFloat] = [0.89, 0, 0.58, 1, 0, 0]
         return CGAffineTransform(
-            a: androidValues[0], b: androidValues[1],
-            c: androidValues[2], d: androidValues[3],
+            a: values[0], b: values[1],
+            c: values[2], d: values[3],
             tx: 0, ty: 0
         )
+    }
+    func body(content: Content) -> some View {
+        content
+            .transformEffect(transform)
+            .rotationEffect(.init(degrees: -30))
     }
 }
 
