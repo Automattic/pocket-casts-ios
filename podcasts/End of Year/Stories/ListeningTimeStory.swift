@@ -39,21 +39,23 @@ struct ListeningTimeStory: StoryView {
                 VStack {
                     Spacer()
 
-                    HStack {
-                        leftPodcastCover
-                            .frame(width: 140, height: 140)
-                            .modifier(PodcastCover())
+                    GeometryReader { coversGeometry in
+                        HStack {
+                            leftPodcastCover
+                                .frame(width: 140, height: 140)
+                                .modifier(PodcastCover())
 
-                        ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
-                            .frame(width: 140, height: 140)
-                            .modifier(PodcastCover())
+                            ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
+                                .frame(width: 140, height: 140)
+                                .modifier(PodcastCover())
 
-                        rightPodcastCover
-                            .modifier(PodcastCover())
-                            .frame(width: 140, height: 140)
+                            rightPodcastCover
+                                .modifier(PodcastCover())
+                                .frame(width: 140, height: 140)
+                        }
+                        .modifier(PodcastCoverPerspective())
+                        .position(x: coversGeometry.size.width / 2, y: geometry.size.height - 230)
                     }
-                    .modifier(PodcastCoverPerspective())
-                    .position(x: 170, y: geometry.size.height - 230)
                 }
             }
 
