@@ -97,12 +97,7 @@ class SingleEpisodeViewController: UIViewController {
 
     @IBAction func didSelectPlay(_ sender: Any) {
         playButton.isPlaying = !playButton.isPlaying
-        viewModel.didSelectPlayEpisode() { [weak self] success in
-            guard success else {
-                self?.playButton.isPlaying = false
-                return
-            }
-        }
+        viewModel.didSelectPlayEpisode(from: playButton)
     }
 
     @objc func didSelectEpisode(_ sender: Any) {
