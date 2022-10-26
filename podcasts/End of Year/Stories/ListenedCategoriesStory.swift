@@ -16,23 +16,24 @@ struct ListenedCategoriesStory: StoryView {
 
                 VStack {
                     ZStack {
+                        let size = geometry.size.width * 0.43
                         ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[2].uuid, size: 280))
                             .modifier(PodcastCover())
-                            .frame(width: 200, height: 200)
+                            .frame(width: size, height: size)
                             .modifier(PodcastCoverPerspective())
                             .padding(.leading, -60)
-                            .padding(.top, 140)
+                            .padding(.top, (size * 0.7))
 
                     ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[1].uuid, size: 280))
                         .modifier(PodcastCover())
-                        .frame(width: 200, height: 200)
+                        .frame(width: size, height: size)
                         .modifier(PodcastCoverPerspective())
                         .padding(.leading, -60)
-                        .padding(.top, 70)
+                        .padding(.top, (size * 0.35))
 
                         ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
                             .modifier(PodcastCover())
-                            .frame(width: 200, height: 200)
+                            .frame(width: size, height: size)
                             .modifier(PodcastCoverPerspective())
                             .padding(.leading, -60)
                     }
