@@ -177,6 +177,46 @@ struct RoundedButton: ViewModifier {
     }
 }
 
+/// A dark button filled with a light color
+struct RoundedDarkButton: ViewModifier {
+    @EnvironmentObject var theme: Theme
+
+    func body(content: Content) -> some View {
+        HStack {
+            Spacer()
+            content
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(ThemeColor.primaryUi01(for: theme.activeTheme).color)
+            Spacer()
+        }
+        .padding()
+        .background(ThemeColor.primaryText01(for: theme.activeTheme).color)
+        .cornerRadius(10)
+        .frame(height: 44)
+    }
+}
+
+/// A button that contains a stroke
+struct StrokeButton: ViewModifier {
+    @EnvironmentObject var theme: Theme
+
+    func body(content: Content) -> some View {
+        HStack {
+            Spacer()
+            content
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            Spacer()
+        }
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: 2)
+        )
+        .frame(height: 44)
+    }
+}
+
 struct NavButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
     @Environment(\.isEnabled) private var isEnabled: Bool
