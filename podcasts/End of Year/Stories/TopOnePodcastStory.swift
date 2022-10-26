@@ -22,12 +22,28 @@ struct TopOnePodcastStory: StoryView {
 
                 VStack {
                     VStack {
-                        ImageView(ServerHelper.imageUrl(podcastUuid: topPodcast.podcast.uuid, size: 280))
-                            .frame(width: 230, height: 230)
-                            .aspectRatio(1, contentMode: .fit)
-                            .cornerRadius(4)
-                            .shadow(radius: 2, x: 0, y: 1)
-                            .accessibilityHidden(true)
+                        ZStack {
+                            let size = geometry.size.width * 0.45
+                            Rectangle().frame(width: size, height: size)
+                                .foregroundColor(ColorManager.darkThemeTintForPodcast(topPodcast.podcast).color)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                                .padding(.top, (size * 0.7))
+
+                            Rectangle().frame(width: size, height: size)
+                                .foregroundColor(ColorManager.lightThemeTintForPodcast(topPodcast.podcast).color)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                                .padding(.top, (size * 0.35))
+
+                            ImageView(ServerHelper.imageUrl(podcastUuid: topPodcast.podcast.uuid, size: 280))
+                                .frame(width: size, height: size)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                        }
 
                         Text(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""))
                             .foregroundColor(.white)
