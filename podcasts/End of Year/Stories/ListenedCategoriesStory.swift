@@ -7,35 +7,22 @@ struct ListenedCategoriesStory: StoryView {
 
     let listenedCategories: [ListenedCategory]
 
-    let podcasts: [Podcast]
-
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
+                DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast)
 
                 VStack {
                     ZStack {
                         let size = geometry.size.width * 0.43
-                        ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[2].uuid, size: 280))
-                            .modifier(PodcastCover())
-                            .frame(width: size, height: size)
-                            .modifier(PodcastCoverPerspective())
-                            .padding(.leading, -60)
-                            .padding(.top, (size * 0.7))
 
-                    ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[1].uuid, size: 280))
-                        .modifier(PodcastCover())
-                        .frame(width: size, height: size)
-                        .modifier(PodcastCoverPerspective())
-                        .padding(.leading, -60)
-                        .padding(.top, (size * 0.35))
-
-                        ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
-                            .modifier(PodcastCover())
-                            .frame(width: size, height: size)
-                            .modifier(PodcastCoverPerspective())
-                            .padding(.leading, -60)
+                        ForEach([2, 1, 0], id: \.self) {
+                            podcastCover($0)
+                                .frame(width: size, height: size)
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                                .padding(.top, (size * CGFloat($0) * 0.35))
+                        }
                     }
 
                     VStack {
@@ -72,10 +59,22 @@ struct ListenedCategoriesStory: StoryView {
             }
         }
     }
+
+    @ViewBuilder
+    func podcastCover(_ index: Int) -> some View {
+        Group {
+            if let podcast = listenedCategories[safe: index]?.mostListenedPodcast {
+                ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+            } else {
+                Rectangle().opacity(0.1)
+            }
+        }
+        .modifier(PodcastCover())
+    }
 }
 
 struct ListenedCategoriesStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListenedCategoriesStory(listenedCategories: [], podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        ListenedCategoriesStory(listenedCategories: [])
     }
 }

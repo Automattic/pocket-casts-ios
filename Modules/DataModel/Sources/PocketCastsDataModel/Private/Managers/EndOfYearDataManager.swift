@@ -106,6 +106,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
                                 SUM(playedUpTo) as totalPlayedTime,
+                                \(DataManager.podcastTableName).*,
                                 replace(IFNULL( nullif(substr(\(DataManager.podcastTableName).podcastCategory, 0, INSTR(\(DataManager.podcastTableName).podcastCategory, char(10))), '') , \(DataManager.podcastTableName).podcastCategory), CHAR(10), '') as category
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE \(DataManager.podcastTableName).uuid = \(DataManager.episodeTableName).podcastUuid and
