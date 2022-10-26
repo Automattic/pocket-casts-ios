@@ -62,9 +62,10 @@ class EndOfYearStoriesBuilder {
             }
 
             // Top podcasts
-            let topPodcasts = dataManager.topPodcasts()
+            let topPodcasts = dataManager.topPodcasts(limit: 10)
             if !topPodcasts.isEmpty {
-                data.topPodcasts = topPodcasts
+                data.topPodcasts = Array(topPodcasts.prefix(5))
+                data.randomPodcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
                 stories.append(.topOnePodcast)
             }
 
@@ -98,4 +99,6 @@ class EndOfYearStoriesData {
     var longestEpisode: Episode!
 
     var longestEpisodePodcast: Podcast!
+
+    var randomPodcasts: [Podcast] = []
 }
