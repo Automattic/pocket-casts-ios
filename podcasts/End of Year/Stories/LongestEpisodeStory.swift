@@ -18,30 +18,65 @@ struct LongestEpisodeStory: StoryView {
     }
 
     var body: some View {
-        ZStack {
-            backgroundColor.ignoresSafeArea()
+        GeometryReader { geometry in
+            ZStack {
+                DynamicBackgroundView(podcast: podcast)
+
+                VStack {
+                    VStack {
+                        ZStack {
+                            let size = geometry.size.width * 0.45
+                            Rectangle().frame(width: size, height: size)
+                                .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                                .padding(.top, (size * 0.7))
+
+                            Rectangle().frame(width: size, height: size)
+                                .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                                .padding(.top, (size * 0.35))
+
+                            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                                .frame(width: size, height: size)
+                                .modifier(PodcastCover())
+                                .modifier(PodcastCoverPerspective())
+                                .padding(.leading, -60)
+                        }
+
+                        Text(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""))
+                            .foregroundColor(.white)
+                            .font(.system(size: 25, weight: .heavy))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .frame(maxHeight: geometry.size.height * 0.12)
+                            .minimumScaleFactor(0.01)
+                            .padding(.top)
+                        Text(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""))
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .frame(maxHeight: geometry.size.height * 0.07)
+                            .minimumScaleFactor(0.01)
+                            .opacity(0.8)
+                    }
+                    .padding(.leading, 40)
+                    .padding(.trailing, 40)
+                }
+            }
+            .padding(.top, -(0.05 * geometry.size.height))
 
             VStack {
-                VStack {
-                    ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-                        .frame(width: 230, height: 230)
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(4)
-                        .shadow(radius: 2, x: 0, y: 1)
-                        .accessibilityHidden(true)
-                    Text(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""))
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(tintColor)
-                        .padding(.top)
-                    Text(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""))
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(tintColor)
-                        .padding(.top)
+                Spacer()
+                HStack {
+                    Spacer()
+                    Image("logo_white")
+                        .padding(.bottom, 40)
+                    Spacer()
                 }
-                .padding(.leading, 40)
-                .padding(.trailing, 40)
             }
         }
     }
