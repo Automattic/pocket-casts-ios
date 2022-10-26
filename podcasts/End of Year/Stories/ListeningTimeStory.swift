@@ -42,26 +42,17 @@ struct ListeningTimeStory: StoryView {
                     HStack {
                         leftPodcastCover
                             .frame(width: 140, height: 140)
-                            .aspectRatio(1, contentMode: .fit)
-                            .cornerRadius(4)
-                            .shadow(radius: 2, x: 0, y: 1)
-                            .accessibilityHidden(true)
+                            .modifier(PodcastCover())
 
                         ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
                             .frame(width: 140, height: 140)
-                            .aspectRatio(1, contentMode: .fit)
-                            .cornerRadius(4)
-                            .shadow(radius: 2, x: 0, y: 1)
-                            .accessibilityHidden(true)
+                            .modifier(PodcastCover())
 
                         rightPodcastCover
+                            .modifier(PodcastCover())
                             .frame(width: 140, height: 140)
-                            .aspectRatio(1, contentMode: .fit)
-                            .cornerRadius(4)
-                            .shadow(radius: 2, x: 0, y: 1)
-                            .accessibilityHidden(true)
                     }
-                    .modifier(PodcastsCoverPerspective())
+                    .modifier(PodcastCoverPerspective())
                     .position(x: 170, y: geometry.size.height - 230)
                 }
             }
@@ -98,7 +89,7 @@ struct ListeningTimeStory: StoryView {
 }
 
 /// Apply a perspective to the podcasts cover
-struct PodcastsCoverPerspective: ViewModifier {
+struct PodcastCoverPerspective: ViewModifier {
     private var transform: CGAffineTransform {
         let values: [CGFloat] = [0.89, 0, 0.58, 1, 0, 0]
         return CGAffineTransform(
@@ -107,10 +98,22 @@ struct PodcastsCoverPerspective: ViewModifier {
             tx: 0, ty: 0
         )
     }
+
     func body(content: Content) -> some View {
         content
             .transformEffect(transform)
             .rotationEffect(.init(degrees: -30))
+    }
+}
+
+/// Apply shadow and radius to podcast cover
+struct PodcastCover: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .aspectRatio(1, contentMode: .fit)
+            .cornerRadius(4)
+            .shadow(radius: 2, x: 0, y: 1)
+            .accessibilityHidden(true)
     }
 }
 
