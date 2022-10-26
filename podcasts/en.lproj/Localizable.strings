@@ -3273,9 +3273,6 @@
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
 
-/* Title for the End of Year feature */
-"eoy_title" = "Your Year in Podcasts";
-
 /* A smaller title for the End of Year feature */
 "eoy_small_title" = "Year in Podcasts";
 
