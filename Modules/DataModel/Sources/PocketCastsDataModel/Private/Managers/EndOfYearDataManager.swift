@@ -45,7 +45,7 @@ class EndOfYearDataManager {
     /// If this episode was interacted in 2021 or before, we assume they
     /// have the full history.
     /// If this is not true, we check for the total number of items of
-    /// this year. If the number is small or equal 100, we assume they
+    /// this year. If the number is less than or equal 100, we assume they
     /// have the full history.
     func isFullListeningHistory(dbQueue: FMDatabaseQueue) -> Bool {
         var isFullListeningHistory = false
