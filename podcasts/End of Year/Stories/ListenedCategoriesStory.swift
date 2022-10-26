@@ -38,14 +38,14 @@ struct ListenedCategoriesStory: StoryView {
                     }
 
                     VStack {
-                        Text("You listened to \(listenedCategories.count) different categories this year")
+                        Text(L10n.eoyStoryListenedToCategories("\(listenedCategories.count)"))
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .heavy))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
-                        Text("Let's take a look at some of your favourites...")
+                        Text(L10n.eoyStoryListenedToCategoriesSubtitle)
                             .font(.system(size: 15, weight: .bold))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
