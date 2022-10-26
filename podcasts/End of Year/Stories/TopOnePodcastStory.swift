@@ -18,7 +18,7 @@ struct TopOnePodcastStory: StoryView {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                backgroundColor.ignoresSafeArea()
+                DynamicBackgroundView(podcast: topPodcast.podcast)
 
                 VStack {
                     VStack {
@@ -28,16 +28,21 @@ struct TopOnePodcastStory: StoryView {
                             .cornerRadius(4)
                             .shadow(radius: 2, x: 0, y: 1)
                             .accessibilityHidden(true)
+
                         Text(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""))
+                            .foregroundColor(.white)
+                            .font(.system(size: 25, weight: .heavy))
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundColor(tintColor)
-                            .padding(.top)
+                            .frame(maxHeight: geometry.size.height * 0.12)
+                            .minimumScaleFactor(0.01)
                         Text(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.localizedTimeDescription ?? ""))
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(tintColor)
-                            .padding(.top)
+                            .frame(maxHeight: geometry.size.height * 0.07)
+                            .minimumScaleFactor(0.01)
+                            .opacity(0.8)
                     }
                     .padding(.leading, 40)
                     .padding(.trailing, 40)
