@@ -7,10 +7,12 @@ struct ListeningTimeStory: StoryView {
 
     let listeningTime: Double
 
+    let podcasts: [Podcast]
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(podcast: Podcast.previewPodcast())
+                DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
                     Text("In 2022, you spent \(listeningTime.localizedTimeDescription ?? "") listening to podcasts")
@@ -38,21 +40,21 @@ struct ListeningTimeStory: StoryView {
                     Spacer()
 
                     HStack {
-                        ImageView(ServerHelper.imageUrl(podcastUuid: Podcast.previewPodcast().uuid, size: 280))
+                        leftPodcastCover
                             .frame(width: 140, height: 140)
                             .aspectRatio(1, contentMode: .fit)
                             .cornerRadius(4)
                             .shadow(radius: 2, x: 0, y: 1)
                             .accessibilityHidden(true)
 
-                        ImageView(ServerHelper.imageUrl(podcastUuid: Podcast.previewPodcast().uuid, size: 280))
+                        ImageView(ServerHelper.imageUrl(podcastUuid: podcasts[0].uuid, size: 280))
                             .frame(width: 140, height: 140)
                             .aspectRatio(1, contentMode: .fit)
                             .cornerRadius(4)
                             .shadow(radius: 2, x: 0, y: 1)
                             .accessibilityHidden(true)
 
-                        ImageView(ServerHelper.imageUrl(podcastUuid: Podcast.previewPodcast().uuid, size: 280))
+                        rightPodcastCover
                             .frame(width: 140, height: 140)
                             .aspectRatio(1, contentMode: .fit)
                             .cornerRadius(4)
@@ -77,6 +79,24 @@ struct ListeningTimeStory: StoryView {
         }
     }
 
+    @ViewBuilder
+    var leftPodcastCover: some View {
+        if let podcast = podcasts[safe: 1] {
+            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    var rightPodcastCover: some View {
+        if let podcast = podcasts[safe: 2] {
+            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+        } else {
+            EmptyView()
+        }
+    }
+
     func androidValuesToIOSTransform() -> CGAffineTransform {
 
         let androidValues: [CGFloat] = [0.89, 0, 0.58, 1, 0, 0]
@@ -90,6 +110,6 @@ struct ListeningTimeStory: StoryView {
 
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListeningTimeStory(listeningTime: 100)
+        ListeningTimeStory(listeningTime: 100, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
     }
 }
