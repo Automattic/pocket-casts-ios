@@ -25,6 +25,13 @@ class AuthenticationHelper {
     static func validateLogin(username: String, password: String) async throws {
         let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password)
         handleSuccessfulSignIn(response, .password)
+
+        // If the server didn't return a new email, and the call was successful, then reset the email to the one used to
+        // validate the login
+        if ServerSettings.syncingEmail() == nil {
+            ServerSettings.setSyncingEmail(email: username)
+        }
+
         ServerSettings.saveSyncingPassword(password)
     }
 
