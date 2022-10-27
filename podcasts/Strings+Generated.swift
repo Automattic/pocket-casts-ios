@@ -602,6 +602,10 @@ internal enum L10n {
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Don't forget to share with your friends and give a shout out to your favorite podcasts creators
+  internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
+  /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
+  internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
   /// Let's celebrate your year of listening...
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
   /// In 2022, you spent %1$@ listening to podcasts
@@ -628,6 +632,8 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
+  /// Replay
+  internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your top podcast was %1$@ by %2$@
   internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))

@@ -9,9 +9,9 @@ struct EpilogueStory: StoryView {
                 .allowsHitTesting(false)
 
             VStack {
-                Text("Thank you for letting Pocket Casts be a part of your listening experience in 2022")
+                Text(L10n.eoyStoryEpilogueTitle)
                     .foregroundColor(.white)
-                Text("Don't forget to share with your friends and give a shout out to your favorite podcasts creators")
+                Text(L10n.eoyStoryEpilogueSubtitle)
                     .foregroundColor(.white)
                 Button(action: {
                     StoriesController.shared.replay()
@@ -20,7 +20,7 @@ struct EpilogueStory: StoryView {
                         Spacer()
                         Image(systemName: "arrow.clockwise")
                             .foregroundColor(.white)
-                        Text("Replay")
+                        Text(L10n.eoyStoryReplay)
                             .foregroundColor(.white)
                         Spacer()
                     }
