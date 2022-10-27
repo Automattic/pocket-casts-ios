@@ -5,7 +5,7 @@ struct EpilogueStory: StoryView {
 
     var body: some View {
         ZStack {
-            Color.orange
+            DynamicBackgroundView(backgroundColor: UIColor(hex: "#FDDC68").color, foregroundColor: UIColor(hex: "#D29D41").color)
                 .allowsHitTesting(false)
 
             VStack {
