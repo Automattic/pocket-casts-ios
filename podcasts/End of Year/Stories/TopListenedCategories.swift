@@ -34,36 +34,9 @@ struct TopListenedCategories: StoryView {
                         .padding(.bottom)
                         .padding(.top, geometry.size.height * 0.05)
 
-                    HStack {
-                        CategoryPillar(color: tintColor, textColor: darkTintColor, text: "1", title: "Title", subtitle: "Subtitle")
-                        CategoryPillar(color: tintColor, textColor: darkTintColor, text: "1", title: "Title", subtitle: "Subtitle")
-                        CategoryPillar(color: tintColor, textColor: darkTintColor, text: "1", title: "Title", subtitle: "Subtitle")
-                    }
-
-                    VStack {
-                        ForEach(0 ..< min(listenedCategories.count, 5), id: \.self) { x in
-                            HStack(spacing: 16) {
-                                Text("\(x + 1).")
-                                    .font(.system(size: 32, weight: .bold))
-                                    .foregroundColor(.white)
-                                Image("discover_cat_1")
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(.white)
-                                Text(listenedCategories[x].categoryTitle.localized)
-                                    .lineLimit(2)
-                                    .font(.system(size: 22, weight: .bold))
-                                    .foregroundColor(.white)
-                                VStack(alignment: .trailing) {
-                                    Text("\(listenedCategories[x].numberOfPodcasts)").font(.system(size: 22, weight: .bold))
-                                        .foregroundColor(.white)
-                                    Text("Podcasts")
-                                        .font(.system(size: 12, weight: .semibold))
-                                            .foregroundColor(.white)
-                                }
-                                Spacer()
-                            }
+                    HStack(alignment: .bottom) {
+                        ForEach([1, 0, 2], id: \.self) {
+                            pillar($0)
                         }
                     }
                     .padding(.leading, 40)
@@ -72,31 +45,39 @@ struct TopListenedCategories: StoryView {
             }
         }
     }
+
+    @ViewBuilder
+    func pillar(_ index: Int) -> some View {
+        if let listenedCategory = listenedCategories[safe: index] {
+            CategoryPillar(color: tintColor, textColor: darkTintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 80)))
+        } else {
+            CategoryPillar(color: tintColor, textColor: darkTintColor, text: "", title: "", subtitle: "", height: 200)
+                .opacity(0)
+        }
+    }
 }
 
 struct CategoryPillar: View {
     let color: Color
-
     let textColor: Color
-
     let text: String
-
     let title: String
-
     let subtitle: String
+    let height: CGFloat
 
     var body: some View {
         VStack {
             VStack {
                 Text(title)
-                    .lineLimit(1)
+                    .multilineTextAlignment(.center)
                     .font(.system(size: 14, weight: .heavy))
                     .foregroundColor(.white)
+                    .frame(width: 90)
                 Text(subtitle)
-                    .lineLimit(1)
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.white)
                     .opacity(0.8)
+                    .frame(width: 90)
                 ZStack {
                     VStack {
                         Image("square_perspective")
@@ -123,7 +104,7 @@ struct CategoryPillar: View {
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [color, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
                 .padding(.top, -39)
-                .frame(height: 200)
+                .frame(height: height)
         }
         .fixedSize(horizontal: true, vertical: false)
     }
@@ -132,7 +113,7 @@ struct CategoryPillar: View {
 #if DEBUG
 struct TopListenedCategories_Previews: PreviewProvider {
     static var previews: some View {
-        TopListenedCategories(listenedCategories: [ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)])
+        TopListenedCategories(listenedCategories: [ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test category big title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)])
     }
 }
 #endif
