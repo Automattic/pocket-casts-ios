@@ -15,8 +15,8 @@ class AuthenticationHelper {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
             try await validateLogin(username: username, password: password)
         }
-        else if FeatureFlag.signInWithApple, let token = ServerSettings.appleAuthIdentityToken {
-            try await validateLogin(identityToken: token)
+        else if FeatureFlag.signInWithApple, let token = ServerSettings.appleAuthIdentityToken, let userID = ServerSettings.appleAuthUserID {
+            try await validateLogin(identityToken: token, userID: userID)
         }
     }
 
@@ -45,15 +45,15 @@ class AuthenticationHelper {
             throw APIError.UNKNOWN
         }
 
-        try await validateLogin(identityToken: token)
-
-        ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
-        ServerSettings.appleAuthUserID = appleIDCredential.user
+        try await validateLogin(identityToken: token, userID: appleIDCredential.user)
     }
 
-    static func validateLogin(identityToken: String) async throws {
+    static func validateLogin(identityToken: String, userID: String) async throws {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
         handleSuccessfulSignIn(response, .ssoApple)
+
+        ServerSettings.appleAuthIdentityToken = identityToken
+        ServerSettings.appleAuthUserID = userID
     }
 
     static func validateAppleSSOCredentials() {
