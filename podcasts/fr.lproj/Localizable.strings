@@ -85,6 +85,8 @@
     <string>Êtes-vous sûr de vouloir supprimer votre compte, il n’y a aucun moyen d’annuler cette action !</string>
     <key>account_delete_account_title</key>
     <string>Supprimer le compte ?</string>
+    <key>account_login</key>
+    <string>Se connecter</string>
     <key>account_payment_renews_monthly</key>
     <string>Renouvellement mensuel automatique</string>
     <key>account_payment_renews_yearly</key>
