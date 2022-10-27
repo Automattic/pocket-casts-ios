@@ -3332,3 +3332,6 @@
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
 "eoy_story_replay" = "Replay";
+
+/* Title of the top categories story. */
+"eoy_story_top_categories" = "Your Top Categories";

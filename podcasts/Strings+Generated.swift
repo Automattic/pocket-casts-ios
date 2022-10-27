@@ -634,6 +634,8 @@ internal enum L10n {
   }
   /// Replay
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
+  /// Your Top Categories
+  internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
   /// Your top podcast was %1$@ by %2$@
   internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
