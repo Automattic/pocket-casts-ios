@@ -10,25 +10,30 @@ struct EpilogueStory: StoryView {
                     .allowsHitTesting(false)
 
                 VStack {
-                    Text(L10n.eoyStoryEpilogueTitle)
-                        .foregroundColor(.white)
-                        .font(.system(size: 25, weight: .heavy))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.12)
-                        .minimumScaleFactor(0.01)
-                    Text(L10n.eoyStoryEpilogueSubtitle)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.1)
-                        .minimumScaleFactor(0.01)
-                        .opacity(0.8)
+                    VStack {
+                        Text(L10n.eoyStoryEpilogueTitle)
+                            .foregroundColor(.white)
+                            .font(.system(size: 25, weight: .heavy))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .frame(maxHeight: geometry.size.height * 0.12)
+                            .minimumScaleFactor(0.01)
+                            .padding(.bottom)
+                        Text(L10n.eoyStoryEpilogueSubtitle)
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .frame(maxHeight: geometry.size.height * 0.1)
+                            .minimumScaleFactor(0.01)
+                            .opacity(0.8)
+                    }
+                    .padding(.leading, 20)
+                    .padding(.trailing, 20)
+
                     Button(action: {
                         StoriesController.shared.replay()
                     }) {
                         HStack {
-                            Spacer()
                             Image(systemName: "arrow.clockwise")
                                 .font(.system(size: 18, weight: .bold))
                                 .foregroundColor(.white)
@@ -39,7 +44,6 @@ struct EpilogueStory: StoryView {
                                 .multilineTextAlignment(.center)
                                 .frame(maxHeight: geometry.size.height * 0.12)
                                 .minimumScaleFactor(0.01)
-                            Spacer()
                         }
                     }
                 }
