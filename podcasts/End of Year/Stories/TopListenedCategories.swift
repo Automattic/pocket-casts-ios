@@ -104,6 +104,7 @@ struct CategoryPillar: View {
                                 let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
                                 VStack {
                                     Text("\(text) ")
+                                        .font(.system(size: 18, weight: .heavy))
                                         .multilineTextAlignment(.center)
                                         .foregroundColor(textColor)
                                         .padding(.leading, -8)
