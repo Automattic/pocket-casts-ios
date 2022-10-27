@@ -18,10 +18,17 @@ struct TopListenedCategories: StoryView {
         ColorManager.lightThemeTintForPodcast(podcastForBackground).color
     }
 
+    enum StaticColor {
+        static let background = UIColor(hex: "#744F9D").color
+        static let blobColor = UIColor(hex: "#301E3E").color
+        static let pillarColor = UIColor(hex: "#FE7E61").color
+        static let textColor: Color = .white
+    }
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(podcast: podcastForBackground)
+                DynamicBackgroundView(backgroundColor: StaticColor.background, foregroundColor: StaticColor.blobColor)
 
                 VStack {
                     Text(L10n.eoyStoryTopCategories)
@@ -58,7 +65,7 @@ struct TopListenedCategories: StoryView {
     @ViewBuilder
     func pillar(_ index: Int) -> some View {
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: tintColor, textColor: darkTintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: StaticColor.pillarColor, textColor: .white, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
             CategoryPillar(color: tintColor, textColor: darkTintColor, text: "", title: "", subtitle: "", height: 200)
