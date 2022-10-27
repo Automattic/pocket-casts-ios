@@ -94,11 +94,13 @@ struct CategoryPillar: View {
                             .frame(width: 90)
                             .fixedSize()
                         Text(subtitle)
+                            .multilineTextAlignment(.center)
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(.white)
                             .opacity(0.8)
                             .frame(width: 90)
                             .padding(.bottom)
+                            .fixedSize()
 
                         ZStack(alignment: .top) {
                             ZStack {
