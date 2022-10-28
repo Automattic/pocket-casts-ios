@@ -85,6 +85,8 @@
     <string>Tem certeza de que deseja excluir a conta? Essa ação não pode ser desfeita.</string>
     <key>account_delete_account_title</key>
     <string>Excluir conta?</string>
+    <key>account_login</key>
+    <string>Fazer login</string>
     <key>account_payment_renews_monthly</key>
     <string>Renovado automaticamente todo mês</string>
     <key>account_payment_renews_yearly</key>
