@@ -3293,3 +3293,48 @@
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
 "eoy_story_intro_title" = "Let's celebrate your year of listening...";
+
+/* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of categories. */
+"eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
+
+/* String prompting the user for the next story to check the most listened categories. */
+"eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
+
+/* String telling the user how much podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder fot eh number of episodes. */
+"eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+
+/* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
+"eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
+
+/* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
+"eoy_story_top_podcast" = "Your top podcast was %1$@ by %2$@";
+
+/* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
+"eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
+
+/* Title for the story showing the top podcasts for the user in the current year. */
+"eoy_story_top_podcasts" = "Your Top Podcasts";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
+"eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+
+/* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
+"eoy_story_longest_episode_duration" = "This episode was %1$@ long";
+
+/* Title for the epilogue story */
+"eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
+
+/* Subtitle for the epilogue story */
+"eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
+
+/* Label for the replay button, which when tapped started the end of year stories from the first one. */
+"eoy_story_replay" = "Replay";
+
+/* Title of the top categories story. */
+"eoy_story_top_categories" = "Your Top Categories";
+
+/* Description to why the user needs to create an account to see their end of year stats. */
+"eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
