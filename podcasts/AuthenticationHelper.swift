@@ -114,6 +114,7 @@ extension AuthenticationHelper {
     private static func handleSSOTokenRevoked() {
         FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
         SyncManager.signout()
+        Settings.setLoginDetailsUpdated()
     }
 }
 #endif
