@@ -97,7 +97,7 @@ class SingleEpisodeViewController: UIViewController {
 
     @IBAction func didSelectPlay(_ sender: Any) {
         playButton.isPlaying = !playButton.isPlaying
-        viewModel.didSelectPlayEpisode()
+        viewModel.didSelectPlayEpisode(from: playButton)
     }
 
     @objc func didSelectEpisode(_ sender: Any) {
