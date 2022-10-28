@@ -30,6 +30,10 @@ class PodcastPickerModel: ObservableObject {
         }
     }
 
+    var hasSelectedAll: Bool {
+        selectedPodcastUuids.count == allPodcasts.count
+    }
+
     func setup() {
         let savedSortTypeInt = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastPickerSort)
         if savedSortTypeInt != 0 {
@@ -58,6 +62,14 @@ class PodcastPickerModel: ObservableObject {
             selectedPodcastUuids.remove(at: selectedIndex)
         } else {
             selectedPodcastUuids.append(podcast.uuid)
+        }
+    }
+
+    func toggleSelectAll() {
+        if hasSelectedAll {
+            selectedPodcastUuids.removeAll()
+        } else {
+            selectedPodcastUuids = allPodcasts.map { $0.uuid }
         }
     }
 

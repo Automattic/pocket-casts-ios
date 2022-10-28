@@ -52,10 +52,6 @@ class UploadedStorageHeaderView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(update), name: Constants.Notifications.themeChanged, object: nil)
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

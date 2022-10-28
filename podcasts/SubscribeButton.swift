@@ -50,10 +50,6 @@ class SubscribeButton: ThemeableView {
         setBackgroundColors()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     func setBackgroundColors() {
         contentView.backgroundColor = ThemeColor.primaryUi02()
         if isHighlighted || isSelected {

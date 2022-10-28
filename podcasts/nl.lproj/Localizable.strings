@@ -85,6 +85,8 @@
     <string>Weet je zeker dat je je account wilt verwijderen? Je kan dit niet ongedaan maken!</string>
     <key>account_delete_account_title</key>
     <string>Account verwijderen?</string>
+    <key>account_login</key>
+    <string>Log in.</string>
     <key>account_payment_renews_monthly</key>
     <string>Automatisch maandelijks verlengen</string>
     <key>account_payment_renews_yearly</key>

@@ -85,6 +85,8 @@
     <string>是否确定要删除您的账户，此操作无法撤消！</string>
     <key>account_delete_account_title</key>
     <string>删除账户?</string>
+    <key>account_login</key>
+    <string>登录</string>
     <key>account_payment_renews_monthly</key>
     <string>每月自动续订</string>
     <key>account_payment_renews_yearly</key>
