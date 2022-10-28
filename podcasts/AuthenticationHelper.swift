@@ -2,7 +2,9 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+#if !os(watchOS)
 import AuthenticationServices
+#endif
 
 enum AuthenticationSource: String {
     case password = "password"
@@ -37,6 +39,44 @@ class AuthenticationHelper {
 
     // MARK: Apple SSO
 
+    static func validateLogin(identityToken: String, userID: String) async throws {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
+        handleSuccessfulSignIn(response, .ssoApple)
+
+        ServerSettings.appleAuthIdentityToken = identityToken
+        ServerSettings.appleAuthUserID = userID
+    }
+
+    // MARK: Common
+
+    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
+        SyncManager.clearTokensFromKeyChain()
+
+        ServerSettings.userId = response.uuid
+        ServerSettings.syncingV2Token = response.token
+
+        // we've signed in, set all our existing podcasts to be non synced
+        DataManager.sharedManager.markAllPodcastsUnsynced()
+
+        ServerSettings.clearLastSyncTime()
+
+        // This check may not be necessary in the long run see: https://github.com/Automattic/pocket-casts-ios/issues/412
+        if let email = response.email, !email.isEmpty {
+            ServerSettings.setSyncingEmail(email: response.email)
+        }
+
+        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+
+        RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+        Settings.setPromotionFinishedAcknowledged(true)
+        Settings.setLoginDetailsUpdated()
+    }
+}
+
+// MARK: - Only available to the main app, not the watch app
+#if !os(watchOS)
+extension AuthenticationHelper {
     static func validateLogin(appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
         guard let identityToken = appleIDCredential.identityToken,
               let token = String(data: identityToken, encoding: .utf8)
@@ -46,14 +86,6 @@ class AuthenticationHelper {
         }
 
         try await validateLogin(identityToken: token, userID: appleIDCredential.user)
-    }
-
-    static func validateLogin(identityToken: String, userID: String) async throws {
-        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
-        handleSuccessfulSignIn(response, .ssoApple)
-
-        ServerSettings.appleAuthIdentityToken = identityToken
-        ServerSettings.appleAuthUserID = userID
     }
 
     static func validateAppleSSOCredentials() {
@@ -83,30 +115,5 @@ class AuthenticationHelper {
         FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
         SyncManager.signout()
     }
-
-    // MARK: Common
-
-    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
-        SyncManager.clearTokensFromKeyChain()
-
-        ServerSettings.userId = response.uuid
-        ServerSettings.syncingV2Token = response.token
-
-        // we've signed in, set all our existing podcasts to be non synced
-        DataManager.sharedManager.markAllPodcastsUnsynced()
-
-        ServerSettings.clearLastSyncTime()
-
-        // This check may not be necessary in the long run see: https://github.com/Automattic/pocket-casts-ios/issues/412
-        if let email = response.email, !email.isEmpty {
-            ServerSettings.setSyncingEmail(email: response.email)
-        }
-
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
-
-        RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-        Settings.setPromotionFinishedAcknowledged(true)
-        Settings.setLoginDetailsUpdated()
-    }
 }
+#endif
