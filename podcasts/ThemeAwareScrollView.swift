@@ -13,10 +13,6 @@ class ThemeAwareScrollView: UIScrollView {
         setup()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

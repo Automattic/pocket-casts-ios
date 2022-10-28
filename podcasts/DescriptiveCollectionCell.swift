@@ -29,10 +29,6 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
     var onSubscribe: (() -> Void)?
     private var discoverPodcast: DiscoverPodcast?
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     override var isSelected: Bool {
         didSet {
             setHighlightedState(isSelected)
