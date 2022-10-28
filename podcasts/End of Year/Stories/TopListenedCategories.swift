@@ -6,29 +6,17 @@ struct TopListenedCategories: StoryView {
 
     let listenedCategories: [ListenedCategory]
 
-    private var podcastForBackground: Podcast {
-        listenedCategories.reversed()[0].mostListenedPodcast
-    }
+    let contrastColor: CategoriesContrastingColors
 
-    var tintColor: Color {
-        ColorManager.darkThemeTintForPodcast(podcastForBackground).color
-    }
-
-    var darkTintColor: Color {
-        ColorManager.lightThemeTintForPodcast(podcastForBackground).color
-    }
-
-    enum StaticColor {
-        static let background = UIColor(hex: "#744F9D").color
-        static let blobColor = UIColor(hex: "#301E3E").color
-        static let pillarColor = UIColor(hex: "#FE7E61").color
-        static let textColor: Color = .white
+    init(listenedCategories: [ListenedCategory]) {
+        self.listenedCategories = listenedCategories
+        self.contrastColor = CategoriesContrastingColors(podcast: listenedCategories.reversed()[0].mostListenedPodcast)
     }
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(backgroundColor: StaticColor.background, foregroundColor: StaticColor.blobColor)
+                DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor)
 
                 VStack {
                     Text(L10n.eoyStoryTopCategories)
@@ -65,10 +53,10 @@ struct TopListenedCategories: StoryView {
     @ViewBuilder
     func pillar(_ index: Int) -> some View {
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: StaticColor.pillarColor, textColor: .white, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
-            CategoryPillar(color: tintColor, textColor: darkTintColor, text: "", title: "", subtitle: "", height: 200)
+            CategoryPillar(color: contrastColor.tintColor, text: "", title: "", subtitle: "", height: 200)
                 .opacity(0)
         }
     }
@@ -76,7 +64,6 @@ struct TopListenedCategories: StoryView {
 
 struct CategoryPillar: View {
     let color: Color
-    let textColor: Color
     let text: String
     let title: String
     let subtitle: String
@@ -110,6 +97,9 @@ struct CategoryPillar: View {
                                     .frame(width: 90, height: 52)
                                     .foregroundColor(color)
 
+                                let whiteContrast = color.contrast(with: .white)
+                                let textColor = whiteContrast < 2 ? UIColor.black.color : UIColor.white.color
+
                                 let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
                                 VStack {
                                     Text("\(text) ")
@@ -141,6 +131,30 @@ struct CategoryPillar: View {
             }
         }
         .fixedSize(horizontal: true, vertical: false)
+    }
+}
+
+/// Given a podcast, check if the colors contrast is good
+/// If not, return default hardcoded colors.
+struct CategoriesContrastingColors {
+    let backgroundColor: Color
+    let foregroundColor: Color
+    let tintColor: Color
+
+    init(podcast: Podcast) {
+        let backgroundColorForPodcast = ColorManager.backgroundColorForPodcast(podcast).color
+        let darkThemeTintForPodcast = ColorManager.darkThemeTintForPodcast(podcast).color
+        let lightThemeTintForPodcast = ColorManager.lightThemeTintForPodcast(podcast).color
+
+        if backgroundColorForPodcast.contrast(with: darkThemeTintForPodcast) > 2 {
+            backgroundColor = backgroundColorForPodcast
+            foregroundColor = lightThemeTintForPodcast
+            tintColor = darkThemeTintForPodcast
+        } else {
+            backgroundColor = UIColor(hex: "#744F9D").color
+            foregroundColor = UIColor(hex: "#301E3E").color
+            tintColor = UIColor(hex: "#FE7E61").color
+        }
     }
 }
 
