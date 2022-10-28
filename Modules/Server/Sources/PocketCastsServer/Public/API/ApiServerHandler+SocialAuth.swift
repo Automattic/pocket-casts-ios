@@ -4,12 +4,12 @@ import PocketCastsUtils
 
 /**
  * The Watch app and the iOS app don't share SIWA credentials, so if we try to do an "Credentials State" check from SIWA
- * from the watch, it will fail regardless. So, instead we will rely on the server to validate the identity token and fail
- * there if needed.
+ * from the watch, it will fail regardless. So, instead we will rely on the server to validate the identity token and fail there if needed. If not, then the watch will check the login state next time the user is connected to the main app on their phone.
  *
- * We will still do the credential state check in the main app, since it's better to fail early if possible.
+ * We will still do the credential state check in the main app since it's recommended by Apple.
  *
  */
+
 #if !os(watchOS)
 import AuthenticationServices
 
