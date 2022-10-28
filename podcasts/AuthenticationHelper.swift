@@ -24,7 +24,7 @@ class AuthenticationHelper {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
         else if FeatureFlag.signInWithApple, let token = ServerSettings.appleAuthIdentityToken, let userID = ServerSettings.appleAuthUserID {
-            return try await validateLogin(identityToken: token, userID: userID)
+            return try await validateLogin(identityToken: token, userID: userID).token
         }
 
         return nil
@@ -55,6 +55,8 @@ class AuthenticationHelper {
 
         ServerSettings.appleAuthIdentityToken = identityToken
         ServerSettings.appleAuthUserID = userID
+
+        return response
     }
 
     // MARK: Common
