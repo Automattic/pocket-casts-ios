@@ -41,10 +41,6 @@ class ThemeableRoundedButton: UIButton {
         setup()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     private func setup() {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         updateColor()

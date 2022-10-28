@@ -12,6 +12,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
     private let episodes: [DiscoverEpisode]
     private let headerView: EpisodeListHeaderView
     private var cancellables = Set<AnyCancellable>()
+    public var delegate: DiscoverDelegate? = nil
 
     init(podcastCollection: PodcastCollection) {
         self.podcastCollection = podcastCollection
@@ -65,6 +66,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EpisodeListTableViewCell
         cell.viewModel.listId = podcastCollection.listId
         cell.viewModel.discoverEpisode = episodes[indexPath.row]
+        cell.viewModel.delegate = delegate
         cell.colors = podcastCollection.colors
         return cell
     }
@@ -83,10 +85,13 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
             AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         }
 
-        DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
+        DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
-                guard let podcast = podcast else { return }
+                guard let podcast = podcast else {
+                    self?.delegate?.failedToLoadEpisode()
+                    return
+                }
                 self?.show(discoverEpisode: episode, podcast: podcast)
             }
             .store(in: &cancellables)

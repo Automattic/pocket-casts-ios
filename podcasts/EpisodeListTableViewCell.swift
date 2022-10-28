@@ -96,7 +96,7 @@ class EpisodeListTableViewCell: UITableViewCell {
     }
 
     @IBAction func didSelectPlayButton(_ sender: Any) {
-        viewModel.didSelectPlayEpisode()
+        viewModel.didSelectPlayEpisode(from: playButton)
     }
 
     private func updateTheme() {
