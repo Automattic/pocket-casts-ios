@@ -16,11 +16,6 @@ class RadioButtonCell: ThemeableCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     func setSelectState(_ selected: Bool) {
         selectButton.currentlyOn = selected
         roundView.isHidden = !selected

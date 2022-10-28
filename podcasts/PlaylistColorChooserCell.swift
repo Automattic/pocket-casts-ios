@@ -16,10 +16,6 @@ class PlaylistColorChooserCell: ThemeableCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {}
 
     func showSeperatorView() {

@@ -25,10 +25,6 @@ class ThemeableView: UIView {
         setup()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

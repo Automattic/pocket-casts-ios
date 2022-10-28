@@ -532,6 +532,9 @@
 /* Informative label letting the users know that the displayed episode is a featured episode. */
 "discover_featured_episode" = "FEATURED EPISODE";
 
+/* Error message informing the user that the episode they tapped could not be found, with instructions on how to fix the issue. */
+"discover_featured_episode_error_not_found" = "Featured podcast or episode not found. Make sure you are connected to the internet and try again.";
+
 /* Informative label letting the users know that the displayed podcast is a featured new podcast. */
 "discover_fresh_pick" = "FRESH PICK";
 
@@ -3273,9 +3276,6 @@
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
 
-/* Title for the End of Year feature */
-"eoy_title" = "Your Year in Podcasts";
-
 /* A smaller title for the End of Year feature */
 "eoy_small_title" = "Year in Podcasts";
 
@@ -3328,7 +3328,13 @@
 "eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
 
 /* Subtitle for the epilogue story */
-"eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcasts creators";
+"eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
 "eoy_story_replay" = "Replay";
+
+/* Title of the top categories story. */
+"eoy_story_top_categories" = "Your Top Categories";
+
+/* Description to why the user needs to create an account to see their end of year stats. */
+"eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";

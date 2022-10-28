@@ -39,10 +39,6 @@ class PodcastGroupCell: ThemeableCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     @IBAction func subscribeTapped(_ sender: UIButton) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.subscribeRequestedFromCell, object: self)
         subscribeButton.currentlyOn = true

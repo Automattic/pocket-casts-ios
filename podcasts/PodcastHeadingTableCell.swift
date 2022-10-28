@@ -142,10 +142,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     private var tableViewWidth: Int = 351
     private var isAnimatingToSubscribed = false
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     var buttonsEnabled: Bool = true {
         didSet {
             subscribeButton.isEnabled = buttonsEnabled
