@@ -51,8 +51,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             stories.append(.epilogue)
 
             return true
-        } else {
-            return false
         }
+
+        return false
     }
 }
