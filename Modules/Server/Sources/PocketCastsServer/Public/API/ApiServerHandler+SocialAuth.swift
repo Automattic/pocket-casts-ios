@@ -95,7 +95,7 @@ extension ApiServerHandler {
 #else
 
 extension ApiServerHandler {
-    func hasValidSSOToken() async throws -> Bool {
+    private func hasValidSSOToken() async throws -> Bool {
         return true
     }
 }
