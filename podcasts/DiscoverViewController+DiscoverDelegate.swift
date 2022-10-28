@@ -53,6 +53,7 @@ extension DiscoverViewController: DiscoverDelegate {
         }
 
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)
+        listView.delegate = self
         navController()?.pushViewController(listView, animated: true)
     }
 
@@ -109,5 +110,9 @@ extension DiscoverViewController: DiscoverDelegate {
         let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
         episodeController.modalPresentationStyle = .formSheet
         present(episodeController, animated: true)
+    }
+
+    func failedToLoadEpisode() {
+        SJUIUtils.showAlert(title: L10n.error, message: L10n.discoverFeaturedEpisodeErrorNotFound, from: self)
     }
 }

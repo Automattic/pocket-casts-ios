@@ -23,7 +23,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let filtersViewController = PlaylistsViewController()
         filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: tabs.firstIndex(of: .filter)!)
 
-        let discoverViewController = DiscoverViewController()
+        let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
         let profileViewController = ProfileViewController()

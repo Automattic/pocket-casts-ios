@@ -29,7 +29,7 @@ class EndOfYearStoriesBuilder {
         self.sync = sync
     }
 
-    // Call this method to build the list of stories and the data provider
+    /// Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
             // Check if the user has the full listening history for this year
@@ -74,6 +74,7 @@ class EndOfYearStoriesBuilder {
                 stories.append(.topFivePodcasts)
             }
 
+            // Longest episode
             if let longestEpisode = dataManager.longestEpisode(),
                let podcast = longestEpisode.parentPodcast() {
                 data.longestEpisode = longestEpisode

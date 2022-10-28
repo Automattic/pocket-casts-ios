@@ -38,10 +38,6 @@ class SmallListCell: ThemeableCollectionCell {
         podcastImage.alpha = selected ? 0.6 : 1.0
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool) {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {

@@ -13,10 +13,6 @@ class PodcastDisclosureCell: ThemeableCell {
 
     @IBOutlet var disclosureIndicator: UIImageView!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     override func handleThemeDidChange() {
         disclosureIndicator.tintColor = ThemeColor.primaryIcon02()
     }
