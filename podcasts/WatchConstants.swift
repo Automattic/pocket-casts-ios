@@ -230,6 +230,7 @@ public enum WatchConstants {
             public static let username = "username"
             public static let password = "password"
             public static let appleAuthToken = "appleAuthToken"
+            public static let appleAuthUserID = "appleAuthUserID"
         }
     }
 }
