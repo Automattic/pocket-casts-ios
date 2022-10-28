@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 /// Given a podcast, check if the colors contrast is good
 /// If not, return default hardcoded colors.
