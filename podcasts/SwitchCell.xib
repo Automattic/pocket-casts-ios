@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,39 +24,24 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label is really long and longer than you'd expect so let's see" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7R8-mL-FCf" userLabel="Cell Text" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="50" y="3" width="200" height="38.5"/>
+                        <rect key="frame" x="50" y="3" width="265" height="38.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKP-Ek-xkE" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="247" y="22" width="0.0" height="0.0"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xfe-ja-DW3" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="255" y="6.5" width="51" height="31"/>
-                    </switch>
                 </subviews>
                 <constraints>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6N7-rg-IqN"/>
-                    <constraint firstItem="Xfe-ja-DW3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9w0-es-7gw"/>
-                    <constraint firstItem="LKP-Ek-xkE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Aig-n0-yIY"/>
+                    <constraint firstAttribute="trailing" secondItem="7R8-mL-FCf" secondAttribute="trailing" constant="5" id="9V9-27-d2T"/>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="10" id="CL0-C3-qSk"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fnJ-O2-KwA"/>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="gMv-6M-2OZ"/>
-                    <constraint firstItem="Xfe-ja-DW3" firstAttribute="leading" secondItem="7R8-mL-FCf" secondAttribute="trailing" constant="5" id="jjG-gD-dxY"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="u75-d4-sat"/>
-                    <constraint firstItem="Xfe-ja-DW3" firstAttribute="leading" secondItem="LKP-Ek-xkE" secondAttribute="trailing" constant="8" id="vuv-EW-eXA"/>
-                    <constraint firstAttribute="trailing" secondItem="Xfe-ja-DW3" secondAttribute="trailing" constant="16" id="wKF-hf-eVa"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="cellImage" destination="SOQ-VW-YTk" id="XSF-AA-m0Y"/>
                 <outlet property="cellLabel" destination="7R8-mL-FCf" id="vxw-zy-HWY"/>
-                <outlet property="cellSecondaryLabel" destination="LKP-Ek-xkE" id="kIF-zN-veU"/>
-                <outlet property="cellSwitch" destination="Xfe-ja-DW3" id="Zpb-XA-gLn"/>
                 <outlet property="cellTextToImageConstraint" destination="CL0-C3-qSk" id="XnH-WO-gQx"/>
             </connections>
             <point key="canvasLocation" x="131" y="154"/>
