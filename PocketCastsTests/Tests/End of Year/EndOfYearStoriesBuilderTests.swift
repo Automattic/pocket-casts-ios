@@ -34,7 +34,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
         endOfYearManager.listenedCategoriesToReturn = [
-            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast())
+            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500)
         ]
         let stories = await builder.build()
 
