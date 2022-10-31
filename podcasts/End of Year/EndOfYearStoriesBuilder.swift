@@ -62,9 +62,10 @@ class EndOfYearStoriesBuilder {
             }
 
             // Top podcasts
-            let topPodcasts = dataManager.topPodcasts()
+            let topPodcasts = dataManager.topPodcasts(limit: 10)
             if !topPodcasts.isEmpty {
-                data.topPodcasts = topPodcasts
+                data.topPodcasts = Array(topPodcasts.prefix(5))
+                data.randomPodcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
                 stories.append(.topOnePodcast)
             }
 
@@ -80,6 +81,10 @@ class EndOfYearStoriesBuilder {
                 data.longestEpisodePodcast = podcast
                 stories.append(.longestEpisode)
             }
+
+            // TODO: the color of podcasts is downloaded when needed
+            // We need to check here for the ones missing the color
+            // and download it.
 
             continuation.resume(returning: (stories, data))
         }
@@ -99,4 +104,6 @@ class EndOfYearStoriesData {
     var longestEpisode: Episode!
 
     var longestEpisodePodcast: Podcast!
+
+    var randomPodcasts: [Podcast] = []
 }
