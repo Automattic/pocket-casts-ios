@@ -719,7 +719,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
-    // MARK: - Profile Badge for End of Year 2022
+    // MARK: - End of Year 2022
 
     class var showBadgeFor2022EndOfYear: Bool {
         set {
@@ -728,6 +728,16 @@ class Settings: NSObject {
 
         get {
             (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+        }
+    }
+
+    class var endOfYearModalHasBeenShown: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
         }
     }
 

@@ -145,6 +145,7 @@ struct Constants {
         static let reviewRequestDates = "reviewRequestDates"
 
         static let showBadgeFor2022EndOfYear = "showBadgeFor2022EndOfYear"
+        static let modal2022HasBeenShown = "modal2022HasBeenShown"
     }
 
     enum Values {

@@ -28,6 +28,9 @@ struct EndOfYearModal: View {
         }
         .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
+        .onAppear {
+            Settings.endOfYearModalHasBeenShown = true
+        }
     }
 
     var pill: some View {

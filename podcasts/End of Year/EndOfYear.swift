@@ -18,7 +18,7 @@ struct EndOfYear {
     }
 
     func showPrompt(in viewController: UIViewController) {
-        guard Self.isEligible else {
+        guard Self.isEligible, !Settings.endOfYearModalHasBeenShown else {
             return
         }
 
