@@ -1,3 +1,7 @@
+7.27
+-----
+
+
 7.26
 -----
 - Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
