@@ -42,13 +42,11 @@ struct CategoryPillar: View {
                         let textColor = whiteContrast < 2 ? UIColor.black.color : UIColor.white.color
 
                         let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
-                        VStack {
-                            Text("\(text) ")
-                                .font(.system(size: 18, weight: .heavy))
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(textColor)
-                                .padding(.leading, -8)
-                        }
+                        Text("\(text) ")
+                            .font(.system(size: 18, weight: .heavy))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(textColor)
+                            .padding(.leading, -8)
                         .transformEffect(CGAffineTransform(
                             a: values[0], b: values[1],
                             c: values[2], d: values[3],
