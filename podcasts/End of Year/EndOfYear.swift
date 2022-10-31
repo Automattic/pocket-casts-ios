@@ -9,12 +9,27 @@ struct EndOfYear {
         FeatureFlag.endOfYear && DataManager.sharedManager.isEligibleForEndOfYearStories()
     }
 
+    static var requireAccount: Bool = Settings.endOfYearRequireAccount {
+        didSet {
+            // If registration is not needed anymore and this user is logged out
+            // Show the prompt again.
+            if oldValue && !requireAccount && !SyncManager.isUserLoggedIn() {
+                Settings.endOfYearModalHasBeenShown = false
+                NotificationCenter.postOnMainThread(notification: .eoyRegistrationNotRequired, object: nil)
+            }
+        }
+    }
+
     var presentationMode: UIModalPresentationStyle {
         UIDevice.current.isiPad() ? .formSheet : .fullScreen
     }
 
     var storiesPadding: EdgeInsets {
         .init(top: 0, leading: 0, bottom: UIDevice.current.isiPad() ? 5 : 0, trailing: 0)
+    }
+
+    init() {
+        Self.requireAccount = Settings.endOfYearRequireAccount
     }
 
     func showPrompt(in viewController: UIViewController) {
@@ -30,7 +45,7 @@ struct EndOfYear {
             return
         }
 
-        if Settings.endOfYearRequireAccount && !SyncManager.isUserLoggedIn() {
+        if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             let controller = ProfileIntroViewController()
             controller.infoLabelText = L10n.eoyCreateAccountToSee
             viewController.present(controller, animated: true)
