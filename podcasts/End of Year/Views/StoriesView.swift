@@ -26,6 +26,8 @@ struct StoriesView: View {
             ZStack {
                 Spacer()
 
+                storiesToPreload
+
                 ZStack {
                     model.story(index: model.currentStory)
                 }
@@ -176,6 +178,18 @@ struct StoriesView: View {
         )
         .padding(.leading, Constants.shareButtonHorizontalPadding)
         .padding(.trailing, Constants.shareButtonHorizontalPadding)
+    }
+
+    var storiesToPreload: some View {
+        ZStack {
+            if model.numberOfStoriesToPreload > 0 {
+                ForEach(0...model.numberOfStoriesToPreload, id: \.self) { index in
+                    model.preload(index: model.currentStory + index + 1)
+                }
+            }
+        }
+        .opacity(0)
+        .allowsHitTesting(false)
     }
 }
 
