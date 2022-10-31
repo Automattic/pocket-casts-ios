@@ -746,6 +746,11 @@ class Settings: NSObject {
             remoteMsToTime(key: Constants.RemoteParams.episodeSearchDebounceMs)
         }
 
+        static var endOfYearRequireAccount: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.endOfYearRequireAccount)
+            return remote.boolValue
+        }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 

@@ -243,6 +243,9 @@ struct Constants {
 
         static let customStorageLimitGB = "custom_storage_limit_gb"
         static let customStorageLimitGBDefault: Int = 10
+
+        static let endOfYearRequireAccount = "end_of_year_require_account"
+        static let endOfYearRequireAccountDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
