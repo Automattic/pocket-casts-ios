@@ -2,11 +2,22 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct DynamicBackgroundView: View {
-    let podcast: Podcast
+    let backgroundColor: Color
+    let foregroundColor: Color
+
+    init(podcast: Podcast) {
+        backgroundColor = podcast.bgColor().color
+        foregroundColor = ColorManager.lightThemeTintForPodcast(podcast).color
+    }
+
+    init(backgroundColor: Color, foregroundColor: Color) {
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+    }
 
     var body: some View {
         ZStack {
-            podcast.bgColor().color
+            backgroundColor
 
             Color.black.opacity(0.2)
 
@@ -22,7 +33,7 @@ struct DynamicBackgroundView: View {
                 Image("bottom_blob")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
+                    .foregroundColor(foregroundColor)
             }
 
         }
