@@ -3,7 +3,6 @@ import PocketCastsDataModel
 
 struct DynamicBackgroundView: View {
     let backgroundColor: Color
-
     let foregroundColor: Color
 
     init(podcast: Podcast) {
