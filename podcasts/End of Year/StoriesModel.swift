@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    @Published var progress: Double
+    var progress: Double
 
     @Published var currentStory: Int = 0
 
@@ -61,6 +61,7 @@ class StoriesModel: ObservableObject {
             }
 
             self.progress = newProgress
+            StoriesProgressModel.shared.progress = newProgress
         })
     }
 

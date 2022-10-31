@@ -85,7 +85,7 @@ struct StoriesView: View {
             VStack {
                 HStack {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
-                        StoryIndicator(progress: min(max((CGFloat(model.progress) - CGFloat(x)), 0.0), 1.0))
+                        StoryIndicator(index: x)
                     }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
