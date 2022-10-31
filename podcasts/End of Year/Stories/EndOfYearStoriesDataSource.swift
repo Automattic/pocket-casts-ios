@@ -21,7 +21,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .topFiveCategories:
             return TopListenedCategories(listenedCategories: data.listenedCategories)
         case .listenedNumbers:
-            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers)
+            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.randomPodcasts)
         case .topOnePodcast:
             return TopOnePodcastStory(topPodcast: data.topPodcasts[0])
         case .topFivePodcasts:
