@@ -272,11 +272,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault)
         ])
 
-        remoteConfig.fetch(withExpirationDuration: 2.hour) { status, _ in
+        remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
             if status == .success {
                 remoteConfig.activate(completion: nil)
+
+                self?.updateEndOfYearRemoteValue()
             }
         }
+    }
+
+    private func updateEndOfYearRemoteValue() {
+        // Update if EOY requires an account to be seen
+        EndOfYear.requireAccount = Settings.endOfYearRequireAccount
     }
 
     private func postLaunchSetup() {
