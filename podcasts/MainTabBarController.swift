@@ -51,6 +51,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
+
+        observeLoginForEndOfYearStats()
+    }
+
+    func observeLoginForEndOfYearStats() {
+        guard FeatureFlag.endOfYear else {
+            return
+        }
+
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            // When a user login (or create an account) we show the modal again
+            Settings.endOfYearModalHasBeenShown = false
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
