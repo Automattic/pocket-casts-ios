@@ -52,18 +52,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
 
-        observeLoginForEndOfYearStats()
-    }
-
-    func observeLoginForEndOfYearStats() {
-        guard FeatureFlag.endOfYear else {
-            return
-        }
-
-        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
-            // When a user login (or create an account) we show the modal again
-            Settings.endOfYearModalHasBeenShown = false
-        }
+        observersForEndOfYearStats()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -407,11 +396,35 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return true
     }
 
-    // MARK: - End of Year badge
+    // MARK: - End of Year
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
         Settings.showBadgeFor2022EndOfYear = false
+    }
+
+    func observersForEndOfYearStats() {
+        guard FeatureFlag.endOfYear else {
+            return
+        }
+
+        // When a user login (or create an account) we mark the EOY modal as not
+        // shown to show it again.
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            Settings.endOfYearModalHasBeenShown = false
+        }
+
+        // If the requirement for EOY changes and registration is not required anymore
+        // Show the modal
+        NotificationCenter.default.addObserver(forName: .eoyRegistrationNotRequired, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
+
+            if self.presentedViewController == nil {
+                self.endOfYear.showPrompt(in: self)
+            }
+        }
     }
 
     // MARK: - Orientation
