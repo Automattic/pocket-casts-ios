@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct TopListenedCategories: StoryView {
+struct TopListenedCategoriesStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
     let listenedCategories: [ListenedCategory]
@@ -65,7 +65,7 @@ struct TopListenedCategories: StoryView {
 #if DEBUG
 struct TopListenedCategories_Previews: PreviewProvider {
     static var previews: some View {
-        TopListenedCategories(listenedCategories: [
+        TopListenedCategoriesStory(listenedCategories: [
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test category big title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300),
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Small title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300),
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Category", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)
