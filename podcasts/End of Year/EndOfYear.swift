@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 
@@ -26,6 +27,12 @@ struct EndOfYear {
 
     func showStories(in viewController: UIViewController) {
         guard FeatureFlag.endOfYear else {
+            return
+        }
+
+        if Settings.endOfYearRequireAccount && !SyncManager.isUserLoggedIn() {
+            let controller = ProfileIntroViewController()
+            viewController.present(controller, animated: true)
             return
         }
 
