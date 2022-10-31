@@ -45,7 +45,7 @@ struct ListeningTimeStory: StoryView {
                         }
                     }
                     .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
+                    .position(x: geometry.frame(in: .local).midX - 20, y: geometry.size.height - 230)
                 }
             }
 
@@ -78,7 +78,7 @@ struct ListeningTimeStory: StoryView {
 /// Apply a perspective to the podcasts cover
 struct PodcastCoverPerspective: ViewModifier {
     private var transform: CGAffineTransform {
-        let values: [CGFloat] = [0.89, 0, 0.58, 1, 0, 0]
+        let values: [CGFloat] = [1, 0, 0.40, 1, 0, 0]
         return CGAffineTransform(
             a: values[0], b: values[1],
             c: values[2], d: values[3],

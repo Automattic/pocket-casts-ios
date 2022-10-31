@@ -106,6 +106,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
                                 SUM(playedUpTo) as totalPlayedTime,
+                                \(DataManager.podcastTableName).*,
                                 replace(IFNULL( nullif(substr(\(DataManager.podcastTableName).podcastCategory, 0, INSTR(\(DataManager.podcastTableName).podcastCategory, char(10))), '') , \(DataManager.podcastTableName).podcastCategory), CHAR(10), '') as category
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE \(DataManager.podcastTableName).uuid = \(DataManager.episodeTableName).podcastUuid and
@@ -120,7 +121,11 @@ class EndOfYearDataManager {
                 while resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "numberOfPodcasts"))
                     if let categoryTitle = resultSet.string(forColumn: "category") {
-                        listenedCategories.append(ListenedCategory(numberOfPodcasts: numberOfPodcasts, categoryTitle: categoryTitle))
+                        listenedCategories.append(ListenedCategory(
+                            numberOfPodcasts: numberOfPodcasts,
+                            categoryTitle: categoryTitle,
+                            mostListenedPodcast: Podcast.from(resultSet: resultSet))
+                        )
                     }
                 }
             } catch {
@@ -256,6 +261,7 @@ class EndOfYearDataManager {
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
     public let categoryTitle: String
+    public let mostListenedPodcast: Podcast
 }
 
 public struct ListenedNumbers {
