@@ -60,7 +60,6 @@ struct CategoryPillar: View {
                                 .frame(width: 90, height: height)
                                 .padding(.top, 26)
 
-
                         }
                     }
 
