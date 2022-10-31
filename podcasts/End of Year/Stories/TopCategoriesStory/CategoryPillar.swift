@@ -26,6 +26,11 @@ struct CategoryPillar: View {
                     .fixedSize()
 
                 ZStack(alignment: .top) {
+                    Rectangle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [color, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
+                        .frame(width: 90, height: height)
+                        .padding(.top, 26)
+
                     ZStack {
                         Image("square_perspective")
                             .resizable()
@@ -51,13 +56,6 @@ struct CategoryPillar: View {
                         ))
                         .rotationEffect(.init(degrees: -30))
                     }
-                    .zIndex(1)
-
-                    Rectangle()
-                        .fill(LinearGradient(gradient: Gradient(colors: [color, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
-                        .frame(width: 90, height: height)
-                        .padding(.top, 26)
-
                 }
             }
 
