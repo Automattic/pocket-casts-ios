@@ -24,6 +24,10 @@ class StoriesModel: ObservableObject {
         dataSource.numberOfStories
     }
 
+    var numberOfStoriesToPreload: Int {
+        configuration.storiesToPreload
+    }
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration) {
         self.dataSource = dataSource
         self.configuration = configuration
@@ -62,6 +66,14 @@ class StoriesModel: ObservableObject {
 
     func story(index: Int) -> AnyView {
         dataSource.storyView(for: index)
+    }
+
+    func preload(index: Int) -> AnyView {
+        if index < numberOfStories {
+            return story(index: index)
+        }
+
+        return AnyView(EmptyView())
     }
 
     func interactive(index: Int) -> AnyView {

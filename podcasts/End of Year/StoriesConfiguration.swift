@@ -7,4 +7,12 @@ class StoriesConfiguration {
     ///
     /// Default value is `false`
     var startOverFromBeginningAfterFinished: Bool = false
+
+    /// The number of stories to preload
+    ///
+    /// When showing the story number zero, StoriesView will
+    /// try to load the next `storiesToPreload` number, so any
+    /// images or other assets can start loading before it's
+    /// actually shown.
+    var storiesToPreload: Int = 2
 }
