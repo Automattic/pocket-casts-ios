@@ -42,7 +42,7 @@ struct CategoryPillar: View {
                         let textColor = whiteContrast < 2 ? UIColor.black.color : UIColor.white.color
 
                         let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
-                        Text("\(text) ")
+                        Text(text)
                             .font(.system(size: 18, weight: .heavy))
                             .multilineTextAlignment(.center)
                             .foregroundColor(textColor)
