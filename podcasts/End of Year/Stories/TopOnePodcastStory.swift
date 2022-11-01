@@ -79,7 +79,11 @@ struct TopOnePodcastStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.topOnePodcast.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .topOnePodcast)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .topOnePodcast)
     }
 }
 
