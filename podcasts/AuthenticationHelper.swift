@@ -6,16 +6,6 @@ import PocketCastsUtils
 import AuthenticationServices
 #endif
 
-enum AuthenticationSource: String {
-    case password = "password"
-    case ssoApple = "sso_apple"
-}
-
-enum AuthenticationScope: String {
-    case mobile
-    case sonos
-}
-
 class AuthenticationHelper {
 
     @discardableResult
@@ -78,7 +68,7 @@ class AuthenticationHelper {
         }
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+        Analytics.track(.userSignedIn, properties: ["source": source])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)
@@ -130,3 +120,16 @@ extension AuthenticationHelper {
     }
 }
 #endif
+
+// MARK: - Enums
+enum AuthenticationSource: String, AnalyticsDescribable {
+    case password = "password"
+    case ssoApple = "sso_apple"
+
+    var analyticsDescription: String { rawValue }
+}
+
+enum AuthenticationScope: String {
+    case mobile
+    case sonos
+}
