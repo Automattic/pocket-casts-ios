@@ -133,4 +133,3 @@ enum AuthenticationScope: String {
     case mobile
     case sonos
 }
-
