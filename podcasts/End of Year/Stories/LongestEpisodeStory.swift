@@ -82,7 +82,11 @@ struct LongestEpisodeStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.longestEpisode.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .longestEpisode)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .longestEpisode)
     }
 }
 
