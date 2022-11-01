@@ -73,6 +73,10 @@ struct ListeningTimeStory: StoryView {
         .modifier(PodcastCover())
         .frame(width: 140, height: 140)
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.listeningTime.rawValue])
+    }
 }
 
 /// Apply a perspective to the podcasts cover
