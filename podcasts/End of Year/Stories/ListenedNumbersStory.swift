@@ -98,6 +98,10 @@ struct ListenedNumbersStory: StoryView {
         }
         .modifier(PodcastCover())
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.numberOfPodcastsAndEpisodesListened.rawValue])
+    }
 }
 
 struct ListenedNumbersStory_Previews: PreviewProvider {
