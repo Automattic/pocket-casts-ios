@@ -75,7 +75,11 @@ struct ListeningTimeStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.listeningTime.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .listeningTime)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .listeningTime)
     }
 }
 
