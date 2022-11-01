@@ -63,7 +63,11 @@ struct EpilogueStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.epilogue.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .epilogue)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .epilogue)
     }
 }
 
