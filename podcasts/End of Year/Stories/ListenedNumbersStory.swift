@@ -100,7 +100,11 @@ struct ListenedNumbersStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.numberOfPodcastsAndEpisodesListened.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .numberOfPodcastsAndEpisodesListened)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .numberOfPodcastsAndEpisodesListened)
     }
 }
 
