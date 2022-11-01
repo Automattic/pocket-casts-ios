@@ -15,9 +15,17 @@ class PlaybackItem: NSObject {
 
     func createPlayerItem() -> AVPlayerItem? {
         guard let url = EpisodeManager.urlForEpisode(episode) else { return nil }
-
-        let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
-        let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
+        var options = [String : Any]()
+        if #available(iOS 16, *) {
+            // there is now an official, working way to set the user-agent for every request
+            // https://developer.apple.com/documentation/avfoundation/avurlassethttpuseragentkey
+            options[AVURLAssetHTTPUserAgentKey] = ServerConstants.Values.appUserAgent
+        } else {
+            let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
+            options["AVURLAssetHTTPHeaderFieldsKey"] = customHeaders
+        }
+        
+        let asset = AVURLAsset(url: url, options: options)
 
         return AVPlayerItem(asset: asset)
     }
