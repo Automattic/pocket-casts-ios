@@ -90,15 +90,25 @@ class SonosLinkController: PCViewController {
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
         navigationController?.pushViewController(signinPage, animated: true)
+/// This is a small subclass of the ProfileIntroViewController to allow overriding a few features to allow it to work with the Sonos login.
+private class SonosLoginIntroViewController: ProfileIntroViewController {
+    /// Reuse the super class xib
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: "ProfileIntroViewController", bundle: nil)
     }
 
-    @objc func cancelTapped() {
-        dismiss(animated: true, completion: nil)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Sign In Delegate
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    func signingProcessCompleted() {
-        navigationController?.popViewController(animated: true)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.hidesBackButton = false
+    }
+
+    override func signingProcessCompleted() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
