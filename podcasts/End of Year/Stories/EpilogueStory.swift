@@ -61,6 +61,10 @@ struct EpilogueStory: StoryView {
             }
         }
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.epilogue.rawValue])
+    }
 }
 
 struct EpilogueStory_Previews: PreviewProvider {
