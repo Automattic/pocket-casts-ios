@@ -6,8 +6,8 @@ enum EndOfYearStory {
     case intro
     case listeningTime
     case listenedCategories
-    case topFiveCategories
-    case listenedNumbers
+    case topCategories
+    case numberOfPodcastsAndEpisodesListened
     case topOnePodcast
     case topFivePodcasts
     case longestEpisode
@@ -50,7 +50,7 @@ class EndOfYearStoriesBuilder {
             if !listenedCategories.isEmpty {
                 data.listenedCategories = listenedCategories
                 stories.append(.listenedCategories)
-                stories.append(.topFiveCategories)
+                stories.append(.topCategories)
             }
 
             // Listened podcasts and episodes
@@ -58,7 +58,7 @@ class EndOfYearStoriesBuilder {
             if listenedNumbers.numberOfEpisodes > 0
                 && listenedNumbers.numberOfPodcasts > 0 {
                 data.listenedNumbers = listenedNumbers
-                stories.append(.listenedNumbers)
+                stories.append(.numberOfPodcastsAndEpisodesListened)
             }
 
             // Top podcasts
