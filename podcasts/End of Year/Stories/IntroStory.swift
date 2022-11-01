@@ -31,11 +31,11 @@ struct IntroStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.intro.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .intro)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, properties: ["story": EndOfYearStory.intro.rawValue])
+        Analytics.track(.endOfYearStoryShare, story: .intro)
     }
 
     private struct Constants {
