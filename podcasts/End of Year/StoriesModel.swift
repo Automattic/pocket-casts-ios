@@ -71,7 +71,7 @@ class StoriesModel: ObservableObject {
 
     func preload(index: Int) -> AnyView {
         if index < numberOfStories {
-            return story(index: index)
+            return AnyView(dataSource.story(for: index))
         }
 
         return AnyView(EmptyView())
