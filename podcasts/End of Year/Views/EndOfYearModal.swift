@@ -30,6 +30,7 @@ struct EndOfYearModal: View {
         .applyDefaultThemeOptions()
         .onAppear {
             Settings.endOfYearModalHasBeenShown = true
+            Analytics.track(.endOfYearModalShown)
         }
     }
 

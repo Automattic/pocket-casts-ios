@@ -357,12 +357,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showEndOfYearStories() {
         guard let presentedViewController else {
-            endOfYear.showStories(in: self)
+            endOfYear.showStories(in: self, from: .modal)
             return
         }
 
         presentedViewController.dismiss(animated: true) {
-            self.endOfYear.showStories(in: self)
+            self.endOfYear.showStories(in: self, from: .modal)
         }
     }
 
