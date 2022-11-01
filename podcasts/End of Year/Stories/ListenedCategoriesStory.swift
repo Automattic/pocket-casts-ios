@@ -73,7 +73,11 @@ struct ListenedCategoriesStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.listenedCategories.rawValue])
+        Analytics.track(.endOfYearStoryShown, story: .listenedCategories)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .listenedCategories)
     }
 }
 
