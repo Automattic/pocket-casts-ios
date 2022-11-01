@@ -34,6 +34,10 @@ struct IntroStory: StoryView {
         Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.intro.rawValue])
     }
 
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, properties: ["story": EndOfYearStory.intro.rawValue])
+    }
+
     private struct Constants {
         static let imageVerticalPadding: CGFloat = 60
         static let imageHeightInPercentage: CGFloat = 0.54
