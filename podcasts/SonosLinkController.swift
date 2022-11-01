@@ -2,10 +2,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class SonosLinkController: PCViewController, SyncSigninDelegate {
-    private let accountBtnTag = 1
-    private let signinBtnTag = 2
-
     @IBOutlet var sonosImage: UIImageView! {
         didSet {
             sonosImage.image = Theme.isDarkTheme() ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
