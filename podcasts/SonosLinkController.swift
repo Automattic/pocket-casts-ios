@@ -56,6 +56,15 @@ class SonosLinkController: PCViewController {
     }
 }
 
+private extension SonosLinkController {
+    func updateConnectButtonTitle(_ title: String) {
+        connectBtn.setTitle(title, for: .normal)
+    }
+
+    func signIntoPocketCasts() {
+        navigationController?.pushViewController(SonosLoginIntroViewController(), animated: true)
+    }
+
     func connectWithSonos() {
         guard ServerSettings.syncingEmail() != nil else {
             updateConnectButtonTitle(L10n.retry.localizedUppercase)
@@ -78,18 +87,17 @@ class SonosLinkController: PCViewController {
                 let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 if let url = URL(string: fullUrl) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    strongSelf.dismiss(animated: true)
                 } else {
-                    strongSelf.connectBtn.buttonTitle = L10n.retry.localizedUppercase
+                    strongSelf.updateConnectButtonTitle(L10n.retry.localizedUppercase)
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAppMissing, from: self)
                 }
             }
         }
     }
+}
 
-    func signIntoPocketCasts(signInMode: Bool) {
-        let signinPage = SyncSigninViewController()
-        signinPage.delegate = self
-        navigationController?.pushViewController(signinPage, animated: true)
+
 /// This is a small subclass of the ProfileIntroViewController to allow overriding a few features to allow it to work with the Sonos login.
 private class SonosLoginIntroViewController: ProfileIntroViewController {
     /// Reuse the super class xib
