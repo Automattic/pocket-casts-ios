@@ -19,7 +19,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .listenedCategories:
             return ListenedCategoriesStory(listenedCategories: data.listenedCategories.reversed())
         case .topFiveCategories:
-            return TopListenedCategories(listenedCategories: data.listenedCategories)
+            return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
         case .listenedNumbers:
             return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.randomPodcasts)
         case .topOnePodcast:
