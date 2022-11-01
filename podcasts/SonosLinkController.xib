@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SonosLinkController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="connectBtn" destination="eq6-1h-j1k" id="Pu1-9e-8zp"/>
-                <outlet property="createBtn" destination="Xvs-nu-x8L" id="gsn-i6-tu2"/>
                 <outlet property="mainMessage" destination="Cob-KJ-KeT" id="c0U-ca-nqL"/>
                 <outlet property="sonosImage" destination="Yqf-gE-xPX" id="c33-dQ-xvT"/>
+                <outlet property="titleLabel" destination="6AL-1l-kSE" id="NDZ-Uv-6mI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,7 +25,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hyf-AM-sbM">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="435"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="444"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sonos-light" translatesAutoresizingMaskIntoConstraints="NO" id="Yqf-gE-xPX">
                                     <rect key="frame" x="45.5" y="19" width="244" height="137"/>
@@ -36,10 +37,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cob-KJ-KeT" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="45" y="212" width="285" height="90"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="UT6-Ly-pu7"/>
-                                    </constraints>
+                                    <rect key="frame" x="15" y="203" width="345" height="90"/>
                                     <string key="text">Connecting to Sonos will allow the Sonos app to access your episode information.
 
 Your email address, password and other sensitive items are never shared.</string>
@@ -47,60 +45,32 @@ Your email address, password and other sensitive items are never shared.</string
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eq6-1h-j1k" customClass="ShiftyRoundButton" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="37.5" y="316" width="300" height="44"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eq6-1h-j1k" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="37.5" y="313" width="300" height="56"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="300" id="IRL-oz-zOr"/>
-                                        <constraint firstAttribute="height" constant="44" id="v3q-91-rut"/>
+                                        <constraint firstAttribute="height" constant="56" id="v3q-91-rut"/>
                                     </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
-                                            <color key="value" red="0.47058823529999999" green="0.83529411760000005" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
-                                            <color key="value" red="0.47058823529999999" green="0.83529411760000005" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xvs-nu-x8L" userLabel="Create Btn" customClass="ShiftyRoundButton" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="37.5" y="371" width="300" height="44"/>
-                                    <accessibility key="accessibilityConfiguration" label="Create Account">
-                                        <accessibilityTraits key="traits" button="YES"/>
-                                        <bool key="isElement" value="YES"/>
-                                    </accessibility>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="300" id="IGr-8j-gXn"/>
-                                        <constraint firstAttribute="height" constant="44" id="NpY-bX-zw2"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
-                                            <color key="value" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450449940000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
-                                            <color key="value" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450449940000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="connect:" destination="-1" eventType="touchUpInside" id="dtx-o4-Phh"/>
+                                    </connections>
                                 </view>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="6AL-1l-kSE" firstAttribute="centerX" secondItem="Hyf-AM-sbM" secondAttribute="centerX" id="F8U-Ue-Kza"/>
-                                <constraint firstItem="Xvs-nu-x8L" firstAttribute="centerX" secondItem="Hyf-AM-sbM" secondAttribute="centerX" id="ODH-c8-C54"/>
                                 <constraint firstItem="Yqf-gE-xPX" firstAttribute="top" secondItem="Hyf-AM-sbM" secondAttribute="top" constant="19" id="Ont-2D-Zpb"/>
                                 <constraint firstAttribute="bottom" secondItem="eq6-1h-j1k" secondAttribute="bottom" constant="75" id="PVt-ES-b5t"/>
-                                <constraint firstItem="Cob-KJ-KeT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Hyf-AM-sbM" secondAttribute="leading" priority="750" constant="20" id="Plo-Qr-b1C"/>
+                                <constraint firstItem="Cob-KJ-KeT" firstAttribute="leading" secondItem="Hyf-AM-sbM" secondAttribute="leading" priority="750" constant="15" id="Plo-Qr-b1C"/>
                                 <constraint firstItem="Cob-KJ-KeT" firstAttribute="centerX" secondItem="Hyf-AM-sbM" secondAttribute="centerX" id="Tbr-O3-Tce"/>
                                 <constraint firstItem="eq6-1h-j1k" firstAttribute="centerX" secondItem="Hyf-AM-sbM" secondAttribute="centerX" id="WPw-8Q-Kw1"/>
-                                <constraint firstItem="eq6-1h-j1k" firstAttribute="top" secondItem="Cob-KJ-KeT" secondAttribute="bottom" constant="14" id="XIk-YQ-niV"/>
+                                <constraint firstItem="eq6-1h-j1k" firstAttribute="top" secondItem="Cob-KJ-KeT" secondAttribute="bottom" constant="20" id="XIk-YQ-niV"/>
                                 <constraint firstItem="6AL-1l-kSE" firstAttribute="top" secondItem="Yqf-gE-xPX" secondAttribute="bottom" constant="16" id="gIk-3f-HQh"/>
-                                <constraint firstItem="Xvs-nu-x8L" firstAttribute="top" secondItem="eq6-1h-j1k" secondAttribute="bottom" constant="11" id="jws-ab-nIO"/>
-                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Cob-KJ-KeT" secondAttribute="trailing" priority="750" constant="20" id="kNZ-pq-vNl"/>
-                                <constraint firstItem="Cob-KJ-KeT" firstAttribute="top" secondItem="6AL-1l-kSE" secondAttribute="bottom" constant="19" id="onF-c6-O3F"/>
+                                <constraint firstAttribute="trailing" secondItem="Cob-KJ-KeT" secondAttribute="trailing" priority="750" constant="15" id="kNZ-pq-vNl"/>
+                                <constraint firstItem="Cob-KJ-KeT" firstAttribute="top" secondItem="6AL-1l-kSE" secondAttribute="bottom" constant="10" id="onF-c6-O3F"/>
                                 <constraint firstItem="Yqf-gE-xPX" firstAttribute="centerX" secondItem="Hyf-AM-sbM" secondAttribute="centerX" constant="-20" id="y4d-Jt-4Y1"/>
                             </constraints>
                         </view>

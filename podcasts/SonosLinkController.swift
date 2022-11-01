@@ -2,34 +2,16 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
+class SonosLinkController: PCViewController {
     @IBOutlet var sonosImage: UIImageView! {
         didSet {
             sonosImage.image = Theme.isDarkTheme() ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
         }
     }
 
-    @IBOutlet var connectBtn: ShiftyRoundButton! {
-        didSet {
-            connectBtn.buttonTapped = { [weak self] in
-                if SyncManager.isUserLoggedIn() {
-                    self?.connectWithSonos()
-                } else {
-                    self?.signIntoPocketCasts(signInMode: true)
-                }
-            }
-        }
-    }
-
-    @IBOutlet var createBtn: ShiftyRoundButton! {
-        didSet {
-            createBtn.buttonTitle = L10n.createAccount
-            createBtn.buttonTapped = { [weak self] in
-                self?.signIntoPocketCasts(signInMode: false)
-            }
-        }
-    }
-
-    @IBOutlet var mainMessage: UILabel!
+    @IBOutlet weak var titleLabel: ThemeableLabel!
+    @IBOutlet var connectBtn: ThemeableRoundedButton!
+    @IBOutlet var mainMessage: ThemeableLabel!
 
     var callbackUri = ""
 
@@ -37,7 +19,15 @@ import UIKit
         super.viewDidLoad()
 
         title = L10n.sonosConnectPrompt
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(SonosLinkController.cancelTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
+
+        titleLabel.style = .primaryText01
+        titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+
+        mainMessage.style = .primaryText02
+        mainMessage.font = .systemFont(ofSize: 18)
+
+        connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -45,19 +35,30 @@ import UIKit
 
         if SyncManager.isUserLoggedIn() {
             mainMessage.text = L10n.sonosConnectionPrivacyNotice
-            connectBtn.buttonTitle = L10n.sonosConnectAction
-            createBtn.isHidden = true
+            updateConnectButtonTitle(L10n.sonosConnectAction)
         } else {
             mainMessage.text = L10n.sonosConnectionSignInPrompt
-            connectBtn.buttonTitle = L10n.signIn.localizedUppercase
-            createBtn.isHidden = false
+            updateConnectButtonTitle(L10n.continue.localizedUppercase)
         }
     }
 
+    @IBAction func connect(_ sender: Any) {
+        guard SyncManager.isUserLoggedIn() else {
+            signIntoPocketCasts()
+            return
+        }
+
+        connectWithSonos()
+    }
+
+    @objc func cancelTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
     func connectWithSonos() {
-        connectBtn.buttonTitle = L10n.sonosConnecting
         guard ServerSettings.syncingEmail() != nil else {
-            connectBtn.buttonTitle = L10n.retry.localizedUppercase
+            updateConnectButtonTitle(L10n.retry.localizedUppercase)
             return
         }
 
@@ -66,7 +67,7 @@ import UIKit
 
             DispatchQueue.main.async { [weak self] in
                 guard let token = token else {
-                    self?.connectBtn.buttonTitle = L10n.retry.localizedUppercase
+                    self?.updateConnectButtonTitle(L10n.retry.localizedUppercase)
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
                     return
                 }
