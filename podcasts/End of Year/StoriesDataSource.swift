@@ -33,8 +33,11 @@ extension StoriesDataSource {
     }
 
     func shareableAsset(for storyNumber: Int) -> Any {
-        ZStack {
-            storyView(for: storyNumber)
+        let story = story(for: storyNumber)
+        story.willShare()
+
+        return ZStack {
+            AnyView(story)
         }
         .frame(width: 370, height: 693)
         .snapshot()
@@ -55,8 +58,13 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+
+    /// Called when the story will be shared
+    func willShare()
 }
 
 extension Story {
-    func onAppear() {  }
+    func onAppear() {}
+
+    func willShare() {}
 }
