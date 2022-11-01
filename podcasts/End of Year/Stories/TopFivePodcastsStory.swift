@@ -77,6 +77,10 @@ struct TopFivePodcastsStory: StoryView {
         }
         .opacity(podcasts[safe: index] != nil ? 1 : 0)
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, properties: ["story": EndOfYearStory.topFivePodcasts.rawValue])
+    }
 }
 
 struct DummyStory_Previews: PreviewProvider {
