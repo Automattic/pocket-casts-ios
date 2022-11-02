@@ -9,7 +9,7 @@
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
-               title = "PCScript"
+               title = "Update Info.plist with the Google Sign In URL Scheme "
                scriptText = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
