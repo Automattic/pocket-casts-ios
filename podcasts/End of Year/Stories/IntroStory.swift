@@ -39,7 +39,7 @@ struct IntroStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-        [StoryShareableProvider.new(AnyView(self)), "Testing"]
+        [StoryShareableProvider.new(AnyView(self)), "#pocketcasts #endofyear2022"]
     }
 
     private struct Constants {
