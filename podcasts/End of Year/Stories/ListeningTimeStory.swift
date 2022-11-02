@@ -83,7 +83,10 @@ struct ListeningTimeStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-        [StoryShareableProvider.new(AnyView(self)), StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))]
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
+        ]
     }
 }
 
