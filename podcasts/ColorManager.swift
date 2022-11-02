@@ -65,6 +65,12 @@ class ColorManager {
         podcast.backgroundColor != nil && podcast.colorVersion == currentColorVersion
     }
 
+    func updateColorsIfRequired(_ podcast: Podcast) {
+        if podcast.colorVersion < currentColorVersion {
+            scheduleColorDownload(podcast)
+        }
+    }
+
     private func backgroundColorForPodcast(_ podcast: Podcast) -> UIColor {
         if let colorStr = podcast.backgroundColor, podcast.colorVersion == currentColorVersion {
             return UIColor(hex: colorStr)
@@ -124,12 +130,6 @@ class ColorManager {
         downloadingPodcasts.append(podcastUuid)
 
         return true
-    }
-
-    private func updateColorsIfRequired(_ podcast: Podcast) {
-        if podcast.colorVersion < currentColorVersion {
-            scheduleColorDownload(podcast)
-        }
     }
 
     private func scheduleColorDownload(_ podcast: Podcast) {

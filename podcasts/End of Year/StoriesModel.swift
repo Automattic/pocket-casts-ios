@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    @Published var progress: Double
+    var progress: Double
 
     @Published var currentStory: Int = 0
 
@@ -22,6 +22,10 @@ class StoriesModel: ObservableObject {
 
     var numberOfStories: Int {
         dataSource.numberOfStories
+    }
+
+    var numberOfStoriesToPreload: Int {
+        configuration.storiesToPreload
     }
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration) {
@@ -57,11 +61,20 @@ class StoriesModel: ObservableObject {
             }
 
             self.progress = newProgress
+            StoriesProgressModel.shared.progress = newProgress
         })
     }
 
     func story(index: Int) -> AnyView {
         dataSource.storyView(for: index)
+    }
+
+    func preload(index: Int) -> AnyView {
+        if index < numberOfStories {
+            return story(index: index)
+        }
+
+        return AnyView(EmptyView())
     }
 
     func interactive(index: Int) -> AnyView {
