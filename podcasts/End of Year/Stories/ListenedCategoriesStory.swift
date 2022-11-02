@@ -7,6 +7,8 @@ struct ListenedCategoriesStory: StoryView {
 
     let listenedCategories: [ListenedCategory]
 
+    let identifier: String = "listened_categories"
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -73,11 +75,11 @@ struct ListenedCategoriesStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .listenedCategories)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .listenedCategories)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
     }
 
     func sharingAssets() -> [Any] {

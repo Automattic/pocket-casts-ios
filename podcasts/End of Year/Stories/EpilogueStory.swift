@@ -3,6 +3,8 @@ import SwiftUI
 struct EpilogueStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    var identifier: String = "epilogue"
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -63,11 +65,11 @@ struct EpilogueStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .epilogue)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .epilogue)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
     }
 
     func sharingAssets() -> [Any] {

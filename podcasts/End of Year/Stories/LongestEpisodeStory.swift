@@ -5,6 +5,8 @@ import PocketCastsDataModel
 struct LongestEpisodeStory: StoryView {
     let duration: TimeInterval = 5.seconds
 
+    var identifier: String = "longest_episode"
+
     let episode: Episode
 
     let podcast: Podcast
@@ -82,11 +84,11 @@ struct LongestEpisodeStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .longestEpisode)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .longestEpisode)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
     }
 
     func sharingAssets() -> [Any] {

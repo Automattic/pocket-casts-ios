@@ -5,6 +5,8 @@ import PocketCastsDataModel
 struct TopOnePodcastStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    let identifier: String = "top_one_podcast"
+
     let topPodcast: TopPodcast
 
     var backgroundColor: Color {
@@ -79,11 +81,11 @@ struct TopOnePodcastStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .topOnePodcast)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .topOnePodcast)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
     }
 
     func sharingAssets() -> [Any] {
