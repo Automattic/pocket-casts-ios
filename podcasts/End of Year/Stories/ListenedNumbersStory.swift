@@ -106,6 +106,13 @@ struct ListenedNumbersStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .numberOfPodcastsAndEpisodesListened)
     }
+
+    func sharingAssets() -> [Any] {
+            [
+                StoryShareableProvider.new(AnyView(self)),
+                StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
+            ]
+        }
 }
 
 struct ListenedNumbersStory_Previews: PreviewProvider {
