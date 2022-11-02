@@ -24,7 +24,6 @@ class PlaybackItem: NSObject {
             let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
             options["AVURLAssetHTTPHeaderFieldsKey"] = customHeaders
         }
-        
         let asset = AVURLAsset(url: url, options: options)
 
         return AVPlayerItem(asset: asset)
