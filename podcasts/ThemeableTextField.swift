@@ -25,10 +25,6 @@ class ThemeableTextField: UITextField {
         setup()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

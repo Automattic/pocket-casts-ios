@@ -1,93 +1,101 @@
-﻿"0EmR82" = "Abrir filtro ${filterName}";
-
-"0YXvyS" = "Anterior";
-
-"1uT6VF" = "Pesquisa de mídia";
-
-"3aWmex" = "Capítulo";
-
-"5yWeuV" = "Reproduzir a ${playbackSpeed}";
-
-"CXbd65" = "Definir temporizador";
-
-"E6Nzn4-No0K9w" = "retomar o Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "não retomar o Pocket Casts";
-
-"ErAaNp" = "Modo de repetição";
-
-"EwNFJ5" = "Prolongar temporizador";
-
-"G0iCil" = "Não é possível pular o capítulo";
-
-"G3J6fP" = "Reproduzir podcast";
-
-"IyhbAH" = "Abrir filtro";
-
-"LdrEPN" = "Uma solicitação para reproduzir mídia";
-
-"MbU5ep" = "Reproduzir ${mediaItems} no aleatório";
-
-"No0K9w" = "retomar";
-
-"Ntulol" = "Pular capítulo";
-
-"OJvsVr" = "Prolongar o temporizador em 5 minutos";
-
-"Pk1Fkx" = "não retomar";
-
-"QektJm" = "Abrir filtro";
-
-"QqdHiR" = "aleatório";
-
-"RvX3Zd" = "Velocidade de reprodução";
-
-"WEjMGd" = "Play ${mediaContainer}";
-
-"Wj0EAI" = "Pular";
-
-"WktFNa" = "Aleatório";
-
-"YYfsKp" = "Reproduzir ${mediaContainer}";
-
-"bVm1vW" = "Definir temporizador";
-
-"cV2HLF" = "Localização na fila";
-
-"cfJexL" = "Itens";
-
-"dBTobY" = "Pular capítulo";
-
-"emhqzv" = "Podcast incompatível com capítulos";
-
-"gD0dlx" = "Próximo";
-
-"iQo0yQ-0YXvyS" = "Capítulo anterior";
-
-"iQo0yQ-Wj0EAI" = "Pular capítulo";
-
-"iQo0yQ-gD0dlx" = "Próximo capítulo";
-
-"mCAocc" = "não aleatório";
-
-"nAv25k" = "Reproduzir ${mediaContainer} no aleatório";
-
-"nNozW1" = "Reproduzir ${mediaContainer} no aleatório";
-
-"nR0neu" = "Temporizador";
-
-"ny98Lo" = "Prolongar temporizador";
-
-"o6CuZu" = "Retomar ${mediaContainer}";
-
-"q8QY8B" = "Reproduzir ${mediaContainer} a ${playbackSpeed}";
-
-"rnkZnd" = "Pular capítulo";
-
-"rvNMpm" = "Retomar";
-
-"sLPQxZ" = "Reproduzir ${mediaContainer}";
-
-"xdnqvn" = "Contêiner";
-
-"zvlpk3" = "Capítulo pulado";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>Abrir filtro ${filterName}</string>
+    <key>0YXvyS</key>
+    <string>Anterior</string>
+    <key>1uT6VF</key>
+    <string>Pesquisa de mídia</string>
+    <key>3aWmex</key>
+    <string>Capítulo</string>
+    <key>5yWeuV</key>
+    <string>Reproduzir a ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Definir temporizador</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>retomar o Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>não retomar o Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>Modo de repetição</string>
+    <key>EwNFJ5</key>
+    <string>Prolongar temporizador</string>
+    <key>G0iCil</key>
+    <string>Não é possível pular o capítulo</string>
+    <key>G3J6fP</key>
+    <string>Reproduzir podcast</string>
+    <key>IyhbAH</key>
+    <string>Abrir filtro</string>
+    <key>LdrEPN</key>
+    <string>Uma solicitação para reproduzir mídia</string>
+    <key>MbU5ep</key>
+    <string>Reproduzir ${mediaItems} no aleatório</string>
+    <key>No0K9w</key>
+    <string>retomar</string>
+    <key>Ntulol</key>
+    <string>Pular capítulo</string>
+    <key>OJvsVr</key>
+    <string>Prolongar o temporizador em 5 minutos</string>
+    <key>Pk1Fkx</key>
+    <string>não retomar</string>
+    <key>QektJm</key>
+    <string>Abrir filtro</string>
+    <key>QqdHiR</key>
+    <string>aleatório</string>
+    <key>RvX3Zd</key>
+    <string>Velocidade de reprodução</string>
+    <key>WEjMGd</key>
+    <string>Play ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>Pular</string>
+    <key>WktFNa</key>
+    <string>Aleatório</string>
+    <key>YYfsKp</key>
+    <string>Reproduzir ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>Definir temporizador</string>
+    <key>cV2HLF</key>
+    <string>Localização na fila</string>
+    <key>cfJexL</key>
+    <string>Itens</string>
+    <key>dBTobY</key>
+    <string>Pular capítulo</string>
+    <key>emhqzv</key>
+    <string>Podcast incompatível com capítulos</string>
+    <key>gD0dlx</key>
+    <string>Próximo</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Capítulo anterior</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Pular capítulo</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Próximo capítulo</string>
+    <key>mCAocc</key>
+    <string>não aleatório</string>
+    <key>nAv25k</key>
+    <string>Reproduzir ${mediaContainer} no aleatório</string>
+    <key>nNozW1</key>
+    <string>Reproduzir ${mediaContainer} no aleatório</string>
+    <key>nR0neu</key>
+    <string>Temporizador</string>
+    <key>ny98Lo</key>
+    <string>Prolongar temporizador</string>
+    <key>o6CuZu</key>
+    <string>Retomar ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>Reproduzir ${mediaContainer} a ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Pular capítulo</string>
+    <key>rvNMpm</key>
+    <string>Retomar</string>
+    <key>sLPQxZ</key>
+    <string>Reproduzir ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Contêiner</string>
+    <key>zvlpk3</key>
+    <string>Capítulo pulado</string>
+  </dict>
+</plist>

@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Это разрешение позволит добавлять пользовательские изображения в ваши файлы";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts требуется доступ к Bluetooth для обнаружения ближайших устройств Google Cast.";
-NSLocalNetworkUsageDescription = "Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отменить соответствующее разрешение.";
-NSMicrophoneUsageDescription = "Pocket Casts требуется доступ к микрофону для обнаружения ближайших устройств Google Cast.";
-NSPhotoLibraryUsageDescription = "Pocket Casts требуется разрешение для сохранения этого изображения в библиотеке фотографий.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts требуется разрешение для сохранения этого изображения в библиотеке фотографий.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts требуется доступ к Bluetooth для обнаружения ближайших устройств Google Cast.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Это разрешение позволит добавлять пользовательские изображения к вашим файлам</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отменить соответствующее разрешение.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts требуется доступ к микрофону для обнаружения ближайших устройств Google Cast.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts требуется разрешение на сохранение этого изображения в библиотеке фотографий.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts требуется разрешение на сохранение этого изображения в библиотеке фотографий.</string>
+  </dict>
+</plist>

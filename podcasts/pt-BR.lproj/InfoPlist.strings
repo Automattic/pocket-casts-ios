@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Isso permite que você adicione imagens personalizadas aos seus arquivos";
-NSBluetoothAlwaysUsageDescription = "O Pocket Casts precisa acessar seu bluetooth para detectar dispositivos Google Cast próximos.";
-NSLocalNetworkUsageDescription = "O Pocket Casts usa isso para encontrar dispositivos Google Cast em sua rede. Se você não usa essa funcionalidade, sinta-se à vontade para dizer não.";
-NSMicrophoneUsageDescription = "O Pocket Casts precisa acessar seu microfone para detectar dispositivos Google Cast próximos.";
-NSPhotoLibraryUsageDescription = "O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.";
-NSPhotoLibraryAddUsageDescription = "O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>O Pocket Casts precisa acessar seu Bluetooth para detectar dispositivos Google Cast próximos.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Isso permite que você adicione imagens personalizadas aos seus arquivos</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>O Pocket Casts usa isso para encontrar dispositivos Google Cast em sua rede. Se você não usa essa funcionalidade, sinta-se à vontade para dizer não.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>O Pocket Casts precisa acessar seu microfone para detectar dispositivos Google Cast próximos.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.</string>
+  </dict>
+</plist>

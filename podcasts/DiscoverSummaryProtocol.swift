@@ -21,4 +21,6 @@ protocol DiscoverDelegate: AnyObject {
     func navController() -> UINavigationController?
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast)
+
+    func failedToLoadEpisode()
 }

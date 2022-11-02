@@ -24,6 +24,18 @@ class DiscoverViewController: PCViewController {
 
     var discoverLayout: DiscoverLayout?
 
+    private let coordinator: DiscoverCoordinator
+
+    init(coordinator: DiscoverCoordinator) {
+        self.coordinator = coordinator
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -157,8 +169,8 @@ class DiscoverViewController: PCViewController {
         for discoverItem in items {
             guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle, discoverItem.regions.contains(currentRegion) else { continue }
             let expandedStyle = discoverItem.expandedStyle ?? ""
-            // don't show sponsored items to active plus subscribers. Those who don't have a subscription, or have a gift (lifetime or otherwise) will still get them
-            if discoverItem.isSponsored ?? false, SubscriptionHelper.hasActiveSubscription(), SubscriptionHelper.hasRenewingSubscription() { continue }
+
+            guard coordinator.shouldDisplay(discoverItem) else { continue }
 
             switch (type, summaryStyle, expandedStyle) {
             case ("podcast_list", "carousel", _):

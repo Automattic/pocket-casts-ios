@@ -82,6 +82,10 @@ class NavigationManager {
         mainController = controller
     }
 
+    func dismissPresentedViewController() {
+        mainController?.dismissPresentedViewController()
+    }
+
     private func performNavigation(_ place: String, data: NSDictionary?, animated: Bool) {
         lastNavKey = place
         lastNavData = data

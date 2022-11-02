@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Ceci vous permet d’ajouter des images personnalisées à vos fichiers.";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts doit accéder à Bluetooth afin de détecter les appareils Google Cast à proximité.";
-NSLocalNetworkUsageDescription = "Pocket Casts l’utilise pour trouver les appareils Google Cast dans votre réseau. Si vous n’utilisez pas cette fonctionnalité, vous pouvez refuser.";
-NSMicrophoneUsageDescription = "Pocket Casts doit accéder à votre microphone afin de détecter les appareils Google Cast à proximité.";
-NSPhotoLibraryUsageDescription = "Vous devez autoriser Pocket Casts à enregistrer cette image dans votre galerie de photos.";
-NSPhotoLibraryAddUsageDescription = "Vous devez autoriser Pocket Casts à enregistrer cette image dans votre galerie de photos.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts doit accéder à Bluetooth afin de détecter les appareils Google Cast à proximité.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Cela vous permet d’ajouter des images personnalisées à vos fichiers.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts l’utilise pour trouver les appareils Google Cast dans votre réseau. Si vous n’utilisez pas cette fonctionnalité, vous pouvez refuser.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts doit accéder à votre microphone afin de détecter les appareils Google Cast à proximité.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts nécessite une autorisation pour sauvegarder cette image dans votre bibliothèque de photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts nécessite une autorisation pour sauvegarder cette image dans votre bibliothèque de photos.</string>
+  </dict>
+</plist>

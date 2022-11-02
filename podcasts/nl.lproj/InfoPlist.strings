@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Hiermee kan je aangepaste afbeeldingen aan je bestanden toevoegen";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts heeft toegang nodig tot je bluetooth om Google Cast-apparaten in de buurt te kunnen detecteren.";
-NSLocalNetworkUsageDescription = "Pocket Casts gebruikt deze om Google Cast-apparaten binnen je netwerk te vinden. Als je deze functie niet gebruikt, kan je altijd nee zeggen.";
-NSMicrophoneUsageDescription = "Pocket Casts heeft toegang nodig tot je microfoon om Google Cast-apparaten in de buurt te kunnen detecteren.";
-NSPhotoLibraryUsageDescription = "Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts heeft toegang nodig tot je bluetooth om Google Cast-apparaten in de buurt te kunnen detecteren.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Hiermee kan je aangepaste afbeeldingen aan je bestanden toevoegen</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts gebruikt deze om Google Cast-apparaten binnen je netwerk te vinden. Als je deze functie niet gebruikt, kan je altijd nee zeggen.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts heeft toegang nodig tot je microfoon om Google Cast-apparaten in de buurt te kunnen detecteren.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts heeft toestemming nodig om deze afbeelding op te slaan in je fotobibliotheek.</string>
+  </dict>
+</plist>

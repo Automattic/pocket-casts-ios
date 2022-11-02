@@ -1,93 +1,101 @@
-﻿"0EmR82" = "${filterName}フィルターを開く";
-
-"0YXvyS" = "前";
-
-"1uT6VF" = "メディア検索";
-
-"3aWmex" = "チャプター";
-
-"5yWeuV" = "${playbackSpeed}で再生";
-
-"CXbd65" = "スリープタイマーを設定";
-
-"E6Nzn4-No0K9w" = "Pocket Casts を再有効化";
-
-"E6Nzn4-Pk1Fkx" = "Pocket Casts を再有効化しない";
-
-"ErAaNp" = "繰り返しモード";
-
-"EwNFJ5" = "スリープタイマーを延長";
-
-"G0iCil" = "チャプターをスキップできません";
-
-"G3J6fP" = "ポッドキャストを再生";
-
-"IyhbAH" = "フィルターを開く";
-
-"LdrEPN" = "メディアの再生リクエスト";
-
-"MbU5ep" = "${mediaItems} をシャッフル";
-
-"No0K9w" = "再有効化";
-
-"Ntulol" = "チャプターをスキップ";
-
-"OJvsVr" = "スリープタイマーを5分延長";
-
-"Pk1Fkx" = "再有効化しないでください";
-
-"QektJm" = "フィルターを開く";
-
-"QqdHiR" = "シャッフル済み";
-
-"RvX3Zd" = "再生速度";
-
-"WEjMGd" = "${mediaContainer}を再生";
-
-"Wj0EAI" = "スキップ";
-
-"WktFNa" = "シャッフル済み";
-
-"YYfsKp" = "${mediaContainer}を再生";
-
-"bVm1vW" = "スリープタイマーを設定";
-
-"cV2HLF" = "待機リストの場所";
-
-"cfJexL" = "アイテム";
-
-"dBTobY" = "チャプターをスキップ";
-
-"emhqzv" = "ポッドキャストはチャプターに対応していません";
-
-"gD0dlx" = "次へ";
-
-"iQo0yQ-0YXvyS" = "前のチャプター";
-
-"iQo0yQ-Wj0EAI" = "チャプターをスキップ";
-
-"iQo0yQ-gD0dlx" = "次のチャプター";
-
-"mCAocc" = "シャッフルなし";
-
-"nAv25k" = "${mediaContainer}をシャッフル";
-
-"nNozW1" = "${mediaContainer}をシャッフル";
-
-"nR0neu" = "スリープタイマー";
-
-"ny98Lo" = "スリープタイマーを延長";
-
-"o6CuZu" = "${mediaContainer}を再有効化";
-
-"q8QY8B" = "${playbackSpeed}で${mediaItems}を再生";
-
-"rnkZnd" = "チャプターをスキップ";
-
-"rvNMpm" = "再有効化";
-
-"sLPQxZ" = "${mediaContainer}を再生";
-
-"xdnqvn" = "コンテナ";
-
-"zvlpk3" = "スキップ済みチャプター";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>${filterName} フィルターを開く</string>
+    <key>0YXvyS</key>
+    <string>前</string>
+    <key>1uT6VF</key>
+    <string>メディア検索</string>
+    <key>3aWmex</key>
+    <string>チャプター</string>
+    <key>5yWeuV</key>
+    <string>${playbackSpeed}で再生</string>
+    <key>CXbd65</key>
+    <string>スリープタイマーを設定</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>Pocket Casts を再有効化</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>Pocket Casts を再有効化しない</string>
+    <key>ErAaNp</key>
+    <string>繰り返しモード</string>
+    <key>EwNFJ5</key>
+    <string>スリープタイマーを延長</string>
+    <key>G0iCil</key>
+    <string>チャプターをスキップできません</string>
+    <key>G3J6fP</key>
+    <string>ポッドキャストを再生</string>
+    <key>IyhbAH</key>
+    <string>フィルターを開く</string>
+    <key>LdrEPN</key>
+    <string>メディアの再生リクエスト</string>
+    <key>MbU5ep</key>
+    <string>${mediaItems} をシャッフル</string>
+    <key>No0K9w</key>
+    <string>再有効化</string>
+    <key>Ntulol</key>
+    <string>チャプターをスキップ</string>
+    <key>OJvsVr</key>
+    <string>スリープタイマーを5分延長</string>
+    <key>Pk1Fkx</key>
+    <string>再有効化しないでください</string>
+    <key>QektJm</key>
+    <string>フィルターを開く</string>
+    <key>QqdHiR</key>
+    <string>シャッフル済み</string>
+    <key>RvX3Zd</key>
+    <string>再生速度</string>
+    <key>WEjMGd</key>
+    <string>${mediaContainer}を再生</string>
+    <key>Wj0EAI</key>
+    <string>スキップ</string>
+    <key>WktFNa</key>
+    <string>シャッフル済み</string>
+    <key>YYfsKp</key>
+    <string>${mediaContainer}を再生</string>
+    <key>bVm1vW</key>
+    <string>スリープタイマーを設定</string>
+    <key>cV2HLF</key>
+    <string>待機リストの場所</string>
+    <key>cfJexL</key>
+    <string>アイテム</string>
+    <key>dBTobY</key>
+    <string>チャプターをスキップ</string>
+    <key>emhqzv</key>
+    <string>ポッドキャストはチャプターに対応していません</string>
+    <key>gD0dlx</key>
+    <string>次へ</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>前のチャプター</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>チャプターをスキップ</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>次のチャプター</string>
+    <key>mCAocc</key>
+    <string>シャッフルなし</string>
+    <key>nAv25k</key>
+    <string>${mediaContainer}をシャッフル</string>
+    <key>nNozW1</key>
+    <string>${mediaContainer}をシャッフル</string>
+    <key>nR0neu</key>
+    <string>スリープタイマー</string>
+    <key>ny98Lo</key>
+    <string>スリープタイマーを延長</string>
+    <key>o6CuZu</key>
+    <string>${mediaContainer}を再有効化</string>
+    <key>q8QY8B</key>
+    <string>${playbackSpeed}で${mediaItems}を再生</string>
+    <key>rnkZnd</key>
+    <string>チャプターをスキップ</string>
+    <key>rvNMpm</key>
+    <string>再有効化</string>
+    <key>sLPQxZ</key>
+    <string>${mediaContainer}を再生</string>
+    <key>xdnqvn</key>
+    <string>コンテナ</string>
+    <key>zvlpk3</key>
+    <string>スキップ済みチャプター</string>
+  </dict>
+</plist>

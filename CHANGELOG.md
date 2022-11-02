@@ -1,3 +1,14 @@
+7.27
+-----
+
+
+7.26
+-----
+- Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
+- Fixed About screen dark theme background in light mode (#339)
+- Adding select/deselect all podcasts button to folder creation (#143)
+- Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
+
 7.25
 -----
 - Fixed a crash that could happen when playing an episode while the app is in the background (#345)

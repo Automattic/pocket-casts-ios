@@ -7,10 +7,20 @@ import PocketCastsServer
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
 
+    private var buttonFont: UIFont {
+        .systemFont(ofSize: 18, weight: .semibold)
+    }
+
+    @IBOutlet var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.style = .support05
+        }
+    }
+
     @IBOutlet var createAccountBtn: ThemeableRoundedButton! {
         didSet {
             createAccountBtn.setTitle(L10n.createAccount, for: .normal)
-            createAccountBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+            createAccountBtn.titleLabel?.font = buttonFont
         }
     }
 
@@ -20,7 +30,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
             signInBtn.isHidden = FeatureFlag.signInWithApple
             signInBtn.setTitle(L10n.signIn, for: .normal)
             signInBtn.shouldFill = false
-            signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+            signInBtn.titleLabel?.font = buttonFont
         }
     }
 
@@ -28,7 +38,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             passwordAuthOption.isHidden = !FeatureFlag.signInWithApple
             passwordAuthOption.setTitle(L10n.accountLogin, for: .normal)
-            passwordAuthOption.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+            passwordAuthOption.titleLabel?.font = buttonFont
         }
     }
 
@@ -99,6 +109,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     }
 
     @IBAction func signInTapped() {
+        errorLabel.isHidden = true
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
 
@@ -138,6 +149,7 @@ extension ProfileIntroViewController {
 
     @objc
     func handleAppleAuthButtonPress() {
+        errorLabel.isHidden = true
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -192,9 +204,10 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
 
     func showError(_ error: Error) {
         FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
-        let error = (error as? APIError) ?? .UNKNOWN
-        Analytics.track(.userSignInFailed, properties: ["source": AuthenticationSource.ssoApple.rawValue, "error_code": error.rawValue])
 
-        // TODO: Present Error
+        DispatchQueue.main.async {
+            self.errorLabel.text = L10n.accountSsoFailed
+            self.errorLabel.isHidden = false
+        }
     }
 }

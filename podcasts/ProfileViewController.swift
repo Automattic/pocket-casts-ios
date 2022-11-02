@@ -113,12 +113,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var promoRedeemedMessage: String?
     private let settingsCellId = "SettingsCell"
+    private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
+            profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.applyInsetForMiniPlayer()
         }
     }
@@ -168,6 +170,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             updateDisplayedData()
             showPromotionRedeemedAcknowledgement()
             promoRedeemedMessage = nil
+        }
+
+        if EndOfYear.isEligible {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
     }
 
@@ -380,11 +386,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = tableData()[indexPath.section][indexPath.row]
+
+        guard row != .endOfYearPrompt else {
+            return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
-        let row = tableData()[indexPath.section][indexPath.row]
         switch row {
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
@@ -401,9 +412,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
+        case .endOfYearPrompt:
+            return EndOfYearPromptCell()
         }
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if EndOfYear.isEligible && indexPath.row == 0 {
+            return UITableView.automaticDimension
+        } else {
+            return 70
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -426,6 +447,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
+        case .endOfYearPrompt:
+            EndOfYear().showStories(in: self)
         }
     }
 
@@ -438,11 +461,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
+        var data: [[ProfileViewController.TableRow]]
         if !SyncManager.isUserLoggedIn() {
-            return [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
+            data = [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
         } else {
-            return [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
+            data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
         }
+
+        if EndOfYear.isEligible {
+            data[0].insert(.endOfYearPrompt, at: 0)
+        }
+
+        return data
     }
 
     private func updateFooterFrame() {

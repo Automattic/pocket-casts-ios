@@ -183,43 +183,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     private func formatStat(_ stat: Double) -> String {
-        let days = Int(safeDouble: stat / 86400)
-        let hours = Int(safeDouble: stat / 3600) - (days * 24)
-        let mins = Int(safeDouble: stat / 60) - (hours * 60) - (days * 24 * 60)
-        let secs = Int(safeDouble: stat.truncatingRemainder(dividingBy: 60))
-        var output = [String]()
-
-        if let daysHours = formatDaysHours(days: days, hours: hours) {
-            output.append(daysHours)
-        }
-
-        if days > 0, hours > 0 {
-            return output.first ?? ""
-        }
-
-        let secondsForDisplay = hours < 1 ? secs : 0
-        if let minsSeconds = formatMinsSeconds(mins: mins, secs: secondsForDisplay) {
-            output.append(minsSeconds)
-        }
-
-        if output.count == 0 {
-            let components = DateComponents(calendar: Calendar.current, second: secs)
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full) ?? L10n.statsTimeZeroSeconds
-        }
-
-        return output.joined(separator: " ")
-    }
-
-    private func formatDaysHours(days: Int, hours: Int) -> String? {
-        guard days > 0 || hours > 0 else { return nil }
-        let components = DateComponents(calendar: Calendar.current, day: days, hour: hours)
-        return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full)?.replacingOccurrences(of: ",", with: "")
-    }
-
-    private func formatMinsSeconds(mins: Int, secs: Int) -> String? {
-        guard mins > 0 else { return nil }
-        let components = DateComponents(calendar: Calendar.current, minute: mins, second: secs)
-        return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short)?.replacingOccurrences(of: ",", with: "")
+        stat.localizedTimeDescription ?? L10n.statsTimeZeroSeconds
     }
 
     private func requestReviewIfPossible() {

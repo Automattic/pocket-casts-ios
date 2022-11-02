@@ -1,6 +1,19 @@
-NSCameraUsageDescription = "Esto te permite añadir imágenes personalizadas a tus archivos.";
-NSBluetoothAlwaysUsageDescription = "Pocket Casts necesita acceder a tu bluetooth para detectar dispositivos Google Cast que se encuentren cerca.";
-NSLocalNetworkUsageDescription = "Pocket Casts lo utiliza para encontrar dispositivos Google Cast en tu red. Si no usas esta función, no dudes en denegar el permiso.";
-NSMicrophoneUsageDescription = "Pocket Casts necesita acceder a tu micrófono para detectar dispositivos Google Cast que se encuentren cerca.";
-NSPhotoLibraryUsageDescription = "Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.";
-NSPhotoLibraryAddUsageDescription = "Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts necesita acceder a tu Bluetooth para detectar dispositivos Google Cast que se encuentren cerca.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Esto te permite añadir imágenes personalizadas a tus archivos.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts lo utiliza para encontrar dispositivos Google Cast en tu red. Si no usas esta función, no dudes en denegar el permiso.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts necesita acceder a tu micrófono para detectar dispositivos Google Cast que se encuentren cerca.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.</string>
+  </dict>
+</plist>
