@@ -5,11 +5,9 @@ class StoryShareableText: UIActivityItemProvider {
     private var text: String
 
     private let hashtags = "#pocketcasts #endofyear2022"
-
     private let pocketCastsUrl = "https://pca.st/"
 
     private var shortenedURL: String?
-
     private var longURL: String?
 
     init(_ text: String) {
