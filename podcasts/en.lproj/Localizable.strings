@@ -3342,5 +3342,8 @@
 /* Title of the top categories story. */
 "eoy_story_top_categories" = "Your Top Categories";
 
+/* Text that appear when someone share the top categories story to Twitter. */
+"eoy_story_top_categories_share_text" = "My most listened to podcast categories";
+
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";

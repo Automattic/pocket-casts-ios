@@ -68,6 +68,13 @@ struct TopListenedCategoriesStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .topCategories)
     }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryTopCategoriesShareText)
+        ]
+    }
 }
 
 #if DEBUG
