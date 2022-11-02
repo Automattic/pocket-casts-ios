@@ -8551,6 +8551,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SFWALZRJ55;
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8561,6 +8562,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SFWALZRJ55;
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8571,6 +8573,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SFWALZRJ55;
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -8934,6 +8937,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -9283,6 +9287,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -9311,6 +9316,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.plist";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
