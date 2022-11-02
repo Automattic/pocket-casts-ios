@@ -10,13 +10,10 @@ if [ -f "$GOOGLE_SIGN_IN_SECRETS_PATH" ] && [ -f "$PLIST_FILE" ]; then
 
 	# Grab the number of elements in the URL Types array
 	count=$(plutil -extract CFBundleURLTypes raw -expect array $PLIST_FILE)
-	echo $count
 	# Loop through the URL Types array until we find the sign in item
 	for (( i=0; i<$count; i++ )) do
 		key=$(plutil -extract CFBundleURLTypes.$i.CFBundleURLName raw -expect string $PLIST_FILE)
-		echo $key
 		if [ "$key" == "$replace_key" ]; then 
-			echo "found"
 			# Empty out the array, and then insert the scheme into the file
 			plutil -replace CFBundleURLTypes.$i.CFBundleURLSchemes -array $PLIST_FILE
 			plutil -insert CFBundleURLTypes.$i.CFBundleURLSchemes.0 -string $url_scheme $PLIST_FILE
