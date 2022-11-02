@@ -49,6 +49,7 @@ struct EndOfYear {
             let profileIntroController = ProfileIntroViewController()
             profileIntroController.infoLabelText = L10n.eoyCreateAccountToSee
             let navigationController = UINavigationController(rootViewController: profileIntroController)
+            navigationController.modalPresentationStyle = .fullScreen
             viewController.present(navigationController, animated: true)
             return
         }
