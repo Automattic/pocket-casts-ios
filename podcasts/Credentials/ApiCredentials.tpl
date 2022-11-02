@@ -28,5 +28,5 @@ struct ApiCredentials {
 
     /// Google Sign In
     ///
-    static let googleSignInSecret = "GOOGLE_SIGN_IN_SECRET"
+    static let googleSignInSecret = "%{google_sign_in_secret}"
 }

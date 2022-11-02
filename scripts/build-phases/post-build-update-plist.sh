@@ -5,8 +5,8 @@ if [ -f "$GOOGLE_SIGN_IN_SECRETS_PATH" ] && [ -f "$PLIST_FILE" ]; then
 	# The CFBundleURLName key to look for
 	replace_key="GoogleSignIn"
 
-	# Get the REVERSED_CLIENT_ID from the plist
-	url_scheme=$(plutil -extract REVERSED_CLIENT_ID raw -expect string $GOOGLE_SIGN_IN_SECRETS_PATH)
+	# Get the URL Scheme
+	url_scheme=$(cat $GOOGLE_SIGN_IN_SECRETS_PATH)
 
 	# Grab the number of elements in the URL Types array
 	count=$(plutil -extract CFBundleURLTypes raw -expect array $PLIST_FILE)
@@ -17,8 +17,6 @@ if [ -f "$GOOGLE_SIGN_IN_SECRETS_PATH" ] && [ -f "$PLIST_FILE" ]; then
 			# Empty out the array, and then insert the scheme into the file
 			plutil -replace CFBundleURLTypes.$i.CFBundleURLSchemes -array $PLIST_FILE
 			plutil -insert CFBundleURLTypes.$i.CFBundleURLSchemes.0 -string $url_scheme $PLIST_FILE
-			
-			plutil -extract CFBundleURLTypes.$i.CFBundleURLSchemes.0 raw -expect string $PLIST_FILE
 		fi
 	done
 	exit 0
