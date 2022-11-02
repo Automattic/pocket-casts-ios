@@ -50,7 +50,7 @@ class DynamicBackgroundProvider: ObservableObject {
         self.podcast = podcast
 
         if !ColorManager.podcastHasBackgroundColor(podcast) {
-            _ = ColorManager.backgroundColorForPodcast(podcast)
+            ColorManager.sharedManager.updateColorsIfRequired(podcast)
             NotificationCenter.default.addObserver(self, selector: #selector(podcastColorsLoaded(_:)), name: Constants.Notifications.podcastColorsDownloaded, object: podcast.uuid)
         }
     }
