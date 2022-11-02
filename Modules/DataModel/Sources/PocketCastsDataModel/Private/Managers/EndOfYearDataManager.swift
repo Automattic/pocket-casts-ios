@@ -120,11 +120,12 @@ class EndOfYearDataManager {
 
                 while resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "numberOfPodcasts"))
+                    let totalPlayedTime = resultSet.double(forColumn: "totalPlayedTime")
                     if let categoryTitle = resultSet.string(forColumn: "category") {
                         listenedCategories.append(ListenedCategory(
                             numberOfPodcasts: numberOfPodcasts,
                             categoryTitle: categoryTitle,
-                            mostListenedPodcast: Podcast.from(resultSet: resultSet))
+                            mostListenedPodcast: Podcast.from(resultSet: resultSet), totalPlayedTime: totalPlayedTime)
                         )
                     }
                 }
@@ -261,7 +262,17 @@ class EndOfYearDataManager {
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
     public let categoryTitle: String
+    public let totalPlayedTime: Double
     public let mostListenedPodcast: Podcast
+
+    #if DEBUG
+    public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double) {
+        self.numberOfPodcasts = numberOfPodcasts
+        self.categoryTitle = categoryTitle
+        self.mostListenedPodcast = mostListenedPodcast
+        self.totalPlayedTime = totalPlayedTime
+    }
+    #endif
 }
 
 public struct ListenedNumbers {
