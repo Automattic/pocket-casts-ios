@@ -1365,6 +1365,7 @@
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
+		C7F01AFA2911882600EE15D5 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C7F01AF92911882600EE15D5 /* GoogleSignInSwift */; };
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
@@ -2990,6 +2991,7 @@
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				C7F01AFA2911882600EE15D5 /* GoogleSignInSwift in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
@@ -6369,6 +6371,7 @@
 				46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */,
 				468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */,
+				C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -9721,6 +9724,14 @@
 				minimumVersion = 1.4.0;
 			};
 		};
+		C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -9828,6 +9839,11 @@
 		C7BF5E4C29083E2100733C1E /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsServer;
+		};
+		C7F01AF92911882600EE15D5 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
