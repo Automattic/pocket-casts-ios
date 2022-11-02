@@ -51,7 +51,7 @@ class DynamicBackgroundProvider: ObservableObject {
 
         if !ColorManager.podcastHasBackgroundColor(podcast) {
             _ = ColorManager.backgroundColorForPodcast(podcast)
-            NotificationCenter.default.addObserver(self, selector: #selector(podcastColorsLoaded(_:)), name: Constants.Notifications.podcastColorsDownloaded, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(podcastColorsLoaded(_:)), name: Constants.Notifications.podcastColorsDownloaded, object: podcast.uuid)
         }
     }
 
@@ -62,9 +62,7 @@ class DynamicBackgroundProvider: ObservableObject {
     }
 
     @objc private func podcastColorsLoaded(_ notification: Notification) {
-        guard let uuidLoaded = notification.object as? String else { return }
-
-        if let podcast, uuidLoaded == podcast.uuid {
+        if let podcast {
             podcast.updateColors()
             backgroundColor = podcast.bgColor().color
             foregroundColor = ColorManager.lightThemeTintForPodcast(podcast).color
