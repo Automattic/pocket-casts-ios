@@ -81,6 +81,10 @@ struct ListeningTimeStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .listeningTime)
     }
+
+    func sharingAssets() -> [Any] {
+        [StoryShareableProvider.new(AnyView(self)), StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))]
+    }
 }
 
 /// Apply a perspective to the podcasts cover

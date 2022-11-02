@@ -3297,6 +3297,9 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
+/* Text that appear when someone share the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
+
 /* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of categories. */
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
 

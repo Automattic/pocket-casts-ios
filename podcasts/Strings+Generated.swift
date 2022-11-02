@@ -628,6 +628,10 @@ internal enum L10n {
   }
   /// But there was one that you kept coming back to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
+  /// I spent %1$@ listening to podcasts in 2022
+  internal static func eoyStoryListenedToShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_share_text", String(describing: p1))
+  }
   /// The longest episode you listened to was %1$@ from the podcast %2$@
   internal static func eoyStoryLongestEpisode(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1), String(describing: p2))
