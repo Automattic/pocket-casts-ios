@@ -6,26 +6,24 @@ import PocketCastsUtils
 import AuthenticationServices
 #endif
 
-enum AuthenticationSource: String {
-    case password = "password"
-    case ssoApple = "sso_apple"
-}
-
 class AuthenticationHelper {
 
-    static func refreshLogin() async throws {
+    @discardableResult
+    static func refreshLogin(scope: AuthenticationScope = .mobile) async throws -> String? {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
-            try await validateLogin(username: username, password: password)
+            return try await validateLogin(username: username, password: password, scope: scope).token
         }
         else if FeatureFlag.signInWithApple, let token = ServerSettings.appleAuthIdentityToken, let userID = ServerSettings.appleAuthUserID {
-            try await validateLogin(identityToken: token, userID: userID)
+            return try await validateLogin(identityToken: token, userID: userID).token
         }
+
+        return nil
     }
 
     // MARK: Password
 
-    static func validateLogin(username: String, password: String) async throws {
-        let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password)
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
         handleSuccessfulSignIn(response, .password)
 
         // If the server didn't return a new email, and the call was successful, then reset the email to the one used to
@@ -35,16 +33,20 @@ class AuthenticationHelper {
         }
 
         ServerSettings.saveSyncingPassword(password)
+
+        return response
     }
 
     // MARK: Apple SSO
 
-    static func validateLogin(identityToken: String, userID: String) async throws {
+    static func validateLogin(identityToken: String, userID: String)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
         handleSuccessfulSignIn(response, .ssoApple)
 
         ServerSettings.appleAuthIdentityToken = identityToken
         ServerSettings.appleAuthUserID = userID
+
+        return response
     }
 
     // MARK: Common
@@ -66,7 +68,7 @@ class AuthenticationHelper {
         }
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+        Analytics.track(.userSignedIn, properties: ["source": source])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)
@@ -118,3 +120,16 @@ extension AuthenticationHelper {
     }
 }
 #endif
+
+// MARK: - Enums
+enum AuthenticationSource: String, AnalyticsDescribable {
+    case password = "password"
+    case ssoApple = "sso_apple"
+
+    var analyticsDescription: String { rawValue }
+}
+
+enum AuthenticationScope: String {
+    case mobile
+    case sonos
+}
