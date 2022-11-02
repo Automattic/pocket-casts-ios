@@ -77,7 +77,7 @@ struct EndOfYear {
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
         activityViewController.completionWithItemsHandler = { activity, success, _, _ in
-            if !success {
+            if !success && activity == nil {
                 onDismiss?()
             }
 
