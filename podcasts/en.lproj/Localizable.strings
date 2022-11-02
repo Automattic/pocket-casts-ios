@@ -3330,6 +3330,9 @@
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
 
+/* Text that appear when someone share the top 5 podcasts of the year story to Twitter. */
+"eoy_story_top_podcasts_share_text" = "My top podcasts of the year!";
+
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
 
