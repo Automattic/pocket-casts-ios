@@ -85,10 +85,10 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="nY7-Sl-Gxg" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="2XD-1P-gsU"/>
-                <constraint firstItem="xRp-Cs-cvI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="23" id="63H-tj-FKR"/>
                 <constraint firstItem="oOL-Vb-lE7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="8" id="BUi-ih-aEw"/>
                 <constraint firstItem="xRp-Cs-cvI" firstAttribute="top" secondItem="oOL-Vb-lE7" secondAttribute="bottom" constant="8" id="E6A-ke-Zci"/>
-                <constraint firstItem="xRp-Cs-cvI" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="-23" id="fQl-mz-Q3W"/>
+                <constraint firstItem="xRp-Cs-cvI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="23" id="Tr8-SU-rJw"/>
+                <constraint firstAttribute="trailing" secondItem="xRp-Cs-cvI" secondAttribute="trailing" constant="23" id="bnN-4t-F3S"/>
                 <constraint firstItem="nY7-Sl-Gxg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" constant="60" id="gLh-ll-owx"/>
                 <constraint firstItem="GOk-uO-NBJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="hFj-W6-qY2"/>
                 <constraint firstItem="oOL-Vb-lE7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="hjW-93-fBF"/>

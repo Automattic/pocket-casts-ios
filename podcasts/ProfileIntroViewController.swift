@@ -62,8 +62,6 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         navigationItem.leftBarButtonItem = closeButton
 
         handleThemeChanged()
-        let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
-        doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         setupProviderLoginView()

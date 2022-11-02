@@ -7,11 +7,11 @@ import PocketCastsUtils
 import SwiftyJSON
 
 public extension ApiServerHandler {
-    func validateLogin(username: String, password: String) async throws -> AuthenticationResponse {
+    func validateLogin(username: String, password: String, scope: String) async throws -> AuthenticationResponse {
         var loginRequest = Api_UserLoginRequest()
         loginRequest.email = username
         loginRequest.password = password
-        loginRequest.scope = ServerConstants.Values.apiScope
+        loginRequest.scope = scope
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
         let data = try loginRequest.serializedData()
