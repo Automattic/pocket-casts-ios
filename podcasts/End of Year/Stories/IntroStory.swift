@@ -3,7 +3,7 @@ import SwiftUI
 struct IntroStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
-    let identifier: String? = "intro"
+    let identifier: String = "intro"
 
     var body: some View {
         GeometryReader { geometry in
@@ -33,11 +33,11 @@ struct IntroStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .intro)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .intro)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
     }
 
     func sharingAssets() -> [Any] {
