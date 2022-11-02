@@ -22,7 +22,11 @@ struct ApiCredentials {
     ///
     static let sharingServerSecret = "%{sharing_server_secret}"
 
-    /// Sharing Server Secret
+    /// Sentry Secret
     ///
     static let sentryDSN = "%{sentry_dsn}"
+
+    /// Google Sign In
+    ///
+    static let googleSignInSecret = "GOOGLE_SIGN_IN_SECRET"
 }
