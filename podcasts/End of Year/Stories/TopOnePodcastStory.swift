@@ -91,7 +91,7 @@ struct TopOnePodcastStory: StoryView {
                 StoryShareableProvider.new(AnyView(self)),
                 StoryShareableText(L10n.eoyStoryTopPodcastShareText)
             ]
-        }
+    }
 }
 
 struct TopOnePodcastStory_Previews: PreviewProvider {

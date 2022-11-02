@@ -112,7 +112,7 @@ struct ListenedNumbersStory: StoryView {
                 StoryShareableProvider.new(AnyView(self)),
                 StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
             ]
-        }
+    }
 }
 
 struct ListenedNumbersStory_Previews: PreviewProvider {
