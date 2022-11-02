@@ -46,9 +46,10 @@ struct EndOfYear {
         }
 
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
-            let controller = ProfileIntroViewController()
-            controller.infoLabelText = L10n.eoyCreateAccountToSee
-            viewController.present(controller, animated: true)
+            let profileIntroController = ProfileIntroViewController()
+            profileIntroController.infoLabelText = L10n.eoyCreateAccountToSee
+            let navigationController = UINavigationController(rootViewController: profileIntroController)
+            viewController.present(navigationController, animated: true)
             return
         }
 
