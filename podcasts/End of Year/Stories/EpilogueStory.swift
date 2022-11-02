@@ -69,6 +69,13 @@ struct EpilogueStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .epilogue)
     }
+
+    func sharingAssets() -> [Any] {
+            [
+                StoryShareableProvider.new(AnyView(self)),
+                StoryShareableText("")
+            ]
+    }
 }
 
 struct EpilogueStory_Previews: PreviewProvider {
