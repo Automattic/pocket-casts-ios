@@ -3324,6 +3324,9 @@
 /* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
+/* Text that appear when someone share the top podcast of the year story to Twitter. */
+"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022!";
+
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
 

@@ -658,6 +658,8 @@ internal enum L10n {
   internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
   }
+  /// My favorite podcast of 2022!
+  internal static var eoyStoryTopPodcastShareText: String { return L10n.tr("Localizable", "eoy_story_top_podcast_share_text") }
   /// You listened to %1$@ episodes for a total of %2$@
   internal static func eoyStoryTopPodcastSubtitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast_subtitle", String(describing: p1), String(describing: p2))

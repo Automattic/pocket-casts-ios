@@ -85,6 +85,13 @@ struct TopOnePodcastStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .topOnePodcast)
     }
+
+    func sharingAssets() -> [Any] {
+            [
+                StoryShareableProvider.new(AnyView(self)),
+                StoryShareableText(L10n.eoyStoryTopPodcastShareText)
+            ]
+        }
 }
 
 struct TopOnePodcastStory_Previews: PreviewProvider {
