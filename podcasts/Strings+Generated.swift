@@ -648,8 +648,10 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
-  /// The longest episode I listened to in 2022
-  internal static var eoyStoryLongestEpisodeShareText: String { return L10n.tr("Localizable", "eoy_story_longest_episode_share_text") }
+  /// The longest episode I listened to in 2022 %1$@
+  internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
+  }
   /// Replay
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
@@ -660,8 +662,10 @@ internal enum L10n {
   internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
   }
-  /// My favorite podcast of 2022!
-  internal static var eoyStoryTopPodcastShareText: String { return L10n.tr("Localizable", "eoy_story_top_podcast_share_text") }
+  /// My favorite podcast of 2022! %1$@
+  internal static func eoyStoryTopPodcastShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcast_share_text", String(describing: p1))
+  }
   /// You listened to %1$@ episodes for a total of %2$@
   internal static func eoyStoryTopPodcastSubtitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast_subtitle", String(describing: p1), String(describing: p2))

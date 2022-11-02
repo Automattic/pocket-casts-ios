@@ -3324,8 +3324,8 @@
 /* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
-/* Text that appear when someone share the top podcast of the year story to Twitter. */
-"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022!";
+/* Text that appear when someone share the top podcast of the year story to Twitter. %1$@ is the URL to the podcast. */
+"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022! %1$@";
 
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
@@ -3339,8 +3339,8 @@
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
 
-/* Text that appear when someone share the longest episode they listened to story to Twitter. */
-"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022";
+/* Text that appear when someone share the longest episode they listened to story to Twitter. %1$@ is the URL to the episode. */
+"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022 %1$@";
 
 /* Title for the epilogue story */
 "eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";

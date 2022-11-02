@@ -92,7 +92,7 @@ struct LongestEpisodeStory: StoryView {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryLongestEpisodeShareText)
+            StoryShareableText(L10n.eoyStoryLongestEpisodeShareText("%1$@"), episode: episode)
         ]
     }
 }
