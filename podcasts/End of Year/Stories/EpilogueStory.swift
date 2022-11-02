@@ -71,10 +71,10 @@ struct EpilogueStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-            [
-                StoryShareableProvider.new(AnyView(self)),
-                StoryShareableText("")
-            ]
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText("")
+        ]
     }
 }
 

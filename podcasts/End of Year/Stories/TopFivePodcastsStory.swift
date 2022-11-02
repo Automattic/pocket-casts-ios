@@ -87,10 +87,10 @@ struct TopFivePodcastsStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-            [
-                StoryShareableProvider.new(AnyView(self)),
-                StoryShareableText(L10n.eoyStoryTopPodcastsShareText)
-            ]
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryTopPodcastsShareText)
+        ]
     }
 }
 

@@ -90,10 +90,10 @@ struct LongestEpisodeStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-            [
-                StoryShareableProvider.new(AnyView(self)),
-                StoryShareableText(L10n.eoyStoryLongestEpisodeShareText)
-            ]
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryLongestEpisodeShareText)
+        ]
     }
 }
 

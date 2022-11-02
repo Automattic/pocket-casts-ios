@@ -108,10 +108,10 @@ struct ListenedNumbersStory: StoryView {
     }
 
     func sharingAssets() -> [Any] {
-            [
-                StoryShareableProvider.new(AnyView(self)),
-                StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
-            ]
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
+        ]
     }
 }
 
