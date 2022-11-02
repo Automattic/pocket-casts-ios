@@ -7,6 +7,22 @@ import PocketCastsUtils
 import SwiftyJSON
 
 public extension ApiServerHandler {
+    func validateLogin(username: String, password: String, scope: String) async throws -> AuthenticationResponse {
+        var loginRequest = Api_UserLoginRequest()
+        loginRequest.email = username
+        loginRequest.password = password
+        loginRequest.scope = scope
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
+        let data = try loginRequest.serializedData()
+        guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
+            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
+            throw APIError.UNKNOWN
+        }
+
+        return try await obtainToken(request: request)
+    }
+
     func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
         obtainToken(username: username, password: password, scope: ServerConstants.Values.apiScope) { token, userId, error in
             completion(token != nil, userId, error)

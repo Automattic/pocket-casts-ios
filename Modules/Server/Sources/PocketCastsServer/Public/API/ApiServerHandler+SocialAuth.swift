@@ -1,6 +1,16 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+
+/**
+ * The Watch app and the iOS app don't share SIWA credentials, so if we try to do an "Credentials State" check from SIWA
+ * from the watch, it will fail regardless. So, instead we will rely on the server to validate the identity token and fail there if needed. If not, then the watch will check the login state next time the user is connected to the main app on their phone.
+ *
+ * We will still do the credential state check in the main app since it's recommended by Apple.
+ *
+ */
+
+#if !os(watchOS)
 import AuthenticationServices
 
 public extension ASAuthorizationAppleIDProvider.CredentialState {
@@ -19,12 +29,12 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
         }
     }
 }
+#endif
 
 public extension ApiServerHandler {
-    func validateLogin(identityToken: Data?) async throws -> AuthenticationResponse {
+    func validateLogin(identityToken: String?) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
-              let token = String(data: identityToken, encoding: .utf8),
-              let request = tokenRequest(identityToken: token)
+              let request = tokenRequest(identityToken: identityToken)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
             throw APIError.UNKNOWN
@@ -50,12 +60,26 @@ public extension ApiServerHandler {
         }
     }
 
-    func ssoCredentialState() async throws -> ASAuthorizationAppleIDProvider.CredentialState {
+    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login_apple")
+        guard let identityToken = identityToken,
+              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+        else { return nil }
+
+        request.setValue("Bearer \(identityToken)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
+        return request
+    }
+}
+
+// MARK: - Only available to the main app, not the watch app
+#if !os(watchOS)
+extension ApiServerHandler {
+    public func ssoCredentialState() async throws -> ASAuthorizationAppleIDProvider.CredentialState {
         guard let userID = ServerSettings.appleAuthUserID else { return .notFound }
         return try await ASAuthorizationAppleIDProvider().credentialState(forUserID: userID)
     }
 
-    func hasValidSSOToken() async throws -> Bool {
+    private func hasValidSSOToken() async throws -> Bool {
         let tokenState = try await ssoCredentialState()
         FileLog.shared.addMessage("Validated Apple SSO token state: \(tokenState.loggingValue)")
 
@@ -67,14 +91,12 @@ public extension ApiServerHandler {
             return false
         }
     }
+}
+#else
 
-    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login_apple")
-        guard let identityToken = identityToken,
-              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
-        else { return nil }
-
-        request.setValue("Bearer \(identityToken)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
-        return request
+extension ApiServerHandler {
+    private func hasValidSSOToken() async throws -> Bool {
+        return true
     }
 }
+#endif

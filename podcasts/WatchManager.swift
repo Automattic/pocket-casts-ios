@@ -327,7 +327,18 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleLoginDetailsRequest() -> [String: Any] {
-        let response = [WatchConstants.Messages.LoginDetailsResponse.username: ServerSettings.syncingEmail() ?? "", WatchConstants.Messages.LoginDetailsResponse.password: ServerSettings.syncingPassword() ?? ""]
+        var response = [
+            WatchConstants.Messages.LoginDetailsResponse.username: ServerSettings.syncingEmail() ?? ""
+        ]
+
+        if let password = ServerSettings.syncingPassword() {
+            response[WatchConstants.Messages.LoginDetailsResponse.password] = password
+        }
+        else if let authToken = ServerSettings.appleAuthIdentityToken, let appleUserId = ServerSettings.appleAuthUserID {
+            response[WatchConstants.Messages.LoginDetailsResponse.appleAuthToken] = authToken
+            response[WatchConstants.Messages.LoginDetailsResponse.appleAuthUserID] = appleUserId
+        }
+
         Settings.clearLoginDetailsUpdated()
         return response
     }
