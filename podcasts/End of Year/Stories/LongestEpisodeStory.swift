@@ -88,6 +88,13 @@ struct LongestEpisodeStory: StoryView {
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: .longestEpisode)
     }
+
+    func sharingAssets() -> [Any] {
+            [
+                StoryShareableProvider.new(AnyView(self)),
+                StoryShareableText(L10n.eoyStoryLongestEpisodeShareText)
+            ]
+    }
 }
 
 struct LongestEpisodeStory_Previews: PreviewProvider {

@@ -3339,6 +3339,9 @@
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
 
+/* Text that appear when someone share the longest episode they listened to story to Twitter. */
+"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022";
+
 /* Title for the epilogue story */
 "eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
 

@@ -648,6 +648,8 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
+  /// The longest episode I listened to in 2022
+  internal static var eoyStoryLongestEpisodeShareText: String { return L10n.tr("Localizable", "eoy_story_longest_episode_share_text") }
   /// Replay
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
