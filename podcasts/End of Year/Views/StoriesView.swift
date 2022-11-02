@@ -157,10 +157,7 @@ struct StoriesView: View {
 
     var shareButton: some View {
         Button(action: {
-            model.pause()
-            EndOfYear().share(assets: model.sharingAssets(), storyIdentifier: model.currentStoryIdentifier ?? "", onDismiss: {
-                model.start()
-            })
+            model.share()
         }) {
             HStack {
                 Spacer()

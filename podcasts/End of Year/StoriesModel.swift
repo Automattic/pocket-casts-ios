@@ -20,7 +20,7 @@ class StoriesModel: ObservableObject {
         dataSource.story(for: currentStory).duration
     }
 
-    var currentStoryIdentifier: String?
+    private var currentStoryIdentifier: String = ""
 
     var numberOfStories: Int {
         dataSource.numberOfStories
@@ -109,6 +109,13 @@ class StoriesModel: ObservableObject {
         currentStory = 0
         pause()
         start()
+    }
+
+    func share() {
+        pause()
+        EndOfYear().share(assets: sharingAssets(), storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+            self?.start()
+        })
     }
 }
 
