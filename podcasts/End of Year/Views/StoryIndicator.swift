@@ -13,7 +13,7 @@ struct StoryIndicator: View {
                         .cornerRadius(Constants.storyIndicatorBorderRadius)
 
                     Rectangle()
-                        .frame(width: geometry.size.width * (min(max((CGFloat(model.progress) - CGFloat(index)), 0.0), 1.0)), height: nil, alignment: .leading)
+                        .frame(width: geometry.size.width * (model.progress - CGFloat(index)).clamped(to: 0.0 ..< 1.0), height: nil, alignment: .leading)
                         .foregroundColor(Color.white.opacity(Constants.storyIndicatorForegroundOpacity))
                         .cornerRadius(Constants.storyIndicatorBorderRadius)
                 }
