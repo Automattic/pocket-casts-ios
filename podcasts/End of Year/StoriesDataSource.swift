@@ -61,10 +61,19 @@ protocol Story {
 
     /// Called when the story will be shared
     func willShare()
+
+    /// Called to get the story shareable assets
+    ///
+    /// This will be given to `UIActivityViewController` as the `activityItems`
+    func sharingAssets() -> [Any]
 }
 
 extension Story {
     func onAppear() {}
 
     func willShare() {}
+
+    func sharingAssets() -> [Any] {
+        return []
+    }
 }
