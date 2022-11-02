@@ -40,7 +40,7 @@ protocol Story {
     var duration: TimeInterval { get }
 
     /// An optional string that identifies the story
-    var identifier: String? { get }
+    var identifier: String { get }
 
     /// Called when the story actually appears.
     ///
@@ -61,8 +61,8 @@ protocol Story {
 }
 
 extension Story {
-    var identifier: String? {
-        nil
+    var identifier: String {
+        "unknown"
     }
 
     func onAppear() {}
