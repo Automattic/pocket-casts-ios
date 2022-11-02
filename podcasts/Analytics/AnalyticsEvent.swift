@@ -590,4 +590,5 @@ enum AnalyticsEvent: String {
     case endOfYearStoriesDismissed
     case endOfYearStoryShown
     case endOfYearStoryShare
+    case endOfYearStoryShared
 }

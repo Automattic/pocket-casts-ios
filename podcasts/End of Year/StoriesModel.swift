@@ -20,6 +20,8 @@ class StoriesModel: ObservableObject {
         dataSource.story(for: currentStory).duration
     }
 
+    var currentStoryIdentifier: String?
+
     var numberOfStories: Int {
         dataSource.numberOfStories
     }
@@ -66,7 +68,10 @@ class StoriesModel: ObservableObject {
     }
 
     func story(index: Int) -> AnyView {
-        dataSource.storyView(for: index)
+        let story = dataSource.story(for: index)
+        story.onAppear()
+        currentStoryIdentifier = story.identifier
+        return AnyView(story)
     }
 
     func preload(index: Int) -> AnyView {

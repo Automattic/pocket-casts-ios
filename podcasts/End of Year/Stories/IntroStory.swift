@@ -3,6 +3,8 @@ import SwiftUI
 struct IntroStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    let identifier: String? = "intro"
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {

@@ -70,14 +70,21 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
-    func share(assets: [Any], onDismiss: (() -> Void)? = nil) {
+    func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()?.presentedViewController
 
         let activityViewController = UIActivityViewController(activityItems: assets, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
-        activityViewController.completionWithItemsHandler = { _, _, _, _ in
-            onDismiss?()
+        activityViewController.completionWithItemsHandler = { activity, success, _, _ in
+            if !success {
+                onDismiss?()
+            }
+
+            if let activity, success {
+                Analytics.track(.endOfYearStoryShared, properties: ["activity": activity.rawValue, "story": storyIdentifier])
+                onDismiss?()
+            }
         }
 
         presenter?.present(activityViewController, animated: true) {
