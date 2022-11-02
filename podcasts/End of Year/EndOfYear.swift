@@ -70,11 +70,10 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
-    func share(asset: @escaping () -> Any, onDismiss: (() -> Void)? = nil) {
+    func share(assets: [Any], onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()?.presentedViewController
 
-        let imageToShare = [StoryShareableProvider()]
-        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: assets, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
         activityViewController.completionWithItemsHandler = { _, _, _, _ in
@@ -85,7 +84,7 @@ struct EndOfYear {
             // After the share sheet is presented we take the snapshot
             // This action needs to happen on the main thread because
             // the view needs to be rendered.
-            StoryShareableProvider.generatedItem = asset() as? UIImage
+//            StoryShareableProvider.generatedItem = asset() as? UIImage
         }
     }
 }
