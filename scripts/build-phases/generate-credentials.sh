@@ -19,6 +19,9 @@ if [ -f "$LOCAL_SECRETS_FILE" ]; then
     cp -v "$LOCAL_SECRETS_FILE" "${CREDS_OUTPUT_PATH}"
     echo "Copying mock GoogleService-Info.plist"
     echo $(<${LOCAL_FIREBASE_PLIST}) > "${FIREBASE_OUTPUT_PATH}"
+
+    echo ">> Updating Mock Google Sign In Credentials"
+    sed -i '' -e "s/GOOGLE_SIGN_IN_SECRET//g" $CREDS_OUTPUT_PATH
     exit 0
 fi
 
@@ -43,4 +46,10 @@ else
     ##
     echo ">> Copying Firebase Credentials from ${FIREBASE_SECRETS_PATH}"
     echo $(<${FIREBASE_SECRETS_PATH}) > "${FIREBASE_OUTPUT_PATH}"
+
+    ### Update the Google Sign In credentials from the Google Sign In Plist
+    ##
+    echo ">> Updating the Google Sign In Credentials from ${GOOGLE_SIGN_IN_SECRETS_PATH}"
+    GOOGLE_SIGN_IN_CLIENT_ID=$(plutil -extract CLIENT_ID raw -expect string $GOOGLE_SIGN_IN_SECRETS_PATH)
+    sed -i '' -e "s/GOOGLE_SIGN_IN_SECRET/$GOOGLE_SIGN_IN_CLIENT_ID/g" $CREDS_OUTPUT_PATH
 fi
