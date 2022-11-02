@@ -1,6 +1,5 @@
-- Fixed a crash that could happen when playing an episode while the app is in the background (#345)
-- Fixed a crash where a sync account has started listening to a local file on one device and visits the up next queue on a different device. (#371)
-- Fixed an issue where the episode totals would not display above the podcast episode list in iOS 14 (#287)
-- Fixed an issue where the Up Next queue wouldn't reset when playing all items from a filter. (#375)
-- Improved OPML import to support poll uuids (#367)
+- Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
+- Fixed About screen dark theme background in light mode (#339)
+- Adding select/deselect all podcasts button to folder creation (#143)
+- Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
 
