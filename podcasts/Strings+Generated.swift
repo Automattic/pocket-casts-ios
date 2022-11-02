@@ -620,6 +620,10 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategories(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories", String(describing: p1))
   }
+  /// I listened to %1$@ different categories in 2022
+  internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
+  }
   /// Let's take a look at some of your favorites...
   internal static var eoyStoryListenedToCategoriesSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_categories_subtitle") }
   /// You listened to %1$@ different podcasts and %2$@ episodes
