@@ -78,15 +78,13 @@ class StoriesModel: ObservableObject {
     }
 
     func sharingAssets() -> [Any] {
-        dataSource.story(for: currentStory).sharingAssets()
+        let story = dataSource.story(for: currentStory)
+        story.willShare()
+        return story.sharingAssets()
     }
 
     func interactive(index: Int) -> AnyView {
         dataSource.interactiveView(for: index)
-    }
-
-    func shareableAsset(index: Int) -> Any {
-        dataSource.shareableAsset(for: index)
     }
 
     func next() {

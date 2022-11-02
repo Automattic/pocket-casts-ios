@@ -31,17 +31,6 @@ extension StoriesDataSource {
     func interactiveView(for: Int) -> AnyView {
         return AnyView(EmptyView())
     }
-
-    func shareableAsset(for storyNumber: Int) -> Any {
-        let story = story(for: storyNumber)
-        story.willShare()
-
-        return ZStack {
-            AnyView(story)
-        }
-        .frame(width: 370, height: 693)
-        .snapshot()
-    }
 }
 
 typealias StoryView = Story & View
