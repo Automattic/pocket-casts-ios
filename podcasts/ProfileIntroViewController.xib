@@ -32,7 +32,7 @@
                     <rect key="frame" x="15" y="59" width="400" height="573.66666666666663"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="38o-72-TQX">
-                            <rect key="frame" x="0.0" y="162.33333333333331" width="400" height="249.33333333333331"/>
+                            <rect key="frame" x="0.0" y="151.33333333333337" width="400" height="271"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="setup-new-account" translatesAutoresizingMaskIntoConstraints="NO" id="4sy-PM-c8J">
                                     <rect key="frame" x="120" y="0.0" width="160" height="160"/>
@@ -49,12 +49,16 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" text="Save your podcast subscriptions in the cloud and sync your progress with other devices." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SMc-nE-8sZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="13.666666666666657" y="206.33333333333334" width="372.66666666666674" height="43"/>
+                                    <rect key="frame" x="23" y="206.33333333333334" width="354" height="64.666666666666657"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="SMc-nE-8sZ" firstAttribute="leading" secondItem="38o-72-TQX" secondAttribute="leading" constant="23" id="70t-hp-doQ"/>
+                                <constraint firstAttribute="trailing" secondItem="SMc-nE-8sZ" secondAttribute="trailing" constant="23" id="aFJ-2w-jrm"/>
+                            </constraints>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
