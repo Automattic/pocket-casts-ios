@@ -67,7 +67,9 @@ struct ListeningTimeStory: StoryView {
     func podcastCover(_ index: Int) -> some View {
         Group {
             if let podcast = podcasts[safe: index] {
-                ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                ZStack {
+                    ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                }
             } else {
                 Rectangle().opacity(0)
             }
@@ -116,7 +118,10 @@ struct PodcastCover: ViewModifier {
         content
             .aspectRatio(1, contentMode: .fit)
             .cornerRadius(4)
-            .shadow(radius: 2, x: 0, y: 1)
+            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+            .shadow(color: .black.opacity(0.09), radius: 3, x: 0, y: 3)
+            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 6)
+            .shadow(color: .black.opacity(0.01), radius: 4, x: 0, y: 11)
             .accessibilityHidden(true)
     }
 }
