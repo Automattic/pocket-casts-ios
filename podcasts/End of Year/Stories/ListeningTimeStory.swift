@@ -112,20 +112,6 @@ struct PodcastCoverPerspective: ViewModifier {
     }
 }
 
-/// Apply shadow and radius to podcast cover
-struct PodcastCover: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .aspectRatio(1, contentMode: .fit)
-            .cornerRadius(4)
-            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-            .shadow(color: .black.opacity(0.09), radius: 3, x: 0, y: 3)
-            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 6)
-            .shadow(color: .black.opacity(0.01), radius: 4, x: 0, y: 11)
-            .accessibilityHidden(true)
-    }
-}
-
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
         ListeningTimeStory(listeningTime: 100, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
