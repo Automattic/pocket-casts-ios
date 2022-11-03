@@ -9,16 +9,15 @@ struct BigPodcastCover: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(.black.opacity(0.8))
+                .fill(.black.opacity(0.2))
                 .frame(width: size, height: size)
                 .modifier(PodcastBigCover())
-                .modifier(PodcastCoverPerspective())
 
             ImageView(ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280))
                 .frame(width: size, height: size)
                 .cornerRadius(8)
-                .modifier(PodcastCoverPerspective())
         }
+        .modifier(PodcastCoverPerspective())
     }
 }
 
