@@ -110,6 +110,22 @@ struct EndOfYear {
             StoryShareableProvider.generatedItem = asset() as? UIImage
         }
     }
+
+    func resetStateIfNeeded() {
+        // When a user logs in (or creates an account) we mark the EOY modal as not
+        // shown to show it again.
+        if Self.state == .showModalIfNeeded {
+            Settings.endOfYearModalHasBeenShown = false
+            return
+        }
+
+        guard Self.state == .waitingForLogin else { return }
+
+        // If we're in the waiting for login state (the user has seen the prompt, and chosen to login)
+        // Update the current state based on whether the user is logged in or not
+        // If the user did not login, then just reset the state to the default showModalIfNeeded
+        Self.state = SyncManager.isUserLoggedIn() ? .loggedIn : .showModalIfNeeded
+    }
 }
 
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
