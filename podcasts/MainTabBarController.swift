@@ -407,7 +407,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard FeatureFlag.endOfYear else {
             return
         }
-        
+
         NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
             self.endOfYear.resetStateIfNeeded()
         }
