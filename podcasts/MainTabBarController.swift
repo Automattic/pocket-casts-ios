@@ -63,7 +63,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPrompt(in: self)
+        endOfYear.showPromptBasedOnState(in: self)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -408,10 +408,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        // When a user login (or create an account) we mark the EOY modal as not
-        // shown to show it again.
-        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
-            Settings.endOfYearModalHasBeenShown = false
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+            self.endOfYear.resetStateIfNeeded()
         }
 
         // If the requirement for EOY changes and registration is not required anymore

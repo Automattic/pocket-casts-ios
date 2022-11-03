@@ -299,6 +299,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     Settings.setPromotionFinishedAcknowledged(true)
                     Settings.setLoginDetailsUpdated()
+
+                    NotificationCenter.postOnMainThread(notification: .userSignedIn)
                 })
             }
         }
