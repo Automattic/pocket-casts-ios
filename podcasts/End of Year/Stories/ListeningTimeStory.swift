@@ -97,7 +97,7 @@ struct ListeningTimeStory: StoryView {
 /// Apply a perspective to the podcasts cover
 struct PodcastCoverPerspective: ViewModifier {
     private var transform: CGAffineTransform {
-        let values: [CGFloat] = [1, 0, 0.40, 1, 0, 0]
+        let values: [CGFloat] = [1, 0, 0.45, 1, 0, 0]
         return CGAffineTransform(
             a: values[0], b: values[1],
             c: values[2], d: values[3],
