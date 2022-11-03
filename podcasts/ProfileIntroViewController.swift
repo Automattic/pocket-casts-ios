@@ -1,19 +1,19 @@
 import UIKit
 import PocketCastsUtils
-import AuthenticationServices
-import PocketCastsUtils
 import PocketCastsServer
+import AuthenticationServices
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
 
     private var buttonFont: UIFont {
-        .systemFont(ofSize: 18, weight: .semibold)
+        UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .body, maxSizeCategory: .extraExtraLarge)
     }
 
     @IBOutlet var errorLabel: ThemeableLabel! {
         didSet {
             errorLabel.style = .support05
+            errorLabel.font = UIFont.font(with: .subheadline, maxSizeCategory: .extraExtraLarge)
         }
     }
 
@@ -52,6 +52,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             signOrCreateLabel.text = L10n.signInPrompt
             signOrCreateLabel.style = .primaryText01
+            signOrCreateLabel.font = UIFont.font(with: .title2, weight: .bold, maxSizeCategory: .accessibilityMedium)
         }
     }
 
@@ -59,6 +60,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             infoLabel.text = L10n.signInMessage
             infoLabel.style = .primaryText02
+            infoLabel.font = UIFont.font(ofSize: 18, weight: .medium, scalingWith: .body, maxSizeCategory: .accessibilityMedium)
         }
     }
 
