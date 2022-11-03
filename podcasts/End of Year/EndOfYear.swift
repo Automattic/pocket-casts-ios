@@ -9,6 +9,10 @@ struct EndOfYear {
         FeatureFlag.endOfYear && DataManager.sharedManager.isEligibleForEndOfYearStories()
     }
 
+    /// Internal state machine to determine how we should react to login changes
+    /// and when to show the modal vs go directly to the stories
+    private static var state: EndOfYearState = .showModalIfNeeded
+
     static var requireAccount: Bool = Settings.endOfYearRequireAccount {
         didSet {
             // If registration is not needed anymore and this user is logged out
@@ -94,4 +98,8 @@ class StoriesHostingController<ContentView: View>: UIHostingController<ContentVi
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
+}
+
+private enum EndOfYearState {
+    case showModalIfNeeded, waitingForLogin, loggedIn
 }
