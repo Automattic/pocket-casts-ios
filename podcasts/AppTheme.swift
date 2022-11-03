@@ -520,8 +520,13 @@ class AppTheme {
         }
     }
 
-    class func pcLogoSmallHorizontalImageName() -> String {
-        Theme.isDarkTheme() ? "small-horizontal-logo-dark" : "small-horizontal-logo"
+    static func pcLogoSmallHorizontalImageName() -> String {
+        switch Theme.sharedTheme.activeTheme {
+        case .dark, .extraDark, .electric, .radioactive, .contrastDark, .indigo, .classic:
+            return "small-horizontal-logo-dark"
+        case .light, .rosé, .contrastLight:
+            return "small-horizontal-logo"
+        }
     }
 
     class func pcPlusLogoVerticalImageName() -> String {
