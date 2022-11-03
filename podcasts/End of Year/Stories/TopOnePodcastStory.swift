@@ -28,22 +28,19 @@ struct TopOnePodcastStory: StoryView {
                             let size = geometry.size.width * 0.45
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.darkThemeTintForPodcast(topPodcast.podcast).color)
-                                .modifier(PodcastCover())
+                                .modifier(PodcastBigCover())
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                                 .padding(.top, (size * 0.7))
 
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.lightThemeTintForPodcast(topPodcast.podcast).color)
-                                .modifier(PodcastCover())
+                                .modifier(PodcastBigCover())
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                                 .padding(.top, (size * 0.35))
 
-                            ImageView(ServerHelper.imageUrl(podcastUuid: topPodcast.podcast.uuid, size: 280))
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCover())
-                                .modifier(PodcastCoverPerspective())
+                            BigPodcastCover(podcastUuid: topPodcast.podcast.uuid, size: size)
                                 .padding(.leading, -60)
                         }
 
