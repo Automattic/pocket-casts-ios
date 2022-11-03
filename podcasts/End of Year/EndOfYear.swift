@@ -44,6 +44,26 @@ struct EndOfYear {
         MDCSwiftUIWrapper.present(EndOfYearModal(), in: viewController)
     }
 
+    func showPromptBasedOnState(in viewController: UIViewController) {
+        switch Self.state {
+
+        // If we're in the default state, then check to see if we should show the prompt
+        case .showModalIfNeeded:
+            showPrompt(in: viewController)
+
+        // If we were in the waiting state, but the user has logged in, then show stories
+        case .loggedIn:
+            Self.state = .showModalIfNeeded
+            showStories(in: viewController)
+
+        // If the user has seen the prompt, and chosen to login, but then has cancelled out of the flow without logging in,
+        // When this code is ran from MainTabController viewDidAppear we will still be in the waiting state
+        // reset the state to the default to restart the process over again
+        case .waitingForLogin:
+            Self.state = .showModalIfNeeded
+        }
+    }
+
     func showStories(in viewController: UIViewController) {
         guard FeatureFlag.endOfYear else {
             return
