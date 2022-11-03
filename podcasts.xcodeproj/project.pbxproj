@@ -1370,6 +1370,7 @@
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
+		C7F87F09291323D600C15980 /* SingleSignOn.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7F87F08291323D600C15980 /* SingleSignOn.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2901,6 +2902,7 @@
 		C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListener.swift; sourceTree = "<group>"; };
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
+		C7F87F08291323D600C15980 /* SingleSignOn.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SingleSignOn.xcassets; sourceTree = "<group>"; };
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
 		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
@@ -5424,37 +5426,38 @@
 		BDBD53F817019B2A0048C8C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BDBD53F917019B2A0048C8C5 /* podcasts-Info.plist */,
+				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */,
-				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
+				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
 				BDE73A7F1B607DB6005BFE30 /* CommonImages.xcassets */,
-				BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */,
+				40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */,
 				BDC692801BA7A91F0023B9F2 /* Discovery.xcassets */,
 				8B9DEFD52906D1CE00075EAB /* EndOfYear.xcassets */,
-				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
-				BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */,
-				4053CE042150B3D5001C92B1 /* Filter.xcassets */,
-				BD23442C1CB66D5E00B66AAE /* Settings.xcassets */,
-				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
-				BDA25D291EDEA2DC00979FE8 /* Sonos.xcassets */,
-				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
-				BD5AE6801FE0CF950009B8A1 /* ListImages.xcassets */,
-				BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */,
 				BDD6297A200EDB1700168DF7 /* Episodes.xcassets */,
-				BD9086A8204E14A800C0C78D /* OptionPicker.xcassets */,
-				4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */,
-				BD01430521A299CE002FDDF4 /* OptionsPickerIcons.xcassets */,
-				40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */,
-				40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */,
-				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BDE43412231759060045D0CB /* Files.xcassets */,
+				4053CE042150B3D5001C92B1 /* Filter.xcassets */,
+				BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */,
+				BD5AE6801FE0CF950009B8A1 /* ListImages.xcassets */,
+				BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */,
+				BD9086A8204E14A800C0C78D /* OptionPicker.xcassets */,
+				BD01430521A299CE002FDDF4 /* OptionsPickerIcons.xcassets */,
+				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
+				BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */,
+				BD23442C1CB66D5E00B66AAE /* Settings.xcassets */,
+				C7F87F08291323D600C15980 /* SingleSignOn.xcassets */,
+				4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */,
+				BDA25D291EDEA2DC00979FE8 /* Sonos.xcassets */,
+				40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */,
+				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
+				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
 				404BB865230F7FF5006FE8A9 /* WhatsNew.xcassets */,
 				8BE85CA72876258300AEB5FF /* Acknowledgments */,
 				BD7EA4CE1E52C2800014EAC5 /* Animations */,
-				BD663F9217E1FBA600D48373 /* Push Sounds */,
 				BDA002781F7B2C7E00DCB4AE /* Icons */,
 				BDBD53FA17019B2A0048C8C5 /* InfoPlist.strings */,
-				BDBD53F917019B2A0048C8C5 /* podcasts-Info.plist */,
 				46FBD8B9276A874F00867746 /* Intents.intentdefinition */,
+				BD663F9217E1FBA600D48373 /* Push Sounds */,
 				4007B056230E38DD008DDCF5 /* What's New */,
 			);
 			name = "Supporting Files";
@@ -6621,6 +6624,7 @@
 				BD6B667B245BC25C00CF5245 /* AppIcon-Indigo20x20@2x~ipad.png in Resources */,
 				BD3EB3AF179E622A00D0731C /* MiniPlayerViewController.xib in Resources */,
 				BDA002E91F7B318B00DCB4AE /* AppIcon-Round20x20@3x.png in Resources */,
+				C7F87F09291323D600C15980 /* SingleSignOn.xcassets in Resources */,
 				BDA002C71F7B318B00DCB4AE /* AppIcon-Dark29x29@2x.png in Resources */,
 				BD424B0C2575F30800C9447B /* PodcastDisclosureCell.xib in Resources */,
 				BD6B6672245BC25B00CF5245 /* AppIcon-Indigo60x60@3x.png in Resources */,
