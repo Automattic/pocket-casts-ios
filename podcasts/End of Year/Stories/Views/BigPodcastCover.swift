@@ -17,7 +17,6 @@ struct BigPodcastCover: View {
                 .frame(width: size, height: size)
                 .cornerRadius(8)
         }
-        .modifier(PodcastCoverPerspective())
     }
 }
 

@@ -41,6 +41,7 @@ struct TopOnePodcastStory: StoryView {
                                 .padding(.top, (size * 0.35))
 
                             BigPodcastCover(podcastUuid: topPodcast.podcast.uuid, size: size)
+                                .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                         }
 
