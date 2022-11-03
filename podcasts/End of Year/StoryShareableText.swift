@@ -47,7 +47,7 @@ class StoryShareableText: UIActivityItemProvider {
             return String(format: text, podcastListURL)
         }
 
-        return text
+        return text.trim()
     }
 
     private func requestShortenedURL() {
