@@ -448,7 +448,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
         case .endOfYearPrompt:
-            EndOfYear().showStories(in: self)
+            EndOfYear().showStories(in: self, from: .profile)
         }
     }
 

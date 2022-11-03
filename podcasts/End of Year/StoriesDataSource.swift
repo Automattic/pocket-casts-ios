@@ -23,7 +23,9 @@ protocol StoriesDataSource {
 
 extension StoriesDataSource {
     func storyView(for storyNumber: Int) -> AnyView {
-        return AnyView(story(for: storyNumber))
+        let story = story(for: storyNumber)
+        story.onAppear()
+        return AnyView(story)
     }
 
     func interactiveView(for: Int) -> AnyView {
@@ -31,8 +33,11 @@ extension StoriesDataSource {
     }
 
     func shareableAsset(for storyNumber: Int) -> Any {
-        ZStack {
-            storyView(for: storyNumber)
+        let story = story(for: storyNumber)
+        story.willShare()
+
+        return ZStack {
+            AnyView(story)
         }
         .frame(width: 370, height: 693)
         .snapshot()
@@ -44,4 +49,22 @@ typealias StoryView = Story & View
 protocol Story {
     /// The amount of time this story should be show
     var duration: TimeInterval { get }
+
+    /// Called when the story actually appears.
+    ///
+    /// If you use SwiftUI `onAppear` together with preload
+    /// you might run into `onAppear` being called while the view
+    /// is not actually being displayed.
+    /// This method instead will only be called when the story
+    /// is being presented.
+    func onAppear()
+
+    /// Called when the story will be shared
+    func willShare()
+}
+
+extension Story {
+    func onAppear() {}
+
+    func willShare() {}
 }

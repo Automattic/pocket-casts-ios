@@ -39,7 +39,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let stories = await builder.build()
 
         XCTAssertEqual(stories.0.first, EndOfYearStory.listenedCategories)
-        XCTAssertEqual(stories.0[1], EndOfYearStory.topFiveCategories)
+        XCTAssertEqual(stories.0[1], EndOfYearStory.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
     }
@@ -53,7 +53,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let stories = await builder.build()
 
         XCTAssertFalse(stories.0.contains(.listenedCategories))
-        XCTAssertFalse(stories.0.contains(.topFiveCategories))
+        XCTAssertFalse(stories.0.contains(.topCategories))
         XCTAssertTrue(stories.1.listenedCategories.isEmpty)
     }
 
@@ -65,7 +65,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 3, numberOfEpisodes: 10)
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.listenedNumbers)
+        XCTAssertEqual(stories.0.first, EndOfYearStory.numberOfPodcastsAndEpisodesListened)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfPodcasts, 3)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfEpisodes, 10)
     }
@@ -78,7 +78,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
         let stories = await builder.build()
 
-        XCTAssertFalse(stories.0.contains(.listenedNumbers))
+        XCTAssertFalse(stories.0.contains(.numberOfPodcastsAndEpisodesListened))
         XCTAssertNil(stories.1.listenedNumbers)
     }
 

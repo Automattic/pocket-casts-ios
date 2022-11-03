@@ -32,6 +32,7 @@ struct EpilogueStory: StoryView {
 
                     Button(action: {
                         StoriesController.shared.replay()
+                        Analytics.track(.endOfYearStoryReplayButtonTapped)
                     }) {
                         HStack {
                             Image(systemName: "arrow.clockwise")
@@ -60,6 +61,14 @@ struct EpilogueStory: StoryView {
                 }
             }
         }
+    }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .epilogue)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .epilogue)
     }
 }
 

@@ -2,16 +2,16 @@ import Foundation
 import PocketCastsDataModel
 
 /// The available stories for EoY
-enum EndOfYearStory {
-    case intro
-    case listeningTime
-    case listenedCategories
-    case topFiveCategories
-    case listenedNumbers
-    case topOnePodcast
-    case topFivePodcasts
-    case longestEpisode
-    case epilogue
+enum EndOfYearStory: String {
+    case intro = "intro"
+    case listeningTime = "listening_time"
+    case listenedCategories = "listened_categories"
+    case topCategories = "top_categories"
+    case numberOfPodcastsAndEpisodesListened = "number_of_podcasts_and_episodes_listened"
+    case topOnePodcast = "top_one_podcast"
+    case topFivePodcasts = "top_five_podcast"
+    case longestEpisode = "longest_episode"
+    case epilogue = "epilogue"
 }
 
 /// Build the list of stories for End of Year alongside the data
@@ -50,7 +50,7 @@ class EndOfYearStoriesBuilder {
             if !listenedCategories.isEmpty {
                 data.listenedCategories = listenedCategories
                 stories.append(.listenedCategories)
-                stories.append(.topFiveCategories)
+                stories.append(.topCategories)
             }
 
             // Listened podcasts and episodes
@@ -58,7 +58,7 @@ class EndOfYearStoriesBuilder {
             if listenedNumbers.numberOfEpisodes > 0
                 && listenedNumbers.numberOfPodcasts > 0 {
                 data.listenedNumbers = listenedNumbers
-                stories.append(.listenedNumbers)
+                stories.append(.numberOfPodcastsAndEpisodesListened)
             }
 
             // Top podcasts

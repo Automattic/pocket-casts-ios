@@ -30,6 +30,14 @@ struct IntroStory: StoryView {
         }
     }
 
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .intro)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .intro)
+    }
+
     private struct Constants {
         static let imageVerticalPadding: CGFloat = 60
         static let imageHeightInPercentage: CGFloat = 0.54

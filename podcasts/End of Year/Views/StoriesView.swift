@@ -104,6 +104,7 @@ struct StoriesView: View {
                 HStack {
                     Spacer()
                     Button(action: {
+                        Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "close_button"])
                         NavigationManager.sharedManager.dismissPresentedViewController()
                     }) {
                         Image(systemName: "xmark")
@@ -145,6 +146,7 @@ struct StoriesView: View {
 
                     // If a quick swipe down is performed, dismiss the view
                     if velocity.height > 200 {
+                        Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "swipe_down"])
                         NavigationManager.sharedManager.dismissPresentedViewController()
                     } else {
                         model.start()

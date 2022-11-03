@@ -60,6 +60,14 @@ struct TopListenedCategoriesStory: StoryView {
                 .opacity(0)
         }
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .topCategories)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .topCategories)
+    }
 }
 
 #if DEBUG

@@ -71,6 +71,14 @@ struct ListenedCategoriesStory: StoryView {
         }
         .modifier(PodcastCover())
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .listenedCategories)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .listenedCategories)
+    }
 }
 
 struct ListenedCategoriesStory_Previews: PreviewProvider {

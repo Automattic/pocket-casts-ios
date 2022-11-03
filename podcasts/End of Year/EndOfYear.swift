@@ -3,6 +3,12 @@ import PocketCastsServer
 import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 
+enum EndOfYearPresentationSource: String {
+    case modal = "modal"
+    case profile = "profile"
+    case userLogin = "user_login"
+}
+
 struct EndOfYear {
     // We'll calculate this just once
     static var isEligible: Bool {
@@ -54,7 +60,7 @@ struct EndOfYear {
         // If we were in the waiting state, but the user has logged in, then show stories
         case .loggedIn:
             Self.state = .showModalIfNeeded
-            showStories(in: viewController)
+            showStories(in: viewController, from: .userLogin)
 
         // If the user has seen the prompt, and chosen to login, but then has cancelled out of the flow without logging in,
         // When this code is ran from MainTabController viewDidAppear we will still be in the waiting state
@@ -64,7 +70,7 @@ struct EndOfYear {
         }
     }
 
-    func showStories(in viewController: UIViewController) {
+    func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
         guard FeatureFlag.endOfYear else {
             return
         }
@@ -90,6 +96,7 @@ struct EndOfYear {
         }
 
         viewController.present(storiesViewController, animated: true, completion: nil)
+        Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
     func share(asset: @escaping () -> Any, onDismiss: (() -> Void)? = nil) {

@@ -71,7 +71,7 @@ class StoriesModel: ObservableObject {
 
     func preload(index: Int) -> AnyView {
         if index < numberOfStories {
-            return story(index: index)
+            return AnyView(dataSource.story(for: index))
         }
 
         return AnyView(EmptyView())
@@ -107,11 +107,11 @@ class StoriesModel: ObservableObject {
 
 private extension StoriesModel {
     func subscribeToNotifications() {
-        StoriesController.Notifications.allCases.forEach { controller in
+        StoriesController.Notifications.allCases.forEach { [weak self] controller in
             switch controller {
             case .replay:
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { _ in
-                    self.replay()
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
+                    self?.replay()
                 }
             }
         }

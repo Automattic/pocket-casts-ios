@@ -77,6 +77,14 @@ struct TopOnePodcastStory: StoryView {
             }
         }
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .topOnePodcast)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .topOnePodcast)
+    }
 }
 
 struct TopOnePodcastStory_Previews: PreviewProvider {

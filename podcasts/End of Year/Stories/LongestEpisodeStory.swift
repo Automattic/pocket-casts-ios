@@ -80,6 +80,14 @@ struct LongestEpisodeStory: StoryView {
             }
         }
     }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: .longestEpisode)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: .longestEpisode)
+    }
 }
 
 struct LongestEpisodeStory_Previews: PreviewProvider {
