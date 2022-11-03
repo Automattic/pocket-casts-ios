@@ -85,7 +85,15 @@ class StoriesModel: ObservableObject {
     func sharingAssets() -> [Any] {
         let story = dataSource.story(for: currentStory)
         story.willShare()
-        return story.sharingAssets()
+
+        // If any of the assets have additional handlers then make sure we add them to the array
+        return story.sharingAssets().flatMap {
+            if let item = $0 as? TumblrDataSource {
+                return [$0, item.tumblrItemProvider]
+            }
+
+            return [$0]
+        }
     }
 
     func interactive(index: Int) -> AnyView {
