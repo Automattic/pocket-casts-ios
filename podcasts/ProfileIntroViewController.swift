@@ -91,27 +91,6 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         closeWindow()
     }
 
-    private func closeWindow(completion: (() -> Void)? = nil) {
-        dismiss(animated: true, completion: completion)
-        AnalyticsHelper.createAccountDismissed()
-        Analytics.track(.setupAccountDismissed)
-    }
-
-    // MARK: - SyncSigninDelegate
-
-    func signingProcessCompleted() {
-        closeWindow {
-            if let presentingController = self.upgradeRootViewController {
-                let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-                presentingController.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
-            }
-        }
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        AppTheme.popupStatusBarStyle()
-    }
-
     @IBAction func signInTapped() {
         hideError()
 
@@ -133,12 +112,33 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
     }
 
-    // MARK: - Orientation
+    // MARK: - View Configuration
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        AppTheme.popupStatusBarStyle()
+    }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }
+
+    // MARK: - SyncSigninDelegate
+    func signingProcessCompleted() {
+        closeWindow {
+            if let presentingController = self.upgradeRootViewController {
+                let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
+                presentingController.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
+            }
+        }
+    }
+}
+
 private extension ProfileIntroViewController {
+    func closeWindow(completion: (() -> Void)? = nil) {
+        dismiss(animated: true, completion: completion)
+        AnalyticsHelper.createAccountDismissed()
+        Analytics.track(.setupAccountDismissed)
+    }
+
     func showPocketCastsLogoInTitle() {
         let imageView = ThemeableImageView(frame: .zero)
         imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalImageName
