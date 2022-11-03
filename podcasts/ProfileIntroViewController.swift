@@ -167,16 +167,33 @@ extension ProfileIntroViewController {
     func setupProviderLoginView() {
         guard FeatureFlag.signInWithApple else { return }
 
-        let authorizationButton = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
-        authorizationButton.cornerRadius = createAccountBtn.cornerRadius
-        authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
-        authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
+        // Continue with Google button
+        let googleButton = SocialLoginButton(iconName: "sso-icon-google",
+                                             title: L10n.socialSignInContinueWithGoogle,
+                                             font: buttonFont)
+        googleButton.addAction {
+            print("TODO: Add Sign In Action")
+        }
+
+        addSocialButton(googleButton)
+
+        // Continue with Apple button
+        let appleButton = SocialLoginButton(iconName: "sso-icon-apple",
+                                            darkIconName: "sso-icon-apple-dark",
+                                            title: L10n.socialSignInContinueWithApple,
+                                            font: buttonFont)
+        appleButton.addAction {
+            self.handleAppleAuthButtonPress()
+        }
+
+        addSocialButton(appleButton)
     }
 
-    @objc
-    func handleAppleAuthButtonPress() {
-        errorLabel.isHidden = true
+    private func addSocialButton(_ button: SocialLoginButton) {
+        button.heightAnchor.constraint(greaterThanOrEqualToConstant: 56).isActive = true
+        authenticationProviders.insertArrangedSubview(button, at: 1)
+    }
+
     private func handleAppleAuthButtonPress() {
         hideError()
 
