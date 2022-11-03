@@ -13,32 +13,46 @@ class StoryShareableText: UIActivityItemProvider {
     private var podcastListURL: String?
 
     init(_ text: String) {
-        self.text = "\(text) \(hashtags) \(pocketCastsUrl)"
+        self.text = text
         super.init(placeholderItem: self.text)
     }
 
     init(_ text: String, podcast: Podcast) {
-        self.text = "\(text) \(hashtags)"
+        self.text = text
         super.init(placeholderItem: self.text)
         self.longURL = podcast.shareURL
         requestShortenedURL()
     }
 
     init(_ text: String, episode: Episode) {
-        self.text = "\(text) \(hashtags)"
+        self.text = text
         super.init(placeholderItem: self.text)
         self.longURL = episode.shareURL
         requestShortenedURL()
     }
 
     init(_ text: String, podcasts: [Podcast]) {
-        self.text = "\(text) \(hashtags)"
+        self.text = text
         super.init(placeholderItem: self.text)
         podcastListURL = ""
         createList(from: podcasts)
     }
 
-    override var item: Any {
+    override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        // Facebook ignores text, so we only share the image
+        // WhatsApp ignore the image if we share text, so we also share just the image
+        if activityType == .postToFacebook ||
+            activityType?.rawValue.contains("whatsapp") == true {
+            return nil
+        }
+
+        var text = self.text
+
+        // For Messages we don't want to add hashtags
+        if activityType != .message {
+            text = "\(text) \(hashtags)".trim()
+        }
+
         if let longURL {
             return String(format: text, shortenedURL ?? longURL)
         }
@@ -47,7 +61,7 @@ class StoryShareableText: UIActivityItemProvider {
             return String(format: text, podcastListURL)
         }
 
-        return text.trim()
+        return "\(text) \(pocketCastsUrl)"
     }
 
     private func requestShortenedURL() {
