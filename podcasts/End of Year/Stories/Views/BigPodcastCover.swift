@@ -2,19 +2,16 @@ import SwiftUI
 import PocketCastsServer
 
 struct BigPodcastCover: View {
+    /// UUID of the podcast to load the cover
     let podcastUuid: String
-
-    let size: CGFloat
 
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(.black.opacity(0.2))
-                .frame(width: size, height: size)
                 .modifier(PodcastBigCover())
 
             ImageView(ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280))
-                .frame(width: size, height: size)
                 .cornerRadius(8)
         }
     }

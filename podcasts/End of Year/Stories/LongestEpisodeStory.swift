@@ -42,7 +42,8 @@ struct LongestEpisodeStory: StoryView {
                                 .padding(.leading, -60)
                                 .padding(.top, (size * 0.35))
 
-                            BigPodcastCover(podcastUuid: podcast.uuid, size: size)
+                            BigPodcastCover(podcastUuid: podcast.uuid)
+                                .frame(width: size, height: size)
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                         }
