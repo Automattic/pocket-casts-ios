@@ -91,7 +91,7 @@ struct TopFivePodcastsStory: StoryView {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryTopPodcastsShareText)
+            StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: podcasts)
         ]
     }
 }

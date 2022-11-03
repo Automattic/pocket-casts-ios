@@ -3330,8 +3330,11 @@
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
 
-/* Text that appear when someone share the top 5 podcasts of the year story to Twitter. */
-"eoy_story_top_podcasts_share_text" = "My top podcasts of the year!";
+/* Text that appear when someone share the top 5 podcasts of the year story to Twitter. %1$@ is a link to the list of the top podcasts. */
+"eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
+
+/* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
+"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";

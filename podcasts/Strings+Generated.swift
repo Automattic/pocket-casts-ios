@@ -672,8 +672,12 @@ internal enum L10n {
   }
   /// Your Top Podcasts
   internal static var eoyStoryTopPodcasts: String { return L10n.tr("Localizable", "eoy_story_top_podcasts") }
-  /// My top podcasts of the year!
-  internal static var eoyStoryTopPodcastsShareText: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_share_text") }
+  /// My top podcasts of 2022
+  internal static var eoyStoryTopPodcastsListTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_list_title") }
+  /// My top podcasts of the year! %1$@
+  internal static func eoyStoryTopPodcastsShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcasts_share_text", String(describing: p1))
+  }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
