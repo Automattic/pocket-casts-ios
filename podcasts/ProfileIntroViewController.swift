@@ -57,10 +57,12 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.text = L10n.signInMessage
+            infoLabel.text = infoLabelText ?? L10n.signInMessage
             infoLabel.style = .primaryText02
         }
     }
+
+    var infoLabelText: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

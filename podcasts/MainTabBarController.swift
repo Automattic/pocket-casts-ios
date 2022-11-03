@@ -51,6 +51,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
+
+        observersForEndOfYearStats()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +63,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPrompt(in: self)
+        endOfYear.showPromptBasedOnState(in: self)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -394,11 +396,33 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return true
     }
 
-    // MARK: - End of Year badge
+    // MARK: - End of Year
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
         Settings.showBadgeFor2022EndOfYear = false
+    }
+
+    func observersForEndOfYearStats() {
+        guard FeatureFlag.endOfYear else {
+            return
+        }
+
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+            self.endOfYear.resetStateIfNeeded()
+        }
+
+        // If the requirement for EOY changes and registration is not required anymore
+        // Show the modal
+        NotificationCenter.default.addObserver(forName: .eoyRegistrationNotRequired, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
+
+            if self.presentedViewController == nil {
+                self.endOfYear.showPrompt(in: self)
+            }
+        }
     }
 
     // MARK: - Orientation
