@@ -14,6 +14,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             errorLabel.style = .support05
             errorLabel.font = UIFont.font(with: .subheadline, maxSizeCategory: .extraExtraLarge)
+            hideError()
         }
     }
 
@@ -112,7 +113,8 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     }
 
     @IBAction func signInTapped() {
-        errorLabel.isHidden = true
+        hideError()
+
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
 
@@ -144,6 +146,20 @@ private extension ProfileIntroViewController {
 
         navigationItem.titleView = imageView
     }
+
+    func hideError() {
+        errorLabel.alpha = 0
+        errorLabel.text = nil
+    }
+
+    func showError(_ error: Error? = nil) {
+        if let error {
+            FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+        }
+
+        errorLabel.text = L10n.accountSsoFailed
+        errorLabel.alpha = 1
+    }
 }
 
 // MARK: - Apple Auth
@@ -161,6 +177,9 @@ extension ProfileIntroViewController {
     @objc
     func handleAppleAuthButtonPress() {
         errorLabel.isHidden = true
+    private func handleAppleAuthButtonPress() {
+        hideError()
+
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -200,7 +219,9 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
                     try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
                     success = true
                 } catch {
-                    self.showError(error)
+                    DispatchQueue.main.async {
+                        self.showError(error)
+                    }
                 }
 
                 DispatchQueue.main.async {
@@ -211,14 +232,5 @@ extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
                 }
             }
         })
-    }
-
-    func showError(_ error: Error) {
-        FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
-
-        DispatchQueue.main.async {
-            self.errorLabel.text = L10n.accountSsoFailed
-            self.errorLabel.isHidden = false
-        }
     }
 }
