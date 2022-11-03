@@ -68,6 +68,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         super.viewDidLoad()
 
         title = L10n.setupAccount
+        showPocketCastsLogoInTitle()
 
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
@@ -134,6 +135,14 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+private extension ProfileIntroViewController {
+    func showPocketCastsLogoInTitle() {
+        let imageView = ThemeableImageView(frame: .zero)
+        imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalImageName
+        imageView.accessibilityLabel = title
+
+        navigationItem.titleView = imageView
     }
 }
 
