@@ -6,11 +6,7 @@ import Kingfisher
 /// This is necessary because `Image` does not render correctly
 /// when taking screenshots of it — the image doesn't appear.
 struct ImageView: UIViewRepresentable {
-    let url: URL
-
-    init(_ url: URL) {
-        self.url = url
-    }
+    var image: UIImage?
 
     func makeUIView(context: Context) -> UIImageView {
         let v = UIImageView()
@@ -24,6 +20,6 @@ struct ImageView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiImage: UIImageView, context: Context) {
-        uiImage.kf.setImage(with: url)
+        uiImage.image = image
     }
 }

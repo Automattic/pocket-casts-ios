@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import Kingfisher
 
 struct PodcastCover: View {
     /// UUID of the podcast to load the cover
@@ -8,6 +9,8 @@ struct PodcastCover: View {
     /// Whether this is a big cover, in which shadows should be bigger
     let big: Bool
 
+    @State private var image: UIImage?
+
     init(podcastUuid: String, big: Bool = false) {
         self.podcastUuid = podcastUuid
         self.big = big
@@ -15,17 +18,30 @@ struct PodcastCover: View {
 
     var body: some View {
         ZStack {
-            if big {
-                Rectangle()
-                    .modifier(BigCoverShadow())
-            } else {
-                Rectangle()
-                    .modifier(NormalCoverShadow())
+            Group {
+                if big {
+                    Rectangle()
+                        .modifier(BigCoverShadow())
+                } else {
+                    Rectangle()
+                        .modifier(NormalCoverShadow())
+                }
             }
+            .opacity(image != nil ? 1 : 0.2)
 
 
-            ImageView(ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280))
+            ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
+        }
+        .onAppear {
+            KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
+                switch result {
+                case .success(let result):
+                    image = result.image
+                default:
+                    break
+                }
+            }
         }
     }
 }
