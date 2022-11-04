@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class SyncYearListeningHistory: ApiBaseTask {
+class SyncYearListeningHistoryTask: ApiBaseTask {
     private var token: String?
 
     private let podcastHelper = PodcastExistHelper()
@@ -137,7 +137,7 @@ class PodcastExistHelper {
 
 public class YearListeningHistory {
     public static func sync(completionBlock: ((Bool) -> Void)? = nil) {
-        let syncYearListeningHistory = SyncYearListeningHistory()
+        let syncYearListeningHistory = SyncYearListeningHistoryTask()
 
         syncYearListeningHistory.completionBlock = {
             completionBlock?(syncYearListeningHistory.success)
