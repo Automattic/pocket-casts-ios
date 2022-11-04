@@ -23,9 +23,9 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
-    private let sync: (() -> Void)?
+    private let sync: ((((Bool) -> Void)?) -> Void)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Void)? = YearListeningHistory.sync) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: ((((Bool) -> Void)?) -> Void)? = YearListeningHistory.sync) {
         self.dataManager = dataManager
         self.sync = sync
     }
@@ -33,9 +33,14 @@ class EndOfYearStoriesBuilder {
     /// Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
+
             // Check if the user has the full listening history for this year
-            if !dataManager.isFullListeningHistory() {
-                sync?()
+            if !dataManager.isFullListeningHistory(), !Settings.hasSyncedAll2022Episodes {
+                sync? { success in
+                    if success {
+                        Settings.hasSyncedAll2022Episodes = true
+                    }
+                }
             }
 
             // Listening time

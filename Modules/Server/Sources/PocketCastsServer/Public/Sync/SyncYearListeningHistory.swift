@@ -8,6 +8,8 @@ class SyncYearListeningHistory: ApiBaseTask {
 
     private let podcastHelper = PodcastExistHelper()
 
+    var success: Bool = false
+
     override func apiTokenAcquired(token: String) {
         self.token = token
 
@@ -48,6 +50,8 @@ class SyncYearListeningHistory: ApiBaseTask {
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
                 performRequest(token: token, shouldSync: true)
+            } else {
+                success = true
             }
         } catch {
             print("SyncYearListeningHistory had issues decoding protobuf \(error.localizedDescription)")
@@ -62,6 +66,8 @@ class SyncYearListeningHistory: ApiBaseTask {
             #if !os(watchOS)
             updateEpisodes(updates: response.history.changes)
             #endif
+
+            success = true
         } catch {
             print("SyncYearListeningHistory had issues decoding protobuf \(error.localizedDescription)")
         }
@@ -131,7 +137,13 @@ class PodcastExistHelper {
 }
 
 public class YearListeningHistory {
-    public static func sync() {
-        SyncYearListeningHistory().start()
+    public static func sync(completionBlock: ((Bool) -> Void)? = nil) {
+        let syncYearListeningHistory = SyncYearListeningHistory()
+
+        syncYearListeningHistory.completionBlock = {
+            completionBlock?(syncYearListeningHistory.success)
+        }
+
+        syncYearListeningHistory.start()
     }
 }
