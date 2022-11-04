@@ -80,8 +80,8 @@ class SyncYearListeningHistory: ApiBaseTask {
     }
 }
 
-public class SyncYearListeningHistoryWrapper {
-    public static func start() {
+public class YearListeningHistory {
+    public static func sync() {
         SyncYearListeningHistory().start()
     }
 }

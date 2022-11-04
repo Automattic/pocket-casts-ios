@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 /// The available stories for EoY
 enum EndOfYearStory: String {
@@ -24,7 +25,7 @@ class EndOfYearStoriesBuilder {
 
     private let sync: (() -> Void)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Void)? = nil) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Void)? = YearListeningHistory.sync) {
         self.dataManager = dataManager
         self.sync = sync
     }
@@ -34,7 +35,6 @@ class EndOfYearStoriesBuilder {
         await withCheckedContinuation { continuation in
             // Check if the user has the full listening history for this year
             if !dataManager.isFullListeningHistory() {
-                // TODO: update with the correct endpoint to sync history (eoy-todo)
                 sync?()
             }
 
