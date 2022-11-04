@@ -97,7 +97,6 @@ class SyncYearListeningHistory: ApiBaseTask {
 
         // Sync episode status for the retrieved podcasts' episodes
         let uniqueUuidsToUpdate = Array(Set(podcastsToUpdate))
-        print("$$ \(uniqueUuidsToUpdate)")
         updateEpisodes(for: uniqueUuidsToUpdate)
     }
 
