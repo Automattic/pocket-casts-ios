@@ -24,7 +24,7 @@ class ShareableMetadataProvider: UIActivityItemProvider {
         guard let dataSource, let activityType, activityType.supportsShareableMetadata else { return nil }
 
         let item = NSExtensionItem()
-        
+
         // Provide tags using the x-extension format
         // Ref: https://github.com/tumblr/XExtensionItem
         // We don't need the entire library so we're just including what we need
