@@ -74,6 +74,31 @@ class EndOfYearDataManager {
         return isFullListeningHistory
     }
 
+    /// Returns the number of episodes we have for this year
+    func numberOfEpisodes(dbQueue: FMDatabaseQueue) -> Int {
+        var numberOfEpisodes: Int = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(*) as numberOfEpisodes from \(DataManager.episodeTableName)
+                            WHERE
+                            \(listenedEpisodesThisYear)
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    numberOfEpisodes = Int(resultSet.int(forColumn: "numberOfEpisodes"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.numberOfEpisodes error: \(error)")
+            }
+        }
+
+        return numberOfEpisodes
+    }
+
     /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
