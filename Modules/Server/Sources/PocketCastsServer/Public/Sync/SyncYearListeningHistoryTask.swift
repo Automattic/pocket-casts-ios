@@ -76,24 +76,34 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     private func updateEpisodes(updates: [Api_HistoryChange]) {
         var podcastsToUpdate: [String] = []
 
+        let dispatchGroup = DispatchGroup()
+
         for change in updates {
-            let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
+            dispatchGroup.enter()
 
-            let episodeInDatabase = DataManager.sharedManager.findEpisode(uuid: change.episode)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
 
-            if episodeInDatabase == nil {
-                // Episode is not on database, let's add it
+                let episodeInDatabase = DataManager.sharedManager.findEpisode(uuid: change.episode)
 
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
-                DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                podcastsToUpdate.append(change.podcast)
-            } else if episodeInDatabase?.lastPlaybackInteractionDate == nil {
-                // Episode is in database but it's not updated, let's update it
+                if episodeInDatabase == nil {
+                    // Episode is not on database, let's add it
 
-                DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                podcastsToUpdate.append(change.podcast)
+                    ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
+                    DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                    podcastsToUpdate.append(change.podcast)
+                } else if episodeInDatabase?.lastPlaybackInteractionDate == nil {
+                    // Episode is in database but it's not updated, let's update it
+
+                    DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                    podcastsToUpdate.append(change.podcast)
+                }
+
+                dispatchGroup.leave()
             }
         }
+
+        dispatchGroup.wait()
 
         // Sync episode status for the retrieved podcasts' episodes
         let uniqueUuidsToUpdate = Array(Set(podcastsToUpdate))
