@@ -65,17 +65,9 @@ struct ListeningTimeStory: StoryView {
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        Group {
-            if let podcast = podcasts[safe: index] {
-                ZStack {
-                    ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-                }
-            } else {
-                Rectangle().opacity(0)
-            }
-        }
-        .modifier(PodcastCover())
-        .frame(width: 140, height: 140)
+        let podcast = podcasts[safe: index] ?? podcasts[0]
+        PodcastCover(podcastUuid: podcast.uuid)
+            .frame(width: 140, height: 140)
     }
 
     func onAppear() {

@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
-struct BigPodcastCover: View {
+struct PodcastCover: View {
     /// UUID of the podcast to load the cover
     let podcastUuid: String
 
@@ -17,12 +17,10 @@ struct BigPodcastCover: View {
         ZStack {
             if big {
                 Rectangle()
-                    .fill(.black.opacity(0.2))
-                    .modifier(PodcastBigCover())
+                    .modifier(BigCoverShadow())
             } else {
                 Rectangle()
-                    .fill(.black.opacity(0.2))
-                    .modifier(PodcastCover())
+                    .modifier(NormalCoverShadow())
             }
 
 
@@ -33,7 +31,7 @@ struct BigPodcastCover: View {
 }
 
 /// Apply shadow and radius to podcast cover
-struct PodcastCover: ViewModifier {
+struct NormalCoverShadow: ViewModifier {
     func body(content: Content) -> some View {
         content
             .cornerRadius(4)
@@ -46,7 +44,7 @@ struct PodcastCover: ViewModifier {
 }
 
 /// Apply shadow and radius to podcast cover
-struct PodcastBigCover: ViewModifier {
+struct BigCoverShadow: ViewModifier {
     func body(content: Content) -> some View {
         content
             .cornerRadius(8)
