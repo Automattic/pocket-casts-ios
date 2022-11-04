@@ -111,6 +111,19 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
+    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String) {
+        let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
+
+        if let info = loadFrom(url: url) {
+            // Ensure podcast is added, otherwise episode won't be
+            if !PodcastExistHelper.shared.exists(uuid: podcastUuid) {
+                _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
+            }
+
+            _ = addEpisode(podcastInfo: info)
+        }
+    }
+
     private func addToDatabase(upNextItem: UpNextItem, to podcast: Podcast) {
         // if we have this episode already, then we don't need to do anything here
         guard DataManager.sharedManager.findEpisode(uuid: upNextItem.episodeUuid) == nil else { return }
