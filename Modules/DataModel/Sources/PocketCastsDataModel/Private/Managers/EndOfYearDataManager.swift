@@ -63,8 +63,6 @@ class EndOfYearDataManager {
 
                 if resultSet.next() {
                     isFullListeningHistory = true
-                } else {
-                    isFullListeningHistory = numberOfItemsInListeningHistory(db: db) <= 100
                 }
             } catch {
                 FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
