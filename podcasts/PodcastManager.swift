@@ -91,6 +91,14 @@ class PodcastManager: NSObject {
             }
         }
 
+        // check if any existing episodes were downloading, but aren't currently (caused by app force quit while episode was downloading)
+        let stuckDownloadingEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.downloading.rawValue])
+        for episode in stuckDownloadingEpisodes {
+            if !DownloadManager.shared.isEpisodeDownloading(episode) {
+                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
+            }
+        }
+
         checkIfAutoDownloadsRequired()
 
         // fire off a single notification for any action that might have been performed above
