@@ -6,6 +6,8 @@ import SwiftProtobuf
 class SyncYearListeningHistory: ApiBaseTask {
     private var token: String?
 
+    private let podcastHelper = PodcastExistHelper()
+
     override func apiTokenAcquired(token: String) {
         self.token = token
 
@@ -44,6 +46,7 @@ class SyncYearListeningHistory: ApiBaseTask {
             let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodesThisYear()
 
             if response.count > localNumberOfEpisodes, let token {
+                print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
                 performRequest(token: token, shouldSync: true)
             }
         } catch {
@@ -65,18 +68,65 @@ class SyncYearListeningHistory: ApiBaseTask {
     }
 
     private func updateEpisodes(updates: [Api_HistoryChange]) {
+        var podcastsToUpdate: [String] = []
+
         for change in updates {
             let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
-            if DataManager.sharedManager.findEpisode(uuid: change.episode) == nil {
-                // The episode is missing, add it
 
-                // TODO: the server response is missing `playedUpTo`, we need that
+            let episodeInDatabase = DataManager.sharedManager.findEpisode(uuid: change.episode)
 
-                ServerPodcastManager.shared.addMissingPodcast(episodeUuid: change.episode, podcastUuid: change.podcast)
-                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
+            if episodeInDatabase == nil {
+                // Episode is not on database, let's add it
+
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                podcastsToUpdate.append(change.podcast)
+            } else if episodeInDatabase?.lastPlaybackInteractionDate == nil {
+                // Episode is in database but it's not updated, let's update it
+
+                DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                podcastsToUpdate.append(change.podcast)
             }
         }
+
+        // Sync episode status for the retrieved podcasts' episodes
+        let uniqueUuidsToUpdate = Array(Set(podcastsToUpdate))
+        print("$$ \(uniqueUuidsToUpdate)")
+        updateEpisodes(for: uniqueUuidsToUpdate)
+    }
+
+    private func updateEpisodes(for podcastsUuids: [String]) {
+        podcastsUuids.forEach {
+            if let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: $0) {
+                DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+            }
+        }
+    }
+}
+
+/// Helper that checks for podcast existence
+/// It caches database requests
+class PodcastExistHelper {
+    static let shared = PodcastExistHelper()
+
+    var checkedUuidsThatExist: [String] = []
+
+    func exists(uuid: String) -> Bool {
+        if checkedUuidsThatExist.contains(uuid) {
+            return true
+        }
+
+        let exists = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) != nil
+
+        if exists {
+            checkedUuidsThatExist.append(uuid)
+        }
+
+        return exists
+    }
+
+    func markAsExistent(uuid: String) {
+        checkedUuidsThatExist.append(uuid)
     }
 }
 
