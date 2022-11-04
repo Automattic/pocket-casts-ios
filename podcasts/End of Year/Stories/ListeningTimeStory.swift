@@ -5,6 +5,8 @@ import PocketCastsDataModel
 struct ListeningTimeStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    let identifier: String = "listening_time"
+
     let listeningTime: Double
 
     let podcasts: [Podcast]
@@ -75,11 +77,18 @@ struct ListeningTimeStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .listeningTime)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .listeningTime)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
+        ]
     }
 }
 

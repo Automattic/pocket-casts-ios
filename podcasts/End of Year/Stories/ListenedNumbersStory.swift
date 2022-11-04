@@ -5,6 +5,8 @@ import PocketCastsDataModel
 struct ListenedNumbersStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    let identifier: String = "number_of_podcasts_and_episodes_listened"
+
     let listenedNumbers: ListenedNumbers
 
     let podcasts: [Podcast]
@@ -100,11 +102,18 @@ struct ListenedNumbersStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .numberOfPodcastsAndEpisodesListened)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .numberOfPodcastsAndEpisodesListened)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
+        ]
     }
 }
 

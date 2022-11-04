@@ -442,6 +442,7 @@
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
+		8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0125672912A7AB00EC427A /* StoryShareableText.swift */; };
 		8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */; };
 		8B0EEDE2290065C100075772 /* ListenedCategoriesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */; };
 		8B0EEDE429006C9B00075772 /* TopListenedCategoriesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE329006C9B00075772 /* TopListenedCategoriesStory.swift */; };
@@ -1369,6 +1370,7 @@
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
+		C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */; };
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
@@ -2003,6 +2005,7 @@
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		7E84A6B7056C4797BAD62A1F /* Pods-Pocket Casts Watch App Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
 		8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningTimeStory.swift; sourceTree = "<group>"; };
 		8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenedCategoriesStory.swift; sourceTree = "<group>"; };
 		8B0EEDE329006C9B00075772 /* TopListenedCategoriesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListenedCategoriesStory.swift; sourceTree = "<group>"; };
@@ -2904,6 +2907,7 @@
 		C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
+		C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableMetadataProvider.swift; sourceTree = "<group>"; };
 		C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListener.swift; sourceTree = "<group>"; };
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
@@ -3778,6 +3782,8 @@
 				8B6B68E628F74A010032BFFF /* StoriesModel.swift */,
 				8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */,
 				8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */,
+				8B0125672912A7AB00EC427A /* StoryShareableText.swift */,
+				C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */,
 			);
 			path = "End of Year";
 			sourceTree = "<group>";
@@ -7442,6 +7448,7 @@
 				BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */,
 				40B1613822F3B66900759E41 /* ThemeableTextField.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
+				C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */,
 				BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
@@ -7687,6 +7694,7 @@
 				4006E31423AC453700174DEB /* ExpandedCollectionViewController+CollectionView.swift in Sources */,
 				8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */,
 				BD27B8C92756FA20007A0EA7 /* ModalCloseButton.swift in Sources */,
+				8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */,
 				8B5AB488290188F30018C637 /* IntroStory.swift in Sources */,
 				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,

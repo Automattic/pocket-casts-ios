@@ -620,14 +620,26 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategories(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories", String(describing: p1))
   }
+  /// I listened to %1$@ different categories in 2022
+  internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
+  }
   /// Let's take a look at some of your favorites...
   internal static var eoyStoryListenedToCategoriesSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_categories_subtitle") }
   /// You listened to %1$@ different podcasts and %2$@ episodes
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
   }
+  /// I listened to %1$@ different podcasts and %2$@ episodes in 2022
+  internal static func eoyStoryListenedToNumbersShareText(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_numbers_share_text", String(describing: p1), String(describing: p2))
+  }
   /// But there was one that you kept coming back to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
+  /// I spent %1$@ listening to podcasts in 2022
+  internal static func eoyStoryListenedToShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_share_text", String(describing: p1))
+  }
   /// The longest episode you listened to was %1$@ from the podcast %2$@
   internal static func eoyStoryLongestEpisode(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1), String(describing: p2))
@@ -636,13 +648,23 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
+  /// The longest episode I listened to in 2022 %1$@
+  internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
+  }
   /// Replay
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
+  /// My most listened to podcast categories
+  internal static var eoyStoryTopCategoriesShareText: String { return L10n.tr("Localizable", "eoy_story_top_categories_share_text") }
   /// Your top podcast was %1$@ by %2$@
   internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
+  }
+  /// My favorite podcast of 2022! %1$@
+  internal static func eoyStoryTopPodcastShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcast_share_text", String(describing: p1))
   }
   /// You listened to %1$@ episodes for a total of %2$@
   internal static func eoyStoryTopPodcastSubtitle(_ p1: Any, _ p2: Any) -> String {
@@ -650,6 +672,12 @@ internal enum L10n {
   }
   /// Your Top Podcasts
   internal static var eoyStoryTopPodcasts: String { return L10n.tr("Localizable", "eoy_story_top_podcasts") }
+  /// My top podcasts of 2022
+  internal static var eoyStoryTopPodcastsListTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_list_title") }
+  /// My top podcasts of the year! %1$@
+  internal static func eoyStoryTopPodcastsShareText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcasts_share_text", String(describing: p1))
+  }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
