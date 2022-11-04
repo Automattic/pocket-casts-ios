@@ -2,7 +2,7 @@ import UIKit
 import PocketCastsServer
 import PocketCastsDataModel
 
-class StoryShareableText: UIActivityItemProvider, TumblrDataSource {
+class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
     private var text: String
 
     private let pocketCastsUrl = ServerConstants.Urls.share()
@@ -11,7 +11,7 @@ class StoryShareableText: UIActivityItemProvider, TumblrDataSource {
     private var longURL: String?
     private var podcastListURL: String?
 
-    var tumblrItemProvider = TumblrShareableMetadataProvider()
+    var shareableMetadataProvider = ShareableMetadataProvider()
 
     var hashtags: [String] {
         ["pocketcasts", "endofyear2022"]
@@ -48,7 +48,7 @@ class StoryShareableText: UIActivityItemProvider, TumblrDataSource {
     }
 
     override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
-        tumblrItemProvider.dataSource = self
+        shareableMetadataProvider.dataSource = self
 
         // Facebook ignores text, so we only share the image
         // WhatsApp ignore the image if we share text, so we also share just the image
@@ -57,16 +57,16 @@ class StoryShareableText: UIActivityItemProvider, TumblrDataSource {
             return nil
         }
 
-        let isTumblr = activityType == .postToTumblr
-        let showHashTags = activityType != .message && !isTumblr
+        let supportsMetadata = activityType?.supportsShareableMetadata ?? false
+        let showHashTags = activityType != .message && !supportsMetadata
 
-        let text = shareableText(showLinks: !isTumblr, showHashTags: showHashTags).trim()
+        let text = shareableText(showLinks: !supportsMetadata, showHashTags: showHashTags).trim()
 
         // Remove any empty text to prevent gaps
         guard !text.isEmpty else { return nil }
-        guard isTumblr else { return text }
+        guard supportsMetadata else { return text }
 
-        // Show the text as a title when sharing to Tumblr
+        // Show the text as a title when sharing to a metadata network such as Tumblr
         let item = NSExtensionItem()
         item.attributedTitle = NSAttributedString(string: text)
         return item

@@ -2,9 +2,9 @@ import Foundation
 import PocketCastsServer
 import PocketCastsDataModel
 
-protocol TumblrDataSource: AnyObject {
+protocol ShareableMetadataDataSource: AnyObject {
     /// Create a provider to handle the additional meta data needed
-    var tumblrItemProvider: TumblrShareableMetadataProvider { get }
+    var shareableMetadataProvider: ShareableMetadataProvider { get }
 
     /// Returns the link that we should share in the metadata
     var shareableLink: String { get }
@@ -13,19 +13,21 @@ protocol TumblrDataSource: AnyObject {
     var hashtags: [String] { get }
 }
 
-class TumblrShareableMetadataProvider: UIActivityItemProvider {
-    weak var dataSource: TumblrDataSource?
+class ShareableMetadataProvider: UIActivityItemProvider {
+    weak var dataSource: ShareableMetadataDataSource?
 
     init() {
         super.init(placeholderItem: "")
     }
 
     override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
-        guard let dataSource, activityType == .postToTumblr else { return nil }
+        guard let dataSource, let activityType, activityType.supportsShareableMetadata else { return nil }
 
         let item = NSExtensionItem()
-
-        // Provide tags to Tumblr using the x-extension format
+        
+        // Provide tags using the x-extension format
+        // Ref: https://github.com/tumblr/XExtensionItem
+        // We don't need the entire library so we're just including what we need
         item.userInfo = [
             "x-extension-item": [
                 "tags": dataSource.hashtags
@@ -42,5 +44,9 @@ class TumblrShareableMetadataProvider: UIActivityItemProvider {
 }
 
 extension UIActivity.ActivityType {
-    public static let postToTumblr = UIActivity.ActivityType(rawValue: "com.tumblr.tumblr.share")
+    static let postToTumblr = UIActivity.ActivityType(rawValue: "com.tumblr.tumblr.share")
+
+    var supportsShareableMetadata: Bool {
+        return self == .postToTumblr
+    }
 }

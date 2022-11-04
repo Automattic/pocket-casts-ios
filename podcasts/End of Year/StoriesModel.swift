@@ -88,8 +88,8 @@ class StoriesModel: ObservableObject {
 
         // If any of the assets have additional handlers then make sure we add them to the array
         return story.sharingAssets().flatMap {
-            if let item = $0 as? TumblrDataSource {
-                return [$0, item.tumblrItemProvider]
+            if let item = $0 as? ShareableMetadataDataSource {
+                return [$0, item.shareableMetadataProvider]
             }
 
             return [$0]
