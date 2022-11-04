@@ -741,6 +741,16 @@ class Settings: NSObject {
         }
     }
 
+    class var hasSyncedAll2022Episodes: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
