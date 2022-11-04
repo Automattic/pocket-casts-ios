@@ -163,7 +163,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { _ in syncCalled = true })
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         let stories = await builder.build()
@@ -175,7 +175,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { _ in syncCalled = true })
 
         endOfYearManager.isFullListeningHistoryToReturn = true
         let stories = await builder.build()
