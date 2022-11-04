@@ -11,7 +11,7 @@ class EndOfYearDataManager {
 
     /// If the user is eligible to see End of Year stats
     ///
-    /// All it's needed is a single episode listened for more than 30 minutes.
+    /// All it's needed is a single episode listened for more than 5 minutes.
     func isEligible(dbQueue: FMDatabaseQueue) -> Bool {
         var isEligible = false
 
@@ -20,7 +20,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT playedUpTo from \(DataManager.episodeTableName)
                             WHERE
-                            playedUpTo > 1800 AND
+                            playedUpTo > 300 AND
                             \(listenedEpisodesThisYear)
                             LIMIT 1
                             """
