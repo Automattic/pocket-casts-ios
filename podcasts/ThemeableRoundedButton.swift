@@ -54,7 +54,7 @@ class ThemeableRoundedButton: UIButton {
         updateColor()
     }
 
-    private func updateColor() {
+    func updateColor() {
         layer.cornerRadius = cornerRadius
 
         if shouldFill {

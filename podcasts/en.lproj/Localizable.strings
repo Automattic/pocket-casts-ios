@@ -3338,3 +3338,9 @@
 
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
+
+/* Title of a button that prompts the user to sign in or create and account using Sign in With Apple */
+"social_sign_in_continue_with_apple" = "Continue with Apple";
+
+/* Title of a button that prompts the user to sign in or create and account using Google Sign In */
+"social_sign_in_continue_with_google" = "Continue with Google";
