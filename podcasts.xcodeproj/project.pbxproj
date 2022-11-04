@@ -1369,6 +1369,7 @@
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
+		C7F87F112913242C00C15980 /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
@@ -2904,6 +2905,7 @@
 		C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
+		C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+FontStyle.swift"; sourceTree = "<group>"; };
 		C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListener.swift; sourceTree = "<group>"; };
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
@@ -5903,6 +5905,7 @@
 				46851BB62790D5E00065C8B2 /* PodcastCollectionColors+Helpers.swift */,
 				8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */,
 				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
+				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -7808,6 +7811,7 @@
 				BDD3579327BCD50D0000D155 /* FolderViewController+CollectionView.swift in Sources */,
 				BDE5B8D81E6401F80039B409 /* EpisodeFileSizeUpdater.swift in Sources */,
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,
+				C7F87F112913242C00C15980 /* UIFont+FontStyle.swift in Sources */,
 				BD65E51C1CD9BDE000B90A67 /* OnlineSupportController.swift in Sources */,
 				BDCF60EA22EFECA60051EDB3 /* ThemeableCell.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
