@@ -149,6 +149,12 @@ class StoriesHostingController<ContentView: View>: UIHostingController<ContentVi
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Dark overlay background for iPad
+        presentationController?.containerView?.backgroundColor = .black.withAlphaComponent(0.8)
+    }
 }
 
 private enum EndOfYearState {
