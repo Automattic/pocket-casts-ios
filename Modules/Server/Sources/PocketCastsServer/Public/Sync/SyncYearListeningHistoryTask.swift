@@ -7,8 +7,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     private var token: String?
 
     private let podcastHelper = PodcastExistHelper()
+    private let yearToSync: Int32
 
     var success: Bool = false
+
+    init(year: Int32) {
+        self.yearToSync = year
+    }
 
     override func apiTokenAcquired(token: String) {
         self.token = token
@@ -20,7 +25,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         var dataToSync = Api_YearHistoryRequest()
         dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         dataToSync.version = apiVersion
-        dataToSync.year = 2022
+        dataToSync.year = yearToSync
         dataToSync.count = !shouldSync
 
         let url = ServerConstants.Urls.api() + "history/year"
@@ -147,7 +152,7 @@ class PodcastExistHelper {
 
 public class YearListeningHistory {
     public static func sync() -> Bool {
-        let syncYearListeningHistory = SyncYearListeningHistoryTask()
+        let syncYearListeningHistory = SyncYearListeningHistoryTask(year: 2022)
 
         syncYearListeningHistory.start()
 
