@@ -79,7 +79,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     }
 
     private func updateEpisodes(updates: [Api_HistoryChange]) {
-        var podcastsToUpdate: [String] = []
+        var podcastsToUpdate: Set<String> = []
 
         let dispatchGroup = DispatchGroup()
 
@@ -96,12 +96,12 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
                     ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                     DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                    podcastsToUpdate.append(change.podcast)
+                    podcastsToUpdate.insert(change.podcast)
                 } else if episodeInDatabase?.lastPlaybackInteractionDate == nil {
                     // Episode is in database but it's not updated, let's update it
 
                     DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                    podcastsToUpdate.append(change.podcast)
+                    podcastsToUpdate.insert(change.podcast)
                 }
 
                 dispatchGroup.leave()
@@ -111,11 +111,10 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         dispatchGroup.wait()
 
         // Sync episode status for the retrieved podcasts' episodes
-        let uniqueUuidsToUpdate = Array(Set(podcastsToUpdate))
-        updateEpisodes(for: uniqueUuidsToUpdate)
+        updateEpisodes(for: podcastsToUpdate)
     }
 
-    private func updateEpisodes(for podcastsUuids: [String]) {
+    private func updateEpisodes(for podcastsUuids: Set<String>) {
         podcastsUuids.forEach {
             if let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: $0) {
                 DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
