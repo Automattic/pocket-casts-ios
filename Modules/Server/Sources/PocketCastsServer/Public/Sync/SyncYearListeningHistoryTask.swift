@@ -143,10 +143,6 @@ class PodcastExistHelper {
 
         return exists
     }
-
-    func markAsExistent(uuid: String) {
-        checkedUuidsThatExist.append(uuid)
-    }
 }
 
 public class YearListeningHistory {
