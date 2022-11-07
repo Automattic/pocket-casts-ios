@@ -65,15 +65,9 @@ struct ListeningTimeStory: StoryView {
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        Group {
-            if let podcast = podcasts[safe: index] {
-                ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-            } else {
-                Rectangle().opacity(0)
-            }
-        }
-        .modifier(PodcastCover())
-        .frame(width: 140, height: 140)
+        let podcast = podcasts[safe: index] ?? podcasts[0]
+        PodcastCover(podcastUuid: podcast.uuid)
+            .frame(width: 140, height: 140)
     }
 
     func onAppear() {
@@ -95,7 +89,7 @@ struct ListeningTimeStory: StoryView {
 /// Apply a perspective to the podcasts cover
 struct PodcastCoverPerspective: ViewModifier {
     private var transform: CGAffineTransform {
-        let values: [CGFloat] = [1, 0, 0.40, 1, 0, 0]
+        let values: [CGFloat] = [1, 0, 0.45, 1, 0, 0]
         return CGAffineTransform(
             a: values[0], b: values[1],
             c: values[2], d: values[3],
@@ -107,17 +101,6 @@ struct PodcastCoverPerspective: ViewModifier {
         content
             .transformEffect(transform)
             .rotationEffect(.init(degrees: -30))
-    }
-}
-
-/// Apply shadow and radius to podcast cover
-struct PodcastCover: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .aspectRatio(1, contentMode: .fit)
-            .cornerRadius(4)
-            .shadow(radius: 2, x: 0, y: 1)
-            .accessibilityHidden(true)
     }
 }
 

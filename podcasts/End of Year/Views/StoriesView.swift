@@ -62,7 +62,6 @@ struct StoriesView: View {
                 .padding()
                 .background(Color.black)
 
-            storySwitcher
             header
         }
     }
