@@ -31,7 +31,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         do {
             let data = try dataToSync.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-            if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
+            if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 if !shouldSync {
                     compareNumberOfEpisodes(serverData: response)
                 } else {
