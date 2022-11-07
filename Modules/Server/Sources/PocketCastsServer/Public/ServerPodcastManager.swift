@@ -116,7 +116,7 @@ public class ServerPodcastManager: NSObject {
 
         if let info = loadFrom(url: url) {
             // Ensure podcast is added, otherwise episode won't be
-            if !PodcastExistHelper.shared.exists(uuid: podcastUuid) {
+            if !PodcastExistsHelper.shared.exists(uuid: podcastUuid) {
                 _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
             }
 

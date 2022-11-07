@@ -6,7 +6,6 @@ import SwiftProtobuf
 class SyncYearListeningHistoryTask: ApiBaseTask {
     private var token: String?
 
-    private let podcastHelper = PodcastExistHelper()
     private let yearToSync: Int32
 
     var success: Bool = false
@@ -125,8 +124,8 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
 /// Helper that checks for podcast existence
 /// It caches database requests
-class PodcastExistHelper {
-    static let shared = PodcastExistHelper()
+class PodcastExistsHelper {
+    static let shared = PodcastExistsHelper()
 
     var checkedUuidsThatExist: [String] = []
 
