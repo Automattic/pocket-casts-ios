@@ -70,10 +70,9 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            Text("Failed to load stories.")
+            Text(L10n.eoyStoriesFailed)
                 .foregroundColor(.white)
 
-            storySwitcher
             header
         }
     }
