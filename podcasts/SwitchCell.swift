@@ -1,14 +1,12 @@
 import UIKit
 
 class SwitchCell: ThemeableCell {
-    @IBOutlet var cellSwitch: ThemeableSwitch!
+    let cellSwitch: ThemeableSwitch = {
+        let cellSwitch = ThemeableSwitch()
+        cellSwitch.isAccessibilityElement = false
+        return cellSwitch
+    }()
     @IBOutlet var cellLabel: UILabel!
-    @IBOutlet var cellSecondaryLabel: ThemeableLabel! {
-        didSet {
-            cellSecondaryLabel.style = .primaryText02
-        }
-    }
-
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
 
@@ -23,7 +21,7 @@ class SwitchCell: ThemeableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        accessoryView = cellSwitch
         setNoImage()
     }
 
@@ -46,4 +44,8 @@ class SwitchCell: ThemeableCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+
+    override func accessibilityActivate() -> Bool {
+        return isLocked
+    }
 }
