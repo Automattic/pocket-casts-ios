@@ -13,6 +13,8 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
     init(rootView content: ContentView) {
         super.init(nibName: nil, bundle: nil)
 
+        view = ThemeableView()
+
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
