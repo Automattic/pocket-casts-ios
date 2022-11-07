@@ -31,17 +31,6 @@ extension StoriesDataSource {
     func interactiveView(for: Int) -> AnyView {
         return AnyView(EmptyView())
     }
-
-    func shareableAsset(for storyNumber: Int) -> Any {
-        let story = story(for: storyNumber)
-        story.willShare()
-
-        return ZStack {
-            AnyView(story)
-        }
-        .frame(width: 370, height: 693)
-        .snapshot()
-    }
 }
 
 typealias StoryView = Story & View
@@ -49,6 +38,9 @@ typealias StoryView = Story & View
 protocol Story {
     /// The amount of time this story should be show
     var duration: TimeInterval { get }
+
+    /// A string that identifies the story
+    var identifier: String { get }
 
     /// Called when the story actually appears.
     ///
@@ -61,10 +53,23 @@ protocol Story {
 
     /// Called when the story will be shared
     func willShare()
+
+    /// Called to get the story shareable assets
+    ///
+    /// This will be given to `UIActivityViewController` as the `activityItems`
+    func sharingAssets() -> [Any]
 }
 
 extension Story {
+    var identifier: String {
+        "unknown"
+    }
+
     func onAppear() {}
 
     func willShare() {}
+
+    func sharingAssets() -> [Any] {
+        return []
+    }
 }

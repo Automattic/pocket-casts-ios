@@ -8,7 +8,7 @@ class SharingHelper: NSObject {
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView) {
         AnalyticsHelper.sharedPodcast()
 
-        let sharingUrl = "\(ServerConstants.Urls.share())podcast/\(podcast.uuid)"
+        let sharingUrl = podcast.shareURL
         activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
@@ -46,7 +46,7 @@ class SharingHelper: NSObject {
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, barButtonItem: UIBarButtonItem?) {
         AnalyticsHelper.sharedPodcast()
 
-        let sharingUrl = "\(ServerConstants.Urls.share())podcast/\(podcast.uuid)"
+        let sharingUrl = podcast.shareURL
         activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
@@ -108,7 +108,7 @@ class SharingHelper: NSObject {
     }
 
     func createActivityController(episode: Episode, shareTime: TimeInterval) -> UIActivityViewController {
-        var sharingUrl = "\(ServerConstants.Urls.share())episode/\(episode.uuid)"
+        var sharingUrl = episode.shareURL
         if shareTime > 0 {
             AnalyticsHelper.sharedEpisodeWithTimestamp()
             sharingUrl += "?t=\(round(episode.playedUpTo))"
@@ -121,5 +121,17 @@ class SharingHelper: NSObject {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         }
         return activityController
+    }
+}
+
+extension Podcast {
+    var shareURL: String {
+        "\(ServerConstants.Urls.share())podcast/\(uuid)"
+    }
+}
+
+extension Episode {
+    var shareURL: String {
+        "\(ServerConstants.Urls.share())episode/\(uuid)"
     }
 }

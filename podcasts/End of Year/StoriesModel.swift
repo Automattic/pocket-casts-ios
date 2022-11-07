@@ -20,6 +20,8 @@ class StoriesModel: ObservableObject {
         dataSource.story(for: currentStory).duration
     }
 
+    private var currentStoryIdentifier: String = ""
+
     var numberOfStories: Int {
         dataSource.numberOfStories
     }
@@ -66,7 +68,10 @@ class StoriesModel: ObservableObject {
     }
 
     func story(index: Int) -> AnyView {
-        dataSource.storyView(for: index)
+        let story = dataSource.story(for: index)
+        story.onAppear()
+        currentStoryIdentifier = story.identifier
+        return AnyView(story)
     }
 
     func preload(index: Int) -> AnyView {
@@ -77,12 +82,22 @@ class StoriesModel: ObservableObject {
         return AnyView(EmptyView())
     }
 
-    func interactive(index: Int) -> AnyView {
-        dataSource.interactiveView(for: index)
+    func sharingAssets() -> [Any] {
+        let story = dataSource.story(for: currentStory)
+        story.willShare()
+
+        // If any of the assets have additional handlers then make sure we add them to the array
+        return story.sharingAssets().flatMap {
+            if let item = $0 as? ShareableMetadataDataSource {
+                return [$0, item.shareableMetadataProvider]
+            }
+
+            return [$0]
+        }
     }
 
-    func shareableAsset(index: Int) -> Any {
-        dataSource.shareableAsset(for: index)
+    func interactive(index: Int) -> AnyView {
+        dataSource.interactiveView(for: index)
     }
 
     func next() {
@@ -102,6 +117,13 @@ class StoriesModel: ObservableObject {
         currentStory = 0
         pause()
         start()
+    }
+
+    func share() {
+        pause()
+        EndOfYear().share(assets: sharingAssets(), storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+            self?.start()
+        })
     }
 }
 

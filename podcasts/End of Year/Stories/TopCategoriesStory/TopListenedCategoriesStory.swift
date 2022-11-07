@@ -4,6 +4,8 @@ import PocketCastsDataModel
 struct TopListenedCategoriesStory: StoryView {
     var duration: TimeInterval = 5.seconds
 
+    let identifier: String = "top_categories"
+
     let listenedCategories: [ListenedCategory]
 
     let contrastColor: CategoriesContrastingColors
@@ -62,11 +64,18 @@ struct TopListenedCategoriesStory: StoryView {
     }
 
     func onAppear() {
-        Analytics.track(.endOfYearStoryShown, story: .topCategories)
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     func willShare() {
-        Analytics.track(.endOfYearStoryShare, story: .topCategories)
+        Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryTopCategoriesShareText)
+        ]
     }
 }
 

@@ -751,6 +751,16 @@ class Settings: NSObject {
         }
     }
 
+    class var top5PodcastsListLink: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.top5PodcastsListLink)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: Constants.UserDefaults.top5PodcastsListLink)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
