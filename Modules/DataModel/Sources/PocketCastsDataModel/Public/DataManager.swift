@@ -910,6 +910,10 @@ public extension DataManager {
         endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
     }
 
+    func numberOfEpisodesThisYear() -> Int {
+        endOfYearManager.numberOfEpisodes(dbQueue: dbQueue)
+    }
+
     func listeningTime() -> Double? {
         endOfYearManager.listeningTime(dbQueue: dbQueue)
     }

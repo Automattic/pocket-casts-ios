@@ -4,6 +4,11 @@ import XCTest
 @testable import PocketCastsDataModel
 
 class EndOfYearStoriesBuilderTests: XCTestCase {
+    override func setUp() {
+        // Do not sync for episodes
+        Settings.hasSyncedAll2022Episodes = true
+    }
+
     func testReturnListeningTimeStoryIfBiggerThanZero() async {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
@@ -163,7 +168,8 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
+        Settings.hasSyncedAll2022Episodes = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         let stories = await builder.build()
@@ -171,13 +177,14 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertTrue(syncCalled)
     }
 
-    func testDontSyncWhenNotNeeded() async {
+    func testDontSyncWhenAlreadySynced() async {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
+        Settings.hasSyncedAll2022Episodes = true
 
-        endOfYearManager.isFullListeningHistoryToReturn = true
+        endOfYearManager.isFullListeningHistoryToReturn = false
         let stories = await builder.build()
 
         XCTAssertFalse(syncCalled)
