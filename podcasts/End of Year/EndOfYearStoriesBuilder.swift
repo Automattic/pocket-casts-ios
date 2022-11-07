@@ -35,7 +35,7 @@ class EndOfYearStoriesBuilder {
         await withCheckedContinuation { continuation in
 
             // Check if the user has the full listening history for this year
-            if !dataManager.isFullListeningHistory(), !Settings.hasSyncedAll2022Episodes {
+            if !Settings.hasSyncedAll2022Episodes {
                 sync? { success in
                     if success {
                         Settings.hasSyncedAll2022Episodes = true
