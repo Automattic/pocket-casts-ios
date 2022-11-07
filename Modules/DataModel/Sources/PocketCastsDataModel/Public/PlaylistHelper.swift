@@ -102,17 +102,34 @@ public class PlaylistHelper {
             haveStartedWhere = true
         }
 
-        // filter out unsubscribed podcasts
-        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
-        if unsubscribedUuids.count > 0 {
-            if haveStartedWhere { queryString += "AND " }
+        // subscription status filtering: not subscribed
+        if !filter.filterNotSubscribed {
+            let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+            if unsubscribedUuids.count > 0 {
+                if haveStartedWhere { queryString += "AND " }
 
-            queryString += " podcastUuid NOT IN ("
-            for (index, uuid) in unsubscribedUuids.enumerated() {
-                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+                queryString += " podcastUuid NOT IN ("
+                for (index, uuid) in unsubscribedUuids.enumerated() {
+                    queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+                }
+                queryString += ") "
+                haveStartedWhere = true
             }
-            queryString += ") "
-            haveStartedWhere = true
+        }
+
+        // subscription status filtering: subscribed
+        if !filter.filterSubscribed {
+            let subscribedUuids = DataManager.sharedManager.allSubscribedPodcastUuids()
+            if subscribedUuids.count > 0 {
+                if haveStartedWhere { queryString += "AND " }
+
+                queryString += " podcastUuid NOT IN ("
+                for (index, uuid) in subscribedUuids.enumerated() {
+                    queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+                }
+                queryString += ") "
+                haveStartedWhere = true
+            }
         }
 
         // time based filtering

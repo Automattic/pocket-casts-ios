@@ -168,6 +168,8 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             "release_date": ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime,
             "starred": filterToEdit.filterStarred,
             "duration": filterToEdit.filterDuration,
+            "subscription_status_subscribed": filterToEdit.filterSubscribed,
+            "subscription_status_not_subscribed": filterToEdit.filterNotSubscribed,
             "color": filterToEdit.playlistColor().hexString(),
             "icon_name": filterToEdit.iconImageName() ?? "unknown"
         ])

@@ -186,6 +186,10 @@ public class DataManager {
         podcastManager.find(uuid: uuid, includeUnsubscribed: includeUnsubscribed, dbQueue: dbQueue)
     }
 
+    public func allSubscribedPodcastUuids() -> [String] {
+        podcastManager.allSubscribedPodcastUuids(dbQueue: dbQueue)
+    }
+    
     public func allUnsubscribedPodcastUuids() -> [String] {
         podcastManager.allUnsubscribedPodcastUuids(dbQueue: dbQueue)
     }

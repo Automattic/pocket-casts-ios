@@ -1377,6 +1377,7 @@
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
+		DDAADC9D290815DD001A4E1B /* SubscriptionStatusFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAADC9C290815DD001A4E1B /* SubscriptionStatusFilterOverlayController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2919,6 +2920,7 @@
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
 		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
+		DDAADC9C290815DD001A4E1B /* SubscriptionStatusFilterOverlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionStatusFilterOverlayController.swift; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
 		E51D1A08077BEF3B1F180BA7 /* Pods-PocketCasts-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
 		EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
@@ -4480,6 +4482,7 @@
 				4053CDFA214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift */,
 				403B5AFD2179670F00821A54 /* MediaFilterOverlayController.swift */,
 				403B5AFF21796F2F00821A54 /* DownloadFilterOverlayController.swift */,
+				DDAADC9C290815DD001A4E1B /* SubscriptionStatusFilterOverlayController.swift */,
 				4011B9392164546E00661A7D /* FilterEditOptionsViewController.swift */,
 				4011B93A2164546E00661A7D /* FilterEditOptionsViewController.xib */,
 				BD0F6D7924BD60FF00EDFB99 /* FilterDurationViewController.swift */,
@@ -7865,6 +7868,7 @@
 				40A0A91124B5FE5300C29362 /* UITableView+MultiSelect.swift in Sources */,
 				BDC6DEBC1CBCD6C80030491D /* ReorderableFlowLayout.swift in Sources */,
 				BD4098821B9EFF6E007F36BD /* PlayBufferManager.swift in Sources */,
+				DDAADC9D290815DD001A4E1B /* SubscriptionStatusFilterOverlayController.swift in Sources */,
 				4051A5812281B38100C13C12 /* NewsletterCell.swift in Sources */,
 				408426352134CBE60076D82E /* SmallListCell.swift in Sources */,
 				BDED042421474365003A51E0 /* FloatingVideoView.swift in Sources */,

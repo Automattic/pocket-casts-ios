@@ -997,6 +997,12 @@
 /* Release Date filter option for episodes with a release date with in the last week. */
 "filter_release_date_last_week" = "Last week";
 
+/* Title for filter sections that relate to subscription status. */
+"filter_subscription_status" = "Subscription Status";
+
+/* Subscription Status filter option for filtering by any subscripiton status (i.e. subscribed and not subscribed) */
+"filter_subscription_status_all" = "Any Podcast";
+
 /* Prompt to save the changes to an existing filter. */
 "filter_update" = "Update Filter";
 
@@ -2782,6 +2788,12 @@
 
 /* A common string used throughout the app. Status message informing the user that the episode has been starred (favorited). */
 "status_starred" = "Starred";
+
+/* Status message informing the user that a Podcast is susbcribed to. */
+"status_subscribed" = "Subscribed";
+
+/* Status message informing the user that a Podcast is not subscribed to. */
+"status_not_subscribed" = "Not Subscribed";
 
 /* A common string used throughout the app. Status message informing the user that the episode has not been played. */
 "status_unplayed" = "Unplayed";

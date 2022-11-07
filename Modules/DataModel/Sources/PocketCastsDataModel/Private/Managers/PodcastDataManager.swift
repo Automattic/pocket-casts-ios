@@ -166,6 +166,19 @@ class PodcastDataManager {
         return allPodcasts
     }
 
+    func allSubscribedPodcastUuids(dbQueue: FMDatabaseQueue) -> [String] {
+        var allSubscribed = [String]()
+        cachedPodcastsQueue.sync {
+            for podcast in cachedPodcasts {
+                if !podcast.isSubscribed() { continue }
+
+                allSubscribed.append(podcast.uuid)
+            }
+        }
+
+        return allSubscribed
+    }
+    
     func allUnsubscribedPodcastUuids(dbQueue: FMDatabaseQueue) -> [String] {
         var allUnsubscribed = [String]()
         cachedPodcastsQueue.sync {

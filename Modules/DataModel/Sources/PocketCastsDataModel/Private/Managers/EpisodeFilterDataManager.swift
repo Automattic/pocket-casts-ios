@@ -25,7 +25,9 @@ class EpisodeFilterDataManager {
         "wasDeleted",
         "filterDuration",
         "longerThan",
-        "shorterThan"
+        "shorterThan",
+        "filterSubscribed",
+        "filterNotSubscribed"
     ]
 
     func count(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> Int {
@@ -227,6 +229,8 @@ class EpisodeFilterDataManager {
         filter.filterDuration = rs.bool(forColumn: "filterDuration")
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
+        filter.filterSubscribed = rs.bool(forColumn: "filterSubscribed")
+        filter.filterNotSubscribed = rs.bool(forColumn: "filterNotSubscribed")
 
         return filter
     }
@@ -256,6 +260,8 @@ class EpisodeFilterDataManager {
         values.append(filter.filterDuration)
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
+        values.append(filter.filterSubscribed)
+        values.append(filter.filterNotSubscribed)
 
         if includeUuidForWhere {
             values.append(filter.uuid)

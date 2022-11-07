@@ -847,6 +847,10 @@ internal enum L10n {
   internal static var filterReleaseDateLastWeek: String { return L10n.tr("Localizable", "filter_release_date_last_week") }
   /// Shorter than
   internal static var filterShorterThanLabel: String { return L10n.tr("Localizable", "filter_shorter_than_label") }
+  /// Subscription Status
+  internal static var filterSubscriptionStatus: String { return L10n.tr("Localizable", "filter_subscription_status") }
+  /// Any Podcast
+  internal static var filterSubscriptionStatusAll: String { return L10n.tr("Localizable", "filter_subscription_status_all") }
   /// Update Filter
   internal static var filterUpdate: String { return L10n.tr("Localizable", "filter_update") }
   /// All
@@ -2362,12 +2366,16 @@ internal enum L10n {
   internal static var statusNotSelected: String { return L10n.tr("Localizable", "status_not_selected") }
   /// Not Starred
   internal static var statusNotStarred: String { return L10n.tr("Localizable", "status_not_starred") }
+  /// Not Subscribed
+  internal static var statusNotSubscribed: String { return L10n.tr("Localizable", "status_not_subscribed") }
   /// Played
   internal static var statusPlayed: String { return L10n.tr("Localizable", "status_played") }
   /// Selected
   internal static var statusSelected: String { return L10n.tr("Localizable", "status_selected") }
   /// Starred
   internal static var statusStarred: String { return L10n.tr("Localizable", "status_starred") }
+  /// Subscribed
+  internal static var statusSubscribed: String { return L10n.tr("Localizable", "status_subscribed") }
   /// Unplayed
   internal static var statusUnplayed: String { return L10n.tr("Localizable", "status_unplayed") }
   /// Uploaded
