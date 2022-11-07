@@ -65,7 +65,7 @@ struct ListenedCategoriesStory: StoryView {
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
         let podcast = listenedCategories[safe: index]?.mostListenedPodcast ?? listenedCategories[0].mostListenedPodcast
-        PodcastCover(podcastUuid: podcast.uuid)
+        PodcastCover(podcastUuid: podcast.uuid, big: true)
     }
 
     func onAppear() {
