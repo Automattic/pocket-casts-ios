@@ -42,34 +42,49 @@ class DynamicBackgroundProvider: ObservableObject {
     @Published var backgroundColor: Color
     @Published var foregroundColor: Color
 
-    private let podcastUuid: String?
+    private let podcast: Podcast?
 
     init(podcast: Podcast) {
         backgroundColor = podcast.bgColor().color
         foregroundColor = ColorManager.lightThemeTintForPodcast(podcast).color
-        podcastUuid = podcast.uuid
+        self.podcast = podcast
 
         if !ColorManager.podcastHasBackgroundColor(podcast) {
-            _ = ColorManager.backgroundColorForPodcast(podcast)
-            NotificationCenter.default.addObserver(self, selector: #selector(podcastColorsLoaded(_:)), name: Constants.Notifications.podcastColorsDownloaded, object: nil)
+            ColorManager.sharedManager.updateColorsIfRequired(podcast)
+            NotificationCenter.default.addObserver(self, selector: #selector(podcastColorsLoaded(_:)), name: Constants.Notifications.podcastColorsDownloaded, object: podcast.uuid)
         }
     }
 
     init(backgroundColor: Color, foregroundColor: Color) {
         self.backgroundColor = backgroundColor
         self.foregroundColor = foregroundColor
-        self.podcastUuid = nil
+        self.podcast = nil
     }
 
     @objc private func podcastColorsLoaded(_ notification: Notification) {
-        guard let uuidLoaded = notification.object as? String else { return }
-
-        if uuidLoaded == podcastUuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuidLoaded, includeUnsubscribed: true) {
+        if let podcast {
+            podcast.updateColors()
             backgroundColor = podcast.bgColor().color
             foregroundColor = ColorManager.lightThemeTintForPodcast(podcast).color
         }
     }
 }
+
+extension Podcast {
+    /// Update current Podcast instance with the latest downloaded colors
+    func updateColors() {
+        guard let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+            return
+        }
+
+        backgroundColor = podcast.backgroundColor
+        primaryColor = podcast.primaryColor
+        secondaryColor = podcast.secondaryColor
+        colorVersion = podcast.colorVersion
+        lastColorDownloadDate = podcast.lastColorDownloadDate
+    }
+}
+
 
 struct DynamicBackgroundView_Previews: PreviewProvider {
     static var previews: some View {

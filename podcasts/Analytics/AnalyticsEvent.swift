@@ -588,6 +588,7 @@ enum AnalyticsEvent: String {
     case endOfYearModalShown
     case endOfYearStoriesShown
     case endOfYearStoriesDismissed
+    case endOfYearStoryReplayButtonTapped
     case endOfYearStoryShown
     case endOfYearStoryShare
     case endOfYearStoryShared

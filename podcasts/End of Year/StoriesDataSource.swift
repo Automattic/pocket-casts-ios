@@ -39,7 +39,7 @@ protocol Story {
     /// The amount of time this story should be show
     var duration: TimeInterval { get }
 
-    /// An optional string that identifies the story
+    /// A string that identifies the story
     var identifier: String { get }
 
     /// Called when the story actually appears.

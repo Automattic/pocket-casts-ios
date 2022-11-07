@@ -262,17 +262,15 @@ class EndOfYearDataManager {
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
     public let categoryTitle: String
-    public let totalPlayedTime: Double
     public let mostListenedPodcast: Podcast
+    public let totalPlayedTime: Double
 
-    #if DEBUG
     public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double) {
         self.numberOfPodcasts = numberOfPodcasts
         self.categoryTitle = categoryTitle
         self.mostListenedPodcast = mostListenedPodcast
         self.totalPlayedTime = totalPlayedTime
     }
-    #endif
 }
 
 public struct ListenedNumbers {
