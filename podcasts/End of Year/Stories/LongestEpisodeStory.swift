@@ -30,21 +30,20 @@ struct LongestEpisodeStory: StoryView {
                             let size = geometry.size.width * 0.45
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
-                                .modifier(PodcastCover())
+                                .modifier(BigCoverShadow())
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                                 .padding(.top, (size * 0.7))
 
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
-                                .modifier(PodcastCover())
+                                .modifier(BigCoverShadow())
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                                 .padding(.top, (size * 0.35))
 
-                            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                            PodcastCover(podcastUuid: podcast.uuid, big: true)
                                 .frame(width: size, height: size)
-                                .modifier(PodcastCover())
                                 .modifier(PodcastCoverPerspective())
                                 .padding(.leading, -60)
                         }
