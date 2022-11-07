@@ -23,9 +23,9 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
-    private let sync: ((((Bool) -> Void)?) -> Void)?
+    private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: ((((Bool) -> Void)?) -> Void)? = YearListeningHistory.sync) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync) {
         self.dataManager = dataManager
         self.sync = sync
     }
@@ -36,10 +36,13 @@ class EndOfYearStoriesBuilder {
 
             // Check if the user has the full listening history for this year
             if !Settings.hasSyncedAll2022Episodes {
-                sync? { success in
-                    if success {
-                        Settings.hasSyncedAll2022Episodes = true
-                    }
+                let syncedWithSuccess = sync?()
+
+                if syncedWithSuccess == true {
+                    Settings.hasSyncedAll2022Episodes = true
+                } else {
+                    continuation.resume(returning: ([], data))
+                    return
                 }
             }
 

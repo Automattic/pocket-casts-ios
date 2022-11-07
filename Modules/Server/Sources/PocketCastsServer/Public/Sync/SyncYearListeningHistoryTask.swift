@@ -146,13 +146,11 @@ class PodcastExistHelper {
 }
 
 public class YearListeningHistory {
-    public static func sync(completionBlock: ((Bool) -> Void)? = nil) {
+    public static func sync() -> Bool {
         let syncYearListeningHistory = SyncYearListeningHistoryTask()
 
-        syncYearListeningHistory.completionBlock = {
-            completionBlock?(syncYearListeningHistory.success)
-        }
-
         syncYearListeningHistory.start()
+
+        return syncYearListeningHistory.success
     }
 }
