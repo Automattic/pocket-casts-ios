@@ -62,6 +62,7 @@ struct StoriesView: View {
                 .padding()
                 .background(Color.black)
 
+            storySwitcher
             header
         }
     }
@@ -73,6 +74,7 @@ struct StoriesView: View {
             Text(L10n.eoyStoriesFailed)
                 .foregroundColor(.white)
 
+            storySwitcher
             header
         }
     }
