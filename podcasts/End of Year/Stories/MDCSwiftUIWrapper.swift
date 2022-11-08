@@ -13,8 +13,6 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
     init(rootView content: ContentView) {
         super.init(nibName: nil, bundle: nil)
 
-        view = ThemeableView()
-
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -31,6 +29,10 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
         hostingController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+    }
+
+    override func loadView() {
+        view = ThemeableView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
