@@ -1,6 +1,6 @@
 7.27
 -----
-
+- Fixed the download indicator width in iOS 14 in Episode list cells.
 
 7.26
 -----
