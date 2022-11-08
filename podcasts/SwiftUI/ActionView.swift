@@ -1,0 +1,56 @@
+import SwiftUI
+
+
+/// This is a helper view that allows you to run code inline of SwiftUI without needing to move logic into .onAppear
+/// It works by creating a completely empty view, waiting for .onAppear, and then trigering the action. Once the action
+/// has been triggered, the emptyview is replaced with a Group to prevent any possible layout issues
+/// Example Usage:
+///
+/// ```
+///  ZStack{
+///     Action { print("debugging is cool 😎") }
+///     VStack {
+///         ... some views ...
+///     }
+///
+///     ... some views ...
+///
+///     Action {
+///         viewModel.loadContent()
+///     }
+/// }
+/// ```
+struct Action: View {
+    init(_ action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    private let action: () -> Void
+    @State private var didPerform: Bool? = nil
+
+    var body: some View {
+        // If we performed the action already, remove the "caller" view from the stack
+        // and just return a group
+        if didPerform != nil {
+            Group { }
+        } else {
+            // If the action hasn't been performed yet, we'll create an empty view and listen for the onAppear
+            NoView().onAppear() {
+                action()
+                didPerform = true
+            }
+        }
+    }
+
+    /// This clears a "view" that has no frame, and appears very far off screen.
+    /// This allows the onAppear to still be called, but doesn't allow it appear in view at all
+    private struct NoView: View {
+        var body: some View {
+            Color.clear
+                .frame(width: 0, height: 0)
+                .accessibility(hidden: true)
+                .allowsHitTesting(false)
+                .position(CGPoint(x: .max, y: .max))
+        }
+    }
+}
