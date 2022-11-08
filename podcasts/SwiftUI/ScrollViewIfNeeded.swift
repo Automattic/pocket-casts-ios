@@ -38,3 +38,46 @@ public struct ScrollViewIfNeeded<Content: View>: View {
         }
     }
 }
+
+struct ScrollViewIfNeeded_Example_Preview: PreviewProvider {
+    static var previews: some View {
+        ExampleView()
+    }
+
+    struct ExampleView: View {
+        @State private var forceScroll: Bool = false
+
+        var body: some View {
+            VStack {
+                ScrollViewIfNeeded {
+                    VStack(alignment: .center) {
+                        Text("Top Text")
+                        Spacer()
+                        Button(forceScroll ? "⬇️ Scroll Down ⬇️" : "Click to make the view scrollable") {
+                            forceScroll.toggle()
+                        }.buttonStyle(ScrollButtonStyle())
+                        Spacer()
+                        Text(forceScroll ? "👋 Hi." : "Bottom Text")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .frame(height: forceScroll ? 1000 : nil)
+                }.id(forceScroll)
+            }
+        }
+    }
+
+    private struct ScrollButtonStyle: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
+                .font(.system(size: 18, weight: .semibold))
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(12)
+                .foregroundColor(.black)
+                .contentShape(Rectangle())
+        }
+    }
+}

@@ -54,3 +54,25 @@ struct Action: View {
         }
     }
 }
+
+struct ActionView_Example_Preview: PreviewProvider {
+    static var previews: some View {
+        ExampleView()
+    }
+
+    struct ExampleView: View {
+        @State private var text: String = "Waiting..."
+
+        var body: some View {
+            VStack {
+                Text(text)
+
+                Action {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                        text = "🎉🎉 The Action has Ran 🎉🎉"
+                    }
+                }
+            }
+        }
+    }
+}

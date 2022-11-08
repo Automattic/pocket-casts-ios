@@ -32,3 +32,24 @@ struct HorizontalScrollView<Content: View>: View {
         }
     }
 }
+
+struct HorizontalScrollView_Example_Preview: PreviewProvider {
+    static var previews: some View {
+        ExampleView()
+    }
+
+    struct ExampleView: View {
+        var body: some View {
+            HorizontalScrollView {
+                ForEach(0..<100) { index in
+                    VStack {
+                        Text("Hello \(index)")
+                        Text("World")
+                    }.frame(width: 150, height: 150)
+                        .background(Color.blue)
+                        .padding([.leading, .trailing], 15)
+                }
+            }.background(Color.red)
+        }
+    }
+}

@@ -27,3 +27,29 @@ struct ContentSizeReader<Content: View>: View {
         }
     }
 }
+
+struct ContentSizeReader_Example_Preview: PreviewProvider {
+    static var previews: some View {
+        ExampleView()
+    }
+
+    struct ExampleView: View {
+        @State private var size: String = "Waiting.."
+
+        var body: some View {
+            VStack {
+                ContentSizeReader { contentSize in
+                    VStack {
+                        Text(size)
+                    }.frame(maxWidth: 200, maxHeight: 200)
+
+                    Action {
+                        if let contentSize {
+                            size = "Height: \(contentSize.height), Width: \(contentSize.width)"
+                        }
+                    }
+                }
+            }.background(Color.gray)
+        }
+    }
+}
