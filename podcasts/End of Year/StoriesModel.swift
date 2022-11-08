@@ -46,6 +46,10 @@ class StoriesModel: ObservableObject {
 
     func start() {
         cancellable = publisher.autoconnect().sink(receiveValue: { _ in
+            guard self.numberOfStories > 0 else {
+                return
+            }
+
             var newProgress = self.progress + (0.01 / self.interval)
 
             let currentStory = Int(newProgress)
@@ -101,10 +105,18 @@ class StoriesModel: ObservableObject {
     }
 
     func next() {
+        guard numberOfStories > 0 else {
+            return
+        }
+
         progress = min(Double(numberOfStories), Double(Int(progress) + 1))
     }
 
     func previous() {
+        guard numberOfStories > 0 else {
+            return
+        }
+
         progress = max(0, Double(Int(progress) - 1))
     }
 

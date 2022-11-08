@@ -40,7 +40,7 @@ class StoryShareableProvider: UIActivityItemProvider {
         let snapshot = ZStack {
             AnyView(view)
         }
-        .frame(width: 370, height: 693)
+        .frame(width: 370, height: 658)
         .snapshot()
 
         generatedItem = snapshot

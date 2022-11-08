@@ -62,6 +62,7 @@ struct StoriesView: View {
                 .padding()
                 .background(Color.black)
 
+            storySwitcher
             header
         }
     }
@@ -70,11 +71,14 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            Text("Failed to load stories.")
+            Text(L10n.eoyStoriesFailed)
                 .foregroundColor(.white)
 
             storySwitcher
             header
+        }
+        .onAppear {
+            Analytics.track(.endOfYearStoriesFailedToLoad)
         }
     }
 
