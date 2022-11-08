@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Calculates the size of the containing view and returns it
-/// This allows you to get easily get the size of the view without needing all the boilerplate for `GeometryReader`
+/// This allows you to easily get the size of the view without needing all the boilerplate for `GeometryReader`
 struct ContentSizeReader<Content: View>: View {
     private let content: () -> Content
 
