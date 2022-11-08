@@ -15,20 +15,18 @@ struct HorizontalScrollView<Content: View>: View {
         self.content = content
     }
 
-    @State private var contentSize: CGSize?
+    @State private var contentSize: CGSize = .zero
 
     var body: some View {
         HStack {
             ScrollView(.horizontal, showsIndicators: false) {
-                ContentSizeReader { contentSize in
+                ContentSizeReader(contentSize: $contentSize) {
                     HStack(alignment: .top, spacing: 0) {
                         content()
                     }
-
-                    Action { self.contentSize = contentSize }
                 }
             }
-            .frame(maxWidth: contentSize?.width ?? .zero)
+            .frame(maxWidth: contentSize.width)
         }
     }
 }

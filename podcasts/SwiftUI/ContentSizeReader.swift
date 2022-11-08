@@ -3,28 +3,23 @@ import SwiftUI
 /// Calculates the size of the containing view and returns it
 /// This allows you to get easily get the size of the view without needing all the boilerplate for `GeometryReader`
 struct ContentSizeReader<Content: View>: View {
-    private var content: (CGSize?) -> Content
+    private let content: () -> Content
 
-    init(@ViewBuilder _ content: @escaping (CGSize?) -> Content) {
+    @Binding var contentSize: CGSize
+
+    public init(contentSize: Binding<CGSize>, @ViewBuilder _ content: @escaping () -> Content) {
         self.content = content
+        _contentSize = contentSize
     }
 
-    @State private var size: CGSize?
-
-    var body: some View {
-        // If we've calculated the size, then just return it and the view
-        if let size {
-            content(size)
-        } else {
-            content(nil).background(
-                // Grab the size of just the content
-                GeometryReader { contentGeometry in
-                    Action {
-                        size = contentGeometry.size
-                    }
+    public var body: some View {
+        content().background (
+            GeometryReader { geometry in
+                Action {
+                    $contentSize.wrappedValue = geometry.size
                 }
-            )
-        }
+            }
+        )
     }
 }
 
@@ -34,20 +29,14 @@ struct ContentSizeReader_Example_Preview: PreviewProvider {
     }
 
     struct ExampleView: View {
-        @State private var size: String = "Waiting.."
+        @State private var contentSize: CGSize = .zero
 
         var body: some View {
             VStack {
-                ContentSizeReader { contentSize in
+                ContentSizeReader(contentSize: $contentSize) {
                     VStack {
-                        Text(size)
+                        Text(String(describing: contentSize))
                     }.frame(maxWidth: 200, maxHeight: 200)
-
-                    Action {
-                        if let contentSize {
-                            size = "Height: \(contentSize.height), Width: \(contentSize.width)"
-                        }
-                    }
                 }
             }.background(Color.gray)
         }
