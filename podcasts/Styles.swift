@@ -228,3 +228,20 @@ struct NavButtonStyle: ButtonStyle {
             .opacity(isEnabled ? 1 : 0.4)
     }
 }
+
+// MARK: - Button Modifiers
+extension View {
+    /// Adds a subtle spring effect when the `isPressed` value is changed
+    /// This should be used from a `ButtonStyle` and passing in `configuration.isPressed`
+    ///
+    func makeSpringy(isPressed: Bool, enableHaptic: Bool = true) -> some View {
+        self
+            .scaleEffect(isPressed ? 0.98 : 1.0)
+            .animation(.interpolatingSpring(stiffness: 350, damping: 10, initialVelocity: 10), value: isPressed)
+            .onChange(of: isPressed) { pressed in
+                guard enableHaptic, pressed else { return }
+
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+            }
+    }
+}
