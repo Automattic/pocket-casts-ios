@@ -109,6 +109,8 @@
 Tap the button below to sign into your Pocket Casts account again.</string>
     <key>account_signed_out_alert_title</key>
     <string>You've been signed out.</string>
+    <key>account_sso_failed</key>
+    <string>無法透過 Apple 登入。 請再試一次。</string>
     <key>account_title</key>
     <string>Pocket Casts 帳號</string>
     <key>account_upgraded</key>
@@ -399,6 +401,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>精選內容</string>
     <key>discover_featured_episode</key>
     <string>精選劇集</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>找不到精選 Podcast 或集數。 請確認你已連線至網際網路，然後再試一次。</string>
     <key>discover_fresh_pick</key>
     <string>精選內容</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +561,50 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>停止所有下載項目</string>
     <key>edit</key>
     <string>編輯</string>
+    <key>eoy_card_description</key>
+    <string>查看你最熱門的 Podcast、分類、收聽統計等資料。</string>
+    <key>eoy_create_account_to_see</key>
+    <string>將你的 Podcast 儲存在雲端、獲得年末回顧，並與其他裝置同步進度。</string>
+    <key>eoy_description</key>
+    <string>查看你最愛的 Podcast、類別、收聽統計等資料。 與朋友分享，並向你最喜愛的創作者表達敬意！</string>
+    <key>eoy_not_now</key>
+    <string>現在不要</string>
+    <key>eoy_small_title</key>
+    <string>Podcast 年度回顧</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>別忘了與朋友分享，以及向最愛的 Podcast 創作者致意</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>感謝你在 2022 年使用 Pocket Casts 收聽</string>
+    <key>eoy_story_intro_title</key>
+    <string>來慶祝你收聽節目的一年...</string>
+    <key>eoy_story_listened_to</key>
+    <string>你 2022 年花了 %1$@ 收聽 Podcast</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>你今年收聽了 %1$@ 個不同類別</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>來看看你的最愛...</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>你收聽了 %1$@ 個不同 Podcast 和 %2$@ 集</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>但有個節目你持續收聽...</string>
+    <key>eoy_story_longest_episode</key>
+    <string>你所收聽時間最長的一集為 Podcast %2$@ 的 %1$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>這集長達 %1$@</string>
+    <key>eoy_story_replay</key>
+    <string>重播</string>
+    <key>eoy_story_top_categories</key>
+    <string>你最愛的類別</string>
+    <key>eoy_story_top_podcast</key>
+    <string>你最愛的 Podcast 為 %2$@ 的 %1$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>你收聽了 %1$@ 集，總共 %2$@</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>你最愛的 Podcast</string>
+    <key>eoy_title</key>
+    <string>你的 Podcast 年度回顧</string>
+    <key>eoy_view_year</key>
+    <string>檢視我的 2022 年</string>
     <key>episode</key>
     <string>單集</string>
     <key>episode_count_plural_format</key>
