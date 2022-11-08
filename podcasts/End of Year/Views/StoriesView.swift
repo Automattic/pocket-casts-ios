@@ -77,6 +77,9 @@ struct StoriesView: View {
             storySwitcher
             header
         }
+        .onAppear {
+            Analytics.track(.endOfYearStoriesFailedToLoad)
+        }
     }
 
     // Header containing the close button and the rectangles
