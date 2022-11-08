@@ -18,4 +18,7 @@ enum FeatureFlag {
 
     /// Adds the Sign In With Apple options to the login flow
     static let signInWithApple = false
+
+    /// Displays the new onboarding view updates
+    static let onboardingUpdates = true
 }
