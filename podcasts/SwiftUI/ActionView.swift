@@ -42,7 +42,7 @@ struct Action: View {
         }
     }
 
-    /// This clears a "view" that has no frame, and appears very far off screen.
+    /// This is a "view" that has no frame, and appears very far off screen.
     /// This allows the onAppear to still be called, but doesn't allow it appear in view at all
     private struct NoView: View {
         var body: some View {

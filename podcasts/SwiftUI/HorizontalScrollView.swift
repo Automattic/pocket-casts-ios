@@ -21,11 +21,11 @@ struct HorizontalScrollView<Content: View>: View {
         HStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 ContentSizeReader { contentSize in
-                    Action { self.contentSize = contentSize }
-
                     HStack(alignment: .top, spacing: 0) {
                         content()
                     }
+
+                    Action { self.contentSize = contentSize }
                 }
             }
             .frame(maxWidth: contentSize?.width ?? .zero)
