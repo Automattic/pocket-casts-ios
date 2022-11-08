@@ -26,11 +26,9 @@ public struct ScrollViewIfNeeded<Content: View>: View {
             GeometryReader { geometry in
                 content().background(
                     // Calculate the content size again, but this time of the "true" size
-                    ContentSizeReader { contentSize in
+                    GeometryReader { contentSize in
                         Action {
-                            guard let contentSize else { return }
-
-                            willOverflow = contentSize.height > geometry.size.height
+                            willOverflow = contentSize.size.height > geometry.size.height
                         }
                     }
                 )
