@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-/// Allows for easy scaling of the given value based on the size of the view its contained in (usually the full height)
+/// Allows for easy proportional scaling of the given value based on the size of the view its contained in (usually the full height)
 /// This is useful when you need to position and/or size a view consistently across device sizes
 ///
 ///
@@ -9,12 +9,12 @@ import SwiftUI
 /// You can also specify a custom arithmetic operator (+, -, /, *) *to use in the calculations, the default is *
 ///
 /// See the ExampleView in the PreviewProvider below for usage
-@propertyWrapper public struct ScalingValue<Value>: DynamicProperty where Value: BinaryFloatingPoint {
+@propertyWrapper public struct ProportionalValue<Value>: DynamicProperty where Value: BinaryFloatingPoint {
     // The environment variable we base the calculations off of
-    @Environment(\.scalingValueFrame) var viewFrame
+    @Environment(\.proportionalValueFrame) var viewFrame
 
     // A helper type to pass in a math operator: +, -, *, /, etc
-    public typealias ArithmeticOperator = (Double, Double)->Double
+    public typealias ArithmeticOperator = (Double, Double) -> Double
 
     /// Defines the frame values that we can scale the value with
     public enum FrameScaleValue {
@@ -71,22 +71,22 @@ import SwiftUI
 
 // MARK: - Helper view extension to set the correct environment variables on the view
 extension View {
-    func enableValueScaling() -> some View {
-        self.modifier(ScreenSizeScalableViewModifier())
+    func enableProportionalValueScaling() -> some View {
+        self.modifier(ProportionalValueViewModifier())
     }
 }
 
 /// Wrap the view in the calculator to make sure the environment variables are set
-private struct ScreenSizeScalableViewModifier: ViewModifier {
+private struct ProportionalValueViewModifier: ViewModifier {
     func body(content: Content) -> some View {
-        ScalableValueFrameCalculator {
+        ProportionalValueFrameCalculator {
             content
         }
     }
 }
 
 /// Calculates the size of the view its wrapped in
-public struct ScalableValueFrameCalculator<Content: View>: View {
+public struct ProportionalValueFrameCalculator<Content: View>: View {
     private var content: () -> Content
     public init(@ViewBuilder _ content: @escaping () -> Content) {
         self.content = content
@@ -95,19 +95,19 @@ public struct ScalableValueFrameCalculator<Content: View>: View {
     public var body: some View {
         GeometryReader { geometry in
             content()
-                .environment(\.scalingValueFrame, geometry.frame(in: .global))
+                .environment(\.proportionalValueFrame, geometry.frame(in: .global))
         }
     }
 }
 
 /// Defines the custom environment variables to use
 private extension EnvironmentValues {
-    var scalingValueFrame: CGRect {
-        get { self[ScalingValueKey.self] }
-        set { self[ScalingValueKey.self] = newValue }
+    var proportionalValueFrame: CGRect {
+        get { self[ProportionalValueKey.self] }
+        set { self[ProportionalValueKey.self] = newValue }
     }
 
-    private struct ScalingValueKey: EnvironmentKey {
+    private struct ProportionalValueKey: EnvironmentKey {
         static let defaultValue: CGRect = .zero
     }
 }
@@ -125,19 +125,19 @@ struct ScalingValue_Example_Preview: PreviewProvider {
                 ExampleScalingView()
             }
             // Make sure the proper environment variables are set on the property wrapper
-            .enableValueScaling()
+            .enableProportionalValueScaling()
         }
     }
 
     private struct ExampleScalingView: View {
         // Returns a value that is a percentage of the height: (view.frame.height * 0.2)
-        @ScalingValue(with: .height) var size = 0.2
+        @ProportionalValue(with: .height) var size = 0.2
 
         // Returns a value that is half the width: (view.frame.width / 2)
-        @ScalingValue(with: .width, using: /) var x = 2
+        @ProportionalValue(with: .width, using: /) var x = 2
 
         // Returns a value that is: (view.frame.midY + 75)
-        @ScalingValue(with: .midY, using: +) var y = 75
+        @ProportionalValue(with: .midY, using: +) var y = 75
 
         var body: some View {
             ZStack {

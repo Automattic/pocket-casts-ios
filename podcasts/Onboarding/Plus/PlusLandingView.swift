@@ -42,7 +42,7 @@ struct PlusLandingView: View {
                     }
                 }.padding(ViewConfig.padding.view)
             }
-        }.enableValueScaling()
+        }.enableProportionalValueScaling()
     }
 
     // Static list of the feature models to display
@@ -155,13 +155,13 @@ private struct PlusLabel: View {
 }
 
 private struct PlusBackgroundGradientView: View {
-    @ScalingValue(with: .width) var leftCircleSize = 0.936
-    @ScalingValue(with: .width) var leftCircleX = -0.28533333
-    @ScalingValue(with: .height) var leftCircleY = -0.10810811
+    @ProportionalValue(with: .width) var leftCircleSize = 0.936
+    @ProportionalValue(with: .width) var leftCircleX = -0.28533333
+    @ProportionalValue(with: .height) var leftCircleY = -0.10810811
 
-    @ScalingValue(with: .width) var rightCircleSize = 0.73866667
-    @ScalingValue(with: .width) var rightCircleX = 0.54133333
-    @ScalingValue(with: .height) var rightCircleY = -0.03316953
+    @ProportionalValue(with: .width) var rightCircleSize = 0.73866667
+    @ProportionalValue(with: .width) var rightCircleX = 0.54133333
+    @ProportionalValue(with: .height) var rightCircleY = -0.03316953
 
     var body: some View {
         ZStack {
