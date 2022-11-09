@@ -1362,6 +1362,7 @@
 		C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C60B2919DCC800054145 /* ActionView.swift */; };
 		C7B3C60E2919DD1700054145 /* ContentSizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */; };
 		C7B3C6142919F47A00054145 /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C6132919F47A00054145 /* HorizontalScrollView.swift */; };
+		C7B3C61D291AD0EA00054145 /* Onboarding.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */; };
 		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
 		C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */; };
 		C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; };
@@ -2912,6 +2913,7 @@
 		C7B3C60B2919DCC800054145 /* ActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionView.swift; sourceTree = "<group>"; };
 		C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeReader.swift; sourceTree = "<group>"; };
 		C7B3C6132919F47A00054145 /* HorizontalScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
+		C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Onboarding.xcassets; sourceTree = "<group>"; };
 		C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinator.swift; sourceTree = "<group>"; };
 		C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinatorTests.swift; sourceTree = "<group>"; };
 		C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts Watch App Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4076,6 +4078,7 @@
 		BD2A49EE1701AA8500C2F192 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				C7B3C618291AD03400054145 /* Onboarding */,
 				BD3E3C1B170404490066AE3D /* Common Components */,
 				BDF050841FBA7F7900194D68 /* Episode Cells */,
 				BDA1E8131EDD28510098FB9D /* Sonos */,
@@ -5472,6 +5475,7 @@
 		BDBD53F817019B2A0048C8C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */,
 				BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */,
 				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
 				BDE73A7F1B607DB6005BFE30 /* CommonImages.xcassets */,
@@ -6017,6 +6021,14 @@
 				C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */,
 			);
 			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C7B3C618291AD03400054145 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C7B3C619291AD03A00054145 /* Plus */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		C7BF5E4829083B3F00733C1E /* Discover */ = {
@@ -6623,6 +6635,7 @@
 				BD12931A22F809F8004608A6 /* AppIcon-Electric-Pink40x40@3x.png in Resources */,
 				405553D8244AD7A70048FE7A /* WatchSettingsViewController.xib in Resources */,
 				BD12931222F809F8004608A6 /* AppIcon-Electric-Pink29x29~ipad.png in Resources */,
+				C7B3C61D291AD0EA00054145 /* Onboarding.xcassets in Resources */,
 				BDA003071F7B318B00DCB4AE /* AppIcon60x60@3x.png in Resources */,
 				BD12928022F7CCC9004608A6 /* AppIcon-Electric-Blue20x20~ipad.png in Resources */,
 				4011B9442164641800661A7D /* EditFilterNameCell.xib in Resources */,
