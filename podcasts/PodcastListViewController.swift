@@ -220,7 +220,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         if FeatureFlag.onboardingUpdates {
             let hostingController = PCHostingController(rootView: PlusLandingView(dismissAction: {
-                dismiss(animated: true)
+                self.dismiss(animated: true)
             }))
             present(hostingController, animated: true, completion: nil)
             return
