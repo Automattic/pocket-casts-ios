@@ -1,6 +1,5 @@
 import SwiftUI
 
-/// A button that filled with the Plus gradient view
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
