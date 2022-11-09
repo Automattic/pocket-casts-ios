@@ -218,6 +218,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
+        if FeatureFlag.onboardingUpdates {
+            let hostingController = PCHostingController(rootView: PlusLandingView(dismissAction: {
+                dismiss(animated: true)
+            }))
+            present(hostingController, animated: true, completion: nil)
+            return
+        }
+
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return

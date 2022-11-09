@@ -2,6 +2,9 @@ import SwiftUI
 import PocketCastsUtils
 
 struct PlusLandingView: View {
+    // TODO: Remove this
+    var dismissAction: (() -> Void)?
+
     var body: some View {
         ZStack {
             PlusBackgroundGradientView()
@@ -34,7 +37,7 @@ struct PlusLandingView: View {
                         }.buttonStyle(PlusGradientFilledButtonStyle())
 
                         Button("Not Now") {
-
+                            dismissAction?()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
                 }.padding(ViewConfig.padding.view)
