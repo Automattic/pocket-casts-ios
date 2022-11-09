@@ -14,7 +14,7 @@ enum FeatureFlag {
     static let firebaseLoggingEnabled = false
 
     /// Whether End Of Year feature is enabled
-    static let endOfYear = false
+    static let endOfYear = true
 
     /// Adds the Sign In With Apple options to the login flow
     static let signInWithApple = false
