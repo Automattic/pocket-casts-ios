@@ -75,7 +75,7 @@ private struct DynamicallyScalableFont: ViewModifier {
         let maxPointSize = metrics.scaledValue(for: size, compatibleWith: UITraitCollection(preferredContentSizeCategory: maxSizeCategory))
 
         // Scale the point size to the current size category, then limit it to the maximum point size
-        let scaledSize = min(maxPointSize, metrics.scaledValue(for: size, compatibleWith: sizeCategory.traitCollection))
+        let scaledSize = min(maxPointSize, metrics.scaledValue(for: size, compatibleWith: traits))
 
         // Return the new calculated font
         return content.font(.system(size: scaledSize, weight: weight))
