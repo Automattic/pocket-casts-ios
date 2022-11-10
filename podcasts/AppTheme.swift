@@ -529,6 +529,19 @@ class AppTheme {
         }
     }
 
+    static func socialIconAppleImageName() -> String {
+        switch Theme.sharedTheme.activeTheme {
+        case .dark, .extraDark, .electric, .radioactive, .contrastDark, .indigo, .classic:
+            return "sso-icon-apple-dark"
+        case .light, .rosé, .contrastLight:
+            return "sso-icon-apple"
+        }
+    }
+
+    static func socialIconGoogleImageName() -> String {
+        return "sso-icon-google"
+    }
+
     class func pcPlusLogoVerticalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark, .electric, .radioactive, .contrastDark:
