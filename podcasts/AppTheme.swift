@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 class AppTheme {
     private static let tintColor = UIColor(hex: "#F44336")
@@ -808,6 +809,13 @@ class AppTheme {
 
     class func playlistYellowColor() -> UIColor {
         ThemeColor.filter03()
+    }
+
+    // MARK: - Getting Colors from ThemeStyles
+
+    /// Returns a SwiftUI color for the theme style
+    static func color(for style: ThemeStyle, theme: Theme? = nil) -> Color {
+        return colorForStyle(style, themeOverride: theme?.activeTheme).color
     }
 
     // TODO: there probably is a more elegant way to do this...
