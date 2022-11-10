@@ -100,7 +100,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createAccount
-        emailField.becomeFirstResponder()
         activityIndicator.isHidden = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped))
@@ -113,6 +112,12 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
 
         updateButtonState()
         Analytics.track(.createAccountShown)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        emailField.becomeFirstResponder()
     }
 
     deinit {
