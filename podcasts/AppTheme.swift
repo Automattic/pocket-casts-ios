@@ -530,6 +530,15 @@ class AppTheme {
         }
     }
 
+    static func pcLogoSmallHorizontalForBackgroundImageName() -> String {
+        switch Theme.sharedTheme.activeTheme {
+        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+            return "small-horizontal-logo-dark"
+        case .light, .classic, .indigo, .rosé, .contrastLight:
+            return "small-horizontal-logo"
+        }
+    }
+
     static func socialIconAppleImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark, .electric, .radioactive, .contrastDark, .indigo, .classic:
