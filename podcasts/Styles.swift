@@ -234,6 +234,26 @@ struct NavButtonStyle: ButtonStyle {
     }
 }
 
+struct SimpleTextButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+    let textColor: ThemeStyle
+
+    init(textColor: ThemeStyle = .primaryText01) {
+        self.textColor = textColor
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .applyButtonFont()
+            .foregroundColor(AppTheme.color(for: textColor, theme: theme))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .contentShape(Rectangle())
+    }
+}
+
 // MARK: - Button Modifiers
 extension View {
     /// Adds a subtle spring effect when the `isPressed` value is changed
