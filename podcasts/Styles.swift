@@ -143,17 +143,22 @@ struct ThemedDivider: View {
 struct RoundedButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
 
+    let textColor: Color
+    init(textColor: Color = .white) {
+        self.textColor = textColor
+    }
+
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             Spacer()
             configuration.label
                 .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(Color.white)
+                .foregroundColor(textColor)
             Spacer()
         }
         .padding()
         .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-        .cornerRadius(10)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
         .scaleEffect(configuration.isPressed ? 0.99 : 1)
         .frame(height: 44)
     }
@@ -172,7 +177,7 @@ struct RoundedButton: ViewModifier {
         }
         .padding()
         .background(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-        .cornerRadius(10)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
         .frame(height: 44)
     }
 }
@@ -191,7 +196,7 @@ struct RoundedDarkButton: ViewModifier {
         }
         .padding()
         .background(ThemeColor.primaryText01(for: theme.activeTheme).color)
-        .cornerRadius(10)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
         .frame(height: 44)
     }
 }
@@ -210,8 +215,8 @@ struct StrokeButton: ViewModifier {
         }
         .padding()
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: 2)
+            RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
         )
         .frame(height: 44)
     }
