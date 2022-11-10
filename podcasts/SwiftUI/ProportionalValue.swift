@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 /// Allows for easy proportional scaling of the given value based on the size of the view its contained in (usually the full height)
 /// This is useful when you need to position and/or size a view consistently across device sizes
 ///
@@ -32,14 +31,14 @@ import SwiftUI
         get { scaledValue }
         set { baseValue = newValue }
     }
-
-    public init(wrappedValue: Value = 0, with option: FrameScaleValue, using mathOperator: @escaping ArithmeticOperator) {
+    
+    public init(wrappedValue: Value = 1, with option: FrameScaleValue, using mathOperator: @escaping ArithmeticOperator) {
         self.baseValue = wrappedValue
         self.scaleOption = option
         self.mathOperator = mathOperator
     }
 
-    public init(wrappedValue: Value = 0, with option: FrameScaleValue) {
+    public init(wrappedValue: Value = 1, with option: FrameScaleValue) {
         self.init(wrappedValue: wrappedValue, with: option, using: *)
     }
 
