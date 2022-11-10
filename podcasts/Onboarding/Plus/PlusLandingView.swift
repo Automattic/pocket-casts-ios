@@ -42,7 +42,7 @@ struct PlusLandingView: View {
                     }
                 }.padding(ViewConfig.padding.view)
             }
-        }.enableProportionalValueScaling()
+        }.enableProportionalValueScaling().ignoresSafeArea()
     }
 
     // Static list of the feature models to display
@@ -188,7 +188,7 @@ private struct PlusBackgroundGradientView: View {
             Rectangle()
                 .foregroundColor(.backgroundColor)
                 .opacity(0.28)
-        }.ignoresSafeArea()
+        }.ignoresSafeArea().clipped()
     }
 }
 
