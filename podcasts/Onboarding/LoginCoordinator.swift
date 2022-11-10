@@ -3,6 +3,10 @@ import Foundation
 class LoginCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
 
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
     func loginTapped() {
         let controller = SyncSigninViewController()
         navigationController?.pushViewController(controller, animated: true)
@@ -13,8 +17,12 @@ class LoginCoordinator: ObservableObject {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func dismissTapped() {
+    @objc func dismissTapped() {
         navigationController?.dismiss(animated: true)
+    }
+
+    @objc func themeDidChange() {
+        updateNavigationBarStyle(animated: false)
     }
 }
 
@@ -34,17 +42,18 @@ extension LoginCoordinator {
 extension LoginCoordinator {
     static func make() -> UIViewController {
         let coordinator = LoginCoordinator()
-        let view = LoginLandingView(coordinator: coordinator).setupDefaultEnvironment()
-        let controller = EventDelegateHostingController(rootView: view,
+        let view = LoginLandingView(coordinator: coordinator)
+        let controller = EventDelegateHostingController(rootView: view.setupDefaultEnvironment(),
                                                         coordinator: coordinator)
 
         let navigationController = UINavigationController(rootViewController: controller)
         coordinator.navigationController = navigationController
 
+        view.configure(controller: controller)
+
         return navigationController
     }
 }
-
 
 // MARK: - SyncSigninDelegate
 
@@ -68,7 +77,8 @@ extension LoginCoordinator: ViewEventCoordinator {
 
     private func updateNavigationBarStyle(animated: Bool) {
         guard let navController = navigationController else { return }
-        let iconColor = AppTheme.colorForStyle(.secondaryIcon01)
+
+        let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
 
         let navigationBar = navController.navigationBar
         navigationBar.backIndicatorImage = UIImage(named: "nav-back")?.tintedImage(iconColor)
