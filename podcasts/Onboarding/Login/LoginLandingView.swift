@@ -5,37 +5,65 @@ struct LoginLandingView: View {
     @ObservedObject var coordinator: LoginCoordinator
 
     var body: some View {
-        ZStack {
-            NavigationView {
-                ZStack {
-                    AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea()
+        ProportionalValueFrameCalculator {
+            LoginLandingContent(coordinator: coordinator)
+        }
+    }
+}
 
-                    ProportionalValueFrameCalculator {
-                        VStack {
-                            LoginHeader()
+private struct LoginLandingContent: View {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var coordinator: LoginCoordinator
+    @ProportionalValue(with: .height) var calculatedHeight: Double
 
-                            VStack {
-                                // Title and Subtitle
-                                VStack(spacing: 8) {
-                                    LoginLabel("Discover your next favorite podcast", for: .title)
-                                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
-                                }
+    init(coordinator: LoginCoordinator) {
+        self.coordinator = coordinator
 
-                                Spacer()
+        // Find the value that will appear the lowest, and use that to calculate the
+        // "total view height" since the actual view height doesn't account correctly
+        let maxModel = models.max {
+            $0.y < $1.y
+        }
 
-                                LoginButtons(coordinator: coordinator)
-                                    .padding(.bottom)
-                            }.padding([.leading, .trailing], 24)
-                        }
-                    }
+        calculatedHeight = maxModel?.y ?? 0
+    }
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea()
+            LoginHeader(models: models, topPadding: Config.padding)
+
+            VStack {
+                // Title and Subtitle
+                VStack(spacing: 8) {
+                    LoginLabel("Discover your next favorite podcast", for: .title)
+                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
                 }
 
-            }.toolbar {
-                ToolbarItem(placement: .principal) { LoginNavBar {
-                    coordinator.dismissTapped()
-                } }
+                Spacer()
+
+                LoginButtons(coordinator: coordinator)
+
             }
+            .padding([.leading, .trailing], Config.padding)
+            .padding(.top, calculatedHeight + Config.padding)
+            .padding(.bottom)
         }
+    }
+
+    // Cover Models 📸
+    private let models: [CoverModel] = [
+        CoverModel(imageName: "login-cover-1", size: 0.26, x: -0.1973, y: 0.2606),
+        CoverModel(imageName: "login-cover-2", size: 0.17, x: 0.2029, y: 0.3751),
+        CoverModel(imageName: "login-cover-3", size: 0.16, x: 0.1349, y: 0.1626),
+        CoverModel(imageName: "login-cover-4", size: 0.26, x: 0.2656, y: 0.2078),
+        CoverModel(imageName: "login-cover-5", size: 0.16, x: 0.5869, y: 0.3600),
+        CoverModel(imageName: "login-cover-6", size: 0.26, x: 0.8592, y: 0.2606),
+        CoverModel(imageName: "login-cover-7", size: 0.26, x: 0.6468, y: 0.1626),
+    ]
+
+    private enum Config {
+        static let padding: Double = 24
     }
 }
 
@@ -137,35 +165,20 @@ private struct LoginNavBar: View {
 }
 
 private struct LoginHeader: View {
-    @ProportionalValue(with: .height) var calculatedHeight: Double
     @StateObject var motion = MotionManager(options: .attitude)
 
-    let models: [CoverModel] = [
-        CoverModel(imageName: "login-cover-1", size: 0.26, x: -0.1973, y: 0.2606),
-        CoverModel(imageName: "login-cover-2", size: 0.17, x: 0.2029, y: 0.3751),
-        CoverModel(imageName: "login-cover-3", size: 0.16, x: 0.1349, y: 0.1626),
-        CoverModel(imageName: "login-cover-4", size: 0.26, x: 0.2656, y: 0.2078),
-        CoverModel(imageName: "login-cover-5", size: 0.16, x: 0.5869, y: 0.3600),
-        CoverModel(imageName: "login-cover-6", size: 0.26, x: 0.8592, y: 0.2606),
-        CoverModel(imageName: "login-cover-7", size: 0.26, x: 0.6468, y: 0.1626),
-    ]
-
-    init() {
-        // Find the value that will appear the lowest, and use that to calculate the
-        // "total view height" since the actual view height doesn't account correctly
-        let maxModel = models.max {
-            $0.y < $1.y
-        }
-
-        calculatedHeight = maxModel?.y ?? 0
-    }
+    let models: [CoverModel]
+    let topPadding: Double
 
     var body: some View {
         ZStack {
             ForEach(models) { model in
-                LoginPodcastCover(model: model, manager: motion)
+                LoginPodcastCover(model: model,
+                                  topPadding: topPadding,
+                                  manager: motion)
             }
-        }.ignoresSafeArea().frame(maxHeight: calculatedHeight)
+        }
+        .ignoresSafeArea()
     }
 }
 
@@ -177,8 +190,10 @@ private struct LoginPodcastCover: View {
     @ObservedObject var manager: MotionManager
 
     let model: CoverModel
+    let topPadding: Double
 
-    init(model: CoverModel, manager: MotionManager) {
+    init(model: CoverModel, topPadding: Double, manager: MotionManager) {
+        self.topPadding = topPadding
         self.manager = manager
         self.model = model
         self.size = model.size
@@ -200,7 +215,7 @@ private struct LoginPodcastCover: View {
     var body: some View {
         PodcastCoverImage(imageName: model.imageName)
             .frame(width: size, height: size)
-            .position(x: x, y: y)
+            .position(x: x, y: y + topPadding)
             .offset(offset)
             .onTapGesture {
                 isTapped.toggle()
