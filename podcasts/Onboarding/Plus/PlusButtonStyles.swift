@@ -3,15 +3,15 @@ import SwiftUI
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .updateFont()
+            .applyButtonFont()
             .frame(maxWidth: .infinity)
             .padding()
 
             .background(Color.plusGradient)
             .foregroundColor(Color.filledTextColor)
 
-            .cornerRadius(ViewConfig.cornerRadius)
-            .makeSpringy(isPressed: configuration.isPressed)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
     }
 }
@@ -27,7 +27,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .updateFont()
+            .applyButtonFont()
             .frame(maxWidth: .infinity)
             .padding()
 
@@ -47,9 +47,9 @@ struct PlusGradientStrokeButton: ButtonStyle {
                             }
                         }
 
-                        RoundedRectangle(cornerRadius: ViewConfig.cornerRadius).stroke(Color.plusGradient, lineWidth: ViewConfig.strokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusGradient, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
-                        RoundedRectangle(cornerRadius: ViewConfig.cornerRadius).stroke(Color.unselectedColor, lineWidth: ViewConfig.strokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.unselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
                 }
             )
@@ -59,7 +59,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
             .animation(.linear(duration: 0.14), value: isSelected)
 
             // Make the button interactable
-            .makeSpringy(isPressed: configuration.isPressed)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
     }
 }
@@ -68,13 +68,6 @@ private extension View {
     func gradientOverlay<Content: View>(_ content: Content) -> some View {
         self.overlay(content).mask(self)
     }
-
-    func updateFont() -> some View {
-        self.font(size: 18,
-                  style: .body,
-                  weight: .medium,
-                  maxSizeCategory: .extraExtraLarge)
-    }
 }
 
 private extension Color {
@@ -82,9 +75,4 @@ private extension Color {
                                              startPoint: .topLeading, endPoint: .bottomTrailing)
     static let unselectedColor = Color.white
     static let filledTextColor = Color.black
-}
-
-private enum ViewConfig {
-    static let cornerRadius = 12.0
-    static let strokeWidth = 2.0
 }
