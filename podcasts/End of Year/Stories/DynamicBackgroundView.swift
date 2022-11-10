@@ -23,7 +23,7 @@ struct DynamicBackgroundView: View {
                     .resizable()
                     .renderingMode(.template)
                     .foregroundColor(Color.white)
-                    .opacity(0.5)
+                    .blendMode(.softLight)
             }
 
             VStack {
@@ -31,6 +31,7 @@ struct DynamicBackgroundView: View {
                     .resizable()
                     .renderingMode(.template)
                     .foregroundColor(model.foregroundColor)
+                    .opacity(0.4)
             }
 
         }

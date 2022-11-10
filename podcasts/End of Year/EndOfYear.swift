@@ -102,25 +102,33 @@ struct EndOfYear {
     func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = SceneHelper.rootViewController()?.presentedViewController
 
+        let fakeViewController = FakeViewController()
+        fakeViewController.onDismiss = onDismiss
+        fakeViewController.modalPresentationStyle = .overFullScreen
+
         let activityViewController = UIActivityViewController(activityItems: assets, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
         activityViewController.completionWithItemsHandler = { activity, success, _, _ in
             if !success && activity == nil {
-                onDismiss?()
+                fakeViewController.dismiss(animated: false)
             }
 
             if let activity, success {
                 Analytics.track(.endOfYearStoryShared, properties: ["activity": activity.rawValue, "story": storyIdentifier])
-                onDismiss?()
+                fakeViewController.dismiss(animated: false)
             }
         }
 
-        presenter?.present(activityViewController, animated: true) {
-            // After the share sheet is presented we take the snapshot
-            // This action needs to happen on the main thread because
-            // the view needs to be rendered.
-            StoryShareableProvider.shared.snapshot()
+        // Present the fake view controller first to avoid issues with stories being dismissed
+        presenter?.present(fakeViewController, animated: false) { [weak fakeViewController] in
+            // Present the share sheet
+            fakeViewController?.present(activityViewController, animated: true) {
+                // After the share sheet is presented we take the snapshot
+                // This action needs to happen on the main thread because
+                // the view needs to be rendered.
+                StoryShareableProvider.shared.snapshot()
+            }
         }
     }
 
@@ -149,8 +157,30 @@ class StoriesHostingController<ContentView: View>: UIHostingController<ContentVi
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Dark overlay background for iPad
+        presentationController?.containerView?.backgroundColor = .black.withAlphaComponent(0.8)
+    }
 }
 
 private enum EndOfYearState {
     case showModalIfNeeded, waitingForLogin, loggedIn
+}
+
+/// When selecting "Save Image" on the share sheet on iOS 15
+/// the sheets dismisses itself AND the stories.
+/// We don't want that, so we have this fake view controller to
+/// be dismissed instead.
+///
+/// The issue doesn't affect iOS 14 and 16, but given this fix
+/// don't interfere with them, we also use it for 14/16.
+private class FakeViewController: UIViewController {
+    var onDismiss: (() -> Void)?
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        onDismiss?()
+    }
 }

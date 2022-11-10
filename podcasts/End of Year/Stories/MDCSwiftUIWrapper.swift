@@ -31,6 +31,10 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         hostingController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
     }
 
+    override func loadView() {
+        view = ThemeableView()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         preferredContentSize = .init(width: .zero, height: stackView.frame.height)

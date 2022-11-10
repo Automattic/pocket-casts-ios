@@ -54,9 +54,8 @@ struct TopFivePodcastsStory: StoryView {
                 .foregroundColor(.white)
 
                 if let podcast = podcasts[safe: index] {
-                    ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: 65, height: 65)
-                        .modifier(PodcastCover())
                 } else {
                     Rectangle()
                         .frame(width: 65, height: 65)

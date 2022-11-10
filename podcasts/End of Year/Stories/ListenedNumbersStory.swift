@@ -91,14 +91,8 @@ struct ListenedNumbersStory: StoryView {
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        Group {
-            if let podcast = podcasts[safe: index] {
-                ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-            } else {
-                Rectangle().opacity(0.1)
-            }
-        }
-        .modifier(PodcastCover())
+        let podcast = podcasts[safe: index] ?? podcasts[0]
+        PodcastCover(podcastUuid: podcast.uuid)
     }
 
     func onAppear() {

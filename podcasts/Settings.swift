@@ -741,6 +741,16 @@ class Settings: NSObject {
         }
     }
 
+    class var hasSyncedAll2022Episodes: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+    }
+
     class var top5PodcastsListLink: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.top5PodcastsListLink)

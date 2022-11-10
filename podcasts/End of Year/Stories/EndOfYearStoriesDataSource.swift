@@ -15,13 +15,13 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .intro:
             return IntroStory()
         case .listeningTime:
-            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.randomPodcasts)
+            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
         case .listenedCategories:
             return ListenedCategoriesStory(listenedCategories: data.listenedCategories.reversed())
         case .topCategories:
             return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
         case .numberOfPodcastsAndEpisodesListened:
-            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.randomPodcasts)
+            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
         case .topOnePodcast:
             return TopOnePodcastStory(topPodcast: data.topPodcasts[0])
         case .topFivePodcasts:

@@ -1655,6 +1655,78 @@ struct Api_HistoryResponse {
   init() {}
 }
 
+struct Api_YearHistoryRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var deviceTime: Int64 = 0
+
+  var version: String = String()
+
+  var count: Bool = false
+
+  var year: Int32 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_YearHistoryResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var isModified: Bool = false
+
+  var record: Api_YearHistoryResponse.OneOf_Record? = nil
+
+  var count: Int32 {
+    get {
+      if case .count(let v)? = record {return v}
+      return 0
+    }
+    set {record = .count(newValue)}
+  }
+
+  var history: Api_HistoryResponse {
+    get {
+      if case .history(let v)? = record {return v}
+      return Api_HistoryResponse()
+    }
+    set {record = .history(newValue)}
+  }
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  enum OneOf_Record: Equatable {
+    case count(Int32)
+    case history(Api_HistoryResponse)
+
+  #if !swift(>=4.1)
+    static func ==(lhs: Api_YearHistoryResponse.OneOf_Record, rhs: Api_YearHistoryResponse.OneOf_Record) -> Bool {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch (lhs, rhs) {
+      case (.count, .count): return {
+        guard case .count(let l) = lhs, case .count(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.history, .history): return {
+        guard case .history(let l) = lhs, case .history(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      default: return false
+      }
+    }
+  #endif
+  }
+
+  init() {}
+}
+
 struct Api_UpNextRemoveRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -4475,6 +4547,9 @@ extension Api_UpNextResponse.EpisodeSyncResponse: @unchecked Sendable {}
 extension Api_HistoryChange: @unchecked Sendable {}
 extension Api_HistorySyncRequest: @unchecked Sendable {}
 extension Api_HistoryResponse: @unchecked Sendable {}
+extension Api_YearHistoryRequest: @unchecked Sendable {}
+extension Api_YearHistoryResponse: @unchecked Sendable {}
+extension Api_YearHistoryResponse.OneOf_Record: @unchecked Sendable {}
 extension Api_UpNextRemoveRequest: @unchecked Sendable {}
 extension Api_EpisodeSyncResponse: @unchecked Sendable {}
 extension Api_SearchPodcastsRequest: @unchecked Sendable {}
@@ -7679,6 +7754,127 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.serverModified != rhs.serverModified {return false}
     if lhs.lastCleared != rhs.lastCleared {return false}
     if lhs.changes != rhs.changes {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_YearHistoryRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".YearHistoryRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "device_time"),
+    2: .same(proto: "version"),
+    3: .same(proto: "count"),
+    4: .same(proto: "year"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self.deviceTime) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.version) }()
+      case 3: try { try decoder.decodeSingularBoolField(value: &self.count) }()
+      case 4: try { try decoder.decodeSingularInt32Field(value: &self.year) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.deviceTime != 0 {
+      try visitor.visitSingularInt64Field(value: self.deviceTime, fieldNumber: 1)
+    }
+    if !self.version.isEmpty {
+      try visitor.visitSingularStringField(value: self.version, fieldNumber: 2)
+    }
+    if self.count != false {
+      try visitor.visitSingularBoolField(value: self.count, fieldNumber: 3)
+    }
+    if self.year != 0 {
+      try visitor.visitSingularInt32Field(value: self.year, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_YearHistoryRequest, rhs: Api_YearHistoryRequest) -> Bool {
+    if lhs.deviceTime != rhs.deviceTime {return false}
+    if lhs.version != rhs.version {return false}
+    if lhs.count != rhs.count {return false}
+    if lhs.year != rhs.year {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_YearHistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".YearHistoryResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "is_modified"),
+    2: .same(proto: "count"),
+    3: .same(proto: "history"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.isModified) }()
+      case 2: try {
+        var v: Int32?
+        try decoder.decodeSingularInt32Field(value: &v)
+        if let v = v {
+          if self.record != nil {try decoder.handleConflictingOneOf()}
+          self.record = .count(v)
+        }
+      }()
+      case 3: try {
+        var v: Api_HistoryResponse?
+        var hadOneofValue = false
+        if let current = self.record {
+          hadOneofValue = true
+          if case .history(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.record = .history(v)
+        }
+      }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if self.isModified != false {
+      try visitor.visitSingularBoolField(value: self.isModified, fieldNumber: 1)
+    }
+    switch self.record {
+    case .count?: try {
+      guard case .count(let v)? = self.record else { preconditionFailure() }
+      try visitor.visitSingularInt32Field(value: v, fieldNumber: 2)
+    }()
+    case .history?: try {
+      guard case .history(let v)? = self.record else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    }()
+    case nil: break
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_YearHistoryResponse, rhs: Api_YearHistoryResponse) -> Bool {
+    if lhs.isModified != rhs.isModified {return false}
+    if lhs.record != rhs.record {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

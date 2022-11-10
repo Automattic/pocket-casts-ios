@@ -11,7 +11,7 @@ class EndOfYearDataManager {
 
     /// If the user is eligible to see End of Year stats
     ///
-    /// All it's needed is a single episode listened for more than 30 minutes.
+    /// All it's needed is a single episode listened for more than 5 minutes.
     func isEligible(dbQueue: FMDatabaseQueue) -> Bool {
         var isEligible = false
 
@@ -20,7 +20,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT playedUpTo from \(DataManager.episodeTableName)
                             WHERE
-                            playedUpTo > 1800 AND
+                            playedUpTo > 300 AND
                             \(listenedEpisodesThisYear)
                             LIMIT 1
                             """
@@ -63,8 +63,6 @@ class EndOfYearDataManager {
 
                 if resultSet.next() {
                     isFullListeningHistory = true
-                } else {
-                    isFullListeningHistory = numberOfItemsInListeningHistory(db: db) <= 100
                 }
             } catch {
                 FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
@@ -72,6 +70,31 @@ class EndOfYearDataManager {
         }
 
         return isFullListeningHistory
+    }
+
+    /// Returns the number of episodes we have for this year
+    func numberOfEpisodes(dbQueue: FMDatabaseQueue) -> Int {
+        var numberOfEpisodes: Int = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(*) as numberOfEpisodes from \(DataManager.episodeTableName)
+                            WHERE
+                            \(listenedEpisodesThisYear)
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    numberOfEpisodes = Int(resultSet.int(forColumn: "numberOfEpisodes"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.numberOfEpisodes error: \(error)")
+            }
+        }
+
+        return numberOfEpisodes
     }
 
     /// Returns the approximate listening time for the current year

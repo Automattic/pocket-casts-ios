@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 /// The available stories for EoY
 enum EndOfYearStory {
@@ -22,9 +23,9 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
-    private let sync: (() -> Void)?
+    private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Void)? = nil) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync) {
         self.dataManager = dataManager
         self.sync = sync
     }
@@ -32,10 +33,17 @@ class EndOfYearStoriesBuilder {
     /// Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
+
             // Check if the user has the full listening history for this year
-            if !dataManager.isFullListeningHistory() {
-                // TODO: update with the correct endpoint to sync history (eoy-todo)
-                sync?()
+            if !Settings.hasSyncedAll2022Episodes {
+                let syncedWithSuccess = sync?()
+
+                if syncedWithSuccess == true {
+                    Settings.hasSyncedAll2022Episodes = true
+                } else {
+                    continuation.resume(returning: ([], data))
+                    return
+                }
             }
 
             // Listening time
@@ -65,7 +73,7 @@ class EndOfYearStoriesBuilder {
             let topPodcasts = dataManager.topPodcasts(limit: 10)
             if !topPodcasts.isEmpty {
                 data.topPodcasts = Array(topPodcasts.prefix(5))
-                data.randomPodcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
+                data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
                 stories.append(.topOnePodcast)
             }
 
@@ -105,5 +113,5 @@ class EndOfYearStoriesData {
 
     var longestEpisodePodcast: Podcast!
 
-    var randomPodcasts: [Podcast] = []
+    var top10Podcasts: [Podcast] = []
 }
