@@ -99,6 +99,8 @@ class PodcastManager: NSObject {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
                 }
                 else {
+                    // If we're not downloading over cellular, clear task id so its not removed by the "stuck download" cleaner, and queue it for later
+                    DataManager.sharedManager.clearDownloadTaskId(episode: episode)
                     DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
                 }
             }
