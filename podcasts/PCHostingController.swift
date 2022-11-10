@@ -49,6 +49,20 @@ class PCHostingController<Content>: UIHostingController<Content> where Content: 
 
 extension View {
     func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
-        self.environmentObject(theme)
+        self
+            .environmentObject(theme)
+            .environment(\.appTheme, theme)
+    }
+}
+
+/// Defines the custom environment variables to use
+extension EnvironmentValues {
+    var appTheme: Theme {
+        get { self[ActiveThemeKey.self] }
+        set { self[ActiveThemeKey.self] = newValue }
+    }
+
+    private struct ActiveThemeKey: EnvironmentKey {
+        static let defaultValue: Theme = Theme.sharedTheme
     }
 }

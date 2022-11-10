@@ -141,7 +141,7 @@ struct ThemedDivider: View {
 // MARK: - Button
 
 struct RoundedButtonStyle: ButtonStyle {
-    @EnvironmentObject var theme: Theme
+    @Environment(\.appTheme) var theme
 
     let textColor: Color
     init(textColor: Color = .white) {
@@ -149,18 +149,15 @@ struct RoundedButtonStyle: ButtonStyle {
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            Spacer()
-            configuration.label
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(textColor)
-            Spacer()
-        }
-        .padding()
-        .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-        .cornerRadius(ViewConstants.buttonCornerRadius)
-        .scaleEffect(configuration.isPressed ? 0.99 : 1)
-        .frame(height: 44)
+        configuration.label
+            .applyButtonFont()
+            .foregroundColor(textColor)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .contentShape(Rectangle())
     }
 }
 
@@ -235,7 +232,8 @@ struct NavButtonStyle: ButtonStyle {
 }
 
 struct SimpleTextButtonStyle: ButtonStyle {
-    @EnvironmentObject var theme: Theme
+    @Environment(\.appTheme) var theme
+
     let textColor: ThemeStyle
 
     init(textColor: ThemeStyle = .primaryText01) {
