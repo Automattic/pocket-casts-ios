@@ -77,20 +77,6 @@ private struct LoginLandingContent: View {
     }
 }
 
-struct Navigate<Destination>: View where Destination: View {
-    private let destination: Destination
-    var trigger: Binding<Bool>
-
-    init(to destination: Destination, on trigger: Binding<Bool>) {
-        self.destination = destination
-        self.trigger = trigger
-    }
-
-    var body: some View {
-        NavigationLink(destination: destination, isActive: trigger) { EmptyView() }
-    }
-}
-
 // MARK: - Models
 private struct CoverModel: Identifiable {
     let imageName: String
