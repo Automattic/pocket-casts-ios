@@ -143,15 +143,16 @@ struct ThemedDivider: View {
 struct RoundedButtonStyle: ButtonStyle {
     @Environment(\.appTheme) var theme
 
-    let textColor: Color
-    init(textColor: Color = .white) {
+    let textColor: ThemeStyle
+
+    init(textColor: ThemeStyle = .primaryInteractive02) {
         self.textColor = textColor
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .applyButtonFont()
-            .foregroundColor(textColor)
+            .foregroundColor(AppTheme.color(for: textColor, theme: theme))
             .frame(maxWidth: .infinity)
             .padding()
             .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
