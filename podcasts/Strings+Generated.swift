@@ -2072,7 +2072,7 @@ internal enum L10n {
   internal static var settingsHelp: String { return L10n.tr("Localizable", "settings_help") }
   /// Import / Export
   internal static var settingsImportExport: String { return L10n.tr("Localizable", "settings_import_export") }
-  /// Included In %1$@ Filter
+  /// Included In %1$@ Filters
   internal static func settingsInFiltersPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "settings_in_filters_plural_format", String(describing: p1))
   }

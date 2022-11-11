@@ -2388,7 +2388,7 @@
 "settings_import_export" = "Import / Export";
 
 /* Informs the user that the current podcast is included in one filter. '%1$@' is a placeholder for the number of filters this podcast is included in. */
-"settings_in_filters_plural_format" = "Included In %1$@ Filter";
+"settings_in_filters_plural_format" = "Included In %1$@ Filters";
 
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
