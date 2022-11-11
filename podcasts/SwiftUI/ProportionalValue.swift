@@ -31,7 +31,7 @@ import SwiftUI
         get { scaledValue }
         set { baseValue = newValue }
     }
-    
+
     public init(wrappedValue: Value = 1, with option: FrameScaleValue, using mathOperator: @escaping ArithmeticOperator) {
         self.baseValue = wrappedValue
         self.scaleOption = option
