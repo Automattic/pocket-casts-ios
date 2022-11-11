@@ -55,7 +55,7 @@ private struct LoginLandingContent: View {
                     LoginButtons(coordinator: coordinator)
                 }
                 .padding([.leading, .trailing], Config.padding)
-                .padding(.top, calculatedHeight + Config.padding)
+                .padding(.top, calculatedHeight + (Config.padding * 2))
                 .padding(.bottom)
             }
         }
@@ -134,27 +134,6 @@ private struct LoginLabel: View {
                 return content.font(size: 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .subtitle:
                 return content.font(size: 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
-            }
-        }
-    }
-}
-
-private struct LoginNavBar: View {
-    @EnvironmentObject var theme: Theme
-    let action: () -> Void
-
-    init(action: @escaping () -> Void) {
-        self.action = action
-    }
-    var body: some View {
-        ZStack {
-            Image(AppTheme.pcLogoSmallHorizontalImageName())
-
-            HStack {
-                Spacer()
-                Button("Not Now", action: action)
-                    .font(style: .body)
-                    .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
             }
         }
     }
