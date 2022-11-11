@@ -42,21 +42,22 @@ private struct LoginLandingContent: View {
             AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea()
             LoginHeader(models: models, topPadding: Config.padding)
 
-            VStack {
-                // Title and Subtitle
-                VStack(spacing: 8) {
-                    LoginLabel("Discover your next favorite podcast", for: .title)
-                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
+            ScrollViewIfNeeded {
+                VStack {
+                    // Title and Subtitle
+                    VStack(spacing: 8) {
+                        LoginLabel("Discover your next favorite podcast", for: .title)
+                        LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
+                    }
+
+                    Spacer()
+
+                    LoginButtons(coordinator: coordinator)
                 }
-
-                Spacer()
-
-                LoginButtons(coordinator: coordinator)
-
+                .padding([.leading, .trailing], Config.padding)
+                .padding(.top, calculatedHeight + Config.padding)
+                .padding(.bottom)
             }
-            .padding([.leading, .trailing], Config.padding)
-            .padding(.top, calculatedHeight + Config.padding)
-            .padding(.bottom)
         }
     }
 
