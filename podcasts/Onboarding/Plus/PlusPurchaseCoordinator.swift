@@ -5,6 +5,9 @@ import PocketCastsServer
 class PlusPurchaseCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
 
+    // Allow injection of the IapHelper
+    let purchaseHandler: IapHelper
+
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .none
 
@@ -13,8 +16,10 @@ class PlusPurchaseCoordinator: ObservableObject {
 
     private var purchasedProduct: Constants.IapProducts?
 
-    init() {
-        self.pricingInfo = Self.getPricingInfo()
+    init(purchaseHandler: IapHelper = .shared) {
+        self.purchaseHandler = purchaseHandler
+        self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+        addPaymentObservers()
     }
 
     // MARK: - Triggers the purchase process
@@ -40,7 +45,7 @@ class PlusPurchaseCoordinator: ObservableObject {
     // A simple struct to keep track of the product and pricing information the view needs
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
-        let firstFreeTrial: IapHelper.FreeTrialDetails? = IapHelper.shared.getFirstFreeTrialDetails()
+        let firstFreeTrial: IapHelper.FreeTrialDetails?
         var hasFreeTrial: Bool { firstFreeTrial != nil }
     }
 
@@ -72,8 +77,8 @@ private extension PlusPurchaseCoordinator {
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
-            let price = IapHelper.shared.getPriceWithFrequency(for: product)
-            let trial = IapHelper.shared.localizedFreeTrialDuration(product)
+            let price = purchaseHandler.getPriceWithFrequency(for: product)
+            let trial = purchaseHandler.localizedFreeTrialDuration(product)
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
@@ -81,7 +86,7 @@ private extension PlusPurchaseCoordinator {
             pricing.append(info)
         }
 
-        return PlusPricingInfo(products: pricing)
+        return PlusPricingInfo(products: pricing, firstFreeTrial: purchaseHandler.getFirstFreeTrialDetails())
     }
 
     private func updateState(_ state: PurchaseState) {
