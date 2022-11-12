@@ -272,7 +272,29 @@ extension View {
     func applyButtonFont() -> some View {
         self.font(size: 18,
                   style: .body,
-                  weight: .medium,
+                  weight: .semibold,
                   maxSizeCategory: .extraExtraLarge)
+    }
+}
+
+// MARK: - Pill used in the top of the modals
+
+struct ModalTopPill: View {
+    @EnvironmentObject var theme: Theme
+
+    var body: some View {
+        Rectangle()
+            .fill(ThemeColor.primaryText02(for: theme.activeTheme).color)
+            .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
+            .cornerRadius(Constants.pillCornerRadius)
+            .padding(.top, Constants.pillTopPadding)
+            .opacity(Constants.pillOpacity)
+    }
+
+    private enum Constants {
+        static let pillSize: CGSize = .init(width: 60, height: 4)
+        static let pillCornerRadius: CGFloat = 10
+        static let pillTopPadding: CGFloat = 8
+        static let pillOpacity: CGFloat = 0.2
     }
 }
