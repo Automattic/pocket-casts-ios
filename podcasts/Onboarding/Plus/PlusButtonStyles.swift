@@ -8,7 +8,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
             .padding()
 
             .background(Color.plusGradient)
-            .foregroundColor(Color.filledTextColor)
+            .foregroundColor(Color.plusButtonFilledTextColor)
 
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
@@ -32,7 +32,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
             .padding()
 
             // Overlay the gradient, or just set the color if not selected
-            .foregroundColor(isSelected ? nil : Color.unselectedColor)
+            .foregroundColor(isSelected ? Color.plusGradientColor1 : Color.plusButtonUnselectedColor)
             .gradientOverlay(isSelected ? Color.plusGradient : nil)
 
             // Stroke Overlay + Image if needed
@@ -49,14 +49,14 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
                         RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusGradient, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
-                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.unselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusButtonUnselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
                 }
             )
 
             // Fade out the button if needed
             .opacity(isSelected ? 1 : 0.4)
-            .animation(.linear(duration: 0.14), value: isSelected)
+            .animation(.easeIn(duration: 0.14), value: isSelected)
 
             // Make the button interactable
             .applyButtonEffect(isPressed: configuration.isPressed)
