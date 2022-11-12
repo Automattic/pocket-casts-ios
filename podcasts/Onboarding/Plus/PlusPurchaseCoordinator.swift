@@ -3,6 +3,8 @@ import SwiftUI
 import PocketCastsServer
 
 class PlusPurchaseCoordinator: ObservableObject {
+    var navigationController: UINavigationController? = nil
+
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .none
 
@@ -48,6 +50,19 @@ class PlusPurchaseCoordinator: ObservableObject {
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }
+    }
+}
+
+extension PlusPurchaseCoordinator {
+    static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
+        let coordinator = PlusPurchaseCoordinator()
+        coordinator.navigationController = navigationController
+
+        let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
+        let modal = PlusPurchaseModal(coordinator: coordinator)
+        let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
+
+        return controller
     }
 }
 
