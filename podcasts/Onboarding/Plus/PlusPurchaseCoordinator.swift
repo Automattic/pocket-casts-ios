@@ -24,13 +24,13 @@ class PlusPurchaseCoordinator: ObservableObject {
 
     // MARK: - Triggers the purchase process
     func purchase(product: Constants.IapProducts) {
+        guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
+            handlePurchaseFailed(error: nil)
+            return
+        }
+
         self.purchasedProduct = product
         updateState(.purchasing)
-
-        // TODO: Add a real call
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            self.updateState(.failed)
-        }
     }
 
     // Our internal state
