@@ -7,8 +7,11 @@ class PlusCoordinator: ObservableObject {
     func unlockTapped() {
         guard let navigationController else { return }
 
+
+        let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
         let modal = PlusPurchaseModal(coordinator: PlusPurchaseCoordinator())
-        MDCSwiftUIWrapper.present(modal, in: navigationController)
+        let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
+        controller.presentModally(in: navigationController)
     }
 
     func dismissTapped() {
