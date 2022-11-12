@@ -219,7 +219,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         if FeatureFlag.onboardingUpdates {
-            self.present(LoginCoordinator.make(), animated: true)
+            self.present(PlusCoordinator.make(), animated: true)
             return
         }
 
