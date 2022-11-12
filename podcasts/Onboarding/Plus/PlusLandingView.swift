@@ -154,11 +154,11 @@ private struct PlusLabel: View {
 }
 
 private struct PlusBackgroundGradientView: View {
-    @ProportionalValue(with: .width) var leftCircleSize = 0.936
+    @ProportionalValue(with: .width) var leftCircleSize = 0.836
     @ProportionalValue(with: .width) var leftCircleX = -0.28533333
     @ProportionalValue(with: .height) var leftCircleY = -0.10810811
 
-    @ProportionalValue(with: .width) var rightCircleSize = 0.73866667
+    @ProportionalValue(with: .width) var rightCircleSize = 0.63866667
     @ProportionalValue(with: .width) var rightCircleX = 0.54133333
     @ProportionalValue(with: .height) var rightCircleY = -0.03316953
 
@@ -172,7 +172,6 @@ private struct PlusBackgroundGradientView: View {
                     .frame(height: rightCircleSize)
                     .position(x: rightCircleX, y: rightCircleY)
                     .offset(x: rightCircleSize * 0.5, y: rightCircleSize * 0.5)
-                    .blur(radius: 162)
 
                 // Left Circle
                 Circle()
@@ -180,8 +179,7 @@ private struct PlusBackgroundGradientView: View {
                     .frame(height: leftCircleSize)
                     .position(x: leftCircleX, y: leftCircleY)
                     .offset(x: leftCircleSize * 0.5, y: leftCircleSize * 0.5)
-                    .blur(radius: 146)
-            }.blur(radius: 32)
+            }.blur(radius: 100)
 
             // Overlay view
             Rectangle()
