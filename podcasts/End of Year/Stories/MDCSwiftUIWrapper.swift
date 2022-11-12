@@ -33,12 +33,17 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
 
     override func loadView() {
         view = ThemeableView()
+
+        // Prevents a flicker from happening just before the view appears
+        view.alpha = 0
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         preferredContentSize = .init(width: .zero, height: stackView.frame.height)
 
+        // Reset the alpha
+        view.alpha = 1
     }
 
     required init?(coder: NSCoder) {
