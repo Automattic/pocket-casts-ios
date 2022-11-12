@@ -3,10 +3,6 @@ import Foundation
 class LoginCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
 
-    init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
-    }
-
     func loginTapped() {
         let controller = SyncSigninViewController()
         navigationController?.pushViewController(controller, animated: true)
@@ -19,10 +15,6 @@ class LoginCoordinator: ObservableObject {
 
     @objc func dismissTapped() {
         navigationController?.dismiss(animated: true)
-    }
-
-    @objc func themeDidChange() {
-        updateNavigationBarStyle(animated: false)
     }
 }
 
@@ -42,12 +34,15 @@ extension LoginCoordinator {
 extension LoginCoordinator {
     static func make() -> UIViewController {
         let coordinator = LoginCoordinator()
+        let navBarResetter = NavBarStyleResetter()
+
         let view = LoginLandingView(coordinator: coordinator)
         let controller = EventDelegateHostingController(rootView: view.setupDefaultEnvironment(),
-                                                        coordinator: coordinator)
+                                                        coordinator: navBarResetter)
 
         let navigationController = UINavigationController(rootViewController: controller)
         coordinator.navigationController = navigationController
+        navBarResetter.navigationController = navigationController
 
         view.configure(controller: controller)
 
@@ -66,7 +61,21 @@ extension LoginCoordinator: SyncSigninDelegate {
 // MARK: - ViewEventCoordinator
 
 // Listen for view controller events, so we can override the navbar style
-extension LoginCoordinator: ViewEventCoordinator {
+class NavBarStyleResetter: ViewEventCoordinator {
+    var navigationController: UINavigationController? = nil
+
+    deinit {
+        print("Deinit")
+    }
+    init() {
+        print("init")
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
+    @objc func themeDidChange() {
+        updateNavigationBarStyle(animated: false)
+    }
+
     func viewDidLoad() {
         updateNavigationBarStyle(animated: false)
     }
