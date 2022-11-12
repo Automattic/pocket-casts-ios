@@ -1,6 +1,12 @@
 import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
+    let isLoading: Bool
+
+    init(isLoading: Bool = false) {
+        self.isLoading = isLoading
+    }
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .applyButtonFont()
@@ -13,6 +19,18 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .overlay(
+                ZStack {
+                    if isLoading {
+                        Rectangle()
+                            .overlay(Color.plusGradient)
+                            .cornerRadius(ViewConstants.buttonCornerRadius)
+
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.plusButtonFilledTextColor))
+                    }
+                }
+            )
     }
 }
 
