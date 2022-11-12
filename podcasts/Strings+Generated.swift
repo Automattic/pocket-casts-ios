@@ -921,10 +921,16 @@ internal enum L10n {
   internal static func freeTrialDurationFree(_ p1: Any) -> String {
     return L10n.tr("Localizable", "free_trial_duration_free", String(describing: p1))
   }
+  /// %1$@ FREE TRIAL
+  internal static func freeTrialDurationFreeTrial(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "free_trial_duration_free_trial", String(describing: p1))
+  }
   /// %1$@ free then %2$@
   internal static func freeTrialPricingTerms(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "free_trial_pricing_terms", String(describing: p1), String(describing: p2))
   }
+  /// Start Free Trial & Subscribe
+  internal static var freeTrialStartAndSubscribeButton: String { return L10n.tr("Localizable", "free_trial_start_and_subscribe_button") }
   /// Start Free Trial
   internal static var freeTrialStartButton: String { return L10n.tr("Localizable", "free_trial_start_button") }
   /// Try Plus with %1$@ free
@@ -1403,6 +1409,10 @@ internal enum L10n {
   internal static var plusMarketingWatchPlaybackDescription: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_description") }
   /// Watch Playback
   internal static var plusMarketingWatchPlaybackTitle: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_title") }
+  /// %1$@ per month
+  internal static func plusMonthlyFrequencyPricingFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "plus_monthly_frequency_pricing_format", String(describing: p1))
+  }
   /// Payment Cancelled
   internal static var plusPaymentCanceled: String { return L10n.tr("Localizable", "plus_payment_canceled") }
   /// Best Value
@@ -1421,6 +1431,10 @@ internal enum L10n {
   internal static var plusPromotionExpiredNudge: String { return L10n.tr("Localizable", "plus_promotion_expired_nudge") }
   /// Code already used
   internal static var plusPromotionUsed: String { return L10n.tr("Localizable", "plus_promotion_used") }
+  /// It looks like there was a problem processing your payment. Please try again.
+  internal static var plusPurchaseFailed: String { return L10n.tr("Localizable", "plus_purchase_failed") }
+  /// Become a Plus member and unlock all Pocket Casts features
+  internal static var plusPurchasePromoTitle: String { return L10n.tr("Localizable", "plus_purchase_promo_title") }
   /// This feature requires Pocket Casts Plus
   internal static var plusRequiredFeature: String { return L10n.tr("Localizable", "plus_required_feature") }
   /// Select Payment Frequency
@@ -1441,6 +1455,10 @@ internal enum L10n {
   internal static var plusSubscriptionWeb: String { return L10n.tr("Localizable", "plus_subscription_web") }
   /// To cancel your subscription, you’ll need to cancel via Pocketcasts.com.
   internal static var plusSubscriptionWebDetails: String { return L10n.tr("Localizable", "plus_subscription_web_details") }
+  /// %1$@ per year
+  internal static func plusYearlyFrequencyPricingFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "plus_yearly_frequency_pricing_format", String(describing: p1))
+  }
   /// Pocket Casts Newsletter
   internal static var pocketCastsNewsletter: String { return L10n.tr("Localizable", "pocket_casts_newsletter") }
   /// Receive news, app updates, themed playlists, interviews, and more.
@@ -1662,6 +1680,11 @@ internal enum L10n {
   internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))
   }
+  /// Recurring payments will begin after your
+  /// %1$@ free trial
+  internal static func pricingTermsAfterTrialLong(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1))
+  }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
   /// Help support Pocket Casts by upgrading your account
@@ -1694,6 +1717,10 @@ internal enum L10n {
   internal static var profileStarredNoEpisodesDesc: String { return L10n.tr("Localizable", "profile_starred_no_episodes_desc") }
   /// Nothing Starred
   internal static var profileStarredNoEpisodesTitle: String { return L10n.tr("Localizable", "profile_starred_no_episodes_title") }
+  /// By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
+  internal static func purchaseTerms(_ p1: Any, _ p2: Any, _ p3: Any, _ p4: Any) -> String {
+    return L10n.tr("Localizable", "purchase_terms", String(describing: p1), String(describing: p2), String(describing: p3), String(describing: p4))
+  }
   /// Clear %1$@ Episodes
   internal static func queueClearEpisodeQueuePlural(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_clear_episode_queue_plural", String(describing: p1))
