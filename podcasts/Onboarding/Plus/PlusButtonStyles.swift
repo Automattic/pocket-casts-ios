@@ -70,11 +70,15 @@ private extension View {
     }
 }
 
-private extension Color {
-    static let unselectedColor = Color.white
-    static let filledTextColor = Color.black
+extension Color {
     static let plusGradient = LinearGradient(stops: [
         Gradient.Stop(color: .plusGradientColor1, location: 0.0822),
         Gradient.Stop(color: .plusGradientColor2, location: 0.9209)
     ], startPoint: .topLeading, endPoint: .topTrailing)
+
+    static let plusGradientColor1 = Color(hex: "FED745")
+    static let plusGradientColor2 = Color(hex: "FEB525")
+
+    static let plusButtonUnselectedColor = Color.white
+    static let plusButtonFilledTextColor = Color.black
 }
