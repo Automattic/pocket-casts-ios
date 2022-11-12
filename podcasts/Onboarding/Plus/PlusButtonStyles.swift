@@ -82,7 +82,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
     }
 }
 
-private extension View {
+extension View {
     func gradientOverlay<Content: View>(_ content: Content) -> some View {
         self.overlay(content).mask(self)
     }
