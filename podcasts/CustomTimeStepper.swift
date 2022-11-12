@@ -51,12 +51,14 @@ class CustomTimeStepper: UIControl {
     }
 
     private func setup() {
+        isAccessibilityElement = true
+        accessibilityTraits = [.adjustable]
+
         minusButton.setImage(UIImage(named: "player_effects_less"), for: .normal)
         minusButton.addTarget(self, action: #selector(lessTouchUp), for: .touchUpInside)
         minusButton.addTarget(self, action: #selector(touchCancelled), for: .touchCancel)
         minusButton.addTarget(self, action: #selector(touchCancelled), for: .touchUpOutside)
         minusButton.addTarget(self, action: #selector(lessTouchDown), for: .touchDown)
-        minusButton.accessibilityLabel = L10n.playerDecrementTime
         addSubview(minusButton)
 
         minusButton.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +74,6 @@ class CustomTimeStepper: UIControl {
         plusButton.addTarget(self, action: #selector(touchCancelled), for: .touchCancel)
         plusButton.addTarget(self, action: #selector(touchCancelled), for: .touchUpOutside)
         plusButton.addTarget(self, action: #selector(moreTouchDown), for: .touchDown)
-        plusButton.accessibilityLabel = L10n.playerIncrementTime
         addSubview(plusButton)
 
         plusButton.translatesAutoresizingMaskIntoConstraints = false
@@ -140,6 +141,10 @@ class CustomTimeStepper: UIControl {
     // MARK: - Button Taps
 
     @objc private func lessTouchUp() {
+        performDecrementAction()
+    }
+
+    private func performDecrementAction() {
         holdTimer?.invalidate()
         if currentValue == minimumValue { return }
 
@@ -148,6 +153,10 @@ class CustomTimeStepper: UIControl {
     }
 
     @objc private func moreTouchUp() {
+        performIncrementAction()
+    }
+
+    private func performIncrementAction() {
         holdTimer?.invalidate()
         if currentValue == maximumValue { return }
 
@@ -161,5 +170,21 @@ class CustomTimeStepper: UIControl {
 
     private func negativeIncrement() -> TimeInterval {
         currentValue <= smallIncrementThreshold ? smallIncrements : bigIncrements
+    }
+
+    // MARK: - Accessibility actions
+
+    override func accessibilityIncrement() {
+        performIncrementAction()
+        setAccessibilityValue()
+    }
+
+    override func accessibilityDecrement() {
+        performDecrementAction()
+        setAccessibilityValue()
+    }
+
+    private func setAccessibilityValue() {
+        accessibilityValue = L10n.timeShorthand(Int(currentValue))
     }
 }
