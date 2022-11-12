@@ -37,6 +37,7 @@ class PlusPurchaseCoordinator: ObservableObject {
     enum PurchaseState {
         case none
         case purchasing
+        case deferred
         case successful
         case cancelled
         case failed
@@ -72,7 +73,42 @@ extension PlusPurchaseCoordinator {
 }
 
 private extension PlusPurchaseCoordinator {
-    private static func getPricingInfo() -> PlusPricingInfo {
+    private func addPaymentObservers() {
+        let notificationCenter = NotificationCenter.default
+        let notifications = [
+            ServerNotifications.iapPurchaseCompleted,
+            ServerNotifications.iapPurchaseDeferred,
+            ServerNotifications.iapPurchaseFailed,
+            ServerNotifications.iapPurchaseCancelled
+        ]
+
+        let selector = #selector(handlePaymentNotification(notification:))
+
+        for notification in notifications {
+            notificationCenter.addObserver(self, selector: selector, name: notification, object: nil)
+        }
+    }
+
+    // MARK: - Private
+    @objc func handlePaymentNotification(notification: Notification) {
+        switch notification.name {
+        case ServerNotifications.iapPurchaseCancelled:
+            handlePurchaseCancelled(notification)
+
+        case ServerNotifications.iapPurchaseCompleted:
+            handlePurchaseCompleted(notification)
+
+        case ServerNotifications.iapPurchaseDeferred:
+            handlePurchaseDeferred(notification)
+
+        case ServerNotifications.iapPurchaseFailed:
+            handlePurchaseFailed(error: notification.userInfo?["error"] as? NSError)
+
+        default:
+            updateState(.none)
+        }
+    }
+
         let products: [Constants.IapProducts] = [.yearly, .monthly]
         var pricing: [PlusProductPricingInfo] = []
 
@@ -92,5 +128,78 @@ private extension PlusPurchaseCoordinator {
     private func updateState(_ state: PurchaseState) {
         self.state = state
         self.objectWillChange.send()
+    }
+}
+// MARK: - Purchase Notification handlers
+private extension PlusPurchaseCoordinator {
+    func handlePurchaseCompleted(_ notification: Notification) {
+        guard let purchasedProduct else {
+            updateState(.failed)
+            return
+        }
+
+        SubscriptionHelper.setSubscriptionPaid(1)
+        SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.iOS.rawValue)
+        SubscriptionHelper.setSubscriptionAutoRenewing(true)
+
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+
+        let frequency: SubscriptionFrequency
+        switch purchasedProduct {
+
+        case .yearly:
+            frequency = .yearly
+            dateComponent.year = 1
+
+        case .monthly:
+            dateComponent.month = 1
+            frequency = .monthly
+        }
+
+        SubscriptionHelper.setSubscriptionFrequency(frequency.rawValue)
+
+        if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
+            SubscriptionHelper.setSubscriptionExpiryDate(futureDate.timeIntervalSince1970)
+        }
+
+        NotificationCenter.default.post(name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        Settings.setLoginDetailsUpdated()
+        AnalyticsHelper.plusPlanPurchased()
+
+        purchaseHandler.purchaseWasSuccessful(purchasedProduct.rawValue)
+
+        handleNext()
+    }
+
+    func handlePurchaseDeferred(_ notification: Notification) {
+        updateState(.deferred)
+        handleNext()
+    }
+
+    func handlePurchaseCancelled(_ notification: Notification) {
+        defer { updateState(.cancelled) }
+        guard
+            let purchasedProduct,
+            let error = notification.userInfo?["error"] as? NSError
+        else { return }
+
+        purchaseHandler.purchaseWasCancelled(purchasedProduct.rawValue, error: error)
+    }
+
+    func handlePurchaseFailed(error: NSError?) {
+        defer { updateState(.failed) }
+
+        guard let purchasedProduct else { return }
+        purchaseHandler.purchaseFailed(purchasedProduct.rawValue, error: error ?? defaultError)
+    }
+
+    private var defaultError: NSError {
+        let userInfo = [
+            NSLocalizedDescriptionKey: "Failed to initiate purchase.",
+            NSLocalizedFailureReasonErrorKey: "Failed because the product isn't available, or the user isn't signed in"
+        ]
+
+        return NSError(domain: "com.pocketcasts.iap", code: 1, userInfo: userInfo)
     }
 }
