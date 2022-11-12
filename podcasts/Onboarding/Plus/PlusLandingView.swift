@@ -1,9 +1,7 @@
 import SwiftUI
-import PocketCastsUtils
 
 struct PlusLandingView: View {
-    // TODO: Remove this
-    var dismissAction: (() -> Void)?
+    @ObservedObject var coordinator: PlusCoordinator
 
     var body: some View {
         ZStack {
@@ -33,14 +31,15 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
-
+                            coordinator.unlockTapped()
                         }.buttonStyle(PlusGradientFilledButtonStyle())
 
                         Button("Not Now") {
-                            dismissAction?()
+                            coordinator.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
                 }.padding(ViewConfig.padding.view)
+                    .padding(.bottom)
             }
         }.enableProportionalValueScaling().ignoresSafeArea()
     }
@@ -238,6 +237,7 @@ private struct CardView: View {
 // MARK: - Preview
 struct PlusIntroView_Preview: PreviewProvider {
     static var previews: some View {
-        PlusLandingView()
+        PlusLandingView(coordinator: PlusCoordinator())
+            .setupDefaultEnvironment()
     }
 }
