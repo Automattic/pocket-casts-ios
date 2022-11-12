@@ -4,7 +4,7 @@ import SwiftUI
 class EventDelegateHostingController<Content: View>: UIHostingController<Content> where Content: View {
     let coordinator: ViewEventCoordinator
 
-    init(rootView: Content, coordinator: LoginCoordinator) {
+    init(rootView: Content, coordinator: ViewEventCoordinator) {
         self.coordinator = coordinator
         super.init(rootView: rootView)
     }
