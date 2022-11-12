@@ -109,6 +109,7 @@ private extension PlusPurchaseCoordinator {
         }
     }
 
+    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
         let products: [Constants.IapProducts] = [.yearly, .monthly]
         var pricing: [PlusProductPricingInfo] = []
 
@@ -130,6 +131,24 @@ private extension PlusPurchaseCoordinator {
         self.objectWillChange.send()
     }
 }
+
+
+private extension PlusPurchaseCoordinator {
+    private func handleNext() {
+        // Temporary: Push to the account updated controller
+        let upgradedVC = AccountUpdatedViewController()
+        upgradedVC.titleText = L10n.accountUpgraded
+        upgradedVC.detailText = L10n.accountWelcomePlus
+        upgradedVC.imageName = AppTheme.plusCreatedImageName
+        upgradedVC.hideNewsletter = false
+
+        // Hide the modal, then push
+        navigationController?.dismiss(animated: true, completion: {
+            self.navigationController?.pushViewController(upgradedVC, animated: true)
+        })
+    }
+}
+
 // MARK: - Purchase Notification handlers
 private extension PlusPurchaseCoordinator {
     func handlePurchaseCompleted(_ notification: Notification) {
