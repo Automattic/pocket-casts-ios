@@ -64,11 +64,7 @@ extension LoginCoordinator: SyncSigninDelegate {
 class NavBarStyleResetter: ViewEventCoordinator {
     var navigationController: UINavigationController? = nil
 
-    deinit {
-        print("Deinit")
-    }
     init() {
-        print("init")
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
