@@ -36,7 +36,11 @@ class CustomTimeStepper: UIControl {
     var bigIncrements: TimeInterval = 5.minutes
     var smallIncrements: TimeInterval = 1.minute
     var smallIncrementThreshold: TimeInterval = 5.minutes
-    var currentValue: TimeInterval = 1.hour
+    var currentValue: TimeInterval = 1.hour {
+        didSet {
+            accessibilityValue = L10n.timeShorthand(Int(currentValue))
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -176,15 +180,9 @@ class CustomTimeStepper: UIControl {
 
     override func accessibilityIncrement() {
         performIncrementAction()
-        setAccessibilityValue()
     }
 
     override func accessibilityDecrement() {
         performDecrementAction()
-        setAccessibilityValue()
-    }
-
-    private func setAccessibilityValue() {
-        accessibilityValue = L10n.timeShorthand(Int(currentValue))
     }
 }
