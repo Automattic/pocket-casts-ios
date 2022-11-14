@@ -1351,6 +1351,7 @@
 		C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */; };
+		C7A110FD2922932300887A90 /* OnboardingNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578A289C60C50089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2917,6 +2918,7 @@
 		C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEpisodeHelper.swift; sourceTree = "<group>"; };
 		C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinator.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
+		C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNavigationViewController.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewIfNeeded.swift; sourceTree = "<group>"; };
@@ -6049,6 +6051,7 @@
 			isa = PBXGroup;
 			children = (
 				C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */,
+				C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */,
 				C7FF770D291C2CA80082A464 /* Login */,
 				C7B3C619291AD03A00054145 /* Plus */,
 			);
@@ -7472,6 +7475,7 @@
 				40588AAC254131D1002BDCA6 /* LargeNavBarViewController.swift in Sources */,
 				BD95ED6E1BAFA571004335B0 /* CountryCell.swift in Sources */,
 				BDAA3CF321228A0D00649F81 /* ExpandCollapseButton.swift in Sources */,
+				C7A110FD2922932300887A90 /* OnboardingNavigationViewController.swift in Sources */,
 				407B9B72238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift in Sources */,
 				40422D96251AF10500C80BE4 /* BundlePodcastCell.swift in Sources */,
 				8B317BA028906A8900A26A13 /* main.swift in Sources */,
