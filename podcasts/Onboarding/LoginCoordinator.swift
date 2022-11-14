@@ -1,6 +1,7 @@
 import Foundation
+import SwiftUI
 
-class LoginCoordinator: ObservableObject {
+class LoginCoordinator {
     var navigationController: UINavigationController? = nil
 
     func loginTapped() {
@@ -37,14 +38,12 @@ extension LoginCoordinator {
         let navBarResetter = NavBarStyleResetter()
 
         let view = LoginLandingView(coordinator: coordinator)
-        let controller = EventDelegateHostingController(rootView: view.setupDefaultEnvironment(),
-                                                        coordinator: navBarResetter)
+        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
+                                                       coordinator: coordinator)
 
-        let navigationController = UINavigationController(rootViewController: controller)
+        let navigationController = OnboardingNavigationViewController(rootViewController: controller)
         coordinator.navigationController = navigationController
         navBarResetter.navigationController = navigationController
-
-        view.configure(controller: controller)
 
         return navigationController
     }

@@ -1355,6 +1355,8 @@
 		C7A110E6291EF2DF00887A90 /* PlusCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110E5291EF2DF00887A90 /* PlusCoordinator.swift */; };
 		C7A110F0291EFF7A00887A90 /* PlusPurchaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110EF291EFF7A00887A90 /* PlusPurchaseCoordinator.swift */; };
 		C7A110F2291F1EC300887A90 /* HTMLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F1291F1EC300887A90 /* HTMLTextView.swift */; };
+		C7A110FD2922932300887A90 /* OnboardingNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */; };
+		C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578A289C60C50089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2925,6 +2927,8 @@
 		C7A110E5291EF2DF00887A90 /* PlusCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCoordinator.swift; sourceTree = "<group>"; };
 		C7A110EF291EFF7A00887A90 /* PlusPurchaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseCoordinator.swift; sourceTree = "<group>"; };
 		C7A110F1291F1EC300887A90 /* HTMLTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTextView.swift; sourceTree = "<group>"; };
+		C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNavigationViewController.swift; sourceTree = "<group>"; };
+		C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingHostingController.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewIfNeeded.swift; sourceTree = "<group>"; };
@@ -6058,6 +6062,7 @@
 			isa = PBXGroup;
 			children = (
 				C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */,
+				C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */,
 				C7FF770D291C2CA80082A464 /* Login */,
 				C7B3C619291AD03A00054145 /* Plus */,
 			);
@@ -6107,6 +6112,7 @@
 			children = (
 				C7FF770B291C2C4D0082A464 /* LoginLandingView.swift */,
 				C7FF770E291C2CBA0082A464 /* LoginButtonStyles.swift */,
+				C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -7484,6 +7490,7 @@
 				40588AAC254131D1002BDCA6 /* LargeNavBarViewController.swift in Sources */,
 				BD95ED6E1BAFA571004335B0 /* CountryCell.swift in Sources */,
 				BDAA3CF321228A0D00649F81 /* ExpandCollapseButton.swift in Sources */,
+				C7A110FD2922932300887A90 /* OnboardingNavigationViewController.swift in Sources */,
 				407B9B72238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift in Sources */,
 				40422D96251AF10500C80BE4 /* BundlePodcastCell.swift in Sources */,
 				8B317BA028906A8900A26A13 /* main.swift in Sources */,
@@ -7701,6 +7708,7 @@
 				BD585C1F2047887700AC842C /* AppDelegate+UrlHandling.swift in Sources */,
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
+				C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */,
 				BD51481F1B9FE81F0029C6D9 /* StatsViewController.swift in Sources */,
 				BDA7A0A824C6C5B100ADA8AA /* GradientButton.swift in Sources */,
 				BDE6AB6F1CC49B010087D195 /* SyncSigninViewController.swift in Sources */,
