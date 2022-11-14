@@ -137,6 +137,11 @@ class StoriesModel: ObservableObject {
             self?.start()
         })
     }
+
+    func stopAndDismiss() {
+        pause()
+        NavigationManager.sharedManager.dismissPresentedViewController()
+    }
 }
 
 private extension StoriesModel {
