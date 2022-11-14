@@ -44,12 +44,11 @@ extension LoginCoordinator {
     static func make() -> UIViewController {
         let coordinator = LoginCoordinator()
         let view = LoginLandingView(coordinator: coordinator)
-        let controller = UIHostingController(rootView: view.setupDefaultEnvironment())
+        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
+                                                       coordinator: coordinator)
 
         let navigationController = OnboardingNavigationViewController(rootViewController: controller)
         coordinator.navigationController = navigationController
-
-        view.configure(controller: controller)
 
         return navigationController
     }

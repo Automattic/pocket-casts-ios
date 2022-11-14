@@ -9,15 +9,6 @@ struct LoginLandingView: View {
             LoginLandingContent(coordinator: coordinator)
         }
     }
-
-    func configure(controller: UIViewController) {
-        let imageView = ThemeableImageView(frame: .zero)
-        imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
-        imageView.accessibilityLabel = L10n.accountLogin
-        controller.navigationItem.titleView = imageView
-
-        controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
-    }
 }
 
 private struct LoginLandingContent: View {

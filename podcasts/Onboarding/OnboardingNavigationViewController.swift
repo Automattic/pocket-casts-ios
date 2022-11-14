@@ -13,23 +13,20 @@ class OnboardingNavigationViewController: UINavigationController {
     }
 
     private func updateNavigationBarStyle(animated: Bool) {
-        guard let navController = navigationController else { return }
-
         let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
+        let backIcon = UIImage(named: "nav-back")?.tintedImage(iconColor)
 
-        let navigationBar = navController.navigationBar
-        navigationBar.backIndicatorImage = UIImage(named: "nav-back")?.tintedImage(iconColor)
-        navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav-back")?.tintedImage(iconColor)
+        navigationBar.backIndicatorImage = backIcon
+        navigationBar.backIndicatorTransitionMaskImage = backIcon
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = .red
         appearance.shadowColor = nil
 
         let applyAppearance = {
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-            navigationBar.tintColor = iconColor
+            self.navigationBar.standardAppearance = appearance
+            self.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationBar.tintColor = iconColor
         }
 
         guard animated else {
@@ -37,6 +34,7 @@ class OnboardingNavigationViewController: UINavigationController {
             return
         }
 
-        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: applyAppearance)
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime,
+                       animations: applyAppearance)
     }
 }
