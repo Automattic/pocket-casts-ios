@@ -1,18 +1,48 @@
 import Foundation
+import PocketCastsServer
 import SwiftUI
 
-class PlusCoordinator {
+class PlusCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
 
-    func unlockTapped() {
-        guard let navigationController else { return }
+    @Published var isLoadingPrices = false {
+        didSet {
+            objectWillChange.send()
+        }
+    }
 
-        let controller = PlusPurchaseCoordinator.make(in: navigationController)
-        controller.presentModally(in: navigationController)
+    func unlockTapped() {
+        // If the prices haven't been loaded yet, load them and wait...
+        guard IapHelper.shared.hasLoadedProducts else {
+            listenForPrices()
+            return
+        }
+
+        handlePricesLoaded()
     }
 
     func dismissTapped() {
         navigationController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - Price updating
+private extension PlusCoordinator {
+    private func listenForPrices() {
+        isLoadingPrices = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePricesLoaded), name: ServerNotifications.iapProductsUpdated, object: nil)
+
+        IapHelper.shared.requestProductInfo()
+    }
+
+    @objc func handlePricesLoaded() {
+        isLoadingPrices = false
+
+        guard let navigationController else { return }
+
+        let controller = PlusPurchaseCoordinator.make(in: navigationController)
+        controller.presentModally(in: navigationController)
     }
 }
 

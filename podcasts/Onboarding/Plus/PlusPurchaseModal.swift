@@ -38,7 +38,7 @@ struct PlusPurchaseModal: View {
                 ForEach(pricingInfo.products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
-                        Button(product.price ?? L10n.plusUpdatingPrices) {
+                        Button(product.price) {
                             selectedOption = product.identifier
                         }
                         .disabled(coordinator.state == .failed)
@@ -62,12 +62,11 @@ struct PlusPurchaseModal: View {
 
                 PlusDivider()
 
-                let isLoading = [.purchasing, .waitingForPrices].contains(coordinator.state)
+                let isLoading = (coordinator.state == .purchasing)
                 Button(subscribeButton) {
                     guard !isLoading else { return }
                     coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading))
-                    .disabled(isLoading)
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading)).disabled(isLoading)
 
                 TermsView(text: Config.termsHTML)
             }.padding(.top, 23)
