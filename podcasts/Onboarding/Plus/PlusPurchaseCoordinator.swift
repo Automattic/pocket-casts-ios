@@ -2,14 +2,18 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseCoordinator: ObservableObject {
+class PlusPurchaseModel: ObservableObject {
     var navigationController: UINavigationController? = nil
 
     // Allow injection of the IapHelper
     let purchaseHandler: IapHelper
 
     // Keep track of our internal state, and pass this to our view
-    @Published var state: PurchaseState = .none
+    @Published var state: PurchaseState = .ready {
+        didSet {
+            objectWillChange.send()
+        }
+    }
 
     // Allow our views to get the necessary pricing information
     let pricingInfo: PlusPricingInfo
@@ -19,6 +23,7 @@ class PlusPurchaseCoordinator: ObservableObject {
     init(purchaseHandler: IapHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+
         addPaymentObservers()
     }
 
@@ -29,13 +34,13 @@ class PlusPurchaseCoordinator: ObservableObject {
             return
         }
 
-        self.purchasedProduct = product
-        updateState(.purchasing)
+        purchasedProduct = product
+        state = .purchasing
     }
 
     // Our internal state
     enum PurchaseState {
-        case none
+        case ready
         case purchasing
         case deferred
         case successful
@@ -46,8 +51,7 @@ class PlusPurchaseCoordinator: ObservableObject {
     // A simple struct to keep track of the product and pricing information the view needs
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
-        let firstFreeTrial: IapHelper.FreeTrialDetails?
-        var hasFreeTrial: Bool { firstFreeTrial != nil }
+        let hasFreeTrial: Bool
     }
 
     struct PlusProductPricingInfo: Identifiable {
@@ -59,9 +63,9 @@ class PlusPurchaseCoordinator: ObservableObject {
     }
 }
 
-extension PlusPurchaseCoordinator {
+extension PlusPurchaseModel {
     static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
-        let coordinator = PlusPurchaseCoordinator()
+        let coordinator = PlusPurchaseModel()
         coordinator.navigationController = navigationController
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
@@ -72,7 +76,7 @@ extension PlusPurchaseCoordinator {
     }
 }
 
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     private func addPaymentObservers() {
         let notificationCenter = NotificationCenter.default
         let notifications = [
@@ -105,7 +109,7 @@ private extension PlusPurchaseCoordinator {
             handlePurchaseFailed(error: notification.userInfo?["error"] as? NSError)
 
         default:
-            updateState(.none)
+            state = .ready
         }
     }
 
@@ -114,7 +118,7 @@ private extension PlusPurchaseCoordinator {
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
-            let price = purchaseHandler.getPriceWithFrequency(for: product)
+            let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let trial = purchaseHandler.localizedFreeTrialDuration(product)
 
             let info = PlusProductPricingInfo(identifier: product,
@@ -123,17 +127,12 @@ private extension PlusPurchaseCoordinator {
             pricing.append(info)
         }
 
-        return PlusPricingInfo(products: pricing, firstFreeTrial: purchaseHandler.getFirstFreeTrialDetails())
-    }
-
-    private func updateState(_ state: PurchaseState) {
-        self.state = state
-        self.objectWillChange.send()
+        let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
+        return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
     }
 }
 
-
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     private func handleNext() {
         // Temporary: Push to the account updated controller
         let upgradedVC = AccountUpdatedViewController()
@@ -150,10 +149,10 @@ private extension PlusPurchaseCoordinator {
 }
 
 // MARK: - Purchase Notification handlers
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     func handlePurchaseCompleted(_ notification: Notification) {
         guard let purchasedProduct else {
-            updateState(.failed)
+            state = .failed
             return
         }
 
@@ -192,12 +191,12 @@ private extension PlusPurchaseCoordinator {
     }
 
     func handlePurchaseDeferred(_ notification: Notification) {
-        updateState(.deferred)
+        state = .deferred
         handleNext()
     }
 
     func handlePurchaseCancelled(_ notification: Notification) {
-        defer { updateState(.cancelled) }
+        defer { state = .cancelled }
         guard
             let purchasedProduct,
             let error = notification.userInfo?["error"] as? NSError
@@ -207,7 +206,7 @@ private extension PlusPurchaseCoordinator {
     }
 
     func handlePurchaseFailed(error: NSError?) {
-        defer { updateState(.failed) }
+        defer { state = .failed }
 
         guard let purchasedProduct else { return }
         purchaseHandler.purchaseFailed(purchasedProduct.rawValue, error: error ?? defaultError)

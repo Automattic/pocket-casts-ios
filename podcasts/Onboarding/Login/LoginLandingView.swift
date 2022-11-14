@@ -2,27 +2,18 @@ import SwiftUI
 
 struct LoginLandingView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         ProportionalValueFrameCalculator {
             LoginLandingContent(coordinator: coordinator)
         }
     }
-
-    func configure(controller: UIViewController) {
-        let imageView = ThemeableImageView(frame: .zero)
-        imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
-        imageView.accessibilityLabel = L10n.accountLogin
-        controller.navigationItem.titleView = imageView
-
-        controller.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
-    }
 }
 
 private struct LoginLandingContent: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
     @ProportionalValue(with: .height) var calculatedHeight: Double
 
     init(coordinator: LoginCoordinator) {
@@ -210,7 +201,7 @@ private struct LoginPodcastCover: View {
 
 private struct LoginButtons: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         VStack(spacing: 16) {
@@ -218,18 +209,22 @@ private struct LoginButtons: View {
 
             Button("Sign Up") {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle())
+            }.buttonStyle(RoundedButtonStyle(theme: theme))
 
             Button("Login") {
                 coordinator.loginTapped()
-            }.buttonStyle(SimpleTextButtonStyle())
+            }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+
+            Action {
+                print(theme.activeTheme)
+            }
         }
     }
 }
 
 private struct SocialLoginButtons: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         if !FeatureFlag.signInWithApple {

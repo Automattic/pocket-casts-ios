@@ -26,18 +26,12 @@ struct Action: View {
     }
 
     private let action: () -> Void
-    @State private var didPerform: Bool? = nil
 
     var body: some View {
-        // If we performed the action already, remove the "caller" view from the stack
-        // and just return a group
-        if didPerform != nil {
-            Group { }
-        } else {
-            // If the action hasn't been performed yet, we'll create an empty view and listen for the onAppear
-            NoView().onAppear() {
+        // If the action hasn't been performed yet, we'll create an empty view and listen for the onAppear
+        NoView().onAppear() {
+            DispatchQueue.main.async {
                 action()
-                didPerform = true
             }
         }
     }
