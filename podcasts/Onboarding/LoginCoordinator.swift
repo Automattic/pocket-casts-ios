@@ -4,10 +4,6 @@ import SwiftUI
 class LoginCoordinator {
     var navigationController: UINavigationController? = nil
 
-    init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
-    }
-
     func loginTapped() {
         let controller = SyncSigninViewController()
         navigationController?.pushViewController(controller, animated: true)
@@ -20,10 +16,6 @@ class LoginCoordinator {
 
     @objc func dismissTapped() {
         navigationController?.dismiss(animated: true)
-    }
-
-    @objc func themeDidChange() {
-        updateNavigationBarStyle(animated: false)
     }
 }
 
@@ -59,46 +51,5 @@ extension LoginCoordinator {
 extension LoginCoordinator: SyncSigninDelegate {
     func signingProcessCompleted() {
         print("Handle the next step")
-    }
-}
-
-// MARK: - ViewEventCoordinator
-
-// Listen for view controller events, so we can override the navbar style
-extension LoginCoordinator: ViewEventCoordinator {
-    func viewDidLoad() {
-        updateNavigationBarStyle(animated: false)
-    }
-
-    func viewWillAppear(_ animated: Bool) {
-        updateNavigationBarStyle(animated: true)
-    }
-
-    private func updateNavigationBarStyle(animated: Bool) {
-        guard let navController = navigationController else { return }
-
-        let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
-
-        let navigationBar = navController.navigationBar
-        navigationBar.backIndicatorImage = UIImage(named: "nav-back")?.tintedImage(iconColor)
-        navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav-back")?.tintedImage(iconColor)
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-
-        appearance.shadowColor = nil
-
-        let applyAppearance = {
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-            navigationBar.tintColor = iconColor
-        }
-
-        guard animated else {
-            applyAppearance()
-            return
-        }
-
-        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: applyAppearance)
     }
 }

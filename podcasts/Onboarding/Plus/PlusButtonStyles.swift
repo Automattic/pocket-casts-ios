@@ -1,6 +1,12 @@
 import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
+    let isLoading: Bool
+
+    init(isLoading: Bool = false) {
+        self.isLoading = isLoading
+    }
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .applyButtonFont()
@@ -8,11 +14,23 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
             .padding()
 
             .background(Color.plusGradient)
-            .foregroundColor(Color.filledTextColor)
+            .foregroundColor(Color.plusButtonFilledTextColor)
 
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .overlay(
+                ZStack {
+                    if isLoading {
+                        Rectangle()
+                            .overlay(Color.plusGradient)
+                            .cornerRadius(ViewConstants.buttonCornerRadius)
+
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.plusButtonFilledTextColor))
+                    }
+                }
+            )
     }
 }
 
@@ -32,7 +50,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
             .padding()
 
             // Overlay the gradient, or just set the color if not selected
-            .foregroundColor(isSelected ? nil : Color.unselectedColor)
+            .foregroundColor(isSelected ? Color.plusGradientColor1 : Color.plusButtonUnselectedColor)
             .gradientOverlay(isSelected ? Color.plusGradient : nil)
 
             // Stroke Overlay + Image if needed
@@ -49,14 +67,14 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
                         RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusGradient, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
-                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.unselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusButtonUnselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
                 }
             )
 
             // Fade out the button if needed
             .opacity(isSelected ? 1 : 0.4)
-            .animation(.linear(duration: 0.14), value: isSelected)
+            .animation(.easeIn(duration: 0.14), value: isSelected)
 
             // Make the button interactable
             .applyButtonEffect(isPressed: configuration.isPressed)
@@ -70,9 +88,15 @@ private extension View {
     }
 }
 
-private extension Color {
-    static let plusGradient = LinearGradient(gradient: Gradient(colors: [Color(hex: "FED745"), Color(hex: "FEB525")]),
-                                             startPoint: .topLeading, endPoint: .bottomTrailing)
-    static let unselectedColor = Color.white
-    static let filledTextColor = Color.black
+extension Color {
+    static let plusGradient = LinearGradient(stops: [
+        Gradient.Stop(color: .plusGradientColor1, location: 0.0822),
+        Gradient.Stop(color: .plusGradientColor2, location: 0.9209)
+    ], startPoint: .topLeading, endPoint: .topTrailing)
+
+    static let plusGradientColor1 = Color(hex: "FED745")
+    static let plusGradientColor2 = Color(hex: "FEB525")
+
+    static let plusButtonUnselectedColor = Color.white
+    static let plusButtonFilledTextColor = Color.black
 }
