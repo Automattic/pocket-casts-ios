@@ -9,16 +9,22 @@ class PlusPurchaseCoordinator: ObservableObject {
     let purchaseHandler: IapHelper
 
     // Keep track of our internal state, and pass this to our view
-    @Published var state: PurchaseState = .none
+    @Published var state: PurchaseState = .ready
 
     // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
+    @Published var pricingInfo: PlusPricingInfo
 
     private var purchasedProduct: Constants.IapProducts?
 
     init(purchaseHandler: IapHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+
+        // If we don't have all the prices, then put us in the waiting state
+        if self.pricingInfo.products.filter({ $0.price == nil }).count > 0 {
+            self.state = .waitingForPrices
+        }
+
         addPaymentObservers()
     }
 
@@ -35,7 +41,8 @@ class PlusPurchaseCoordinator: ObservableObject {
 
     // Our internal state
     enum PurchaseState {
-        case none
+        case ready
+        case waitingForPrices
         case purchasing
         case deferred
         case successful
@@ -52,7 +59,7 @@ class PlusPurchaseCoordinator: ObservableObject {
 
     struct PlusProductPricingInfo: Identifiable {
         let identifier: Constants.IapProducts
-        let price: String
+        let price: String?
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }
@@ -76,6 +83,7 @@ private extension PlusPurchaseCoordinator {
     private func addPaymentObservers() {
         let notificationCenter = NotificationCenter.default
         let notifications = [
+            ServerNotifications.iapProductsUpdated,
             ServerNotifications.iapPurchaseCompleted,
             ServerNotifications.iapPurchaseDeferred,
             ServerNotifications.iapPurchaseFailed,
@@ -92,6 +100,8 @@ private extension PlusPurchaseCoordinator {
     // MARK: - Private
     @objc func handlePaymentNotification(notification: Notification) {
         switch notification.name {
+        case ServerNotifications.iapProductsUpdated:
+            handleProductsUpdated()
         case ServerNotifications.iapPurchaseCancelled:
             handlePurchaseCancelled(notification)
 
@@ -105,7 +115,7 @@ private extension PlusPurchaseCoordinator {
             handlePurchaseFailed(error: notification.userInfo?["error"] as? NSError)
 
         default:
-            updateState(.none)
+            updateState(.ready)
         }
     }
 
@@ -132,7 +142,6 @@ private extension PlusPurchaseCoordinator {
     }
 }
 
-
 private extension PlusPurchaseCoordinator {
     private func handleNext() {
         // Temporary: Push to the account updated controller
@@ -151,6 +160,14 @@ private extension PlusPurchaseCoordinator {
 
 // MARK: - Purchase Notification handlers
 private extension PlusPurchaseCoordinator {
+    func handleProductsUpdated() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            self.updateState(.ready)
+            self.objectWillChange.send()
+        }
+    }
+
     func handlePurchaseCompleted(_ notification: Notification) {
         guard let purchasedProduct else {
             updateState(.failed)

@@ -6,12 +6,13 @@ struct PlusPurchaseModal: View {
     @ObservedObject var coordinator: PlusPurchaseCoordinator
 
     @State var selectedOption: Constants.IapProducts
-    let pricingInfo: PlusPurchaseCoordinator.PlusPricingInfo
+    var pricingInfo: PlusPurchaseCoordinator.PlusPricingInfo {
+        coordinator.pricingInfo
+    }
 
     init(coordinator: PlusPurchaseCoordinator) {
         self.coordinator = coordinator
-        self.pricingInfo = coordinator.pricingInfo
-        self.selectedOption = pricingInfo.products.first?.identifier ?? .yearly
+        self.selectedOption = coordinator.pricingInfo.products.first?.identifier ?? .yearly
     }
 
     var body: some View {
@@ -28,8 +29,7 @@ struct PlusPurchaseModal: View {
                     .padding([.top, .bottom], 4)
                     .padding([.leading, .trailing], 13)
                     .background(
-                        Color.plusGradient
-                            .cornerRadius(4)
+                        Color.plusGradient.cornerRadius(4)
                     )
                     .foregroundColor(Color.plusButtonFilledTextColor)
             }
@@ -38,7 +38,7 @@ struct PlusPurchaseModal: View {
                 ForEach(pricingInfo.products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
-                        Button(product.price) {
+                        Button(product.price ?? L10n.plusUpdatingPrices) {
                             selectedOption = product.identifier
                         }
                         .disabled(coordinator.state == .failed)
@@ -62,9 +62,12 @@ struct PlusPurchaseModal: View {
 
                 PlusDivider()
 
+                let isLoading = [.purchasing, .waitingForPrices].contains(coordinator.state)
                 Button(subscribeButton) {
+                    guard !isLoading else { return }
                     coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.state == .purchasing))
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading))
+                    .disabled(isLoading)
 
                 TermsView(text: Config.termsHTML)
             }.padding(.top, 23)

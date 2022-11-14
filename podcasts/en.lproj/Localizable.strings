@@ -3291,6 +3291,9 @@
 /* Payment failed error message */
 "plus_purchase_failed" = "It looks like there was a problem processing your payment. Please try again.";
 
+/* Message that appears when the prices haven't loaded yet */
+"plus_updating_prices" = "Updating prices...";
+
 /* The title of the purchase promo */
 "plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
 

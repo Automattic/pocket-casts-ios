@@ -1455,6 +1455,8 @@ internal enum L10n {
   internal static var plusSubscriptionWeb: String { return L10n.tr("Localizable", "plus_subscription_web") }
   /// To cancel your subscription, you’ll need to cancel via Pocketcasts.com.
   internal static var plusSubscriptionWebDetails: String { return L10n.tr("Localizable", "plus_subscription_web_details") }
+  /// Updating prices...
+  internal static var plusUpdatingPrices: String { return L10n.tr("Localizable", "plus_updating_prices") }
   /// %1$@ per year
   internal static func plusYearlyFrequencyPricingFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_yearly_frequency_pricing_format", String(describing: p1))

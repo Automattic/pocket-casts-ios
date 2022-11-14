@@ -77,8 +77,11 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return ""
     }
 
-    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String {
+    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String? {
         let price = getPriceForIdentifier(identifier: identifier.rawValue)
+        guard !price.isEmpty else {
+            return nil
+        }
 
         switch identifier {
         case .yearly:
