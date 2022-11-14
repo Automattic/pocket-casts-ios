@@ -3389,3 +3389,12 @@
 
 /* When loading the End of Year stats stories fails. */
 "eoy_stories_failed" = "Failed to load stories.";
+
+"welcome_plus_title" = "Thank you, now let’s get you listening!";
+"welcome_new_account_title" = "Welcome, now let’s get you listening!";
+"welcome_import_title" = "Import your podcasts";
+"welcome_import_description" = "Coming from another app? Bring your podcasts with you.";
+"welcome_import_button" = "Import Podcasts";
+"welcome_discover_title" = "Discover something new";
+"welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
+"welcome_discover_button" = "Find My Next Podcast";

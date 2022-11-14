@@ -2549,6 +2549,22 @@ internal enum L10n {
   internal static var watchUpNextNoItemsSubtitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_subtitle") }
   /// Nothing in Up Next
   internal static var watchUpNextNoItemsTitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_title") }
+  /// Find My Next Podcast
+  internal static var welcomeDiscoverButton: String { return L10n.tr("Localizable", "welcome_discover_button") }
+  /// Find under-the-radar and trending podcasts in our hand-curated Discover page.
+  internal static var welcomeDiscoverDescription: String { return L10n.tr("Localizable", "welcome_discover_description") }
+  /// Discover something new
+  internal static var welcomeDiscoverTitle: String { return L10n.tr("Localizable", "welcome_discover_title") }
+  /// Import Podcasts
+  internal static var welcomeImportButton: String { return L10n.tr("Localizable", "welcome_import_button") }
+  /// Coming from another app? Bring your podcasts with you.
+  internal static var welcomeImportDescription: String { return L10n.tr("Localizable", "welcome_import_description") }
+  /// Import your podcasts
+  internal static var welcomeImportTitle: String { return L10n.tr("Localizable", "welcome_import_title") }
+  /// Welcome, now let’s get you listening!
+  internal static var welcomeNewAccountTitle: String { return L10n.tr("Localizable", "welcome_new_account_title") }
+  /// Thank you, now let’s get you listening!
+  internal static var welcomePlusTitle: String { return L10n.tr("Localizable", "welcome_plus_title") }
   /// What's New
   internal static var whatsNew: String { return L10n.tr("Localizable", "whats_new") }
   /// Read more about this update on our blog
