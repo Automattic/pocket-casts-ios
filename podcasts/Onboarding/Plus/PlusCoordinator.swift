@@ -12,13 +12,21 @@ class PlusCoordinator: ObservableObject {
     }
 
     func unlockTapped() {
-        // If the prices haven't been loaded yet, load them and wait...
-        guard IapHelper.shared.hasLoadedProducts else {
-            listenForPrices()
-            return
-        }
+        guard let navigationController else { return }
 
-        handlePricesLoaded()
+        // Temporary, push to the welcome view
+        let coordinator = WelcomeCoordinator(navigationController: navigationController, displayType: .plus)
+        let view = WelcomeView(coordinator: coordinator).setupDefaultEnvironment()
+        let controller = WelcomeHostingViewController(rootView: view)
+        navigationController.pushViewController(controller, animated: true)
+
+//        // If the prices haven't been loaded yet, load them and wait...
+//        guard IapHelper.shared.hasLoadedProducts else {
+//            listenForPrices()
+//            return
+//        }
+//
+//        handlePricesLoaded()
     }
 
     func dismissTapped() {
