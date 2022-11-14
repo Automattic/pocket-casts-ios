@@ -1,17 +1,28 @@
 import Foundation
 
-struct WelcomeCoordinator {
-    var navigationController: UINavigationController? = nil
-
+class WelcomeCoordinator {
+    let navigationController: UINavigationController
     let displayType: DisplayType
     let sections: [WelcomeSection] = [.importPodcasts, .discover]
 
+    init(navigationController: UINavigationController, displayType: DisplayType) {
+        self.navigationController = navigationController
+        self.displayType = displayType
+    }
+
     func sectionTapped(_ section: WelcomeSection) {
-        print(section)
+        switch section {
+        case .importPodcasts:
+            print("TODO: Future Task")
+
+        case .discover:
+            navigationController.dismiss(animated: true)
+            NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+        }
     }
 
     func doneTapped() {
-
+        navigationController.dismiss(animated: true)
     }
 
     // MARK: - Configuration
