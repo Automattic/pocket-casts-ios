@@ -164,11 +164,11 @@ private struct Label: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: 31, style: .title, weight: .bold)
+                return content.font(size: 31, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .sectionTitle:
-                return content.font(size: 18, style: .body, weight: .semibold)
+                return content.font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             case .sectionDescription:
-                return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraExtraLarge)
             }
         }
     }
@@ -225,7 +225,7 @@ private struct WelcomeSectionView: View {
                 action()
             }
             .foregroundColor(AppTheme.color(for: .sectionButtonTitle, theme: theme))
-            .font(size: 15, style: .callout, weight: .medium)
+            .font(size: 15, style: .callout, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
             .padding([.top, .bottom], Config.padding.sectionButtonVertical)
             .padding([.leading, .trailing], Config.padding.horizontal)
     }
