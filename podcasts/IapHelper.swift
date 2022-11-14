@@ -44,6 +44,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return nil
     }
 
+    /// Whether the products have been loaded from StoreKit
+    var hasLoadedProducts: Bool { productsArray.count > 0 }
+
     public func getPriceForIdentifier(identifier: String) -> String {
         guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
 
@@ -77,8 +80,11 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return ""
     }
 
-    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String {
+    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String? {
         let price = getPriceForIdentifier(identifier: identifier.rawValue)
+        guard !price.isEmpty else {
+            return nil
+        }
 
         switch identifier {
         case .yearly:

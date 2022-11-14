@@ -79,6 +79,15 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Present a SwiftUI us a bottom sheet in the given VC
+    static func present(_ content: ContentView, in viewController: UIViewController) {
+        let wrapperController = MDCSwiftUIWrapper(rootView: content)
+        wrapperController.presentModally(in: viewController)
+    }
+}
+
+
+extension UIViewController {
     func presentModally(in viewController: UIViewController) {
         let bottomSheet = MDCBottomSheetController(contentViewController: self)
 
@@ -90,11 +99,5 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
 
         viewController.present(bottomSheet, animated: true, completion: nil)
-    }
-
-    /// Present a SwiftUI us a bottom sheet in the given VC
-    static func present(_ content: ContentView, in viewController: UIViewController) {
-        let wrapperController = MDCSwiftUIWrapper(rootView: content)
-        wrapperController.presentModally(in: viewController)
     }
 }

@@ -3,15 +3,21 @@ import PocketCastsServer
 
 struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: PlusPurchaseCoordinator
+    @ObservedObject var coordinator: PlusPurchaseModel
 
     @State var selectedOption: Constants.IapProducts
-    let pricingInfo: PlusPurchaseCoordinator.PlusPricingInfo
+    @State var freeTrialDuration: String?
 
-    init(coordinator: PlusPurchaseCoordinator) {
+    var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
+        coordinator.pricingInfo
+    }
+
+    init(coordinator: PlusPurchaseModel) {
         self.coordinator = coordinator
-        self.pricingInfo = coordinator.pricingInfo
-        self.selectedOption = pricingInfo.products.first?.identifier ?? .yearly
+        let firstProduct = coordinator.pricingInfo.products.first
+
+        _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
+        _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
     }
 
     var body: some View {
@@ -23,13 +29,12 @@ struct PlusPurchaseModal: View {
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
-            if let freeTrial = pricingInfo.firstFreeTrial {
-                Label(L10n.freeTrialDurationFreeTrial(freeTrial.duration.localizedUppercase), for: .freeTrialDuration)
+            if let freeTrialDuration {
+                Label(L10n.freeTrialDurationFreeTrial(freeTrialDuration.localizedUppercase), for: .freeTrialDuration)
                     .padding([.top, .bottom], 4)
                     .padding([.leading, .trailing], 13)
                     .background(
-                        Color.plusGradient
-                            .cornerRadius(4)
+                        Color.plusGradient.cornerRadius(4)
                     )
                     .foregroundColor(Color.plusButtonFilledTextColor)
             }
@@ -40,6 +45,7 @@ struct PlusPurchaseModal: View {
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         Button(product.price) {
                             selectedOption = product.identifier
+                            freeTrialDuration = product.freeTrialDuration
                         }
                         .disabled(coordinator.state == .failed)
                         .buttonStyle(PlusGradientStrokeButton(isSelectable: true, isSelected: selectedOption == product.identifier))
@@ -47,8 +53,8 @@ struct PlusPurchaseModal: View {
                 }
 
                 // Show how long the free trial is if there is one
-                if let freeTrial = pricingInfo.firstFreeTrial {
-                    Label(L10n.pricingTermsAfterTrialLong(freeTrial.duration), for: .freeTrialTerms)
+                if let freeTrialDuration {
+                    Label(L10n.pricingTermsAfterTrialLong(freeTrialDuration), for: .freeTrialTerms)
                         .foregroundColor(Color.textColor)
                         .lineSpacing(1.2)
                 }
@@ -62,9 +68,11 @@ struct PlusPurchaseModal: View {
 
                 PlusDivider()
 
+                let isLoading = (coordinator.state == .purchasing)
                 Button(subscribeButton) {
+                    guard !isLoading else { return }
                     coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.state == .purchasing))
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading)).disabled(isLoading)
 
                 TermsView(text: Config.termsHTML)
             }.padding(.top, 23)
@@ -168,7 +176,7 @@ private struct Label: View {
 // MARK: - Preview
 struct PlusPurchaseOptions_Previews: PreviewProvider {
     static var previews: some View {
-        PlusPurchaseModal(coordinator: PlusPurchaseCoordinator())
+        PlusPurchaseModal(coordinator: PlusPurchaseModel())
             .setupDefaultEnvironment()
     }
 }

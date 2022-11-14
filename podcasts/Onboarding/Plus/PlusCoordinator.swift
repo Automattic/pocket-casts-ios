@@ -1,21 +1,43 @@
 import Foundation
+import PocketCastsServer
 import SwiftUI
 
-class PlusCoordinator {
+class PlusCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
+    @Published var isLoadingPrices = false
 
     func unlockTapped() {
-        guard let navigationController else { return }
+        // If the prices haven't been loaded yet, load them and wait...
+        guard IapHelper.shared.hasLoadedProducts else {
+            listenForPrices()
+            return
+        }
 
-
-        let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: PlusPurchaseCoordinator())
-        let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
-        controller.presentModally(in: navigationController)
+        handlePricesLoaded()
     }
 
     func dismissTapped() {
         navigationController?.dismiss(animated: true)
+    }
+}
+
+// MARK: - Price updating
+private extension PlusCoordinator {
+    private func listenForPrices() {
+        isLoadingPrices = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePricesLoaded), name: ServerNotifications.iapProductsUpdated, object: nil)
+
+        IapHelper.shared.requestProductInfo()
+    }
+
+    @objc func handlePricesLoaded() {
+        isLoadingPrices = false
+
+        guard let navigationController else { return }
+
+        let controller = PlusPurchaseModel.make(in: navigationController)
+        controller.presentModally(in: navigationController)
     }
 }
 
