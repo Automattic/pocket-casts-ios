@@ -218,11 +218,15 @@ private struct LoginButtons: View {
 
             Button("Sign Up") {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle()).environment(\.appTheme, theme)
+            }.buttonStyle(RoundedButtonStyle(theme: theme))
 
             Button("Login") {
                 coordinator.loginTapped()
-            }.buttonStyle(SimpleTextButtonStyle()).environment(\.appTheme, theme)
+            }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+
+            Action {
+                print(theme.activeTheme)
+            }
         }
     }
 }

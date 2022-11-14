@@ -141,11 +141,11 @@ struct ThemedDivider: View {
 // MARK: - Button
 
 struct RoundedButtonStyle: ButtonStyle {
-    @Environment(\.appTheme) var theme
-
+    @ObservedObject var theme: Theme
     let textColor: ThemeStyle
 
-    init(textColor: ThemeStyle = .primaryInteractive02) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02) {
+        self.theme = theme
         self.textColor = textColor
     }
 
@@ -159,6 +159,9 @@ struct RoundedButtonStyle: ButtonStyle {
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .onAppear() {
+                print("RoundedButtonStyle", theme.activeTheme)
+            }
     }
 }
 
@@ -233,11 +236,12 @@ struct NavButtonStyle: ButtonStyle {
 }
 
 struct SimpleTextButtonStyle: ButtonStyle {
-    @Environment(\.appTheme) var theme
+    @ObservedObject var theme: Theme
 
     let textColor: ThemeStyle
 
-    init(textColor: ThemeStyle = .primaryText01) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryText01) {
+        self.theme = theme
         self.textColor = textColor
     }
 
