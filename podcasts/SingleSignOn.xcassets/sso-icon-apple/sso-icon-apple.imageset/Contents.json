@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "sso-icon-apple.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,9 +1,7 @@
 import SwiftUI
-import PocketCastsUtils
 
 struct PlusLandingView: View {
-    // TODO: Remove this
-    var dismissAction: (() -> Void)?
+    @ObservedObject var coordinator: PlusCoordinator
 
     var body: some View {
         ZStack {
@@ -33,16 +31,17 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
-
-                        }.buttonStyle(PlusGradientFilledButtonStyle())
+                            coordinator.unlockTapped()
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.isLoadingPrices))
 
                         Button("Not Now") {
-                            dismissAction?()
+                            coordinator.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
                 }.padding(ViewConfig.padding.view)
+                    .padding(.bottom)
             }
-        }.enableProportionalValueScaling()
+        }.enableProportionalValueScaling().ignoresSafeArea()
     }
 
     // Static list of the feature models to display
@@ -155,11 +154,11 @@ private struct PlusLabel: View {
 }
 
 private struct PlusBackgroundGradientView: View {
-    @ProportionalValue(with: .width) var leftCircleSize = 0.936
+    @ProportionalValue(with: .width) var leftCircleSize = 0.836
     @ProportionalValue(with: .width) var leftCircleX = -0.28533333
     @ProportionalValue(with: .height) var leftCircleY = -0.10810811
 
-    @ProportionalValue(with: .width) var rightCircleSize = 0.73866667
+    @ProportionalValue(with: .width) var rightCircleSize = 0.63866667
     @ProportionalValue(with: .width) var rightCircleX = 0.54133333
     @ProportionalValue(with: .height) var rightCircleY = -0.03316953
 
@@ -173,7 +172,6 @@ private struct PlusBackgroundGradientView: View {
                     .frame(height: rightCircleSize)
                     .position(x: rightCircleX, y: rightCircleY)
                     .offset(x: rightCircleSize * 0.5, y: rightCircleSize * 0.5)
-                    .blur(radius: 162)
 
                 // Left Circle
                 Circle()
@@ -181,14 +179,13 @@ private struct PlusBackgroundGradientView: View {
                     .frame(height: leftCircleSize)
                     .position(x: leftCircleX, y: leftCircleY)
                     .offset(x: leftCircleSize * 0.5, y: leftCircleSize * 0.5)
-                    .blur(radius: 146)
-            }.blur(radius: 32)
+            }.blur(radius: 100)
 
             // Overlay view
             Rectangle()
                 .foregroundColor(.backgroundColor)
                 .opacity(0.28)
-        }.ignoresSafeArea()
+        }.ignoresSafeArea().clipped()
     }
 }
 
@@ -238,6 +235,7 @@ private struct CardView: View {
 // MARK: - Preview
 struct PlusIntroView_Preview: PreviewProvider {
     static var previews: some View {
-        PlusLandingView()
+        PlusLandingView(coordinator: PlusCoordinator())
+            .setupDefaultEnvironment()
     }
 }

@@ -46,6 +46,35 @@ struct PodcastCover: View {
     }
 }
 
+/// Applies the podcast cover style to a static image
+struct PodcastCoverImage: View {
+    let big: Bool
+    let imageName: String
+
+    init(imageName: String, big: Bool = false) {
+        self.big = big
+        self.imageName = imageName
+    }
+
+    var body: some View {
+        ZStack {
+            Group {
+                if big {
+                    Rectangle()
+                        .modifier(BigCoverShadow())
+                } else {
+                    Rectangle()
+                        .modifier(NormalCoverShadow())
+                }
+            }
+
+            Image(imageName)
+                .resizable()
+                .cornerRadius(big ? 8 : 4)
+        }
+    }
+}
+
 /// Apply shadow and radius to podcast cover
 struct NormalCoverShadow: ViewModifier {
     func body(content: Content) -> some View {

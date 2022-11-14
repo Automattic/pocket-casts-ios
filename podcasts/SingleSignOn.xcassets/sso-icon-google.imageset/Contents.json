@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "sso-icon-google.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
