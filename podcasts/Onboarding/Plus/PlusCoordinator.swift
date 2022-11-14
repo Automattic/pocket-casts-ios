@@ -4,12 +4,7 @@ import SwiftUI
 
 class PlusCoordinator: ObservableObject {
     var navigationController: UINavigationController? = nil
-
-    @Published var isLoadingPrices = false {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var isLoadingPrices = false
 
     func unlockTapped() {
         guard let navigationController else { return }
