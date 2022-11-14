@@ -44,9 +44,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return nil
     }
 
-    var hasLoadedProducts: Bool {
-        return productsArray.count != 0
-    }
+    /// Whether the products have been loaded from StoreKit
+    var hasLoadedProducts: Bool { productsArray.count > 0 }
 
     public func getPriceForIdentifier(identifier: String) -> String {
         guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
