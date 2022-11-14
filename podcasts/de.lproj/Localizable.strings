@@ -109,6 +109,8 @@
 Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumelden.</string>
     <key>account_signed_out_alert_title</key>
     <string>Du wurdest abgemeldet.</string>
+    <key>account_sso_failed</key>
+    <string>Die Anmeldung mit Apple ist fehlgeschlagen. Bitte versuche es erneut.</string>
     <key>account_title</key>
     <string>Pocket Casts-Konto</string>
     <key>account_upgraded</key>
@@ -399,6 +401,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Empfohlen</string>
     <key>discover_featured_episode</key>
     <string>EMPFOHLENE FOLGE</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>Empfohlener Podcast oder empfohlene Folge nicht gefunden Stelle sicher, dass du mit dem Internet verbunden bist, und versuche es erneut.</string>
     <key>discover_fresh_pick</key>
     <string>BRANDNEU</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +561,50 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Alle Downloads anhalten</string>
     <key>edit</key>
     <string>Bearbeiten</string>
+    <key>eoy_card_description</key>
+    <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an.</string>
+    <key>eoy_create_account_to_see</key>
+    <string>Speichere deine Podcasts in der Cloud, erhalte deinen Rückblick zum Jahresende und synchronisiere deinen Fortschritt mit anderen Geräten.</string>
+    <key>eoy_description</key>
+    <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an. Teile sie mit Freunden und danke deinen bevorzugten Erstellern!</string>
+    <key>eoy_not_now</key>
+    <string>Nicht jetzt</string>
+    <key>eoy_small_title</key>
+    <string>Das Jahr in Podcasts</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>Vergiss nicht, sie mit deinen Freunden zu teilen und deine bevorzugten Podcast-Ersteller dankend zu erwähnen</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Danke, dass Pocket Casts zu deinem Audioerlebnis 2022 gehört</string>
+    <key>eoy_story_intro_title</key>
+    <string>Feiern wir dein Audio-Jahr …</string>
+    <key>eoy_story_listened_to</key>
+    <string>2022 hast du %1$@ mit dem Anhören von Podcasts verbracht</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>Du hast dir in diesem Jahr %1$@ unterschiedliche Kategorien angehört </string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>Sehen wir uns einige deiner Favoriten an …</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>Du hast dir %1$@ unterschiedliche Podcasts und %2$@ Folgen angehört</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>Aber es gab einen, der dir besonders gut gefallen hat …</string>
+    <key>eoy_story_longest_episode</key>
+    <string>Die längste von dir angehörte Folge war %1$@ aus dem Podcast %2$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>Diese Folge dauerte %1$@ </string>
+    <key>eoy_story_replay</key>
+    <string>Erneut abspielen</string>
+    <key>eoy_story_top_categories</key>
+    <string>Deine Top-Kategorien</string>
+    <key>eoy_story_top_podcast</key>
+    <string>Dein Top-Podcast war %1$@ von %2$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>Deine Top-Podcasts</string>
+    <key>eoy_title</key>
+    <string>Dein Jahr in Podcasts</string>
+    <key>eoy_view_year</key>
+    <string>Mein Jahr 2022 anzeigen</string>
     <key>episode</key>
     <string>Folge</string>
     <key>episode_count_plural_format</key>

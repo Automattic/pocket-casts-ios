@@ -109,6 +109,8 @@
 Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</string>
     <key>account_signed_out_alert_title</key>
     <string>Du har blivit utloggad.</string>
+    <key>account_sso_failed</key>
+    <string>Inloggning med Apple misslyckades. Försök igen.</string>
     <key>account_title</key>
     <string>Pocket Casts-konto</string>
     <key>account_upgraded</key>
@@ -399,6 +401,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Utvalt</string>
     <key>discover_featured_episode</key>
     <string>UTVALT AVSNITT</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>Den utvalda podcasten/det utvalda avsnittet hittades inte. Se till att du är ansluten till internet och försök igen.</string>
     <key>discover_fresh_pick</key>
     <string>UTVALD</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +561,50 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Stoppa alla nedladdningar</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>eoy_card_description</key>
+    <string>Se dina favoritpodcasts och -kategorier, lyssningsstatistik med mera.</string>
+    <key>eoy_create_account_to_see</key>
+    <string>Spara dina podcasts i molnet, få din årsslutsöversikt och synkronisera ditt lyssningsförlopp med andra enheter.</string>
+    <key>eoy_description</key>
+    <string>Se dina favoritpodcasts och -kategorier, lyssningsstatistik med mera. Dela med vänner och berätta om dina favoritkreatörer.</string>
+    <key>eoy_not_now</key>
+    <string>Inte nu</string>
+    <key>eoy_small_title</key>
+    <string>Podcastår</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>Glöm inte att dela med dina vänner och att berätta om dina favoritpodcastkreatörer</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Tack för att du har låtit Pocket Casts vara en del av din lyssningsupplevelse under 2022</string>
+    <key>eoy_story_intro_title</key>
+    <string>Låt oss fira ditt lyssningsår ...</string>
+    <key>eoy_story_listened_to</key>
+    <string>Under 2022 lyssnade du på podcasts i %1$@</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>Du lyssnade på %1$@ olika kategorier under året</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>Låt oss titta på några av dina favoriter ...</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>Du lyssnade på %1$@ olika podcasts och %2$@ avsnitt</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>Men det fanns ett avsnitt som du fortsatte att komma tillbaka till ...</string>
+    <key>eoy_story_longest_episode</key>
+    <string>Det längsta avsnittet du lyssnade på var %1$@ från podcasten %2$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>Avsnittet var %1$@ långt</string>
+    <key>eoy_story_replay</key>
+    <string>Spela upp igen</string>
+    <key>eoy_story_top_categories</key>
+    <string>Dina favoritkategorier</string>
+    <key>eoy_story_top_podcast</key>
+    <string>Din favoritpodcast var %1$@ av %2$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>Du lyssnade på %1$@ avsnitt i sammanlagt %2$@</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>Dina favoritpodcasts</string>
+    <key>eoy_title</key>
+    <string>Ditt podcastår</string>
+    <key>eoy_view_year</key>
+    <string>Visa mitt 2022</string>
     <key>episode</key>
     <string>Avsnitt</string>
     <key>episode_count_plural_format</key>

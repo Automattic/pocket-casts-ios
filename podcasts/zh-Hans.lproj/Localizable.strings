@@ -109,6 +109,8 @@
 点击下方按钮再次登录您的 Pocket Casts 账户。</string>
     <key>account_signed_out_alert_title</key>
     <string>您已退出。</string>
+    <key>account_sso_failed</key>
+    <string>通过 Apple 登录失败。 请重试。</string>
     <key>account_title</key>
     <string>Pocket Casts 账户</string>
     <key>account_upgraded</key>
@@ -399,6 +401,8 @@
     <string>特色</string>
     <key>discover_featured_episode</key>
     <string>精选剧集</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>未找到精选播客和剧集。 请确保您已连接至互联网并重试。</string>
     <key>discover_fresh_pick</key>
     <string>新鲜精选</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +561,50 @@
     <string>停止所有下载</string>
     <key>edit</key>
     <string>编辑</string>
+    <key>eoy_card_description</key>
+    <string>查看您的热门播客、分类、收听统计数据等。</string>
+    <key>eoy_create_account_to_see</key>
+    <string>将您的博客保存到云端，获得年终回顾，并与其他设备同步您的进度。</string>
+    <key>eoy_description</key>
+    <string>查看您的热门播客、分类、收听统计数据等。 分享给朋友，告诉他们您最喜欢的创作者！</string>
+    <key>eoy_not_now</key>
+    <string>不用了</string>
+    <key>eoy_small_title</key>
+    <string>年度播客盘点</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>不要忘记分享给朋友，告诉他们您最喜欢的播客创作者</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>感谢您在 2022 年收听 Pocket Casts</string>
+    <key>eoy_story_intro_title</key>
+    <string>庆祝您的聆听之年…</string>
+    <key>eoy_story_listened_to</key>
+    <string>2022 年，您收听播客的时间为 %1$@</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>您今年收听了 %1$@ 种不同的分类</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>我们来看看您最喜欢的内容…</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>但还有一个您经常回顾的播客…</string>
+    <key>eoy_story_longest_episode</key>
+    <string>您收听的最长剧集为 %2$@ 播客的 %1$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>本剧集时长为 %1$@</string>
+    <key>eoy_story_replay</key>
+    <string>重播</string>
+    <key>eoy_story_top_categories</key>
+    <string>您的热门分类</string>
+    <key>eoy_story_top_podcast</key>
+    <string>您的热门播客为 %2$@ 的 %1$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>您收听了 %1$@ 部剧集，总共有 %2$@ 部剧集</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>您的热门播客</string>
+    <key>eoy_title</key>
+    <string>您的年度播客盘点</string>
+    <key>eoy_view_year</key>
+    <string>查看我的 2022 年度盘点</string>
     <key>episode</key>
     <string>剧集</string>
     <key>episode_count_plural_format</key>

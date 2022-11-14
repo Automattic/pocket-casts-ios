@@ -109,6 +109,8 @@
 Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.</string>
     <key>account_signed_out_alert_title</key>
     <string>Je bent uitgelogd.</string>
+    <key>account_sso_failed</key>
+    <string>Aanmelden met Apple mislukt. Probeer het nog eens.</string>
     <key>account_title</key>
     <string>Pocket Casts-account</string>
     <key>account_upgraded</key>
@@ -399,6 +401,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Uitgelicht</string>
     <key>discover_featured_episode</key>
     <string>UITGELICHTE AFLEVERING</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>Aanbevolen podcast of aflevering niet gevonden. Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
     <key>discover_fresh_pick</key>
     <string>VERSE SELECTIE</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +561,50 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alle downloads stoppen</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>eoy_card_description</key>
+    <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer.</string>
+    <key>eoy_create_account_to_see</key>
+    <string>Sla je podcasts op in de cloud, krijg je beoordeling aan het einde van het jaar en synchroniseer je voortgang met andere apparaten.</string>
+    <key>eoy_description</key>
+    <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer. Deel met vrienden en geef een shoutout naar je favoriete makers!</string>
+    <key>eoy_not_now</key>
+    <string>Niet nu</string>
+    <key>eoy_small_title</key>
+    <string>Jaar in podcasts</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>Vergeet niet om te delen met je vrienden en een shoutout te geven naar je favoriete podcastmakers</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Bedankt dat je Pocket Casts onderdeel maakt van je luisterervaring in 2022</string>
+    <key>eoy_story_intro_title</key>
+    <string>Laten we je luisterjaar vieren...</string>
+    <key>eoy_story_listened_to</key>
+    <string>In 2022 heb je %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>Je hebt dit jaar naar %1$@ verschillende categorieën geluisterd</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>Laten we eens kijken naar je favorieten...</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
+    <key>eoy_story_longest_episode</key>
+    <string>De langste aflevering die je hebt geluisterd was %1$@ van de podcast %2$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>Deze aflevering duurde %1$@</string>
+    <key>eoy_story_replay</key>
+    <string>Herhalen</string>
+    <key>eoy_story_top_categories</key>
+    <string>Je beste categorieën</string>
+    <key>eoy_story_top_podcast</key>
+    <string>Je beste podcast was %1$@ van %2$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>Je beste podcasts</string>
+    <key>eoy_title</key>
+    <string>Jouw jaar in podcasts</string>
+    <key>eoy_view_year</key>
+    <string>Mijn 2022 bekijken</string>
     <key>episode</key>
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>

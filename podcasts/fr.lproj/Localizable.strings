@@ -588,7 +588,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Vous avez écouté plusieurs fois un même podcast…</string>
     <key>eoy_story_longest_episode</key>
-    <string>L’épisode le plus long que vous avez écouté était de %1$@ du podcast %2$@.</string>
+    <string>L’épisode le plus long que vous avez écouté était de %1$@ extrait du podcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>La durée de cet épisode était de %1$@.</string>
     <key>eoy_story_replay</key>
