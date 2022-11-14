@@ -1,6 +1,6 @@
 import Foundation
 
-class LoginCoordinator: ObservableObject {
+class LoginCoordinator {
     var navigationController: UINavigationController? = nil
 
     init() {

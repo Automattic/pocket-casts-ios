@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoginLandingView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         ProportionalValueFrameCalculator {
@@ -22,7 +22,7 @@ struct LoginLandingView: View {
 
 private struct LoginLandingContent: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
     @ProportionalValue(with: .height) var calculatedHeight: Double
 
     init(coordinator: LoginCoordinator) {
@@ -210,7 +210,7 @@ private struct LoginPodcastCover: View {
 
 private struct LoginButtons: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         VStack(spacing: 16) {
@@ -218,18 +218,18 @@ private struct LoginButtons: View {
 
             Button("Sign Up") {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle())
+            }.buttonStyle(RoundedButtonStyle()).environment(\.appTheme, theme)
 
             Button("Login") {
                 coordinator.loginTapped()
-            }.buttonStyle(SimpleTextButtonStyle())
+            }.buttonStyle(SimpleTextButtonStyle()).environment(\.appTheme, theme)
         }
     }
 }
 
 private struct SocialLoginButtons: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: LoginCoordinator
+    let coordinator: LoginCoordinator
 
     var body: some View {
         if !FeatureFlag.signInWithApple {
