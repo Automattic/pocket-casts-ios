@@ -23,7 +23,6 @@ struct WelcomeView: View {
 
             ScrollViewIfNeeded {
                 VStack(alignment: .leading) {
-                    Spacer()
                     HeaderIcon(isPlus: isPlus)
                     Label(titleText, for: .title)
                         .padding(.top, 28)
@@ -44,6 +43,7 @@ struct WelcomeView: View {
                     }.buttonStyle(RoundedButtonStyle(theme: theme))
                 }
                 .padding([.leading, .trailing], Config.padding.horizontal)
+                .padding(.top, Config.padding.top)
                 .padding(.bottom)
             }
             .background(AppTheme.color(for: .background, theme: theme).ignoresSafeArea())
@@ -83,7 +83,7 @@ private enum Config {
 // MARK: - Preview
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(coordinator: WelcomeCoordinator(displayType: .plus))
+        WelcomeView(coordinator: WelcomeCoordinator(navigationController: UINavigationController(), displayType: .plus))
             .previewWithAllThemes()
     }
 }
