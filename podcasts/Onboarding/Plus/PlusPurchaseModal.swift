@@ -6,13 +6,18 @@ struct PlusPurchaseModal: View {
     @ObservedObject var coordinator: PlusPurchaseModel
 
     @State var selectedOption: Constants.IapProducts
+    @State var freeTrialDuration: String?
+
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
         coordinator.pricingInfo
     }
 
     init(coordinator: PlusPurchaseModel) {
         self.coordinator = coordinator
-        self.selectedOption = coordinator.pricingInfo.products.first?.identifier ?? .yearly
+        let firstProduct = coordinator.pricingInfo.products.first
+
+        _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
+        _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
     }
 
     var body: some View {
@@ -24,8 +29,8 @@ struct PlusPurchaseModal: View {
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
-            if let freeTrial = pricingInfo.firstFreeTrial {
-                Label(L10n.freeTrialDurationFreeTrial(freeTrial.duration.localizedUppercase), for: .freeTrialDuration)
+            if let freeTrialDuration {
+                Label(L10n.freeTrialDurationFreeTrial(freeTrialDuration.localizedUppercase), for: .freeTrialDuration)
                     .padding([.top, .bottom], 4)
                     .padding([.leading, .trailing], 13)
                     .background(
@@ -40,6 +45,7 @@ struct PlusPurchaseModal: View {
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         Button(product.price) {
                             selectedOption = product.identifier
+                            freeTrialDuration = product.freeTrialDuration
                         }
                         .disabled(coordinator.state == .failed)
                         .buttonStyle(PlusGradientStrokeButton(isSelectable: true, isSelected: selectedOption == product.identifier))
@@ -47,8 +53,8 @@ struct PlusPurchaseModal: View {
                 }
 
                 // Show how long the free trial is if there is one
-                if let freeTrial = pricingInfo.firstFreeTrial {
-                    Label(L10n.pricingTermsAfterTrialLong(freeTrial.duration), for: .freeTrialTerms)
+                if let freeTrialDuration {
+                    Label(L10n.pricingTermsAfterTrialLong(freeTrialDuration), for: .freeTrialTerms)
                         .foregroundColor(Color.textColor)
                         .lineSpacing(1.2)
                 }

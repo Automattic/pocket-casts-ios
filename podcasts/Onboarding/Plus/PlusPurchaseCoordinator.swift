@@ -51,8 +51,7 @@ class PlusPurchaseModel: ObservableObject {
     // A simple struct to keep track of the product and pricing information the view needs
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
-        let firstFreeTrial: IapHelper.FreeTrialDetails?
-        var hasFreeTrial: Bool { firstFreeTrial != nil }
+        let hasFreeTrial: Bool
     }
 
     struct PlusProductPricingInfo: Identifiable {
@@ -128,7 +127,8 @@ private extension PlusPurchaseModel {
             pricing.append(info)
         }
 
-        return PlusPricingInfo(products: pricing, firstFreeTrial: purchaseHandler.getFirstFreeTrialDetails())
+        let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
+        return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
     }
 }
 
