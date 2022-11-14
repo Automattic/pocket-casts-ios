@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 class LoginCoordinator {
     var navigationController: UINavigationController? = nil
@@ -43,10 +44,9 @@ extension LoginCoordinator {
     static func make() -> UIViewController {
         let coordinator = LoginCoordinator()
         let view = LoginLandingView(coordinator: coordinator)
-        let controller = EventDelegateHostingController(rootView: view.setupDefaultEnvironment(),
-                                                        coordinator: coordinator)
+        let controller = UIHostingController(rootView: view.setupDefaultEnvironment())
 
-        let navigationController = UINavigationController(rootViewController: controller)
+        let navigationController = OnboardingNavigationViewController(rootViewController: controller)
         coordinator.navigationController = navigationController
 
         view.configure(controller: controller)
