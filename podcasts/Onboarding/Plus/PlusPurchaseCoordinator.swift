@@ -9,11 +9,7 @@ class PlusPurchaseModel: ObservableObject {
     let purchaseHandler: IapHelper
 
     // Keep track of our internal state, and pass this to our view
-    @Published var state: PurchaseState = .ready {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var state: PurchaseState = .ready
 
     // Allow our views to get the necessary pricing information
     let pricingInfo: PlusPricingInfo
