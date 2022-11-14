@@ -3,14 +3,14 @@ import PocketCastsServer
 
 struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: PlusPurchaseCoordinator
+    @ObservedObject var coordinator: PlusPurchaseModel
 
     @State var selectedOption: Constants.IapProducts
-    var pricingInfo: PlusPurchaseCoordinator.PlusPricingInfo {
+    var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
         coordinator.pricingInfo
     }
 
-    init(coordinator: PlusPurchaseCoordinator) {
+    init(coordinator: PlusPurchaseModel) {
         self.coordinator = coordinator
         self.selectedOption = coordinator.pricingInfo.products.first?.identifier ?? .yearly
     }
@@ -170,7 +170,7 @@ private struct Label: View {
 // MARK: - Preview
 struct PlusPurchaseOptions_Previews: PreviewProvider {
     static var previews: some View {
-        PlusPurchaseModal(coordinator: PlusPurchaseCoordinator())
+        PlusPurchaseModal(coordinator: PlusPurchaseModel())
             .setupDefaultEnvironment()
     }
 }

@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseCoordinator: ObservableObject {
+class PlusPurchaseModel: ObservableObject {
     var navigationController: UINavigationController? = nil
 
     // Allow injection of the IapHelper
@@ -64,9 +64,9 @@ class PlusPurchaseCoordinator: ObservableObject {
     }
 }
 
-extension PlusPurchaseCoordinator {
+extension PlusPurchaseModel {
     static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
-        let coordinator = PlusPurchaseCoordinator()
+        let coordinator = PlusPurchaseModel()
         coordinator.navigationController = navigationController
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
@@ -77,7 +77,7 @@ extension PlusPurchaseCoordinator {
     }
 }
 
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     private func addPaymentObservers() {
         let notificationCenter = NotificationCenter.default
         let notifications = [
@@ -132,7 +132,7 @@ private extension PlusPurchaseCoordinator {
     }
 }
 
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     private func handleNext() {
         // Temporary: Push to the account updated controller
         let upgradedVC = AccountUpdatedViewController()
@@ -149,7 +149,7 @@ private extension PlusPurchaseCoordinator {
 }
 
 // MARK: - Purchase Notification handlers
-private extension PlusPurchaseCoordinator {
+private extension PlusPurchaseModel {
     func handlePurchaseCompleted(_ notification: Notification) {
         guard let purchasedProduct else {
             state = .failed

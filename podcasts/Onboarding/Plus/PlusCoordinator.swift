@@ -41,7 +41,7 @@ private extension PlusCoordinator {
 
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseCoordinator.make(in: navigationController)
+        let controller = PlusPurchaseModel.make(in: navigationController)
         controller.presentModally(in: navigationController)
     }
 }
