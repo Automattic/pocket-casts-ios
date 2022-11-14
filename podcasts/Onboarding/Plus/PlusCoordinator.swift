@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class PlusCoordinator: ObservableObject {
+class PlusCoordinator {
     var navigationController: UINavigationController? = nil
 
     func unlockTapped() {
