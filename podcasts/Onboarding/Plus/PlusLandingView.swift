@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlusLandingView: View {
-    @ObservedObject var coordinator: PlusCoordinator
+    let coordinator: PlusCoordinator
 
     var body: some View {
         ZStack {
