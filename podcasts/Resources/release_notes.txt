@@ -1,5 +1,3 @@
-- Fixed a search bar layout issue when adding/removing podcasts to folder (#378)
-- Fixed About screen dark theme background in light mode (#339)
-- Adding select/deselect all podcasts button to folder creation (#143)
-- Fixed an issue where opening a Featured Episode on the Discover view would crash the app if the podcast episode could not be found (#58)
+- Add End of Year stats
+- Fixed the download indicator width in iOS 14 in Episode list cells.
 
