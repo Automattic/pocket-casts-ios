@@ -2,46 +2,47 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var theme: Theme
+    let coordinator: WelcomeCoordinator
 
-    enum DisplayState {
-        case plus
-        case newAccount
+    private var titleText: String {
+        switch coordinator.displayType {
+        case .plus:
+            return L10n.welcomePlusTitle
+        case .newAccount:
+            return L10n.welcomeNewAccountTitle
+        }
     }
 
-    let displayState: DisplayState = .newAccount
-
-    var titleText: String {
-        switch displayState {
-        case .plus:
-            return "Thank you, now let’s get you listening!"
-        case .newAccount:
-            return "Welcome, now let’s get you listening!"
-        }
+    private var isPlus: Bool {
+        coordinator.displayType == .plus
     }
 
     var body: some View {
         ZStack(alignment: .top) {
-            WelcomeConfetti(type: (displayState == .plus) ? .plus : .normal)
+            WelcomeConfetti(type: isPlus ? .plus : .normal)
 
             ScrollViewIfNeeded {
                 VStack(alignment: .leading) {
-                    HeaderIcon(isPlus: displayState == .plus)
-
+                    Spacer()
+                    HeaderIcon(isPlus: isPlus)
                     Label(titleText, for: .title)
+                        .padding(.top, 28)
+                        .padding(.bottom, 24)
 
-                    ForEach(sections) { section in
-                        WelcomeSectionView(model: section) {
-                            print("Tappy")
+                    VStack(spacing: 16) {
+                        ForEach(coordinator.sections) { section in
+                            WelcomeSectionView(model: model(for: section)) {
+                                coordinator.sectionTapped(section)
+                            }
                         }
-                    }
+                    }.padding(.bottom, 16)
 
                     Spacer()
 
-                    Button("Done") {
-
+                    Button(L10n.done) {
+                        coordinator.doneTapped()
                     }.buttonStyle(RoundedButtonStyle(theme: theme))
                 }
-                .padding(.top, Config.padding.top)
                 .padding([.leading, .trailing], Config.padding.horizontal)
                 .padding(.bottom)
             }
@@ -49,10 +50,15 @@ struct WelcomeView: View {
         }
     }
 
-    private let sections: [WelcomeSection] = [
-        WelcomeSection(title: "Import your podcasts", subtitle: "Coming from another app? Bring your podcasts with you.", imageName: "welcome-import", buttonTitle: "Import Podcasts"),
-        WelcomeSection(title: "Discover something new", subtitle: "Find under-the-radar and trending podcasts in our hand-curated Discover page.", imageName: "welcome-discover", buttonTitle: "Find My Next Podcast")
-    ]
+    private func model(for section: WelcomeCoordinator.WelcomeSection) -> WelcomeSectionModel {
+        switch section {
+
+        case .importPodcasts:
+            return WelcomeSectionModel(title: L10n.welcomeImportTitle, subtitle: L10n.welcomeImportDescription, imageName: "welcome-import", buttonTitle: L10n.welcomeImportButton)
+        case .discover:
+            return  WelcomeSectionModel(title: L10n.welcomeDiscoverTitle, subtitle: L10n.welcomeDiscoverDescription, imageName: "welcome-discover", buttonTitle: L10n.welcomeDiscoverButton)
+        }
+    }
 }
 
 private extension ThemeStyle {
@@ -77,7 +83,7 @@ private enum Config {
 // MARK: - Preview
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeView(coordinator: WelcomeCoordinator(displayType: .plus))
             .previewWithAllThemes()
     }
 }
@@ -88,8 +94,7 @@ private struct WelcomeConfetti: View {
 
     var body: some View {
         GeometryReader { proxy in
-            WelcomeConfettiEmitter(type: type,
-                             frame: proxy.frame(in: .local)).ignoresSafeArea()
+            WelcomeConfettiEmitter(type: type, frame: proxy.frame(in: .local)).ignoresSafeArea()
         }
         .allowsHitTesting(false)
         .accessibilityHidden(true)
@@ -169,19 +174,17 @@ private struct Label: View {
     }
 }
 
-private struct WelcomeSection: Identifiable {
+private struct WelcomeSectionModel {
     let title: String
     let subtitle: String
     let imageName: String
     let buttonTitle: String
-
-    var id: String { title }
 }
 
 private struct WelcomeSectionView: View {
     @EnvironmentObject var theme: Theme
 
-    let model: WelcomeSection
+    let model: WelcomeSectionModel
     let action: () -> Void
 
     var body: some View {
