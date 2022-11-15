@@ -270,6 +270,10 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 newTableRows[0].append(.cancelSubscription)
             }
 
+            if !upgradeHidden {
+                newTableRows[0].insert(.upgradeView, at: 0)
+            }
+
             updateTableRows(newRows: newTableRows)
 
         } else {
