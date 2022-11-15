@@ -193,18 +193,29 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     let nextPaymentDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
                     accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
                     paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
-                    upgradeView.isHidden = true
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
                 } else if SubscriptionHelper.subscriptionType() == .supporter {
                     accountDetailsLabel.style = .support02
                     accountDetailsLabel.text = L10n.supporter
                     paymentExpiryLabel.text = L10n.supporterContributionsSubtitle
-                    upgradeView.isHidden = true
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
+                } else {
+                    // This handles a state where the user has plus, but their subscription type is none
+                    // IE: If the receipt request fails the first time
+                    let nextPaymentDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
+                    accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
+                    paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
                 }
             } else { // Gifted account
                 if SubscriptionHelper.subscriptionPlatform() == .gift {
                     if SubscriptionHelper.hasLifetimeGift() {
                         hideExpiryDate = true
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                         accountDetailsLabel.text = L10n.subscriptionsThankYou
                         paymentExpiryLabel.text = L10n.plusLifetimeMembership
                         paymentExpiryLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
@@ -222,7 +233,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     } else if SubscriptionHelper.subscriptionType() == .supporter {
                         accountDetailsLabel.style = .support05
                         accountDetailsLabel.text = L10n.supporterPaymentCanceled
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                     }
                 }
             }
@@ -234,13 +246,16 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
                     if expiryTime < 15.days {
                         paymentExpiryLabel.style = .support05
-                        upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeView?.isHidden = SubscriptionHelper.hasRenewingSubscription()
                     } else if expiryTime < 30.days {
                         paymentExpiryLabel.style = .support08
-                        upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeView?.isHidden = SubscriptionHelper.hasRenewingSubscription()
                     } else {
                         paymentExpiryLabel.style = .primaryText02
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                     }
                 }
                 profileView.secondsTillExpiry = expiryTime
