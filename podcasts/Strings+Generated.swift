@@ -96,6 +96,14 @@ internal enum L10n {
   internal static var accountDeleteAccountFirstAlertMsg: String { return L10n.tr("Localizable", "account_delete_account_first_alert_msg") }
   /// Delete Account?
   internal static var accountDeleteAccountTitle: String { return L10n.tr("Localizable", "account_delete_account_title") }
+  /// Free Account
+  internal static var accountDetailsFreeAccount: String { return L10n.tr("Localizable", "account_details_free_account") }
+  /// Listened for %1$@
+  internal static func accountDetailsListenedFor(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "account_details_listened_for", String(describing: p1))
+  }
+  /// Take your podcasting experience to the next level with exclusive access to features and customisation options.
+  internal static var accountDetailsPlusTitle: String { return L10n.tr("Localizable", "account_details_plus_title") }
   /// Log in
   internal static var accountLogin: String { return L10n.tr("Localizable", "account_login") }
   /// Renews automatically monthly
@@ -1393,6 +1401,10 @@ internal enum L10n {
   internal static var plusMarketingFinalCallToAction: String { return L10n.tr("Localizable", "plus_marketing_final_call_to_action") }
   /// Create folders to organise your podcast collection.
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description") }
+  /// Ad-free experience which gives you more of what you love and less of what you don't
+  internal static var plusMarketingHideAdsDescription: String { return L10n.tr("Localizable", "plus_marketing_hide_ads_description") }
+  /// Hide Ads
+  internal static var plusMarketingHideAdsTitle: String { return L10n.tr("Localizable", "plus_marketing_hide_ads_title") }
   /// Learn more about Pocket Casts Plus
   internal static var plusMarketingLearnMoreButton: String { return L10n.tr("Localizable", "plus_marketing_learn_more_button") }
   /// Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.
@@ -1403,6 +1415,12 @@ internal enum L10n {
   internal static var plusMarketingThemesIconsDescription: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_description") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
+  /// Upload your files to cloud storage and have it available everywhere
+  internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
+  /// Listen in more places with our Windows, macOS and Web apps
+  internal static var plusMarketingUpdatedDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_desktop_apps_description") }
+  /// Organise your podcasts in folders, and keep them in sync across all your devices.
+  internal static var plusMarketingUpdatedFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_folders_description") }
   /// Upgrade To Plus
   internal static var plusMarketingUpgradeButton: String { return L10n.tr("Localizable", "plus_marketing_upgrade_button") }
   /// Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.

@@ -1504,11 +1504,17 @@
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
 
+/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
+"plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
+
 /* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
 "plus_marketing_cloud_storage_title" = "Cloud Storage";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
+
+/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
+"plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
 /* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
 "plus_marketing_desktop_apps_title" = "Desktop Apps";
@@ -1542,6 +1548,15 @@
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
+
+/* Pocket Casts Plus marketing page, description of the Folders feature */
+"plus_marketing_updated_folders_description" = "Organise your podcasts in folders, and keep them in sync across all your devices.";
+
+/* Pocket Casts Plus marketing page, title of the hide ads feature */
+"plus_marketing_hide_ads_title" = "Hide Ads";
+
+/* Pocket Casts Plus marketing page, description of the hide ads feature */
+"plus_marketing_hide_ads_description" = "Ad-free experience which gives you more of what you love and less of what you don't";
 
 /* Informational message informing the user that their recurring payments for Plus have been canceled. */
 "plus_payment_canceled" = "Payment Cancelled";
@@ -3398,3 +3413,12 @@
 "welcome_discover_title" = "Discover something new";
 "welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
 "welcome_discover_button" = "Find My Next Podcast";
+
+/* Label that informs the user they have a free account */
+"account_details_free_account" = "Free Account";
+
+/* Label that shows the user how much time they have listened to podcasts for, %1$@ is the localized formatted time, ie: 2 hours */
+"account_details_listened_for" = "Listened for %1$@";
+
+/* Marketing text that promotes the plus feature to the user */
+"account_details_plus_title" = "Take your podcasting experience to the next level with exclusive access to features and customisation options.";
