@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlusAccountUpgradePrompt: View {
-    let viewModel: PlusAccountPromptViewModel
+    @ObservedObject var viewModel: PlusAccountPromptViewModel
     let freeTrialDuration: String?
 
     init(viewModel: PlusAccountPromptViewModel) {
@@ -46,7 +46,7 @@ struct PlusAccountUpgradePrompt: View {
 
             Button(L10n.plusMarketingUpgradeButton) {
                 viewModel.upgradeTapped()
-            }.buttonStyle(PlusGradientFilledButtonStyle()).padding(.top, 30)
+            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading)).padding(.top, 30)
         }.padding().background (
             ProportionalValueFrameCalculator {
                 PlusPromptBackgroundView()
