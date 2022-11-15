@@ -290,9 +290,14 @@ public struct ListenedCategory {
 
     public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double) {
         self.numberOfPodcasts = numberOfPodcasts
-        self.categoryTitle = categoryTitle
         self.mostListenedPodcast = mostListenedPodcast
         self.totalPlayedTime = totalPlayedTime
+
+        if categoryTitle == "" || categoryTitle.isEmpty {
+            self.categoryTitle = mostListenedPodcast.podcastCategory ?? ""
+        } else {
+            self.categoryTitle = categoryTitle
+        }
     }
 }
 
