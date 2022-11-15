@@ -178,6 +178,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             emailLabel.text = email
         }
 
+        var upgradeHidden: Bool = false
+
         if SubscriptionHelper.hasActiveSubscription() {
             accountTypeLabel.text = L10n.pocketCastsPlus
 
@@ -225,15 +227,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 }
             }
 
-            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
-            if SubscriptionHelper.numActiveSubscriptionBundles() > 0 {
-                newTableRows[0].insert(.supporterContributions, at: 0)
-            }
-            if SubscriptionHelper.hasRenewingSubscription(), SubscriptionHelper.subscriptionType() == .plus {
-                newTableRows[0].append(.cancelSubscription)
-            }
-            updateTableRows(newRows: newTableRows)
-
             if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry(), let expiryDate = expiryDate {
                 if !hideExpiryDate {
                     let time = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
@@ -252,6 +245,18 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 }
                 profileView.secondsTillExpiry = expiryTime
             }
+
+            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+
+            if SubscriptionHelper.numActiveSubscriptionBundles() > 0 {
+                newTableRows[0].insert(.supporterContributions, at: 0)
+            }
+            if SubscriptionHelper.hasRenewingSubscription(), SubscriptionHelper.subscriptionType() == .plus {
+                newTableRows[0].append(.cancelSubscription)
+            }
+
+            updateTableRows(newRows: newTableRows)
+
         } else {
             // Free Account
             accountTypeLabel.text = L10n.pocketCasts
