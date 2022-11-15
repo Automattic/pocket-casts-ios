@@ -55,7 +55,7 @@ struct TopListenedCategoriesStory: StoryView {
     @ViewBuilder
     func pillar(_ index: Int) -> some View {
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized(seperatingWith: \.isNewline) ?? "", subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
             CategoryPillar(color: contrastColor.tintColor, text: "", title: "", subtitle: "", height: 200)
