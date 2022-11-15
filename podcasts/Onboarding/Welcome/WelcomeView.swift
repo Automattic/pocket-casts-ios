@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var theme: Theme
-    let coordinator: WelcomeCoordinator
+    @ObservedObject var coordinator: WelcomeCoordinator
 
     private var titleText: String {
         switch coordinator.displayType {
@@ -34,7 +34,9 @@ struct WelcomeView: View {
                                 coordinator.sectionTapped(section)
                             }
                         }
-                    }.padding(.bottom, 16)
+                    }
+
+                    newsletter
 
                     Spacer()
 
@@ -48,6 +50,23 @@ struct WelcomeView: View {
             }
             .background(AppTheme.color(for: .background, theme: theme).ignoresSafeArea())
         }
+    }
+
+    private var newsletter: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Label(L10n.pocketCastsWelcomeNewsletterTitle, for: .newsletterTitle)
+                Label(L10n.pocketCastsNewsletterDescription, for: .newsletterDescription)
+            }
+
+            Spacer()
+
+            Toggle(isOn: $coordinator.newsletterOptIn) {
+                EmptyView()
+            }.toggleStyle(SwitchToggleStyle(tint: AppTheme.color(for: .primaryInteractive01, theme: theme)))
+                .frame(maxWidth: 60)
+        }
+        .padding(.bottom, 16)
     }
 
     private func model(for section: WelcomeCoordinator.WelcomeSection) -> WelcomeSectionModel {
@@ -129,6 +148,8 @@ private struct Label: View {
         case title
         case sectionTitle
         case sectionDescription
+        case newsletterTitle
+        case newsletterDescription
     }
 
     let text: String
@@ -151,9 +172,9 @@ private struct Label: View {
 
         case .title:
             return AppTheme.color(for: .text, theme: theme)
-        case .sectionTitle:
+        case .sectionTitle, .newsletterTitle:
             return AppTheme.color(for: .text, theme: theme)
-        case .sectionDescription:
+        case .sectionDescription, .newsletterDescription:
             return AppTheme.color(for: .sectionDescription, theme: theme)
         }
     }
@@ -169,6 +190,11 @@ private struct Label: View {
                 return content.font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             case .sectionDescription:
                 return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraExtraLarge)
+            case .newsletterTitle:
+                return content.font(size: 15, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
+            case .newsletterDescription:
+                return content.font(size: 13, style: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+
             }
         }
     }
