@@ -266,7 +266,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
             profileView.isSubscribed = false
 
-            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+            var newTableRows: [[TableRow]] = [[.upgradeView, .changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
             if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
