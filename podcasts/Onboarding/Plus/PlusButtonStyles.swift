@@ -118,4 +118,8 @@ extension Color {
 
     static let plusButtonUnselectedColor = Color.white
     static let plusButtonFilledTextColor = Color.black
+
+    static let plusBackgroundColor = Color(hex: "121212")
+    static let plusLeftCircleColor = Color(hex: "ffd845")
+    static let plusRightCircleColor = Color(hex: "ffb626")
 }
