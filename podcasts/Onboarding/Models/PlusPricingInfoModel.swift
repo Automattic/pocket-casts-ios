@@ -55,7 +55,7 @@ class PlusPricingInfoModel: ObservableObject {
 
 extension PlusPricingInfoModel {
     func loadPrices(_ completion: @escaping () -> Void) {
-        if IapHelper.shared.hasLoadedProducts {
+        if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
             completion()
             return
