@@ -178,7 +178,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             emailLabel.text = email
         }
 
-        var upgradeHidden: Bool = false
+        var upgradeHidden = false
 
         if SubscriptionHelper.hasActiveSubscription() {
             accountTypeLabel.text = L10n.pocketCastsPlus
@@ -270,7 +270,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 newTableRows[0].append(.cancelSubscription)
             }
 
-            if !upgradeHidden {
+            if FeatureFlag.onboardingUpdates, !upgradeHidden {
                 newTableRows[0].insert(.upgradeView, at: 0)
             }
 
@@ -293,10 +293,15 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             upgradeView?.isHidden = false
             profileView.isSubscribed = false
 
-            var newTableRows: [[TableRow]] = [[.upgradeView, .changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
             if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
+
+            if FeatureFlag.onboardingUpdates {
+                newTableRows[0].insert(.upgradeView, at: 0)
+            }
+
             updateTableRows(newRows: newTableRows)
         }
 
