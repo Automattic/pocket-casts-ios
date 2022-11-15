@@ -66,7 +66,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         }
     }
 
-    @IBOutlet var upgradeView: ThemeableView!
+    @IBOutlet var oldUpgradeView: ThemeableView!
+
     @IBOutlet var upgradeSeperatorView: ThemeableView! {
         didSet {
             upgradeSeperatorView.style = .primaryUi05

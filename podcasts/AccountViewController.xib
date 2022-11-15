@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,6 +19,7 @@
                 <outlet property="learnMoreButton" destination="qqE-De-7ep" id="GxG-Ra-shW"/>
                 <outlet property="noInternetLabel" destination="8XA-G9-fKF" id="eKu-w8-rmI"/>
                 <outlet property="noInternetView" destination="cPH-he-0Lm" id="s6l-G0-5Wy"/>
+                <outlet property="oldUpgradeView" destination="D3U-bx-2Vx" id="HS8-4W-7xm"/>
                 <outlet property="paymentExpiryLabel" destination="XvW-wx-fhc" id="Zp6-2s-TXw"/>
                 <outlet property="plusLogo" destination="LDr-Gy-B9z" id="36x-2V-kCe"/>
                 <outlet property="priceLabel" destination="e7j-Oc-ddY" id="ahj-B4-kyG"/>
@@ -29,7 +30,6 @@
                 <outlet property="trialDetailLabel" destination="VXB-ir-uZv" id="dUd-Xo-aR5"/>
                 <outlet property="upgradeButton" destination="Ew1-n3-G0q" id="plV-KR-kAZ"/>
                 <outlet property="upgradeSeperatorView" destination="x7z-nM-HkN" id="Qxh-Ti-niO"/>
-                <outlet property="upgradeView" destination="D3U-bx-2Vx" id="yy6-Z5-5wp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -39,7 +39,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="LDy-dc-GWZ" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                     <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="GRw-xc-IVy"/>
