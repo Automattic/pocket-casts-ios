@@ -1,9 +1,12 @@
 import Foundation
+import PocketCastsServer
 
-class WelcomeCoordinator {
+class WelcomeCoordinator: ObservableObject {
     var navigationController: UINavigationController?
     let displayType: DisplayType
     let sections: [WelcomeSection] = [.importPodcasts, .discover]
+
+    var newsletterOptIn: Bool = true
 
     init(navigationController: UINavigationController? = nil, displayType: DisplayType) {
         self.navigationController = navigationController
@@ -11,6 +14,8 @@ class WelcomeCoordinator {
     }
 
     func sectionTapped(_ section: WelcomeSection) {
+        saveNewsletterOptIn()
+
         switch section {
         case .importPodcasts:
             print("TODO: Future Task")
@@ -22,7 +27,13 @@ class WelcomeCoordinator {
     }
 
     func doneTapped() {
+        saveNewsletterOptIn()
         navigationController?.dismiss(animated: true)
+    }
+
+    private func saveNewsletterOptIn() {
+        Analytics.track(.newsletterOptInChanged, properties: ["enabled": newsletterOptIn, "source": "account_updated"])
+        ServerSettings.setMarketingOptIn(newsletterOptIn)
     }
 
     // MARK: - Configuration
