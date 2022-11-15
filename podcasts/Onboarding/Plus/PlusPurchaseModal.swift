@@ -30,13 +30,7 @@ struct PlusPurchaseModal: View {
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
             if let freeTrialDuration {
-                Label(L10n.freeTrialDurationFreeTrial(freeTrialDuration.localizedUppercase), for: .freeTrialDuration)
-                    .padding([.top, .bottom], 4)
-                    .padding([.leading, .trailing], 13)
-                    .background(
-                        Color.plusGradient.cornerRadius(4)
-                    )
-                    .foregroundColor(Color.plusButtonFilledTextColor)
+                PlusFreeTrialLabel(freeTrialDuration)
             }
 
             VStack(spacing: 16) {
@@ -135,7 +129,6 @@ private struct TermsView: View {
 private struct Label: View {
     enum LabelStyle {
         case title
-        case freeTrialDuration
         case freeTrialTerms
         case error
     }
@@ -162,8 +155,6 @@ private struct Label: View {
             switch labelStyle {
             case .title:
                 return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
-            case .freeTrialDuration:
-                return content.font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
             case .freeTrialTerms:
                 return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraLarge)
             case .error:
