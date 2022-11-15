@@ -46,3 +46,9 @@ class PCHostingController<Content>: UIHostingController<Content> where Content: 
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).tintColor = iconsColor
     }
 }
+
+extension View {
+    func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
+        self.environmentObject(theme)
+    }
+}

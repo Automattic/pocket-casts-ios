@@ -1504,11 +1504,17 @@
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
 
+/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
+"plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
+
 /* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
 "plus_marketing_cloud_storage_title" = "Cloud Storage";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
+
+/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
+"plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
 /* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
 "plus_marketing_desktop_apps_title" = "Desktop Apps";
@@ -1542,6 +1548,15 @@
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
+
+/* Pocket Casts Plus marketing page, description of the Folders feature */
+"plus_marketing_updated_folders_description" = "Organise your podcasts in folders, and keep them in sync across all your devices.";
+
+/* Pocket Casts Plus marketing page, title of the hide ads feature */
+"plus_marketing_hide_ads_title" = "Hide Ads";
+
+/* Pocket Casts Plus marketing page, description of the hide ads feature */
+"plus_marketing_hide_ads_description" = "Ad-free experience which gives you more of what you love and less of what you don't";
 
 /* Informational message informing the user that their recurring payments for Plus have been canceled. */
 "plus_payment_canceled" = "Payment Cancelled";
@@ -2388,7 +2403,7 @@
 "settings_import_export" = "Import / Export";
 
 /* Informs the user that the current podcast is included in one filter. '%1$@' is a placeholder for the number of filters this podcast is included in. */
-"settings_in_filters_plural_format" = "Included In %1$@ Filter";
+"settings_in_filters_plural_format" = "Included In %1$@ Filters";
 
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
@@ -3273,6 +3288,30 @@
 /* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
 "pricing_terms_after_trial" = "then %1$@";
 
+/* Free trial duration with the word free trial emphasized, %1$@ is the localized trial duration (1 month) */
+"free_trial_duration_free_trial" = "%1$@ FREE TRIAL";
+
+/* Title for a button that allows the user to subscrbe with a free trial */
+"free_trial_start_and_subscribe_button" = "Start Free Trial & Subscribe";
+
+/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), \n is a new line */
+"pricing_terms_after_trial_long" = "Recurring payments will begin after your\n%1$@ free trial";
+
+/* Monthly pricing format, %1$@ is the price */
+"plus_monthly_frequency_pricing_format" = "%1$@ per month";
+
+/* Yearly pricing format, %1$@ is the price */
+"plus_yearly_frequency_pricing_format" = "%1$@ per year";
+
+/* Payment failed error message */
+"plus_purchase_failed" = "It looks like there was a problem processing your payment. Please try again.";
+
+/* The title of the purchase promo */
+"plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
+
+/* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
+"purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
 
@@ -3365,3 +3404,42 @@
 
 /* When loading the End of Year stats stories fails. */
 "eoy_stories_failed" = "Failed to load stories.";
+
+/* Title of the view displayed after a user successfully upgrades to plus */
+"welcome_plus_title" = "Thank you, now let's get you listening!";
+
+/* Title of the view displayed after a user successfully creates an account */
+"welcome_new_account_title" = "Welcome, now let's get you listening!";
+
+/* Title of a section informing the user they can import their podcasts from another app */
+"welcome_import_title" = "Import your podcasts";
+
+/* Description of a section informing the user they can import their podcasts from another app */
+"welcome_import_description" = "Coming from another app? Bring your podcasts with you.";
+
+/* Title of a button prompting the user to import their podcasts */
+"welcome_import_button" = "Import Podcasts";
+
+/* Title of a section informing the user they can find new podcasts in the discover section */
+"welcome_discover_title" = "Discover something new";
+
+/* Description of a section informing the user they can find new podcasts in the discover section */
+"welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
+
+/* Title of a button prompting the user find new podcasts in discover */
+"welcome_discover_button" = "Find My Next Podcast";
+
+/* Label that informs the user they have a free account */
+"account_details_free_account" = "Free Account";
+
+/* Label that shows the user how much time they have listened to podcasts for, %1$@ is the localized formatted time, ie: 2 hours */
+"account_details_listened_for" = "Listened for %1$@";
+
+/* Marketing text that promotes the plus feature to the user */
+"account_details_plus_title" = "Take your podcasting experience to the next level with exclusive access to features and customisation options.";
+
+/* Body of a message informing the user the request failed */
+"plus_upgrade_no_internet_title" = "Unable to Load";
+
+/* Body of a message informing the user they need an internet connect to upgrade to plus */
+"plus_upgrade_no_internet_message" = "Please check your internet connection and try again.";

@@ -141,21 +141,24 @@ struct ThemedDivider: View {
 // MARK: - Button
 
 struct RoundedButtonStyle: ButtonStyle {
-    @EnvironmentObject var theme: Theme
+    @ObservedObject var theme: Theme
+    let textColor: ThemeStyle
+
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02) {
+        self.theme = theme
+        self.textColor = textColor
+    }
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            Spacer()
-            configuration.label
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(Color.white)
-            Spacer()
-        }
-        .padding()
-        .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-        .cornerRadius(10)
-        .scaleEffect(configuration.isPressed ? 0.99 : 1)
-        .frame(height: 44)
+        configuration.label
+            .applyButtonFont()
+            .foregroundColor(AppTheme.color(for: textColor, theme: theme))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(configuration.isPressed ? ThemeColor.primaryInteractive01(for: theme.activeTheme).color.opacity(0.6) : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .contentShape(Rectangle())
     }
 }
 
@@ -172,7 +175,7 @@ struct RoundedButton: ViewModifier {
         }
         .padding()
         .background(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-        .cornerRadius(10)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
         .frame(height: 44)
     }
 }
@@ -190,10 +193,9 @@ struct RoundedDarkButton: ButtonStyle {
             .foregroundColor(ThemeColor.primaryUi01(for: theme.activeTheme).color)
             .background(ThemeColor.primaryText01(for: theme.activeTheme).color)
 
-            .cornerRadius(10)
-            .makeSpringy(isPressed: configuration.isPressed)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
-
     }
 }
 
@@ -207,12 +209,12 @@ struct StrokeButton: ButtonStyle {
             .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
             .frame(maxWidth: .infinity)
             .padding()
-            .cornerRadius(10)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
             .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: 2)
+                RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                    .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
             )
-            .makeSpringy(isPressed: configuration.isPressed)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
     }
 }
@@ -229,19 +231,70 @@ struct NavButtonStyle: ButtonStyle {
     }
 }
 
+struct SimpleTextButtonStyle: ButtonStyle {
+    @ObservedObject var theme: Theme
+
+    let textColor: ThemeStyle
+
+    init(theme: Theme, textColor: ThemeStyle = .primaryText01) {
+        self.theme = theme
+        self.textColor = textColor
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .applyButtonFont()
+            .foregroundColor(AppTheme.color(for: textColor, theme: theme))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .contentShape(Rectangle())
+    }
+}
+
 // MARK: - Button Modifiers
 extension View {
     /// Adds a subtle spring effect when the `isPressed` value is changed
     /// This should be used from a `ButtonStyle` and passing in `configuration.isPressed`
     ///
-    func makeSpringy(isPressed: Bool, enableHaptic: Bool = true) -> some View {
+    func applyButtonEffect(isPressed: Bool, enableHaptic: Bool = true) -> some View {
         self
-            .scaleEffect(isPressed ? 0.98 : 1.0)
+            .scaleEffect(isPressed ? 0.98 : 1.0, anchor: .center)
             .animation(.interpolatingSpring(stiffness: 350, damping: 10, initialVelocity: 10), value: isPressed)
             .onChange(of: isPressed) { pressed in
                 guard enableHaptic, pressed else { return }
 
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             }
+    }
+
+    func applyButtonFont() -> some View {
+        self.font(size: 18,
+                  style: .body,
+                  weight: .semibold,
+                  maxSizeCategory: .extraExtraLarge)
+    }
+}
+
+// MARK: - Pill used in the top of the modals
+
+struct ModalTopPill: View {
+    @EnvironmentObject var theme: Theme
+
+    var body: some View {
+        Rectangle()
+            .fill(ThemeColor.primaryText02(for: theme.activeTheme).color)
+            .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
+            .cornerRadius(Constants.pillCornerRadius)
+            .padding(.top, Constants.pillTopPadding)
+            .opacity(Constants.pillOpacity)
+    }
+
+    private enum Constants {
+        static let pillSize: CGSize = .init(width: 60, height: 4)
+        static let pillCornerRadius: CGFloat = 10
+        static let pillTopPadding: CGFloat = 8
+        static let pillOpacity: CGFloat = 0.2
     }
 }

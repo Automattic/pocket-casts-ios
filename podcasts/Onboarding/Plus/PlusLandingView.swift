@@ -1,9 +1,7 @@
 import SwiftUI
-import PocketCastsUtils
 
 struct PlusLandingView: View {
-    // TODO: Remove this
-    var dismissAction: (() -> Void)?
+    @ObservedObject var coordinator: PlusCoordinator
 
     var body: some View {
         ZStack {
@@ -33,46 +31,44 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
-
-                        }.buttonStyle(PlusGradientFilledButtonStyle())
+                            coordinator.unlockTapped()
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.priceAvailability == .loading))
 
                         Button("Not Now") {
-                            dismissAction?()
+                            coordinator.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
                 }.padding(ViewConfig.padding.view)
+                    .padding(.bottom)
             }
-        }.enableProportionalValueScaling()
+        }.enableProportionalValueScaling().ignoresSafeArea()
     }
 
     // Static list of the feature models to display
     private let features = [
         PlusFeature(iconName: "plus-feature-desktop",
-                    title: "Desktop Apps",
-                    description: "Listen in more places with our Windows, macOS and Web apps"),
+                    title: L10n.plusMarketingDesktopAppsTitle,
+                    description: L10n.plusMarketingUpdatedDesktopAppsDescription),
         PlusFeature(iconName: "plus-feature-folders",
-                    title: "Folders",
-                    description: "Organise your podcasts in folders, and keep them in sync across all your devices"),
+                    title: L10n.folders,
+                    description: L10n.plusMarketingUpdatedFoldersDescription),
         PlusFeature(iconName: "plus-feature-cloud",
-                    title: "10GB Cloud Storage",
-                    description: "Upload your files to cloud storage and have it available everywhere"),
+                    title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized()),
+                    description: L10n.plusMarketingUpdatedCloudStorageDescription),
         PlusFeature(iconName: "plus-feature-watch",
-                    title: "Watch Playback",
-                    description: "Ditch the phone and go for a run - without missing a beat. Apple Watch stands alone"),
+                    title: L10n.plusMarketingWatchPlaybackTitle,
+                    description: L10n.plusMarketingWatchPlaybackDescription),
         PlusFeature(iconName: "plus-feature-hide-ads",
-                    title: "Hide Ads",
-                    description: "Ad-free experience which gives you more of what you love and less of what you don’t"),
+                    title: L10n.plusMarketingHideAdsTitle,
+                    description: L10n.plusMarketingHideAdsDescription),
         PlusFeature(iconName: "plus-feature-themes",
-                    title: "Themes & Icons",
-                    description: "Fly your true colours. Exclusive icons and themes for the plus club only")
+                    title: L10n.plusMarketingThemesIconsTitle,
+                    description: L10n.plusMarketingThemesIconsDescription)
     ]
 }
 
 // MARK: - Config
 private extension Color {
-    static let backgroundColor = Color(hex: "121212")
-    static let leftCircleColor = Color(hex: "ffb626")
-    static let rightCircleColor = Color(hex: "ffd845")
     static let textColor = Color.white
 
     // Feature Cards
@@ -155,40 +151,38 @@ private struct PlusLabel: View {
 }
 
 private struct PlusBackgroundGradientView: View {
-    @ProportionalValue(with: .width) var leftCircleSize = 0.936
+    @ProportionalValue(with: .width) var leftCircleSize = 0.836
     @ProportionalValue(with: .width) var leftCircleX = -0.28533333
     @ProportionalValue(with: .height) var leftCircleY = -0.10810811
 
-    @ProportionalValue(with: .width) var rightCircleSize = 0.73866667
+    @ProportionalValue(with: .width) var rightCircleSize = 0.63866667
     @ProportionalValue(with: .width) var rightCircleX = 0.54133333
     @ProportionalValue(with: .height) var rightCircleY = -0.03316953
 
     var body: some View {
         ZStack {
-            Color.backgroundColor
+            Color.plusBackgroundColor
             ZStack {
                 // Right Circle
                 Circle()
-                    .foregroundColor(.rightCircleColor)
+                    .foregroundColor(.plusRightCircleColor)
                     .frame(height: rightCircleSize)
                     .position(x: rightCircleX, y: rightCircleY)
                     .offset(x: rightCircleSize * 0.5, y: rightCircleSize * 0.5)
-                    .blur(radius: 162)
 
                 // Left Circle
                 Circle()
-                    .foregroundColor(.leftCircleColor)
+                    .foregroundColor(.plusLeftCircleColor)
                     .frame(height: leftCircleSize)
                     .position(x: leftCircleX, y: leftCircleY)
                     .offset(x: leftCircleSize * 0.5, y: leftCircleSize * 0.5)
-                    .blur(radius: 146)
-            }.blur(radius: 32)
+            }.blur(radius: 100)
 
             // Overlay view
             Rectangle()
-                .foregroundColor(.backgroundColor)
+                .foregroundColor(.plusBackgroundColor)
                 .opacity(0.28)
-        }.ignoresSafeArea()
+        }.ignoresSafeArea().clipped()
     }
 }
 
@@ -238,6 +232,7 @@ private struct CardView: View {
 // MARK: - Preview
 struct PlusIntroView_Preview: PreviewProvider {
     static var previews: some View {
-        PlusLandingView()
+        PlusLandingView(coordinator: PlusCoordinator())
+            .setupDefaultEnvironment()
     }
 }
