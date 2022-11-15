@@ -279,10 +279,18 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         } else {
             // Free Account
             accountTypeLabel.text = L10n.pocketCasts
-            accountDetailsLabel.text = nil
-            paymentExpiryLabel.text = nil
-            upgradeView.isHidden = false
 
+            let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
+            if totalListeningTime > 0, let totalTime = totalListeningTime.localizedTimeDescription {
+                accountDetailsLabel.text = L10n.accountDetailsFreeAccount
+                paymentExpiryLabel.text = L10n.accountDetailsListenedFor(totalTime)
+            } else {
+                accountDetailsLabel.text = nil
+                paymentExpiryLabel.text = nil
+            }
+
+            upgradeHidden = false
+            upgradeView?.isHidden = false
             profileView.isSubscribed = false
 
             var newTableRows: [[TableRow]] = [[.upgradeView, .changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
