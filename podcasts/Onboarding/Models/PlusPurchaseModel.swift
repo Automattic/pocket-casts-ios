@@ -2,23 +2,16 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseModel: ObservableObject {
-    var navigationController: UINavigationController? = nil
-
-    // Allow injection of the IapHelper
-    let purchaseHandler: IapHelper
+class PlusPurchaseModel: PlusPricingInfoModel, ObservableObject {
+    var parentController: UIViewController? = nil
 
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
 
-    // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
-
     private var purchasedProduct: Constants.IapProducts?
 
-    init(purchaseHandler: IapHelper = .shared) {
-        self.purchaseHandler = purchaseHandler
-        self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+    override init(purchaseHandler: IapHelper = .shared) {
+        super.init(purchaseHandler: purchaseHandler)
 
         addPaymentObservers()
     }
@@ -43,29 +36,15 @@ class PlusPurchaseModel: ObservableObject {
         case cancelled
         case failed
     }
-
-    // A simple struct to keep track of the product and pricing information the view needs
-    struct PlusPricingInfo {
-        let products: [PlusProductPricingInfo]
-        let hasFreeTrial: Bool
-    }
-
-    struct PlusProductPricingInfo: Identifiable {
-        let identifier: Constants.IapProducts
-        let price: String
-        let freeTrialDuration: String?
-
-        var id: String { identifier.rawValue }
-    }
 }
 
 extension PlusPurchaseModel {
-    static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
+    static func make(in parentController: UIViewController) -> UIViewController {
         let coordinator = PlusPurchaseModel()
-        coordinator.navigationController = navigationController
+        coordinator.parentController = parentController
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: coordinator)
+        let modal = PlusPurchaseModal(coordinator: coordinator).setupDefaultEnvironment()
         let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
 
         return controller
@@ -108,24 +87,6 @@ private extension PlusPurchaseModel {
             state = .ready
         }
     }
-
-    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly]
-        var pricing: [PlusProductPricingInfo] = []
-
-        for product in products {
-            let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
-            let trial = purchaseHandler.localizedFreeTrialDuration(product)
-
-            let info = PlusProductPricingInfo(identifier: product,
-                                              price: price,
-                                              freeTrialDuration: trial)
-            pricing.append(info)
-        }
-
-        let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
-        return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
-    }
 }
 
 private extension PlusPurchaseModel {
@@ -137,10 +98,20 @@ private extension PlusPurchaseModel {
         upgradedVC.imageName = AppTheme.plusCreatedImageName
         upgradedVC.hideNewsletter = false
 
-        // Hide the modal, then push
-        navigationController?.dismiss(animated: true, completion: {
-            self.navigationController?.pushViewController(upgradedVC, animated: true)
-        })
+        if let navigationController = parentController as? UINavigationController {
+            // Hide the modal, then push
+            navigationController.dismiss(animated: true, completion: {
+                navigationController.pushViewController(upgradedVC, animated: true)
+            })
+            return
+        }
+
+        if let parentController {
+            let controller = OnboardingNavigationViewController(rootViewController: upgradedVC)
+            parentController.dismiss(animated: true, completion: {
+                parentController.present(controller, animated: true)
+            })
+        }
     }
 }
 
