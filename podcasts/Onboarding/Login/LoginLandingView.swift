@@ -205,6 +205,8 @@ private struct LoginButtons: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            Spacer()
+
             SocialLoginButtons(coordinator: coordinator)
 
             Button("Sign Up") {
@@ -214,10 +216,6 @@ private struct LoginButtons: View {
             Button("Login") {
                 coordinator.loginTapped()
             }.buttonStyle(SimpleTextButtonStyle(theme: theme))
-
-            Action {
-                print(theme.activeTheme)
-            }
         }
     }
 }

@@ -32,7 +32,7 @@ struct PlusLandingView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
                             coordinator.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.isLoadingPrices))
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.priceAvailability == .loading))
 
                         Button("Not Now") {
                             coordinator.dismissTapped()
@@ -47,31 +47,28 @@ struct PlusLandingView: View {
     // Static list of the feature models to display
     private let features = [
         PlusFeature(iconName: "plus-feature-desktop",
-                    title: "Desktop Apps",
-                    description: "Listen in more places with our Windows, macOS and Web apps"),
+                    title: L10n.plusMarketingDesktopAppsTitle,
+                    description: L10n.plusMarketingUpdatedDesktopAppsDescription),
         PlusFeature(iconName: "plus-feature-folders",
-                    title: "Folders",
-                    description: "Organise your podcasts in folders, and keep them in sync across all your devices"),
+                    title: L10n.folders,
+                    description: L10n.plusMarketingUpdatedFoldersDescription),
         PlusFeature(iconName: "plus-feature-cloud",
-                    title: "10GB Cloud Storage",
-                    description: "Upload your files to cloud storage and have it available everywhere"),
+                    title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized()),
+                    description: L10n.plusMarketingUpdatedCloudStorageDescription),
         PlusFeature(iconName: "plus-feature-watch",
-                    title: "Watch Playback",
-                    description: "Ditch the phone and go for a run - without missing a beat. Apple Watch stands alone"),
+                    title: L10n.plusMarketingWatchPlaybackTitle,
+                    description: L10n.plusMarketingWatchPlaybackDescription),
         PlusFeature(iconName: "plus-feature-hide-ads",
-                    title: "Hide Ads",
-                    description: "Ad-free experience which gives you more of what you love and less of what you don’t"),
+                    title: L10n.plusMarketingHideAdsTitle,
+                    description: L10n.plusMarketingHideAdsDescription),
         PlusFeature(iconName: "plus-feature-themes",
-                    title: "Themes & Icons",
-                    description: "Fly your true colours. Exclusive icons and themes for the plus club only")
+                    title: L10n.plusMarketingThemesIconsTitle,
+                    description: L10n.plusMarketingThemesIconsDescription)
     ]
 }
 
 // MARK: - Config
 private extension Color {
-    static let backgroundColor = Color(hex: "121212")
-    static let leftCircleColor = Color(hex: "ffb626")
-    static let rightCircleColor = Color(hex: "ffd845")
     static let textColor = Color.white
 
     // Feature Cards
@@ -164,18 +161,18 @@ private struct PlusBackgroundGradientView: View {
 
     var body: some View {
         ZStack {
-            Color.backgroundColor
+            Color.plusBackgroundColor
             ZStack {
                 // Right Circle
                 Circle()
-                    .foregroundColor(.rightCircleColor)
+                    .foregroundColor(.plusRightCircleColor)
                     .frame(height: rightCircleSize)
                     .position(x: rightCircleX, y: rightCircleY)
                     .offset(x: rightCircleSize * 0.5, y: rightCircleSize * 0.5)
 
                 // Left Circle
                 Circle()
-                    .foregroundColor(.leftCircleColor)
+                    .foregroundColor(.plusLeftCircleColor)
                     .frame(height: leftCircleSize)
                     .position(x: leftCircleX, y: leftCircleY)
                     .offset(x: leftCircleSize * 0.5, y: leftCircleSize * 0.5)
@@ -183,7 +180,7 @@ private struct PlusBackgroundGradientView: View {
 
             // Overlay view
             Rectangle()
-                .foregroundColor(.backgroundColor)
+                .foregroundColor(.plusBackgroundColor)
                 .opacity(0.28)
         }.ignoresSafeArea().clipped()
     }

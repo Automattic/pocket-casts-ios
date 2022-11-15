@@ -1,4 +1,5 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
@@ -219,7 +220,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         if FeatureFlag.onboardingUpdates {
-            self.present(PlusCoordinator.make(), animated: true)
+            self.present(LoginCoordinator.make(), animated: true)
             return
         }
 

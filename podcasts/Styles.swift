@@ -159,9 +159,6 @@ struct RoundedButtonStyle: ButtonStyle {
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
-            .onAppear() {
-                print("RoundedButtonStyle", theme.activeTheme)
-            }
     }
 }
 

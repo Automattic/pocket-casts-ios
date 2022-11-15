@@ -5,8 +5,11 @@ class LoginCoordinator {
     var navigationController: UINavigationController? = nil
 
     func loginTapped() {
-        let controller = SyncSigninViewController()
+
+        let controller = PlusCoordinator.make(in: navigationController)
         navigationController?.pushViewController(controller, animated: true)
+//        let controller = SyncSigninViewController()
+//        navigationController?.pushViewController(controller, animated: true)
     }
 
     func signUpTapped() {
