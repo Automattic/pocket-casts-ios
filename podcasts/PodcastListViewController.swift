@@ -220,8 +220,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         if FeatureFlag.onboardingUpdates {
-            let coordinator = WelcomeCoordinator(displayType: .plus)
-            let controller = WelcomeHostingViewController(rootView: WelcomeView(coordinator: coordinator).setupDefaultEnvironment())
+            let coordinator = WelcomeViewModel(displayType: .plus)
+            let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: coordinator).setupDefaultEnvironment())
             let navigationController = OnboardingNavigationViewController(rootViewController: controller)
             coordinator.navigationController = navigationController
 

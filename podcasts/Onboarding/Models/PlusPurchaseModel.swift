@@ -93,8 +93,8 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let coordinator = WelcomeCoordinator(displayType: .plus)
-        let controller = WelcomeHostingViewController(rootView: WelcomeView(coordinator: coordinator).setupDefaultEnvironment())
+        let coordinator = WelcomeViewModel(displayType: .plus)
+        let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: coordinator).setupDefaultEnvironment())
 
         guard let navigationController = parentController as? UINavigationController else {
             // Create a view controller to present the view in

@@ -2,10 +2,10 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var coordinator: WelcomeCoordinator
+    @ObservedObject var viewModel: WelcomeViewModel
 
     private var titleText: String {
-        switch coordinator.displayType {
+        switch viewModel.displayType {
         case .plus:
             return L10n.welcomePlusTitle
         case .newAccount:
@@ -14,7 +14,7 @@ struct WelcomeView: View {
     }
 
     private var isPlus: Bool {
-        coordinator.displayType == .plus
+        viewModel.displayType == .plus
     }
 
     var body: some View {
@@ -29,19 +29,21 @@ struct WelcomeView: View {
                         .padding(.bottom, 24)
 
                     VStack(spacing: 16) {
-                        ForEach(coordinator.sections) { section in
+                        ForEach(viewModel.sections) { section in
                             WelcomeSectionView(model: model(for: section)) {
-                                coordinator.sectionTapped(section)
+                                viewModel.sectionTapped(section)
                             }
                         }
                     }
 
                     newsletter
+                        .padding(.top, 30)
+                        .padding(.bottom, 16)
 
                     Spacer()
 
                     Button(L10n.done) {
-                        coordinator.doneTapped()
+                        viewModel.doneTapped()
                     }.buttonStyle(RoundedButtonStyle(theme: theme))
                 }
                 .padding([.leading, .trailing], Config.padding.horizontal)
@@ -61,15 +63,14 @@ struct WelcomeView: View {
 
             Spacer()
 
-            Toggle(isOn: $coordinator.newsletterOptIn) {
+            Toggle(isOn: $viewModel.newsletterOptIn) {
                 EmptyView()
             }.toggleStyle(SwitchToggleStyle(tint: AppTheme.color(for: .primaryInteractive01, theme: theme)))
                 .frame(maxWidth: 60)
         }
-        .padding(.bottom, 16)
     }
 
-    private func model(for section: WelcomeCoordinator.WelcomeSection) -> WelcomeSectionModel {
+    private func model(for section: WelcomeViewModel.WelcomeSection) -> WelcomeSectionModel {
         switch section {
 
         case .importPodcasts:
@@ -102,7 +103,7 @@ private enum Config {
 // MARK: - Preview
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(coordinator: WelcomeCoordinator(navigationController: UINavigationController(), displayType: .plus))
+        WelcomeView(viewModel: WelcomeViewModel(navigationController: UINavigationController(), displayType: .plus))
             .previewWithAllThemes()
     }
 }

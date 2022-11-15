@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsServer
 
-class WelcomeCoordinator: ObservableObject {
+class WelcomeViewModel: ObservableObject {
     var navigationController: UINavigationController?
     let displayType: DisplayType
     let sections: [WelcomeSection] = [.importPodcasts, .discover]
