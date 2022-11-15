@@ -219,7 +219,7 @@ private struct ShareButtonStyle: ButtonStyle {
             RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
                 .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
         )
-        .makeSpringy(isPressed: configuration.isPressed)
+        .applyButtonEffect(isPressed: configuration.isPressed)
         .contentShape(Rectangle())
     }
 
@@ -242,7 +242,7 @@ private struct CloseButtonStyle: ButtonStyle {
             .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
             .cornerRadius(Constants.closeButtonRadius)
             .contentShape(Rectangle())
-            .makeSpringy(isPressed: configuration.isPressed)
+            .applyButtonEffect(isPressed: configuration.isPressed)
     }
 
     private enum Constants {
