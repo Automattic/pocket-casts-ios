@@ -207,15 +207,54 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
+// MARK: - Custom Buttons
 
+private struct ShareButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            Spacer()
+            Image(systemName: "square.and.arrow.up")
+            configuration.label
+            Spacer()
+        }
+        .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
+        .foregroundColor(Constants.shareButtonColor)
+
+        .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
+
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
+                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
+        )
+        .makeSpringy(isPressed: configuration.isPressed)
+        .contentShape(Rectangle())
+    }
+
+    private struct Constants {
+        static let shareButtonColor = Color.white
         static let shareButtonVerticalPadding: CGFloat = 10
-        static let shareButtonHorizontalPadding: CGFloat = 5
         static let shareButtonCornerRadius: CGFloat = 10
         static let shareButtonBorderSize: CGFloat = 1
+    }
+}
 
-        static let spaceBetweenShareAndStory: CGFloat = 15
+private struct CloseButtonStyle: ButtonStyle {
+    let showButtonShapes: Bool
 
-        static let storyCornerRadius: CGFloat = 15
+    func makeBody(configuration: Configuration) -> some View {
+        Image(systemName: "xmark")
+            .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
+            .foregroundColor(.white)
+            .padding(Constants.closeButtonPadding)
+            .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
+            .cornerRadius(Constants.closeButtonRadius)
+            .contentShape(Rectangle())
+            .makeSpringy(isPressed: configuration.isPressed)
+    }
+
+    private enum Constants {
+        static let closeButtonPadding: CGFloat = 13
+        static let closeButtonRadius: CGFloat = 5
     }
 }
 
