@@ -82,6 +82,25 @@ struct PlusGradientStrokeButton: ButtonStyle {
     }
 }
 
+struct PlusFreeTrialLabel: View {
+    let text: String
+    init(_ text: String) {
+        self.text = text
+    }
+
+    var body: some View {
+        Text(L10n.freeTrialDurationFreeTrial(text.localizedUppercase))
+            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
+            .multilineTextAlignment(.center)
+            .padding([.top, .bottom], 4)
+            .padding([.leading, .trailing], 13)
+            .background(
+                Color.plusGradient.cornerRadius(4)
+            )
+            .foregroundColor(Color.plusButtonFilledTextColor)
+    }
+}
+
 extension View {
     func gradientOverlay<Content: View>(_ content: Content) -> some View {
         self.overlay(content).mask(self)
@@ -99,4 +118,8 @@ extension Color {
 
     static let plusButtonUnselectedColor = Color.white
     static let plusButtonFilledTextColor = Color.black
+
+    static let plusBackgroundColor = Color(hex: "121212")
+    static let plusLeftCircleColor = Color(hex: "ffd845")
+    static let plusRightCircleColor = Color(hex: "ffb626")
 }

@@ -2,26 +2,20 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusCoordinator: ObservableObject {
+class PlusCoordinator: PlusPricingInfoModel {
     var navigationController: UINavigationController? = nil
-    @Published var isLoadingPrices = false
 
     func unlockTapped() {
-        guard let navigationController else { return }
-
-        // Temporary, push to the welcome view
-        let coordinator = WelcomeCoordinator(navigationController: navigationController, displayType: .plus)
-        let view = WelcomeView(coordinator: coordinator).setupDefaultEnvironment()
-        let controller = WelcomeHostingViewController(rootView: view)
-        navigationController.pushViewController(controller, animated: true)
-
-//        // If the prices haven't been loaded yet, load them and wait...
-//        guard IapHelper.shared.hasLoadedProducts else {
-//            listenForPrices()
-//            return
-//        }
-//
-//        handlePricesLoaded()
+        loadPrices {
+            switch self.priceAvailability {
+            case .available:
+                self.showModal()
+            case .failed:
+                self.showError()
+            default:
+                break
+            }
+        }
     }
 
     func dismissTapped() {
@@ -29,23 +23,15 @@ class PlusCoordinator: ObservableObject {
     }
 }
 
-// MARK: - Price updating
 private extension PlusCoordinator {
-    private func listenForPrices() {
-        isLoadingPrices = true
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePricesLoaded), name: ServerNotifications.iapProductsUpdated, object: nil)
-
-        IapHelper.shared.requestProductInfo()
-    }
-
-    @objc func handlePricesLoaded() {
-        isLoadingPrices = false
-
+    func showModal() {
         guard let navigationController else { return }
-
         let controller = PlusPurchaseModel.make(in: navigationController)
         controller.presentModally(in: navigationController)
+    }
+
+    func showError() {
+        SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
     }
 }
 
