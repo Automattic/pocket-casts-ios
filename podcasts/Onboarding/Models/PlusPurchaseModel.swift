@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseModel: PlusPricingInfoModel, ObservableObject {
+class PlusPurchaseModel: PlusPricingInfoModel {
     var parentController: UIViewController? = nil
 
     // Keep track of our internal state, and pass this to our view

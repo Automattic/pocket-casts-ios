@@ -1,13 +1,15 @@
-import UIKit
+purcimport UIKit
 import PocketCastsServer
 
 /// A parent model that allows a view to present pricing information
-class PlusPricingInfoModel {
+class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
     let purchaseHandler: IapHelper
 
     // Allow our views to get the necessary pricing information
     let pricingInfo: PlusPricingInfo
+
+    @Published var priceAvailability: PriceAvailablity = .unknown
 
     init(purchaseHandler: IapHelper = .shared) {
         self.purchaseHandler = purchaseHandler
@@ -44,5 +46,36 @@ class PlusPricingInfoModel {
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }
+    }
+
+    enum PriceAvailablity {
+        case unknown, available, loading, failed
+    }
+}
+
+extension PlusAccountPromptViewModel {
+    func loadPrices(_ completion: @escaping () -> Void) {
+        if IapHelper.shared.hasLoadedProducts {
+            priceAvailability = .available
+            completion()
+            return
+        }
+
+        priceAvailability = .loading
+
+        let notificatonCenter = NotificationCenter.default
+
+        notificatonCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+
+            self.priceAvailability = .available
+            completion()
+        }
+
+        notificatonCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
+            self.priceAvailability = .failed
+            completion()
+        }
+
+        purchaseHandler.requestProductInfo()
     }
 }
