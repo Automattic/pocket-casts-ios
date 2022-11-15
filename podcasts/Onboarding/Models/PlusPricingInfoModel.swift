@@ -9,11 +9,13 @@ class PlusPricingInfoModel: ObservableObject {
     // Allow our views to get the necessary pricing information
     let pricingInfo: PlusPricingInfo
 
-    @Published var priceAvailability: PriceAvailablity = .unknown
+    /// Determines whether prices are available
+    @Published var priceAvailability: PriceAvailablity
 
     init(purchaseHandler: IapHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+        self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
     }
 
     private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
@@ -53,6 +55,7 @@ class PlusPricingInfoModel: ObservableObject {
     }
 }
 
+// MARK: - Price Loading
 extension PlusPricingInfoModel {
     func loadPrices(_ completion: @escaping () -> Void) {
         if purchaseHandler.hasLoadedProducts {
