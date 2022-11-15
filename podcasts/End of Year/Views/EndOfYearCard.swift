@@ -8,12 +8,11 @@ struct EndOfYearCard: View {
             HStack {
                 VStack(alignment: .leading, spacing: Constants.textSpace) {
                     Text(L10n.eoyTitle)
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                        .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraLarge)
                         .foregroundColor(.white)
+
                     Text(L10n.eoyCardDescription)
-                        .font(.footnote)
-                        .fontWeight(.semibold)
+                        .font(style: .footnote, weight: .semibold, maxSizeCategory: .accessibilityMedium)
                         .foregroundColor(.gray)
                 }
                 .padding()

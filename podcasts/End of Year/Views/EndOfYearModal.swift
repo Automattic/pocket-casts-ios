@@ -10,14 +10,15 @@ struct EndOfYearModal: View {
             VStack(alignment: .center, spacing: Constants.verticalSpacing) {
 
                 Text(L10n.eoyTitle)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 cover
 
                 Text(L10n.eoyDescription)
-                    .font(.body)
+                    .font(style: .body, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .allowsTightening(false)
 
                 showStoriesButton
