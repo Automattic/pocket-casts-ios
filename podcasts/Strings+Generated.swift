@@ -2561,9 +2561,9 @@ internal enum L10n {
   internal static var welcomeImportDescription: String { return L10n.tr("Localizable", "welcome_import_description") }
   /// Import your podcasts
   internal static var welcomeImportTitle: String { return L10n.tr("Localizable", "welcome_import_title") }
-  /// Welcome, now let’s get you listening!
+  /// Welcome, now let's get you listening!
   internal static var welcomeNewAccountTitle: String { return L10n.tr("Localizable", "welcome_new_account_title") }
-  /// Thank you, now let’s get you listening!
+  /// Thank you, now let's get you listening!
   internal static var welcomePlusTitle: String { return L10n.tr("Localizable", "welcome_plus_title") }
   /// What's New
   internal static var whatsNew: String { return L10n.tr("Localizable", "whats_new") }

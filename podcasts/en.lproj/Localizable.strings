@@ -3391,10 +3391,10 @@
 "eoy_stories_failed" = "Failed to load stories.";
 
 /* Title of the view displayed after a user successfully upgrades to plus */
-"welcome_plus_title" = "Thank you, now let’s get you listening!";
+"welcome_plus_title" = "Thank you, now let's get you listening!";
 
 /* Title of the view displayed after a user successfully creates an account */
-"welcome_new_account_title" = "Welcome, now let’s get you listening!";
+"welcome_new_account_title" = "Welcome, now let's get you listening!";
 
 /* Title of a section informing the user they can import their podcasts from another app */
 "welcome_import_title" = "Import your podcasts";
