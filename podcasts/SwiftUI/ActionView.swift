@@ -28,12 +28,11 @@ struct Action: View {
     private let action: () -> Void
 
     var body: some View {
-        // If the action hasn't been performed yet, we'll create an empty view and listen for the onAppear
-        NoView().onAppear() {
-            DispatchQueue.main.async {
-                action()
-            }
+        DispatchQueue.main.async {
+            self.action()
         }
+
+        return NoView()
     }
 
     /// This is a "view" that has no frame, and appears very far off screen.
