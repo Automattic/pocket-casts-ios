@@ -118,6 +118,15 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     @IBOutlet var pricingCenterConstraint: NSLayoutConstraint!
 
+    private var upgradeView: UIView? {
+        return oldUpgradeView
+    }
+
+    private func hideOldUpgradeViewIfNeeded() {
+        guard FeatureFlag.onboardingUpdates else { return }
+        oldUpgradeView.removeFromSuperview()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountTitle
@@ -137,6 +146,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideOldUpgradeViewIfNeeded()
         updateDisplayedData()
         title = L10n.accountTitle
     }
