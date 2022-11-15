@@ -10,14 +10,15 @@ struct EndOfYearModal: View {
             VStack(alignment: .center, spacing: Constants.verticalSpacing) {
 
                 Text(L10n.eoyTitle)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 cover
 
                 Text(L10n.eoyDescription)
-                    .font(.body)
+                    .font(style: .body, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .allowsTightening(false)
 
                 showStoriesButton
@@ -73,31 +74,17 @@ struct EndOfYearModal: View {
     }
 
     var showStoriesButton: some View {
-        Button(action: {
+        Button(L10n.eoyViewYear) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
-        }) {
-            HStack {
-                Spacer()
-                Text(L10n.eoyViewYear)
-                Spacer()
-            }
         }
-        .textStyle(RoundedDarkButton())
-        .contentShape(Rectangle())
+        .buttonStyle(RoundedDarkButton(theme: theme))
     }
 
     var dismissButton: some View {
-        Button(action: {
+        Button(L10n.eoyNotNow) {
             NavigationManager.sharedManager.dismissPresentedViewController()
-        }) {
-            HStack {
-                Spacer()
-                Text(L10n.eoyNotNow)
-                Spacer()
-            }
         }
-        .textStyle(StrokeButton())
-        .contentShape(Rectangle())
+        .buttonStyle(StrokeButton(theme: theme))
     }
 
     private enum Constants {
