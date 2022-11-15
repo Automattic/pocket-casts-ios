@@ -25,7 +25,7 @@ struct ListeningTimeStory: StoryView {
                         .frame(maxHeight: geometry.size.height * 0.12)
                         .minimumScaleFactor(0.01)
 
-                    Text(FunnyTimeConverter.timeSecsToFunnyText(listeningTime))
+                    Text(FunMessage.timeSecsToFunnyText(listeningTime))
                         .font(.system(size: 15, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
@@ -83,6 +83,20 @@ struct ListeningTimeStory: StoryView {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
         ]
+    }
+}
+
+/// Always return the same funny message
+struct FunMessage {
+    static var message: String?
+
+    static func timeSecsToFunnyText(_ timeInSeconds: Double) -> String {
+        guard let message = Self.message else {
+            Self.message = FunnyTimeConverter.timeSecsToFunnyText(timeInSeconds)
+            return Self.message ?? ""
+        }
+
+        return message
     }
 }
 
