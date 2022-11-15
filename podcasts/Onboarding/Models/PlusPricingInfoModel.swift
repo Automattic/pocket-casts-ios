@@ -53,7 +53,7 @@ class PlusPricingInfoModel: ObservableObject {
     }
 }
 
-extension PlusAccountPromptViewModel {
+extension PlusPricingInfoModel {
     func loadPrices(_ completion: @escaping () -> Void) {
         if IapHelper.shared.hasLoadedProducts {
             priceAvailability = .available
@@ -63,15 +63,15 @@ extension PlusAccountPromptViewModel {
 
         priceAvailability = .loading
 
-        let notificatonCenter = NotificationCenter.default
+        let notificationCenter = NotificationCenter.default
 
-        notificatonCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
 
             self.priceAvailability = .available
             completion()
         }
 
-        notificatonCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
             self.priceAvailability = .failed
             completion()
         }

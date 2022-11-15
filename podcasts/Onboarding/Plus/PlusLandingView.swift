@@ -32,7 +32,7 @@ struct PlusLandingView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
                             coordinator.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.isLoadingPrices))
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.priceAvailability == .loading))
 
                         Button("Not Now") {
                             coordinator.dismissTapped()
