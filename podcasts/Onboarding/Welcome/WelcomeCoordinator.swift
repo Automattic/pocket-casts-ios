@@ -1,11 +1,11 @@
 import Foundation
 
 class WelcomeCoordinator {
-    let navigationController: UINavigationController
+    var navigationController: UINavigationController?
     let displayType: DisplayType
     let sections: [WelcomeSection] = [.importPodcasts, .discover]
 
-    init(navigationController: UINavigationController, displayType: DisplayType) {
+    init(navigationController: UINavigationController? = nil, displayType: DisplayType) {
         self.navigationController = navigationController
         self.displayType = displayType
     }
@@ -16,13 +16,13 @@ class WelcomeCoordinator {
             print("TODO: Future Task")
 
         case .discover:
-            navigationController.dismiss(animated: true)
+            navigationController?.dismiss(animated: true)
             NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
         }
     }
 
     func doneTapped() {
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 
     // MARK: - Configuration

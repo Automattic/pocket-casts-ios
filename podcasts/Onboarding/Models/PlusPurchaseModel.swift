@@ -91,27 +91,27 @@ private extension PlusPurchaseModel {
 
 private extension PlusPurchaseModel {
     private func handleNext() {
-        // Temporary: Push to the account updated controller
-        let upgradedVC = AccountUpdatedViewController()
-        upgradedVC.titleText = L10n.accountUpgraded
-        upgradedVC.detailText = L10n.accountWelcomePlus
-        upgradedVC.imageName = AppTheme.plusCreatedImageName
-        upgradedVC.hideNewsletter = false
+        guard let parentController else { return }
 
-        if let navigationController = parentController as? UINavigationController {
-            // Hide the modal, then push
-            navigationController.dismiss(animated: true, completion: {
-                navigationController.pushViewController(upgradedVC, animated: true)
+        let coordinator = WelcomeCoordinator(displayType: .plus)
+        let controller = WelcomeHostingViewController(rootView: WelcomeView(coordinator: coordinator).setupDefaultEnvironment())
+
+        guard let navigationController = parentController as? UINavigationController else {
+            // Create a view controller to present the view in
+            let navigationController = OnboardingNavigationViewController(rootViewController: controller)
+            coordinator.navigationController = navigationController
+
+            parentController.dismiss(animated: true, completion: {
+                parentController.present(navigationController, animated: true)
             })
             return
         }
 
-        if let parentController {
-            let controller = OnboardingNavigationViewController(rootViewController: upgradedVC)
-            parentController.dismiss(animated: true, completion: {
-                parentController.present(controller, animated: true)
-            })
-        }
+        // Show the welcome view inside the existing nav controller
+        coordinator.navigationController = navigationController
+        navigationController.dismiss(animated: true, completion: {
+            navigationController.pushViewController(controller, animated: true)
+        })
     }
 }
 
