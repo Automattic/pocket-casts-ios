@@ -2,11 +2,15 @@ import XCTest
 
 @testable import podcasts
 @testable import PocketCastsDataModel
+@testable import PocketCastsServer
 
 class EndOfYearStoriesBuilderTests: XCTestCase {
     override func setUp() {
         // Do not sync for episodes
         Settings.hasSyncedAll2022Episodes = true
+
+        // Pretend we're logged in
+        ServerSettings.setSyncingEmail(email: "test@test.com")
     }
 
     func testReturnListeningTimeStoryIfBiggerThanZero() async {
