@@ -571,36 +571,54 @@
     <string>後で</string>
     <key>eoy_small_title</key>
     <string>ポッドキャストで振り返る1年</string>
+    <key>eoy_stories_failed</key>
+    <string>ストーリーの読み込みに失敗しました。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>友達と共有したりお気に入りのポッドキャストクリエイターにエールを送ったりしましょう</string>
     <key>eoy_story_epilogue_title</key>
     <string>2022年、Pocket Casts をお聴きくださりありがとうございました</string>
     <key>eoy_story_intro_title</key>
-    <string>今年聴いたのポッドキャストを振り返ってみましょう...</string>
+    <string>今年聴いたポッドキャストを振り返ってみましょう...</string>
     <key>eoy_story_listened_to</key>
     <string>2022年、ポッドキャストを聴いた時間は合計%1$@時間です</string>
     <key>eoy_story_listened_to_categories</key>
     <string>今年、%1$@個のカテゴリーを聴きました</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>2022年に%1$@種類のカテゴリーを聴きました</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>お気に入りをいくつか振り返りましょう...</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>%1$@個のポッドキャストで%2$@話のエピソードを聴きました</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>何度も聴いたエピソードもありました...</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>2022年に%1$@ポッドキャストを聴きました</string>
     <key>eoy_story_longest_episode</key>
-    <string>お聴きになった最長のエピソードは、ポッドキャスト %2$@ の %1$@ のエピソードでした</string>
+    <string>聴いた最長のエピソードは、ポッドキャスト %2$@ の %1$@ でした</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>このエピソードの時間は%1$@です</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>2022年に聴いた最長のエピソード %1$@</string>
     <key>eoy_story_replay</key>
     <string>再生</string>
     <key>eoy_story_top_categories</key>
     <string>トップカテゴリー</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>最もよく聴いたポッドキャストカテゴリー</string>
     <key>eoy_story_top_podcast</key>
     <string>あなたに人気のポッドキャストは %2$@ による %1$@ でした</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>2022年のお気に入りポッドキャスト ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>%1$@個のエピソードで合計%2$@聴きました</string>
     <key>eoy_story_top_podcasts</key>
     <string>人気のポッドキャスト</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>私の2022年のトップポッドキャスト</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>今年私が一番よく聴いたポッドキャスト ! %1$@</string>
     <key>eoy_title</key>
     <string>ポッドキャストで振り返る1年</string>
     <key>eoy_view_year</key>
@@ -2132,7 +2150,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>today</key>
     <string>今日</string>
     <key>top</key>
-    <string>人気</string>
+    <string>一番上</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>

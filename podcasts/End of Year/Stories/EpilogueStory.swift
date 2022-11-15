@@ -8,11 +8,14 @@ struct EpilogueStory: StoryView {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(backgroundColor: UIColor(hex: "#FDDC68").color, foregroundColor: UIColor(hex: "#D29D41").color)
+                UIColor(hex: "#1A1A1A").color
                     .allowsHitTesting(false)
 
                 VStack {
                     VStack {
+                        Image("heart")
+                            .padding(.bottom, 20)
+
                         Text(L10n.eoyStoryEpilogueTitle)
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .heavy))
@@ -31,6 +34,7 @@ struct EpilogueStory: StoryView {
                     }
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
+                    .allowsHitTesting(false)
 
                     Button(action: {
                         StoriesController.shared.replay()
@@ -39,16 +43,16 @@ struct EpilogueStory: StoryView {
                         HStack {
                             Image(systemName: "arrow.clockwise")
                                 .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(UIColor(hex: "#1A1A1A").color)
                             Text(L10n.eoyStoryReplay)
-                                .foregroundColor(.white)
+                                .foregroundColor(UIColor(hex: "#1A1A1A").color)
                                 .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
-                                .frame(maxHeight: geometry.size.height * 0.12)
                                 .minimumScaleFactor(0.01)
                         }
                     }
+                    .buttonStyle(ReplayButtonStyle())
+                    .padding(.top, 20)
                 }
                 .padding()
             }
@@ -78,6 +82,19 @@ struct EpilogueStory: StoryView {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText("")
         ]
+    }
+}
+
+struct ReplayButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .hidden()
+            .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius: 50)
+                    .fill(Color.white)
+            )
+            .overlay(configuration.label)
     }
 }
 

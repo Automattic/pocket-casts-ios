@@ -181,42 +181,41 @@ struct RoundedButton: ViewModifier {
 }
 
 /// A dark button filled with a light color
-struct RoundedDarkButton: ViewModifier {
-    @EnvironmentObject var theme: Theme
+struct RoundedDarkButton: ButtonStyle {
+    @ObservedObject var theme: Theme
 
-    func body(content: Content) -> some View {
-        HStack {
-            Spacer()
-            content
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(ThemeColor.primaryUi01(for: theme.activeTheme).color)
-            Spacer()
-        }
-        .padding()
-        .background(ThemeColor.primaryText01(for: theme.activeTheme).color)
-        .cornerRadius(ViewConstants.buttonCornerRadius)
-        .frame(height: 44)
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 18, weight: .semibold))
+            .frame(maxWidth: .infinity)
+            .padding()
+
+            .foregroundColor(ThemeColor.primaryUi01(for: theme.activeTheme).color)
+            .background(ThemeColor.primaryText01(for: theme.activeTheme).color)
+
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .contentShape(Rectangle())
     }
 }
 
 /// A button that contains a stroke
-struct StrokeButton: ViewModifier {
-    @EnvironmentObject var theme: Theme
+struct StrokeButton: ButtonStyle {
+    @ObservedObject var theme: Theme
 
-    func body(content: Content) -> some View {
-        HStack {
-            Spacer()
-            content
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
-            Spacer()
-        }
-        .padding()
-        .overlay(
-            RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
-                .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
-        )
-        .frame(height: 44)
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                    .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+            )
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .contentShape(Rectangle())
     }
 }
 
