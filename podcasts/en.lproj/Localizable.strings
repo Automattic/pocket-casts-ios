@@ -3422,3 +3422,9 @@
 
 /* Marketing text that promotes the plus feature to the user */
 "account_details_plus_title" = "Take your podcasting experience to the next level with exclusive access to features and customisation options.";
+
+/* Body of a message informing the user the request failed */
+"plus_upgrade_no_internet_title" = "Unable to Load";
+
+/* Body of a message informing the user they need an internet connect to upgrade to plus */
+"plus_upgrade_no_internet_message" = "Please check your internet connection and try again.";
