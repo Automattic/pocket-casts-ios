@@ -1,4 +1,4 @@
-purcimport UIKit
+import UIKit
 import PocketCastsServer
 
 /// A parent model that allows a view to present pricing information
