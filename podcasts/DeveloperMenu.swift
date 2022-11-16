@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsDataModel
 
 struct DeveloperMenu: View {
     var body: some View {
@@ -11,6 +12,14 @@ struct DeveloperMenu: View {
 
                 Button("Force Reload Discover") {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
+                }
+
+                Button("Unsubscribe from all Podcasts") {
+                    let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+
+                    for podcast in podcasts {
+                        PodcastManager.shared.unsubscribe(podcast: podcast)
+                    }
                 }
             }
 
