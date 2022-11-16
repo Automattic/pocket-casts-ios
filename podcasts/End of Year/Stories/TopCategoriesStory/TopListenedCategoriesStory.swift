@@ -28,7 +28,7 @@ struct TopListenedCategoriesStory: StoryView {
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .padding(.bottom)
+                        .padding(.bottom, geometry.size.height * 0.1)
                         .padding(.top, geometry.size.height * 0.05)
 
                     HStack(alignment: .bottom, spacing: 25) {

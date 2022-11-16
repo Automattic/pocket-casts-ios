@@ -22,7 +22,7 @@ struct CategoryPillar: View {
                     .foregroundColor(.white)
                     .opacity(0.8)
                     .frame(width: 90)
-                    .padding(.bottom)
+                    .padding(.bottom, 20)
                     .fixedSize()
 
                 ZStack(alignment: .top) {
