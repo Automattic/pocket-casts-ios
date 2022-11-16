@@ -19,7 +19,9 @@ class MotionManager: ObservableObject {
     init(options: MotionOptions = .all) {
         self.options = options
         self.motionManager = CMMotionManager()
+    }
 
+    func start() {
         // Don't try to setup unless motion is available
         guard self.motionManager.isDeviceMotionAvailable else { return }
 
@@ -29,6 +31,10 @@ class MotionManager: ObservableObject {
 
             self.update(data)
         }
+    }
+
+    func stop() {
+        self.motionManager.stopDeviceMotionUpdates()
     }
 
     private func update(_ data: CMDeviceMotion) {
