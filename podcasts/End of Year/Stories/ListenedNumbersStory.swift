@@ -19,36 +19,36 @@ struct ListenedNumbersStory: StoryView {
                 VStack {
                     ZStack {
                         podcastCover(5)
-                            .frame(width: geometry.size.width * 0.17, height: geometry.size.width * 0.17)
-                            .padding(.leading, (geometry.size.width / 3.8))
-                            .padding(.top, -(geometry.size.width / 3.8))
+                            .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
+                            .padding(.leading, (geometry.size.width / 2))
+                            .padding(.top, -(geometry.size.width / 3))
 
                         podcastCover(4)
-                            .frame(width: geometry.size.width * 0.17, height: geometry.size.width * 0.17)
-                            .padding(.leading, -(geometry.size.width / 2.3))
-                            .padding(.top, (geometry.size.width / 1.7))
+                            .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
+                            .padding(.leading, -(geometry.size.width / 2.1))
+                            .padding(.top, (geometry.size.width / 1.3))
 
                         podcastCover(0)
-                            .frame(width: geometry.size.width * 0.23, height: geometry.size.width * 0.23)
+                            .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
                             .padding(.leading, -(geometry.size.width / 2))
                             .padding(.top, -(geometry.size.width / 3.5))
 
                         podcastCover(2)
-                            .frame(width: geometry.size.width * 0.22, height: geometry.size.width * 0.22)
-                            .padding(.leading, (geometry.size.width / 3))
+                            .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
+                            .padding(.leading, (geometry.size.width / 1.8))
                             .padding(.top, (geometry.size.width / 1.5))
 
                         podcastCover(1)
-                            .frame(width: geometry.size.width * 0.29, height: geometry.size.width * 0.29)
+                            .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
+                            .padding(.leading, (geometry.size.width / 4.5))
                             .padding(.top, (geometry.size.width / 3))
 
                         podcastCover(3)
-                            .frame(width: geometry.size.width * 0.27, height: geometry.size.width * 0.27)
-                            .padding(.leading, -(geometry.size.width / 3))
+                            .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
+                            .padding(.leading, -(geometry.size.width / 4))
                     }
                     .modifier(PodcastCoverPerspective())
-                    .padding(.leading, -(geometry.size.width * 0.2))
-                    .padding(.top, geometry.size.width * 0.08)
+                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height * 0.30)
 
                     Spacer()
                 }
@@ -56,7 +56,7 @@ struct ListenedNumbersStory: StoryView {
                 VStack {
                     Spacer()
 
-                    Text(L10n.eoyStoryListenedToNumbers("\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
+                    Text(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.white)

@@ -24,8 +24,8 @@ struct TopFivePodcastsStory: StoryView {
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)
                         .padding(.bottom)
-                        .padding(.top, geometry.size.height * 0.05)
-                    VStack() {
+                        .padding(.top, geometry.size.height * 0.03)
+                    VStack(spacing: geometry.size.height * 0.03) {
                         ForEach(0...4, id: \.self) {
                             topPodcastRow($0)
                         }
@@ -50,7 +50,7 @@ struct TopFivePodcastsStory: StoryView {
         HStack(spacing: 16) {
             Text("\(index + 1).")
                 .frame(width: 30)
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 22))
                 .foregroundColor(.white)
 
                 if let podcast = podcasts[safe: index] {
@@ -64,7 +64,7 @@ struct TopFivePodcastsStory: StoryView {
             VStack(alignment: .leading) {
                 Text(podcasts[safe: index]?.title ?? "")
                     .lineLimit(2)
-                    .font(.system(size: 22, weight: .heavy))
+                    .font(.system(size: 18, weight: .heavy))
                     .foregroundColor(.white)
                     .fixedSize(horizontal: false, vertical: true)
                     .minimumScaleFactor(0.01)

@@ -17,7 +17,7 @@ struct ListeningTimeStory: StoryView {
                 DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
-                    Text(L10n.eoyStoryListenedTo(listeningTime.localizedTimeDescription ?? ""))
+                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.white)
@@ -47,7 +47,7 @@ struct ListeningTimeStory: StoryView {
                         }
                     }
                     .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX - 20, y: geometry.size.height - 230)
+                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
             }
 
@@ -67,7 +67,7 @@ struct ListeningTimeStory: StoryView {
     func podcastCover(_ index: Int) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
-            .frame(width: 140, height: 140)
+            .frame(width: 180, height: 180)
     }
 
     func onAppear() {
@@ -102,19 +102,10 @@ struct FunMessage {
 
 /// Apply a perspective to the podcasts cover
 struct PodcastCoverPerspective: ViewModifier {
-    private var transform: CGAffineTransform {
-        let values: [CGFloat] = [1, 0, 0.45, 1, 0, 0]
-        return CGAffineTransform(
-            a: values[0], b: values[1],
-            c: values[2], d: values[3],
-            tx: 0, ty: 0
-        )
-    }
-
     func body(content: Content) -> some View {
         content
-            .transformEffect(transform)
-            .rotationEffect(.init(degrees: -30))
+            .rotationEffect(Angle(degrees: -45), anchor: .center)
+            .scaleEffect(x: 1.0, y: 0.5, anchor: .center)
     }
 }
 
