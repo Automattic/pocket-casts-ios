@@ -48,7 +48,7 @@ struct ListenedNumbersStory: StoryView {
                             .padding(.leading, -(geometry.size.width / 4))
                     }
                     .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height * 0.20)
+                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height * 0.30)
 
                     Spacer()
                 }
