@@ -80,28 +80,22 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     private func updateEpisodes(updates: [Api_HistoryChange]) {
         var podcastsToUpdate: Set<String> = []
 
+        // Get the list of missing episodes in the database
+        let uuids = updates.map { $0.episode }
+        let episodesThatExists = DataManager.sharedManager.episodesThatExists(uuids: uuids)
+        let missingEpisodes = updates.filter { !episodesThatExists.contains($0.episode) }
+
         let dispatchGroup = DispatchGroup()
 
-        for change in updates {
+        for change in missingEpisodes {
             dispatchGroup.enter()
 
             DispatchQueue.global(qos: .userInitiated).async {
                 let interactionDate = Date(timeIntervalSince1970: TimeInterval(change.modifiedAt / 1000))
 
-                let episodeInDatabase = DataManager.sharedManager.findEpisode(uuid: change.episode)
-
-                if episodeInDatabase == nil {
-                    // Episode is not on database, let's add it
-
-                    ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
-                    DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                    podcastsToUpdate.insert(change.podcast)
-                } else if episodeInDatabase?.lastPlaybackInteractionDate == nil {
-                    // Episode is in database but it's not updated, let's update it
-
-                    DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
-                    podcastsToUpdate.insert(change.podcast)
-                }
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
+                DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+                podcastsToUpdate.insert(change.podcast)
 
                 dispatchGroup.leave()
             }
@@ -114,11 +108,21 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     }
 
     private func updateEpisodes(for podcastsUuids: Set<String>) {
-        podcastsUuids.forEach {
-            if let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: $0) {
-                DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+        let dispatchGroup = DispatchGroup()
+
+        podcastsUuids.forEach { podcastUuid in
+            dispatchGroup.enter()
+
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcastUuid) {
+                    DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+                }
+
+                dispatchGroup.leave()
             }
         }
+
+        dispatchGroup.wait()
     }
 }
 
