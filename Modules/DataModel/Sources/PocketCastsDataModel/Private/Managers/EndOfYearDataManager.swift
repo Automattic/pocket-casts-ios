@@ -256,6 +256,31 @@ class EndOfYearDataManager {
         return episode
     }
 
+    /// Given a list of UUIDs, return which UUIDs are present on the database
+    func episodesThatExists(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
+        var episodes: [String] = []
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count))
+                            """
+                let resultSet = try db.executeQuery(query, values: uuids)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let uuid = resultSet.string(forColumn: "uuid") {
+                        episodes.append(uuid)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.episodesThatExists error: \(error)")
+            }
+        }
+
+        return episodes
+    }
+
     private func numberOfItemsInListeningHistory(db: FMDatabase) -> Int {
         var numberOfItemsInListeningHistory = 0
 
