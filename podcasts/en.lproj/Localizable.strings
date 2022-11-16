@@ -3089,6 +3089,9 @@
 /* The description for the Pocket Casts Newsletter */
 "pocket_casts_newsletter_description" = "Receive news, app updates, themed playlists, interviews, and more.";
 
+/* The heading shown for the Pocket Casts Newsletter */
+"pocket_casts_welcome_newsletter_title" = "Get the Newsletter";
+
 /* Title for page one of the 7.20 what's new dialog. */
 "whats_new_page_one_title_7_20" = "Folders";
 

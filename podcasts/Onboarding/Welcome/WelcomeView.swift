@@ -2,10 +2,10 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var theme: Theme
-    let coordinator: WelcomeCoordinator
+    @ObservedObject var viewModel: WelcomeViewModel
 
     private var titleText: String {
-        switch coordinator.displayType {
+        switch viewModel.displayType {
         case .plus:
             return L10n.welcomePlusTitle
         case .newAccount:
@@ -14,7 +14,7 @@ struct WelcomeView: View {
     }
 
     private var isPlus: Bool {
-        coordinator.displayType == .plus
+        viewModel.displayType == .plus
     }
 
     var body: some View {
@@ -29,17 +29,21 @@ struct WelcomeView: View {
                         .padding(.bottom, 24)
 
                     VStack(spacing: 16) {
-                        ForEach(coordinator.sections) { section in
+                        ForEach(viewModel.sections) { section in
                             WelcomeSectionView(model: model(for: section)) {
-                                coordinator.sectionTapped(section)
+                                viewModel.sectionTapped(section)
                             }
                         }
-                    }.padding(.bottom, 16)
+                    }
+
+                    newsletter
+                        .padding(.top, 30)
+                        .padding(.bottom, 16)
 
                     Spacer()
 
                     Button(L10n.done) {
-                        coordinator.doneTapped()
+                        viewModel.doneTapped()
                     }.buttonStyle(RoundedButtonStyle(theme: theme))
                 }
                 .padding([.leading, .trailing], Config.padding.horizontal)
@@ -50,7 +54,23 @@ struct WelcomeView: View {
         }
     }
 
-    private func model(for section: WelcomeCoordinator.WelcomeSection) -> WelcomeSectionModel {
+    private var newsletter: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Label(L10n.pocketCastsWelcomeNewsletterTitle, for: .newsletterTitle)
+                Label(L10n.pocketCastsNewsletterDescription, for: .newsletterDescription)
+            }
+
+            Spacer()
+
+            Toggle(isOn: $viewModel.newsletterOptIn) {
+                EmptyView()
+            }.toggleStyle(SwitchToggleStyle(tint: AppTheme.color(for: .primaryInteractive01, theme: theme)))
+                .frame(maxWidth: 60)
+        }
+    }
+
+    private func model(for section: WelcomeViewModel.WelcomeSection) -> WelcomeSectionModel {
         switch section {
 
         case .importPodcasts:
@@ -83,7 +103,7 @@ private enum Config {
 // MARK: - Preview
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(coordinator: WelcomeCoordinator(navigationController: UINavigationController(), displayType: .plus))
+        WelcomeView(viewModel: WelcomeViewModel(navigationController: UINavigationController(), displayType: .plus))
             .previewWithAllThemes()
     }
 }
@@ -129,6 +149,8 @@ private struct Label: View {
         case title
         case sectionTitle
         case sectionDescription
+        case newsletterTitle
+        case newsletterDescription
     }
 
     let text: String
@@ -151,9 +173,9 @@ private struct Label: View {
 
         case .title:
             return AppTheme.color(for: .text, theme: theme)
-        case .sectionTitle:
+        case .sectionTitle, .newsletterTitle:
             return AppTheme.color(for: .text, theme: theme)
-        case .sectionDescription:
+        case .sectionDescription, .newsletterDescription:
             return AppTheme.color(for: .sectionDescription, theme: theme)
         }
     }
@@ -169,6 +191,11 @@ private struct Label: View {
                 return content.font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             case .sectionDescription:
                 return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraExtraLarge)
+            case .newsletterTitle:
+                return content.font(size: 15, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
+            case .newsletterDescription:
+                return content.font(size: 13, style: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+
             }
         }
     }

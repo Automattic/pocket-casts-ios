@@ -1489,6 +1489,8 @@ internal enum L10n {
   internal static var pocketCastsPlus: String { return L10n.tr("Localizable", "pocket_casts_plus") }
   /// Plus
   internal static var pocketCastsPlusShort: String { return L10n.tr("Localizable", "pocket_casts_plus_short") }
+  /// Get the Newsletter
+  internal static var pocketCastsWelcomeNewsletterTitle: String { return L10n.tr("Localizable", "pocket_casts_welcome_newsletter_title") }
   /// Access ended: %1$@
   internal static func podcastAccessEnded(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_access_ended", String(describing: p1))
