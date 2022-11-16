@@ -87,12 +87,13 @@ struct StoriesView: View {
     var header: some View {
         ZStack {
             VStack {
-                HStack {
+                HStack(spacing: 2) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
                         StoryIndicator(index: x)
                     }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
+                .padding(.top, 4)
                 Spacer()
             }
             .padding(.leading, Constants.storyIndicatorVerticalPadding)
@@ -112,8 +113,8 @@ struct StoriesView: View {
                         model.stopAndDismiss()
                     }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
                     // Inset the button a bit if we're showing the button shapes
-                    .padding(.trailing, showButtonShapes ? Constants.storyIndicatorVerticalPadding : 0)
-                    .padding(.top, showButtonShapes ? 5 : 0)
+                    .padding(.trailing, showButtonShapes ? Constants.storyIndicatorVerticalPadding : 5)
+                    .padding(.top, 5)
                     .accessibilityLabel(L10n.accessibilityDismiss)
                 }
                 .padding(.top, Constants.closeButtonTopPadding)
@@ -206,7 +207,7 @@ private struct ShareButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {
             Spacer()
-            Image(systemName: "square.and.arrow.up")
+            Image("share")
             configuration.label
             Spacer()
         }
@@ -235,7 +236,7 @@ private struct CloseButtonStyle: ButtonStyle {
     let showButtonShapes: Bool
 
     func makeBody(configuration: Configuration) -> some View {
-        Image(systemName: "xmark")
+        Image("close")
             .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
             .foregroundColor(.white)
             .padding(Constants.closeButtonPadding)
