@@ -934,7 +934,7 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExists(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExists(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
     }
 }

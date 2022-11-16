@@ -82,8 +82,8 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExists = DataManager.sharedManager.episodesThatExists(uuids: uuids)
-        let missingEpisodes = updates.filter { !episodesThatExists.contains($0.episode) }
+        let episodesThatExist = DataManager.sharedManager.episodesThatExist(uuids: uuids)
+        let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
         let dispatchGroup = DispatchGroup()
 

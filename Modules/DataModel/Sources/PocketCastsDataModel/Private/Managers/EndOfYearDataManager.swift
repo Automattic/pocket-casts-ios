@@ -257,7 +257,7 @@ class EndOfYearDataManager {
     }
 
     /// Given a list of UUIDs, return which UUIDs are present on the database
-    func episodesThatExists(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
+    func episodesThatExist(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
         var episodes: [String] = []
 
         dbQueue.inDatabase { db in
@@ -275,7 +275,7 @@ class EndOfYearDataManager {
                     }
                 }
             } catch {
-                FileLog.shared.addMessage("EndOfYearDataManager.episodesThatExists error: \(error)")
+                FileLog.shared.addMessage("EndOfYearDataManager.episodesThatExist error: \(error)")
             }
         }
 
