@@ -263,7 +263,7 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
+                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
                                 \(listenedEpisodesThisYear)
                             """
                 let resultSet = try db.executeQuery(query, values: uuids)
