@@ -3446,3 +3446,36 @@
 
 /* Body of a message informing the user they need an internet connect to upgrade to plus */
 "plus_upgrade_no_internet_message" = "Please check your internet connection and try again.";
+
+/* Step by Step instructions on how to import from the app Overcast. \n are new lines and Overcast is a proper noun and should not be translated. */
+"import_instructions_overcast" = "1. Tap the button below to open Overcast\n2. Tap the Cog icon in the top corner of the app\n3. Swipe down until you see Export OPML, then tap on it\n4. When the dialog opens locate the Pocket Casts icon, and tap on it";
+
+/* Step by Step instructions on how to import from the app Breaker. \n are new lines and Breaker is a proper noun and should not be translated. */
+"import_instructions_breaker" = "1. Tap the Open Breaker button below\n2. Tap on Settings in the bottom tab bar\n3. Tap on Connection\n4. Tap on Export subscriptions\n5. When the dialog opens locate the Pocket Casts icon, and tap on it";
+
+/* Step by Step instructions on how to import from the app Castro. \n are new lines and Castro is a proper noun and should not be translated. */
+"import_instructions_castro" = "1. Tap the Open Castro button below\n2. Tap the Cog icon in the top corner of the app\n3. Swipe down until you see the User Data option, then tap on it\n4. Tap the Export Subscriptions item\n5. When the share dialog opens, locate the Pocket Casts icon, then tap on it";
+
+/* Step by Step instructions on how to import from the app Castbox. \n are new lines and Castbox is a proper noun and should not be translated. */
+"import_instructions_castbox" = "1. Tap the Open Castbox button below\n2. Tap the Personal tab\n3. Swipe down until you see the Settings option, then tap on it\n4. Swipe down until you see the OPML Export option, then tap on it\n5. If prompted, tap \"Open in Pocket Casts\"\n6. If the file opens in Safari, tap the Download button\n7. Once the download is complete, tap the download icon in the URL bar\n8. Tap the Downloads item\n9. Tap the castbox_opml file \n10. If needed, tap the Share icon, then open the file using Pocket Casts\n11. When the share dialog opens, locate the Pocket Casts icon, then tap on it";
+
+/* Step by Step instructions on how to import from the app Apple Podcasts. \n are new lines and Apple Podcasts is a proper noun and should not be translated. */
+"import_instructions_apple_podcasts_steps" = "We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.\nNote: If you previously deleted the shortcuts app you will be prompted to reinstall it.\n\n1. Tap the Install Shortcut button below.\n2. When prompted tap the Add Shortcut button.\n3. Tap on the Shortcuts tab.\n4. Locate the \"Apple Podcasts to Pocket Casts\" shortcut in the list.\n5. Tap it to start the import process.\n5. Once the shortcut is done running Pocket Casts will reopen and finish the import process.";
+
+/* Title of an option to import from other apps */
+"import_instructions_other_apps_title" = "other apps";
+
+/* Button title to install a shortcut */
+"import_instructions_install_shortcut" = "Install Shortcut";
+
+/* Button title to open the given app name,  %1$@ is the name of the app */
+"import_instructions_open_in" = "Open %1$@";
+
+/* Button title to import from the given app name,  %1$@ is the name of the app */
+"import_instructions_import_from" = "Import from %1$@";
+
+/* Title of a view promoting the import feature */
+"import_title" = "Bring your\npodcasts with you";
+
+/* Title of a view explaining the import feature */
+"import_subtitle" = "Coming from another app? Import your podcasts and get listening. You can always do this later in settings.";
