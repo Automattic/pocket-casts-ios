@@ -25,25 +25,22 @@ struct TopOnePodcastStory: StoryView {
                 VStack {
                     VStack {
                         ZStack {
-                            let size = geometry.size.width * 0.45
+                            let size = geometry.size.width * 0.60
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.darkThemeTintForPodcast(topPodcast.podcast).color)
                                 .modifier(BigCoverShadow())
                                 .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                                .padding(.top, (size * 0.7))
+                                .padding(.top, (size * 0.6))
 
                             Rectangle().frame(width: size, height: size)
                                 .foregroundColor(ColorManager.lightThemeTintForPodcast(topPodcast.podcast).color)
                                 .modifier(BigCoverShadow())
                                 .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                                .padding(.top, (size * 0.35))
+                                .padding(.top, (size * 0.30))
 
                             PodcastCover(podcastUuid: topPodcast.podcast.uuid, big: true)
                                 .frame(width: size, height: size)
                                 .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
                         }
 
                         Text(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""))
