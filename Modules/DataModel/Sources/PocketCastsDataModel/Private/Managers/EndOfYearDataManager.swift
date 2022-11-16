@@ -205,7 +205,7 @@ class EndOfYearDataManager {
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
                                 \(listenedEpisodesThisYear)
                             GROUP BY podcastUuid
-                            ORDER BY played_episodes DESC
+                            ORDER BY totalPlayedTime DESC
                             LIMIT \(limit)
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
