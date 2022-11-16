@@ -93,13 +93,13 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let coordinator = WelcomeViewModel(displayType: .plus)
-        let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: coordinator).setupDefaultEnvironment())
+        let viewModel = WelcomeViewModel(displayType: .newAccount)
+        let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
 
         guard let navigationController = parentController as? UINavigationController else {
             // Create a view controller to present the view in
             let navigationController = OnboardingNavigationViewController(rootViewController: controller)
-            coordinator.navigationController = navigationController
+            viewModel.navigationController = navigationController
 
             parentController.dismiss(animated: true, completion: {
                 parentController.present(navigationController, animated: true)
@@ -108,7 +108,7 @@ private extension PlusPurchaseModel {
         }
 
         // Show the welcome view inside the existing nav controller
-        coordinator.navigationController = navigationController
+        viewModel.navigationController = navigationController
         navigationController.dismiss(animated: true, completion: {
             navigationController.pushViewController(controller, animated: true)
         })
