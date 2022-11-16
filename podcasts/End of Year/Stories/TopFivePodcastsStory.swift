@@ -64,7 +64,7 @@ struct TopFivePodcastsStory: StoryView {
             VStack(alignment: .leading) {
                 Text(podcasts[safe: index]?.title ?? "")
                     .lineLimit(2)
-                    .font(.system(size: 22, weight: .heavy))
+                    .font(.system(size: 18, weight: .heavy))
                     .foregroundColor(.white)
                     .fixedSize(horizontal: false, vertical: true)
                     .minimumScaleFactor(0.01)
