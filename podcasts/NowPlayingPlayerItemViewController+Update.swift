@@ -90,29 +90,27 @@ extension NowPlayingPlayerItemViewController {
 
     @objc func updateChapterInfo() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
-
-        if let chapter = PlaybackManager.shared.currentChapter(), PlaybackManager.shared.chapterCount() != 0 {
+        let chapters = PlaybackManager.shared.currentChapters()
+        if let visibleChapter = chapters.visibleChapter(), PlaybackManager.shared.chapterCount() != 0 {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
-            // we've already displayed this chapter, don't waste cycles re-rendering it
-            if chapter.index == lastChapterIndexRendered { return }
-            lastChapterIndexRendered = chapter.index
 
-            chapterName.text = chapter.title.count > 0 ? chapter.title : playingEpisode.displayableTitle()
+            chapterName.text = visibleChapter.title.count > 0 ? visibleChapter.title : playingEpisode.displayableTitle()
 
-            chapterSkipBackBtn.isEnabled = !chapter.isFirst
-            chapterSkipFwdBtn.isEnabled = !chapter.isLast
-            chapterCounter.text = L10n.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
-            chapterLink.isHidden = chapter.url == nil
-            if let image = chapter.image {
+            chapterSkipBackBtn.isEnabled = !visibleChapter.isFirst
+            chapterSkipFwdBtn.isEnabled = !visibleChapter.isLast
+            chapterCounter.text = L10n.playerChapterCount((visibleChapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
+
+            if let artwork = chapters.artwork() {
                 showingCustomImage = true
-                episodeImage.image = image
+                episodeImage.image = artwork
                 episodeImage.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
             } else if showingCustomImage {
                 showingCustomImage = false
                 ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
                 episodeImage.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
+            chapterLink.isHidden = chapters.url() == nil
         } else {
             episodeInfoView.isHidden = false
             chapterInfoView.isHidden = true
@@ -124,11 +122,13 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func updateChapterProgress() {
-        guard let currentChapter = PlaybackManager.shared.currentChapter() else { return }
+        guard let visibleChapter = PlaybackManager.shared.currentChapters().visibleChapter() else {
+            return
+        }
 
-        let remainingTime = currentChapter.duration + currentChapter.startTime.seconds - PlaybackManager.shared.currentTime()
+        let remainingTime = visibleChapter.duration + visibleChapter.startTime.seconds - PlaybackManager.shared.currentTime()
         chapterTimeLeftLabel.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: remainingTime)
-        let percentageCompleted = 1 - (remainingTime / currentChapter.duration)
+        let percentageCompleted = 1 - (remainingTime / visibleChapter.duration)
         chapterProgress.startingAngle = CGFloat((percentageCompleted * 360) - 90)
     }
 
@@ -156,11 +156,11 @@ extension NowPlayingPlayerItemViewController {
         if PlaybackManager.shared.chapterCount() == 0 {
             return
         }
+        let chapters = PlaybackManager.shared.chapterForTime(time: time)
+        if chapters.count() > 0 {
+            episodeName.text = chapters.title().count > 0 ? chapters.title() : playingEpisode.displayableTitle()
 
-        if let chapter = PlaybackManager.shared.chapterForTime(time: time) {
-            episodeName.text = chapter.title.count > 0 ? chapter.title : playingEpisode.displayableTitle()
-
-            chapterCounter.text = L10n.playerChapterCount((chapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
+            chapterCounter.text = L10n.playerChapterCount((chapters.index() + 1).localized(), PlaybackManager.shared.chapterCount().localized())
         }
     }
 
