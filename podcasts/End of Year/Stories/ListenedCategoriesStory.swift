@@ -16,19 +16,18 @@ struct ListenedCategoriesStory: StoryView {
 
                 VStack {
                     ZStack {
-                        let size = geometry.size.width * 0.43
+                        let size = geometry.size.width * 0.60
 
                         ForEach([2, 1, 0], id: \.self) {
                             podcastCover($0)
                                 .frame(width: size, height: size)
                                 .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                                .padding(.top, (size * CGFloat($0) * 0.35))
+                                .padding(.top, (size * CGFloat($0) * 0.3))
                         }
                     }
 
                     VStack {
-                        Text(L10n.eoyStoryListenedToCategories("\(listenedCategories.count)"))
+                        Text(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"))
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .heavy))
                             .foregroundColor(.white)
@@ -43,11 +42,10 @@ struct ListenedCategoriesStory: StoryView {
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)
                     }
-                    .padding(.top, 25)
                     .padding(.trailing, 40)
                     .padding(.leading, 40)
                 }
-                .padding(.top, -30)
+                .padding(.top, -(geometry.size.height * 0.15))
             }
 
             VStack {
@@ -86,6 +84,6 @@ struct ListenedCategoriesStory: StoryView {
 
 struct ListenedCategoriesStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListenedCategoriesStory(listenedCategories: [])
+        ListenedCategoriesStory(listenedCategories: [ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Seila", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)])
     }
 }
