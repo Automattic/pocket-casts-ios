@@ -211,7 +211,7 @@ private struct ShareButtonStyle: ButtonStyle {
             configuration.label
             Spacer()
         }
-        .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
+        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
         .foregroundColor(Constants.shareButtonColor)
 
         .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
@@ -226,9 +226,9 @@ private struct ShareButtonStyle: ButtonStyle {
 
     private struct Constants {
         static let shareButtonColor = Color.white
-        static let shareButtonVerticalPadding: CGFloat = 10
-        static let shareButtonCornerRadius: CGFloat = 10
-        static let shareButtonBorderSize: CGFloat = 1
+        static let shareButtonVerticalPadding: CGFloat = 13
+        static let shareButtonCornerRadius: CGFloat = 12
+        static let shareButtonBorderSize: CGFloat = 2
     }
 }
 
