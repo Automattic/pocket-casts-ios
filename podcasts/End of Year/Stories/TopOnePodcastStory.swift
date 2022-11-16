@@ -62,7 +62,7 @@ struct TopOnePodcastStory: StoryView {
                     .padding(.trailing, 40)
                 }
             }
-            .padding(.top, -(0.05 * geometry.size.height))
+            .padding(.top, -(geometry.size.height * 0.15))
 
             VStack {
                 Spacer()

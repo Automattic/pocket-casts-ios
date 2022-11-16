@@ -42,11 +42,10 @@ struct ListenedCategoriesStory: StoryView {
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)
                     }
-                    .padding(.top, 25)
                     .padding(.trailing, 40)
                     .padding(.leading, 40)
                 }
-                .padding(.top, -30)
+                .padding(.top, -(geometry.size.height * 0.15))
             }
 
             VStack {
