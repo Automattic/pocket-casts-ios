@@ -205,7 +205,7 @@ class EndOfYearDataManager {
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
                                 \(listenedEpisodesThisYear)
                             GROUP BY podcastUuid
-                            ORDER BY played_episodes DESC
+                            ORDER BY totalPlayedTime DESC
                             LIMIT \(limit)
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -254,6 +254,32 @@ class EndOfYearDataManager {
         }
 
         return episode
+    }
+
+    /// Given a list of UUIDs, return which UUIDs are present on the database
+    func episodesThatExist(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
+        var episodes: [String] = []
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
+                                \(listenedEpisodesThisYear)
+                            """
+                let resultSet = try db.executeQuery(query, values: uuids)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let uuid = resultSet.string(forColumn: "uuid") {
+                        episodes.append(uuid)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.episodesThatExist error: \(error)")
+            }
+        }
+
+        return episodes
     }
 
     private func numberOfItemsInListeningHistory(db: FMDatabase) -> Int {
