@@ -291,13 +291,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipToPreviousChapter(startPlaybackAfterSkip: Bool = false) {
-        guard let previousChapter = chapterManager.previousChapter() else { return }
+        guard let previousChapter = chapterManager.previousVisibleChapter() else { return }
 
         seekTo(time: ceil(previousChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
     func skipToNextChapter(startPlaybackAfterSkip: Bool = false) {
-        guard let nextChapter = chapterManager.nextChapter() else { return }
+        guard let nextChapter = chapterManager.nextVisibleChapter() else { return }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
@@ -307,19 +307,19 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func chapterCount() -> Int {
-        chapterManager.chapterCount()
+        chapterManager.visibleChapterCount()
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
         chapterManager.chapterAt(index: index)
     }
 
-    func currentChapter() -> ChapterInfo? {
-        chapterManager.currentChapter
+    func currentChapters() -> Chapters {
+        chapterManager.currentChapters
     }
 
-    func chapterForTime(time: TimeInterval) -> ChapterInfo? {
-        chapterManager.chapterForTime(time)
+    func chapterForTime(time: TimeInterval) -> Chapters {
+        chapterManager.chaptersForTime(time)
     }
 
     private func checkForChapterChange() {
@@ -1340,7 +1340,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if os(watchOS)
             WatchNowPlayingHelper.updateNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
         #else
-            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapter: currentChapter(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            NowPlayingHelper.updateNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
         #endif
     }
 
@@ -1363,7 +1363,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if os(watchOS)
             WatchNowPlayingHelper.setAllNowPlayingInfo(for: episode, duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
         #else
-            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapter: currentChapter(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
+            NowPlayingHelper.setAllNowPlayingInfo(for: episode, currentChapters: currentChapters(), duration: duration(), upTo: currentTime(), playbackRate: player?.playbackRate())
         #endif
     }
 
@@ -1459,7 +1459,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipBack(amount: skipEvent.interval)
             } else {
-                if let previousChapter = strongSelf.chapterManager.previousChapter(), Settings.remoteSkipShouldSkipChapters() {
+                if let previousChapter = strongSelf.chapterManager.previousVisibleChapter(), Settings.remoteSkipShouldSkipChapters() {
                     FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
                     strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
                 } else {
@@ -1484,7 +1484,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipForward(amount: skipEvent.interval)
             } else {
-                if let nextChapter = strongSelf.chapterManager.nextChapter(), Settings.remoteSkipShouldSkipChapters() {
+                if let nextChapter = strongSelf.chapterManager.nextVisibleChapter(), Settings.remoteSkipShouldSkipChapters() {
                     FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
                     strongSelf.seekTo(time: ceil(nextChapter.startTime.seconds))
                 } else {
@@ -1596,7 +1596,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if addTarget {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount) { event -> MPRemoteCommandHandlerStatus in
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let previousChapter = self.chapterManager.previousChapter() {
+                if Settings.remoteSkipShouldSkipChapters(), let previousChapter = self.chapterManager.previousVisibleChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipBackTime())
                     if Int(interval) == ServerSettings.skipBackTime() {
                         FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
@@ -1624,7 +1624,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if addTarget {
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount) { event -> MPRemoteCommandHandlerStatus in
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let nextChapter = self.chapterManager.nextChapter() {
+                if Settings.remoteSkipShouldSkipChapters(), let nextChapter = self.chapterManager.nextVisibleChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipForwardTime())
                     if Int(interval) == ServerSettings.skipForwardTime() {
                         FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
