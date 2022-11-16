@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import PocketCastsServer
 
 class WelcomeViewModel: ObservableObject {
@@ -18,7 +19,10 @@ class WelcomeViewModel: ObservableObject {
 
         switch section {
         case .importPodcasts:
-            print("TODO: Future Task")
+            let viewModel = ImportViewModel()
+            let controller = ImportHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
+            viewModel.navigationController = navigationController
+            navigationController?.pushViewController(controller, animated: true)
 
         case .discover:
             navigationController?.dismiss(animated: true)
