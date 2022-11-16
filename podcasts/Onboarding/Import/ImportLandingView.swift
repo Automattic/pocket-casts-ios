@@ -66,13 +66,13 @@ private struct AppRow: View {
                     .multilineTextAlignment(.leading)
                     .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                     .fixedSize(horizontal: false, vertical: true)
-                    .font(style: .subheadline, weight: .css_500)
+                    .font(style: .subheadline, weight: .medium)
 
                 Spacer()
 
                 Image(systemName: "chevron.right")
                     .frame(minHeight: 14)
-                    .font(style: .subheadline, weight: .css_500)
+                    .font(style: .subheadline, weight: .medium)
                     .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
             }
         }

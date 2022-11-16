@@ -18,7 +18,7 @@ struct ImportDetailsView: View {
                         .shadow(color: .black.opacity(0.2), radius: 0, x: 1, y: 3)
 
                     Text(L10n.importInstructionsImportFrom(app.displayName))
-                        .font(size: 31, style: .largeTitle, weight: .css_700)
+                        .font(size: 31, style: .largeTitle, weight: .bold)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
 
