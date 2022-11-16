@@ -27,7 +27,7 @@ struct ListenedCategoriesStory: StoryView {
                     }
 
                     VStack {
-                        Text(L10n.eoyStoryListenedToCategories("\(listenedCategories.count)"))
+                        Text(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"))
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .heavy))
                             .foregroundColor(.white)

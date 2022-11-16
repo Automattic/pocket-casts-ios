@@ -17,7 +17,7 @@ struct ListeningTimeStory: StoryView {
                 DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
-                    Text(L10n.eoyStoryListenedTo(listeningTime.localizedTimeDescription ?? ""))
+                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.white)

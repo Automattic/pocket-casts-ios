@@ -56,7 +56,7 @@ struct ListenedNumbersStory: StoryView {
                 VStack {
                     Spacer()
 
-                    Text(L10n.eoyStoryListenedToNumbers("\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
+                    Text(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.white)
