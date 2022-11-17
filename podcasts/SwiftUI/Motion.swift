@@ -42,7 +42,7 @@ class MotionManager: ObservableObject {
     private func update(_ data: CMDeviceMotion) {
         if options.contains(.attitude) {
             let attitude = data.attitude
-            
+
             if !attitude.pitch.isNaN && !attitude.roll.isNaN {
                 if attitude.pitch <= 1.3 {
                     roll = attitude.roll
