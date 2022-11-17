@@ -20,7 +20,7 @@ class ImportViewModel {
     ]
 
     enum ImportAppId: String {
-        case breaker, castbox, overcast, other
+        case breaker, castbox = "wazecastbox", overcast, other
         case castro = "co.supertop.Castro-2"
         case applePodcasts = "https://www.icloud.com/shortcuts/d420ce94cc964e3881e7808bc5ce773a"
     }
@@ -56,7 +56,7 @@ class ImportViewModel {
             if id == .applePodcasts {
                 string = "https://www.icloud.com/shortcuts/d9e0793e40ed4b5d9dd78c81e6af9234"
             } else {
-                string = id.rawValue + "://app"
+                string = id.rawValue + "://"
             }
 
             return URL(string: string)
