@@ -21,6 +21,11 @@ class LoginLandingHostingController<Content>: UIHostingController<Content> where
         imageView.accessibilityLabel = L10n.setupAccount
         navigationItem.titleView = imageView
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
+        let dismissItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
+        dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
+                                            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryInteractive01)], for: .normal)
+        navigationItem.rightBarButtonItem = dismissItem
+
+        self.navigationController?.navigationBar.isHidden = false
     }
 }
