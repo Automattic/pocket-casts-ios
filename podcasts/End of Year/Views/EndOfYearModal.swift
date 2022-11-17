@@ -69,6 +69,7 @@ struct EndOfYearModal: View {
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }
         .buttonStyle(RoundedDarkButton(theme: theme))
+        .frame(height: 44)
     }
 
     var dismissButton: some View {
@@ -76,6 +77,7 @@ struct EndOfYearModal: View {
             NavigationManager.sharedManager.dismissPresentedViewController()
         }
         .buttonStyle(StrokeButton(theme: theme))
+        .frame(height: 44)
     }
 
     private enum Constants {
