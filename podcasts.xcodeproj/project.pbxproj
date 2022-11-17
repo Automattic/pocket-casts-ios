@@ -1336,7 +1336,6 @@
 		BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */; };
 		BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */; };
 		C7080C082922DB5F00D7A432 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */; };
-		C7080C0A2922F26500D7A432 /* WelcomeHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C092922F26500D7A432 /* WelcomeHostingViewController.swift */; };
 		C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */; };
 		C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */; };
 		C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04C829243F7D00F2858A /* ImportViewModel.swift */; };
@@ -1372,8 +1371,8 @@
 		C7AF578D289C60CA0089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578E289C60CD0089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
-		C7AF7B8F29256FCE002F0025 /* ImportHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF7B8E29256FCE002F0025 /* ImportHostingViewController.swift */; };
 		C7AF7B912925E5CD002F0025 /* PlusHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */; };
+		C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */; };
 		C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */; };
 		C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C60B2919DCC800054145 /* ActionView.swift */; };
 		C7B3C60E2919DD1700054145 /* ContentSizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */; };
@@ -2921,7 +2920,6 @@
 		BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCRoutePickerView.swift; sourceTree = "<group>"; };
 		BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoViewController+Seek.swift"; sourceTree = "<group>"; };
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
-		C7080C092922F26500D7A432 /* WelcomeHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeHostingViewController.swift; sourceTree = "<group>"; };
 		C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusAccountUpgradePrompt.swift; sourceTree = "<group>"; };
 		C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptViewModel.swift; sourceTree = "<group>"; };
 		C71C04C829243F7D00F2858A /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
@@ -2949,8 +2947,8 @@
 		C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingHostingController.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
-		C7AF7B8E29256FCE002F0025 /* ImportHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportHostingViewController.swift; sourceTree = "<group>"; };
 		C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusHostingViewController.swift; sourceTree = "<group>"; };
+		C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHostingViewController.swift; sourceTree = "<group>"; };
 		C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewIfNeeded.swift; sourceTree = "<group>"; };
 		C7B3C60B2919DCC800054145 /* ActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionView.swift; sourceTree = "<group>"; };
 		C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeReader.swift; sourceTree = "<group>"; };
@@ -6035,7 +6033,6 @@
 				C71C04C829243F7D00F2858A /* ImportViewModel.swift */,
 				C71C04CA2924403000F2858A /* ImportLandingView.swift */,
 				C71C04CC2924403800F2858A /* ImportDetailsView.swift */,
-				C7AF7B8E29256FCE002F0025 /* ImportHostingViewController.swift */,
 			);
 			path = Import;
 			sourceTree = "<group>";
@@ -6080,7 +6077,6 @@
 			children = (
 				C7A110F6291F65FB00887A90 /* WelcomeView.swift */,
 				C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */,
-				C7080C092922F26500D7A432 /* WelcomeHostingViewController.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -6109,6 +6105,7 @@
 				C7A110FC2922932300887A90 /* OnboardingNavigationViewController.swift */,
 				C7FF770D291C2CA80082A464 /* Login */,
 				C7B3C619291AD03A00054145 /* Plus */,
+				C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -7505,7 +7502,6 @@
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
-				C7080C0A2922F26500D7A432 /* WelcomeHostingViewController.swift in Sources */,
 				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
 				BD9324712398BB50004F19A1 /* TourView.swift in Sources */,
 				BDC5360A27C88A5700EFCF31 /* FolderPreviewWrapper.swift in Sources */,
@@ -7839,6 +7835,7 @@
 				4030D4682498579D00BEC7D9 /* MultiSelectActionProtocol.swift in Sources */,
 				BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */,
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
+				C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */,
 				462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */,
 				403B5B0621812E6000821A54 /* AppDelelgate+SiriShortcuts.swift in Sources */,
 				BD9086AC204E413800C0C78D /* PodcastSearchCell.swift in Sources */,
@@ -8029,7 +8026,6 @@
 				4084263E2138E2750076D82E /* FeaturedCollectionViewCell.swift in Sources */,
 				46CD3CA12715E3E600F5EB8F /* SupportConfig.swift in Sources */,
 				BD5E8D41206211E300C84B43 /* OpmlImporter.swift in Sources */,
-				C7AF7B8F29256FCE002F0025 /* ImportHostingViewController.swift in Sources */,
 				BD1A340F2044F269008A5061 /* SimpleActionView.swift in Sources */,
 				BD83DE0E2068BBEB00012C06 /* MiniPlayerViewController+Positioning.swift in Sources */,
 				BD0A5B28239A0368006C8777 /* ShelfLoadState.swift in Sources */,

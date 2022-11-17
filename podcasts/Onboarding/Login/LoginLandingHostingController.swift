@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class LoginLandingHostingController<Content>: UIHostingController<Content> where Content: View {
+class LoginLandingHostingController<Content>: OnboardingHostingViewController<Content> where Content: View {
     let coordinator: LoginCoordinator
 
     init(rootView: Content, coordinator: LoginCoordinator) {
@@ -23,9 +23,9 @@ class LoginLandingHostingController<Content>: UIHostingController<Content> where
 
         let dismissItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
         dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
-                                            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryInteractive01)], for: .normal)
+                                            NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
         navigationItem.rightBarButtonItem = dismissItem
 
-        self.navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = false
     }
 }
