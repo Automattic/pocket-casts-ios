@@ -57,11 +57,13 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            ProgressView()
-                .colorInvert()
-                .brightness(1)
-                .padding()
-                .background(Color.black)
+            VStack(spacing: 15) {
+                CircularProgressView()
+                    .frame(width: 40, height: 40)
+                Text(L10n.loading)
+                    .foregroundColor(.white)
+                    .font(style: .body)
+            }
 
             storySwitcher
             header
