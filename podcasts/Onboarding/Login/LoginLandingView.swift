@@ -14,6 +14,8 @@ struct LoginLandingView: View {
 private struct LoginLandingContent: View {
     @EnvironmentObject var theme: Theme
     @ProportionalValue(with: .height) var calculatedHeight: Double
+    @ProportionalValue(with: .height) var deviceHeight = 1
+    private var smallHeight: Bool { deviceHeight < 600 }
 
     let coordinator: LoginCoordinator
     let models: [CoverModel]
@@ -43,22 +45,20 @@ private struct LoginLandingContent: View {
             AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea()
             LoginHeader(models: models, topPadding: Config.padding)
 
-            ScrollViewIfNeeded {
-                VStack {
-                    // Title and Subtitle
-                    VStack(spacing: 8) {
-                        LoginLabel("Discover your next favorite podcast", for: .title)
-                        LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
-                    }
-
-                    Spacer()
-
-                    LoginButtons(coordinator: coordinator)
+            VStack {
+                // Title and Subtitle
+                VStack(spacing: 8) {
+                    LoginLabel("Discover your next favorite podcast", for: .title)
+                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
                 }
-                .padding([.leading, .trailing], Config.padding)
-                .padding(.top, calculatedHeight + 56)
-                .padding(.bottom)
+
+                Spacer()
+
+                LoginButtons(coordinator: coordinator)
             }
+            .padding([.leading, .trailing], Config.padding)
+            .padding(.top, calculatedHeight + (smallHeight ? 30 : 56))
+            .padding(.bottom)
         }
     }
 
@@ -140,12 +140,15 @@ private struct LoginLabel: View {
     private struct LabelFont: ViewModifier {
         let labelStyle: LabelStyle
 
+        @ProportionalValue(with: .height) var deviceHeight = 1
+        var smallHeight: Bool { deviceHeight < 600 }
+
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 24 : 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .subtitle:
-                return content.font(size: 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 16 : 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
             }
         }
     }
