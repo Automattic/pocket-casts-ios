@@ -79,7 +79,7 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(*) as numberOfEpisodes from \(DataManager.episodeTableName)
+                            SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as numberOfEpisodes from \(DataManager.episodeTableName)
                             WHERE
                             \(listenedEpisodesThisYear)
                             """
@@ -103,7 +103,7 @@ class EndOfYearDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
+                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -127,7 +127,8 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
+                            SELECT DISTINCT \(DataManager.episodeTableName).uuid,
+                                COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
                                 SUM(playedUpTo) as totalPlayedTime,
                                 \(DataManager.podcastTableName).*,
                                 substr(trim(\(DataManager.podcastTableName).podcastCategory),1,instr(trim(\(DataManager.podcastTableName).podcastCategory)||char(10),char(10))-1) as category
@@ -169,7 +170,7 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(\(DataManager.episodeTableName).id) as episodes,
+                            SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodes,
                                 COUNT(DISTINCT \(DataManager.podcastTableName).uuid) as podcasts
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
@@ -198,7 +199,8 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT SUM(playedUpTo) as totalPlayedTime,
+                            SELECT DISTINCT \(DataManager.episodeTableName).uuid,
+                                SUM(playedUpTo) as totalPlayedTime,
                                 COUNT(\(DataManager.episodeTableName).id) as played_episodes,
                                 \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
