@@ -25,6 +25,8 @@ class MotionManager: ObservableObject {
         // Don't try to setup unless motion is available
         guard self.motionManager.isDeviceMotionAvailable else { return }
 
+        self.motionManager.stopDeviceMotionUpdates()
+
         self.motionManager.deviceMotionUpdateInterval = Config.updateInterval
         self.motionManager.startDeviceMotionUpdates(to: .main) { (data, error) in
             guard let data else { return }
