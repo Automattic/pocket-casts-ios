@@ -43,13 +43,11 @@ class OnboardingNavigationViewController: UINavigationController {
         let barAppearance =
             UINavigationBar.appearance(whenContainedInInstancesOf: instances)
 
-        let appearances = [barAppearance.standardAppearance,
-                           barAppearance.scrollEdgeAppearance]
-
-        for appearance in appearances {
-            appearance?.configureWithTransparentBackground()
-            appearance?.shadowColor = nil
-        }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.shadowColor = nil
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
 
         // Update the back icon
         let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
