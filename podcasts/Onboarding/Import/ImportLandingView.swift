@@ -60,7 +60,7 @@ private struct AppRow: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 56, height: 56)
                     .cornerRadius(16)
-                    .shadow(color: .black.opacity(0.2), radius: 0, x: 1, y: 3)
+                    .shadow(color: .black.opacity(0.2), radius: 3, x: 0, y: 1)
 
                 Text(L10n.importInstructionsImportFrom(app.displayName))
                     .multilineTextAlignment(.leading)
