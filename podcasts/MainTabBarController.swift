@@ -243,9 +243,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         // If we're already presenting a view, then present from that view if possible
-        let controller = presentedViewController ?? view.window?.rootViewController
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-        controller?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        let presentingController = presentedViewController ?? view.window?.rootViewController
+
+        guard FeatureFlag.onboardingUpdates else {
+            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
+            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+            return
+        }
+
+        let controller = PlusLandingViewModel.make()
+        presentingController?.present(controller, animated: true, completion: nil)
     }
 
     func showPlusMarketingPage() {
