@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlusLandingView: View {
-    @ObservedObject var coordinator: PlusCoordinator
+    @ObservedObject var viewModel: PlusLandingViewModel
 
     var body: some View {
         ZStack {
@@ -31,11 +31,11 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
-                            coordinator.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.priceAvailability == .loading))
+                            viewModel.unlockTapped()
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
 
                         Button("Not Now") {
-                            coordinator.dismissTapped()
+                            viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
                 }.padding(ViewConfig.padding.view)
@@ -232,7 +232,7 @@ private struct CardView: View {
 // MARK: - Preview
 struct PlusIntroView_Preview: PreviewProvider {
     static var previews: some View {
-        PlusLandingView(coordinator: PlusCoordinator())
+        PlusLandingView(viewModel: PlusLandingViewModel())
             .setupDefaultEnvironment()
     }
 }

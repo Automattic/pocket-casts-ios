@@ -6,7 +6,7 @@ class LoginCoordinator {
 
     func loginTapped() {
 
-        let controller = PlusCoordinator.make(in: navigationController)
+        let controller = PlusLandingViewModel.make(in: navigationController)
         navigationController?.pushViewController(controller, animated: true)
 //        let controller = SyncSigninViewController()
 //        navigationController?.pushViewController(controller, animated: true)

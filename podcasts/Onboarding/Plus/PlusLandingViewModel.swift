@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusCoordinator: PlusPricingInfoModel {
+class PlusLandingViewModel: PlusPricingInfoModel {
     var navigationController: UINavigationController? = nil
 
     func unlockTapped() {
@@ -23,7 +23,7 @@ class PlusCoordinator: PlusPricingInfoModel {
     }
 }
 
-private extension PlusCoordinator {
+private extension PlusLandingViewModel {
     func showModal() {
         guard let navigationController else { return }
         let controller = PlusPurchaseModel.make(in: navigationController)
@@ -35,15 +35,15 @@ private extension PlusCoordinator {
     }
 }
 
-extension PlusCoordinator {
+extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
-        let coordinator = PlusCoordinator()
-        let view = PlusLandingView(coordinator: coordinator)
-        let controller = UIHostingController(rootView: view.setupDefaultEnvironment())
+        let viewModel = PlusLandingViewModel()
+        let view = PlusLandingView(viewModel: viewModel)
+        let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
 
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
-        coordinator.navigationController = navController
+        viewModel.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
     }
