@@ -2,6 +2,24 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
+import Combine
+
+public class SyncYearListeningProgress: ObservableObject {
+    public static var shared = SyncYearListeningProgress()
+
+    @Published public var progress: Double = 0
+
+    var episodesToSync: Double = 0
+
+    var syncedEpisodes: Double = 0
+
+    @MainActor
+    func episodeSynced() {
+        syncedEpisodes += 1
+        // There are a few additional requests after syncing episodes, so we hang on 95%
+        progress = min(syncedEpisodes / episodesToSync, 0.95)
+    }
+}
 
 class SyncYearListeningHistoryTask: ApiBaseTask {
     private var token: String?
@@ -85,6 +103,8 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         let episodesThatExist = DataManager.sharedManager.episodesThatExist(uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
+        SyncYearListeningProgress.shared.episodesToSync = Double(missingEpisodes.count)
+
         let dispatchGroup = DispatchGroup()
 
         for change in missingEpisodes {
@@ -96,6 +116,10 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
                 ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
                 podcastsToUpdate.insert(change.podcast)
+
+                DispatchQueue.main.async {
+                    SyncYearListeningProgress.shared.episodeSynced()
+                }
 
                 dispatchGroup.leave()
             }
