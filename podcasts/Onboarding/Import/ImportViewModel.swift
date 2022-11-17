@@ -22,7 +22,7 @@ class ImportViewModel {
     enum ImportAppId: String {
         case breaker, castbox = "wazecastbox", overcast, other
         case castro = "co.supertop.Castro-2"
-        case applePodcasts = "https://www.icloud.com/shortcuts/d420ce94cc964e3881e7808bc5ce773a"
+        case applePodcasts = "https://www.icloud.com/shortcuts/d9e0793e40ed4b5d9dd78c81e6af9234"
     }
 
     struct ImportApp: Identifiable, CustomDebugStringConvertible {
@@ -31,6 +31,10 @@ class ImportViewModel {
         let steps: String
 
         var isInstalled: Bool {
+            #if targetEnvironment(simulator)
+            return true
+            #endif
+
             // Always installed
             if id == .other {
                 return true
@@ -54,7 +58,7 @@ class ImportViewModel {
 
             let string: String
             if id == .applePodcasts {
-                string = "https://www.icloud.com/shortcuts/d9e0793e40ed4b5d9dd78c81e6af9234"
+                string = id.rawValue
             } else {
                 string = id.rawValue + "://"
             }
