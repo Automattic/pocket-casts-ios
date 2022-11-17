@@ -20,7 +20,7 @@ class WelcomeViewModel: ObservableObject {
         switch section {
         case .importPodcasts:
             let viewModel = ImportViewModel()
-            let controller = ImportHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
+            let controller = OnboardingHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
             viewModel.navigationController = navigationController
             navigationController?.pushViewController(controller, animated: true)
 

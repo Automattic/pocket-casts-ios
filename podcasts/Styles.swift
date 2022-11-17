@@ -289,9 +289,15 @@ extension View {
 struct ModalTopPill: View {
     @EnvironmentObject var theme: Theme
 
+    let fillColor: ThemeStyle
+
+    init(fillColor: ThemeStyle = .primaryText02) {
+        self.fillColor = fillColor
+    }
+
     var body: some View {
         Rectangle()
-            .fill(ThemeColor.primaryText02(for: theme.activeTheme).color)
+            .fill(AppTheme.color(for: fillColor))
             .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
             .cornerRadius(Constants.pillCornerRadius)
             .padding(.top, Constants.pillTopPadding)

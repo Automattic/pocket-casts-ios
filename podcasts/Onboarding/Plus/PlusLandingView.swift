@@ -1,11 +1,16 @@
 import SwiftUI
 
 struct PlusLandingView: View {
-    @ObservedObject var coordinator: PlusCoordinator
+    @ObservedObject var viewModel: PlusLandingViewModel
+    @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
     var body: some View {
         ZStack {
             PlusBackgroundGradientView()
+
+            if viewModel.isRootView {
+                closeButton
+            }
 
             ScrollViewIfNeeded {
                 VStack(alignment: .leading) {
@@ -31,17 +36,33 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button("Unlock All Features") {
-                            coordinator.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: coordinator.priceAvailability == .loading))
+                            viewModel.unlockTapped()
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
 
                         Button("Not Now") {
-                            coordinator.dismissTapped()
+                            viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
-                }.padding(ViewConfig.padding.view)
+                }.padding(viewModel.isRootView ? ViewConfig.padding.viewReducedTop : ViewConfig.padding.view)
                     .padding(.bottom)
             }
         }.enableProportionalValueScaling().ignoresSafeArea()
+    }
+
+    private var closeButton: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button("") {
+                    viewModel.dismissTapped()
+                }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
+
+                .padding(.trailing, 13)
+                .padding(.top, 5)
+                .accessibilityLabel(L10n.accessibilityDismiss)
+            }.padding(.top, 5)
+            Spacer()
+        }
     }
 
     // Static list of the feature models to display
@@ -82,6 +103,11 @@ private enum ViewConfig {
         static let horizontal = 20.0
 
         static let view = EdgeInsets(top: 70,
+                                     leading: Self.horizontal,
+                                     bottom: 20,
+                                     trailing: Self.horizontal)
+
+        static let viewReducedTop = EdgeInsets(top: 44,
                                      leading: Self.horizontal,
                                      bottom: 20,
                                      trailing: Self.horizontal)
@@ -229,10 +255,22 @@ private struct CardView: View {
     }
 }
 
-// MARK: - Preview
-struct PlusIntroView_Preview: PreviewProvider {
-    static var previews: some View {
-        PlusLandingView(coordinator: PlusCoordinator())
-            .setupDefaultEnvironment()
+private struct CloseButtonStyle: ButtonStyle {
+    let showButtonShapes: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        Image(systemName: "xmark")
+            .font(style: .title3, weight: .bold, maxSizeCategory: .extraExtraLarge)
+            .foregroundColor(.white)
+            .padding(Constants.closeButtonPadding)
+            .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
+            .cornerRadius(Constants.closeButtonRadius)
+            .contentShape(Rectangle())
+            .applyButtonEffect(isPressed: configuration.isPressed)
+    }
+
+    private enum Constants {
+        static let closeButtonPadding: CGFloat = 13
+        static let closeButtonRadius: CGFloat = 5
     }
 }

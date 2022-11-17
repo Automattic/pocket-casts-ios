@@ -52,6 +52,7 @@ struct HTMLTextView: UIViewRepresentable {
 
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
+        paragraph.lineSpacing = 7
 
         let attributes = [
             NSAttributedString.Key.font: font,
