@@ -27,7 +27,12 @@ extension AppDelegate {
             let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, extenstion as CFString, nil)
             guard let type = uti?.takeRetainedValue() else { return false }
 
-            if UTTypeConformsTo(type, kUTTypeXML) || UTTypeConformsTo(type, "unofficial.opml" as CFString) {
+            let supportedTypes = [kUTTypeXML, "unofficial.opml" as CFString, "public.opml" as CFString]
+            let isSupported = supportedTypes.contains { supportedType in
+                UTTypeConformsTo(type, supportedType)
+            }
+
+            if isSupported {
                 progressDialog = ShiftyLoadingAlert(title: L10n.opmlImporting)
                 rootViewController.dismiss(animated: false, completion: nil)
                 progressDialog?.showAlert(rootViewController, hasProgress: false, completion: { [weak self] in

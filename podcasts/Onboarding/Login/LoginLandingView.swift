@@ -143,7 +143,12 @@ private struct LoginHeader: View {
                                   topPadding: topPadding,
                                   manager: motion)
             }
+        }.onDisappear() {
+            motion.stop()
+        }.onAppear() {
+            motion.start()
         }
+
         .ignoresSafeArea()
     }
 }

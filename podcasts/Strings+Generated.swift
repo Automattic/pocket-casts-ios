@@ -1031,12 +1031,68 @@ internal enum L10n {
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary") }
+  /// We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.
+  /// Note: If you previously deleted the shortcuts app you will be prompted to reinstall it.
+  /// 
+  /// 1. Tap the Install Shortcut button below.
+  /// 2. When prompted tap the Add Shortcut button.
+  /// 3. Tap on the Shortcuts tab.
+  /// 4. Locate the "Apple Podcasts to Pocket Casts" shortcut in the list.
+  /// 5. Tap it to start the import process.
+  /// 5. Once the shortcut is done running Pocket Casts will reopen and finish the import process.
+  internal static var importInstructionsApplePodcastsSteps: String { return L10n.tr("Localizable", "import_instructions_apple_podcasts_steps") }
+  /// 1. Tap the Open Breaker button below
+  /// 2. Tap on Settings in the bottom tab bar
+  /// 3. Tap on Connection
+  /// 4. Tap on Export subscriptions
+  /// 5. When the dialog opens locate the Pocket Casts icon, and tap on it
+  internal static var importInstructionsBreaker: String { return L10n.tr("Localizable", "import_instructions_breaker") }
+  /// 1. Tap the Open Castbox button below
+  /// 2. Tap the Personal tab
+  /// 3. Swipe down until you see the Settings option, then tap on it
+  /// 4. Swipe down until you see the OPML Export option, then tap on it
+  /// 5. If prompted, tap "Open in Pocket Casts"
+  /// 6. If the file opens in Safari, tap the Download button
+  /// 7. Once the download is complete, tap the download icon in the URL bar
+  /// 8. Tap the Downloads item
+  /// 9. Tap the castbox_opml file 
+  /// 10. If needed, tap the Share icon, then open the file using Pocket Casts
+  /// 11. When the share dialog opens, locate the Pocket Casts icon, then tap on it
+  internal static var importInstructionsCastbox: String { return L10n.tr("Localizable", "import_instructions_castbox") }
+  /// 1. Tap the Open Castro button below
+  /// 2. Tap the Cog icon in the top corner of the app
+  /// 3. Swipe down until you see the User Data option, then tap on it
+  /// 4. Tap the Export Subscriptions item
+  /// 5. When the share dialog opens, locate the Pocket Casts icon, then tap on it
+  internal static var importInstructionsCastro: String { return L10n.tr("Localizable", "import_instructions_castro") }
+  /// Import from %1$@
+  internal static func importInstructionsImportFrom(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "import_instructions_import_from", String(describing: p1))
+  }
+  /// Install Shortcut
+  internal static var importInstructionsInstallShortcut: String { return L10n.tr("Localizable", "import_instructions_install_shortcut") }
+  /// Open %1$@
+  internal static func importInstructionsOpenIn(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "import_instructions_open_in", String(describing: p1))
+  }
+  /// other apps
+  internal static var importInstructionsOtherAppsTitle: String { return L10n.tr("Localizable", "import_instructions_other_apps_title") }
+  /// 1. Tap the button below to open Overcast
+  /// 2. Tap the Cog icon in the top corner of the app
+  /// 3. Swipe down until you see Export OPML, then tap on it
+  /// 4. When the dialog opens locate the Pocket Casts icon, and tap on it
+  internal static var importInstructionsOvercast: String { return L10n.tr("Localizable", "import_instructions_overcast") }
   /// You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.
   /// 
   /// Note: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.
   internal static var importPodcastsDescription: String { return L10n.tr("Localizable", "import_podcasts_description") }
   /// IMPORT TO POCKET CASTS
   internal static var importPodcastsTitle: String { return L10n.tr("Localizable", "import_podcasts_title") }
+  /// Coming from another app? Import your podcasts and get listening. You can always do this later in settings.
+  internal static var importSubtitle: String { return L10n.tr("Localizable", "import_subtitle") }
+  /// Bring your
+  /// podcasts with you
+  internal static var importTitle: String { return L10n.tr("Localizable", "import_title") }
   /// In Progress
   internal static var inProgress: String { return L10n.tr("Localizable", "in_progress") }
   /// Close Player

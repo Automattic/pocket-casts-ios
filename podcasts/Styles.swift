@@ -253,6 +253,13 @@ struct SimpleTextButtonStyle: ButtonStyle {
     }
 }
 
+struct ClickyButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .applyButtonEffect(isPressed: configuration.isPressed)
+    }
+}
+
 // MARK: - Button Modifiers
 extension View {
     /// Adds a subtle spring effect when the `isPressed` value is changed
