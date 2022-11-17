@@ -27,28 +27,37 @@ class OnboardingNavigationViewController: UINavigationController {
     }
 
     private func updateNavigationBarStyle(animated: Bool) {
-        let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
-        let backIcon = UIImage(named: "nav-back")?.tintedImage(iconColor)
-
-        navigationBar.backIndicatorImage = backIcon
-        navigationBar.backIndicatorTransitionMaskImage = backIcon
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.shadowColor = nil
-
-        let applyAppearance = {
-            self.navigationBar.standardAppearance = appearance
-            self.navigationBar.scrollEdgeAppearance = appearance
-            self.navigationBar.tintColor = iconColor
-        }
-
         guard animated else {
-            applyAppearance()
+            apply()
             return
         }
 
-        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime,
-                       animations: applyAppearance)
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+            self.apply()
+        }
+    }
+
+    private func apply() {
+        let instances = [OnboardingNavigationViewController.self]
+
+        let barAppearance =
+            UINavigationBar.appearance(whenContainedInInstancesOf: instances)
+
+        let appearances = [barAppearance.standardAppearance,
+                           barAppearance.scrollEdgeAppearance]
+
+        for appearance in appearances {
+            appearance?.configureWithTransparentBackground()
+            appearance?.shadowColor = nil
+        }
+
+        // Update the back icon
+        let iconColor = AppTheme.colorForStyle(.primaryInteractive01)
+        let config = UIImage.SymbolConfiguration(weight: .bold)
+        let image = UIImage(systemName: "arrow.left")?.applyingSymbolConfiguration(config)
+
+        barAppearance.backIndicatorImage = image
+        barAppearance.backIndicatorTransitionMaskImage = image
+        barAppearance.tintColor = iconColor
     }
 }
