@@ -93,7 +93,7 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let viewModel = WelcomeViewModel(displayType: .newAccount)
+        let viewModel = WelcomeViewModel(displayType: .plus)
         let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
 
         guard let navigationController = parentController as? UINavigationController else {
