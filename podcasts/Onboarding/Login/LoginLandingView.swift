@@ -207,7 +207,7 @@ private struct LoginPodcastCover: View {
     @ViewBuilder
     var cover: some View {
         if let podcast = model.image?.podcast {
-            PodcastCover(podcastUuid: podcast.uuid)
+            PodcastCover(podcastUuid: podcast.uuid, viewBackgroundStyle: .primaryUi01)
         } else if let imageName = model.image?.imageName {
             PodcastCoverImage(imageName: imageName)
         } else {
