@@ -22,13 +22,11 @@ struct PodcastCover: View {
     }
 
     private var rectangleColor: Color? {
-        var rectangleColor: Color?
-
         if let viewBackgroundStyle {
-            rectangleColor = AppTheme.color(for: viewBackgroundStyle)
+            return AppTheme.color(for: viewBackgroundStyle)
         }
 
-        return rectangleColor
+        return nil
     }
 
     var body: some View {
