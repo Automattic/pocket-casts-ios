@@ -25,16 +25,18 @@ struct ImportDetailsView: View {
                     appInstructions
 
                     Spacer()
-                }
+                }.padding([.leading, .trailing], Constants.horizontalPadding)
             }
 
             // Hide button for other
             if app.id != .other {
                 Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
                     viewModel.openApp(app)
-                }.buttonStyle(RoundedButtonStyle(theme: theme))
+                }
+                .buttonStyle(RoundedButtonStyle(theme: theme))
+                .padding([.leading, .trailing], Constants.horizontalPadding)
             }
-        }.padding(.top, 16).padding([.leading, .trailing], 24).padding(.bottom)
+        }.padding(.top, 16).padding(.bottom)
         .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
     }
 
@@ -49,5 +51,9 @@ struct ImportDetailsView: View {
                    .fixedSize(horizontal: false, vertical: true)
            }
        }
+    }
+
+    private enum Constants {
+        static let horizontalPadding = 24.0
     }
 }

@@ -33,8 +33,8 @@ struct ImportLandingView: View {
                     }
 
                     Spacer()
-                }
-            }.padding(.top, 16).padding([.leading, .trailing], 24).padding(.bottom)
+                }.padding([.leading, .trailing], 24)
+            }.padding(.top, 16).padding(.bottom)
             .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
         }
     }
