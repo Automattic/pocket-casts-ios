@@ -248,16 +248,30 @@ private struct WelcomeSectionView: View {
     }
 
     private var button: some View {
-            Button(model.buttonTitle) {
-                action()
-            }
-            .foregroundColor(AppTheme.color(for: .sectionButtonTitle, theme: theme))
-            .font(size: 15, style: .callout, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
-            .padding([.top, .bottom], Config.padding.sectionButtonVertical)
-            .padding([.leading, .trailing], Config.padding.horizontal)
-            .buttonStyle(ClickyButton())
+        Button(model.buttonTitle) {
+            action()
+        }
+        .buttonStyle(SectionButton(theme: theme))
     }
 }
+
+private struct SectionButton: ButtonStyle {
+    @ObservedObject var theme: Theme
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .foregroundColor(AppTheme.color(for: .sectionButtonTitle, theme: theme))
+        .font(size: 15, style: .callout, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
+        .padding([.top, .bottom], Config.padding.sectionButtonVertical)
+        .padding([.leading, .trailing], Config.padding.horizontal)
+        .contentShape(Rectangle())
+        .applyButtonEffect(isPressed: configuration.isPressed)
+    }
+}
+
 // MARK: - Confetti 🎉
 
 private struct WelcomeConfettiEmitter: UIViewRepresentable {

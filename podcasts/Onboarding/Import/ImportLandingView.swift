@@ -75,7 +75,9 @@ private struct AppRow: View {
                     .font(style: .subheadline, weight: .medium)
                     .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
             }
-        }.buttonStyle(ClickyButton())
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(ClickyButton())
     }
 }
 
