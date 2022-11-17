@@ -255,6 +255,7 @@ private struct WelcomeSectionView: View {
             .font(size: 15, style: .callout, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
             .padding([.top, .bottom], Config.padding.sectionButtonVertical)
             .padding([.leading, .trailing], Config.padding.horizontal)
+            .buttonStyle(ClickyButton())
     }
 }
 // MARK: - Confetti 🎉
