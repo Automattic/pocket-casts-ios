@@ -4,6 +4,12 @@ import SwiftUI
 
 class PlusLandingViewModel: PlusPricingInfoModel {
     var navigationController: UINavigationController? = nil
+    let isRootView: Bool
+
+    init(isRootView: Bool, purchaseHandler: IapHelper = .shared) {
+        self.isRootView = isRootView
+        super.init(purchaseHandler: purchaseHandler)
+    }
 
     func unlockTapped() {
         loadPrices {
@@ -37,9 +43,11 @@ private extension PlusLandingViewModel {
 
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
-        let viewModel = PlusLandingViewModel()
+        let isRootView = navigationController == nil
+        let viewModel = PlusLandingViewModel(isRootView: isRootView)
         let view = PlusLandingView(viewModel: viewModel)
         let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
+        controller.navBarIsHidden = isRootView
 
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
