@@ -22,7 +22,7 @@ struct PlusPurchaseModal: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ModalTopPill()
+            ModalTopPill(fillColor: .imageFilter01)
 
             Label(L10n.plusPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
@@ -73,7 +73,7 @@ struct PlusPurchaseModal: View {
         }
         .frame(maxWidth: Config.maxWidth)
         .padding([.leading, .trailing])
-        .padding(.bottom, 60)
+        .padding(.bottom, 40)
         .background(Color.backgroundColor.ignoresSafeArea())
     }
 
