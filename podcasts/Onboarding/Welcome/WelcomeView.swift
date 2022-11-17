@@ -36,11 +36,10 @@ struct WelcomeView: View {
                         }
                     }
 
+                    Spacer()
                     newsletter
                         .padding(.top, 30)
                         .padding(.bottom, 16)
-
-                    Spacer()
 
                     Button(L10n.done) {
                         viewModel.doneTapped()
