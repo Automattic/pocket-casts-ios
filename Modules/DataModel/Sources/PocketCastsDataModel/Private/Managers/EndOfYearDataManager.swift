@@ -223,12 +223,12 @@ class EndOfYearDataManager {
             }
         }
 
-        // If there's a tie on number of played episodes, check played time
+        // If there's a tie on total played time, check number of played episodes
         return allPodcasts.sorted(by: {
-            if $0.numberOfPlayedEpisodes == $1.numberOfPlayedEpisodes {
-                return $0.totalPlayedTime > $1.totalPlayedTime
+            if $0.totalPlayedTime == $1.totalPlayedTime {
+                return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
             }
-            return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+            return $0.totalPlayedTime > $1.totalPlayedTime
         })
     }
 

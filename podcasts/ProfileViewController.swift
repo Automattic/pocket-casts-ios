@@ -448,6 +448,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
         case .endOfYearPrompt:
+            Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
         }
     }
