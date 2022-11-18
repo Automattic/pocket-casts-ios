@@ -86,7 +86,7 @@ extension PlusLandingViewModel {
         controller.navBarIsHidden = true
 
         // Create our own nav controller if we're not already going in one
-        let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
+        let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
 
         return (navigationController == nil) ? navController : controller

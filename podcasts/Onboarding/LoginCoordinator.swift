@@ -100,7 +100,7 @@ extension LoginCoordinator {
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
                                                        coordinator: coordinator)
 
-        let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
+        let navController = navigationController ?? UINavigationController(rootViewController: controller)
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
