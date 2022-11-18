@@ -8,10 +8,6 @@ struct PlusLandingView: View {
         ZStack {
             PlusBackgroundGradientView()
 
-            if viewModel.isRootView {
-                closeButton
-            }
-
             ScrollViewIfNeeded {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top, spacing: 12) {
@@ -43,10 +39,12 @@ struct PlusLandingView: View {
                             viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
-                }.padding(viewModel.isRootView ? ViewConfig.padding.viewReducedTop : ViewConfig.padding.view)
+                }.padding(ViewConfig.padding.viewReducedTop)
                     .padding(.bottom)
             }
-        }.enableProportionalValueScaling().ignoresSafeArea()
+        }.enableProportionalValueScaling().ignoresSafeArea().onAppear() {
+            viewModel.didAppear()
+        }
     }
 
     private var closeButton: some View {
