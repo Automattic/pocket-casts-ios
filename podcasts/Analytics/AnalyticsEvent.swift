@@ -593,4 +593,5 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShown
     case endOfYearStoryShare
     case endOfYearStoryShared
+    case endOfYearProfileCardTapped
 }
