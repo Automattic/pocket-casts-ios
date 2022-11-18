@@ -9,7 +9,7 @@ class LoginCoordinator {
     var presentedFromUpgrade: Bool = false
 
     init() {
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map {
+        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true).map {
             LoginHeaderImage(podcast: $0, imageName: nil)
         }.shuffled()
 
@@ -101,7 +101,6 @@ extension LoginCoordinator {
                                                        coordinator: coordinator)
 
         let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
-        navController.isModalInPresentation = true
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
