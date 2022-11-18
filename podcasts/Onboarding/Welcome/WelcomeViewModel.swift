@@ -53,3 +53,18 @@ class WelcomeViewModel: ObservableObject {
         var id: Int { rawValue }
     }
 }
+
+extension WelcomeViewModel {
+    static func make(in navigationController: UINavigationController? = nil, displayType: DisplayType) -> UIViewController {
+        let viewModel = WelcomeViewModel(displayType: displayType)
+        viewModel.navigationController = navigationController
+        let controller = OnboardingHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
+        controller.navBarIsHidden = true
+
+        // Create our own nav controller if we're not already going in one
+        let navController = navigationController ?? UINavigationController(rootViewController: controller)
+        viewModel.navigationController = navController
+
+        return (navigationController == nil) ? navController : controller
+    }
+}

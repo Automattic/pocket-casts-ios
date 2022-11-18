@@ -140,7 +140,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .privacy:
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         case .developer:
-            let hostingController = UIHostingController(rootView: DeveloperMenu())
+            let hostingController = UIHostingController(rootView: DeveloperMenu().setupDefaultEnvironment())
             navigationController?.pushViewController(hostingController, animated: true)
         }
     }
@@ -161,7 +161,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         }
 
         #if DEBUG
-        tableData.append([.developer])
+        tableData.insert([.developer], at: 0)
         #endif
 
         settingsTable.reloadData()

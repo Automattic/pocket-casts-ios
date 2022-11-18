@@ -8,10 +8,6 @@ struct PlusLandingView: View {
         ZStack {
             PlusBackgroundGradientView()
 
-            if viewModel.isRootView {
-                closeButton
-            }
-
             ScrollViewIfNeeded {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top, spacing: 12) {
@@ -43,26 +39,11 @@ struct PlusLandingView: View {
                             viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
-                }.padding(viewModel.isRootView ? ViewConfig.padding.viewReducedTop : ViewConfig.padding.view)
-                    .padding(.bottom)
+                }
+                .padding(ViewConfig.padding.viewReducedTop)
+                .padding(.bottom)
             }
         }.enableProportionalValueScaling().ignoresSafeArea()
-    }
-
-    private var closeButton: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button("") {
-                    viewModel.dismissTapped()
-                }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
-
-                .padding(.trailing, 13)
-                .padding(.top, 5)
-                .accessibilityLabel(L10n.accessibilityDismiss)
-            }.padding(.top, 5)
-            Spacer()
-        }
     }
 
     // Static list of the feature models to display

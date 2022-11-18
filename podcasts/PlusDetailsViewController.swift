@@ -142,7 +142,22 @@ class PlusDetailsViewController: PCViewController {
         }
     }
 
+    private func handleUpgrade() {
+        if SyncManager.isUserLoggedIn() {
+            let model = PlusAccountPromptViewModel()
+            model.upgradeTapped()
+        } else {
+            present(LoginCoordinator.make(fromUpgrade: true), animated: true)
+        }
+
+        Analytics.track(.settingsPlusUpgradeButtonTapped)
+    }
+
     @IBAction func upgradeTapped(_ sender: Any) {
+        guard !FeatureFlag.onboardingUpdates else {
+            handleUpgrade()
+            return
+        }
         if SyncManager.isUserLoggedIn() {
             let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
             let termsVC = TermsViewController(newSubscription: newSubscription)

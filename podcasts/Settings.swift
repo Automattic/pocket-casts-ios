@@ -761,6 +761,15 @@ class Settings: NSObject {
         }
     }
 
+    static var shouldShowInitialOnboardingFlow: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.shouldShowInitialOnboardingFlow)
+        }
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldShowInitialOnboardingFlow)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

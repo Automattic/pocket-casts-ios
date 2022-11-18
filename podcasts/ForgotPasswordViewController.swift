@@ -1,7 +1,12 @@
 import PocketCastsServer
 import UIKit
 
+protocol ForgotPasswordDelegate: AnyObject {
+    func handlePasswordResetSuccess()
+}
 class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
+    weak var delegate: ForgotPasswordDelegate?
+
     @IBOutlet var resetPasswordBtn: ThemeableRoundedButton! {
         didSet {
             resetPasswordBtn.setTitle(L10n.profileResetPassword, for: .normal)
@@ -117,8 +122,13 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
 
                 Analytics.track(.userPasswordReset)
 
-                _ = self.navigationController?.popViewController(animated: true)
-                SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)
+                guard let delegate = self.delegate else {
+                    self.navigationController?.popViewController(animated: true)
+                    SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)
+                    return
+                }
+
+                delegate.handlePasswordResetSuccess()
             }
         }
     }

@@ -165,6 +165,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(Notification.Name.userLoginDidChange, selector: #selector(handleDataChangedNotification))
+
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
             updateDisplayedData()
@@ -220,6 +222,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func showProfileSetupController() {
+        if FeatureFlag.onboardingUpdates {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: nil)
+
+            return
+        }
+
         let profileIntroController = ProfileIntroViewController()
         let navController = SJUIUtils.popupNavController(for: profileIntroController)
         present(navController, animated: true, completion: nil)

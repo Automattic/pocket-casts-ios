@@ -99,7 +99,7 @@ private extension PlusPurchaseModel {
 
         // Create a view controller to present the view in
         guard let navigationController = parentController as? UINavigationController else {
-            let navigationController = OnboardingNavigationViewController(rootViewController: controller)
+            let navigationController = UINavigationController(rootViewController: controller)
             viewModel.navigationController = navigationController
 
             parentController.dismiss(animated: true, completion: {

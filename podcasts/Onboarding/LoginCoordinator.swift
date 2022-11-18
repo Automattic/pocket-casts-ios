@@ -1,14 +1,15 @@
 import Foundation
+import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
 
 class LoginCoordinator {
     var navigationController: UINavigationController? = nil
-
     let headerImages: [LoginHeaderImage]
+    var presentedFromUpgrade: Bool = false
 
     init() {
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map {
+        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true).map {
             LoginHeaderImage(podcast: $0, imageName: nil)
         }.shuffled()
 
@@ -24,14 +25,14 @@ class LoginCoordinator {
     }
 
     func loginTapped() {
-        let controller = PlusLandingViewModel.make(in: navigationController)
+        let controller = SyncSigninViewController()
+        controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
-//        let controller = SyncSigninViewController()
-//        navigationController?.pushViewController(controller, animated: true)
     }
 
     func signUpTapped() {
         let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
+        controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -66,26 +67,42 @@ extension LoginCoordinator {
     }
 }
 
+extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    func signingProcessCompleted() {
+        let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
+
+        if shouldDismiss {
+            navigationController?.dismiss(animated: true)
+            return
+        }
+
+        goToPlus(from: .login)
+    }
+
+    func handleAccountCreated() {
+        goToPlus(from: .accountCreated)
+    }
+
+    private func goToPlus(from source: PlusLandingViewModel.Source) {
+        let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
+        navigationController?.setViewControllers([controller], animated: true)
+    }
+}
+
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make() -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, fromUpgrade: Bool = false) -> UIViewController {
         let coordinator = LoginCoordinator()
+        coordinator.presentedFromUpgrade = fromUpgrade
+
         let view = LoginLandingView(coordinator: coordinator)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
                                                        coordinator: coordinator)
 
-        let navigationController = OnboardingNavigationViewController(rootViewController: controller)
-        coordinator.navigationController = navigationController
+        let navController = navigationController ?? UINavigationController(rootViewController: controller)
+        coordinator.navigationController = navController
 
-        return navigationController
-    }
-}
-
-// MARK: - SyncSigninDelegate
-
-extension LoginCoordinator: SyncSigninDelegate {
-    func signingProcessCompleted() {
-        print("Handle the next step")
+        return (navigationController == nil) ? navController : controller
     }
 }
