@@ -148,6 +148,7 @@ struct Constants {
         static let modal2022HasBeenShown = "modal2022HasBeenShown"
         static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
         static let top5PodcastsListLink = "top5PodcastsListLink"
+        static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
     }
 
     enum Values {
