@@ -39,28 +39,11 @@ struct PlusLandingView: View {
                             viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
-                }.padding(ViewConfig.padding.viewReducedTop)
-                    .padding(.bottom)
+                }
+                .padding(ViewConfig.padding.viewReducedTop)
+                .padding(.bottom)
             }
-        }.enableProportionalValueScaling().ignoresSafeArea().onAppear() {
-            viewModel.didAppear()
-        }
-    }
-
-    private var closeButton: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button("") {
-                    viewModel.dismissTapped()
-                }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
-
-                .padding(.trailing, 13)
-                .padding(.top, 5)
-                .accessibilityLabel(L10n.accessibilityDismiss)
-            }.padding(.top, 5)
-            Spacer()
-        }
+        }.enableProportionalValueScaling().ignoresSafeArea()
     }
 
     // Static list of the feature models to display
