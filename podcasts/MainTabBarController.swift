@@ -64,6 +64,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkWhatsNewAcknowledged()
 
         endOfYear.showPromptBasedOnState(in: self)
+        showInitialOnboardingIfNeeded()
+    }
+
+    private func showInitialOnboardingIfNeeded() {
+        guard FeatureFlag.onboardingUpdates, Settings.shouldShowInitialOnboardingFlow else { return }
+
+        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: nil)
+
+        // Set the flag so the user won't see the on launch flow again
+        Settings.shouldShowInitialOnboardingFlow = false
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -251,7 +261,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        let controller = PlusLandingViewModel.make()
+        let controller = PlusLandingViewModel.make(from: .upsell)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -375,6 +385,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func dismissPresentedViewController() {
         presentedViewController?.dismiss(animated: true)
+    }
+
+    func showOnboardingFlow() {
+        guard let presentedViewController else {
+            present(LoginCoordinator.make(), animated: true)
+            return
+        }
+
+        presentedViewController.dismiss(animated: true) {
+            self.present(LoginCoordinator.make(), animated: true)
+        }
     }
 
     private func topController() -> UIViewController {

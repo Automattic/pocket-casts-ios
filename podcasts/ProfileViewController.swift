@@ -220,6 +220,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func showProfileSetupController() {
+        if FeatureFlag.onboardingUpdates {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: nil)
+
+            return
+        }
+
         let profileIntroController = ProfileIntroViewController()
         let navController = SJUIUtils.popupNavController(for: profileIntroController)
         present(navController, animated: true, completion: nil)
