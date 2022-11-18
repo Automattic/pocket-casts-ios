@@ -11,12 +11,12 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
 
         navigationController?.navigationBar.isHidden = navBarIsHidden
         navigationController?.navigationBar.tintColor = iconTintColor
+        navigationItem.backButtonDisplayMode = .minimal
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         updateNavigationBarStyle(animated: false)
-
 
         navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = iconTintColor
@@ -40,10 +40,7 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
     }
 
     private func apply() {
-        let instances = [OnboardingNavigationViewController.self]
-
-        let barAppearance =
-            UINavigationBar.appearance(whenContainedInInstancesOf: instances)
+        let barAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [Self.self])
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -58,8 +55,4 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
         barAppearance.backIndicatorImage = image
         barAppearance.backIndicatorTransitionMaskImage = image
     }
-}
-
-class OnboardingNavigationViewController: UINavigationController {
-    // just for referencing in the appearance above
 }
