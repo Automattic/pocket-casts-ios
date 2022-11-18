@@ -219,26 +219,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
-        if FeatureFlag.onboardingUpdates {
-//            let viewModel = WelcomeViewModel(displayType: .plus)
-//            let controller = WelcomeHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
-//            let navigationController = OnboardingNavigationViewController(rootViewController: controller)
-//            navigationController.modalPresentationStyle = .fullScreen
-//            viewModel.navigationController = navigationController
-//
-//            self.present(navigationController, animated: true)
-//
-            let coordinator = LoginCoordinator()
-            let view = LoginLandingView(coordinator: coordinator)
-            let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(), coordinator: coordinator)
-
-            let navigationController = OnboardingNavigationViewController(rootViewController: controller)
-            coordinator.navigationController = navigationController
-
-            self.present(navigationController, animated: true)
-            return
-        }
-
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
