@@ -4,14 +4,43 @@ import SwiftUI
 
 class PlusLandingViewModel: PlusPricingInfoModel {
     var navigationController: UINavigationController? = nil
-    let isRootView: Bool
 
-    init(isRootView: Bool, purchaseHandler: IapHelper = .shared) {
-        self.isRootView = isRootView
+    let continueUpgrade: Bool
+    let source: Source
+
+    init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
+        self.continueUpgrade = continueUpgrade
+        self.source = source
+
         super.init(purchaseHandler: purchaseHandler)
     }
-
     func unlockTapped() {
+        guard SyncManager.isUserLoggedIn() else {
+            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            navigationController?.pushViewController(controller, animated: true)
+            return
+        }
+
+        loadPricesAndContinue()
+    }
+
+    func didAppear() {
+        guard continueUpgrade else { return }
+
+        loadPricesAndContinue()
+    }
+
+    func dismissTapped() {
+        guard source == .accountCreated else {
+            navigationController?.dismiss(animated: true)
+            return
+        }
+
+        let controller = WelcomeViewModel.make(in: navigationController, displayType: .newAccount)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    private func loadPricesAndContinue() {
         loadPrices {
             switch self.priceAvailability {
             case .available:
@@ -24,14 +53,17 @@ class PlusLandingViewModel: PlusPricingInfoModel {
         }
     }
 
-    func dismissTapped() {
-        navigationController?.dismiss(animated: true)
+    enum Source {
+        case upsell
+        case login
+        case accountCreated
     }
 }
 
 private extension PlusLandingViewModel {
     func showModal() {
         guard let navigationController else { return }
+
         let controller = PlusPurchaseModel.make(in: navigationController)
         controller.presentModally(in: navigationController)
     }
@@ -42,12 +74,11 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
-        let isRootView = navigationController == nil
-        let viewModel = PlusLandingViewModel(isRootView: isRootView)
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
+        let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
         let view = PlusLandingView(viewModel: viewModel)
         let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
-        controller.navBarIsHidden = isRootView
+        controller.navBarIsHidden = true
 
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? OnboardingNavigationViewController(rootViewController: controller)
