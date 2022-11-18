@@ -3,6 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct ListenedCategoriesStory: StoryView {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
     var duration: TimeInterval = 5.seconds
 
     let listenedCategories: [ListenedCategory]
@@ -40,7 +41,7 @@ struct ListenedCategoriesStory: StoryView {
                             .multilineTextAlignment(.center)
                             .frame(maxHeight: geometry.size.height * 0.07)
                             .minimumScaleFactor(0.01)
-                            .opacity(0.8)
+                            .opacity(renderForSharing ? 0.0 : 0.8)
                     }
                     .padding(.trailing, 40)
                     .padding(.leading, 40)
