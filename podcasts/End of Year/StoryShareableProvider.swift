@@ -40,10 +40,22 @@ class StoryShareableProvider: UIActivityItemProvider {
         let snapshot = ZStack {
             AnyView(view)
         }
+        .environment(\.renderForSharing, true)
         .frame(width: 370, height: 658)
         .snapshot()
 
         generatedItem = snapshot
         self.view = nil
+    }
+}
+
+extension EnvironmentValues {
+    var renderForSharing: Bool {
+        get { self[RenderSharingKey.self] }
+        set { self[RenderSharingKey.self] = newValue }
+    }
+
+    private struct RenderSharingKey: EnvironmentKey {
+        static let defaultValue: Bool = false
     }
 }
