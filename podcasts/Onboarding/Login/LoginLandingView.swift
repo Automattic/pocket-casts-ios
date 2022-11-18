@@ -42,8 +42,8 @@ private struct LoginLandingContent: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea()
             LoginHeader(models: models, topPadding: Config.padding)
+                .clipped()
 
             VStack {
                 // Title and Subtitle
@@ -59,7 +59,7 @@ private struct LoginLandingContent: View {
             .padding([.leading, .trailing], Config.padding)
             .padding(.top, calculatedHeight + (smallHeight ? 30 : 56))
             .padding(.bottom)
-        }
+        }.background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
     }
 
     private enum Config {
@@ -276,13 +276,5 @@ private struct SocialLoginButtons: View {
                 coordinator.signInWithGoogleTapped()
             }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
         }
-    }
-}
-
-// MARK: - Preview
-struct LoginLandingView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginLandingView(coordinator: LoginCoordinator())
-            .preview(with: .contrastLight)
     }
 }
