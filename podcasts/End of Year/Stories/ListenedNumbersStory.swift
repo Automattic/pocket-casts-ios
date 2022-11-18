@@ -3,6 +3,8 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct ListenedNumbersStory: StoryView {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     var duration: TimeInterval = 5.seconds
 
     let identifier: String = "number_of_podcasts_and_episodes_listened"
@@ -70,7 +72,7 @@ struct ListenedNumbersStory: StoryView {
                         .multilineTextAlignment(.center)
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
-                        .opacity(0.8)
+                        .opacity(renderForSharing ? 0.0 : 0.8)
                         .padding(.bottom, geometry.size.height * 0.18)
                 }
                 .padding(.trailing, 40)
