@@ -73,7 +73,7 @@ struct PlusPurchaseModal: View {
         }
         .frame(maxWidth: Config.maxWidth)
         .padding([.leading, .trailing])
-        .padding(.bottom, 40)
+        .padding(.bottom, 60)
         .background(Color.backgroundColor.ignoresSafeArea())
     }
 
