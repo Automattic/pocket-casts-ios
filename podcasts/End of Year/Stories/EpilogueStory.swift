@@ -16,7 +16,7 @@ struct EpilogueStory: StoryView {
                         Image("heart")
                             .padding(.bottom, 20)
 
-                        Text(L10n.eoyStoryEpilogueTitle)
+                        Text(L10n.eoyStoryEpilogueTitle.replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts"))
                             .foregroundColor(.white)
                             .font(.system(size: 25, weight: .heavy))
                             .foregroundColor(.white)
