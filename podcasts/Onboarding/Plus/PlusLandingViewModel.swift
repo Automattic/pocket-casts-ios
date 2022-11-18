@@ -5,7 +5,7 @@ import SwiftUI
 class PlusLandingViewModel: PlusPricingInfoModel {
     var navigationController: UINavigationController? = nil
 
-    let continueUpgrade: Bool
+    var continueUpgrade: Bool
     let source: Source
 
     init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
@@ -14,6 +14,7 @@ class PlusLandingViewModel: PlusPricingInfoModel {
 
         super.init(purchaseHandler: purchaseHandler)
     }
+
     func unlockTapped() {
         guard SyncManager.isUserLoggedIn() else {
             let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
@@ -27,7 +28,10 @@ class PlusLandingViewModel: PlusPricingInfoModel {
     func didAppear() {
         guard continueUpgrade else { return }
 
-        loadPricesAndContinue()
+        // Don't continually show when the user dismisses
+        continueUpgrade = false
+
+        self.loadPricesAndContinue()
     }
 
     func dismissTapped() {
@@ -78,6 +82,7 @@ extension PlusLandingViewModel {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
         let view = PlusLandingView(viewModel: viewModel)
         let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
+        controller.viewModel = viewModel
         controller.navBarIsHidden = true
 
         // Create our own nav controller if we're not already going in one
