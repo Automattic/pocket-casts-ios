@@ -44,4 +44,5 @@ protocol NavigationProtocol: AnyObject {
 
     func showEndOfYearStories()
     func dismissPresentedViewController()
+    func showOnboardingFlow()
 }
