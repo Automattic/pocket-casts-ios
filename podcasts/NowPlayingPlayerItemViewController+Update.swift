@@ -89,8 +89,16 @@ extension NowPlayingPlayerItemViewController {
     }
 
     @objc func updateChapterInfo() {
+        updateChapterInfoWithChapters(PlaybackManager.shared.currentChapters())
+
+    }
+
+    private func updateChapterInfoForTime(_ time: TimeInterval) {
+        updateChapterInfoWithChapters(PlaybackManager.shared.chapterForTime(time: time))
+    }
+
+    private func updateChapterInfoWithChapters(_ chapters: Chapters) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
-        let chapters = PlaybackManager.shared.currentChapters()
         if let visibleChapter = chapters.visibleChapter(), PlaybackManager.shared.chapterCount() != 0 {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
@@ -140,6 +148,7 @@ extension NowPlayingPlayerItemViewController {
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {
         let remaining = max(0, duration - upTo)
         updateTimeLabels(upTo: upTo, remaining: remaining)
+        updateChapterInfoWithChapters(PlaybackManager.shared.chapterForTime(time: upTo))
 
         if moveSlider {
             timeSlider.totalDuration = duration
