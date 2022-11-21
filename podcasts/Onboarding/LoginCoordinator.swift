@@ -13,13 +13,17 @@ class LoginCoordinator {
         let bundledImages = bundledImages
 
         var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+            // Only return items we have a cached image for
+            .filter {
+                LoginLandingCoverImage.hasCache(for: $0.uuid)
+            }
             // Return a random-ish order
             .shuffled()
             // Limit to the number of bundled images we have
             .prefix(maxCount)
             // Convert the podcasts into the model, we use enumerated because we need the index to map to the placeholder
             .enumerated().map { (index, item) in
-                LoginHeaderImage(podcast: item, imageName: nil, placeholderImageName: bundledImages[index].imageName)
+                LoginHeaderImage(podcast: item, imageName: nil, placeholderImageName: bundledImages[index].imageName ?? "")
             }
 
         // If there aren't enough podcasts in the database, then fill in the missing ones with bundled images
@@ -59,7 +63,7 @@ class LoginCoordinator {
     struct LoginHeaderImage {
         let podcast: Podcast?
         let imageName: String?
-        var placeholderImageName: String? = nil
+        var placeholderImageName: String = ""
     }
 }
 
