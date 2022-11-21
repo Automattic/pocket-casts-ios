@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct EpilogueStory: StoryView {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
     var duration: TimeInterval = 5.seconds
 
     var identifier: String = "epilogue"
@@ -53,6 +54,7 @@ struct EpilogueStory: StoryView {
                     }
                     .buttonStyle(ReplayButtonStyle())
                     .padding(.top, 20)
+                    .opacity(renderForSharing ? 0 : 1)
                 }
                 .padding()
             }
