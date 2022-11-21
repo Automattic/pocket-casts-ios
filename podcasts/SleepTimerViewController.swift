@@ -108,6 +108,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBOutlet var endOfEpisodeInactiveBtn: ThemeableUIButton! {
         didSet {
+            endOfEpisodeInactiveBtn.setTitle(L10n.sleepTimerEndOfEpisode, for: .normal)
             endOfEpisodeInactiveBtn.style = .playerContrast01
         }
     }
