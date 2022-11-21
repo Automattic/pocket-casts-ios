@@ -9,15 +9,21 @@ class LoginCoordinator {
     var presentedFromUpgrade: Bool = false
 
     init() {
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true).map {
-            LoginHeaderImage(podcast: $0, imageName: nil)
-        }.shuffled()
-
         let maxCount = bundledImages.count
+        let bundledImages = bundledImages
 
-        if randomPodcasts.count > maxCount {
-            randomPodcasts = Array(randomPodcasts[0...maxCount])
-        } else if randomPodcasts.count < maxCount {
+        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+            // Return a random-ish order
+            .shuffled()
+            // Limit to the number of bundled images we have
+            .prefix(maxCount)
+            // Convert the podcasts into the model, we use enumerated because we need the index to map to the placeholder
+            .enumerated().map { (index, item) in
+                LoginHeaderImage(podcast: item, imageName: nil, placeholderImageName: bundledImages[index].imageName)
+            }
+
+        // If there aren't enough podcasts in the database, then fill in the missing ones with bundled images
+        if randomPodcasts.count < maxCount {
             randomPodcasts.append(contentsOf: bundledImages[randomPodcasts.count..<maxCount])
         }
 
@@ -53,18 +59,14 @@ class LoginCoordinator {
     struct LoginHeaderImage {
         let podcast: Podcast?
         let imageName: String?
+        var placeholderImageName: String? = nil
     }
 }
 
 // MARK: - Social Buttons
 extension LoginCoordinator {
-    func signInWithAppleTapped() {
-
-    }
-
-    func signInWithGoogleTapped() {
-
-    }
+    func signInWithAppleTapped() { }
+    func signInWithGoogleTapped() { }
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
