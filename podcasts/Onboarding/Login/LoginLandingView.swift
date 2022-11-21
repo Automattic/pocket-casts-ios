@@ -19,7 +19,6 @@ private struct LoginLandingContent: View {
     @ProportionalValue(with: .height) var calculatedHeaderHeightSmall: Double
     @ProportionalValue(with: .height) var deviceHeight = 1
 
-
     /// Determines if we should compact the view for smaller devices such as the iPhone SE
     private var smallHeight: Bool { deviceHeight < 600 }
 
@@ -248,10 +247,10 @@ private struct LoginPodcastCover: View {
 
     @ViewBuilder
     var cover: some View {
-        if let podcast = model.image?.podcast {
-            PodcastCover(podcastUuid: podcast.uuid,
-                         viewBackgroundStyle: .primaryUi01,
-                         placeholderImage: model.image?.placeholderImageName)
+        if let model = model.image, let podcast = model.podcast {
+            LoginLandingCoverImage(podcastUuid: podcast.uuid,
+                                   viewBackgroundStyle: .primaryUi01,
+                                   placeholderImage: model.placeholderImageName)
         } else if let imageName = model.image?.imageName {
             PodcastCoverImage(imageName: imageName)
         } else {
