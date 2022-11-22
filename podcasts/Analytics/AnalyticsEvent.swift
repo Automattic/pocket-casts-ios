@@ -594,4 +594,10 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShare
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
+
+    // MARK: - Onboarding Updates
+    case onboardingUpgradeShown
+    case onboardingUpgradeDismissed
+    case onboardingUpgradeUnlockAllFeaturesTapped
+    case onboardingUpgradeNotNowTapped
 }
