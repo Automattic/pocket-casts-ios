@@ -33,6 +33,12 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        viewModel?.didDismiss(type: .viewDisappearing)
+    }
+
     @objc func themeDidChange() {
         updateNavigationBarStyle(animated: false)
     }
@@ -66,6 +72,21 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
     }
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        viewModel?.didDismiss()
+        viewModel?.didDismiss(type: .swipe)
+    }
+}
+
+class OnboardingModalHostingViewController<Content>: MDCSwiftUIWrapper<Content> where Content: View {
+    var viewModel: OnboardingModel?
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel?.didAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        viewModel?.didDismiss(type: .viewDisappearing)
     }
 }
