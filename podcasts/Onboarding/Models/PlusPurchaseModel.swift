@@ -17,13 +17,13 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func didAppear() {
-        Analytics.track(.selectPaymentFrequencyShown)
+        OnboardingFlow.shared.track(.selectPaymentFrequencyShown)
     }
 
     func didDismiss(type: OnboardingDismissType) {
         guard state != .purchasing else { return }
 
-        Analytics.track(.selectPaymentFrequencyDismissed)
+        OnboardingFlow.shared.track(.selectPaymentFrequencyDismissed)
     }
 
     // MARK: - Triggers the purchase process
@@ -33,7 +33,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        Analytics.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": product.rawValue])
+        OnboardingFlow.shared.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": product.rawValue])
 
         purchasedProduct = product
         state = .purchasing
@@ -51,7 +51,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController) -> UIViewController {
+    static func make(in parentController: UIViewController?) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
 

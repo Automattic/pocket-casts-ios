@@ -10,13 +10,13 @@ class ImportViewModel: OnboardingModel {
     }
 
     func didAppear() {
-        Analytics.track(.onboardingImportShown)
+        OnboardingFlow.shared.track(.onboardingImportShown)
     }
 
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
-        Analytics.track(.onboardingImportDismissed)
+        OnboardingFlow.shared.track(.onboardingImportDismissed)
     }
 
     // MARK: - Import apps
@@ -116,7 +116,7 @@ extension ImportViewModel {
 extension ImportViewModel {
     func didSelect(_ app: ImportApp) {
         guard let navigationController else { return }
-        Analytics.track(.onboardingImportAppSelected, properties: ["app": app.id])
+        OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": app.id])
 
         let controller = UIHostingController(rootView: ImportDetailsView(app: app, viewModel: self).setupDefaultEnvironment())
 
@@ -128,7 +128,7 @@ extension ImportViewModel {
 // MARK: - Details
 extension ImportViewModel {
     func openApp(_ app: ImportApp) {
-        Analytics.track(.onboardingImportOpenAppTapped, properties: ["app": app.id])
+        OnboardingFlow.shared.track(.onboardingImportOpenAppTapped, properties: ["app": app.id])
 
         app.openApp()
     }
