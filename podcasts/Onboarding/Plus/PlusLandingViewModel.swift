@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusLandingViewModel: PlusPricingInfoModel {
+class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     var navigationController: UINavigationController? = nil
 
     var continueUpgrade: Bool
@@ -13,9 +13,13 @@ class PlusLandingViewModel: PlusPricingInfoModel {
         self.source = source
 
         super.init(purchaseHandler: purchaseHandler)
+
+        Analytics.shared.track(.onboardingUpgradeShown)
     }
 
     func unlockTapped() {
+        Analytics.shared.track(.onboardingUpgradeUnlockAllFeaturesTapped)
+
         guard SyncManager.isUserLoggedIn() else {
             let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
             navigationController?.pushViewController(controller, animated: true)
@@ -34,7 +38,13 @@ class PlusLandingViewModel: PlusPricingInfoModel {
         self.loadPricesAndContinue()
     }
 
+    func didDismiss() {
+        Analytics.shared.track(.onboardingUpgradeDismissed)
+    }
+
     func dismissTapped() {
+        Analytics.shared.track(.onboardingUpgradeNotNowTapped)
+
         guard source == .accountCreated else {
             navigationController?.dismiss(animated: true)
             return
