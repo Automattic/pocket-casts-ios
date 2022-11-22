@@ -70,7 +70,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private func showInitialOnboardingIfNeeded() {
         guard FeatureFlag.onboardingUpdates, Settings.shouldShowInitialOnboardingFlow else { return }
 
-        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: nil)
+        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
         // Set the flag so the user won't see the on launch flow again
         Settings.shouldShowInitialOnboardingFlow = false
@@ -261,7 +261,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        let controller = PlusLandingViewModel.make(from: .upsell)
+        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -387,14 +387,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         presentedViewController?.dismiss(animated: true)
     }
 
-    func showOnboardingFlow() {
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
+        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
+
         guard let presentedViewController else {
-            present(LoginCoordinator.make(), animated: true)
+            present(controller, animated: true)
             return
         }
 
         presentedViewController.dismiss(animated: true) {
-            self.present(LoginCoordinator.make(), animated: true)
+            self.present(controller, animated: true)
         }
     }
 

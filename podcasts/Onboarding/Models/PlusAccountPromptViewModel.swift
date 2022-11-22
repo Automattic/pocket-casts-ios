@@ -20,7 +20,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 private extension PlusAccountPromptViewModel {
     func showModal() {
         guard let parentController else { return }
-        let controller = PlusPurchaseModel.make(in: parentController)
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController)
         controller.presentModally(in: parentController)
     }
 

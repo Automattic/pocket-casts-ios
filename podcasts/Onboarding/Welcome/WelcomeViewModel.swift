@@ -91,6 +91,6 @@ extension WelcomeViewModel {
 
 private extension WelcomeViewModel {
     func track(_ event: AnalyticsEvent) {
-        Analytics.track(event, properties: ["display_type": displayType])
+        OnboardingFlow.shared.track(event, properties: ["display_type": displayType])
     }
 }
