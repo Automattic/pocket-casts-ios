@@ -21,6 +21,16 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
         viewModel?.didAppear()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        let controller = navigationController ?? self
+        guard controller.isBeingDismissed else { return }
+
+        DispatchQueue.main.async {
+            OnboardingFlow.shared.currentFlow = .none
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presentationController?.delegate = self
