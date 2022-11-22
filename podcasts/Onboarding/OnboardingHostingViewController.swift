@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
 
-class OnboardingHostingViewController<Content>: UIHostingController<Content> where Content: View {
+class OnboardingHostingViewController<Content>: UIHostingController<Content>, UIAdaptivePresentationControllerDelegate where Content: View {
     var navBarIsHidden: Bool = false
     var iconTintColor: UIColor = AppTheme.colorForStyle(.primaryIcon01)
+
+    var viewModel: OnboardingModel?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -12,6 +14,11 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
         navigationController?.navigationBar.isHidden = navBarIsHidden
         navigationController?.navigationBar.tintColor = iconTintColor
         navigationItem.backButtonDisplayMode = .minimal
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel?.didAppear()
     }
 
     override func viewDidLoad() {
