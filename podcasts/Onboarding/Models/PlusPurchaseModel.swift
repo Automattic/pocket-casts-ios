@@ -21,6 +21,8 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func didDismiss(type: OnboardingDismissType) {
+        guard state != .purchasing else { return }
+
         Analytics.track(.selectPaymentFrequencyDismissed)
     }
 
