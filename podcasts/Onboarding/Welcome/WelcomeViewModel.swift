@@ -30,9 +30,7 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
         switch section {
         case .importPodcasts:
             track(.welcomeImportTapped)
-            let viewModel = ImportViewModel()
-            let controller = OnboardingHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
-            viewModel.navigationController = navigationController
+            let controller = ImportViewModel.make(in: navigationController)
             navigationController?.pushViewController(controller, animated: true)
 
         case .discover:
@@ -54,6 +52,7 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
         case .newAccount: source = "welcome_new_account"
         case .plus: source = "welcome_plus"
         }
+
         Analytics.track(.newsletterOptInChanged, properties: ["enabled": newsletterOptIn, "source": source])
         ServerSettings.setMarketingOptIn(newsletterOptIn)
     }
