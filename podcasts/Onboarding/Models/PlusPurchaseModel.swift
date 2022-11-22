@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseModel: PlusPricingInfoModel {
+class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     var parentController: UIViewController? = nil
 
     // Keep track of our internal state, and pass this to our view
@@ -16,12 +16,22 @@ class PlusPurchaseModel: PlusPricingInfoModel {
         addPaymentObservers()
     }
 
+    func didAppear() {
+        Analytics.track(.selectPaymentFrequencyShown)
+    }
+
+    func didDismiss(type: OnboardingDismissType) {
+        Analytics.track(.selectPaymentFrequencyDismissed)
+    }
+
     // MARK: - Triggers the purchase process
     func purchase(product: Constants.IapProducts) {
         guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
             handlePurchaseFailed(error: nil)
             return
         }
+
+        Analytics.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": product.rawValue])
 
         purchasedProduct = product
         state = .purchasing
@@ -40,12 +50,13 @@ class PlusPurchaseModel: PlusPricingInfoModel {
 
 extension PlusPurchaseModel {
     static func make(in parentController: UIViewController) -> UIViewController {
-        let coordinator = PlusPurchaseModel()
-        coordinator.parentController = parentController
+        let viewModel = PlusPurchaseModel()
+        viewModel.parentController = parentController
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: coordinator).setupDefaultEnvironment()
-        let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
+        let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
+        let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
+        controller.viewModel = viewModel
 
         return controller
     }
