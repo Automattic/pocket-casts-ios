@@ -23,6 +23,8 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presentationController?.delegate = self
+        navigationController?.presentationController?.delegate = self
         updateNavigationBarStyle(animated: false)
 
         navigationItem.backButtonDisplayMode = .minimal
@@ -61,5 +63,9 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
 
         barAppearance.backIndicatorImage = image
         barAppearance.backIndicatorTransitionMaskImage = image
+    }
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        viewModel?.didDismiss()
     }
 }
