@@ -16,8 +16,8 @@ struct PlusLandingView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
-                        PlusLabel("Everything you love about Pocket Casts, plus more", for: .title)
-                        PlusLabel("Get access to exclusive features and customisation options", for: .subtitle)
+                        PlusLabel(L10n.plusMarketingTitle, for: .title)
+                        PlusLabel(L10n.plusMarketingSubtitle, for: .subtitle)
                     }.padding(.top, 24)
 
                     // Plus Features - Center between the text and the buttons

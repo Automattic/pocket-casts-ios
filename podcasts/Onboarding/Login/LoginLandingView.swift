@@ -60,8 +60,8 @@ private struct LoginLandingContent: View {
             VStack {
                 // Title and Subtitle
                 VStack(spacing: 8) {
-                    LoginLabel("Discover your next favorite podcast", for: .title)
-                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
+                    LoginLabel(L10n.loginTitle, for: .title)
+                    LoginLabel(L10n.loginSubtitle, for: .subtitle)
                 }
 
                 Spacer()
@@ -71,7 +71,8 @@ private struct LoginLandingContent: View {
             .padding([.leading, .trailing], Config.padding)
             .padding(.top, loginHeaderHeight)
             .padding(.bottom)
-        }.background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+        }
+        .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
     }
 
     private enum Config {

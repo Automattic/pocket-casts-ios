@@ -22,7 +22,7 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
         navigationItem.titleView = imageView
 
         if navigationController?.viewControllers.first == self {
-            let dismissItem = UIBarButtonItem(title: "Not Now", style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
+            let dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: coordinator, action: #selector(LoginCoordinator.dismissTapped))
             dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
                                                 NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
             navigationItem.rightBarButtonItem = dismissItem
