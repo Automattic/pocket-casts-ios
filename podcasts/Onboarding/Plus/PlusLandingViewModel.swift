@@ -13,8 +13,6 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         self.source = source
 
         super.init(purchaseHandler: purchaseHandler)
-
-        Analytics.shared.track(.onboardingUpgradeShown)
     }
 
     func unlockTapped() {
@@ -30,6 +28,8 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func didAppear() {
+        Analytics.shared.track(.onboardingUpgradeShown)
+
         guard continueUpgrade else { return }
 
         // Don't continually show when the user dismisses
@@ -38,7 +38,9 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         self.loadPricesAndContinue()
     }
 
-    func didDismiss() {
+    func didDismiss(type: OnboardingDismissType) {
+        guard type == .swipe else { return }
+
         Analytics.shared.track(.onboardingUpgradeDismissed)
     }
 
