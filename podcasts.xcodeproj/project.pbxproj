@@ -1342,6 +1342,7 @@
 		C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04C829243F7D00F2858A /* ImportViewModel.swift */; };
 		C71C04CB2924403000F2858A /* ImportLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04CA2924403000F2858A /* ImportLandingView.swift */; };
 		C71C04CD2924403800F2858A /* ImportDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04CC2924403800F2858A /* ImportDetailsView.swift */; };
+		C72223D4292C918F006B3B55 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72223D3292C918F006B3B55 /* OnboardingModel.swift */; };
 		C72CED2D289DA14F0017883A /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
 		C72CED2F289DA1650017883A /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
 		C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
@@ -2927,6 +2928,7 @@
 		C71C04C829243F7D00F2858A /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
 		C71C04CA2924403000F2858A /* ImportLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLandingView.swift; sourceTree = "<group>"; };
 		C71C04CC2924403800F2858A /* ImportDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDetailsView.swift; sourceTree = "<group>"; };
+		C72223D3292C918F006B3B55 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		C72CED2E289DA1650017883A /* String+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Analytics.swift"; sourceTree = "<group>"; };
 		C72CED31289DA1900017883A /* TracksAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksAdapter.swift; sourceTree = "<group>"; };
@@ -6108,6 +6110,7 @@
 				C7FF770D291C2CA80082A464 /* Login */,
 				C7B3C619291AD03A00054145 /* Plus */,
 				C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */,
+				C72223D3292C918F006B3B55 /* OnboardingModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -7825,6 +7828,7 @@
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
 				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
 				BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */,
+				C72223D4292C918F006B3B55 /* OnboardingModel.swift in Sources */,
 				4029E3E02292686C0003BEEB /* ChangeEmailViewController.swift in Sources */,
 				4011B9432164641800661A7D /* EditFilterNameCell.swift in Sources */,
 				C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */,
