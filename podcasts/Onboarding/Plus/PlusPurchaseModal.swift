@@ -118,7 +118,7 @@ private struct TermsView: View {
     var body: some View {
         GeometryReader { geometry in
             HTMLTextView(text: text,
-                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote),
+                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge),
                          textColor: Color.uiTextColor,
                          width: geometry.size.width,
                          textViewSize: $labelSize)
@@ -154,7 +154,7 @@ private struct Label: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
+                return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .freeTrialTerms:
                 return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraLarge)
             case .error:
