@@ -22,7 +22,7 @@ struct PlusPurchaseModal: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ModalTopPill(fillColor: .imageFilter01)
+            ModalTopPill()
 
             Label(L10n.plusPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
