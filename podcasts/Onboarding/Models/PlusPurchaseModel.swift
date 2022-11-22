@@ -106,23 +106,16 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let viewModel = WelcomeViewModel(displayType: .plus)
-        let controller = OnboardingHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
-        controller.navBarIsHidden = true
+        let controller = WelcomeViewModel.make(in: parentController as? UINavigationController, displayType: .plus)
 
         // Create a view controller to present the view in
         guard let navigationController = parentController as? UINavigationController else {
-            let navigationController = UINavigationController(rootViewController: controller)
-            viewModel.navigationController = navigationController
-
             parentController.dismiss(animated: true, completion: {
-                parentController.present(navigationController, animated: true)
+                parentController.present(controller, animated: true)
             })
             return
         }
 
-        // Show the welcome view inside the existing nav controller
-        viewModel.navigationController = navigationController
         navigationController.dismiss(animated: true, completion: {
             navigationController.setViewControllers([controller], animated: true)
         })
