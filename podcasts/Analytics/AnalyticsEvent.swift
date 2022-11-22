@@ -596,8 +596,16 @@ enum AnalyticsEvent: String {
     case endOfYearProfileCardTapped
 
     // MARK: - Onboarding Updates
+
     case onboardingUpgradeShown
     case onboardingUpgradeDismissed
     case onboardingUpgradeUnlockAllFeaturesTapped
     case onboardingUpgradeNotNowTapped
+
+    // MARK: - Welcome View
+
+    case welcomeShown
+    case welcomeImportTapped
+    case welcomeDiscoverTapped
+    case welcomeDismissed
 }
