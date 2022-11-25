@@ -28,3 +28,8 @@ steps:
         agents: *common_agents
         env: *common_env
         plugins: *common_plugins
+
+      - label: ":sleuth_or_spy: Lint Localized Strings Format"
+        command: lint_localized_strings_format
+        plugins: *common_plugins
+        env: *common_env
