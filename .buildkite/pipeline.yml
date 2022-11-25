@@ -21,8 +21,10 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
-  - label: Lints via Danger
-    command: .buildkite/commands/danger.sh
-    agents: *common_agents
-    env: *common_env
-    plugins: *common_plugins
+  - group: Linters
+    steps:
+      - label: Lints via Danger
+        command: .buildkite/commands/danger.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
