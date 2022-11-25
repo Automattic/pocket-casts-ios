@@ -496,10 +496,12 @@ platform :ios do
   # Generates the `.strings` file to be imported by GlotPress, by parsing source
   # code.
   #
+  # @option [Boolean] skip_commit (default: false) If true, does not commit the changes made to the `.strings` file.
+  #
   # @note Uses `genstrings` under the hood.
   # @called_by `complete_code_freeze`.
   #
-  lane :generate_strings_file_for_glotpress do
+  lane :generate_strings_file_for_glotpress do |options|
     # For reference: Other apps run `cocoapods` here (equivalent to `bundle
     # exec pod install`) because they have internal libraries that bring in
     # their own strings. Pocket Casts does not have dependencies with strings
@@ -526,6 +528,8 @@ platform :ios do
       paths_to_merge: MANUALLY_MAINTAINED_STRINGS_FILES,
       destination: FROZEN_STRINGS_PATH
     )
+
+    next if options.fetch(:skip_commit, false)
 
     git_commit(
       path: FROZEN_STRINGS_PATH,
