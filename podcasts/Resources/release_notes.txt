@@ -1,3 +1,2 @@
-- Add End of Year stats
-- Fixed the download indicator width in iOS 14 in Episode list cells.
+- Updates the onboarding and login process: (#548)
 
