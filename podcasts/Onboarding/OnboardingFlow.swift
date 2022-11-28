@@ -17,7 +17,7 @@ struct OnboardingFlow {
         case .plusUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell, upgradeSource: source)
+            flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
 
         case .plusAccountUpgrade:
             flowController = PlusPurchaseModel.make(in: controller)
@@ -33,15 +33,22 @@ struct OnboardingFlow {
         return flowController
     }
 
+    /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
         source = nil
         currentFlow = .none
     }
 
+    /// Updates the source passed for analytics
+    /// Any `track` events will use this new source
+    mutating func updateAnalyticsSource(_ source: String) {
+        self.source = source
+    }
+
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
         var defaultProperties: [String: Any] = ["flow": currentFlow]
 
-        // Append the source, only if it's set
+        // Append the source, only if it's set because not every event needs a source
         if let source {
             defaultProperties["source"] = source
         }
