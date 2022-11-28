@@ -19,8 +19,8 @@ private struct LoginLandingContent: View {
     @ProportionalValue(with: .height) var calculatedHeaderHeightSmall: Double
     @ProportionalValue(with: .height) var deviceHeight = 1
 
-    /// Determines if we should compact the view for smaller devices such as the iPhone SE
-    private var smallHeight: Bool { deviceHeight < 600 }
+    /// Determines if we should compact the view for smaller devices such as the iPhone SE / iPhone 12 Mini
+    private var smallHeight: Bool { deviceHeight < 700 }
 
     /// Reduce the header height to allow the buttons to fit for larger size categories
     private var useSmallHeader: Bool {
