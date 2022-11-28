@@ -3,7 +3,8 @@ import Foundation
 struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
-    var currentFlow: Flow = .none
+    private var currentFlow: Flow = .none
+    private var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
         let navigationController = controller as? UINavigationController
@@ -27,6 +28,10 @@ struct OnboardingFlow {
         currentFlow = flow
 
         return flowController
+    }
+
+    mutating func reset() {
+        currentFlow = .none
     }
 
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {

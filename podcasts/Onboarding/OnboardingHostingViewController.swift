@@ -27,7 +27,7 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
         guard controller.isBeingDismissed else { return }
 
         DispatchQueue.main.async {
-            OnboardingFlow.shared.currentFlow = .none
+            OnboardingFlow.shared.reset()
         }
     }
 
