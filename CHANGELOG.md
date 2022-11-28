@@ -1,3 +1,7 @@
+7.29
+-----
+
+
 7.28
 -----
 - Updates the onboarding and login process: (#548)
