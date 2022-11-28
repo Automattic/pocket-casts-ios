@@ -3,7 +3,7 @@ import SwiftUI
 import PocketCastsServer
 
 class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
-    var parentController: UIViewController? = nil
+    weak var parentController: UIViewController? = nil
 
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
@@ -24,6 +24,11 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         guard state != .purchasing else { return }
 
         OnboardingFlow.shared.track(.selectPaymentFrequencyDismissed)
+
+        // If the view is presented as its own part
+        if parentController as? UINavigationController == nil {
+            OnboardingFlow.shared.reset()
+        }
     }
 
     // MARK: - Triggers the purchase process
@@ -58,6 +63,7 @@ extension PlusPurchaseModel {
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
         let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
         let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
+        controller.parentController = parentController
         controller.viewModel = viewModel
 
         return controller
@@ -106,17 +112,18 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let controller = WelcomeViewModel.make(in: parentController as? UINavigationController, displayType: .plus)
+        let navigationController = parentController as? UINavigationController
+        let controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
 
-        // Create a view controller to present the view in
-        guard let navigationController = parentController as? UINavigationController else {
-            parentController.dismiss(animated: true, completion: {
+        // Dismiss the current flow
+        parentController.dismiss(animated: true, completion: {
+            guard let navigationController else {
+                // Present the welcome flow
                 parentController.present(controller, animated: true)
-            })
-            return
-        }
+                return
+            }
 
-        navigationController.dismiss(animated: true, completion: {
+            // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
         })
     }
