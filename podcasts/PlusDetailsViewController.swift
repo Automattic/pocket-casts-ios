@@ -148,7 +148,7 @@ class PlusDetailsViewController: PCViewController {
             model.parentController = self
             model.upgradeTapped()
         } else {
-            present(OnboardingFlow.shared.begin(flow: .plusAccountUpgradeNeedsLogin), animated: true)
+            present(OnboardingFlow.shared.begin(flow: .plusAccountUpgradeNeedsLogin, source: "plus_details"), animated: true)
         }
 
         Analytics.track(.settingsPlusUpgradeButtonTapped)
