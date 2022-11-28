@@ -1422,6 +1422,8 @@ internal enum L10n {
   internal static var plusAccountTrialDetails: String { return L10n.tr("Localizable", "plus_account_trial_details") }
   /// Unlock All Features
   internal static var plusButtonTitleUnlockAll: String { return L10n.tr("Localizable", "plus_button_title_unlock_all") }
+  /// Can be canceled at anytime
+  internal static var plusCancelTerms: String { return L10n.tr("Localizable", "plus_cancel_terms") }
   /// %1$@ GB Cloud Storage
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_cloud_storage_limit_format", String(describing: p1))

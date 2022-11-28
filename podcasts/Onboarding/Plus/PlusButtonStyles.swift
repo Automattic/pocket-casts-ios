@@ -84,8 +84,10 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
 struct PlusFreeTrialLabel: View {
     let text: String
-    init(_ text: String) {
+    let isSelected: Bool
+    init(_ text: String, isSelected: Bool = true) {
         self.text = text
+        self.isSelected = isSelected
     }
 
     var body: some View {
@@ -98,6 +100,8 @@ struct PlusFreeTrialLabel: View {
                 Color.plusGradient.cornerRadius(4)
             )
             .foregroundColor(Color.plusButtonFilledTextColor)
+            .grayscale(isSelected ? 0 : 1)
+            .animation(.easeInOut, value: isSelected)
     }
 }
 

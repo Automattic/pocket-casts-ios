@@ -3494,3 +3494,6 @@
 
 /* Title of the button that informs the user they can unlock all the features in plus */
 "plus_button_title_unlock_all" = "Unlock All Features";
+
+/* Title of a label informing the user they can cancel their subscription at anytime */
+"plus_cancel_terms" = "Can be canceled at anytime";
