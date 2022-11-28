@@ -7,11 +7,16 @@ struct OnboardingFlow {
     private var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
+        self.currentFlow = flow
+        self.source = source
+
         let navigationController = controller as? UINavigationController
 
         let flowController: UIViewController
         switch flow {
         case .plusUpsell:
+            // Only the upsell flow needs an unknown source
+            self.source = source ?? "unknown"
             flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell, upgradeSource: source)
 
         case .plusAccountUpgrade:
@@ -25,17 +30,22 @@ struct OnboardingFlow {
             flowController = LoginCoordinator.make(in: navigationController)
         }
 
-        currentFlow = flow
-
         return flowController
     }
 
     mutating func reset() {
+        source = nil
         currentFlow = .none
     }
 
     func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        let defaultProperties: [String: Any] = ["flow": currentFlow]
+        var defaultProperties: [String: Any] = ["flow": currentFlow]
+
+        // Append the source, only if it's set
+        if let source {
+            defaultProperties["source"] = source
+        }
+
         let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
         Analytics.track(event, properties: mergedProperties)
     }
