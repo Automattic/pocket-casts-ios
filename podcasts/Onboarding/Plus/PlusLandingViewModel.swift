@@ -7,7 +7,6 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 
     var continueUpgrade: Bool
     let source: Source
-    var upgradeSource: String? = nil
 
     init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
         self.continueUpgrade = continueUpgrade
@@ -17,7 +16,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func unlockTapped() {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped, properties: ["source": upgradeSource ?? "unknown"])
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
             let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
@@ -29,7 +28,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func didAppear() {
-        OnboardingFlow.shared.track(.plusPromotionShown, properties: ["source": upgradeSource ?? "unknown"])
+        OnboardingFlow.shared.track(.plusPromotionShown)
 
         guard continueUpgrade else { return }
 
@@ -42,11 +41,11 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
-        OnboardingFlow.shared.track(.plusPromotionDismissed, properties: ["source": upgradeSource ?? "unknown"])
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
     }
 
     func dismissTapped() {
-        OnboardingFlow.shared.track(.plusPromotionDismissed, properties: ["source": upgradeSource ?? "unknown"])
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
 
         guard source == .accountCreated else {
             navigationController?.dismiss(animated: true)
@@ -91,9 +90,8 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false, upgradeSource: String?) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
-        viewModel.upgradeSource = upgradeSource
 
         let view = PlusLandingView(viewModel: viewModel)
         let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
