@@ -13,13 +13,33 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
-        return row == .newsletter ? UITableView.automaticDimension : 64
+        switch row {
+        case .upgradeView, .newsletter:
+            return UITableView.automaticDimension
+        default:
+            return 64
+        }
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = tableData[indexPath.section][indexPath.row]
+        switch row {
+        case .upgradeView:
+            return 350
+        default:
+            return 64
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = tableData[indexPath.section][indexPath.row]
 
         switch row {
+        case .upgradeView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier, for: indexPath) as! PlusAccountPromptTableCell
+            cell.updateParent(self)
+            return cell
+
         case .supporterContributions:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
             cell.cellLabel.text = L10n.supporterContributions
@@ -115,6 +135,9 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let row = tableData[indexPath.section][indexPath.row]
 
         switch row {
+        case .upgradeView:
+            break
+
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)

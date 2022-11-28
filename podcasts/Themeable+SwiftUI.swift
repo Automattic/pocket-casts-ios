@@ -4,6 +4,10 @@ import UIKit
 
 public enum ViewConstants {
     static let cornerRadius: CGFloat = 5
+
+    // Buttons
+    static let buttonCornerRadius = 10.0
+    static let buttonStrokeWidth = 2.0
 }
 
 extension View {

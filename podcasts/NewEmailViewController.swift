@@ -3,7 +3,13 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class NewEmailViewController: UIViewController, UITextFieldDelegate {
+protocol CreateAccountDelegate: AnyObject {
+    func handleAccountCreated()
+}
+
+class NewEmailViewController: PCViewController, UITextFieldDelegate {
+    weak var delegate: CreateAccountDelegate?
+
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
             emailField.delegate = self
@@ -100,7 +106,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createAccount
-        emailField.becomeFirstResponder()
         activityIndicator.isHidden = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped))
@@ -108,11 +113,16 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         originalButtonConstant = nextButtonBottomConstraint.constant
 
         updateButtonState()
         Analytics.track(.createAccountShown)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        emailField.becomeFirstResponder()
     }
 
     deinit {
@@ -128,7 +138,7 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         AppTheme.popupStatusBarStyle()
     }
 
-    @objc private func themeDidChange() {
+    override func handleThemeChanged() {
         showPasswordButton.tintColor = ThemeColor.primaryIcon03()
         mailImage.tintColor = ThemeColor.primaryField03Active()
         keyImage.tintColor = ThemeColor.primaryField03Active()
@@ -188,6 +198,13 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.saveUsernameAndPassword(username, password: password, userId: userId)
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                 Settings.setLoginDetailsUpdated()
+
+                // Let a delegate decide what to do next
+                if let delegate = self.delegate {
+                    delegate.handleAccountCreated()
+                    return
+                }
+
                 if self.newSubscription.iap_identifier.count > 0 {
                     let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: self.newSubscription)
                     self.navigationController?.pushViewController(confirmPaymentVC, animated: true)

@@ -17,6 +17,7 @@ extension AppDelegate {
             Settings.setShouldDeleteWhenPlayed(true)
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             Settings.setMobileDataAllowed(true)
+            Settings.shouldShowInitialOnboardingFlow = true
             setWhatsNewAcknowledgeToLatest()
         }
 

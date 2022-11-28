@@ -593,4 +593,19 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShown
     case endOfYearStoryShare
     case endOfYearStoryShared
+    case endOfYearProfileCardTapped
+
+    // MARK: - Welcome View
+
+    case welcomeShown
+    case welcomeImportTapped
+    case welcomeDiscoverTapped
+    case welcomeDismissed
+
+    // MARK: - Import
+
+    case onboardingImportShown
+    case onboardingImportAppSelected
+    case onboardingImportOpenAppTapped
+    case onboardingImportDismissed
 }

@@ -64,6 +64,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkWhatsNewAcknowledged()
 
         endOfYear.showPromptBasedOnState(in: self)
+        showInitialOnboardingIfNeeded()
+    }
+
+    private func showInitialOnboardingIfNeeded() {
+        guard FeatureFlag.onboardingUpdates, Settings.shouldShowInitialOnboardingFlow else { return }
+
+        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
+
+        // Set the flag so the user won't see the on launch flow again
+        Settings.shouldShowInitialOnboardingFlow = false
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -243,9 +253,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         // If we're already presenting a view, then present from that view if possible
-        let controller = presentedViewController ?? view.window?.rootViewController
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-        controller?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        let presentingController = presentedViewController ?? view.window?.rootViewController
+
+        guard FeatureFlag.onboardingUpdates else {
+            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
+            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+            return
+        }
+
+        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
+        presentingController?.present(controller, animated: true, completion: nil)
     }
 
     func showPlusMarketingPage() {
@@ -368,6 +385,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func dismissPresentedViewController() {
         presentedViewController?.dismiss(animated: true)
+    }
+
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
+        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
+
+        guard let presentedViewController else {
+            present(controller, animated: true)
+            return
+        }
+
+        presentedViewController.dismiss(animated: true) {
+            self.present(controller, animated: true)
+        }
     }
 
     private func topController() -> UIViewController {

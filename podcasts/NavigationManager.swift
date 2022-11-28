@@ -55,6 +55,7 @@ class NavigationManager {
     static let signInPage = "signInPage"
 
     static let endOfYearStories = "endOfYearStories"
+    static let onboardingFlow = "onboardingFlow"
 
     static let sharedManager = NavigationManager()
 
@@ -190,6 +191,9 @@ class NavigationManager {
             }
         } else if place == NavigationManager.endOfYearStories {
             mainController?.showEndOfYearStories()
+        } else if place == NavigationManager.onboardingFlow {
+            let flow: OnboardingFlow.Flow? = data?["flow"] as? OnboardingFlow.Flow
+            mainController?.showOnboardingFlow(flow: flow)
         }
     }
 }

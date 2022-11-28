@@ -1,18 +1,36 @@
 import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
+    let isLoading: Bool
+
+    init(isLoading: Bool = false) {
+        self.isLoading = isLoading
+    }
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .updateFont()
+            .applyButtonFont()
             .frame(maxWidth: .infinity)
             .padding()
 
             .background(Color.plusGradient)
-            .foregroundColor(Color.filledTextColor)
+            .foregroundColor(Color.plusButtonFilledTextColor)
 
-            .cornerRadius(ViewConfig.cornerRadius)
-            .makeSpringy(isPressed: configuration.isPressed)
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .overlay(
+                ZStack {
+                    if isLoading {
+                        Rectangle()
+                            .overlay(Color.plusGradient)
+                            .cornerRadius(ViewConstants.buttonCornerRadius)
+
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.plusButtonFilledTextColor))
+                    }
+                }
+            )
     }
 }
 
@@ -27,12 +45,12 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .updateFont()
+            .applyButtonFont()
             .frame(maxWidth: .infinity)
             .padding()
 
             // Overlay the gradient, or just set the color if not selected
-            .foregroundColor(isSelected ? nil : Color.unselectedColor)
+            .foregroundColor(isSelected ? Color.plusGradientColor1 : Color.plusButtonUnselectedColor)
             .gradientOverlay(isSelected ? Color.plusGradient : nil)
 
             // Stroke Overlay + Image if needed
@@ -47,44 +65,65 @@ struct PlusGradientStrokeButton: ButtonStyle {
                             }
                         }
 
-                        RoundedRectangle(cornerRadius: ViewConfig.cornerRadius).stroke(Color.plusGradient, lineWidth: ViewConfig.strokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusGradient, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
-                        RoundedRectangle(cornerRadius: ViewConfig.cornerRadius).stroke(Color.unselectedColor, lineWidth: ViewConfig.strokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusButtonUnselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
                 }
             )
 
             // Fade out the button if needed
             .opacity(isSelected ? 1 : 0.4)
-            .animation(.linear(duration: 0.14), value: isSelected)
+            .animation(.easeIn(duration: 0.14), value: isSelected)
 
             // Make the button interactable
-            .makeSpringy(isPressed: configuration.isPressed)
+            .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
     }
 }
 
-private extension View {
+struct PlusFreeTrialLabel: View {
+    let text: String
+    let isSelected: Bool
+    init(_ text: String, isSelected: Bool = true) {
+        self.text = text
+        self.isSelected = isSelected
+    }
+
+    var body: some View {
+        Text(L10n.freeTrialDurationFreeTrial(text.localizedUppercase))
+            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
+            .multilineTextAlignment(.center)
+            .padding([.top, .bottom], 4)
+            .padding([.leading, .trailing], 13)
+            .background(
+                Color.plusGradient.cornerRadius(4)
+            )
+            .foregroundColor(Color.plusButtonFilledTextColor)
+            .grayscale(isSelected ? 0 : 1)
+            .animation(.easeInOut, value: isSelected)
+    }
+}
+
+extension View {
     func gradientOverlay<Content: View>(_ content: Content) -> some View {
         self.overlay(content).mask(self)
     }
-
-    func updateFont() -> some View {
-        self.font(size: 18,
-                  style: .body,
-                  weight: .medium,
-                  maxSizeCategory: .extraExtraLarge)
-    }
 }
 
-private extension Color {
-    static let plusGradient = LinearGradient(gradient: Gradient(colors: [Color(hex: "FED745"), Color(hex: "FEB525")]),
-                                             startPoint: .topLeading, endPoint: .bottomTrailing)
-    static let unselectedColor = Color.white
-    static let filledTextColor = Color.black
-}
+extension Color {
+    static let plusGradient = LinearGradient(stops: [
+        Gradient.Stop(color: .plusGradientColor1, location: 0.0822),
+        Gradient.Stop(color: .plusGradientColor2, location: 0.9209)
+    ], startPoint: .topLeading, endPoint: .topTrailing)
 
-private enum ViewConfig {
-    static let cornerRadius = 12.0
-    static let strokeWidth = 2.0
+    static let plusGradientColor1 = Color(hex: "FED745")
+    static let plusGradientColor2 = Color(hex: "FEB525")
+
+    static let plusButtonUnselectedColor = Color.white
+    static let plusButtonFilledTextColor = Color.black
+
+    static let plusBackgroundColor = Color(hex: "121212")
+    static let plusLeftCircleColor = Color(hex: "ffd845")
+    static let plusRightCircleColor = Color(hex: "ffb626")
 }

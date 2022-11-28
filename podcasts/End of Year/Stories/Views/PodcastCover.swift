@@ -9,11 +9,24 @@ struct PodcastCover: View {
     /// Whether this is a big cover, in which shadows should be bigger
     let big: Bool
 
+    /// The color of the view the cover will appear on
+    /// Prevents a flickering issue on dark backgrounds
+    let viewBackgroundStyle: ThemeStyle?
+
     @State private var image: UIImage?
 
-    init(podcastUuid: String, big: Bool = false) {
+    init(podcastUuid: String, big: Bool = false, viewBackgroundStyle: ThemeStyle? = nil) {
         self.podcastUuid = podcastUuid
         self.big = big
+        self.viewBackgroundStyle = viewBackgroundStyle
+    }
+
+    private var rectangleColor: Color? {
+        if let viewBackgroundStyle {
+            return AppTheme.color(for: viewBackgroundStyle)
+        }
+
+        return nil
     }
 
     var body: some View {
@@ -21,9 +34,11 @@ struct PodcastCover: View {
             Group {
                 if big {
                     Rectangle()
+                        .foregroundColor(rectangleColor)
                         .modifier(BigCoverShadow())
                 } else {
                     Rectangle()
+                        .foregroundColor(rectangleColor)
                         .modifier(NormalCoverShadow())
                 }
             }
@@ -42,6 +57,35 @@ struct PodcastCover: View {
                     break
                 }
             }
+        }
+    }
+}
+
+/// Applies the podcast cover style to a static image
+struct PodcastCoverImage: View {
+    let big: Bool
+    let imageName: String
+
+    init(imageName: String, big: Bool = false) {
+        self.big = big
+        self.imageName = imageName
+    }
+
+    var body: some View {
+        ZStack {
+            Group {
+                if big {
+                    Rectangle()
+                        .modifier(BigCoverShadow())
+                } else {
+                    Rectangle()
+                        .modifier(NormalCoverShadow())
+                }
+            }
+
+            Image(imageName)
+                .resizable()
+                .cornerRadius(big ? 8 : 4)
         }
     }
 }

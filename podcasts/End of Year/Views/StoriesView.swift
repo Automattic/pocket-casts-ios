@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
+    @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
@@ -56,11 +57,13 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            ProgressView()
-                .colorInvert()
-                .brightness(1)
-                .padding()
-                .background(Color.black)
+            VStack(spacing: 15) {
+                CircularProgressView()
+                    .frame(width: 40, height: 40)
+                Text(L10n.loading)
+                    .foregroundColor(.white)
+                    .font(style: .body)
+            }
 
             storySwitcher
             header
@@ -86,12 +89,13 @@ struct StoriesView: View {
     var header: some View {
         ZStack {
             VStack {
-                HStack {
+                HStack(spacing: 2) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
                         StoryIndicator(index: x)
                     }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
+                .padding(.top, 4)
                 Spacer()
             }
             .padding(.leading, Constants.storyIndicatorVerticalPadding)
@@ -106,14 +110,14 @@ struct StoriesView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button(action: {
+                    Button("") {
                         Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "close_button"])
-                        NavigationManager.sharedManager.dismissPresentedViewController()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.white)
-                            .padding(Constants.closeButtonPadding)
-                    }
+                        model.stopAndDismiss()
+                    }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
+                    // Inset the button a bit if we're showing the button shapes
+                    .padding(.trailing, showButtonShapes ? Constants.storyIndicatorVerticalPadding : 5)
+                    .padding(.top, 5)
+                    .accessibilityLabel(L10n.accessibilityDismiss)
                 }
                 .padding(.top, Constants.closeButtonTopPadding)
                 Spacer()
@@ -150,7 +154,7 @@ struct StoriesView: View {
                     // If a quick swipe down is performed, dismiss the view
                     if velocity.height > 200 {
                         Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "swipe_down"])
-                        NavigationManager.sharedManager.dismissPresentedViewController()
+                        model.stopAndDismiss()
                     } else {
                         model.start()
                     }
@@ -159,27 +163,11 @@ struct StoriesView: View {
     }
 
     var shareButton: some View {
-        Button(action: {
+        Button(L10n.share) {
             model.share()
-        }) {
-            HStack {
-                Spacer()
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(.white)
-                Text("Share")
-                    .foregroundColor(.white)
-                Spacer()
-            }
         }
-        .contentShape(Rectangle())
-        .padding(.top, Constants.shareButtonVerticalPadding)
-        .padding(.bottom, Constants.shareButtonVerticalPadding)
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
-                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
-        )
-        .padding(.leading, Constants.shareButtonHorizontalPadding)
-        .padding(.trailing, Constants.shareButtonHorizontalPadding)
+        .buttonStyle(ShareButtonStyle())
+        .padding([.leading, .trailing], Constants.shareButtonHorizontalPadding)
     }
 
     var storiesToPreload: some View {
@@ -207,15 +195,62 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-
-        static let shareButtonVerticalPadding: CGFloat = 10
         static let shareButtonHorizontalPadding: CGFloat = 5
-        static let shareButtonCornerRadius: CGFloat = 10
-        static let shareButtonBorderSize: CGFloat = 1
 
         static let spaceBetweenShareAndStory: CGFloat = 15
 
         static let storyCornerRadius: CGFloat = 15
+    }
+}
+
+// MARK: - Custom Buttons
+
+private struct ShareButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            Spacer()
+            Image("share")
+            configuration.label
+            Spacer()
+        }
+        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+        .foregroundColor(Constants.shareButtonColor)
+
+        .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
+
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
+                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
+        )
+        .applyButtonEffect(isPressed: configuration.isPressed)
+        .contentShape(Rectangle())
+    }
+
+    private struct Constants {
+        static let shareButtonColor = Color.white
+        static let shareButtonVerticalPadding: CGFloat = 13
+        static let shareButtonCornerRadius: CGFloat = 12
+        static let shareButtonBorderSize: CGFloat = 2
+    }
+}
+
+private struct CloseButtonStyle: ButtonStyle {
+    let showButtonShapes: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        Image("close")
+            .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
+            .foregroundColor(.white)
+            .padding(Constants.closeButtonPadding)
+            .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
+            .cornerRadius(Constants.closeButtonRadius)
+            .contentShape(Rectangle())
+            .applyButtonEffect(isPressed: configuration.isPressed)
+    }
+
+    private enum Constants {
+        static let closeButtonPadding: CGFloat = 13
+        static let closeButtonRadius: CGFloat = 5
     }
 }
 
