@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusLandingViewModel: PlusPricingInfoModel {
+class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     var navigationController: UINavigationController? = nil
 
     var continueUpgrade: Bool
@@ -16,6 +16,8 @@ class PlusLandingViewModel: PlusPricingInfoModel {
     }
 
     func unlockTapped() {
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+
         guard SyncManager.isUserLoggedIn() else {
             let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
             navigationController?.pushViewController(controller, animated: true)
@@ -26,6 +28,8 @@ class PlusLandingViewModel: PlusPricingInfoModel {
     }
 
     func didAppear() {
+        OnboardingFlow.shared.track(.plusPromotionShown)
+
         guard continueUpgrade else { return }
 
         // Don't continually show when the user dismisses
@@ -34,7 +38,15 @@ class PlusLandingViewModel: PlusPricingInfoModel {
         self.loadPricesAndContinue()
     }
 
+    func didDismiss(type: OnboardingDismissType) {
+        guard type == .swipe else { return }
+
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
+    }
+
     func dismissTapped() {
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
+
         guard source == .accountCreated else {
             navigationController?.dismiss(animated: true)
             return
@@ -80,6 +92,7 @@ private extension PlusLandingViewModel {
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
+
         let view = PlusLandingView(viewModel: viewModel)
         let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
         controller.viewModel = viewModel

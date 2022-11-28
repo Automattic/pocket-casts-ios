@@ -143,11 +143,14 @@ class PlusDetailsViewController: PCViewController {
     }
 
     private func handleUpgrade() {
+        let source = PlusAccountPromptViewModel.Source.plusDetails
         if SyncManager.isUserLoggedIn() {
             let model = PlusAccountPromptViewModel()
+            model.parentController = self
+            model.source = source
             model.upgradeTapped()
         } else {
-            present(LoginCoordinator.make(fromUpgrade: true), animated: true)
+            present(OnboardingFlow.shared.begin(flow: .plusAccountUpgradeNeedsLogin, source: source.rawValue), animated: true)
         }
 
         Analytics.track(.settingsPlusUpgradeButtonTapped)

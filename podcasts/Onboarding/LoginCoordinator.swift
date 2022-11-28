@@ -3,7 +3,7 @@ import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
 
-class LoginCoordinator {
+class LoginCoordinator: OnboardingModel {
     var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
@@ -34,19 +34,31 @@ class LoginCoordinator {
         self.headerImages = randomPodcasts
     }
 
+    func didAppear() {
+        OnboardingFlow.shared.track(.setupAccountShown)
+    }
+
+    func didDismiss(type: OnboardingDismissType) {
+        guard type == .swipe else { return }
+        OnboardingFlow.shared.track(.setupAccountDismissed)
+    }
+
     func loginTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         let controller = SyncSigninViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func signUpTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
         let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc func dismissTapped() {
+        OnboardingFlow.shared.track(.setupAccountDismissed)
         navigationController?.dismiss(animated: true)
     }
 
@@ -90,6 +102,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     private func goToPlus(from source: PlusLandingViewModel.Source) {
+        // Update the flow to make sure the correct analytics source is passed on
+        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
+
         let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
         navigationController?.setViewControllers([controller], animated: true)
     }
@@ -103,8 +118,8 @@ extension LoginCoordinator {
         coordinator.presentedFromUpgrade = fromUpgrade
 
         let view = LoginLandingView(coordinator: coordinator)
-        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
-                                                       coordinator: coordinator)
+        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+        controller.viewModel = coordinator
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         coordinator.navigationController = navController

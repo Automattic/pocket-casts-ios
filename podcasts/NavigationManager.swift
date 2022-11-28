@@ -192,7 +192,8 @@ class NavigationManager {
         } else if place == NavigationManager.endOfYearStories {
             mainController?.showEndOfYearStories()
         } else if place == NavigationManager.onboardingFlow {
-            mainController?.showOnboardingFlow()
+            let flow: OnboardingFlow.Flow? = data?["flow"] as? OnboardingFlow.Flow
+            mainController?.showOnboardingFlow(flow: flow)
         }
     }
 }
