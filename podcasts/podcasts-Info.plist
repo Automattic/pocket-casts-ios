@@ -24,6 +24,7 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>unofficial.opml</string>
+				<string>public.opml</string>
 			</array>
 		</dict>
 		<dict>

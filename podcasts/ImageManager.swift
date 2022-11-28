@@ -140,6 +140,11 @@ class ImageManager {
         }
     }
 
+    func hasCachedImage(for uuid: String, size: PodcastThumbnailSize) -> Bool {
+        let url = podcastUrl(imageSize: size, uuid: uuid)
+        return subscribedPodcastsCache.isCached(forKey: url.absoluteString)
+    }
+
     func cachedImageFor(podcastUuid: String, size: PodcastThumbnailSize) -> UIImage? {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
 
@@ -440,7 +445,7 @@ class ImageManager {
         }
     }
 
-    private func podcastUrl(imageSize: PodcastThumbnailSize, uuid: String) -> URL {
+    func podcastUrl(imageSize: PodcastThumbnailSize, uuid: String) -> URL {
         let sizeRequired = ImageManager.sizeFor(imageSize: imageSize)
         let closestSize = closestImageSize(sizeRequired: sizeRequired)
 

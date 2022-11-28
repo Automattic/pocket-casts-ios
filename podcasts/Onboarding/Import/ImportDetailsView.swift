@@ -18,7 +18,7 @@ struct ImportDetailsView: View {
                         .shadow(color: .black.opacity(0.2), radius: 3, x: 0, y: 1)
 
                     Text(L10n.importInstructionsImportFrom(app.displayName))
-                        .font(size: 31, style: .largeTitle, weight: .bold)
+                        .font(size: 31, style: .largeTitle, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
 
@@ -46,7 +46,7 @@ struct ImportDetailsView: View {
         VStack(alignment: .leading, spacing: 20) {
            ForEach(lines, id: \.self) { line in
                Text(line)
-                   .font(style: .subheadline)
+                   .font(style: .subheadline, maxSizeCategory: .extraExtraExtraLarge)
                    .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                    .fixedSize(horizontal: false, vertical: true)
            }
