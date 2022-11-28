@@ -63,7 +63,6 @@ extension PlusPurchaseModel {
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
         let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
         let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
-        controller.parentController = parentController
         controller.viewModel = viewModel
 
         return controller
