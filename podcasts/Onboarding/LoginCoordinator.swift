@@ -15,7 +15,7 @@ class LoginCoordinator {
         var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
             // Only return items we have a cached image for
             .filter {
-                LoginLandingCoverImage.hasCache(for: $0.uuid)
+                ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)
             }
             // Return a random-ish order
             .shuffled()
