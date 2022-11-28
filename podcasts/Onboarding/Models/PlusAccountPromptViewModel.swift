@@ -2,6 +2,7 @@ import UIKit
 
 class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
+    var source: Source = .unknown
 
     func upgradeTapped() {
         loadPrices {
@@ -15,12 +16,19 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
             }
         }
     }
+
+    enum Source: String {
+        case unknown
+        case accountDetails = "account_details"
+        case plusDetails = "plus_details"
+    }
 }
 
 private extension PlusAccountPromptViewModel {
     func showModal() {
         guard let parentController else { return }
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: "account_details")
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
+
         controller.presentModally(in: parentController)
     }
 
