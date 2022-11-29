@@ -78,6 +78,10 @@ class StoriesModel: ObservableObject {
         return AnyView(story)
     }
 
+    func storyIsShareable(index: Int) -> Bool {
+        dataSource.shareableStory(for: index) != nil ? true : false
+    }
+
     func preload(index: Int) -> AnyView {
         if index < numberOfStories {
             return AnyView(dataSource.story(for: index))
@@ -86,8 +90,11 @@ class StoriesModel: ObservableObject {
         return AnyView(EmptyView())
     }
 
-    func sharingAssets() -> [Any] {
-        let story = dataSource.story(for: currentStory)
+    func sharingAssets() -> [Any]? {
+        guard let story = dataSource.shareableStory(for: currentStory) else {
+            return nil
+        }
+
         story.willShare()
 
         // If any of the assets have additional handlers then make sure we add them to the array
@@ -132,8 +139,10 @@ class StoriesModel: ObservableObject {
     }
 
     func share() {
+        guard let assets = sharingAssets() else { return }
+
         pause()
-        EndOfYear().share(assets: sharingAssets(), storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+        EndOfYear().share(assets: assets, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
             self?.start()
         })
     }
