@@ -6,6 +6,9 @@ protocol StoriesDataSource {
     func story(for: Int) -> any StoryView
     func storyView(for: Int) -> AnyView
 
+    /// Returns a story that supports being shared, or nil if it doesn't
+    func shareableStory(for: Int) -> (any ShareableStory)?
+
     /// An interactive view that is put on top of the Stories control
     ///
     /// This allows having interactive elements, such as buttons.
