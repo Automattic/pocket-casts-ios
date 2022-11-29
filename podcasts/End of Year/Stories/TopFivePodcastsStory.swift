@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct TopFivePodcastsStory: StoryView {
+struct TopFivePodcastsStory: ShareableStory {
     let podcasts: [Podcast]
 
     let identifier: String = "top_five_podcast"
