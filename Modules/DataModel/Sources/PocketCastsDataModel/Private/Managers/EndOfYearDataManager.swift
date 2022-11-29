@@ -13,7 +13,7 @@ class EndOfYearDataManager {
     private let endDate = "2023-01-01"
 
     private lazy var listenedEpisodesThisYear = """
-                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(startDate)') and strftime('%s', '\(endDate)')
                                            """
 
     /// If the user is eligible to see End of Year stats
@@ -62,7 +62,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT * from \(DataManager.episodeTableName)
                             WHERE
-                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '\(startDate)')
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
