@@ -33,6 +33,7 @@ extension StoriesDataSource {
     }
 }
 
+// MARK: - Story Views
 typealias StoryView = Story & View
 
 protocol Story {
@@ -50,7 +51,20 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+}
 
+extension Story {
+    var identifier: String {
+        "unknown"
+    }
+
+    func onAppear() {}
+}
+
+// MARK: - Shareable Stories
+typealias ShareableStory = StoryView & StorySharing
+
+protocol StorySharing {
     /// Called when the story will be shared
     func willShare()
 
@@ -60,13 +74,7 @@ protocol Story {
     func sharingAssets() -> [Any]
 }
 
-extension Story {
-    var identifier: String {
-        "unknown"
-    }
-
-    func onAppear() {}
-
+extension StorySharing {
     func willShare() {}
 
     func sharingAssets() -> [Any] {
