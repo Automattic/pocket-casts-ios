@@ -198,7 +198,7 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-        static let shareButtonHorizontalPadding: CGFloat = 5
+        static let shareButtonHorizontalPadding: CGFloat = 20
 
         static let spaceBetweenShareAndStory: CGFloat = 15
 
