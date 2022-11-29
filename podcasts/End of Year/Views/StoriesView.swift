@@ -44,10 +44,13 @@ struct StoriesView: View {
                 header
             }
 
-            ZStack {}
-                .frame(height: Constants.spaceBetweenShareAndStory)
+            // Hide the share button if needed
+            if model.storyIsShareable(index: model.currentStory) {
+                ZStack {}
+                    .frame(height: Constants.spaceBetweenShareAndStory)
 
-            shareButton
+                shareButton
+            }
         }
         .background(Color.black)
     }
@@ -132,13 +135,13 @@ struct StoriesView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.previous()
-            }
+                }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.next()
-            }
+                }
         }
         .simultaneousGesture(
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
