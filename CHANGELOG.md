@@ -1,6 +1,7 @@
 7.29
 -----
-
+- Correctly displays hidden chapters
+- Update chapter titles and images when scrubbing through the podcast
 
 7.28
 -----
