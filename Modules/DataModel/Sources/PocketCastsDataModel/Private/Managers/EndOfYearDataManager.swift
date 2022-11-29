@@ -4,6 +4,9 @@ import PocketCastsUtils
 /// Calculates user End of Year stats
 class EndOfYearDataManager {
     private let endPeriod = "2022-12-01"
+    /// The date to start calculating results from
+    /// The data will start from 00:00:00 (midnight) the users device time
+    private let startDate = "2022-01-01"
 
     private lazy var listenedEpisodesThisYear = """
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
