@@ -620,7 +620,8 @@ internal enum L10n {
   internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
   /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
   internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
-  /// Let's celebrate your year of listening...
+  /// Let’s celebrate your year
+  /// of listening...
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
   /// In 2022, you spent %1$@ listening to podcasts
   internal static func eoyStoryListenedTo(_ p1: Any) -> String {
