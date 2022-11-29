@@ -13,43 +13,55 @@ struct LoginLandingView: View {
 
 private struct LoginLandingContent: View {
     @EnvironmentObject var theme: Theme
-    @ProportionalValue(with: .height) var calculatedHeight: Double
+    @Environment(\.sizeCategory) var sizeCategory
+
+    @ProportionalValue(with: .height) var calculatedHeaderHeightLarge: Double
+    @ProportionalValue(with: .height) var calculatedHeaderHeightSmall: Double
     @ProportionalValue(with: .height) var deviceHeight = 1
-    private var smallHeight: Bool { deviceHeight < 600 }
+
+    /// Determines if we should compact the view for smaller devices such as the iPhone SE / iPhone 12 Mini
+    private var smallHeight: Bool { deviceHeight < 700 }
+
+    /// Reduce the header height to allow the buttons to fit for larger size categories
+    private var useSmallHeader: Bool {
+        (smallHeight && sizeCategory > .extraLarge) || FeatureFlag.signInWithApple
+    }
 
     let coordinator: LoginCoordinator
-    let models: [CoverModel]
 
     init(coordinator: LoginCoordinator) {
         self.coordinator = coordinator
 
-        // Map the models to images
-        var models = FeatureFlag.signInWithApple ? smallHeaderModels : largeHeaderModels
-        for i in 0..<models.count {
-            models[i].image = coordinator.headerImages[i]
-         }
-
-        self.models = models
-
         // Find the value that will appear the lowest, and use that to calculate the
         // "total view height" since the actual view height doesn't account correctly
-        let maxModel = models.max {
-            $0.y < $1.y
-        }
+        calculatedHeaderHeightLarge = {
+            let maxModel = largeHeaderModels.max {
+                $0.y < $1.y
+            }
 
-        calculatedHeight = maxModel?.y ?? 0
+            return maxModel?.y ?? 0
+        }()
+
+        // Calculate the header height for the small header too
+        calculatedHeaderHeightSmall = {
+            let maxModel = smallHeaderModels.max {
+                $0.y < $1.y
+            }
+
+            return maxModel?.y ?? 0
+        }()
     }
 
     var body: some View {
         ZStack(alignment: .top) {
-            LoginHeader(models: models, topPadding: Config.padding)
+            LoginHeader(models: calculatedModels, topPadding: Config.padding)
                 .clipped()
 
             VStack {
                 // Title and Subtitle
                 VStack(spacing: 8) {
-                    LoginLabel("Discover your next favorite podcast", for: .title)
-                    LoginLabel("Create an account to sync your listening experience across all your devices.", for: .subtitle)
+                    LoginLabel(L10n.loginTitle, for: .title)
+                    LoginLabel(L10n.loginSubtitle, for: .subtitle)
                 }
 
                 Spacer()
@@ -57,13 +69,16 @@ private struct LoginLandingContent: View {
                 LoginButtons(coordinator: coordinator)
             }
             .padding([.leading, .trailing], Config.padding)
-            .padding(.top, calculatedHeight + (smallHeight ? 30 : 56))
+            .padding(.top, loginHeaderHeight)
             .padding(.bottom)
-        }.background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+        }
+        .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
     }
 
     private enum Config {
         static let padding: Double = 24
+        static let topPadding: Double = 56
+        static let topPaddingSmallDevice: Double = 35
     }
 
     // Smaller header image sizes for when there are more login options
@@ -87,6 +102,30 @@ private struct LoginLandingContent: View {
         CoverModel(size: 0.38133333, x: 1.06, y: 0.31931669),
         CoverModel(size: 0.38133333, x: 0.7912, y: 0.18396846),
     ]
+
+    /// Return the models to use in the header and allow them to be
+    /// swapped out dynamically
+    var calculatedModels: [CoverModel] {
+        var models: [CoverModel]
+        if useSmallHeader {
+            models = smallHeaderModels
+        } else {
+            models = largeHeaderModels
+        }
+
+        // Map the models to images
+        for i in 0..<models.count {
+            models[i].image = coordinator.headerImages[i]
+        }
+
+        return models
+    }
+
+    var loginHeaderHeight: Double {
+        let height = useSmallHeader ? calculatedHeaderHeightSmall : calculatedHeaderHeightLarge
+        return height + (smallHeight ? Config.topPaddingSmallDevice : Config.topPadding)
+    }
+
 }
 
 // MARK: - Models
@@ -209,8 +248,10 @@ private struct LoginPodcastCover: View {
 
     @ViewBuilder
     var cover: some View {
-        if let podcast = model.image?.podcast {
-            PodcastCover(podcastUuid: podcast.uuid, viewBackgroundStyle: .primaryUi01)
+        if let model = model.image, let podcast = model.podcast {
+            LoginLandingCoverImage(podcastUuid: podcast.uuid,
+                                   viewBackgroundStyle: .primaryUi01,
+                                   placeholderImage: model.placeholderImageName)
         } else if let imageName = model.image?.imageName {
             PodcastCoverImage(imageName: imageName)
         } else {

@@ -12,9 +12,15 @@ struct PlusPurchaseModal: View {
         coordinator.pricingInfo
     }
 
+
+    /// Whether or not all products have free trials, in this case we'll show the free trial label
+    /// above the products and not inline
+    let showGlobalTrial: Bool
     init(coordinator: PlusPurchaseModel) {
         self.coordinator = coordinator
         let firstProduct = coordinator.pricingInfo.products.first
+
+        self.showGlobalTrial = coordinator.pricingInfo.products.allSatisfy { $0.freeTrialDuration != nil }
 
         _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
         _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
@@ -22,14 +28,14 @@ struct PlusPurchaseModal: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ModalTopPill(fillColor: .imageFilter01)
+            ModalTopPill()
 
             Label(L10n.plusPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
-            if let freeTrialDuration {
+            if showGlobalTrial, let freeTrialDuration {
                 PlusFreeTrialLabel(freeTrialDuration)
             }
 
@@ -37,18 +43,38 @@ struct PlusPurchaseModal: View {
                 ForEach(pricingInfo.products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
-                        Button(product.price) {
-                            selectedOption = product.identifier
-                            freeTrialDuration = product.freeTrialDuration
+                        ZStack(alignment: .center) {
+                            Button(product.price) {
+                                selectedOption = product.identifier
+                                freeTrialDuration = product.freeTrialDuration
+                            }
+                            .disabled(coordinator.state == .failed)
+                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, isSelected: selectedOption == product.identifier))
+                            .overlay(
+                                ZStack(alignment: .center) {
+                                    if !showGlobalTrial, let freeTrialDuration = product.freeTrialDuration {
+                                        GeometryReader { proxy in
+                                            PlusFreeTrialLabel(freeTrialDuration, isSelected: selectedOption == product.identifier)
+                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
+                                        }
+                                    }
+                                }
+                            )
                         }
-                        .disabled(coordinator.state == .failed)
-                        .buttonStyle(PlusGradientStrokeButton(isSelectable: true, isSelected: selectedOption == product.identifier))
                     }
                 }
 
                 // Show how long the free trial is if there is one
-                if let freeTrialDuration {
-                    Label(L10n.pricingTermsAfterTrialLong(freeTrialDuration), for: .freeTrialTerms)
+                if pricingInfo.hasFreeTrial {
+                    let label: String = {
+                        if let freeTrialDuration {
+                            return L10n.pricingTermsAfterTrialLong(freeTrialDuration)
+                        }
+
+                        return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
+                    }()
+
+                    Label(label, for: .freeTrialTerms)
                         .foregroundColor(Color.textColor)
                         .lineSpacing(1.2)
                 }
@@ -82,7 +108,7 @@ struct PlusPurchaseModal: View {
             return L10n.tryAgain
         }
 
-        if pricingInfo.hasFreeTrial {
+        if freeTrialDuration != nil {
             return L10n.freeTrialStartAndSubscribeButton
         }
 
@@ -118,7 +144,7 @@ private struct TermsView: View {
     var body: some View {
         GeometryReader { geometry in
             HTMLTextView(text: text,
-                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote),
+                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge),
                          textColor: Color.uiTextColor,
                          width: geometry.size.width,
                          textViewSize: $labelSize)
@@ -154,7 +180,7 @@ private struct Label: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
+                return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .freeTrialTerms:
                 return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraLarge)
             case .error:

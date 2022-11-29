@@ -13,12 +13,12 @@ struct ImportLandingView: View {
             ScrollViewIfNeeded {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(L10n.importTitle)
-                        .font(size: 31, style: .largeTitle, weight: .bold)
+                        .font(size: 31, style: .largeTitle, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
 
                     Text(L10n.importSubtitle)
-                        .font(size: 18, style: .body, weight: .medium)
+                        .font(size: 18, style: .body, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.top, 10)
@@ -66,13 +66,13 @@ private struct AppRow: View {
                     .multilineTextAlignment(.leading)
                     .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                     .fixedSize(horizontal: false, vertical: true)
-                    .font(style: .subheadline, weight: .medium)
+                    .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
 
                 Spacer()
 
                 Image(systemName: "chevron.right")
                     .frame(minHeight: 14)
-                    .font(style: .subheadline, weight: .medium)
+                    .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
                     .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
             }
             .contentShape(Rectangle())

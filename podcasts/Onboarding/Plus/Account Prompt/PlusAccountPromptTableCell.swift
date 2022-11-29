@@ -29,6 +29,7 @@ class PlusAccountPromptTableCell: ThemeableCell {
     // Update the model's parent so we can present the modal
     func updateParent(_ controller: UIViewController) {
         model.parentController = controller
+        model.source = .accountDetails
     }
 
     required init?(coder: NSCoder) {

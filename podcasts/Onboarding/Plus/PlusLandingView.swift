@@ -3,6 +3,7 @@ import SwiftUI
 struct PlusLandingView: View {
     @ObservedObject var viewModel: PlusLandingViewModel
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
+    @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
         ZStack {
@@ -16,26 +17,50 @@ struct PlusLandingView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
-                        PlusLabel("Everything you love about Pocket Casts, plus more", for: .title)
-                        PlusLabel("Get access to exclusive features and customisation options", for: .subtitle)
+                        PlusLabel(L10n.plusMarketingTitle, for: .title)
+                        PlusLabel(L10n.plusMarketingSubtitle, for: .subtitle)
                     }.padding(.top, 24)
 
                     // Plus Features - Center between the text and the buttons
                     Spacer()
+
+                    // Store the calculated card heights
+                    var cardHeights: [CGFloat] = []
+
                     HorizontalScrollView {
                         ForEach(features) { model in
                             CardView(model: model, isLast: (model == features.last))
+                                .overlay(
+                                    // Calculate the height of the card after it's been laid out
+                                    GeometryReader { proxy in
+                                        Action {
+                                            // Add the calculated height to the array
+                                            cardHeights.append(proxy.size.height)
+
+                                            // Determine the max height only once we've calculated all the heights
+                                            if cardHeights.count == features.count {
+                                                calculatedCardHeight = cardHeights.max()
+
+                                                // Reset the card heights so any view changes won't use old data
+                                                cardHeights = []
+                                            }
+                                        }
+                                    }
+                                )
                         }
-                    }.padding(ViewConfig.padding.features)
+                    }
+                    .frame(height: calculatedCardHeight)
+                    .padding(ViewConfig.padding.features)
+
                     Spacer()
 
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
-                        Button("Unlock All Features") {
+                        Button(L10n.plusButtonTitleUnlockAll) {
                             viewModel.unlockTapped()
                         }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
 
-                        Button("Not Now") {
+                        Button(L10n.eoyNotNow) {
                             viewModel.dismissTapped()
                         }.buttonStyle(PlusGradientStrokeButton())
                     }
@@ -103,6 +128,7 @@ private enum ViewConfig {
     }
 
     static let horizontalPadding = 20.0
+    static let cardWidth = 155.0
 }
 
 // MARK: - Model
@@ -197,15 +223,9 @@ private struct CardView: View {
     let model: PlusFeature
     let isLast: Bool
 
-    init(model: PlusFeature, isLast: Bool) {
-        self.model = model
-        self.isLast = isLast
-    }
-
     var body: some View {
         ZStack {
             BackgroundView()
-
             VStack(alignment: .leading, spacing: 5) {
                 Image(model.iconName)
                 PlusLabel(model.title, for: .featureTitle)
@@ -217,10 +237,10 @@ private struct CardView: View {
             }
             .padding(.top, 20)
             .padding([.leading, .trailing], ViewConfig.padding.featureCardMargin)
-
-        }.frame(width: 155, height: 180)
-            .padding(.leading, ViewConfig.padding.featureCardMargin)
-            .padding(.trailing, isLast ? ViewConfig.padding.featureCardMargin : 0)
+        }
+        .frame(width: ViewConfig.cardWidth)
+        .padding(.leading, ViewConfig.padding.featureCardMargin)
+        .padding(.trailing, isLast ? ViewConfig.padding.featureCardMargin : 0)
     }
 
     struct BackgroundView: View {

@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
 
-class OnboardingHostingViewController<Content>: UIHostingController<Content> where Content: View {
+class OnboardingHostingViewController<Content>: UIHostingController<Content>, UIAdaptivePresentationControllerDelegate where Content: View {
     var navBarIsHidden: Bool = false
     var iconTintColor: UIColor = AppTheme.colorForStyle(.primaryIcon01)
+
+    var viewModel: OnboardingModel?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -14,14 +16,37 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
         navigationItem.backButtonDisplayMode = .minimal
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel?.didAppear()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        let controller = navigationController ?? self
+        guard controller.isBeingDismissed else { return }
+
+        DispatchQueue.main.async {
+            OnboardingFlow.shared.reset()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        presentationController?.delegate = self
+        navigationController?.presentationController?.delegate = self
         updateNavigationBarStyle(animated: false)
 
         navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = iconTintColor
 
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        viewModel?.didDismiss(type: .viewDisappearing)
     }
 
     @objc func themeDidChange() {
@@ -54,5 +79,24 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content> whe
 
         barAppearance.backIndicatorImage = image
         barAppearance.backIndicatorTransitionMaskImage = image
+    }
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        viewModel?.didDismiss(type: .swipe)
+    }
+}
+
+class OnboardingModalHostingViewController<Content>: MDCSwiftUIWrapper<Content> where Content: View {
+    var viewModel: OnboardingModel?
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel?.didAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        viewModel?.didDismiss(type: .viewDisappearing)
     }
 }

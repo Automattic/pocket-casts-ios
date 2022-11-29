@@ -32,6 +32,9 @@ class PlusPricingInfoModel: ObservableObject {
             pricing.append(info)
         }
 
+        // Sort any products with free trials to the top of the list
+        pricing.sort { $0.freeTrialDuration != nil && $1.freeTrialDuration == nil }
+
         let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
         return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
     }

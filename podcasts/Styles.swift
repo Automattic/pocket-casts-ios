@@ -287,17 +287,15 @@ extension View {
 // MARK: - Pill used in the top of the modals
 
 struct ModalTopPill: View {
-    @EnvironmentObject var theme: Theme
+    let fillColor: Color
 
-    let fillColor: ThemeStyle
-
-    init(fillColor: ThemeStyle = .primaryText02) {
+    init(fillColor: Color = .white) {
         self.fillColor = fillColor
     }
 
     var body: some View {
         Rectangle()
-            .fill(AppTheme.color(for: fillColor))
+            .fill(fillColor)
             .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
             .cornerRadius(Constants.pillCornerRadius)
             .padding(.top, Constants.pillTopPadding)

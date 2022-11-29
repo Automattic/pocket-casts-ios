@@ -3479,3 +3479,21 @@
 
 /* Title of a view explaining the import feature */
 "import_subtitle" = "Coming from another app? Import your podcasts and get listening. You can always do this later in settings.";
+
+/* Title of the login marketing view */
+"login_title" = "Discover your next favorite podcast";
+
+/* Subtitle of the login marketing view */
+"login_subtitle" = "Create an account to sync your listening experience across all your devices.";
+
+/* Title of the plus marketing view */
+"plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
+
+/* Subtitle of the plus marketing view */
+"plus_marketing_subtitle" = "Get access to exclusive features and customisation options";
+
+/* Title of the button that informs the user they can unlock all the features in plus */
+"plus_button_title_unlock_all" = "Unlock All Features";
+
+/* Title of a label informing the user they can cancel their subscription at anytime */
+"plus_cancel_terms" = "Can be canceled at anytime";

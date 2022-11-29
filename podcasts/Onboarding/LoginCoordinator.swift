@@ -3,40 +3,62 @@ import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
 
-class LoginCoordinator {
+class LoginCoordinator: OnboardingModel {
     var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
     init() {
-        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true).map {
-            LoginHeaderImage(podcast: $0, imageName: nil)
-        }.shuffled()
-
         let maxCount = bundledImages.count
+        let bundledImages = bundledImages
 
-        if randomPodcasts.count > maxCount {
-            randomPodcasts = Array(randomPodcasts[0...maxCount])
-        } else if randomPodcasts.count < maxCount {
+        var randomPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
+            // Only return items we have a cached image for
+            .filter {
+                ImageManager.sharedManager.hasCachedImage(for: $0.uuid, size: .grid)
+            }
+            // Return a random-ish order
+            .shuffled()
+            // Limit to the number of bundled images we have
+            .prefix(maxCount)
+            // Convert the podcasts into the model, we use enumerated because we need the index to map to the placeholder
+            .enumerated().map { (index, item) in
+                LoginHeaderImage(podcast: item, imageName: nil, placeholderImageName: bundledImages[index].imageName ?? "")
+            }
+
+        // If there aren't enough podcasts in the database, then fill in the missing ones with bundled images
+        if randomPodcasts.count < maxCount {
             randomPodcasts.append(contentsOf: bundledImages[randomPodcasts.count..<maxCount])
         }
 
         self.headerImages = randomPodcasts
     }
 
+    func didAppear() {
+        OnboardingFlow.shared.track(.setupAccountShown)
+    }
+
+    func didDismiss(type: OnboardingDismissType) {
+        guard type == .swipe else { return }
+        OnboardingFlow.shared.track(.setupAccountDismissed)
+    }
+
     func loginTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         let controller = SyncSigninViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func signUpTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
         let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc func dismissTapped() {
+        OnboardingFlow.shared.track(.setupAccountDismissed)
         navigationController?.dismiss(animated: true)
     }
 
@@ -53,18 +75,14 @@ class LoginCoordinator {
     struct LoginHeaderImage {
         let podcast: Podcast?
         let imageName: String?
+        var placeholderImageName: String = ""
     }
 }
 
 // MARK: - Social Buttons
 extension LoginCoordinator {
-    func signInWithAppleTapped() {
-
-    }
-
-    func signInWithGoogleTapped() {
-
-    }
+    func signInWithAppleTapped() { }
+    func signInWithGoogleTapped() { }
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
@@ -84,6 +102,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     private func goToPlus(from source: PlusLandingViewModel.Source) {
+        // Update the flow to make sure the correct analytics source is passed on
+        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
+
         let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
         navigationController?.setViewControllers([controller], animated: true)
     }
@@ -97,8 +118,8 @@ extension LoginCoordinator {
         coordinator.presentedFromUpgrade = fromUpgrade
 
         let view = LoginLandingView(coordinator: coordinator)
-        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment(),
-                                                       coordinator: coordinator)
+        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+        controller.viewModel = coordinator
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         coordinator.navigationController = navController

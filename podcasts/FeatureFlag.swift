@@ -20,5 +20,5 @@ enum FeatureFlag {
     static let signInWithApple = false
 
     /// Displays the new onboarding view updates
-    static let onboardingUpdates = false
+    static let onboardingUpdates = true
 }

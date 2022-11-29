@@ -1111,6 +1111,10 @@ internal enum L10n {
   internal static var listeningHistory: String { return L10n.tr("Localizable", "listening_history") }
   /// Loading...
   internal static var loading: String { return L10n.tr("Localizable", "loading") }
+  /// Create an account to sync your listening experience across all your devices.
+  internal static var loginSubtitle: String { return L10n.tr("Localizable", "login_subtitle") }
+  /// Discover your next favorite podcast
+  internal static var loginTitle: String { return L10n.tr("Localizable", "login_title") }
   /// Mark as Played
   internal static var markPlayed: String { return L10n.tr("Localizable", "mark_played") }
   /// Mark Played
@@ -1416,6 +1420,10 @@ internal enum L10n {
   internal static var plusAccountRequiredPromptDetails: String { return L10n.tr("Localizable", "plus_account_required_prompt_details") }
   /// When your trial is over you’ll still have all the great benefits of your regular account. Happy podcasting!
   internal static var plusAccountTrialDetails: String { return L10n.tr("Localizable", "plus_account_trial_details") }
+  /// Unlock All Features
+  internal static var plusButtonTitleUnlockAll: String { return L10n.tr("Localizable", "plus_button_title_unlock_all") }
+  /// Can be canceled at anytime
+  internal static var plusCancelTerms: String { return L10n.tr("Localizable", "plus_cancel_terms") }
   /// %1$@ GB Cloud Storage
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_cloud_storage_limit_format", String(describing: p1))
@@ -1467,10 +1475,14 @@ internal enum L10n {
   internal static var plusMarketingMainDescription: String { return L10n.tr("Localizable", "plus_marketing_main_description") }
   /// Enhanced Features For Advanced Listeners
   internal static var plusMarketingMainTitle: String { return L10n.tr("Localizable", "plus_marketing_main_title") }
+  /// Get access to exclusive features and customisation options
+  internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
   /// Fly your true colors. Exclusive icons and themes for the plus club only.
   internal static var plusMarketingThemesIconsDescription: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_description") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
+  /// Everything you love about Pocket Casts, plus more
+  internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
   /// Listen in more places with our Windows, macOS and Web apps

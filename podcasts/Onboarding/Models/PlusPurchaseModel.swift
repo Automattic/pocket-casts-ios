@@ -2,8 +2,8 @@ import UIKit
 import SwiftUI
 import PocketCastsServer
 
-class PlusPurchaseModel: PlusPricingInfoModel {
-    var parentController: UIViewController? = nil
+class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
+    weak var parentController: UIViewController? = nil
 
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
@@ -16,12 +16,29 @@ class PlusPurchaseModel: PlusPricingInfoModel {
         addPaymentObservers()
     }
 
+    func didAppear() {
+        OnboardingFlow.shared.track(.selectPaymentFrequencyShown)
+    }
+
+    func didDismiss(type: OnboardingDismissType) {
+        guard state != .purchasing else { return }
+
+        OnboardingFlow.shared.track(.selectPaymentFrequencyDismissed)
+
+        // If the view is presented as its own part
+        if parentController as? UINavigationController == nil {
+            OnboardingFlow.shared.reset()
+        }
+    }
+
     // MARK: - Triggers the purchase process
     func purchase(product: Constants.IapProducts) {
         guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
             handlePurchaseFailed(error: nil)
             return
         }
+
+        OnboardingFlow.shared.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": product.rawValue])
 
         purchasedProduct = product
         state = .purchasing
@@ -39,13 +56,14 @@ class PlusPurchaseModel: PlusPricingInfoModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController) -> UIViewController {
-        let coordinator = PlusPurchaseModel()
-        coordinator.parentController = parentController
+    static func make(in parentController: UIViewController?) -> UIViewController {
+        let viewModel = PlusPurchaseModel()
+        viewModel.parentController = parentController
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: coordinator).setupDefaultEnvironment()
-        let controller = MDCSwiftUIWrapper(rootView: modal, backgroundColor: backgroundColor)
+        let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
+        let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
+        controller.viewModel = viewModel
 
         return controller
     }
@@ -93,24 +111,18 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let viewModel = WelcomeViewModel(displayType: .plus)
-        let controller = OnboardingHostingViewController(rootView: WelcomeView(viewModel: viewModel).setupDefaultEnvironment())
-        controller.navBarIsHidden = true
+        let navigationController = parentController as? UINavigationController
+        let controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
 
-        // Create a view controller to present the view in
-        guard let navigationController = parentController as? UINavigationController else {
-            let navigationController = UINavigationController(rootViewController: controller)
-            viewModel.navigationController = navigationController
+        // Dismiss the current flow
+        parentController.dismiss(animated: true, completion: {
+            guard let navigationController else {
+                // Present the welcome flow
+                parentController.present(controller, animated: true)
+                return
+            }
 
-            parentController.dismiss(animated: true, completion: {
-                parentController.present(navigationController, animated: true)
-            })
-            return
-        }
-
-        // Show the welcome view inside the existing nav controller
-        viewModel.navigationController = navigationController
-        navigationController.dismiss(animated: true, completion: {
+            // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
         })
     }
