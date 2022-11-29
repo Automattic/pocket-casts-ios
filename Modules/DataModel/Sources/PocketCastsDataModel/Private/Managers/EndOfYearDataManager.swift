@@ -172,7 +172,7 @@ class EndOfYearDataManager {
     /// Return the number of podcasts and episodes listened
     ///
     func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
-        var listenedNumbers: ListenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+        var listenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
 
         dbQueue.inDatabase { db in
             do {
@@ -307,7 +307,6 @@ class EndOfYearDataManager {
             if resultSet.next() {
                 numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
             } else {
-
             }
         } catch {
             FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
@@ -315,7 +314,6 @@ class EndOfYearDataManager {
 
         return numberOfItemsInListeningHistory
     }
-
 }
 
 public struct ListenedCategory {
