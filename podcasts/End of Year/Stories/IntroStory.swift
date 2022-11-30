@@ -16,9 +16,8 @@ struct IntroStory: StoryView {
                     Text(L10n.eoyStoryIntroTitle)
                         .font(.system(size: Constants.fontSize, weight: .bold))
                         .foregroundColor(.white)
-                        .padding(.leading, Constants.textHorizontalPadding)
-                        .padding(.trailing, Constants.textHorizontalPadding)
                         .multilineTextAlignment(.center)
+                        .padding([.leading, .trailing], Constants.textHorizontalPadding)
                     Spacer()
                 }
             }
@@ -38,8 +37,8 @@ struct IntroStory: StoryView {
         static let textMaxHeightInPercentage: CGFloat = 0.07
         static let textMinimumScaleFactor: CGFloat = 0.01
 
-        static let logoBottomPadding: CGFloat = 40
         static let fontSize = 22.0
+        static let textHorizontalPadding = 35.0
     }
 }
 
