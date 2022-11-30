@@ -19,8 +19,6 @@ struct IntroStory: StoryView {
                         .padding(.leading, Constants.textHorizontalPadding)
                         .padding(.trailing, Constants.textHorizontalPadding)
                         .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * Constants.textMaxHeightInPercentage)
-                        .minimumScaleFactor(Constants.textMinimumScaleFactor)
                     Spacer()
                 }
             }
@@ -41,6 +39,7 @@ struct IntroStory: StoryView {
         static let textMinimumScaleFactor: CGFloat = 0.01
 
         static let logoBottomPadding: CGFloat = 40
+        static let fontSize = 22.0
     }
 }
 
