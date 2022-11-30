@@ -3334,7 +3334,7 @@
 "eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
-"eoy_story_intro_title" = "Let’s celebrate your year\nof listening...";
+"eoy_story_intro_title" = "Let’s celebrate your year\nof listening!";
 
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
