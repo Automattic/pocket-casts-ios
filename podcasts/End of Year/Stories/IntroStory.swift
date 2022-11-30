@@ -8,7 +8,7 @@ struct IntroStory: StoryView {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
                     Image("2022_big")
                         .resizable()
                         .scaledToFill()
@@ -35,10 +35,9 @@ struct IntroStory: StoryView {
     }
 
     private struct Constants {
-        static let imageVerticalPadding: CGFloat = 60
-        static let imageHeightInPercentage: CGFloat = 0.54
+        // Percentage based on total view height
+        static let imageVerticalPadding = 0.13
 
-        static let fontSize: CGFloat = 40
         static let textHorizontalPadding: CGFloat = 35
         static let textMaxHeightInPercentage: CGFloat = 0.07
         static let textMinimumScaleFactor: CGFloat = 0.01
