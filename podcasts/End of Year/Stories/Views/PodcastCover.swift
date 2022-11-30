@@ -95,10 +95,10 @@ struct NormalCoverShadow: ViewModifier {
     func body(content: Content) -> some View {
         content
             .cornerRadius(4)
-            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-            .shadow(color: .black.opacity(0.09), radius: 3, x: 0, y: 3)
-            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 6)
-            .shadow(color: .black.opacity(0.01), radius: 4, x: 0, y: 11)
+            .shadow(color: .black.opacity(0.1 + 0.2), radius: 1, x: 0, y: 1)
+            .shadow(color: .black.opacity(0.09 + 0.2), radius: 3, x: 0, y: 3)
+            .shadow(color: .black.opacity(0.05 + 0.2), radius: 4, x: 0, y: 6)
+            .shadow(color: .black.opacity(0.01 + 0.2), radius: 4, x: 0, y: 11)
             .accessibilityHidden(true)
     }
 }
@@ -108,10 +108,10 @@ struct BigCoverShadow: ViewModifier {
     func body(content: Content) -> some View {
         content
             .cornerRadius(8)
-            .shadow(color: .black.opacity(0.1), radius: 9, x: 0, y: 4)
-            .shadow(color: .black.opacity(0.09), radius: 17, x: 0, y: 17)
-            .shadow(color: .black.opacity(0.05), radius: 23, x: 0, y: 38)
-            .shadow(color: .black.opacity(0.01), radius: 27, x: 0, y: 67)
+            .shadow(color: .black.opacity(0.1 + 0.2), radius: 9, x: 0, y: 4)
+            .shadow(color: .black.opacity(0.09 + 0.2), radius: 17, x: 0, y: 17)
+            .shadow(color: .black.opacity(0.05 + 0.2), radius: 23, x: 0, y: 38)
+            .shadow(color: .black.opacity(0.01 + 0.2), radius: 27, x: 0, y: 67)
             .accessibilityHidden(true)
     }
 }

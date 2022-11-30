@@ -50,16 +50,6 @@ struct ListeningTimeStory: ShareableStory {
                     .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
             }
-
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
-                }
-            }
         }
     }
 

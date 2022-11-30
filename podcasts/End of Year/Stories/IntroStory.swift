@@ -24,8 +24,6 @@ struct IntroStory: StoryView {
                         .frame(maxHeight: geometry.size.height * Constants.textMaxHeightInPercentage)
                         .minimumScaleFactor(Constants.textMinimumScaleFactor)
                     Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, Constants.logoBottomPadding)
                 }
             }
             .background(UIColor(hex: "#1A1A1A").color)

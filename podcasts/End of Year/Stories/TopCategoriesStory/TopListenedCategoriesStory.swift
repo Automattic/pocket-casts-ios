@@ -38,16 +38,6 @@ struct TopListenedCategoriesStory: ShareableStory {
                     }
                 }
                 .padding(.bottom, 100)
-
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Image("logo_white")
-                            .padding(.bottom, 40)
-                        Spacer()
-                    }
-                }
             }
         }
     }

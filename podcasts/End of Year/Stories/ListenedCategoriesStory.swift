@@ -48,16 +48,6 @@ struct ListenedCategoriesStory: ShareableStory {
                 }
                 .padding(.top, -(geometry.size.height * 0.15))
             }
-
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
-                }
-            }
         }
     }
 
