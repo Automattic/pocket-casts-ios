@@ -11,6 +11,7 @@ struct IntroStory: StoryView {
                     Image("2022_big")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .padding(.top, geometry.size.height * Constants.imageVerticalPadding)
 
                     Text(L10n.eoyStoryIntroTitle)
                         .font(.system(size: Constants.fontSize, weight: .bold))
