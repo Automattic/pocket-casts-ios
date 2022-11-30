@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct ListenedCategoriesStory: StoryView {
+struct ListenedCategoriesStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     var duration: TimeInterval = 5.seconds
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct TopListenedCategoriesStory: StoryView {
+struct TopListenedCategoriesStory: ShareableStory {
     var duration: TimeInterval = 5.seconds
 
     let identifier: String = "top_categories"
