@@ -14,10 +14,13 @@ struct IntroStory: StoryView {
                         .padding(.top, geometry.size.height * Constants.imageVerticalPadding)
 
                     Text(L10n.eoyStoryIntroTitle)
+                        .lineSpacing(2.5)
                         .font(.system(size: Constants.fontSize, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding([.leading, .trailing], Constants.textHorizontalPadding)
+                        .padding(.top, Constants.spaceBetweenImageAndText)
+
                     Spacer()
                 }
             }
@@ -33,9 +36,7 @@ struct IntroStory: StoryView {
         // Percentage based on total view height
         static let imageVerticalPadding = 0.13
 
-        static let textHorizontalPadding: CGFloat = 35
-        static let textMaxHeightInPercentage: CGFloat = 0.07
-        static let textMinimumScaleFactor: CGFloat = 0.01
+        static let spaceBetweenImageAndText = 24.0
 
         static let fontSize = 22.0
         static let textHorizontalPadding = 35.0
