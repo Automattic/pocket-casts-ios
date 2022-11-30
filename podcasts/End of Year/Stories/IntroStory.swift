@@ -34,7 +34,7 @@ struct IntroStory: StoryView {
 
     private struct Constants {
         // Percentage based on total view height
-        static let imageVerticalPadding = 0.13
+        static let imageVerticalPadding = 0.10
 
         static let spaceBetweenImageAndText = 24.0
 
