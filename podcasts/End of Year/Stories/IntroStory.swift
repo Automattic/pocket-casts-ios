@@ -24,7 +24,7 @@ struct IntroStory: StoryView {
                     Spacer()
                 }
             }
-            .background(UIColor(hex: "#1A1A1A").color)
+            .background(Color(hex: "#1A1A1A"))
         }
     }
 
