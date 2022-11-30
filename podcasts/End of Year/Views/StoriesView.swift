@@ -31,6 +31,8 @@ struct StoriesView: View {
 
                 ZStack {
                     model.story(index: model.currentStory)
+
+                    StoryLogoView()
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 
