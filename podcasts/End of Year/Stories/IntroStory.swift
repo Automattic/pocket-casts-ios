@@ -2,7 +2,6 @@ import SwiftUI
 
 struct IntroStory: StoryView {
     var duration: TimeInterval = 5.seconds
-
     let identifier: String = "intro"
 
     var body: some View {
@@ -11,10 +10,8 @@ struct IntroStory: StoryView {
                 VStack(spacing: 0) {
                     Image("2022_big")
                         .resizable()
-                        .scaledToFill()
-                        .frame(height: geometry.size.height * Constants.imageHeightInPercentage)
-                        .padding(.top, Constants.imageVerticalPadding)
-                        .padding(.bottom, Constants.imageVerticalPadding)
+                        .aspectRatio(contentMode: .fit)
+
                     Text(L10n.eoyStoryIntroTitle)
                         .font(.system(size: Constants.fontSize, weight: .bold))
                         .foregroundColor(.white)
