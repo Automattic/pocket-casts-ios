@@ -13,12 +13,6 @@ struct ListeningTimeStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-
-                VStack {
-                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
-                        .foregroundColor(.white)
-                        .font(.system(size: 25, weight: .heavy))
-                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
