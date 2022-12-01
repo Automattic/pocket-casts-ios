@@ -43,12 +43,10 @@ struct TopOnePodcastStory: ShareableStory {
                                 .modifier(PodcastCoverPerspective())
                         }
 
-                        StoryLabel(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""))
-                            .font(.system(size: 25, weight: .heavy))
+                        StoryLabel(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""), for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
-                        StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.storyTimeDescription))
-                            .font(.system(size: 15, weight: .bold))
+                        StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.storyTimeDescription), for: .subtitle)
                             .frame(maxHeight: geometry.size.height * 0.07)
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)

@@ -58,20 +58,16 @@ struct ListenedNumbersStory: ShareableStory {
                 VStack {
                     Spacer()
 
-                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"))
-                        .font(.system(size: 25, weight: .heavy))
+                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
                         .frame(maxHeight: geometry.size.height * 0.12)
                         .minimumScaleFactor(0.01)
 
-                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle)
-                        .font(.system(size: 15, weight: .bold))
+                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(renderForSharing ? 0.0 : 0.8)
                         .padding(.bottom, geometry.size.height * 0.18)
                 }
-                .padding(.trailing, 40)
-                .padding(.leading, 40)
             }
         }
     }

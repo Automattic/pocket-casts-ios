@@ -28,18 +28,15 @@ struct ListenedCategoriesStory: ShareableStory {
                     }
 
                     VStack {
-                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"))
-                            .font(.system(size: 25, weight: .heavy))
+                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"), for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
-                        StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle)
-                            .font(.system(size: 15, weight: .bold))
+
+                        StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
                             .frame(maxHeight: geometry.size.height * 0.07)
                             .minimumScaleFactor(0.01)
                             .opacity(renderForSharing ? 0.0 : 0.8)
                     }
-                    .padding(.trailing, 40)
-                    .padding(.leading, 40)
                 }
                 .padding(.top, -(geometry.size.height * 0.15))
             }

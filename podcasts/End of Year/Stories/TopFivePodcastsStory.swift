@@ -16,8 +16,7 @@ struct TopFivePodcastsStory: ShareableStory {
 
                 VStack {
                     Spacer()
-                    StoryLabel(L10n.eoyStoryTopPodcasts)
-                        .font(.system(size: 18, weight: .bold))
+                    StoryLabel(L10n.eoyStoryTopPodcasts, for: .title2)
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)

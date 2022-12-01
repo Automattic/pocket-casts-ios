@@ -15,14 +15,11 @@ struct ListeningTimeStory: ShareableStory {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 VStack(spacing: Constants.spaceBetweenLabels) {
-                    StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.storyTimeDescription)"))
-                        .font(.system(size: 22, weight: .bold))
+                    StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.storyTimeDescription)"), for: .title)
 
-                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime))
-                        .font(.system(size: 15, weight: .regular))
+                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
                         .opacity(0.8)
                 }
-                .padding([.leading, .trailing], Constants.labelHorizontalPadding)
                 .padding(.top, geometry.size.height * Constants.topPadding)
 
                 // Podcast images angled to fill the width of the view

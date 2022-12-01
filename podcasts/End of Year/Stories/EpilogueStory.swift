@@ -17,19 +17,15 @@ struct EpilogueStory: StoryView {
                         Image("heart")
                             .padding(.bottom, 20)
 
-                        StoryLabel(L10n.eoyStoryEpilogueTitle)
-                            .font(.system(size: 25, weight: .heavy))
+                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
                             .padding(.bottom)
-                        StoryLabel(L10n.eoyStoryEpilogueSubtitle)
-                            .font(.system(size: 18, weight: .bold))
+                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
                             .frame(maxHeight: geometry.size.height * 0.1)
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)
                     }
-                    .padding(.leading, 20)
-                    .padding(.trailing, 20)
                     .allowsHitTesting(false)
 
                     Button(action: {
