@@ -21,10 +21,12 @@ struct ListeningTimeStory: ShareableStory {
                     Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
                     StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
                         .foregroundColor(.white)
+                        .font(.system(size: 22, weight: .bold))
 
                     StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime))
                         .padding(.top, 22)
                         .foregroundColor(.white)
+                        .font(.system(size: 15, weight: .regular))
                         .opacity(0.8)
                     Spacer()
                 }
