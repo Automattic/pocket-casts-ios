@@ -14,7 +14,6 @@ struct ListeningTimeStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
 
                 VStack {
                     Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
@@ -52,6 +51,7 @@ struct ListeningTimeStory: ShareableStory {
                 }
             }
         }
+        }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
     @ViewBuilder
@@ -72,7 +72,6 @@ struct ListeningTimeStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
             StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescriptionFullUnits ?? ""))
         ]
     }
