@@ -49,6 +49,7 @@ struct ListeningTimeStory: ShareableStory {
                     .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
             }
+            }.frame(width: geometry.size.width)
         }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
