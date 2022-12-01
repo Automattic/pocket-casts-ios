@@ -19,6 +19,8 @@ struct ListeningTimeStory: ShareableStory {
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
                     Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
+            VStack(spacing: 0) {
+                VStack(spacing: 0) {
                     StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .bold))
@@ -28,14 +30,9 @@ struct ListeningTimeStory: ShareableStory {
                         .foregroundColor(.white)
                         .font(.system(size: 15, weight: .regular))
                         .opacity(0.8)
-                    Spacer()
                 }
-                .padding(.top, geometry.size.height * 0.15)
-                .padding(.trailing, 40)
-                .padding(.leading, 40)
-
-                VStack {
-                    Spacer()
+                .padding([.leading, .trailing], 35)
+                .padding(.top, geometry.size.height * 0.158)
 
                     HStack {
                         ForEach([1, 0, 2], id: \.self) {
