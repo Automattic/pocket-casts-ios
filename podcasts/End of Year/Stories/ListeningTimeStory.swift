@@ -28,15 +28,14 @@ struct ListeningTimeStory: ShareableStory {
                 .padding([.leading, .trailing], 35)
                 .padding(.top, geometry.size.height * 0.158)
 
-                    HStack {
-                        ForEach([1, 0, 2], id: \.self) {
-                            podcastCover($0)
-                        }
+                // Podcast images angled to fill the width of the view
+                HStack {
+                    ForEach([1, 0, 2], id: \.self) {
+                        podcastCover($0)
                     }
-                    .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
-            }
+                .padding(.top)
+                .modifier(PodcastCoverPerspective(scaleAnchor: .bottom))
             }.frame(width: geometry.size.width)
         }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
