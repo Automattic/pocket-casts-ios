@@ -13,7 +13,6 @@ struct ListeningTimeStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
 
                 VStack {
                     Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
@@ -50,7 +49,6 @@ struct ListeningTimeStory: ShareableStory {
                     .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
             }
-        }
         }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
