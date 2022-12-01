@@ -13,11 +13,9 @@ struct IntroStory: StoryView {
                         .aspectRatio(contentMode: .fit)
                         .padding(.top, geometry.size.height * Constants.imageVerticalPadding)
 
-                    Text(L10n.eoyStoryIntroTitle)
-                        .lineSpacing(2.5)
+                    StoryLabel(L10n.eoyStoryIntroTitle)
                         .font(.system(size: Constants.fontSize, weight: .bold))
                         .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
                         .padding([.leading, .trailing], Constants.textHorizontalPadding)
                         .padding(.top, Constants.spaceBetweenImageAndText)
 
