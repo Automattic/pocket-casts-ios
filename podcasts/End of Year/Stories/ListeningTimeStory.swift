@@ -20,6 +20,7 @@ struct ListeningTimeStory: ShareableStory {
                     Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
                         .foregroundColor(.white)
                         .font(.system(size: 25, weight: .heavy))
+                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .frame(maxHeight: geometry.size.height * 0.12)
@@ -72,6 +73,7 @@ struct ListeningTimeStory: ShareableStory {
         [
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescriptionFullUnits ?? ""))
         ]
     }
 }
