@@ -15,7 +15,6 @@ struct IntroStory: StoryView {
 
                     StoryLabel(L10n.eoyStoryIntroTitle)
                         .font(.system(size: Constants.fontSize, weight: .bold))
-                        .foregroundColor(.white)
                         .padding([.leading, .trailing], Constants.textHorizontalPadding)
                         .padding(.top, Constants.spaceBetweenImageAndText)
 
