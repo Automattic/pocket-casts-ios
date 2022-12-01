@@ -18,5 +18,17 @@ struct StoryLabel: View {
         Text(text)
             .lineSpacing(2.5)
             .multilineTextAlignment(.center)
+            .foregroundColor(.white)
+    }
+}
+
+extension Double {
+    var storyTimeDescription: String {
+        // Prevent the time from being split across paragraphs by replacing the spaces with non breaking ones
+        storyTimeDescriptionForSharing.replacingOccurrences(of: " ", with: "\u{00a0}")
+    }
+
+    var storyTimeDescriptionForSharing: String {
+        localizedTimeDescriptionFullUnits ?? ""
     }
 }
