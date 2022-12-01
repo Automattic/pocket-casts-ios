@@ -616,11 +616,12 @@ internal enum L10n {
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
   /// Failed to load stories.
   internal static var eoyStoriesFailed: String { return L10n.tr("Localizable", "eoy_stories_failed") }
-  /// Don't forget to share with your friends and give a shout out to your favorite podcast creators
+  /// Don’t forget to share with your friends and give a shout out to your favorite podcast creators
   internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
   /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
   internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
-  /// Let's celebrate your year of listening...
+  /// Let’s celebrate your year
+  /// of listening!
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
   /// In 2022, you spent %1$@ listening to podcasts
   internal static func eoyStoryListenedTo(_ p1: Any) -> String {
@@ -634,7 +635,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
   }
-  /// Let's take a look at some of your favorites...
+  /// Let’s take a look at some of your favorites...
   internal static var eoyStoryListenedToCategoriesSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_categories_subtitle") }
   /// You listened to %1$@ different podcasts and %2$@ episodes
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {

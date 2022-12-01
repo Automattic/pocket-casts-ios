@@ -78,16 +78,6 @@ struct ListenedNumbersStory: ShareableStory {
                 .padding(.trailing, 40)
                 .padding(.leading, 40)
             }
-
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
-                }
-            }
         }
     }
 

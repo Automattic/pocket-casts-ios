@@ -58,16 +58,6 @@ struct EpilogueStory: StoryView {
                 }
                 .padding()
             }
-
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
-                }
-            }
         }
     }
 

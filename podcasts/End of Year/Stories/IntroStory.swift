@@ -2,33 +2,29 @@ import SwiftUI
 
 struct IntroStory: StoryView {
     var duration: TimeInterval = 5.seconds
-
     let identifier: String = "intro"
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
                     Image("2022_big")
                         .resizable()
-                        .scaledToFill()
-                        .frame(height: geometry.size.height * Constants.imageHeightInPercentage)
-                        .padding(.top, Constants.imageVerticalPadding)
-                        .padding(.bottom, Constants.imageVerticalPadding)
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.top, geometry.size.height * Constants.imageVerticalPadding)
+
                     Text(L10n.eoyStoryIntroTitle)
+                        .lineSpacing(2.5)
                         .font(.system(size: Constants.fontSize, weight: .bold))
                         .foregroundColor(.white)
-                        .padding(.leading, Constants.textHorizontalPadding)
-                        .padding(.trailing, Constants.textHorizontalPadding)
                         .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * Constants.textMaxHeightInPercentage)
-                        .minimumScaleFactor(Constants.textMinimumScaleFactor)
+                        .padding([.leading, .trailing], Constants.textHorizontalPadding)
+                        .padding(.top, Constants.spaceBetweenImageAndText)
+
                     Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, Constants.logoBottomPadding)
                 }
             }
-            .background(UIColor(hex: "#1A1A1A").color)
+            .background(Color(hex: "#1A1A1A"))
         }
     }
 
@@ -37,15 +33,13 @@ struct IntroStory: StoryView {
     }
 
     private struct Constants {
-        static let imageVerticalPadding: CGFloat = 60
-        static let imageHeightInPercentage: CGFloat = 0.54
+        // Percentage based on total view height
+        static let imageVerticalPadding = 0.10
 
-        static let fontSize: CGFloat = 40
-        static let textHorizontalPadding: CGFloat = 35
-        static let textMaxHeightInPercentage: CGFloat = 0.07
-        static let textMinimumScaleFactor: CGFloat = 0.01
+        static let spaceBetweenImageAndText = 24.0
 
-        static let logoBottomPadding: CGFloat = 40
+        static let fontSize = 22.0
+        static let textHorizontalPadding = 35.0
     }
 }
 

@@ -34,12 +34,6 @@ struct TopFivePodcastsStory: ShareableStory {
                     .padding(.trailing, 40)
 
                     Spacer()
-                    HStack {
-                        Spacer()
-                        Image("logo_white")
-                            .padding(.bottom, 40)
-                        Spacer()
-                    }
                 }
             }
         }
