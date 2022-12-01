@@ -37,7 +37,7 @@ extension Double {
     /// For displaying units above the category pillars, allow the time components to be broken up across
     /// multiple lines, but don't let the unit (10 minutes) itself to be broken up
     var storyTimeDescriptionForPillars: String {
-        calculateStoryTimeDescription(unitSeparator: "\u{00a0}", componentSeparator: " ")
+        calculateStoryTimeDescription(unitSeparator: "\u{00a0}", componentSeparator: "\n")
     }
 }
 
