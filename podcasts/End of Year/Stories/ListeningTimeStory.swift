@@ -14,23 +14,22 @@ struct ListeningTimeStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                VStack(spacing: 0) {
+                VStack(spacing: Constants.spaceBetweenLabels) {
                     StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
                         .foregroundColor(.white)
                         .font(.system(size: 22, weight: .bold))
 
                     StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime))
-                        .padding(.top, 22)
                         .foregroundColor(.white)
                         .font(.system(size: 15, weight: .regular))
                         .opacity(0.8)
                 }
-                .padding([.leading, .trailing], 35)
-                .padding(.top, geometry.size.height * 0.158)
+                .padding([.leading, .trailing], Constants.labelHorizontalPadding)
+                .padding(.top, geometry.size.height * Constants.topPadding)
 
                 // Podcast images angled to fill the width of the view
                 HStack {
-                    ForEach([1, 0, 2], id: \.self) {
+                    ForEach(Constants.displayedPodcasts, id: \.self) {
                         podcastCover($0)
                     }
                 }
@@ -44,7 +43,7 @@ struct ListeningTimeStory: ShareableStory {
     func podcastCover(_ index: Int) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
-            .frame(width: 180, height: 180)
+            .frame(width: Constants.coverSize, height: Constants.coverSize)
     }
 
     func onAppear() {
@@ -60,6 +59,18 @@ struct ListeningTimeStory: ShareableStory {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescriptionFullUnits ?? ""))
         ]
+    }
+
+    private enum Constants {
+        /// The podcasts that are displayed on the view, the middle is your top 10 podcast
+        static let displayedPodcasts = [1, 0, 2]
+        static let coverSize = 180.0
+
+        static let spaceBetweenLabels = 22.0
+        static let labelHorizontalPadding = 35.0
+
+        /// Top padding is a percent calculated using the height of the view
+        static let topPadding = 0.158
     }
 }
 
