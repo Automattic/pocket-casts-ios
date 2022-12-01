@@ -3334,7 +3334,7 @@
 "eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
-"eoy_story_intro_title" = "Let’s celebrate your year of listening!";
+"eoy_story_intro_title" = "Let's celebrate your year of listening!";
 
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "This year, you spent %1$@ listening to podcasts";
@@ -3346,7 +3346,7 @@
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
 
 /* String prompting the user for the next story to check the most listened categories. */
-"eoy_story_listened_to_categories_subtitle" = "Let’s take a look at some of your favorites...";
+"eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
 
 /* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
 "eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
@@ -3391,7 +3391,7 @@
 "eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
 
 /* Subtitle for the epilogue story */
-"eoy_story_epilogue_subtitle" = "Don’t forget to share with your friends and give a shout out to your favorite podcast creators";
+"eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
 "eoy_story_replay" = "Replay";
