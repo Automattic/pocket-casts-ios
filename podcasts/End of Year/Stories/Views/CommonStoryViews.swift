@@ -21,7 +21,7 @@ struct StoryLabel: View {
     }
 
     private static func processText(_ text: String) -> String {
-        var returnText = text
+        let returnText = text
             // Typographic apostrophes
             .replacingOccurrences(of: "'", with: "ʼ")
             // Prevent Pocket Casts from being separated
@@ -156,11 +156,5 @@ private extension Double {
         }
 
         return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full)?.replacingOccurrences(of: ",", with: "")
-    }
-
-    private enum Constants {
-        static let OneMinute = 60
-        static let OneHour = 3_600
-        static let OneDay = 86_400
     }
 }
