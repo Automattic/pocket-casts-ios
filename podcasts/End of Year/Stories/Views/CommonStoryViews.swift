@@ -1,28 +1,85 @@
 import SwiftUI
 
 /// A label used in the end of year stories that provides consistent styling
+/// This preprocesses the text to improve the typography
 struct StoryLabel: View {
-    let text: String
+    private let text: String
+    private let type: StoryLabelType
 
-    init(_ text: String) {
-        self.text = text
-        // Prevent widows from appearing due to the extra space of the ellipsis characters
-        // Replace them with the single character space equivalent
-            .replacingOccurrences(of: "...", with: "…")
-
-        // Don't allow the word Pocket Casts to be broken up by inserting a non-breaking space
-            .replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts")
+    init(_ text: String, for type: StoryLabelType) {
+        self.text = Self.processText(text)
+        self.type = type
     }
 
     var body: some View {
         Text(text)
+            .foregroundColor(.white)
             .lineSpacing(2.5)
             .multilineTextAlignment(.center)
-            .foregroundColor(.white)
+            .font(font)
+            .padding([.leading, .trailing], horizontalPadding)
+    }
+
+    private static func processText(_ text: String) -> String {
+        var returnText = text
+            // Typographic apostrophes
+            .replacingOccurrences(of: "'", with: "ʼ")
+            // Prevent Pocket Casts from being separated
+            .replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts")
+
+        let components = returnText.components(separatedBy: " ")
+
+        guard components.count > 1 else {
+            return returnText
+        }
+
+        let count = components.count - 1
+        var builder: [String] = []
+
+        for (index, word) in components.enumerated() {
+            let isLast = index == count
+
+            builder.append(isLast ? "\u{00a0}" : " ")
+            builder.append(word)
+        }
+
+        return builder.joined()
+    }
+
+    enum StoryLabelType {
+        case title
+        case title2
+        case subtitle
+        case pillarTitle
+        case pillarSubtitle
+    }
+
+    private var font: Font {
+        switch type {
+        case .title:
+            return .system(size: 22, weight: .bold)
+        case .title2:
+            return .system(size: 18, weight: .bold)
+        case .subtitle:
+            return .system(size: 15, weight: .regular)
+        case .pillarTitle:
+            return .system(size: 14, weight: .heavy)
+        case .pillarSubtitle:
+            return .system(size: 12, weight: .bold)
+        }
+    }
+
+    private var horizontalPadding: CGFloat {
+        switch type {
+        case .pillarTitle, .pillarSubtitle:
+            return 0
+        default:
+            return 35
+        }
     }
 }
 
-
+// MARK: - Story time formatter
 extension Double {
     var storyTimeDescription: String {
         // Prevent the time from being split across paragraphs by replacing the spaces with non breaking ones
