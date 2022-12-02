@@ -641,8 +641,8 @@ internal enum L10n {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_text", String(describing: p1))
   }
   /// %1$@ episodes
-  internal static func eoyStoryListenedToEpisodeText(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_listened_to_episode_text", String(describing: p1))
+  internal static func eoyStoryListenedToEpisodesText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_episodes_text", String(describing: p1))
   }
   /// You listened to %1$@ and %2$@
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
