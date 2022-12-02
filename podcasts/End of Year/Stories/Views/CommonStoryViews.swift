@@ -263,3 +263,25 @@ extension View {
         }).onPreferenceChange(SizeKey.self) { size in binding.wrappedValue = size }
     }
 }
+
+// MARK: - Story Title / Subtitle Container
+
+/// This is a wrapped around a VStack that keeps consistent spacing and top padding
+struct StoryLabelContainer<Content: View>: View {
+    private var content: () -> Content
+
+    let topPadding: Double
+    init(topPadding: Double = 36, @ViewBuilder _ content: @escaping () -> Content) {
+        self.topPadding = topPadding
+        self.content = content
+    }
+
+    @State private var contentSize: CGSize = .zero
+
+    var body: some View {
+        VStack(spacing: 22) {
+            content()
+        }.padding(.top, topPadding)
+    }
+}
+
