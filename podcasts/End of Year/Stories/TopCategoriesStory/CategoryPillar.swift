@@ -9,10 +9,11 @@ struct CategoryPillar: View {
 
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
                 StoryLabel(title, for: .pillarTitle)
                     .frame(width: 90)
                     .fixedSize()
+                    .padding(.bottom, 2)
                 StoryLabel(subtitle, for: .pillarSubtitle)
                     .frame(width: 90)
                     .fixedSize()
