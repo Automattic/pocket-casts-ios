@@ -49,17 +49,18 @@ struct ListenedNumbersStory: ShareableStory {
                 .applyPodcastCoverPerspective()
                 .padding(.top, geometry.size.height * 0.10)
 
-                let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
-                StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
-                    .padding(.top, geometry.size.height * 0.10)
+                StoryLabelContainer {
+                    let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
+                    let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
 
-                StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                    .opacity(renderForSharing ? 0.0 : 0.8)
-                    .padding(.top, 22)
+                    StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
+                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
+                        .opacity(renderForSharing ? 0.0 : 0.8)
+                }
+
                 Spacer()
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .frame(width: geometry.size.width)
             .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
         }
     }
