@@ -271,7 +271,9 @@ struct PodcastCoverContainer<Content: View>: View {
     private var content: () -> Content
     private let geometry: GeometryProxy
 
-    let topPadding = 0.10
+    let topPaddingSmall = 0.10
+    let topPaddingLarge = 0.13
+    let smallDeviceHeight = 700.0
 
     init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
         self.geometry = geometry
@@ -279,8 +281,9 @@ struct PodcastCoverContainer<Content: View>: View {
     }
 
     var body: some View {
-        let topPadding = geometry.size.height * topPadding
-
+        // Scale the top padding to fit better on smaller screens
+        let padding = geometry.size.height <= smallDeviceHeight ? topPaddingSmall : topPaddingLarge
+        let topPadding = geometry.size.height * padding
         VStack(spacing: 0) {
             content()
             Spacer()
@@ -292,18 +295,19 @@ struct PodcastCoverContainer<Content: View>: View {
 struct StoryLabelContainer<Content: View>: View {
     private var content: () -> Content
 
-    let topPadding: Double
+    let topPadding: Double?
     private let geometry: GeometryProxy
 
-    init(topPadding: Double = 36, geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
+    init(topPadding: Double? = nil, geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
         self.topPadding = topPadding
         self.geometry = geometry
         self.content = content
     }
 
     var body: some View {
-        // Try to reduce the label distance based on the screen height, but set a maximum
+        // Try to reduce the label distance based on the screen height, but keep
         let labelSpacing = (geometry.size.height * 0.033).clamped(to: 10..<22)
+        let topPadding = topPadding ?? (geometry.size.height * 0.054).clamped(to: 10..<60)
         VStack(spacing: labelSpacing) {
             content()
         }.padding(.top, topPadding)
