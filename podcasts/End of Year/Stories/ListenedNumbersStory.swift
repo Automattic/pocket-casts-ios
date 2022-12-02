@@ -49,22 +49,14 @@ struct ListenedNumbersStory: ShareableStory {
                 .applyPodcastCoverPerspective()
                 .padding(.top, geometry.size.height * 0.10)
 
-                VStack {
-                    Spacer()
+                let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
+                let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
+                StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
+                    .padding(.top, geometry.size.height * 0.10)
 
-                    let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                    let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
-                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(podcasts)", "\(episodes)"), highlighting: [podcasts, episodes], for: .title)
-                        .frame(maxHeight: geometry.size.height * 0.12)
-                        .minimumScaleFactor(0.01)
-
-                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
-                        .opacity(renderForSharing ? 0.0 : 0.8)
-                        .padding(.bottom, geometry.size.height * 0.18)
-                }
-                .applyPodcastCoverPerspective()
+                StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
+                    .opacity(renderForSharing ? 0.0 : 0.8)
+                    .padding(.top, 22)
                 Spacer()
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
