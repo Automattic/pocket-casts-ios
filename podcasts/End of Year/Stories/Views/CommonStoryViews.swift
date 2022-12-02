@@ -267,6 +267,27 @@ extension View {
 
 // MARK: - Story Title / Subtitle Container
 
+struct PodcastCoverContainer<Content: View>: View {
+    private var content: () -> Content
+    private let geometry: GeometryProxy
+
+    let topPadding = 0.10
+
+    init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
+        self.geometry = geometry
+        self.content = content
+    }
+
+    var body: some View {
+        let topPadding = geometry.size.height * topPadding
+
+        VStack(spacing: 0) {
+            content()
+            Spacer()
+        }.frame(width: geometry.size.width).padding(.top, topPadding)
+    }
+}
+
 /// This is a wrapped around a VStack that keeps consistent spacing and top padding
 struct StoryLabelContainer<Content: View>: View {
     private var content: () -> Content
