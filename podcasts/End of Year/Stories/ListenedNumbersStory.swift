@@ -48,8 +48,6 @@ struct ListenedNumbersStory: ShareableStory {
                 }
                 .applyPodcastCoverPerspective()
 
-                //                .padding(.top, geometry.size.height * 0.10)
-                Spacer()
                 StoryLabelContainer(geometry: geometry) {
                     let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
                     let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
