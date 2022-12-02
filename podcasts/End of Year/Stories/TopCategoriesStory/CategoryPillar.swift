@@ -21,6 +21,7 @@ struct CategoryPillar: View {
                     .padding(.bottom, 20)
 
                 ZStack(alignment: .top) {
+                    Group {
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [color, color.opacity(0)]), startPoint: .top, endPoint: .bottom))
                             .frame(width: 103, height: height)
@@ -63,6 +64,7 @@ struct CategoryPillar: View {
                                 .foregroundColor(textColor)
                         }.modifier(PodcastCoverPerspective(scaleAnchor: .center))
                     }
+                    .frame(width: 90)
                 }
             }
 
