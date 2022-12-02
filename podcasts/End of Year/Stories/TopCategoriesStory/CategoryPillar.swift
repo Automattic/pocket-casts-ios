@@ -21,10 +21,10 @@ struct CategoryPillar: View {
                     .padding(.bottom, 20)
 
                 ZStack(alignment: .top) {
-                    Rectangle()
-                        .fill(LinearGradient(gradient: Gradient(colors: [color, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
-                        .frame(width: 90, height: height)
-                        .padding(.top, 26)
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [color, color.opacity(0)]), startPoint: .top, endPoint: .bottom))
+                            .frame(width: 103, height: height)
+                            .padding(.top, 37)
 
                         ZStack {
                             RoundedRectangle(cornerRadius: 4)
