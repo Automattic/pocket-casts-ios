@@ -45,11 +45,14 @@ struct LongestEpisodeStory: ShareableStory {
                                 .modifier(PodcastCoverPerspective())
                         }
 
-                        StoryLabel(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""), for: .title)
+                        let time = episode.duration.storyTimeDescription
+                        let title = podcast.title?.replacingOccurrences(of: " ", with: "\u{00a0}") ?? ""
+
+                        StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
                             .padding(.top)
-                        StoryLabel(L10n.eoyStoryLongestEpisodeDuration(episode.duration.storyTimeDescription), for: .subtitle)
+                        StoryLabel(L10n.eoyStoryLongestEpisodeFromPodcast(title), highlighting: [title], for: .subtitle)
                             .frame(maxHeight: geometry.size.height * 0.07)
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)

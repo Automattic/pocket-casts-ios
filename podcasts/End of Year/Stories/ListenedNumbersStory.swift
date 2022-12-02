@@ -58,7 +58,9 @@ struct ListenedNumbersStory: ShareableStory {
                 VStack {
                     Spacer()
 
-                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
+                    let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
+                    let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
+                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(podcasts)", "\(episodes)"), highlighting: [podcasts, episodes], for: .title)
                         .frame(maxHeight: geometry.size.height * 0.12)
                         .minimumScaleFactor(0.01)
 

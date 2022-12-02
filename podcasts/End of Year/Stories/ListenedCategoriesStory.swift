@@ -27,14 +27,12 @@ struct ListenedCategoriesStory: ShareableStory {
                         }
                     }
 
-                    VStack {
-                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"), for: .title)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-
+                    VStack(spacing: 20) {
+                        let categories = L10n.eoyStoryListenedToCategoriesText(listenedCategories.count)
+                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(categories)\n"),
+                                   highlighting: [categories],
+                                   for: .title)
                         StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
-                            .frame(maxHeight: geometry.size.height * 0.07)
-                            .minimumScaleFactor(0.01)
                             .opacity(renderForSharing ? 0.0 : 0.8)
                     }
                 }
