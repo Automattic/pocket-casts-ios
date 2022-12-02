@@ -40,8 +40,7 @@ struct TopFivePodcastsStory: ShareableStory {
     func topPodcastRow(_ index: Int) -> some View {
         HStack(spacing: 16) {
             Text("\(index + 1).")
-                .frame(width: 30)
-                .font(.system(size: 22))
+                .font(.system(size: 18, weight: .medium))
                 .foregroundColor(.white)
 
                 if let podcast = podcasts[safe: index] {
@@ -52,17 +51,15 @@ struct TopFivePodcastsStory: ShareableStory {
                         .frame(width: 65, height: 65)
                 }
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(podcasts[safe: index]?.title ?? "")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text(podcasts[safe: index]?.author ?? "")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white)
                     .lineLimit(2)
-                    .font(.system(size: 18, weight: .heavy))
-                    .foregroundColor(.white)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .minimumScaleFactor(0.01)
-                Text(podcasts[safe: index]?.author ?? "").font(.system(size: 12, weight: .semibold))
-                    .lineLimit(1)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white)
                     .opacity(0.8)
             }
             Spacer()
