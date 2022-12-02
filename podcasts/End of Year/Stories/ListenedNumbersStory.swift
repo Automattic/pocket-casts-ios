@@ -70,6 +70,7 @@ struct ListenedNumbersStory: ShareableStory {
                         .opacity(renderForSharing ? 0.0 : 0.8)
                         .padding(.bottom, geometry.size.height * 0.18)
                 }
+                .applyPodcastCoverPerspective()
             }
         }
     }
