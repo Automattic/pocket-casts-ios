@@ -272,7 +272,7 @@ struct PodcastCoverContainer<Content: View>: View {
     private let geometry: GeometryProxy
 
     let topPaddingSmall = 0.10
-    let topPaddingLarge = 0.13
+    let topPaddingLarge = 0.15
     let smallDeviceHeight = 700.0
 
     init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
@@ -323,6 +323,10 @@ struct PodcastStackView: View {
     let topPadding: Double?
     let geometry: GeometryProxy
 
+    let topPaddingSmall = 0.10
+    let topPaddingLarge = 0.0
+    let smallDeviceHeight = 700.0
+
     init(podcasts: [Podcast], topPadding: Double? = nil, geometry: GeometryProxy) {
         self.podcasts = podcasts
         self.topPadding = topPadding
@@ -330,9 +334,11 @@ struct PodcastStackView: View {
     }
 
     var body: some View {
-        let padding = topPadding ?? geometry.size.height * 0.10
-        let size = geometry.size.width * Constants.coverSize
+        let isSmall = geometry.size.height <= smallDeviceHeight
+        let padding = isSmall ? topPaddingSmall : topPaddingLarge
+        let topPadding = geometry.size.height * padding
 
+        let size = geometry.size.width * Constants.coverSize
         Spacer()
         VStack(spacing: 0) {
             if podcasts.count == 1 {
@@ -341,7 +347,7 @@ struct PodcastStackView: View {
                 showMultipleCovers(size: size)
             }
         }
-        .padding(.top, padding)
+        .padding(.top, topPadding)
     }
 
     @ViewBuilder
