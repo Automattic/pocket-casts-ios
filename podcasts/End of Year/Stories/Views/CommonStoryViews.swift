@@ -135,6 +135,7 @@ extension Double {
 }
 
 // MARK: - Custom Time Formatter that allows customizing of the spacing between units
+
 private extension Double {
     func calculateStoryTimeDescription(unitSeparator: String = " ", componentSeparator: String = " ") -> String {
         var output: [String?] = []
@@ -192,5 +193,73 @@ private extension Double {
         }
 
         return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full)?.replacingOccurrences(of: ",", with: "")
+    }
+}
+
+// MARK: - Podcast Perspective
+
+/// Apply a perspective to the podcasts cover
+struct PodcastCoverPerspective: ViewModifier {
+    static let rotationAngle = Angle(degrees: -45)
+    static let scale = CGSize(width: 1.0, height: 0.5)
+
+    /// Allows overriding of the scaleEffect anchor property, defaults to .center
+    let scaleAnchor: UnitPoint
+
+    init(scaleAnchor: UnitPoint = .center) {
+        self.scaleAnchor = scaleAnchor
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .rotationEffect(Self.rotationAngle, anchor: .center)
+            .scaleEffect(Self.scale, anchor: scaleAnchor)
+    }
+}
+
+struct PodcastPerspectiveRotator<Cover: View>: View {
+    let content: Cover
+
+    init(_ content: Cover) {
+        self.content = content
+    }
+
+    @State private var size: CGSize = .zero
+
+    var body: some View {
+        let scale = PodcastCoverPerspective.scale
+        let angle = PodcastCoverPerspective.rotationAngle
+
+        // Rotate the frame, and compute the smallest integral frame that contains it
+        let calculatedFrame = CGRect(origin: .zero, size: size)
+            .offsetBy(dx: -size.width * 0.5, dy: -size.height * 0.5)
+            .applying(.init(rotationAngle: CGFloat(angle.radians)))
+            .applying(.init(scaleX: scale.width, y: scale.height))
+            .integral
+
+        return content
+            .fixedSize()
+            .captureSize(in: $size)
+            .modifier(PodcastCoverPerspective())
+            .frame(width: calculatedFrame.width, height: calculatedFrame.height)
+    }
+}
+
+private struct SizeKey: PreferenceKey {
+    static let defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func applyPodcastCoverPerspective() -> some View {
+        PodcastPerspectiveRotator(self)
+    }
+
+    func captureSize(in binding: Binding<CGSize>) -> some View {
+        overlay(GeometryReader { proxy in
+            Color.clear.preference(key: SizeKey.self, value: proxy.size)
+        }).onPreferenceChange(SizeKey.self) { size in binding.wrappedValue = size }
     }
 }
