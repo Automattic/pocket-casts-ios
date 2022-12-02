@@ -20,18 +20,17 @@ struct TopOnePodcastStory: ShareableStory {
     var body: some View {
         let podcast = topPodcast.podcast
         GeometryReader { geometry in
-            VStack {
+            PodcastCoverContainer(geometry: geometry) {
                 PodcastStackView(podcasts: [podcast], geometry: geometry)
 
-                StoryLabelContainer {
+                StoryLabelContainer(geometry: geometry) {
                     let title = podcast.title ?? ""
                     let author = podcast.author ?? ""
                     StoryLabel(L10n.eoyStoryTopPodcast("\n" + title, author), highlighting: [title, author], for: .title)
                     StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.storyTimeDescription), for: .subtitle)
                         .opacity(0.8)
                 }
-                Spacer()
-            }.frame(width: geometry.size.width).padding(.top, (geometry.size.height * 0.10))
+            }
         }.background(DynamicBackgroundView(podcast: podcast))
     }
 

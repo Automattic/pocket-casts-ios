@@ -14,7 +14,7 @@ struct ListeningTimeStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                StoryLabelContainer(topPadding: geometry.size.height * Constants.topPadding) {
+                    StoryLabelContainer(topPadding: geometry.size.height * Constants.topPadding, geometry: geometry){
                     let time = listeningTime.storyTimeDescription
                     StoryLabel(L10n.eoyStoryListenedTo("\n\(time)"), highlighting: [time], for: .title)
 

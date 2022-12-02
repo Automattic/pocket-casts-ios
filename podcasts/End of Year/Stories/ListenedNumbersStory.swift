@@ -15,7 +15,7 @@ struct ListenedNumbersStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 0) {
+            PodcastCoverContainer(geometry: geometry) {
                 ZStack {
                     podcastCover(5)
                         .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
@@ -47,9 +47,10 @@ struct ListenedNumbersStory: ShareableStory {
                         .padding(.leading, -(geometry.size.width / 4))
                 }
                 .applyPodcastCoverPerspective()
-                .padding(.top, geometry.size.height * 0.10)
 
-                StoryLabelContainer {
+                //                .padding(.top, geometry.size.height * 0.10)
+                Spacer()
+                StoryLabelContainer(geometry: geometry) {
                     let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
                     let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
 
@@ -57,10 +58,8 @@ struct ListenedNumbersStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
                         .opacity(renderForSharing ? 0.0 : 0.8)
                 }
-
                 Spacer()
             }
-            .frame(width: geometry.size.width)
             .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
         }
     }

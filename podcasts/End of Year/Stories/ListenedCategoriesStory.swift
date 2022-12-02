@@ -12,10 +12,10 @@ struct ListenedCategoriesStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            PodcastCoverContainer(geometry: geometry) {
                 PodcastStackView(podcasts: listenedCategories.map { $0.mostListenedPodcast }, geometry: geometry)
 
-                StoryLabelContainer {
+                StoryLabelContainer(geometry: geometry) {
                     let categories = L10n.eoyStoryListenedToCategoriesText(listenedCategories.count)
                     StoryLabel(L10n.eoyStoryListenedToCategories("\n\(categories)\n"),
                                highlighting: [categories],
@@ -23,9 +23,7 @@ struct ListenedCategoriesStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
                         .opacity(renderForSharing ? 0.0 : 0.8)
                 }
-
-                Spacer()
-            }.frame(width: geometry.size.width).padding(.top, (geometry.size.height * 0.10))
+            }
         }.background(DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast))
     }
 

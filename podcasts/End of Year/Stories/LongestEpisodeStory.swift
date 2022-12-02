@@ -21,18 +21,17 @@ struct LongestEpisodeStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            PodcastCoverContainer(geometry: geometry) {
                 PodcastStackView(podcasts: [podcast], geometry: geometry)
 
-                StoryLabelContainer {
+                StoryLabelContainer(geometry: geometry) {
                     let time = episode.duration.storyTimeDescription
                     let title = podcast.title?.replacingOccurrences(of: " ", with: "\u{00a0}") ?? ""
                     StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
                     StoryLabel(L10n.eoyStoryLongestEpisodeFromPodcast(title), highlighting: [title], for: .subtitle)
                         .opacity(0.8)
                 }
-                Spacer()
-            }.frame(width: geometry.size.width).padding(.top, (geometry.size.height * 0.10))
+            }
         }.background(DynamicBackgroundView(podcast: podcast))
     }
 
