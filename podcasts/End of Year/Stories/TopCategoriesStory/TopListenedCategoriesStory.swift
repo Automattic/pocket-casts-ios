@@ -20,21 +20,18 @@ struct TopListenedCategoriesStory: ShareableStory {
             ZStack {
                 DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor)
 
-                VStack {
+                VStack(spacing: 0) {
                     StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .padding(.bottom, geometry.size.height * 0.1)
-                        .padding(.top, geometry.size.height * 0.05)
+                        .padding(.top, geometry.size.height * 0.09)
 
                     HStack(alignment: .bottom, spacing: 25) {
                         ForEach([1, 0, 2], id: \.self) {
-                            pillar($0)
+                            pillar($0, size: geometry.size)
                         }
-                    }
+                    }.padding(.top, geometry.size.height * 0.091)
+                    Spacer()
                 }
-                .padding(.bottom, 100)
             }
         }
     }
