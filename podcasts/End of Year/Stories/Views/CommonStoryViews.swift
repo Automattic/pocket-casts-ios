@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 /// A label used in the end of year stories that provides consistent styling
 /// This preprocesses the text to improve the typography
@@ -285,3 +286,85 @@ struct StoryLabelContainer<Content: View>: View {
     }
 }
 
+// MARK: - Podcast Stack Views
+
+/// This is a view that displays a single podcast cover on top and the podcast colors below it
+/// in a stacked view
+struct PodcastStackView: View {
+    let podcasts: [Podcast]
+    let topPadding: Double?
+    let geometry: GeometryProxy
+
+    init(podcasts: [Podcast], topPadding: Double? = nil, geometry: GeometryProxy) {
+        self.podcasts = podcasts
+        self.topPadding = topPadding
+        self.geometry = geometry
+    }
+
+    var body: some View {
+        let padding = topPadding ?? geometry.size.height * 0.10
+        let size = geometry.size.width * Constants.coverSize
+
+        Spacer()
+        VStack(spacing: 0) {
+
+            if podcasts.count == 1 {
+                showSinglePodcastCover(podcasts[0], size: size)
+            } else {
+                showMultipleCovers(size: size)
+            }
+        }
+        .padding(.top, padding)
+    }
+
+    @ViewBuilder
+    private func showSinglePodcastCover(_ podcast: Podcast, size: Double) -> some View {
+        PodcastCover(podcastUuid: podcast.uuid, big: true)
+            .modifier(StackModifier(size: size))
+            .zIndex(2)
+
+        Rectangle()
+            .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
+            .modifier(BigCoverShadow())
+            .modifier(StackModifier(size: size))
+            .zIndex(1)
+
+        Rectangle()
+            .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
+            .modifier(BigCoverShadow())
+            .modifier(StackModifier(size: size))
+            .zIndex(0)
+    }
+
+    @ViewBuilder
+    private func showMultipleCovers(size: Double) -> some View {
+        ForEach(0..<Constants.maxStackCount, id: \.self) {
+            podcastCover($0)
+                .modifier(StackModifier(size: size))
+                .zIndex(Double(Constants.maxStackCount - $0))
+        }
+    }
+
+    @ViewBuilder
+    func podcastCover(_ index: Int) -> some View {
+        let podcast = podcasts[safe: index] ?? podcasts[0]
+        PodcastCover(podcastUuid: podcast.uuid, big: true)
+    }
+
+    private enum Constants {
+        static let coverSize = 0.6
+        static let maxStackCount = 3
+    }
+
+    /// Applies the frame and stacking modifier
+    private struct StackModifier: ViewModifier {
+        let size: Double
+
+        func body(content: Content) -> some View {
+            content
+                .frame(width: size, height: size)
+                .applyPodcastCoverPerspective()
+                .padding(.top, size * -0.55)
+        }
+    }
+}
