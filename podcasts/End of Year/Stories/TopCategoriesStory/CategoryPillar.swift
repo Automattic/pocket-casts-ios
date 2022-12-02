@@ -26,6 +26,29 @@ struct CategoryPillar: View {
                             .frame(width: 103, height: height)
                             .padding(.top, 37)
 
+                        // Left Shadow
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [.black, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
+                            .frame(width: 103 - 29.5, height: height)
+                            .padding(.top, 40)
+
+                            .rotation3DEffect(
+                                Angle(degrees: 45),
+                                axis: (x: 0, y: -1, z: 0),
+                                anchor: .center,
+                                anchorZ: 0,
+                                perspective: 0
+                            )
+                            .rotation3DEffect(
+                                Angle(degrees: 10),
+                                axis: (x: 0, y: 1, z: 0),
+                                anchor: .center,
+                                anchorZ: 0,
+                                perspective: 1
+                            )
+                            .opacity(0.3)
+                            .offset(x: -25.5)
+
                         ZStack {
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(color)
