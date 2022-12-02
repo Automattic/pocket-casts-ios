@@ -12,25 +12,17 @@ struct TopFivePodcastsStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
+                let headerSpacing = geometry.size.height * 0.054
                 let size = round(max(geometry.size.height * 0.099, 60))
 
-                VStack {
-                    Spacer()
+                VStack(spacing: headerSpacing) {
                     StoryLabel(L10n.eoyStoryTopPodcasts, for: .title2)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .padding(.bottom)
-                        .padding(.top, geometry.size.height * 0.03)
                     VStack(spacing: geometry.size.height * 0.03) {
                         ForEach(0...4, id: \.self) {
                             topPodcastRow($0, size: size)
                         }
-                    }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 40)
-
-                    Spacer()
+                    }.padding([.leading, .trailing], 35)
                 }
             }.background(DynamicBackgroundView(podcast: podcasts[0]))
         }
