@@ -293,15 +293,18 @@ struct StoryLabelContainer<Content: View>: View {
     private var content: () -> Content
 
     let topPadding: Double
-    init(topPadding: Double = 36, @ViewBuilder _ content: @escaping () -> Content) {
+    private let geometry: GeometryProxy
+
+    init(topPadding: Double = 36, geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
         self.topPadding = topPadding
+        self.geometry = geometry
         self.content = content
     }
 
-    @State private var contentSize: CGSize = .zero
-
     var body: some View {
-        VStack(spacing: 22) {
+        // Try to reduce the label distance based on the screen height, but set a maximum
+        let labelSpacing = (geometry.size.height * 0.033).clamped(to: 10..<22)
+        VStack(spacing: labelSpacing) {
             content()
         }.padding(.top, topPadding)
     }
@@ -328,7 +331,6 @@ struct PodcastStackView: View {
 
         Spacer()
         VStack(spacing: 0) {
-
             if podcasts.count == 1 {
                 showSinglePodcastCover(podcasts[0], size: size)
             } else {
