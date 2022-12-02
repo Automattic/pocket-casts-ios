@@ -40,13 +40,22 @@ struct TopListenedCategoriesStory: ShareableStory {
     }
 
     @ViewBuilder
-    func pillar(_ index: Int) -> some View {
+    func pillar(_ index: Int, size: CGSize) -> some View {
+        let heights = [0.32882883, 0.29279279, 0.22222222]
+
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.storyTimeDescriptionForPillars, height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: contrastColor.tintColor,
+                           text: "\(index + 1)",
+                           title: listenedCategory.categoryTitle.localized,
+                           subtitle: listenedCategory.totalPlayedTime.storyTimeDescriptionForPillars,
+                           height: size.height * heights[index])
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
-            CategoryPillar(color: contrastColor.tintColor, text: "", title: "", subtitle: "", height: 200)
-                .opacity(0)
+            CategoryPillar(color: contrastColor.tintColor,
+                           text: "",
+                           title: "",
+                           subtitle: "",
+                           height: (size.height * heights[0])).opacity(0)
         }
     }
 
