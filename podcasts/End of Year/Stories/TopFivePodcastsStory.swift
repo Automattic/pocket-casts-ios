@@ -11,8 +11,7 @@ struct TopFivePodcastsStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
+            PodcastCoverContainer(geometry: geometry) {
                 let size = round(max(geometry.size.height * 0.099, 60))
 
                 VStack {
@@ -33,7 +32,7 @@ struct TopFivePodcastsStory: ShareableStory {
 
                     Spacer()
                 }
-            }
+            }.background(DynamicBackgroundView(podcast: podcasts[0]))
         }
     }
 
