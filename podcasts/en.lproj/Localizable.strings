@@ -3342,8 +3342,11 @@
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
 
-/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of categories. */
-"eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
+"eoy_story_listened_to_categories" = "You listened to %1$@ this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of different categories. */
+"eoy_story_listened_to_categories_text" = "%1$@ different categories";
 
 /* String prompting the user for the next story to check the most listened categories. */
 "eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
@@ -3351,8 +3354,14 @@
 /* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
 "eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
 
-/* String telling the user how much podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder fot eh number of episodes. */
-"eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
+"eoy_story_listened_to_numbers" = "You listened to %1$@ and %2$@";
+
+/* String telling the user how many podcasts they listened to this year, %1$@ is a placeholder for the number of podcasts*/
+"eoy_story_listened_to_podcast_text" = "%1$@ different podcasts";
+
+/* String telling the user how many episodes they listened to this year, %1$@ is a placeholder for the number number of episodes. */
+"eoy_story_listened_to_episode_text" = "%1$@ episodes";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
 "eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
@@ -3380,6 +3389,12 @@
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
+"eoy_story_longest_episode_time" = "The longest episode you listened to was\n%1$@";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
+"eoy_story_longest_episode_from_podcast" = "from the podcast\n%1$@";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
