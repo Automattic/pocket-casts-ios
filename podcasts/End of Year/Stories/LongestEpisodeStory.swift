@@ -21,48 +21,19 @@ struct LongestEpisodeStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcast)
+            VStack {
+                PodcastStackView(podcasts: [podcast], geometry: geometry)
 
-                VStack {
-                    VStack {
-                        ZStack {
-                            let size = geometry.size.width * 0.60
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
-                                .modifier(BigCoverShadow())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * 0.6))
-
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
-                                .modifier(BigCoverShadow())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * 0.30))
-
-                            PodcastCover(podcastUuid: podcast.uuid, big: true)
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCoverPerspective())
-                        }
-
-                        let time = episode.duration.storyTimeDescription
-                        let title = podcast.title?.replacingOccurrences(of: " ", with: "\u{00a0}") ?? ""
-
-                        StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-                            .padding(.top)
-                        StoryLabel(L10n.eoyStoryLongestEpisodeFromPodcast(title), highlighting: [title], for: .subtitle)
-                            .frame(maxHeight: geometry.size.height * 0.07)
-                            .minimumScaleFactor(0.01)
-                            .opacity(0.8)
-                    }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 40)
+                StoryLabelContainer {
+                    let time = episode.duration.storyTimeDescription
+                    let title = podcast.title?.replacingOccurrences(of: " ", with: "\u{00a0}") ?? ""
+                    StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
+                    StoryLabel(L10n.eoyStoryLongestEpisodeFromPodcast(title), highlighting: [title], for: .subtitle)
+                        .opacity(0.8)
                 }
-            }
-            .padding(.top, -(geometry.size.height * 0.15))
-        }
+                Spacer()
+            }.frame(width: geometry.size.width).padding(.top, (geometry.size.height * 0.10))
+        }.background(DynamicBackgroundView(podcast: podcast))
     }
 
     func onAppear() {
