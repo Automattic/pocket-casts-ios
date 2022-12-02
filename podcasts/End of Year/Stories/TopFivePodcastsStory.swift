@@ -13,6 +13,7 @@ struct TopFivePodcastsStory: ShareableStory {
         GeometryReader { geometry in
             ZStack {
                 DynamicBackgroundView(podcast: podcasts[0])
+                let size = round(max(geometry.size.height * 0.099, 60))
 
                 VStack {
                     Spacer()
@@ -24,7 +25,7 @@ struct TopFivePodcastsStory: ShareableStory {
                         .padding(.top, geometry.size.height * 0.03)
                     VStack(spacing: geometry.size.height * 0.03) {
                         ForEach(0...4, id: \.self) {
-                            topPodcastRow($0)
+                            topPodcastRow($0, size: size)
                         }
                     }
                     .padding(.leading, 40)
@@ -37,7 +38,7 @@ struct TopFivePodcastsStory: ShareableStory {
     }
 
     @ViewBuilder
-    func topPodcastRow(_ index: Int) -> some View {
+    func topPodcastRow(_ index: Int, size: Double) -> some View {
         HStack(spacing: 16) {
             Text("\(index + 1).")
                 .font(.system(size: 18, weight: .medium))
@@ -45,10 +46,10 @@ struct TopFivePodcastsStory: ShareableStory {
 
                 if let podcast = podcasts[safe: index] {
                     PodcastCover(podcastUuid: podcast.uuid)
-                        .frame(width: 65, height: 65)
+                        .frame(width: size, height: size)
                 } else {
                     Rectangle()
-                        .frame(width: 65, height: 65)
+                        .frame(width: size, height: size)
                 }
 
             VStack(alignment: .leading, spacing: 4) {
@@ -62,6 +63,9 @@ struct TopFivePodcastsStory: ShareableStory {
                     .lineLimit(2)
                     .opacity(0.8)
             }
+            // Allow the the title label to expand based on the size of the row
+            // Show more text for larger devices, and a bit less for smaller ones
+            .frame(maxHeight: size)
             Spacer()
         }
         .opacity(podcasts[safe: index] != nil ? 1 : 0)
