@@ -26,28 +26,19 @@ struct CategoryPillar: View {
                         .frame(width: 90, height: height)
                         .padding(.top, 26)
 
-                    ZStack {
-                        Image("square_perspective")
-                            .resizable()
-                            .renderingMode(.template)
-                            .frame(width: 90, height: 52)
-                            .foregroundColor(color)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(color)
+                                .frame(width: 75.0, height: 75.0)
 
-                        let whiteContrast = color.contrast(with: .white)
-                        let textColor = whiteContrast < 2 ? UIColor.black.color : UIColor.white.color
+                            let whiteContrast = color.contrast(with: .white)
+                            let textColor = whiteContrast < 2 ? Color.black : Color.white
 
-                        let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
-                        Text(text)
-                            .font(.system(size: 18, weight: .heavy))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(textColor)
-                            .padding(.leading, -8)
-                        .transformEffect(CGAffineTransform(
-                            a: values[0], b: values[1],
-                            c: values[2], d: values[3],
-                            tx: 0, ty: 0
-                        ))
-                        .rotationEffect(.init(degrees: -30))
+                            Text(text)
+                                .font(.system(size: 24, weight: .heavy))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(textColor)
+                        }.modifier(PodcastCoverPerspective(scaleAnchor: .center))
                     }
                 }
             }
