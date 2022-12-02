@@ -4,27 +4,63 @@ import SwiftUI
 /// This preprocesses the text to improve the typography
 struct StoryLabel: View {
     private let text: String
+    private let highlights: [String]?
     private let type: StoryLabelType
 
-    init(_ text: String, for type: StoryLabelType) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType) {
         self.text = Self.processText(text)
+        self.highlights = highlighting
         self.type = type
     }
 
     var body: some View {
-        Text(text)
+        if #available(iOS 15, *) {
+            if let attributedString {
+                applyDefaults(Text(attributedString), forHighlights: true)
+            } else {
+                applyDefaults(Text(text))
+            }
+        } else {
+            applyDefaults(Text(text))
+        }
+    }
+
+    private func applyDefaults(_ content: some View, forHighlights: Bool = false) -> some View {
+        return content
             .foregroundColor(.white)
             .lineSpacing(2.5)
             .multilineTextAlignment(.center)
-            .font(font)
+            .font(forHighlights ? nil : font)
             .padding([.leading, .trailing], horizontalPadding)
+    }
+
+    @available(iOS 15, *)
+    private var attributedString: AttributedString? {
+        guard let highlights else { return nil }
+
+        var string = AttributedString(text)
+        // Since we're highlighting using bold, change the normal text to regular weight
+        string.font = font.weight(.regular)
+        let highlightFont = font.weight(.bold)
+
+        for text in highlights {
+            if let range = string.range(of: text) {
+                string[range].font = highlightFont
+            }
+            // The highlight text may have been processed so run it through to see if that hits
+            else if let range = string.range(of: Self.processText(text)) {
+                string[range].font = highlightFont
+            }
+        }
+
+        return string
     }
 
     private static func processText(_ text: String) -> String {
         let returnText = text
-            // Typographic apostrophes
+        // Typographic apostrophes
             .replacingOccurrences(of: "'", with: "ʼ")
-            // Prevent Pocket Casts from being separated
+        // Prevent Pocket Casts from being separated
             .replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts")
 
         let components = returnText.components(separatedBy: " ")
