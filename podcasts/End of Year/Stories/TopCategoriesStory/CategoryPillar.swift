@@ -11,17 +11,18 @@ struct CategoryPillar: View {
         ZStack {
             VStack(spacing: 0) {
                 StoryLabel(title, for: .pillarTitle)
-                    .frame(width: 90)
+                    .frame(width: Constants.width)
                     .fixedSize()
                     .padding(.bottom, 2)
                 StoryLabel(subtitle, for: .pillarSubtitle)
-                    .frame(width: 90)
+                    .frame(width: Constants.width)
                     .fixedSize()
                     .opacity(0.8)
                     .padding(.bottom, 20)
 
                 ZStack(alignment: .top) {
                     Group {
+                        // Main pillar
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [color, color.opacity(0)]), startPoint: .top, endPoint: .bottom))
                             .frame(width: 103, height: height)
@@ -30,9 +31,8 @@ struct CategoryPillar: View {
                         // Left Shadow
                         Rectangle()
                             .fill(LinearGradient(gradient: Gradient(colors: [.black, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
-                            .frame(width: 103 - 29.5, height: height)
+                            .frame(width: 73.5, height: height)
                             .padding(.top, 40)
-
                             .rotation3DEffect(
                                 Angle(degrees: 45),
                                 axis: (x: 0, y: -1, z: 0),
@@ -64,12 +64,16 @@ struct CategoryPillar: View {
                                 .foregroundColor(textColor)
                         }.modifier(PodcastCoverPerspective(scaleAnchor: .center))
                     }
-                    .frame(width: 90)
+                    .frame(width: Constants.width)
                 }
             }
 
             Spacer()
         }
         .fixedSize(horizontal: true, vertical: false)
+    }
+
+    private enum Constants {
+        static let width = 90.0
     }
 }
