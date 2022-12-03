@@ -31,8 +31,8 @@ extension StoriesDataSource {
         return AnyView(story)
     }
 
-    func interactiveView(for: Int) -> AnyView {
-        return AnyView(EmptyView())
+    func isInteractiveView(for: Int) -> Bool {
+        return false
     }
 }
 
