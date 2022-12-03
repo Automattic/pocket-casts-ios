@@ -1,8 +1,12 @@
 import SwiftUI
+import Shiny
+import CoreHaptics
 
 struct EpilogueStory: StoryView {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @ObservedObject private var visibility = Visiblity()
+    @State private var engine: CHHapticEngine?
+
     var duration: TimeInterval = 5.seconds
 
     var identifier: String = "epilogue"
@@ -42,7 +46,7 @@ struct EpilogueStory: StoryView {
 
                 Spacer()
             }
-        }.background(Constants.backgroundColor)
+        }.background(Constants.backgroundColor).onAppear(perform: prepareHaptics)
     }
 
     func onAppear() {
@@ -57,6 +61,41 @@ struct EpilogueStory: StoryView {
     private class Visiblity: ObservableObject {
         @Published var isVisible = false
     }
+
+    // MARK: - Haptics
+    private func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        engine = try? CHHapticEngine()
+        try? engine?.start()
+    }
+
+    private func playHaptics() {
+        guard let engine else { return }
+        var events = [CHHapticEvent]()
+
+        for i in stride(from: 0, to: 1, by: 0.1) {
+            let value = Float(i)
+
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: value)
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: value)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
+            events.append(event)
+        }
+
+        for i in stride(from: 0, to: 1, by: 0.1) {
+            let value = Float(1 - i)
+
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: value)
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: value)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 1 + i)
+            events.append(event)
+        }
+
+        guard let pattern = try? CHHapticPattern(events: events, parameters: []), let player = try? engine.makePlayer(with: pattern) else {
+            return
+        }
+
+        try? player.start(atTime: 0)
     }
 }
 
