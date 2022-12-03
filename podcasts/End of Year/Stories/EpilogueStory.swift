@@ -2,12 +2,19 @@ import SwiftUI
 
 struct EpilogueStory: StoryView {
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @ObservedObject private var visibility = Visiblity()
     var duration: TimeInterval = 5.seconds
 
     var identifier: String = "epilogue"
 
     var body: some View {
         GeometryReader { geometry in
+            if visibility.isVisible {
+                WelcomeConfetti(type: .normal)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
+
             PodcastCoverContainer(geometry: geometry) {
                 Spacer()
 
@@ -35,11 +42,16 @@ struct EpilogueStory: StoryView {
     }
 
     func onAppear() {
+        self.visibility.isVisible = true
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     private enum Constants {
         static let backgroundColor = Color(hex: "#1A1A1A")
+
+    private class Visiblity: ObservableObject {
+        @Published var isVisible = false
+    }
     }
 }
 
