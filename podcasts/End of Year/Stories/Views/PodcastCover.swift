@@ -14,6 +14,7 @@ struct PodcastCover: View {
     let viewBackgroundStyle: ThemeStyle?
 
     @State private var image: UIImage?
+    @Environment(\.renderForSharing) var renderForSharing: Bool
 
     init(podcastUuid: String, big: Bool = false, viewBackgroundStyle: ThemeStyle? = nil) {
         self.podcastUuid = podcastUuid
@@ -26,7 +27,7 @@ struct PodcastCover: View {
             return AppTheme.color(for: viewBackgroundStyle)
         }
 
-        return nil
+        return .white
     }
 
     var body: some View {
@@ -43,7 +44,7 @@ struct PodcastCover: View {
                 }
             }
             .opacity(image != nil ? 1 : 0.2)
-            .blendMode(image != nil ? .multiply : .normal)
+            .blendMode(!renderForSharing && image != nil ? .multiply : .normal)
 
             ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
