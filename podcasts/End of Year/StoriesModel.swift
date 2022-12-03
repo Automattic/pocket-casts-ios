@@ -107,8 +107,8 @@ class StoriesModel: ObservableObject {
         }
     }
 
-    func interactive(index: Int) -> AnyView {
-        dataSource.interactiveView(for: index)
+    func isInteractiveView(index: Int) -> Bool {
+        dataSource.isInteractiveView(for: index)
     }
 
     func next() {

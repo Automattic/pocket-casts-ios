@@ -9,12 +9,12 @@ protocol StoriesDataSource {
     /// Returns a story that supports being shared, or nil if it doesn't
     func shareableStory(for: Int) -> (any ShareableStory)?
 
-    /// An interactive view that is put on top of the Stories control
+    /// This determines whether or not the story has interactivity
     ///
     /// This allows having interactive elements, such as buttons.
     /// It's up to the view to control `allowsHitTesting`. So make
     /// sure that your story doesn't entirely block user interactions.
-    func interactiveView(for: Int) -> AnyView
+    func isInteractiveView(for: Int) -> Bool
 
     /// Whether the data source is ready to be used.
     ///

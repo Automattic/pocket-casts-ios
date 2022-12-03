@@ -30,16 +30,16 @@ struct StoriesView: View {
                 storiesToPreload
 
                 ZStack {
-                    model.story(index: model.currentStory)
+                    // Manually set the zIndex order to ensure we can change the order when needed
+                    model.story(index: model.currentStory).zIndex(3)
 
-                    StoryLogoView()
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                    StoryLogoView().zIndex(4)
 
-                storySwitcher
-
-                ZStack {
-                    model.interactive(index: model.currentStory)
+                    // By default the story switcher will appear above the story and override all
+                    // interaction, but if the story contains interactive elements then move the
+                    // switcher to appear behind the view to allow the story override the switcher, or
+                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
                 }
                 .cornerRadius(Constants.storyCornerRadius)
 

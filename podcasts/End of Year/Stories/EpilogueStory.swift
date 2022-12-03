@@ -30,8 +30,8 @@ struct EpilogueStory: StoryView {
                 .padding(.top, 36)
 
                 Spacer()
-            }.background(Constants.backgroundColor)
-        }
+            }
+        }.background(Constants.backgroundColor)
     }
 
     func onAppear() {
