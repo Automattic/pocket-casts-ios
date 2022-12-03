@@ -47,7 +47,8 @@ struct EpilogueStory: StoryView {
     }
 
     private enum Constants {
-        static let backgroundColor = Color(hex: "#1A1A1A")
+        static let backgroundColor = Color.black
+    }
 
     private class Visiblity: ObservableObject {
         @Published var isVisible = false
