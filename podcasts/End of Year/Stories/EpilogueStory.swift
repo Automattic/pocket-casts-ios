@@ -11,6 +11,8 @@ struct EpilogueStory: StoryView {
         GeometryReader { geometry in
             if visibility.isVisible {
                 WelcomeConfetti(type: .normal)
+                    .onAppear(perform: playHaptics)
+                    .shiny()
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
             }
@@ -20,6 +22,8 @@ struct EpilogueStory: StoryView {
 
                 StoryLabelContainer(topPadding: 0, geometry: geometry) {
                     Image("heart")
+                        .renderingMode(.template)
+                        .shiny()
 
                     let pocketCasts = "Pocket Casts".nonBreakingSpaces()
 
