@@ -8,65 +8,56 @@ struct EpilogueStory: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                UIColor(hex: "#1A1A1A").color
-                    .allowsHitTesting(false)
+            PodcastCoverContainer(geometry: geometry) {
+                Spacer()
 
-                VStack {
-                    VStack {
-                        Image("heart")
-                            .padding(.bottom, 20)
+                StoryLabelContainer(topPadding: 0, geometry: geometry) {
+                    Image("heart")
 
-                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-                            .padding(.bottom)
-                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
-                            .frame(maxHeight: geometry.size.height * 0.1)
-                            .minimumScaleFactor(0.01)
-                            .opacity(0.8)
-                    }
-                    .allowsHitTesting(false)
+                    let pocketCasts = "Pocket Casts".nonBreakingSpaces()
 
-                    Button(action: {
-                        StoriesController.shared.replay()
-                        Analytics.track(.endOfYearStoryReplayButtonTapped)
-                    }) {
-                        HStack {
-                            Image(systemName: "arrow.clockwise")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(UIColor(hex: "#1A1A1A").color)
-                            Text(L10n.eoyStoryReplay)
-                                .foregroundColor(UIColor(hex: "#1A1A1A").color)
-                                .font(.system(size: 20, weight: .bold))
-                                .multilineTextAlignment(.center)
-                                .minimumScaleFactor(0.01)
-                        }
-                    }
-                    .buttonStyle(ReplayButtonStyle())
-                    .padding(.top, 20)
-                    .opacity(renderForSharing ? 0 : 1)
+                    StoryLabel(L10n.eoyStoryEpilogueTitle, highlighting: [pocketCasts], for: .title)
+                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
+                        .opacity(0.8)
+                }.allowsHitTesting(false)
+
+                Button(L10n.eoyStoryReplay) {
+                    StoriesController.shared.replay()
+                    Analytics.track(.endOfYearStoryReplayButtonTapped)
                 }
-                .padding()
-            }
+                .buttonStyle(ReplayButtonStyle(color: Constants.backgroundColor))
+                .opacity(renderForSharing ? 0 : 1)
+                .padding(.top, 36)
+
+                Spacer()
+            }.background(Constants.backgroundColor)
         }
     }
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
+
+    private enum Constants {
+        static let backgroundColor = Color(hex: "#1A1A1A")
+    }
 }
 
 struct ReplayButtonStyle: ButtonStyle {
+    let color: Color
     func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .hidden()
-            .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 50)
-                    .fill(Color.white)
-            )
-            .overlay(configuration.label)
+        HStack {
+            Image("eoy-replay-icon")
+            configuration.label
+        }
+        .font(.system(size: 15, weight: .bold))
+        .foregroundColor(color)
+        .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 15))
+        .background(
+            Capsule().fill(.white)
+        )
+        .contentShape(Rectangle())
+        .applyButtonEffect(isPressed: configuration.isPressed)
     }
 }
 
