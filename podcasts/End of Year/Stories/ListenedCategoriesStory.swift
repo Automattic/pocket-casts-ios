@@ -12,39 +12,19 @@ struct ListenedCategoriesStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast)
+            PodcastCoverContainer(geometry: geometry) {
+                PodcastStackView(podcasts: listenedCategories.map { $0.mostListenedPodcast }, geometry: geometry)
 
-                VStack {
-                    ZStack {
-                        let size = geometry.size.width * 0.60
-
-                        ForEach([2, 1, 0], id: \.self) {
-                            podcastCover($0)
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * CGFloat($0) * 0.3))
-                        }
-                    }
-
-                    VStack(spacing: 20) {
-                        let categories = L10n.eoyStoryListenedToCategoriesText(listenedCategories.count)
-                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(categories)\n"),
-                                   highlighting: [categories],
-                                   for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    }
+                StoryLabelContainer(geometry: geometry) {
+                    let categories = L10n.eoyStoryListenedToCategoriesText(listenedCategories.count)
+                    StoryLabel(L10n.eoyStoryListenedToCategories("\n\(categories)\n"),
+                               highlighting: [categories],
+                               for: .title)
+                    StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
+                        .opacity(renderForSharing ? 0.0 : 0.8)
                 }
-                .padding(.top, -(geometry.size.height * 0.15))
             }
-        }
-    }
-
-    @ViewBuilder
-    func podcastCover(_ index: Int) -> some View {
-        let podcast = listenedCategories[safe: index]?.mostListenedPodcast ?? listenedCategories[0].mostListenedPodcast
-        PodcastCover(podcastUuid: podcast.uuid, big: true)
+        }.background(DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast))
     }
 
     func onAppear() {

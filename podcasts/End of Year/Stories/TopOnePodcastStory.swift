@@ -18,47 +18,23 @@ struct TopOnePodcastStory: ShareableStory {
     }
 
     var body: some View {
+        let podcast = topPodcast.podcast
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: topPodcast.podcast)
+            PodcastCoverContainer(geometry: geometry) {
+                PodcastStackView(podcasts: [podcast], geometry: geometry)
 
-                VStack {
-                    VStack {
-                        ZStack {
-                            let size = geometry.size.width * 0.60
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.darkThemeTintForPodcast(topPodcast.podcast).color)
-                                .modifier(BigCoverShadow())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * 0.6))
+                StoryLabelContainer(geometry: geometry) {
+                    let title = podcast.title ?? ""
+                    let author = podcast.author ?? ""
+                    StoryLabel(L10n.eoyStoryTopPodcast("\n" + title, author), highlighting: [title, author], for: .title)
 
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.lightThemeTintForPodcast(topPodcast.podcast).color)
-                                .modifier(BigCoverShadow())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * 0.30))
-
-                            PodcastCover(podcastUuid: topPodcast.podcast.uuid, big: true)
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCoverPerspective())
-                        }
-
-                        let title = topPodcast.podcast.title ?? ""
-                        let author = topPodcast.podcast.author ?? ""
-                        StoryLabel(L10n.eoyStoryTopPodcast("\n" + title, author), highlighting: [title, author], for: .title)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-                        StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.storyTimeDescription), for: .subtitle)
-                            .frame(maxHeight: geometry.size.height * 0.07)
-                            .minimumScaleFactor(0.01)
-                            .opacity(0.8)
-                    }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 40)
+                    let time = topPodcast.totalPlayedTime.storyTimeDescription
+                    let count = L10n.eoyStoryListenedToEpisodesText(topPodcast.numberOfPlayedEpisodes)
+                    StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, time), highlighting: [time, count], for: .subtitle)
+                        .opacity(0.8)
                 }
             }
-            .padding(.top, -(geometry.size.height * 0.15))
-        }
+        }.background(DynamicBackgroundView(podcast: podcast))
     }
 
     func onAppear() {
