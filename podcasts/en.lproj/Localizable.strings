@@ -3406,7 +3406,7 @@
 "eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
-"eoy_story_longest_episode_from_podcast" = "from the podcast\n%1$@";
+"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
