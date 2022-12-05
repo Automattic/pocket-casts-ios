@@ -14,31 +14,36 @@ struct ListeningTimeStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                    StoryLabelContainer(topPadding: geometry.size.height * Constants.topPadding, geometry: geometry) {
+                StoryLabelContainer(topPadding: geometry.size.height * Constants.topPadding, geometry: geometry) {
                     let time = listeningTime.storyTimeDescription
-                    StoryLabel(L10n.eoyStoryListenedTo("\n\(time)\n"), highlighting: [time], for: .title)
-
+                    if NSLocale.isCurrentLanguageEnglish {
+                        StoryLabel(L10n.eoyStoryListenedToUpdated("\n\(time)\n"), highlighting: [time], for: .title)
+                    } else {
+                        StoryLabel(L10n.eoyStoryListenedTo("\n\(time)\n"), highlighting: [time], for: .title)
+                    }
                     StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
                         .opacity(0.8)
                 }
 
                 // Podcast images angled to fill the width of the view
-                HStack {
+                let size = 0.30 * geometry.size.height
+
+                HStack(spacing: 20) {
                     ForEach(Constants.displayedPodcasts, id: \.self) {
-                        podcastCover($0)
+                        podcastCover($0, size: size)
                     }
                 }
+                .applyPodcastCoverPerspective()
                 .padding(.top)
-                .modifier(PodcastCoverPerspective(scaleAnchor: .bottom))
             }.frame(width: geometry.size.width)
         }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
     @ViewBuilder
-    func podcastCover(_ index: Int) -> some View {
+    func podcastCover(_ index: Int, size: Double) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
-            .frame(width: Constants.coverSize, height: Constants.coverSize)
+            .frame(width: size, height: size)
     }
 
     func onAppear() {

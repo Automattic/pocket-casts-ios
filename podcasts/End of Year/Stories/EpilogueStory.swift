@@ -49,7 +49,7 @@ struct EpilogueStory: StoryView {
 
                 Spacer()
             }
-        }.background(Constants.backgroundColor).onAppear(perform: prepareHaptics)
+        }.background(Constants.backgroundColor.allowsHitTesting(false).onAppear(perform: prepareHaptics))
     }
 
     func onAppear() {

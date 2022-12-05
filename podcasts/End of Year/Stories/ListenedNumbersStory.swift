@@ -49,12 +49,18 @@ struct ListenedNumbersStory: ShareableStory {
                 .applyPodcastCoverPerspective()
 
                 StoryLabelContainer(geometry: geometry) {
-                    let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                    let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
+                    if NSLocale.isCurrentLanguageEnglish {
+                        let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
+                        let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
 
-                    StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
-                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                        .opacity(renderForSharing ? 0.0 : 0.8)
+                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title)
+                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle)
+                            .opacity(renderForSharing ? 0.0 : 0.8)
+                    } else {
+                        StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
+                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
+                            .opacity(renderForSharing ? 0.0 : 0.8)
+                    }
                 }
                 Spacer()
             }
