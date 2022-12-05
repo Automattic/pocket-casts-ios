@@ -571,6 +571,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Nicht jetzt</string>
     <key>eoy_small_title</key>
     <string>Das Jahr in Podcasts</string>
+    <key>eoy_stories_failed</key>
+    <string>Die Storys konnten nicht geladen werden.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Vergiss nicht, sie mit deinen Freunden zu teilen und deine bevorzugten Podcast-Ersteller dankend zu erwähnen</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>2022 hast du %1$@ mit dem Anhören von Podcasts verbracht</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Du hast dir in diesem Jahr %1$@ unterschiedliche Kategorien angehört </string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Ich habe mir im Jahr 2022 %1$@ unterschiedliche Kategorien angehört</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Sehen wir uns einige deiner Favoriten an …</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Du hast dir %1$@ unterschiedliche Podcasts und %2$@ Folgen angehört</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Ich habe mir im Jahr 2022 %1$@ verschiedene Podcasts und %2$@ Folgen angehört</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Aber es gab einen, der dir besonders gut gefallen hat …</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>Ich habe 2022 %1$@ mit dem Hören von Podcasts verbracht</string>
     <key>eoy_story_longest_episode</key>
     <string>Die längste von dir angehörte Folge war %1$@ aus dem Podcast %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Diese Folge dauerte %1$@ </string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>Die längste Folge, die ich mir 2022 angehört habe: %1$@</string>
     <key>eoy_story_replay</key>
     <string>Erneut abspielen</string>
     <key>eoy_story_top_categories</key>
     <string>Deine Top-Kategorien</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Meine am häufigsten gehörten Podcast-Kategorien</string>
     <key>eoy_story_top_podcast</key>
     <string>Dein Top-Podcast war %1$@ von %2$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mein Lieblings-Podcast 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
     <key>eoy_story_top_podcasts</key>
     <string>Deine Top-Podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Meine Top-Podcasts 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Meine Top-Podcasts des Jahres! %1$@</string>
     <key>eoy_title</key>
     <string>Dein Jahr in Podcasts</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Hilfe &amp; Feedback</string>
     <key>settings_import_export</key>
     <string>Import / Export</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>In %1$@ Filtern enthalten</string>
     <key>settings_in_filters_singular</key>
     <string>In 1 Filter enthalten</string>
     <key>settings_in_menu</key>
