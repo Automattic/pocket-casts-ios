@@ -17,22 +17,18 @@ struct TopListenedCategoriesStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor)
+            PodcastCoverContainer(geometry: geometry) {
+                let headerSpacing = geometry.size.height * 0.054
 
-                VStack(spacing: 0) {
-                    StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
-                        .opacity(0.8)
-                        .padding(.top, geometry.size.height * 0.09)
+                StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
+                    .opacity(0.8)
 
-                    HStack(alignment: .bottom, spacing: 25) {
-                        ForEach([1, 0, 2], id: \.self) {
-                            pillar($0, size: geometry.size)
-                        }
-                    }.padding(.top, geometry.size.height * 0.091)
-                    Spacer()
-                }
-            }
+                HStack(alignment: .bottom, spacing: 25) {
+                    ForEach([1, 0, 2], id: \.self) {
+                        pillar($0, size: geometry.size)
+                    }
+                }.padding(.top, headerSpacing)
+            }.background(DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor))
         }
     }
 
