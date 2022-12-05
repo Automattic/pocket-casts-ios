@@ -31,7 +31,7 @@ struct EpilogueStory: StoryView {
 
                 Spacer()
             }
-        }.background(Constants.backgroundColor)
+        }.background(Constants.backgroundColor.allowsHitTesting(false))
     }
 
     func onAppear() {
