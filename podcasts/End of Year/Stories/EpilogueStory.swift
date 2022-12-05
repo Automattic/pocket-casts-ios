@@ -1,5 +1,4 @@
 import SwiftUI
-import Shiny
 import CoreHaptics
 
 struct EpilogueStory: StoryView {
@@ -16,7 +15,6 @@ struct EpilogueStory: StoryView {
             if visibility.isVisible {
                 WelcomeConfetti(type: .normal)
                     .onAppear(perform: playHaptics)
-                    .shiny()
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
             }
@@ -25,9 +23,14 @@ struct EpilogueStory: StoryView {
                 Spacer()
 
                 StoryLabelContainer(topPadding: 0, geometry: geometry) {
-                    Image("heart")
-                        .renderingMode(.template)
-                        .shiny()
+                    if visibility.isVisible {
+                        HolographicEffect(geometry: geometry) {
+                            Image("heart")
+                                .renderingMode(.template)
+                        }
+                    } else {
+                        Image("heart")
+                    }
 
                     let pocketCasts = "Pocket Casts".nonBreakingSpaces()
 
