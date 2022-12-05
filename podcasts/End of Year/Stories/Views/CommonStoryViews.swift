@@ -404,4 +404,27 @@ extension String {
     func nonBreakingSpaces() -> String {
         self.replacingOccurrences(of: " ", with: Self.nbsp)
     }
+
+
+    /// Limit the string to given length or truncate it with ...
+    func limited(to len: Int) -> String {
+        // If the length is less than the max, then allow it
+        // or if the string isn't going to go too much over the limit allow it
+        if count < len || count - len < 5 {
+            return self
+        }
+
+        return self.prefix(len).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
+    }
+}
+
+extension NSLocale {
+    static var isCurrentLanguageEnglish: Bool {
+        // Get the current language from the user defaults, or default to checking the locale if that fails
+        let currentLanguageCode = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first ?? NSLocale.autoupdatingCurrent.languageCode
+        guard let currentLanguageCode else { return false }
+
+        // Support multiple english language checks en-US, en-GB
+        return currentLanguageCode.hasPrefix("en")
+    }
 }
