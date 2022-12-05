@@ -13,51 +13,37 @@ struct ListeningTimeStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
+            VStack(spacing: 0) {
+                VStack(spacing: Constants.spaceBetweenLabels) {
+                    StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
+                        .foregroundColor(.white)
+                        .font(.system(size: 22, weight: .bold))
 
-                VStack {
-                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
+                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime))
                         .foregroundColor(.white)
-                        .font(.system(size: 25, weight: .heavy))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.12)
-                        .minimumScaleFactor(0.01)
-
-                    Text(FunMessage.timeSecsToFunnyText(listeningTime))
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
+                        .font(.system(size: 15, weight: .regular))
                         .opacity(0.8)
-                    Spacer()
                 }
-                .padding(.top, geometry.size.height * 0.15)
-                .padding(.trailing, 40)
-                .padding(.leading, 40)
+                .padding([.leading, .trailing], Constants.labelHorizontalPadding)
+                .padding(.top, geometry.size.height * Constants.topPadding)
 
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        ForEach([1, 0, 2], id: \.self) {
-                            podcastCover($0)
-                        }
+                // Podcast images angled to fill the width of the view
+                HStack {
+                    ForEach(Constants.displayedPodcasts, id: \.self) {
+                        podcastCover($0)
                     }
-                    .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
                 }
-            }
-        }
+                .padding(.top)
+                .modifier(PodcastCoverPerspective(scaleAnchor: .bottom))
+            }.frame(width: geometry.size.width)
+        }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
-            .frame(width: 180, height: 180)
+            .frame(width: Constants.coverSize, height: Constants.coverSize)
     }
 
     func onAppear() {
@@ -71,8 +57,20 @@ struct ListeningTimeStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescriptionFullUnits ?? ""))
         ]
+    }
+
+    private enum Constants {
+        /// The podcasts that are displayed on the view, the middle is your top 10 podcast
+        static let displayedPodcasts = [1, 0, 2]
+        static let coverSize = 180.0
+
+        static let spaceBetweenLabels = 22.0
+        static let labelHorizontalPadding = 35.0
+
+        /// Top padding is a percent calculated using the height of the view
+        static let topPadding = 0.158
     }
 }
 
@@ -92,10 +90,18 @@ struct FunMessage {
 
 /// Apply a perspective to the podcasts cover
 struct PodcastCoverPerspective: ViewModifier {
+
+    /// Allows overriding of the scaleEffect anchor property, defaults to .center
+    let scaleAnchor: UnitPoint
+
+    init(scaleAnchor: UnitPoint = .center) {
+        self.scaleAnchor = scaleAnchor
+    }
+
     func body(content: Content) -> some View {
         content
             .rotationEffect(Angle(degrees: -45), anchor: .center)
-            .scaleEffect(x: 1.0, y: 0.5, anchor: .center)
+            .scaleEffect(x: 1.0, y: 0.5, anchor: scaleAnchor)
     }
 }
 

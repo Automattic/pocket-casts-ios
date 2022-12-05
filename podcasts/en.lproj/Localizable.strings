@@ -3337,7 +3337,7 @@
 "eoy_story_intro_title" = "Let’s celebrate your year\nof listening!";
 
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
-"eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
+"eoy_story_listened_to" = "This year, you spent %1$@ listening to podcasts";
 
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
