@@ -43,7 +43,9 @@ struct TopOnePodcastStory: ShareableStory {
                                 .modifier(PodcastCoverPerspective())
                         }
 
-                        StoryLabel(L10n.eoyStoryTopPodcast(topPodcast.podcast.title ?? "", topPodcast.podcast.author ?? ""), for: .title)
+                        let title = topPodcast.podcast.title ?? ""
+                        let author = topPodcast.podcast.author ?? ""
+                        StoryLabel(L10n.eoyStoryTopPodcast("\n" + title, author), highlighting: [title, author], for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
                         StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, topPodcast.totalPlayedTime.storyTimeDescription), for: .subtitle)
