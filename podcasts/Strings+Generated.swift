@@ -1065,7 +1065,7 @@ internal enum L10n {
   /// 3. Tap on the Shortcuts tab.
   /// 4. Locate the "Apple Podcasts to Pocket Casts" shortcut in the list.
   /// 5. Tap it to start the import process.
-  /// 5. Once the shortcut is done running Pocket Casts will reopen and finish the import process.
+  /// 6. Once the shortcut is done running Pocket Casts will reopen and finish the import process.
   internal static var importInstructionsApplePodcastsSteps: String { return L10n.tr("Localizable", "import_instructions_apple_podcasts_steps") }
   /// 1. Tap the Open Breaker button below
   /// 2. Tap on Settings in the bottom tab bar
