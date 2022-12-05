@@ -15,12 +15,8 @@ struct StoryLabel: View {
     }
 
     var body: some View {
-        if #available(iOS 15, *) {
-            if let attributedString {
-                applyDefaults(Text(attributedString), forHighlights: true)
-            } else {
-                applyDefaults(Text(text))
-            }
+        if #available(iOS 15, *), let attributedString {
+            applyDefaults(Text(attributedString), forHighlights: true)
         } else {
             applyDefaults(Text(text))
         }
