@@ -15,16 +15,11 @@ struct ListeningTimeStory: ShareableStory {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 VStack(spacing: Constants.spaceBetweenLabels) {
-                    StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescriptionFullUnits ?? "")"))
-                        .foregroundColor(.white)
-                        .font(.system(size: 22, weight: .bold))
+                    StoryLabel(L10n.eoyStoryListenedTo("\n\(listeningTime.storyTimeDescription)"), for: .title)
 
-                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime))
-                        .foregroundColor(.white)
-                        .font(.system(size: 15, weight: .regular))
+                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
                         .opacity(0.8)
                 }
-                .padding([.leading, .trailing], Constants.labelHorizontalPadding)
                 .padding(.top, geometry.size.height * Constants.topPadding)
 
                 // Podcast images angled to fill the width of the view
@@ -57,7 +52,7 @@ struct ListeningTimeStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescriptionFullUnits ?? ""))
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.storyTimeDescriptionForSharing))
         ]
     }
 

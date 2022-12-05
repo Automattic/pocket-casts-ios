@@ -17,24 +17,15 @@ struct EpilogueStory: StoryView {
                         Image("heart")
                             .padding(.bottom, 20)
 
-                        Text(L10n.eoyStoryEpilogueTitle.replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts"))
-                            .foregroundColor(.white)
-                            .font(.system(size: 25, weight: .heavy))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
+                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title)
                             .frame(maxHeight: geometry.size.height * 0.12)
                             .minimumScaleFactor(0.01)
                             .padding(.bottom)
-                        Text(L10n.eoyStoryEpilogueSubtitle)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
+                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
                             .frame(maxHeight: geometry.size.height * 0.1)
                             .minimumScaleFactor(0.01)
                             .opacity(0.8)
                     }
-                    .padding(.leading, 20)
-                    .padding(.trailing, 20)
                     .allowsHitTesting(false)
 
                     Button(action: {

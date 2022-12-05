@@ -21,10 +21,7 @@ struct TopListenedCategoriesStory: ShareableStory {
                 DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor)
 
                 VStack {
-                    Text(L10n.eoyStoryTopCategories)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
+                    StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
                         .frame(maxHeight: geometry.size.height * 0.07)
                         .minimumScaleFactor(0.01)
                         .opacity(0.8)
@@ -45,7 +42,7 @@ struct TopListenedCategoriesStory: ShareableStory {
     @ViewBuilder
     func pillar(_ index: Int) -> some View {
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.localizedTimeDescription ?? "", height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.storyTimeDescriptionForPillars, height: CGFloat(200 - (index * 55)))
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
             CategoryPillar(color: contrastColor.tintColor, text: "", title: "", subtitle: "", height: 200)

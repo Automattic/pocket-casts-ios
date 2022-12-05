@@ -10,20 +10,14 @@ struct CategoryPillar: View {
     var body: some View {
         ZStack {
             VStack {
-                Text(title)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 14, weight: .heavy))
-                    .foregroundColor(.white)
+                StoryLabel(title, for: .pillarTitle)
                     .frame(width: 90)
                     .fixedSize()
-                Text(subtitle)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.white)
+                StoryLabel(subtitle, for: .pillarSubtitle)
+                    .frame(width: 90)
+                    .fixedSize()
                     .opacity(0.8)
-                    .frame(width: 90)
                     .padding(.bottom, 20)
-                    .fixedSize()
 
                 ZStack(alignment: .top) {
                     Rectangle()
