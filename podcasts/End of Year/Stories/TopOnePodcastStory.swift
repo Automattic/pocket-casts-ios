@@ -29,7 +29,7 @@ struct TopOnePodcastStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryTopPodcast("\n" + title, author), highlighting: [title, author], for: .title)
 
                     let time = topPodcast.totalPlayedTime.storyTimeDescription
-                    let count = L10n.eoyStoryListenedToEpisodeText(topPodcast.numberOfPlayedEpisodes)
+                    let count = L10n.eoyStoryListenedToEpisodesText(topPodcast.numberOfPlayedEpisodes)
                     StoryLabel(L10n.eoyStoryTopPodcastSubtitle(topPodcast.numberOfPlayedEpisodes, time), highlighting: [time, count], for: .subtitle)
                         .opacity(0.8)
                 }
