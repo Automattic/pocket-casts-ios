@@ -571,6 +571,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Niet nu</string>
     <key>eoy_small_title</key>
     <string>Jaar in podcasts</string>
+    <key>eoy_stories_failed</key>
+    <string>Verhalen konden niet geladen worden.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Vergeet niet om te delen met je vrienden en een shoutout te geven naar je favoriete podcastmakers</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>In 2022 heb je %1$@ naar podcasts geluisterd</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Je hebt dit jaar naar %1$@ verschillende categorieën geluisterd</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Ik heb in 2022 naar %1$@ verschillende categorieën geluisterd</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Laten we eens kijken naar je favorieten...</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>Ik heb ik 2022 %1$@ naar podcasts geluisterd</string>
     <key>eoy_story_longest_episode</key>
     <string>De langste aflevering die je hebt geluisterd was %1$@ van de podcast %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Deze aflevering duurde %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>De langste aflevering waarnaar ik heb geluisterd in 2022 %1$@</string>
     <key>eoy_story_replay</key>
     <string>Herhalen</string>
     <key>eoy_story_top_categories</key>
     <string>Je beste categorieën</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mijn meest beluisterde podcast-categorieën</string>
     <key>eoy_story_top_podcast</key>
     <string>Je beste podcast was %1$@ van %2$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mijn favoriete podcast van 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
     <key>eoy_story_top_podcasts</key>
     <string>Je beste podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mijn beste podcasts van 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Mijn beste podcasts van het jaar! %1$@</string>
     <key>eoy_title</key>
     <string>Jouw jaar in podcasts</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Hulp en feedback</string>
     <key>settings_import_export</key>
     <string>Importeren/exporteren</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>Toegevoegd aan %1$@ filter</string>
     <key>settings_in_filters_singular</key>
     <string>Toegevoegd aan 1 filter</string>
     <key>settings_in_menu</key>

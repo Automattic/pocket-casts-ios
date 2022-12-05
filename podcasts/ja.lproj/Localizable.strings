@@ -1813,8 +1813,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ヘルプ &amp; フィードバック</string>
     <key>settings_import_export</key>
     <string>インポート / エクスポート</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>%1$@件のフィルターに含まれます</string>
     <key>settings_in_filters_singular</key>
     <string>1件のフィルターに含まれます</string>
     <key>settings_in_menu</key>

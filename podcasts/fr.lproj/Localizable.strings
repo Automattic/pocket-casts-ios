@@ -571,6 +571,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Pas maintenant</string>
     <key>eoy_small_title</key>
     <string>Votre année en podcasts</string>
+    <key>eoy_stories_failed</key>
+    <string>Échec du chargement des histoires.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>N’oubliez pas de partager avec vos amis et de mettre en lumière vos créateurs de podcasts préférés.</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>En 2022, vous avez passé %1$@ à écouter des podcasts.</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Cette année, vous avez écouté %1$@ catégories différentes.</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>J’ai écouté %1$@ catégories différentes en 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Découvrez certains de vos podcasts favoris.</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Vous avez écouté plusieurs fois un même podcast…</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>En 2022, j’ai passé %1$@ à écouter des podcasts</string>
     <key>eoy_story_longest_episode</key>
     <string>L’épisode le plus long que vous avez écouté était de %1$@ extrait du podcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>La durée de cet épisode était de %1$@.</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>L’épisode le plus long que j’ai écouté en 2022 %1$@</string>
     <key>eoy_story_replay</key>
     <string>Reprendre la lecture</string>
     <key>eoy_story_top_categories</key>
     <string>Vos meilleures catégories</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mes catégories de podcasts les plus écoutés</string>
     <key>eoy_story_top_podcast</key>
     <string>Votre meilleur podcast était %1$@ de %2$@.</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mon podcast préféré de 2022 ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Vous avez écouté %1$@ épisodes pour une durée totale de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Vos meilleurs podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mes meilleurs podcasts de 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Mes meilleurs podcasts de l’année ! %1$@</string>
     <key>eoy_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Aide et commentaires</string>
     <key>settings_import_export</key>
     <string>Importer / Exporter</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>Inclus dans %1$@ filtres</string>
     <key>settings_in_filters_singular</key>
     <string>Inclus dans 1 filtre</string>
     <key>settings_in_menu</key>

@@ -37,7 +37,7 @@ class StoryShareableProvider: UIActivityItemProvider {
             return
         }
 
-        let snapshot = ZStack {
+        let snapshot = StoryViewContainer {
             AnyView(view)
         }
         .environment(\.renderForSharing, true)

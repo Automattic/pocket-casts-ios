@@ -630,12 +630,24 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategories(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories", String(describing: p1))
   }
+  /// You listened to %1$@ this year
+  internal static func eoyStoryListenedToCategoriesHighlighted(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_categories_highlighted", String(describing: p1))
+  }
   /// I listened to %1$@ different categories in 2022
   internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
   }
   /// Let's take a look at some of your favorites...
   internal static var eoyStoryListenedToCategoriesSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_categories_subtitle") }
+  /// %1$@ different categories
+  internal static func eoyStoryListenedToCategoriesText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_categories_text", String(describing: p1))
+  }
+  /// %1$@ episodes
+  internal static func eoyStoryListenedToEpisodesText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_episodes_text", String(describing: p1))
+  }
   /// You listened to %1$@ different podcasts and %2$@ episodes
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
@@ -646,9 +658,24 @@ internal enum L10n {
   }
   /// But there was one that you kept coming back to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
+  /// But there was one that you
+  /// kept coming back to...
+  internal static var eoyStoryListenedToNumbersSubtitleUpdated: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle_updated") }
+  /// You listened to %1$@ and %2$@
+  internal static func eoyStoryListenedToNumbersUpdated(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_numbers_updated", String(describing: p1), String(describing: p2))
+  }
+  /// %1$@ different podcasts
+  internal static func eoyStoryListenedToPodcastText(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_podcast_text", String(describing: p1))
+  }
   /// I spent %1$@ listening to podcasts in 2022
   internal static func eoyStoryListenedToShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_share_text", String(describing: p1))
+  }
+  /// This year, you spent %1$@ listening to podcasts
+  internal static func eoyStoryListenedToUpdated(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_listened_to_updated", String(describing: p1))
   }
   /// The longest episode you listened to was %1$@ from the podcast %2$@
   internal static func eoyStoryLongestEpisode(_ p1: Any, _ p2: Any) -> String {
@@ -661,6 +688,16 @@ internal enum L10n {
   /// The longest episode I listened to in 2022 %1$@
   internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
+  }
+  /// The episode was %1$@ from %2$@
+  internal static func eoyStoryLongestEpisodeSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// The longest episode
+  /// you listened to was
+  /// %1$@
+  internal static func eoyStoryLongestEpisodeTime(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode_time", String(describing: p1))
   }
   /// Replay
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
@@ -1039,7 +1076,7 @@ internal enum L10n {
   /// 3. Tap on the Shortcuts tab.
   /// 4. Locate the "Apple Podcasts to Pocket Casts" shortcut in the list.
   /// 5. Tap it to start the import process.
-  /// 5. Once the shortcut is done running Pocket Casts will reopen and finish the import process.
+  /// 6. Once the shortcut is done running Pocket Casts will reopen and finish the import process.
   internal static var importInstructionsApplePodcastsSteps: String { return L10n.tr("Localizable", "import_instructions_apple_podcasts_steps") }
   /// 1. Tap the Open Breaker button below
   /// 2. Tap on Settings in the bottom tab bar

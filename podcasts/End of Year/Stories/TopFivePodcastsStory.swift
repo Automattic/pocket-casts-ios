@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct TopFivePodcastsStory: StoryView {
+struct TopFivePodcastsStory: ShareableStory {
     let podcasts: [Podcast]
 
     let identifier: String = "top_five_podcast"
@@ -11,69 +11,52 @@ struct TopFivePodcastsStory: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
+            PodcastCoverContainer(geometry: geometry) {
+                let headerSpacing = geometry.size.height * 0.054
+                let size = round(max(geometry.size.height * 0.099, 60))
 
-                VStack {
-                    Spacer()
-                    Text(L10n.eoyStoryTopPodcasts)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
+                VStack(spacing: headerSpacing) {
+                    StoryLabel(L10n.eoyStoryTopPodcasts, for: .title2)
                         .opacity(0.8)
-                        .padding(.bottom)
-                        .padding(.top, geometry.size.height * 0.03)
                     VStack(spacing: geometry.size.height * 0.03) {
                         ForEach(0...4, id: \.self) {
-                            topPodcastRow($0)
+                            topPodcastRow($0, size: size)
                         }
-                    }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 40)
-
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Image("logo_white")
-                            .padding(.bottom, 40)
-                        Spacer()
-                    }
+                    }.padding([.leading, .trailing], 35)
                 }
-            }
+            }.background(DynamicBackgroundView(podcast: podcasts[0]))
         }
     }
 
     @ViewBuilder
-    func topPodcastRow(_ index: Int) -> some View {
+    func topPodcastRow(_ index: Int, size: Double) -> some View {
         HStack(spacing: 16) {
             Text("\(index + 1).")
-                .frame(width: 30)
-                .font(.system(size: 22))
+                .font(.system(size: 18, weight: .medium))
                 .foregroundColor(.white)
 
                 if let podcast = podcasts[safe: index] {
                     PodcastCover(podcastUuid: podcast.uuid)
-                        .frame(width: 65, height: 65)
+                        .frame(width: size, height: size)
                 } else {
                     Rectangle()
-                        .frame(width: 65, height: 65)
+                        .frame(width: size, height: size)
                 }
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(podcasts[safe: index]?.title ?? "")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text(podcasts[safe: index]?.author ?? "")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white)
                     .lineLimit(2)
-                    .font(.system(size: 18, weight: .heavy))
-                    .foregroundColor(.white)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .minimumScaleFactor(0.01)
-                Text(podcasts[safe: index]?.author ?? "").font(.system(size: 12, weight: .semibold))
-                    .lineLimit(1)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white)
                     .opacity(0.8)
             }
+            // Allow the the title label to expand based on the size of the row
+            // Show more text for larger devices, and a bit less for smaller ones
+            .frame(maxHeight: size)
             Spacer()
         }
         .opacity(podcasts[safe: index] != nil ? 1 : 0)
