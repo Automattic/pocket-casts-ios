@@ -404,4 +404,16 @@ extension String {
     func nonBreakingSpaces() -> String {
         self.replacingOccurrences(of: " ", with: Self.nbsp)
     }
+
+
+    /// Limit the string to given length or truncate it with ...
+    func limited(to len: Int) -> String {
+        // If the length is less than the max, then allow it
+        // or if the string isn't going to go too much over the limit allow it
+        if count < len || count - len < 5 {
+            return self
+        }
+
+        return self.prefix(len).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
+    }
 }
