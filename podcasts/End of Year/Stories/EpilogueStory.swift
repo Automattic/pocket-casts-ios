@@ -1,18 +1,36 @@
 import SwiftUI
+import CoreHaptics
 
 struct EpilogueStory: StoryView {
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @ObservedObject private var visibility = Visiblity()
+    @State private var engine: CHHapticEngine?
+
     var duration: TimeInterval = 5.seconds
 
     var identifier: String = "epilogue"
 
     var body: some View {
         GeometryReader { geometry in
+            if visibility.isVisible {
+                WelcomeConfetti(type: .normal)
+                    .onAppear(perform: playHaptics)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
+
             PodcastCoverContainer(geometry: geometry) {
                 Spacer()
 
                 StoryLabelContainer(topPadding: 0, geometry: geometry) {
-                    Image("heart")
+                    if visibility.isVisible {
+                        HolographicEffect(geometry: geometry) {
+                            Image("heart")
+                                .renderingMode(.template)
+                        }
+                    } else {
+                        Image("heart")
+                    }
 
                     let pocketCasts = "Pocket Casts".nonBreakingSpaces()
 
@@ -31,15 +49,59 @@ struct EpilogueStory: StoryView {
 
                 Spacer()
             }
-        }.background(Constants.backgroundColor.allowsHitTesting(false))
+        }.background(Constants.backgroundColor.allowsHitTesting(false).onAppear(perform: prepareHaptics))
     }
 
     func onAppear() {
+        self.visibility.isVisible = true
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
     private enum Constants {
-        static let backgroundColor = Color(hex: "#1A1A1A")
+        static let backgroundColor = Color.black
+    }
+
+    private class Visiblity: ObservableObject {
+        @Published var isVisible = false
+    }
+
+    // MARK: - Haptics
+    private func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        engine = try? CHHapticEngine()
+        try? engine?.start()
+    }
+
+    private func playHaptics() {
+        guard let engine else { return }
+        var events = [CHHapticEvent]()
+
+        for i in stride(from: 0, to: 1, by: 0.1) {
+            let value = Float(i)
+
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: value)
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: value)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
+            events.append(event)
+        }
+
+        for i in stride(from: 0, to: 1, by: 0.1) {
+            let value = Float(1 - i)
+
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: value)
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: value)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 1 + i)
+            events.append(event)
+        }
+
+        guard let pattern = try? CHHapticPattern(events: events, parameters: []), let player = try? engine.makePlayer(with: pattern) else {
+            return
+        }
+
+        // Make the haptics a little more in sync
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            try? player.start(atTime: 0)
+        }
     }
 }
 
