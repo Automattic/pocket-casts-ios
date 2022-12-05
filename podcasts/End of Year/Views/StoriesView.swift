@@ -29,19 +29,16 @@ struct StoriesView: View {
 
                 storiesToPreload
 
-                ZStack {
-                    model.story(index: model.currentStory)
+                StoryViewContainer {
+                    // Manually set the zIndex order to ensure we can change the order when needed
+                    model.story(index: model.currentStory).zIndex(3)
 
-                    StoryLogoView()
-                }
-                .cornerRadius(Constants.storyCornerRadius)
-
-                storySwitcher
-
-                ZStack {
-                    model.interactive(index: model.currentStory)
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                    // By default the story switcher will appear above the story and override all
+                    // interaction, but if the story contains interactive elements then move the
+                    // switcher to appear behind the view to allow the story override the switcher, or
+                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
+                }.cornerRadius(Constants.storyCornerRadius)
 
                 header
             }
@@ -256,6 +253,20 @@ private struct CloseButtonStyle: ButtonStyle {
     private enum Constants {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonRadius: CGFloat = 5
+    }
+}
+
+struct StoryViewContainer<Content: View>: View {
+    private var content: () -> Content
+
+    init(@ViewBuilder _ content: @escaping () -> Content) {
+        self.content = content
+    }
+    var body: some View {
+        ZStack {
+            content()
+            StoryLogoView().zIndex(4)
+        }
     }
 }
 

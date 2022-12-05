@@ -15,12 +15,8 @@ struct StoryLabel: View {
     }
 
     var body: some View {
-        if #available(iOS 15, *) {
-            if let attributedString {
-                applyDefaults(Text(attributedString), forHighlights: true)
-            } else {
-                applyDefaults(Text(text))
-            }
+        if #available(iOS 15, *), let attributedString {
+            applyDefaults(Text(attributedString), forHighlights: true)
         } else {
             applyDefaults(Text(text))
         }
@@ -62,7 +58,7 @@ struct StoryLabel: View {
         // Typographic apostrophes
             .replacingOccurrences(of: "'", with: "ʼ")
         // Prevent Pocket Casts from being separated
-            .replacingOccurrences(of: "Pocket Casts", with: "Pocket\u{00a0}Casts")
+            .replacingOccurrences(of: "Pocket Casts", with: "Pocket Casts".nonBreakingSpaces())
 
         let components = returnText.components(separatedBy: " ")
 
@@ -76,7 +72,7 @@ struct StoryLabel: View {
         for (index, word) in components.enumerated() {
             let isLast = index == count
 
-            builder.append(isLast ? "\u{00a0}" : " ")
+            builder.append(isLast ? .nbsp : " ")
             builder.append(word)
         }
 
@@ -120,7 +116,7 @@ struct StoryLabel: View {
 extension Double {
     var storyTimeDescription: String {
         // Prevent the time from being split across paragraphs by replacing the spaces with non breaking ones
-        calculateStoryTimeDescription(unitSeparator: "\u{00a0}", componentSeparator: "\u{00a0}")
+        calculateStoryTimeDescription(unitSeparator: .nbsp, componentSeparator: .nbsp)
     }
 
     /// Return normal text when displaying the time for sharing
@@ -131,7 +127,7 @@ extension Double {
     /// For displaying units above the category pillars, allow the time components to be broken up across
     /// multiple lines, but don't let the unit (10 minutes) itself to be broken up
     var storyTimeDescriptionForPillars: String {
-        calculateStoryTimeDescription(unitSeparator: "\u{00a0}", componentSeparator: "\n")
+        calculateStoryTimeDescription(unitSeparator: .nbsp, componentSeparator: "\n")
     }
 }
 
@@ -399,5 +395,13 @@ struct PodcastStackView: View {
                 .applyPodcastCoverPerspective()
                 .padding(.top, size * -0.55)
         }
+    }
+}
+
+extension String {
+    static let nbsp = "\u{00a0}"
+
+    func nonBreakingSpaces() -> String {
+        self.replacingOccurrences(of: " ", with: Self.nbsp)
     }
 }
