@@ -673,14 +673,13 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
-  /// from the podcast
-  /// %1$@
-  internal static func eoyStoryLongestEpisodeFromPodcast(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_longest_episode_from_podcast", String(describing: p1))
-  }
   /// The longest episode I listened to in 2022 %1$@
   internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
+  }
+  /// The episode was %1$@ from %2$@
+  internal static func eoyStoryLongestEpisodeSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode_subtitle", String(describing: p1), String(describing: p2))
   }
   /// The longest episode
   /// you listened to was
