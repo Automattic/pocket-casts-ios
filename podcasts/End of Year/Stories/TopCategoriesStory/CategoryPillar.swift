@@ -9,50 +9,71 @@ struct CategoryPillar: View {
 
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
                 StoryLabel(title, for: .pillarTitle)
-                    .frame(width: 90)
+                    .frame(width: Constants.width)
                     .fixedSize()
+                    .padding(.bottom, 2)
                 StoryLabel(subtitle, for: .pillarSubtitle)
-                    .frame(width: 90)
+                    .frame(width: Constants.width)
                     .fixedSize()
                     .opacity(0.8)
                     .padding(.bottom, 20)
 
                 ZStack(alignment: .top) {
-                    Rectangle()
-                        .fill(LinearGradient(gradient: Gradient(colors: [color, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
-                        .frame(width: 90, height: height)
-                        .padding(.top, 26)
+                    Group {
+                        // Main pillar
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [color, color.opacity(0)]), startPoint: .top, endPoint: .bottom))
+                            .frame(width: 103, height: height)
+                            .padding(.top, 37)
 
-                    ZStack {
-                        Image("square_perspective")
-                            .resizable()
-                            .renderingMode(.template)
-                            .frame(width: 90, height: 52)
-                            .foregroundColor(color)
+                        // Left Shadow
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [.black, .black.opacity(0)]), startPoint: .top, endPoint: .bottom))
+                            .frame(width: 73.5, height: height)
+                            .padding(.top, 40)
+                            .rotation3DEffect(
+                                Angle(degrees: 45),
+                                axis: (x: 0, y: -1, z: 0),
+                                anchor: .center,
+                                anchorZ: 0,
+                                perspective: 0
+                            )
+                            .rotation3DEffect(
+                                Angle(degrees: 10),
+                                axis: (x: 0, y: 1, z: 0),
+                                anchor: .center,
+                                anchorZ: 0,
+                                perspective: 1
+                            )
+                            .opacity(0.3)
+                            .offset(x: -25.5)
 
-                        let whiteContrast = color.contrast(with: .white)
-                        let textColor = whiteContrast < 2 ? UIColor.black.color : UIColor.white.color
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(color)
+                                .frame(width: 75.0, height: 75.0)
 
-                        let values: [CGFloat] = [1, 0, 0.50, 1, 0, 0]
-                        Text(text)
-                            .font(.system(size: 18, weight: .heavy))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(textColor)
-                            .padding(.leading, -8)
-                        .transformEffect(CGAffineTransform(
-                            a: values[0], b: values[1],
-                            c: values[2], d: values[3],
-                            tx: 0, ty: 0
-                        ))
-                        .rotationEffect(.init(degrees: -30))
+                            let whiteContrast = color.contrast(with: .white)
+                            let textColor = whiteContrast < 2 ? Color.black : Color.white
+
+                            Text(text)
+                                .font(.system(size: 24, weight: .heavy))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(textColor)
+                        }.modifier(PodcastCoverPerspective(scaleAnchor: .center))
                     }
+                    .frame(width: Constants.width)
                 }
             }
 
             Spacer()
         }
         .fixedSize(horizontal: true, vertical: false)
+    }
+
+    private enum Constants {
+        static let width = 90.0
     }
 }

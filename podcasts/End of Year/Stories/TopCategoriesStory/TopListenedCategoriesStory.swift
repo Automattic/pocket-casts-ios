@@ -20,33 +20,39 @@ struct TopListenedCategoriesStory: ShareableStory {
             ZStack {
                 DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor)
 
-                VStack {
+                VStack(spacing: 0) {
                     StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
                         .opacity(0.8)
-                        .padding(.bottom, geometry.size.height * 0.1)
-                        .padding(.top, geometry.size.height * 0.05)
+                        .padding(.top, geometry.size.height * 0.09)
 
                     HStack(alignment: .bottom, spacing: 25) {
                         ForEach([1, 0, 2], id: \.self) {
-                            pillar($0)
+                            pillar($0, size: geometry.size)
                         }
-                    }
+                    }.padding(.top, geometry.size.height * 0.091)
+                    Spacer()
                 }
-                .padding(.bottom, 100)
             }
         }
     }
 
     @ViewBuilder
-    func pillar(_ index: Int) -> some View {
+    func pillar(_ index: Int, size: CGSize) -> some View {
+        let heights = [0.32882883, 0.29279279, 0.22222222]
+
         if let listenedCategory = listenedCategories[safe: index] {
-            CategoryPillar(color: contrastColor.tintColor, text: "\(index + 1)", title: listenedCategory.categoryTitle.localized, subtitle: listenedCategory.totalPlayedTime.storyTimeDescriptionForPillars, height: CGFloat(200 - (index * 55)))
+            CategoryPillar(color: contrastColor.tintColor,
+                           text: "\(index + 1)",
+                           title: listenedCategory.categoryTitle.localized,
+                           subtitle: listenedCategory.totalPlayedTime.storyTimeDescriptionForPillars,
+                           height: size.height * heights[index])
                 .padding(.bottom, index == 0 ? 70 : 0)
         } else {
-            CategoryPillar(color: contrastColor.tintColor, text: "", title: "", subtitle: "", height: 200)
-                .opacity(0)
+            CategoryPillar(color: contrastColor.tintColor,
+                           text: "",
+                           title: "",
+                           subtitle: "",
+                           height: (size.height * heights[0])).opacity(0)
         }
     }
 

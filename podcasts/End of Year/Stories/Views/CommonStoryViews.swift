@@ -91,13 +91,13 @@ struct StoryLabel: View {
         case .title:
             return .system(size: 22, weight: .bold)
         case .title2:
-            return .system(size: 18, weight: .bold)
+            return .system(size: 18, weight: .semibold)
         case .subtitle:
             return .system(size: 15, weight: .regular)
         case .pillarTitle:
-            return .system(size: 14, weight: .heavy)
+            return .system(size: 14, weight: .bold)
         case .pillarSubtitle:
-            return .system(size: 12, weight: .bold)
+            return .system(size: 13, weight: .regular)
         }
     }
 
