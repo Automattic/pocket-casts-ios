@@ -50,7 +50,7 @@ struct ListenedNumbersStory: ShareableStory {
 
                 StoryLabelContainer(geometry: geometry) {
                     let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                    let episodes = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfEpisodes)
+                    let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
 
                     StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
                     StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
