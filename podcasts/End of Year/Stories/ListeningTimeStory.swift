@@ -16,7 +16,7 @@ struct ListeningTimeStory: ShareableStory {
             VStack(spacing: 0) {
                 VStack(spacing: Constants.spaceBetweenLabels) {
                     let time = listeningTime.storyTimeDescription
-                    StoryLabel(L10n.eoyStoryListenedTo("\n\(time)"), highlighting: [time], for: .title)
+                    StoryLabel(L10n.eoyStoryListenedTo("\n\(time)\n"), highlighting: [time], for: .title)
 
                     StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
                         .opacity(0.8)
