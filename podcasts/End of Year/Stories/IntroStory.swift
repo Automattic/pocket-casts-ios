@@ -13,7 +13,8 @@ struct IntroStory: StoryView {
                         .aspectRatio(contentMode: .fit)
                         .padding(.top, geometry.size.height * Constants.imageVerticalPadding)
 
-                    StoryLabel(L10n.eoyStoryIntroTitle, for: .title)
+                    let title = L10n.eoyStoryIntroTitle.replacingOccurrences(of: "...", with: "!")
+                    StoryLabel(title, for: .title)
                         .padding(.top, Constants.spaceBetweenImageAndText)
 
                     Spacer()
