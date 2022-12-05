@@ -98,7 +98,10 @@ struct EpilogueStory: StoryView {
             return
         }
 
-        try? player.start(atTime: 0)
+        // Make the haptics a little more in sync
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            try? player.start(atTime: 0)
+        }
     }
 }
 
