@@ -26,9 +26,10 @@ struct LongestEpisodeStory: ShareableStory {
 
                 StoryLabelContainer(geometry: geometry) {
                     let time = episode.duration.storyTimeDescription
-                    let title = podcast.title?.nonBreakingSpaces() ?? ""
+                    let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
+                    let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
                     StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
-                    StoryLabel(L10n.eoyStoryLongestEpisodeFromPodcast(title), highlighting: [title], for: .subtitle)
+                    StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), highlighting: [episodeTitle, podcastTitle], for: .subtitle)
                         .opacity(0.8)
                 }
             }
