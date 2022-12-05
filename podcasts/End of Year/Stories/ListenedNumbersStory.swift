@@ -15,62 +15,52 @@ struct ListenedNumbersStory: ShareableStory {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0])
+            VStack(spacing: 0) {
+                ZStack {
+                    podcastCover(5)
+                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
+                        .padding(.leading, (geometry.size.width / 2))
+                        .padding(.top, -(geometry.size.width / 3))
 
-                VStack {
-                    ZStack {
-                        podcastCover(5)
-                            .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                            .padding(.leading, (geometry.size.width / 2))
-                            .padding(.top, -(geometry.size.width / 3))
+                    podcastCover(4)
+                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
+                        .padding(.leading, -(geometry.size.width / 2.1))
+                        .padding(.top, (geometry.size.width / 1.3))
 
-                        podcastCover(4)
-                            .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                            .padding(.leading, -(geometry.size.width / 2.1))
-                            .padding(.top, (geometry.size.width / 1.3))
+                    podcastCover(0)
+                        .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
+                        .padding(.leading, -(geometry.size.width / 2))
+                        .padding(.top, -(geometry.size.width / 3.5))
 
-                        podcastCover(0)
-                            .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
-                            .padding(.leading, -(geometry.size.width / 2))
-                            .padding(.top, -(geometry.size.width / 3.5))
+                    podcastCover(2)
+                        .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
+                        .padding(.leading, (geometry.size.width / 1.8))
+                        .padding(.top, (geometry.size.width / 1.5))
 
-                        podcastCover(2)
-                            .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
-                            .padding(.leading, (geometry.size.width / 1.8))
-                            .padding(.top, (geometry.size.width / 1.5))
+                    podcastCover(1)
+                        .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
+                        .padding(.leading, (geometry.size.width / 4.5))
+                        .padding(.top, (geometry.size.width / 3))
 
-                        podcastCover(1)
-                            .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
-                            .padding(.leading, (geometry.size.width / 4.5))
-                            .padding(.top, (geometry.size.width / 3))
-
-                        podcastCover(3)
-                            .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
-                            .padding(.leading, -(geometry.size.width / 4))
-                    }
-                    .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height * 0.30)
-
-                    Spacer()
+                    podcastCover(3)
+                        .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
+                        .padding(.leading, -(geometry.size.width / 4))
                 }
+                .applyPodcastCoverPerspective()
+                .padding(.top, geometry.size.height * 0.10)
 
-                VStack {
-                    Spacer()
+                let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
+                let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
+                StoryLabel(L10n.eoyStoryListenedToNumbers(podcasts, episodes), highlighting: [podcasts, episodes], for: .title)
+                    .padding(.top, geometry.size.height * 0.10)
 
-                    let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                    let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
-                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(podcasts)", "\(episodes)"), highlighting: [podcasts, episodes], for: .title)
-                        .frame(maxHeight: geometry.size.height * 0.12)
-                        .minimumScaleFactor(0.01)
-
-                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
-                        .opacity(renderForSharing ? 0.0 : 0.8)
-                        .padding(.bottom, geometry.size.height * 0.18)
-                }
+                StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
+                    .opacity(renderForSharing ? 0.0 : 0.8)
+                    .padding(.top, 22)
+                Spacer()
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
         }
     }
 

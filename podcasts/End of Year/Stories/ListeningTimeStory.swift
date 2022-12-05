@@ -84,23 +84,6 @@ struct FunMessage {
     }
 }
 
-/// Apply a perspective to the podcasts cover
-struct PodcastCoverPerspective: ViewModifier {
-
-    /// Allows overriding of the scaleEffect anchor property, defaults to .center
-    let scaleAnchor: UnitPoint
-
-    init(scaleAnchor: UnitPoint = .center) {
-        self.scaleAnchor = scaleAnchor
-    }
-
-    func body(content: Content) -> some View {
-        content
-            .rotationEffect(Angle(degrees: -45), anchor: .center)
-            .scaleEffect(x: 1.0, y: 0.5, anchor: scaleAnchor)
-    }
-}
-
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
         ListeningTimeStory(listeningTime: 100, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
