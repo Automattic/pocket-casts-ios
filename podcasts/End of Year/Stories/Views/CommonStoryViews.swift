@@ -412,7 +412,7 @@ extension NSLocale {
         let currentLanguageCode = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first ?? NSLocale.autoupdatingCurrent.languageCode
         guard let currentLanguageCode else { return false }
 
-        // Support multiple english languag checks en-US, en-GB
+        // Support multiple english language checks en-US, en-GB
         return currentLanguageCode.hasPrefix("en")
     }
 }
