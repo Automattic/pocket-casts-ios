@@ -3334,16 +3334,22 @@
 "eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
-"eoy_story_intro_title" = "Let's celebrate your year of listening!";
+"eoy_story_intro_title" = "Let's celebrate your year of listening...";
 
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
-"eoy_story_listened_to" = "This year, you spent %1$@ listening to podcasts";
+"eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
+
+/* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
 
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
 
 /* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
-"eoy_story_listened_to_categories" = "You listened to %1$@ this year";
+"eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
+"eoy_story_listened_to_categories_highlighted" = "You listened to %1$@ this year";
 
 /* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of different categories. */
 "eoy_story_listened_to_categories_text" = "%1$@ different categories";
@@ -3355,7 +3361,10 @@
 "eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
 
 /* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
-"eoy_story_listened_to_numbers" = "You listened to\n%1$@\nand %2$@";
+"eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
+"eoy_story_listened_to_numbers_updated" = "You listened to %1$@ and %2$@";
 
 /* String telling the user how many podcasts they listened to this year, %1$@ is a placeholder for the number of podcasts*/
 "eoy_story_listened_to_podcast_text" = "%1$@ different podcasts";
@@ -3364,7 +3373,10 @@
 "eoy_story_listened_to_episodes_text" = "%1$@ episodes";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
-"eoy_story_listened_to_numbers_subtitle" = "But there was one that you\nkept coming back to...";
+"eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
+
+/* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
+"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you\nkept coming back to...";
 
 /* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
 "eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";

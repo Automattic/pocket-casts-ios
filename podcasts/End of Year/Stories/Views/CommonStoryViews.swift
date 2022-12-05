@@ -417,3 +417,14 @@ extension String {
         return self.prefix(len).trimmingCharacters(in: .whitespacesAndNewlines) + "..."
     }
 }
+
+extension NSLocale {
+    static var isCurrentLanguageEnglish: Bool {
+        // Get the current language from the user defaults, or default to checking the locale if that fails
+        let currentLanguageCode = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first ?? NSLocale.autoupdatingCurrent.languageCode
+        guard let currentLanguageCode else { return false }
+
+        // Support multiple english language checks en-US, en-GB
+        return currentLanguageCode.hasPrefix("en")
+    }
+}

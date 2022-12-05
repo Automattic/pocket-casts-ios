@@ -25,12 +25,17 @@ struct LongestEpisodeStory: ShareableStory {
                 PodcastStackView(podcasts: [podcast], geometry: geometry)
 
                 StoryLabelContainer(geometry: geometry) {
-                    let time = episode.duration.storyTimeDescription
-                    let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
-                    let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
-                    StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
-                    StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), highlighting: [episodeTitle, podcastTitle], for: .subtitle)
-                        .opacity(0.8)
+                    if NSLocale.isCurrentLanguageEnglish {
+                        let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
+                        let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
+                        StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
+                        StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), highlighting: [episodeTitle, podcastTitle], for: .subtitle)
+                            .opacity(0.8)
+                    } else {
+                        StoryLabel(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""), for: .title)
+                        StoryLabel(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""), for: .subtitle)
+                            .opacity(0.8)
+                    }
                 }
             }
         }.background(DynamicBackgroundView(podcast: podcast))
