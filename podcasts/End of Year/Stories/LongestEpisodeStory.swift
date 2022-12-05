@@ -26,6 +26,7 @@ struct LongestEpisodeStory: ShareableStory {
 
                 StoryLabelContainer(geometry: geometry) {
                     if NSLocale.isCurrentLanguageEnglish {
+                        let time = episode.duration.storyTimeDescription
                         let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
                         let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
                         StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
