@@ -24,7 +24,7 @@ struct ListeningTimeStory: ShareableStory {
                         }
                     StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
                         .opacity(0.8)
-                            
+
                 }
 
                 // Podcast images angled to fill the width of the view
