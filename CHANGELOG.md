@@ -1,6 +1,6 @@
 7.29
 -----
-
+- Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
 
 7.28
 -----
