@@ -571,6 +571,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Ahora no</string>
     <key>eoy_small_title</key>
     <string>Año en pódcast</string>
+    <key>eoy_stories_failed</key>
+    <string>No se han podido cargar las historias.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>No olvides compartirlos con tus amigos y mandar un saludo a tus creadores de pódcast favoritos.</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>En 2022, estuviste %1$@ escuchando pódcast.</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Escuchaste %1$@ categorías diferentes este año.</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Escuché %1$@ categorías diferentes en 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Vamos a echar un vistazo a algunos de tus favoritos...</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Escuchaste %1$@ pódcast diferentes y %2$@ episodios.</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>En 2022 escuché %1$@ pódcast diferentes y %2$@ episodios</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Pero había uno al que volvías...</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>En 2022 estuve %1$@ escuchando pódcast</string>
     <key>eoy_story_longest_episode</key>
     <string>El episodio más largo que escuchaste fue %1$@ del pódcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Este episodio duró %1$@.</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>El episodio más largo que escuché en 2022 %1$@</string>
     <key>eoy_story_replay</key>
     <string>Volver a reproducir</string>
     <key>eoy_story_top_categories</key>
     <string>Tus categorías principales</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mis categorías de pódcast más escuchadas</string>
     <key>eoy_story_top_podcast</key>
     <string>Tu pódcast favorito fue %1$@ de %2$@.</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>¡Mi pódcast favorito de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Escuchaste %1$@ episodios de un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Tus pódcast favoritos</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mis pódcast principales de 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>¡Mis pódcast principales del año! %1$@</string>
     <key>eoy_title</key>
     <string>Tu año en pódcast</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Ayuda y comentarios</string>
     <key>settings_import_export</key>
     <string>Importar / Exportar</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>Se ha incluido en %1$@ filtros</string>
     <key>settings_in_filters_singular</key>
     <string>Se ha incluido en 1 filtro</string>
     <key>settings_in_menu</key>

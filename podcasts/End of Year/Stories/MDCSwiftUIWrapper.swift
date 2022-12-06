@@ -97,6 +97,7 @@ extension UIViewController {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         bottomSheet.isScrimAccessibilityElement = true
         bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
+        bottomSheet.ignoreKeyboardHeight = true
 
         viewController.present(bottomSheet, animated: true, completion: nil)
     }

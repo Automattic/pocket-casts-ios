@@ -1,6 +1,11 @@
-7.28
+7.29
 -----
 
+
+7.28
+-----
+- Updates the onboarding and login process: (#548)
+- Updates the end of year calculation to include the month of December (#554)
 
 7.27
 -----

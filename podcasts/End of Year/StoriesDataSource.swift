@@ -6,12 +6,15 @@ protocol StoriesDataSource {
     func story(for: Int) -> any StoryView
     func storyView(for: Int) -> AnyView
 
-    /// An interactive view that is put on top of the Stories control
+    /// Returns a story that supports being shared, or nil if it doesn't
+    func shareableStory(for: Int) -> (any ShareableStory)?
+
+    /// This determines whether or not the story has interactivity
     ///
     /// This allows having interactive elements, such as buttons.
     /// It's up to the view to control `allowsHitTesting`. So make
     /// sure that your story doesn't entirely block user interactions.
-    func interactiveView(for: Int) -> AnyView
+    func isInteractiveView(for: Int) -> Bool
 
     /// Whether the data source is ready to be used.
     ///
@@ -28,11 +31,12 @@ extension StoriesDataSource {
         return AnyView(story)
     }
 
-    func interactiveView(for: Int) -> AnyView {
-        return AnyView(EmptyView())
+    func isInteractiveView(for: Int) -> Bool {
+        return false
     }
 }
 
+// MARK: - Story Views
 typealias StoryView = Story & View
 
 protocol Story {
@@ -50,7 +54,20 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+}
 
+extension Story {
+    var identifier: String {
+        "unknown"
+    }
+
+    func onAppear() {}
+}
+
+// MARK: - Shareable Stories
+typealias ShareableStory = StoryView & StorySharing
+
+protocol StorySharing {
     /// Called when the story will be shared
     func willShare()
 
@@ -60,13 +77,7 @@ protocol Story {
     func sharingAssets() -> [Any]
 }
 
-extension Story {
-    var identifier: String {
-        "unknown"
-    }
-
-    func onAppear() {}
-
+extension StorySharing {
     func willShare() {}
 
     func sharingAssets() -> [Any] {

@@ -571,6 +571,8 @@
     <string>不用了</string>
     <key>eoy_small_title</key>
     <string>年度播客盘点</string>
+    <key>eoy_stories_failed</key>
+    <string>无法加载故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>不要忘记分享给朋友，告诉他们您最喜欢的播客创作者</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@
     <string>2022 年，您收听播客的时间为 %1$@</string>
     <key>eoy_story_listened_to_categories</key>
     <string>您今年收听了 %1$@ 种不同的分类</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>我在 2022 年收听了 %1$@ 种不同的分类</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>我们来看看您最喜欢的内容…</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>我在 2022 年收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>但还有一个您经常回顾的播客…</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>2022 年，我收听播客的时间为 %1$@</string>
     <key>eoy_story_longest_episode</key>
     <string>您收听的最长剧集为 %2$@ 播客的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>本剧集时长为 %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>2022 年我收听时间最长的剧集 %1$@</string>
     <key>eoy_story_replay</key>
     <string>重播</string>
     <key>eoy_story_top_categories</key>
     <string>您的热门分类</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>我收听最多的播客分类</string>
     <key>eoy_story_top_podcast</key>
     <string>您的热门播客为 %2$@ 的 %1$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>2022 年我最喜欢的播客！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>您收听了 %1$@ 部剧集，总共有 %2$@ 部剧集</string>
     <key>eoy_story_top_podcasts</key>
     <string>您的热门播客</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>我的 2022 年热门播客</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>我的年度热门播客！%1$@</string>
     <key>eoy_title</key>
     <string>您的年度播客盘点</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@
     <string>帮助和反馈</string>
     <key>settings_import_export</key>
     <string>导入/导出</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>包含在 %1$@ 个过滤器中</string>
     <key>settings_in_filters_singular</key>
     <string>包含在 1 个过滤器中</string>
     <key>settings_in_menu</key>

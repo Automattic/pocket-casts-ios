@@ -571,6 +571,8 @@
     <string>Не сейчас</string>
     <key>eoy_small_title</key>
     <string>Год в подкастах</string>
+    <key>eoy_stories_failed</key>
+    <string>Не удалось загрузить истории.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Не забудьте поделиться с друзьями и рассказать о любимых подкастерах</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +583,42 @@
     <string>В 2022 году у вас ушло %1$@ на прослушивание подкастов</string>
     <key>eoy_story_listened_to_categories</key>
     <string>В этом году вы выбрали %1$@ рубрик (-и)</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Я выбрал (-а) %1$@ рубрик (-и) в 2022 году</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Взглянем на самые популярные...</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Вы слушали %1$@ подкастов (-а) и %2$@ выпусков (-а)</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Я прослушал (-а) %1$@ подкастов (-а) и %2$@ выпусков (-а) в 2022 году</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Но к одному подкасту вы всегда возвращались...</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>У меня ушло %1$@ на прослушивание подкастов в 2022 году</string>
     <key>eoy_story_longest_episode</key>
     <string>Самым длинным выпуском, который вы слушали, был эпизод %1$@ подкаста %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Этот выпуск длился %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>Самый продолжительный выпуск, прослушанный мною в 2022 году: %1$@</string>
     <key>eoy_story_replay</key>
     <string>Повторить</string>
     <key>eoy_story_top_categories</key>
     <string>Ваши любимые рубрики</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Рубрики подкастов, которые я слушаю чаще всего</string>
     <key>eoy_story_top_podcast</key>
     <string>Ваш любимый подкаст — %1$@ (автор: %2$@)</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Мой любимый подкаст в 2022 году! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Вы прослушали %1$@ выпусков (-а) общей продолжительностью %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>Ваши любимые подкасты</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Мои любимые подкасты в 2022 году</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Мои любимые подкасты этого года! %1$@</string>
     <key>eoy_title</key>
     <string>Ваш год в подкастах</string>
     <key>eoy_view_year</key>
@@ -1795,8 +1813,6 @@
     <string>Помощь и отзывы</string>
     <key>settings_import_export</key>
     <string>Импорт/экспорт</string>
-    <key>settings_in_filters_plural_format</key>
-    <string>Включен в %1$@ фильтров</string>
     <key>settings_in_filters_singular</key>
     <string>Включен в 1 фильтр</string>
     <key>settings_in_menu</key>

@@ -46,7 +46,10 @@ class HomeGridListItem: ListItem {
                 podcast.autoArchiveInactiveAfter == otherPodcast.autoArchiveInactiveAfter &&
                 podcast.autoArchivePlayedAfter == otherPodcast.autoArchivePlayedAfter &&
                 podcast.subscribed == otherPodcast.subscribed &&
-                podcast.episodeGrouping == otherPodcast.episodeGrouping
+                podcast.episodeGrouping == otherPodcast.episodeGrouping &&
+                podcast.playbackSpeed == otherPodcast.playbackSpeed &&
+                podcast.boostVolume == otherPodcast.boostVolume &&
+                podcast.trimSilenceAmount == otherPodcast.trimSilenceAmount
         } else if let otherFolder = rhs.folder, let folder = folder {
             return differenceIdentifier == rhs.differenceIdentifier &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&

@@ -3,10 +3,17 @@ import PocketCastsUtils
 
 /// Calculates user End of Year stats
 class EndOfYearDataManager {
-    private let endPeriod = "2022-12-01"
+    /// The date to start calculating results from
+    /// The data will start from 00:00:00 (midnight) the users device time
+    private let startDate = "2022-01-01"
+
+    /// The date to stop including results from
+    /// This is set to the day after the final day we want to include in the results to make sure we include the full
+    /// day up to midnight
+    private let endDate = "2023-01-01"
 
     private lazy var listenedEpisodesThisYear = """
-                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(startDate)') and strftime('%s', '\(endDate)')
                                            """
 
     /// If the user is eligible to see End of Year stats
@@ -55,7 +62,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT * from \(DataManager.episodeTableName)
                             WHERE
-                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '\(startDate)')
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -165,7 +172,7 @@ class EndOfYearDataManager {
     /// Return the number of podcasts and episodes listened
     ///
     func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
-        var listenedNumbers: ListenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+        var listenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
 
         dbQueue.inDatabase { db in
             do {
@@ -300,7 +307,6 @@ class EndOfYearDataManager {
             if resultSet.next() {
                 numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
             } else {
-
             }
         } catch {
             FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
@@ -308,7 +314,6 @@ class EndOfYearDataManager {
 
         return numberOfItemsInListeningHistory
     }
-
 }
 
 public struct ListenedCategory {

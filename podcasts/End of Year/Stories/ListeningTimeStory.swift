@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct ListeningTimeStory: StoryView {
+struct ListeningTimeStory: ShareableStory {
     var duration: TimeInterval = 5.seconds
 
     let identifier: String = "listening_time"
@@ -13,61 +13,37 @@ struct ListeningTimeStory: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcasts[0])
-
-                VStack {
-                    Text(L10n.eoyStoryListenedTo("\n\(listeningTime.localizedTimeDescription ?? "")"))
-                        .foregroundColor(.white)
-                        .font(.system(size: 25, weight: .heavy))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.12)
-                        .minimumScaleFactor(0.01)
-
-                    Text(FunMessage.timeSecsToFunnyText(listeningTime))
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .frame(maxHeight: geometry.size.height * 0.07)
-                        .minimumScaleFactor(0.01)
-                        .opacity(0.8)
-                    Spacer()
-                }
-                .padding(.top, geometry.size.height * 0.15)
-                .padding(.trailing, 40)
-                .padding(.leading, 40)
-
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        ForEach([1, 0, 2], id: \.self) {
-                            podcastCover($0)
-                        }
+            VStack(spacing: 0) {
+                StoryLabelContainer(topPadding: geometry.size.height * Constants.topPadding, geometry: geometry) {
+                    let time = listeningTime.storyTimeDescription
+                    if NSLocale.isCurrentLanguageEnglish {
+                        StoryLabel(L10n.eoyStoryListenedToUpdated("\n\(time)\n"), highlighting: [time], for: .title)
+                    } else {
+                        StoryLabel(L10n.eoyStoryListenedTo("\n\(time)\n"), highlighting: [time], for: .title)
                     }
-                    .modifier(PodcastCoverPerspective())
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.size.height - 230)
+                    StoryLabel(FunMessage.timeSecsToFunnyText(listeningTime), for: .subtitle)
+                        .opacity(0.8)
                 }
-            }
 
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
+                // Podcast images angled to fill the width of the view
+                let size = 0.30 * geometry.size.height
+
+                HStack(spacing: 20) {
+                    ForEach(Constants.displayedPodcasts, id: \.self) {
+                        podcastCover($0, size: size)
+                    }
                 }
-            }
-        }
+                .applyPodcastCoverPerspective()
+                .padding(.top)
+            }.frame(width: geometry.size.width)
+        }.background(DynamicBackgroundView(podcast: podcasts[0]))
     }
 
     @ViewBuilder
-    func podcastCover(_ index: Int) -> some View {
+    func podcastCover(_ index: Int, size: Double) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
-            .frame(width: 180, height: 180)
+            .frame(width: size, height: size)
     }
 
     func onAppear() {
@@ -81,8 +57,20 @@ struct ListeningTimeStory: StoryView {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.localizedTimeDescription ?? ""))
+            StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.storyTimeDescriptionForSharing))
         ]
+    }
+
+    private enum Constants {
+        /// The podcasts that are displayed on the view, the middle is your top 10 podcast
+        static let displayedPodcasts = [1, 0, 2]
+        static let coverSize = 180.0
+
+        static let spaceBetweenLabels = 22.0
+        static let labelHorizontalPadding = 35.0
+
+        /// Top padding is a percent calculated using the height of the view
+        static let topPadding = 0.158
     }
 }
 
@@ -97,15 +85,6 @@ struct FunMessage {
         }
 
         return message
-    }
-}
-
-/// Apply a perspective to the podcasts cover
-struct PodcastCoverPerspective: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .rotationEffect(Angle(degrees: -45), anchor: .center)
-            .scaleEffect(x: 1.0, y: 0.5, anchor: .center)
     }
 }
 

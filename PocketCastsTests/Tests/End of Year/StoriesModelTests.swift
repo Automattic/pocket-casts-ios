@@ -83,6 +83,10 @@ class MockStoriesDataSource: StoriesDataSource {
         }
     }
 
+    func shareableStory(for storyNumber: Int) -> (any ShareableStory)? {
+        nil
+    }
+
     func isReady() async -> Bool {
         true
     }
