@@ -389,7 +389,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
         let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
-
         guard let presentedViewController else {
             present(controller, animated: true)
             return
@@ -440,6 +439,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
             self.endOfYear.resetStateIfNeeded()
+        }
+
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+            self.endOfYear.showPromptBasedOnState(in: self)
         }
 
         // If the requirement for EOY changes and registration is not required anymore
