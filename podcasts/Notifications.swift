@@ -9,4 +9,7 @@ extension NSNotification.Name {
 
     /// When the requirement for having an account or not to see End Of Year Stats changes
     static let eoyRegistrationNotRequired = NSNotification.Name("EOY.RegistrationNotRequired")
+
+    /// When the updated onboarding flow dismisses
+    static let onboardingFlowDidDismiss = NSNotification.Name("Onboarding.didDismiss")
 }
