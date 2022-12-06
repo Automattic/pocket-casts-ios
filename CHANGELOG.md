@@ -1,6 +1,7 @@
 7.29
 -----
 - Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
+- Fixed an issue where the podcast artwork wasn't appearin in the Now Playing Siri suggestions (#579)
 
 7.28
 -----
