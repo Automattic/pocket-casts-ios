@@ -85,6 +85,12 @@
     <string>Вы уверены, что хотите удалить свою учетную запись? Это действие невозможно отменить!</string>
     <key>account_delete_account_title</key>
     <string>Удалить учетную запись?</string>
+    <key>account_details_free_account</key>
+    <string>Бесплатная учётная запись</string>
+    <key>account_details_listened_for</key>
+    <string>Время прослушивания ― %1$@</string>
+    <key>account_details_plus_title</key>
+    <string>Получите доступ к эксклюзивным функциям и опциям настройки и выйдите на новый уровень прослушивания подкастов.</string>
     <key>account_login</key>
     <string>Войти</string>
     <key>account_payment_renews_monthly</key>
@@ -844,8 +850,12 @@
     <string>Пользуйтесь бесплатно или отмените в любой момент</string>
     <key>free_trial_duration_free</key>
     <string>%1$@ БЕСПЛАТНО</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>ПРОБНЫЙ ПЕРИОД НА %1$@</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@ бесплатно, затем %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>Начать бесплатный пробный период и подписаться</string>
     <key>free_trial_start_button</key>
     <string>Запустить бесплатную пробную версию</string>
     <key>free_trial_title_label</key>
@@ -908,12 +918,54 @@
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>import_instructions_breaker</key>
+    <string>1. Нажмите кнопку "Открыть Breaker" ниже.
+2. Нажмите "Настройки" на нижней панели вкладок.
+3. Нажмите "Подключение".
+4. Нажмите "Экспорт подписок".
+5. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
+    <key>import_instructions_castbox</key>
+    <string>1. Нажмите кнопку "Открыть Castbox" ниже.
+2. Нажмите вкладку "Личное".
+3. Прокрутите экран вниз, найдите опцию "Настройки" и выберите её.
+4. Прокрутите экран вниз, найдите опцию "Экспорт OPML" и выберите её.
+5. В окне запроса выберите "Открыть в Pocket Casts".
+6. Если файл откроется в Safari, нажмите кнопку "Загрузить".
+7. После завершения загрузки нажмите значок загрузки в строке URL-адреса.
+8. Выберите "Загрузки".
+9. Нажмите файл castbox_opml.
+10. Если нужно, нажмите значок "Поделиться" и откройте файл в Pocket Casts.
+11. Когда откроется диалоговое окно, найдите значок Pocket Casts и нажмите его.</string>
+    <key>import_instructions_castro</key>
+    <string>1. Нажмите кнопку "Открыть Castro" ниже.
+2. Нажмите значок шестерёнки в верхней части экрана приложения.
+3. Прокрутите страницу вниз до опции "Данные пользователя" и нажмите её.
+4. Выберите "Экспортировать подписки".
+5. Когда откроется диалоговое окно, найдите значок Pocket Casts и нажмите его.</string>
+    <key>import_instructions_import_from</key>
+    <string>Импорт из %1$@</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>Установить шорткат</string>
+    <key>import_instructions_open_in</key>
+    <string>Открыть %1$@</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>других приложений</string>
+    <key>import_instructions_overcast</key>
+    <string>1. Нажмите кнопку ниже, чтобы открыть Overcast.
+2. Нажмите значок шестерёнки в верхней части экрана приложения.
+3. Прокрутите экран вниз, найдите опцию "Экспорт OPML" и выберите её.
+4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
     <key>import_podcasts_description</key>
     <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
 Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>ИМПОРТ В POCKET CASTS</string>
+    <key>import_subtitle</key>
+    <string>Заходите из другого приложения? Импортируйте и слушайте подкасты. Это можно сделать в любое время в настройках.</string>
+    <key>import_title</key>
+    <string>Возьмите
+подкасты с собой</string>
     <key>in_progress</key>
     <string>Выполняется</string>
     <key>keycommand_close_player</key>
@@ -932,6 +984,10 @@
     <string>История прослушивания</string>
     <key>loading</key>
     <string>Загрузка…</string>
+    <key>login_subtitle</key>
+    <string>Создайте учётную запись, чтобы синхронизировать и слушать любимый контент на всех устройствах.</string>
+    <key>login_title</key>
+    <string>Найдите ещё один любимый подкаст</string>
     <key>mark_played</key>
     <string>Отметить как прослушанный</string>
     <key>mark_played_short</key>
@@ -1173,6 +1229,10 @@
     <string>Создайте учетную запись или войдите в систему, чтобы получить доступ к Pocket Casts Plus.</string>
     <key>plus_account_trial_details</key>
     <string>По окончании пробного периода вы по-прежнему сможете пользоваться всеми преимуществами своей обычной учетной записи. Удачных подкастов!</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>Разблокировать все функции</string>
+    <key>plus_cancel_terms</key>
+    <string>Можно отменить в любое время</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>Облачное хранилище %1$@ ГБ</string>
     <key>plus_error_already_registered</key>
@@ -1208,22 +1268,38 @@
 Установите приложения для настольных компьютеров, используйте собственные файлы и добавьте свежести с помощью новых тем, которые доступны только участникам программы plus.</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>Без рекламы у вас будет больше того, что вам нравится, и меньше того, что вам не нравится.</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>Скрыть рекламу</string>
     <key>plus_marketing_learn_more_button</key>
     <string>Подробнее о Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Личное пространство в открытом мире. Загрузите свои личные аудиофайлы на наши облачные серверы, зайдите в свою учетную запись через веб-плеер и пользуйтесь приложением.</string>
     <key>plus_marketing_main_title</key>
     <string>Расширенные возможности для продвинутых слушателей</string>
+    <key>plus_marketing_subtitle</key>
+    <string>Получите доступ к эксклюзивным функциям и опциям настройки</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Покажите себя во всей красе. Эксклюзивные темы и значки только для членов клуба Plus.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Темы и значки</string>
+    <key>plus_marketing_title</key>
+    <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Слушайте подкасты везде: в приложениях для Windows и macOS и веб-приложении.</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>Распределите подкасты по папкам и синхронизируйте их на всех устройствах.</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Перейти на Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>Оставьте свой телефон и отправляйтесь на пробежку, не пропустив ни одного такта. Apple Watch в автономном режиме.</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Воспроизведение в Watch</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@ в месяц</string>
     <key>plus_payment_canceled</key>
     <string>Оплата отменена</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1240,6 +1316,10 @@
     <string>Вы все равно можете зарегистрироваться на Pocket Casts Plus, создать обычную учетную запись или просто погрузиться в прослушивание.</string>
     <key>plus_promotion_used</key>
     <string>Код уже использован</string>
+    <key>plus_purchase_failed</key>
+    <string>Похоже, что при обработке вашего платежа возникла проблема. Повторите попытку.</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Станьте пользователем Plus и получите доступ ко всем возможностям Pocket Casts</string>
     <key>plus_required_feature</key>
     <string>Для работы этой функции требуется Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
@@ -1258,6 +1338,12 @@
     <string>Похоже, вы подписались на Pocket Casts Plus через Интернет</string>
     <key>plus_subscription_web_details</key>
     <string>Чтобы аннулировать подписку, вам нужно отменить ее на сайте Pocketcasts.com.</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>Проверьте подключение к Интернету и повторите попытку.</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>Не удалось загрузить</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@ в год</string>
     <key>pocket_casts_newsletter</key>
     <string>Новостная рассылка Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1266,6 +1352,8 @@
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>Подпишитесь на рассылку</string>
     <key>podcast_access_ended</key>
     <string>Доступ прекращен: %1$@</string>
     <key>podcast_access_ends</key>
@@ -1445,6 +1533,9 @@
     <string>Предварительный просмотр</string>
     <key>pricing_terms_after_trial</key>
     <string>затем %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Регулярные платежи начнутся после
+окончания бесплатного пробного периода в %1$@</string>
     <key>profile</key>
     <string>Профиль</string>
     <key>profile_help_support</key>
@@ -1471,6 +1562,8 @@
     <string>Вы не добавили в избранное ни одного выпуска.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Ничего не добавлено в избранное</string>
+    <key>purchase_terms</key>
+    <string>Продолжая, вы принимаете %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_queue</key>
@@ -1813,6 +1906,8 @@
     <string>Помощь и отзывы</string>
     <key>settings_import_export</key>
     <string>Импорт/экспорт</string>
+    <key>settings_in_filters_plural_format</key>
+    <string>Включен в несколько фильтров (%1$@)</string>
     <key>settings_in_filters_singular</key>
     <string>Включен в 1 фильтр</string>
     <key>settings_in_menu</key>
@@ -2223,6 +2318,22 @@
     <string>Эпизоды можно добавлять в очередь для последующего воспроизведения на экране сведений об эпизодах либо посредством их добавления на телефоне.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Очередь пуста</string>
+    <key>welcome_discover_button</key>
+    <string>Найти следующий подкаст</string>
+    <key>welcome_discover_description</key>
+    <string>На странице поиска мы собрали для вас набирающие обороты и уже популярные подкасты.</string>
+    <key>welcome_discover_title</key>
+    <string>Найдите для себя что-то новое</string>
+    <key>welcome_import_button</key>
+    <string>Импортировать подкасты</string>
+    <key>welcome_import_description</key>
+    <string>Заходите из другого приложения? Возьмите подкасты с собой.</string>
+    <key>welcome_import_title</key>
+    <string>Импортируйте подкасты</string>
+    <key>welcome_new_account_title</key>
+    <string>Добро пожаловать. Давайте что-нибудь послушаем!</string>
+    <key>welcome_plus_title</key>
+    <string>Спасибо. А теперь давайте что-нибудь послушаем!</string>
     <key>whats_new</key>
     <string>Что нового</string>
     <key>whats_new_blog_more_link_text</key>
