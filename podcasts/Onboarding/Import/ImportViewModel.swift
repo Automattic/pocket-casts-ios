@@ -32,7 +32,7 @@ class ImportViewModel: OnboardingModel {
     enum ImportAppId: String, AnalyticsDescribable {
         case breaker, castbox = "wazecastbox", overcast, other
         case castro = "co.supertop.Castro-2"
-        case applePodcasts = "https://www.icloud.com/shortcuts/d9e0793e40ed4b5d9dd78c81e6af9234"
+        case applePodcasts = "https://www.icloud.com/shortcuts/0d1cf7d3dc9f4cda9c01d8cd58849331"
 
         var analyticsDescription: String {
             switch self {

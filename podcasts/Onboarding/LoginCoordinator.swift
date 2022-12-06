@@ -90,7 +90,11 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
 
         if shouldDismiss {
-            navigationController?.dismiss(animated: true)
+            navigationController?.dismiss(animated: true) {
+                DispatchQueue.main.async {
+                    OnboardingFlow.shared.reset()
+                }
+            }
             return
         }
 
