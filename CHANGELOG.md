@@ -1,6 +1,6 @@
 7.29
 -----
-
+- Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
 
 7.28
 -----
@@ -11,7 +11,6 @@
 -----
 - Add End of Year stats
 - Fixed the download indicator width in iOS 14 in Episode list cells.
-- Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
 
 7.26
 -----
