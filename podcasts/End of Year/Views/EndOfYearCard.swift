@@ -1,7 +1,12 @@
 import SwiftUI
+import PocketCastsUtils
 
 struct EndOfYearCard: View {
     @EnvironmentObject var theme: Theme
+
+    private var imageScale: Double {
+        A11y.isDisplayZoomed ? 0.75 : 1.0
+    }
 
     var body: some View {
         ZStack {
@@ -20,8 +25,8 @@ struct EndOfYearCard: View {
                 Image("2022_small")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: Constants.eoyImageSize.width,
-                           height: Constants.eoyImageSize.height)
+                    .frame(width: Constants.eoyImageSize.width * imageScale,
+                           height: Constants.eoyImageSize.height * imageScale)
                     .padding(.trailing, Constants.eoyImageTrailingPadding)
             }
             .background(theme.activeTheme.isDark ? Constants.darkThemeBackgroundColor : Constants.lightThemeBackgroundColor)
@@ -46,5 +51,6 @@ struct EndOfYearCard: View {
 struct EndOfYearCard_Previews: PreviewProvider {
     static var previews: some View {
         EndOfYearCard()
+            .environmentObject(Theme(previewTheme: .light))
     }
 }
