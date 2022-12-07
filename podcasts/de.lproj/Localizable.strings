@@ -85,6 +85,12 @@
     <string>Bist du sicher, dass du dein Konto löschen möchtest? Dies kann nicht rückgängig gemacht werden!</string>
     <key>account_delete_account_title</key>
     <string>Konto löschen?</string>
+    <key>account_details_free_account</key>
+    <string>Kostenloses Konto</string>
+    <key>account_details_listened_for</key>
+    <string>Angehört für %1$@</string>
+    <key>account_details_plus_title</key>
+    <string>Bringe dein Podcast-Erlebnis auf die nächste Ebene mit exklusivem Zugriff auf Funktionen und Anpassungsoptionen.</string>
     <key>account_login</key>
     <string>Anmelden</string>
     <key>account_payment_renews_monthly</key>
@@ -844,8 +850,12 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Jetzt keine Zahlung – jederzeit kündbar</string>
     <key>free_trial_duration_free</key>
     <string>%1$@ KOSTENLOS</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>GRATIS-TEST für %1$@</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@ kostenlos, dann %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>Gratis-Test starten und abonnieren</string>
     <key>free_trial_start_button</key>
     <string>Kostenloses Probe-Upgrade beginnen</string>
     <key>free_trial_title_label</key>
@@ -908,12 +918,54 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Tippe im Menü auf „Nach Pocket Casts kopieren“</string>
     <key>how_to_upload_summary</key>
     <string>Und schon bist du fertig. Ändere gewünschte Details, speichere deine Änderungen und schon kannst du die Datei abspielen!</string>
+    <key>import_instructions_breaker</key>
+    <string>1. Tippe unten auf den Button „Open Breaker“ (Breaker öffnen)
+2. Tippe in der unteren Tableiste auf „Settings“ (Einstellungen)
+3. Tippe auf „Connection“ (Verbindung)
+4. Tippe auf „Export subscriptions“ (Abonnements exportieren)
+5. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
+    <key>import_instructions_castbox</key>
+    <string>1. Tippe unten auf den Button „Open Castbox“ (Castbox öffnen)
+2. Tippe auf den Tab „Personal“ (Persönlich)
+3. Wische nach unten zur Option „Settings“ (Einstellungen) und tippe darauf
+4. Wische nach unten zur Option „OPML Export“ (OPML-Export) und tippe darauf
+5. Tippe auf „Open in Pocket Casts“ (In Pocket Casts öffnen), wenn du dazu aufgefordert wirst
+6. Wenn die Datei in Safari geöffnet wird, tippe auf den Button „Download“ (Herunterladen)
+7. Sobald der Download abgeschlossen ist, tippe in der URL-Leiste auf das Icon „Download“ (Herunterladen)
+8. Tippe auf das Element „Downloads“
+9. Tippe auf die Datei „castbox_opml“
+10. Wenn nötig, tippe auf das Icon „Share“ (Teilen) und öffne die Datei dann mit Pocket Casts
+11. Wenn das Dialogfeld „Share“ (Teilen) geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
+    <key>import_instructions_castro</key>
+    <string>1. Tippe unten auf den Button „Open Castro“ (Castro öffnen)
+2. Tippe auf das Zahnrad-Icon in der oberen Ecke der App
+3. Wische nach unten zur Option „User Data“ (Benutzerdaten) und tippe darauf
+4. Tippe auf das Element „Export Subscriptions“ (Abonnements exportieren)
+5. Wenn das Dialogfeld „Share“ (Teilen) geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
+    <key>import_instructions_import_from</key>
+    <string>Aus %1$@ importieren</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>Shortcut installieren</string>
+    <key>import_instructions_open_in</key>
+    <string>%1$@ öffnen</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>anderen Apps</string>
+    <key>import_instructions_overcast</key>
+    <string>1. Tippe unten auf den Button „Open Overcast“ (Overcast öffnen)
+2. Tippe auf das Zahnrad-Icon in der oberen Ecke der App
+3. Wische nach unten zur Option „Export OPML“ (OPML exportieren) und tippe darauf
+4. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
     <key>import_podcasts_description</key>
     <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
 Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drücke länger auf den Anhang und wähle „Pocket Casts“ aus.</string>
     <key>import_podcasts_title</key>
     <string>IN POCKET CASTS IMPORTIEREN</string>
+    <key>import_subtitle</key>
+    <string>Hast du vorher eine andere App genutzt? Importiere deine Podcast und starte dein Hörerlebnis. Du kannst dies auch jederzeit später in den Einstellungen machen.</string>
+    <key>import_title</key>
+    <string>Nimm deine
+Podcasts mit</string>
     <key>in_progress</key>
     <string>Unfertig</string>
     <key>keycommand_close_player</key>
@@ -932,6 +984,10 @@ Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drü
     <string>Hörverlauf</string>
     <key>loading</key>
     <string>Wird geladen ...</string>
+    <key>login_subtitle</key>
+    <string>Erstelle ein Konto, um dein Audioerlebnis auf all deinen Geräten zu synchronisieren.</string>
+    <key>login_title</key>
+    <string>Entdecke deinen nächsten Lieblings-Podcast</string>
     <key>mark_played</key>
     <string>Als angehört markieren</string>
     <key>mark_played_short</key>
@@ -1173,6 +1229,10 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Erstelle ein Konto oder melde dich an, um Pocket Casts Plus zu nutzen.</string>
     <key>plus_account_trial_details</key>
     <string>Nach dem Testzeitraum stehen dir die vielen Vorteile deines normalen Kontos weiterhin zur Verfügung. Viel Spaß beim Podcasten!</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>Alle Funktionen freischalten</string>
+    <key>plus_cancel_terms</key>
+    <string>Kann jederzeit gekündigt werden</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB Cloud-Speicher</string>
     <key>plus_error_already_registered</key>
@@ -1208,22 +1268,38 @@ UM UPDATES ZU ERHALTEN</string>
 Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das Design auf – exklusiv für Plus-Abonnenten.</string>
     <key>plus_marketing_folders_description</key>
     <string>Erstelle Ordner, um deine Podcast-Sammlung zu organisieren.</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>Werbefreies Erlebnis – für mehr Inhalte, die du magst, und weniger Ablenkung</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>Werbung ausblenden</string>
     <key>plus_marketing_learn_more_button</key>
     <string>Weitere Informationen zu Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Persönlich und überall verfügbar: Lade deine persönlichen Audiodateien auf unsere Cloudserver hoch, greife über unseren Webplayer auf dein Konto zu und passe die App ganz an deine Bedürfnisse an.</string>
     <key>plus_marketing_main_title</key>
     <string>Erweiterte Funktionen für Vielhörer</string>
+    <key>plus_marketing_subtitle</key>
+    <string>Erhalte Zugriff auf exklusive Funktionen und Anpassungsoptionen</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Farbe bekennen. Exklusive Icons und Themes nur für Plus-Abonnenten.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Themes und Icons</string>
+    <key>plus_marketing_title</key>
+    <string>Alles, was du an Pocket Casts liebst, und noch viel mehr</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>Lade deine Dateien in den Cloud-Speicher, damit du von überall aus darauf zugreifen kannst</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Mit unseren Windows-, macOS- und Web-Apps hast du deine Podcasts immer parat</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>Verwalte deine Podcasts in Ordnern und halte sie auf all deinen Geräten synchron.</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Upgrade auf Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>Leg dein Handy weg und geh eine Runde laufen – ohne etwas zu verpassen.  Apple Watch funktioniert eigenständig.</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Watch-Wiedergabe</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@ pro Monat</string>
     <key>plus_payment_canceled</key>
     <string>Zahlung storniert</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1240,6 +1316,10 @@ Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das D
     <string>Du kannst dich trotzdem für Pocket Casts Plus registrieren, ein normales Konto erstellen oder einfach anfangen.</string>
     <key>plus_promotion_used</key>
     <string>Code wurde bereits verwendet</string>
+    <key>plus_purchase_failed</key>
+    <string>Bei der Bearbeitung deiner Zahlung ist anscheinend ein Fehler aufgetreten. Bitte versuche es erneut.</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Werde Plus-Mitglied und profitiere von allen Pocket Casts-Funktionen</string>
     <key>plus_required_feature</key>
     <string>Für diese Funktion ist Pocket Casts Plus erforderlich</string>
     <key>plus_select_payment_frequency</key>
@@ -1258,6 +1338,12 @@ Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das D
     <string>Offenbar hast du Pocket Casts Plus über das Web abonniert.</string>
     <key>plus_subscription_web_details</key>
     <string>Besuche Pocketcasts.com, um dein Abonnement zu kündigen.</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>Bitte überprüfe deine Internetverbindung und versuche es erneut.</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>Konnte nicht geladen werden</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@ pro Jahr</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter von Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1266,6 +1352,8 @@ Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das D
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>Sichere dir den Newsletter</string>
     <key>podcast_access_ended</key>
     <string>Zugriff beendet am %1$@</string>
     <key>podcast_access_ends</key>
@@ -1445,6 +1533,9 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Vorschau</string>
     <key>pricing_terms_after_trial</key>
     <string>dann %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Wiederkehrende Zahlungen beginnen nach deinem
+Gratis-Test für %1$@</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1471,6 +1562,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Du hast noch keine Folgen mit Stern markiert.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Nichts mit Stern markiert</string>
+    <key>purchase_terms</key>
+    <string>Indem du fortfährst, erklärst du dich mit der %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_queue</key>
@@ -1813,6 +1906,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Hilfe &amp; Feedback</string>
     <key>settings_import_export</key>
     <string>Import / Export</string>
+    <key>settings_in_filters_plural_format</key>
+    <string>In %1$@ Filtern enthalten</string>
     <key>settings_in_filters_singular</key>
     <string>In 1 Filter enthalten</string>
     <key>settings_in_menu</key>
@@ -2223,6 +2318,22 @@ Beides klingt gut. 🙂</string>
     <string>Über den Bildschirm „Details zur Folge“ kannst du Folgen, die als Nächstes gespielt werden sollen, in die Warteschlange stellen, oder du kannst sie auf deinem Mobiltelefon hinzufügen.</string>
     <key>watch_up_next_no_items_title</key>
     <string>„Als Nächstes“ leer</string>
+    <key>welcome_discover_button</key>
+    <string>Meinen nächsten Podcast suchen</string>
+    <key>welcome_discover_description</key>
+    <string>Auf unserer handverlesenen Seite „Entdecken“ findest du unbekannte und angesagte Podcasts.</string>
+    <key>welcome_discover_title</key>
+    <string>Entdecke etwas Neues</string>
+    <key>welcome_import_button</key>
+    <string>Podcasts importieren</string>
+    <key>welcome_import_description</key>
+    <string>Hast du vorher eine andere App genutzt? Nimm deine Podcasts mit.</string>
+    <key>welcome_import_title</key>
+    <string>Importiere deine Podcasts</string>
+    <key>welcome_new_account_title</key>
+    <string>Willkommen. Viel Spaß beim Hören!</string>
+    <key>welcome_plus_title</key>
+    <string>Vielen Dank. Viel Spaß beim Hören!</string>
     <key>whats_new</key>
     <string>Neues</string>
     <key>whats_new_blog_more_link_text</key>
