@@ -29,9 +29,9 @@ struct HolographicEffect<Content>: View where Content: View {
             // make tighter rings
             let colors = rainbowColors + rainbowColors + rainbowColors
             RadialGradient(colors: colors, center: .center, startRadius: 0, endRadius: radius(proxy.size))
-            .scaleEffect(scale(proxy.size))
-            .offset(position)
-            .mask(content())
+                .scaleEffect(scale(proxy.size))
+                .offset(position)
+                .mask(content())
         }
     }
 
@@ -41,7 +41,7 @@ struct HolographicEffect<Content>: View where Content: View {
     }
 
     private func scale(_ size: CGSize) -> Double {
-        min(geometry.size.width, geometry.size.height) / radius(size) * multiplier
+        max(geometry.size.width, geometry.size.height) / radius(size) * multiplier
     }
 
     private func radius(_ size: CGSize) -> Double {
