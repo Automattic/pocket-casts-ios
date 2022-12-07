@@ -44,11 +44,12 @@ class MotionManager: ObservableObject {
             let attitude = data.attitude
 
             if !attitude.pitch.isNaN && !attitude.roll.isNaN {
-                if attitude.pitch <= 1.3 {
-                    roll = attitude.roll
-                }
+                let gz = data.gravity.z
+                let pitch = adjustValueForUpsideDown(attitude.pitch, gravityZ: gz)
+                let roll = adjustValueForUpsideDown(attitude.roll, gravityZ: gz)
 
-                pitch = attitude.pitch
+                self.pitch = pitch
+                self.roll = roll
             }
         }
 
@@ -58,6 +59,15 @@ class MotionManager: ObservableObject {
         }
 
         self.objectWillChange.send()
+    }
+
+    private func adjustValueForUpsideDown(_ value: Double, gravityZ: Double) -> Double {
+        // Gravity Z will be less than 0 when the device is near upside down
+        guard gravityZ > 0 else {
+            return value
+        }
+
+        return value > 0 ? .pi - value : -(.pi + value)
     }
 
     struct MotionOptions: OptionSet {
