@@ -18,6 +18,11 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
+        endOfYearManager.topPodcastsToReturn = [
+            TopPodcast(podcast: Podcast.previewPodcast(),
+                       numberOfPlayedEpisodes: 3,
+                       totalPlayedTime: 3000)
+        ]
         endOfYearManager.listeningTimeToReturn = 3000
         let stories = await builder.build()
 
@@ -71,6 +76,11 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
+        endOfYearManager.topPodcastsToReturn = [
+            TopPodcast(podcast: Podcast.previewPodcast(),
+                       numberOfPlayedEpisodes: 3,
+                       totalPlayedTime: 3000)
+        ]
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 3, numberOfEpisodes: 10)
         let stories = await builder.build()
 
