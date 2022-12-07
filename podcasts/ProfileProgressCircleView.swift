@@ -1,4 +1,6 @@
 import UIKit
+import Kingfisher
+import PocketCastsServer
 
 class ProfileProgressCircleView: ThemeableView {
     var isSubscribed = false {
@@ -45,6 +47,7 @@ class ProfileProgressCircleView: ThemeableView {
         }
     }
 
+    private var gravatarImageView: UIImageView!
     private var profileImageView: UIImageView!
     private var profileGradientView: UIView!
     private var profileGradientLayer: CAGradientLayer!
@@ -64,10 +67,12 @@ class ProfileProgressCircleView: ThemeableView {
     }
 
     private func commonInit() {
+        gravatarImageView = UIImageView()
         profileImageView = UIImageView()
         profileGradientView = UIView()
         addSubview(profileGradientView)
         addSubview(profileImageView)
+        addSubview(gravatarImageView)
 
         profileGradientLayer = CAGradientLayer()
         profileGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
@@ -93,6 +98,14 @@ class ProfileProgressCircleView: ThemeableView {
 
         expiryGradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
         expiryShapeLayer.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
+
+        gravatarImageView.frame = CGRect(x: origin, y: origin, width: imageSize, height: imageSize)
+
+        if let email = ServerSettings.syncingEmail() {
+            let gravatar = "https://www.gravatar.com/avatar/\(email.md5))?d=404"
+            let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
+            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: [.processor(processor)])
+        }
     }
 
     override func draw(_ rect: CGRect) {
