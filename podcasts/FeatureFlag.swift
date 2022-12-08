@@ -23,6 +23,10 @@ enum FeatureFlag: String, CaseIterable {
     case onboardingUpdates
 
     var isEnabled: Bool {
+        if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
+            return overriddenValue
+        }
+
         switch self {
         case .freeTrialsEnabled:
             return true
@@ -39,5 +43,15 @@ enum FeatureFlag: String, CaseIterable {
         case .onboardingUpdates:
             return true
         }
+    }
+}
+
+extension FeatureFlag: OverrideableFlag {
+    var description: String {
+        self.rawValue
+    }
+
+    var canOverride: Bool {
+        true
     }
 }
