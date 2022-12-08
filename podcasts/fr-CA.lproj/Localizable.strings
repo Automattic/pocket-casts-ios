@@ -929,7 +929,7 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
 2. Appuyez sur l’onglet « Personal » (Personnel).
 3. Faites défiler l’écran jusqu’à l’option « Settings » (Réglages), puis appuyez dessus.
 4. Faites défiler l’écran jusqu’à l’option « OPML Export » (Exportation OPML), puis appuyez dessus.
-5. Si vous y êtes invité, appuyez sur « Open in Pocket Casts » (Ouvrir dans Pocket Casts).
+5. Si une invite s’affiche, appuyez sur « Open in Pocket Casts » (Ouvrir dans Pocket Casts).
 6. Si le fichier s’ouvre dans Safari, appuyez sur le bouton « Download » (Télécharger).
 7. Une fois le téléchargement terminé, appuyez sur l’icône de téléchargement dans la barre d’URL.
 8. Appuyez sur l’élément « Downloads » (Téléchargements).
@@ -938,7 +938,7 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
 11. Lorsque la boîte de dialogue de partage s’ouvre, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
     <key>import_instructions_castro</key>
     <string>1. Appuyez sur le bouton « Open Castro » (Ouvrir Castro) ci-dessous.
-2. Appuyez sur l’icône en forme d’engrenage dans l’angle supérieur de l’application.
+2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
 3. Faites défiler l’écran jusqu’à l’option « User Data » (Données utilisateur), puis appuyez dessus.
 4. Appuyez sur l’élément « Export Subscriptions » (Exporter des abonnements).
 5. Lorsque la boîte de dialogue de partage s’ouvre, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
@@ -952,7 +952,7 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>autres applications</string>
     <key>import_instructions_overcast</key>
     <string>1. Appuyez sur le bouton ci-dessous pour ouvrir Overcast.
-2. Appuyez sur l’icône en forme d’engrenage dans l’angle supérieur de l’application.
+2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
 3. Faites défiler l’écran jusqu’à « Export OPML » (Exportation OPML), puis appuyez dessus.
 4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
     <key>import_podcasts_description</key>
@@ -985,7 +985,7 @@ podcasts partout avec</string>
     <key>loading</key>
     <string>Chargement...</string>
     <key>login_subtitle</key>
-    <string>Créez un compte pour synchroniser votre expérience d'écoute sur tous vos appareils.</string>
+    <string>Créez un compte pour synchroniser votre expérience d’écoute sur tous vos appareils.</string>
     <key>login_title</key>
     <string>Découvrir votre prochain podcast préféré</string>
     <key>mark_played</key>
@@ -1232,7 +1232,7 @@ MISES À JOUR</string>
     <key>plus_button_title_unlock_all</key>
     <string>Profiter de toutes les fonctionnalités</string>
     <key>plus_cancel_terms</key>
-    <string>Vous pouvez annuler à tout moment.</string>
+    <string>Annulation possible à tout moment.</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ Go de stockage infonuagique</string>
     <key>plus_error_already_registered</key>
@@ -1279,7 +1279,7 @@ Obtenez des applications de bureau, apportez vos propres fichiers et donnez un c
     <key>plus_marketing_main_title</key>
     <string>Des fonctionnalités améliorées pour les auditeurs expérimentés</string>
     <key>plus_marketing_subtitle</key>
-    <string>Accéder à des options de personnalisation et des fonctionnalités exclusives</string>
+    <string>Accéder à des options de personnalisation et à des fonctionnalités exclusives</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Affichez vos vraies couleurs. Des icônes et des thèmes exclusifs uniquement pour le club plus.</string>
     <key>plus_marketing_themes_icons_title</key>
@@ -1353,7 +1353,7 @@ Obtenez des applications de bureau, apportez vos propres fichiers et donnez un c
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
     <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Obtenir la newsletter</string>
+    <string>Recevoir la newsletter</string>
     <key>podcast_access_ended</key>
     <string>L’accès a pris fin : %1$@</string>
     <key>podcast_access_ends</key>
