@@ -174,7 +174,7 @@ extension IapHelper {
     }
 
     func isEligibleForFreeTrial() -> Bool {
-        return FeatureFlag.freeTrialsEnabled.isEnabled && isEligibleForTrial
+        return FeatureFlag.freeTrialsEnabled.enabled && isEligibleForTrial
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -218,7 +218,7 @@ private extension IapHelper {
     private func updateTrialEligibility() {
         guard
             isCheckingEligibility == false,
-            FeatureFlag.freeTrialsEnabled.isEnabled,
+            FeatureFlag.freeTrialsEnabled.enabled,
             getFirstFreeTrialProductId() != nil,
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,

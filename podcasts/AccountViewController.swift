@@ -124,7 +124,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     }
 
     private func hideOldUpgradeViewIfNeeded() {
-        guard FeatureFlag.onboardingUpdates.isEnabled else { return }
+        guard FeatureFlag.onboardingUpdates.enabled else { return }
         oldUpgradeView.removeFromSuperview()
     }
 
@@ -270,7 +270,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 newTableRows[0].append(.cancelSubscription)
             }
 
-            if FeatureFlag.onboardingUpdates.isEnabled, !upgradeHidden {
+            if FeatureFlag.onboardingUpdates.enabled, !upgradeHidden {
                 newTableRows[0].insert(.upgradeView, at: 0)
             }
 
@@ -298,7 +298,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
 
-            if FeatureFlag.onboardingUpdates.isEnabled {
+            if FeatureFlag.onboardingUpdates.enabled {
                 newTableRows[0].insert(.upgradeView, at: 0)
             }
 
@@ -311,7 +311,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         // If we're not hiding the upgrade view, then refresh the pricing info
         // If the IAP information hasn't been pulled in yet, this method will trigger a refresh and the view will
         // be updated via `iapProductsUpdated`
-        if !FeatureFlag.onboardingUpdates.isEnabled, upgradeHidden == false {
+        if !FeatureFlag.onboardingUpdates.enabled, upgradeHidden == false {
             updatePricingLabels()
         }
 

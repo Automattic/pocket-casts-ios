@@ -4,7 +4,7 @@ import Foundation
 // feature flags to use in test cases.
 //
 protocol OverrideableFlag: CustomStringConvertible {
-    var isEnabled: Bool { get }
+    var enabled: Bool { get }
     var canOverride: Bool { get }
 }
 
@@ -40,7 +40,7 @@ struct FeatureFlagOverrideStore {
             store.removeObject(forKey: key)
         }
 
-        if value != featureFlag.isEnabled {
+        if value != featureFlag.enabled {
             store.set(value, forKey: key)
         }
     }

@@ -14,7 +14,7 @@ private extension FeatureFlag {
     var isOn: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return isEnabled
+                return enabled
             },
             set: { enabled in
                 try? FeatureFlagOverrideStore().override(self, withValue: enabled)

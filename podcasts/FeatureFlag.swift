@@ -22,7 +22,7 @@ enum FeatureFlag: String, CaseIterable {
     /// Displays the new onboarding view updates
     case onboardingUpdates
 
-    var isEnabled: Bool {
+    var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
         }

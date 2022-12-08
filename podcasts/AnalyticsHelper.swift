@@ -389,7 +389,7 @@ private extension AnalyticsHelper {
         #if !os(watchOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
-        if FeatureFlag.firebaseLogging.isEnabled {
+        if FeatureFlag.firebaseLogging.enabled {
                 if let parameters = parameters {
                     logger.debug("🟢 Tracked: \(name) \(parameters)")
                 } else {

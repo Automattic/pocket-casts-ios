@@ -12,7 +12,7 @@ enum EndOfYearPresentationSource: String {
 struct EndOfYear {
     // We'll calculate this just once
     static var isEligible: Bool {
-        FeatureFlag.endOfYear.isEnabled && DataManager.sharedManager.isEligibleForEndOfYearStories()
+        FeatureFlag.endOfYear.enabled && DataManager.sharedManager.isEligibleForEndOfYearStories()
     }
 
     /// Internal state machine to determine how we should react to login changes
@@ -71,7 +71,7 @@ struct EndOfYear {
     }
 
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
-        guard FeatureFlag.endOfYear.isEnabled else {
+        guard FeatureFlag.endOfYear.enabled else {
             return
         }
 
