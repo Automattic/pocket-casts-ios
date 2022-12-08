@@ -5,19 +5,22 @@ struct BetaMenu: View {
     var body: some View {
         List {
             ForEach(FeatureFlag.allCases, id: \.self) { feature in
-                Toggle(feature.rawValue, isOn: isEnabled(feature))
+                Toggle(feature.rawValue, isOn: feature.isOn)
             }
         }
     }
+}
 
-    func isEnabled(_ featureFlag: FeatureFlag) -> Binding<Bool> {
+private extension FeatureFlag {
+    var isOn: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return featureFlag.isEnabled
+                return isEnabled
             },
             set: { enabled in
-                try? FeatureFlagOverrideStore().override(featureFlag, withValue: enabled)
-            })
+                try? FeatureFlagOverrideStore().override(self, withValue: enabled)
+            }
+        )
     }
 }
 
