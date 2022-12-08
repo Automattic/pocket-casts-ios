@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 /// A label used in the end of year stories that provides consistent styling
 /// This preprocesses the text to improve the typography
@@ -54,29 +55,8 @@ struct StoryLabel: View {
     }
 
     private static func processText(_ text: String) -> String {
-        let returnText = text
         // Typographic apostrophes
-            .replacingOccurrences(of: "'", with: "ʼ")
-        // Prevent Pocket Casts from being separated
-            .replacingOccurrences(of: "Pocket Casts", with: "Pocket Casts".nonBreakingSpaces())
-
-        let components = returnText.components(separatedBy: " ")
-
-        guard components.count > 1 else {
-            return returnText
-        }
-
-        let count = components.count - 1
-        var builder: [String] = []
-
-        for (index, word) in components.enumerated() {
-            let isLast = index == count
-
-            builder.append(isLast ? .nbsp : " ")
-            builder.append(word)
-        }
-
-        return builder.joined()
+        text.preventWidows().replacingOccurrences(of: "'", with: "ʼ")
     }
 
     enum StoryLabelType {
@@ -399,13 +379,6 @@ struct PodcastStackView: View {
 }
 
 extension String {
-    static let nbsp = "\u{00a0}"
-
-    func nonBreakingSpaces() -> String {
-        self.replacingOccurrences(of: " ", with: Self.nbsp)
-    }
-
-
     /// Limit the string to given length or truncate it with ...
     func limited(to len: Int) -> String {
         // If the length is less than the max, then allow it
