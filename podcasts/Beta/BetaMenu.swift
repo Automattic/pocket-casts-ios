@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct BetaMenu: View {
-    @State var enabled = true
     var body: some View {
         List {
             ForEach(FeatureFlag.allCases, id: \.self) { feature in
