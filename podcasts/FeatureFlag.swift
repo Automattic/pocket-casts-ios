@@ -1,6 +1,6 @@
 import Foundation
 
-enum FeatureFlag {
+enum FeatureFlag: String, CaseIterable {
     /// Whether we should detect and show the free trial UI
     case freeTrialsEnabled
 
