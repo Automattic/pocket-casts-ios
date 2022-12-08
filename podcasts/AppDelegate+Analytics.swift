@@ -3,7 +3,7 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func setupAnalytics() {
-        guard FeatureFlag.tracksEnabled.isEnabled, !Settings.analyticsOptOut() else {
+        guard FeatureFlag.tracks.isEnabled, !Settings.analyticsOptOut() else {
             return
         }
 

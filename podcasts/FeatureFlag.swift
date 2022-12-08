@@ -5,13 +5,13 @@ enum FeatureFlag: String, CaseIterable {
     case freeTrialsEnabled
 
     /// Whether the Tracks analytics are enabled
-    case tracksEnabled
+    case tracks
 
     /// Whether logging of Tracks events in console are enabled
-    case tracksLoggingEnabled
+    case tracksLogging
 
     /// Whether logging of Firebase events in console are enabled
-    case firebaseLoggingEnabled
+    case firebaseLogging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
@@ -30,11 +30,11 @@ enum FeatureFlag: String, CaseIterable {
         switch self {
         case .freeTrialsEnabled:
             return true
-        case .tracksEnabled:
+        case .tracks:
             return true
-        case .tracksLoggingEnabled:
+        case .tracksLogging:
             return false
-        case .firebaseLoggingEnabled:
+        case .firebaseLogging:
             return false
         case .endOfYear:
             return true
