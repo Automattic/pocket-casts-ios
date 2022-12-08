@@ -222,7 +222,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func showProfileSetupController() {
-        if FeatureFlag.onboardingUpdates {
+        if FeatureFlag.onboardingUpdates.isEnabled {
             NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.loggedOut])
             return
         }

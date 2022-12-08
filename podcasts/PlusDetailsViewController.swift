@@ -157,7 +157,7 @@ class PlusDetailsViewController: PCViewController {
     }
 
     @IBAction func upgradeTapped(_ sender: Any) {
-        guard !FeatureFlag.onboardingUpdates else {
+        guard !FeatureFlag.onboardingUpdates.isEnabled else {
             handleUpgrade()
             return
         }

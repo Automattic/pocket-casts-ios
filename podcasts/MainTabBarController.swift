@@ -66,7 +66,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        guard FeatureFlag.onboardingUpdates, Settings.shouldShowInitialOnboardingFlow else { return }
+        guard FeatureFlag.onboardingUpdates.isEnabled, Settings.shouldShowInitialOnboardingFlow else { return }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
@@ -253,7 +253,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        guard FeatureFlag.onboardingUpdates else {
+        guard FeatureFlag.onboardingUpdates.isEnabled else {
             let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
             presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
             return
@@ -335,7 +335,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard !SyncManager.isUserLoggedIn() else { return }
 
         let signInController: UIViewController
-        if FeatureFlag.signInWithApple {
+        if FeatureFlag.signInWithApple.isEnabled {
             signInController = ProfileIntroViewController()
         }
         else {
@@ -431,7 +431,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func observersForEndOfYearStats() {
-        guard FeatureFlag.endOfYear else {
+        guard FeatureFlag.endOfYear.isEnabled else {
             return
         }
 
