@@ -11,8 +11,13 @@ struct BetaMenu: View {
     }
 
     func isEnabled(_ featureFlag: FeatureFlag) -> Binding<Bool> {
-        return Binding<Bool>(get: {return featureFlag.isEnabled},
-                                                     set: {_ in })
+        return Binding<Bool>(
+            get: {
+                return featureFlag.isEnabled
+            },
+            set: { enabled in
+                try? FeatureFlagOverrideStore().override(featureFlag, withValue: enabled)
+            })
     }
 }
 
