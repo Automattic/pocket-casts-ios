@@ -156,7 +156,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             deleteAccountTapped()
         case .cancelSubscription:
             let controller = CancelConfirmationViewModel.make()
-            
+
             present(controller, animated: true, completion: nil)
             Analytics.track(.accountDetailsCancelTapped)
         case .privacyPolicy:
