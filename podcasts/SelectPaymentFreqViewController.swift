@@ -189,7 +189,7 @@ class SelectPaymentFreqViewController: UIViewController {
     @objc func iapProductsFailed() {
         #if !targetEnvironment(simulator)
             errorView.isHidden = false
-            tryAgainButton.enabled = true
+            tryAgainButton.isEnabled = true
             tryAgainActivityIndicator.stopAnimating()
         #endif
     }
