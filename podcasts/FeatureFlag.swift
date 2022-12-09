@@ -48,7 +48,7 @@ enum FeatureFlag: String, CaseIterable {
 
 extension FeatureFlag: OverrideableFlag {
     var description: String {
-        self.rawValue
+        rawValue
     }
 
     var canOverride: Bool {
