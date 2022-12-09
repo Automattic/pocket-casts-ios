@@ -24,7 +24,7 @@ private struct LoginLandingContent: View {
 
     /// Reduce the header height to allow the buttons to fit for larger size categories
     private var useSmallHeader: Bool {
-        (smallHeight && sizeCategory > .extraLarge) || FeatureFlag.signInWithApple
+        (smallHeight && sizeCategory > .extraLarge) || FeatureFlag.signInWithApple.enabled
     }
 
     let coordinator: LoginCoordinator
@@ -306,7 +306,7 @@ private struct SocialLoginButtons: View {
     let coordinator: LoginCoordinator
 
     var body: some View {
-        if !FeatureFlag.signInWithApple {
+        if !FeatureFlag.signInWithApple.enabled {
             EmptyView()
         } else {
             Button("Continue with Apple") {
