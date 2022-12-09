@@ -3,12 +3,12 @@ import PocketCastsUtils
 
 /// Allows applying to styles to subtext located within a string
 struct HighlightedText: View {
-    typealias HighlightStyleBlock = (HighlightTokenizer.Token) -> HighlightStyle?
+    typealias HighlightStyleBlock = (Highlight) -> HighlightStyle?
 
-    /// Internal configuration to allow the view to "configure itself" without
-    /// needing to pass everything through the init
-    @ObservedObject private var config = Configuration()
-
+    // Internal config
+    private var highlights: Set<String> = []
+    private var font: Font = .body
+    private var highlightBlocks: [String: HighlightStyleBlock] = [:]
     private let text: String
 
     init(_ text: String) {
@@ -28,90 +28,141 @@ struct HighlightedText: View {
 
     /// Sets the font for the entire text
     func font(_ font: Font) -> Self {
-        config.font = font
-        return self
+        var mutableSelf = self
+        mutableSelf.font = font
+        return mutableSelf
     }
 
     /// Adds a new highlight string
-    func highlight(_ string: String?) -> Self {
+    func highlight(_ string: String?, _ highlightBlock: HighlightStyleBlock? = nil) -> Self {
+        var mutableSelf = self
         if let string, !string.isEmpty {
-            config.highlights.append(string)
+            mutableSelf.highlights.insert(string)
+            mutableSelf.highlightBlocks[Self.key(string)] = highlightBlock
         }
-        return self
+        return mutableSelf
     }
 
     /// Adds new highlight strings
-    func highlight(_ strings: [String]?) -> Self {
+    func highlight(_ strings: [String]?, _ highlightBlock: HighlightStyleBlock? = nil) -> Self {
+        var mutableSelf = self
+
         if let strings, !strings.isEmpty {
-            config.highlights.append(contentsOf: strings)
+            mutableSelf.highlights.formUnion(strings)
+
+            for string in strings {
+                mutableSelf.highlightBlocks[Self.key(string)] = highlightBlock
+            }
         }
-        return self
-    }
 
-
-    /// This is called when a highlight match is ready for styling
-    /// By default this will return `HighlightStyleBlock.defaultStyle`
-    func onHighlight(_ block: @escaping HighlightStyleBlock) -> Self {
-        config.highlightBlock = block
-        return self
+        return mutableSelf
     }
 
     // MARK: - Private
 
     @available(iOS 15, *)
     private var attributedString: AttributedString? {
-        let highlights = config.highlights
         guard !highlights.isEmpty else { return nil }
 
-        // Get all the highlight matches in the form of tokens
-        let tokenizer = HighlightTokenizer(text: text, highlights: highlights)
-        let tokens = tokenizer.tokenize()
+        guard let string = try? AttributedString(markdown: tokenize(), including: \.highlight) else {
+            return nil
+        }
 
-        // Create the base attributed string to return
-        var string = AttributedString()
+        return highlight(string: string)
+    }
 
-        for token in tokens {
-            // Configure the base text
-            var substring = AttributedString(token.string)
-            substring.font = config.font
+    @available(iOS 15, *)
+    /// Adds custom formatting to the attributed string
+    private func highlight(string: AttributedString) -> AttributedString {
+        var attrString = string
+        attrString.font = font
 
-            defer { string += substring }
+        var counter: [String: Int] = [:]
 
-            // Apply highlight style below...
-            guard token.type == .highlight else { continue }
+        for run in attrString.runs {
+            guard run.highlight == true else { continue }
+            let range = run.range
+
+            let key = Self.key(String(attrString.characters[range]))
+
+            let matchCount = (counter[key] ?? -1) + 1
+            counter[key] = matchCount
+
+            let block = highlightBlocks[key]
 
             // If there isn't a style block defined, then use the default style
-            let styleBlock = config.highlightBlock ?? { token in
+            let styleBlock = block ?? { _ in
                 .defaultStyle
             }
 
             // If the style block returns nil, then don't apply a style
-            guard let style = styleBlock(token) else { continue }
+            guard let style = styleBlock(.init(string: key, matchNumber: matchCount)) else { continue }
 
-            // Use the base font if only the weight is specified
+            // Apply the style
             if style.font == nil, let weight = style.weight {
-                substring.font = config.font.weight(weight)
+                attrString[range].font = font.weight(weight)
             } else {
-                substring.font = style.font
+                attrString[range].font = style.font
             }
 
-            // Set the foreground and background
-            substring.foregroundColor = style.color
-            substring.backgroundColor = style.backgroundColor
+            attrString[range].foregroundColor = style.color
+            attrString[range].backgroundColor = style.backgroundColor
         }
 
-        return string
+        return attrString
     }
 
-    // MARK: - Internal configuration state
-    private class Configuration: ObservableObject {
-        @Published var highlights: [String] = []
-        @Published var font: Font = .body
-        @Published var highlightBlock: HighlightStyleBlock? = nil
+    /// The key to use to identify a match
+    private static func key(_ string: String) -> String {
+        string.nonBreakingSpaces()
+    }
+
+    /// Format the text with markdown
+    private func tokenize() -> String {
+        var result = text
+
+        // Use custom start and end delimeters to prevent replacing token text
+        let startToken = "\u{001A}"
+        let endToken = "\u{001D}"
+
+        // Wrap the given string in a token
+        let token: (String) -> String = {
+            startToken + $0 + endToken
+        }
+
+        for highlight in highlights {
+            // If we have at least 1 result then tokenize all of them
+            if result.range(of: highlight) != nil {
+                result = result.replacingOccurrences(of: highlight, with: token(highlight))
+            }
+
+            // If the highlight is multi word, also replace the nbsp version of the string
+            if highlight.contains(" ") {
+                let nbspHighlight = highlight.nonBreakingSpaces()
+
+                if result.range(of: nbspHighlight) != nil {
+                    result = result.replacingOccurrences(of: nbspHighlight, with: token(nbspHighlight))
+                }
+            }
+        }
+
+        // Replace the custom start/end delimiters with markdown format
+        return result
+            .replacingOccurrences(of: startToken, with: "^[")
+            .replacingOccurrences(of: endToken, with: "](highlight: true)")
+
+    }
+
+    // MARK: - Public structs
+    struct Highlight {
+        let string: String
+        let matchNumber: Int
     }
 
     /// Defines a style for a highlight
     struct HighlightStyle {
+        static let defaultStyle: HighlightStyle = .init(weight: .bold)
+
         let font: Font?
         let weight: Font.Weight?
         let color: Color?
@@ -123,99 +174,29 @@ struct HighlightedText: View {
             self.color = color
             self.backgroundColor = backgroundColor
         }
-
-        static let defaultStyle: HighlightStyle = .init(weight: .bold)
     }
 }
 
-// MARK: - Tokenizer
+// MARK: - Custom Markdown Format Attributes
+@available(iOS 15, *)
+private enum HighlightAttribute: CodableAttributedStringKey, MarkdownDecodableAttributedStringKey {
+    typealias Value = Bool
+    static var name: String = "highlight"
+}
 
-/// Converts the given text and highlights into a tokenized array
-struct HighlightTokenizer {
-    let text: String
-    let highlights: [String]
-
-    func tokenize() -> [Token] {
-        var result = text
-
-        for highlight in highlights {
-            // If there's at least 1 match of the highlight, then replace all instances with a token
-            if result.range(of: highlight) != nil {
-                result = result.replacingOccurrences(of: highlight, with: token(string: highlight))
-            }
-
-            // If highlight string is multiple words, then also replace the nbsp version of the string
-            // this will make sure we highlight the last few words of a string
-            let nbspHighlight = highlight.nonBreakingSpaces()
-
-            if highlight.contains(" "), result.range(of: nbspHighlight) != nil {
-                result = result.replacingOccurrences(of: nbspHighlight, with: token(string: nbspHighlight))
-            }
-        }
-
-        // Split on the delimiter to get a list of the token'd strings
-        let components = result.components(separatedBy: Constants.delimeter)
-
-        var tokens: [Token] = []
-        var counter: [String: Int] = [:]
-
-        for component in components {
-            if component.isEmpty { continue }
-
-            var string = component
-            var type = Token.TokenType.string
-            let key = string.nonBreakingSpaces()
-
-            // If the first character is our highlight indicator
-            // then remove the indicator, mark it as a highlight, and keep a running tally
-            if string.first == Constants.highlight {
-                string = String(component.dropFirst())
-                type = .highlight
-
-                counter[key] = (counter[key] ?? -1) + 1
-            }
-
-            tokens.append(Token(string: string, type: type, matchNumber: counter[key] ?? 0))
-        }
-
-        // Update all the total match counts for the highlights
-        for var token in tokens {
-            let key = token.string.nonBreakingSpaces()
-            token.matchCount = counter[key] ?? 0
-        }
-
-        return tokens
+@available(iOS 15, *)
+private extension AttributeScopes {
+    struct HighlightTextAttributes: AttributeScope {
+        let highlight: HighlightAttribute
     }
 
-    // Wrap the highlight with the delimeter to split the text
-    // Append the highlight token character so we can easily process it below
-    private func token(string: String) -> String {
-        Constants.delimeter + (String(Constants.highlight) + string) + Constants.delimeter
-    }
+    var highlight: HighlightTextAttributes.Type { HighlightTextAttributes.self }
+}
 
-    struct Token {
-        let string: String
-        let type: TokenType
-
-        /// If there are multiple matches, this indicate which order it appeared in the text
-        let matchNumber: Int
-
-        /// The total number of matches for this highlight
-        var matchCount: Int = 0
-
-        enum TokenType {
-            case string, highlight
-        }
-    }
-
-    private enum Constants {
-        /// The token wrapping delimeter
-        /// This is a group separator character to prevent clashing with the actual text
-        static let delimeter = "\u{001D}"
-
-        /// The highlight indicator
-        /// This is a a substitute character to prevent clashing with the actual text
-        static let highlight = Character("\u{001A}")
+@available(iOS 15, *)
+private extension AttributeDynamicLookup {
+    subscript<T: AttributedStringKey>(dynamicMember keyPath: KeyPath<AttributeScopes.HighlightTextAttributes, T>) -> T {
+        self[T.self]
     }
 }
 
@@ -223,7 +204,7 @@ struct HighlightTokenizer {
 
 struct HighlightedText_Previews: PreviewProvider {
     struct DemoView: View {
-        @State var toggle = true
+        @State var counter = 0
 
         var body: some View {
             List {
@@ -237,55 +218,54 @@ struct HighlightedText_Previews: PreviewProvider {
                     .fixedSize(horizontal: false, vertical: true)
 
                 HighlightedText("The highlighted words will now be in a different font and background color 😱!")
-                    .highlight(["highlighted", "now", "font"])
-                    .font(.body)
-                    .onHighlight { token in
+                    .highlight(["highlighted", "now", "font", "background color"]) { _ in
                             .init(font: .title3.italic().weight(.heavy),
                                   color: .purple,
                                   backgroundColor: .yellow.opacity(0.3))
-                    }.fixedSize(horizontal: false, vertical: true)
+                    }
+                    .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
 
-                HighlightedText("Match all words! One! Two! One! Two!")
-                    .highlight("One")
+                HighlightedText("Match all occurrences! One! Two! One! Two!")
+                    .highlight("One") { _ in
+                            .init(color: .blue)
+                    }
                     .font(.body)
-                    .onHighlight { token in
-                            .init(font: .title3.italic().weight(.heavy),
-                                  color: .purple,
-                                  backgroundColor: .yellow.opacity(0.3))
-                    }.fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 let diffString = "Have different styles for each match WOW!"
                 let highlights = diffString.components(separatedBy: .whitespaces)
                 let rainbow: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink]
 
                 HighlightedText(diffString)
-                    .highlight(highlights)
-                    .font(.body)
-                    .onHighlight { token in
-                        guard let index = highlights.firstIndex(of: token.string) else {
+                    .highlight(highlights) { highlight in
+                        guard let index = highlights.firstIndex(of: highlight.string) else {
                             return nil
                         }
 
                         return .init(font: .body.bold(), color: rainbow[index])
-                    }.fixedSize(horizontal: false, vertical: true)
-
-                HighlightedText("Tap to toggle: Match \(toggle ? "first" : "last") occurence!\nWord Word Word Word")
-                    .highlight("Word")
-                    .font(.body)
-                    .onHighlight { token in
-                        if (toggle && token.matchNumber != 0) || (!toggle && token.matchNumber < token.matchCount) {
-                            return nil
-                        }
-
-                        return .defaultStyle
                     }
+                    .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                let lipsum = "Click Me to change the highlight"
+                let lipsumHighlights = lipsum.components(separatedBy: .whitespaces)
+                HighlightedText(lipsum)
+                    .highlight(lipsumHighlights[counter]) { _ in
+                        return .init(color: .white, backgroundColor: .blue)
+                    }
+                    .highlight(lipsumHighlights[lipsumHighlights.count - 1 - counter]) { _ in
+                        return .init(color: .white, backgroundColor: .red)
+                    }
+                    .font(.body.leading(.loose))
                     .fixedSize(horizontal: false, vertical: true)
                     .onTapGesture {
-                        toggle.toggle()
+                        withAnimation(.interpolatingSpring(stiffness: 350, damping: 50, initialVelocity: 10)) {
+                            counter = (counter + 1) % lipsumHighlights.count
+                            print(counter, lipsumHighlights.count - 1 - counter)
+                        }
                     }
-
             }.listStyle(.plain)
-
         }
     }
 
