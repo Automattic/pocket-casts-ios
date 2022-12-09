@@ -6,7 +6,7 @@ struct HighlightedText: View {
     typealias HighlightStyleBlock = (Highlight) -> HighlightStyle?
 
     // Internal config
-    private var highlights: Set<String> = []
+    private var highlights: [String] = []
     private var font: Font = .body
     private var highlightBlocks: [String: HighlightStyleBlock] = [:]
     private let text: String
@@ -37,7 +37,7 @@ struct HighlightedText: View {
     func highlight(_ string: String?, _ highlightBlock: HighlightStyleBlock? = nil) -> Self {
         var mutableSelf = self
         if let string, !string.isEmpty {
-            mutableSelf.highlights.insert(string)
+            mutableSelf.highlights.append(string)
             mutableSelf.highlightBlocks[Self.key(string)] = highlightBlock
         }
         return mutableSelf
@@ -48,7 +48,7 @@ struct HighlightedText: View {
         var mutableSelf = self
 
         if let strings, !strings.isEmpty {
-            mutableSelf.highlights.formUnion(strings)
+            mutableSelf.highlights.append(contentsOf: strings)
 
             for string in strings {
                 mutableSelf.highlightBlocks[Self.key(string)] = highlightBlock
