@@ -4,7 +4,7 @@ struct BetaMenu: View {
     var body: some View {
         List {
             ForEach(FeatureFlag.allCases, id: \.self) { feature in
-                Toggle(feature.rawValue, isOn: feature.isOn)
+                Toggle(String(describing: feature), isOn: feature.isOn)
             }
         }
     }
