@@ -155,9 +155,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .deleteAccount:
             deleteAccountTapped()
         case .cancelSubscription:
-            let cancelVC = CancelInfoViewController()
-            cancelVC.modalPresentationStyle = .fullScreen
-            present(SJUIUtils.navController(for: cancelVC), animated: true, completion: nil)
+            let controller = CancelConfirmationViewModel.make()
+            
+            present(controller, animated: true, completion: nil)
+            Analytics.track(.accountDetailsCancelTapped)
         case .privacyPolicy:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
             Analytics.track(.accountDetailsShowPrivacyPolicy)
