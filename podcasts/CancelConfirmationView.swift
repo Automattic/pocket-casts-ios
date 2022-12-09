@@ -172,8 +172,7 @@ private struct ListRow: View {
 
             HighlightedText(title)
                 .font(.body.leading(.loose))
-                .highlight(highlightedText)
-                .onHighlight { _ in
+                .highlight(highlightedText) { _ in
                     .init(weight: .medium, color: AppTheme.color(for: .highlightColor, theme: theme))
                 }
                 .fixedSize(horizontal: false, vertical: true)
