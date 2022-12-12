@@ -1,6 +1,6 @@
 7.29
 -----
-
+- Fixed Edit Folder screen layout (#53)
 
 7.28
 -----
