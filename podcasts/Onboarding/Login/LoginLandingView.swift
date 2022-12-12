@@ -52,27 +52,69 @@ private struct LoginLandingContent: View {
         }()
     }
 
+    // If the content will go offscreen
+    // Show a gradient behind the content to make sure it's visible
+    @State var showGradient: Bool? = nil
+
+    /// The amount to reduce the top padding by to make sure the buttons are all visible
+    @State var headerHeightOffset: CGFloat = 0
+
     var body: some View {
+        let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
+        let headerHeight = loginHeaderHeight - headerHeightOffset
+
         ZStack(alignment: .top) {
-            LoginHeader(models: calculatedModels, topPadding: Config.padding)
-                .clipped()
+            GeometryReader { viewSizeProxy in
+                LoginHeader(models: calculatedModels, topPadding: Config.padding)
+                    .clipped()
 
-            VStack {
-                // Title and Subtitle
-                VStack(spacing: 8) {
-                    LoginLabel(L10n.loginTitle, for: .title)
-                    LoginLabel(L10n.loginSubtitle, for: .subtitle)
-                }
+                    VStack {
+                        // Title and Subtitle
+                        VStack(spacing: 8) {
+                            LoginLabel(L10n.loginTitle, for: .title)
+                            LoginLabel(L10n.loginSubtitle, for: .subtitle)
+                        }
 
-                Spacer()
+                        Spacer()
 
-                LoginButtons(coordinator: coordinator)
+                        LoginButtons(coordinator: coordinator)
+                    }
+                    .padding([.leading, .trailing], Config.padding)
+                    .padding(.top, headerHeight)
+                    .padding(.bottom)
+                    .background(
+                        GeometryReader { contentSizeProxy in
+                            let contentHeight = contentSizeProxy.size.height
+                            let viewHeight = viewSizeProxy.size.height
+
+                            Action {
+                                // Only calculate the frame once
+                                if showGradient == nil {
+                                    // Show the gradient if the content is going to go off screen
+                                    let willOverflow = contentHeight > viewHeight
+                                    showGradient = willOverflow
+
+                                    // Calculate how much the content will go offscreen so we can reduce the top
+                                    // padding to ensure it's visible
+                                    headerHeightOffset = willOverflow ? contentHeight - viewHeight : 0
+                                }
+                            }
+
+                            if showGradient == true {
+                                // Determine how much of the login header takes up of the height
+                                // Then make sure the gradient stops there so the content is covered in a solid background
+                                let headerPercentage = headerHeight / viewHeight
+
+                                LinearGradient(gradient: Gradient(stops: [
+                                    Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
+                                    Gradient.Stop(color: backgroundColor, location: headerPercentage),
+                                ]), startPoint: .top, endPoint: .bottom)
+                            }
+                        }
+                    )
             }
-            .padding([.leading, .trailing], Config.padding)
-            .padding(.top, loginHeaderHeight)
-            .padding(.bottom)
         }
-        .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+        .background(backgroundColor.ignoresSafeArea())
     }
 
     private enum Config {
