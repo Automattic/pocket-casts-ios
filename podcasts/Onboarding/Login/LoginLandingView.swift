@@ -52,19 +52,22 @@ private struct LoginLandingContent: View {
         }()
     }
 
-    // If the content needs to scroll
-    // Show gradient to make sure the text is visible as the user scrolls
+    // If the content will go offscreen
+    // Show a gradient behind the content to make sure it's visible
     @State var showGradient: Bool? = nil
+
+    /// The amount to reduce the top padding by to make sure the buttons are all visible
+    @State var headerHeightOffset: CGFloat = 0
 
     var body: some View {
         let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
+        let headerHeight = loginHeaderHeight - headerHeightOffset
 
         ZStack(alignment: .top) {
             GeometryReader { viewSizeProxy in
                 LoginHeader(models: calculatedModels, topPadding: Config.padding)
                     .clipped()
 
-                ScrollViewIfNeeded {
                     VStack {
                         // Title and Subtitle
                         VStack(spacing: 8) {
@@ -77,26 +80,30 @@ private struct LoginLandingContent: View {
                         LoginButtons(coordinator: coordinator)
                     }
                     .padding([.leading, .trailing], Config.padding)
-                    .padding(.top, loginHeaderHeight)
+                    .padding(.top, headerHeight)
                     .padding(.bottom)
                     .background(
                         GeometryReader { contentSizeProxy in
-                            let frame = contentSizeProxy.frame(in: .global)
-                            let viewFrame = viewSizeProxy.frame(in: .global)
+                            let contentHeight = contentSizeProxy.size.height
+                            let viewHeight = viewSizeProxy.size.height
 
                             Action {
-                                // Only calculate the frame once to prevent doing it each time we scroll
+                                // Only calculate the frame once
                                 if showGradient == nil {
-                                    // Show the gradient if we're going to be wrapped in a scrollview
-                                    showGradient = frame.height > viewFrame.height
+                                    // Show the gradient if the content is going to go off screen
+                                    let willOverflow = contentHeight > viewHeight
+                                    showGradient = willOverflow
+
+                                    // Calculate how much the content will go offscreen so we can reduce the top
+                                    // padding to ensure it's visible
+                                    headerHeightOffset = willOverflow ? contentHeight - viewHeight : 0
                                 }
                             }
 
                             if let showGradient, showGradient {
                                 // Determine how much of the login header takes up of the height
                                 // Then make sure the gradient stops there so the content is covered in a solid background
-                                // as the user scrolls
-                                let headerPercentage = loginHeaderHeight / viewFrame.height
+                                let headerPercentage = headerHeight / viewHeight
 
                                 LinearGradient(gradient: Gradient(stops: [
                                     Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
@@ -105,7 +112,6 @@ private struct LoginLandingContent: View {
                             }
                         }
                     )
-                }
             }
         }
         .background(backgroundColor.ignoresSafeArea())
