@@ -100,7 +100,7 @@ private struct LoginLandingContent: View {
                                 }
                             }
 
-                            if let showGradient, showGradient {
+                            if showGradient == true {
                                 // Determine how much of the login header takes up of the height
                                 // Then make sure the gradient stops there so the content is covered in a solid background
                                 let headerPercentage = headerHeight / viewHeight
