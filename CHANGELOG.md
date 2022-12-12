@@ -7,6 +7,7 @@
 - Updates the onboarding and login process: (#548)
 - Updates the end of year calculation to include the month of December (#554)
 - Updates the End of Year stats designs
+- Fixes an issue where the login button is not accesible on very small devices (#597)
 
 7.27
 -----
