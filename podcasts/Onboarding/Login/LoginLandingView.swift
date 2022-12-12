@@ -52,27 +52,63 @@ private struct LoginLandingContent: View {
         }()
     }
 
+    // If the content needs to scroll
+    // Show gradient to make sure the text is visible as the user scrolls
+    @State var showGradient: Bool? = nil
+
     var body: some View {
+        let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
+
         ZStack(alignment: .top) {
-            LoginHeader(models: calculatedModels, topPadding: Config.padding)
-                .clipped()
+            GeometryReader { viewSizeProxy in
+                LoginHeader(models: calculatedModels, topPadding: Config.padding)
+                    .clipped()
 
-            VStack {
-                // Title and Subtitle
-                VStack(spacing: 8) {
-                    LoginLabel(L10n.loginTitle, for: .title)
-                    LoginLabel(L10n.loginSubtitle, for: .subtitle)
+                ScrollViewIfNeeded {
+                    VStack {
+                        // Title and Subtitle
+                        VStack(spacing: 8) {
+                            LoginLabel(L10n.loginTitle, for: .title)
+                            LoginLabel(L10n.loginSubtitle, for: .subtitle)
+                        }
+
+                        Spacer()
+
+                        LoginButtons(coordinator: coordinator)
+                    }
+                    .padding([.leading, .trailing], Config.padding)
+                    .padding(.top, loginHeaderHeight)
+                    .padding(.bottom)
+                    .background(
+                        GeometryReader { contentSizeProxy in
+                            let frame = contentSizeProxy.frame(in: .global)
+                            let viewFrame = viewSizeProxy.frame(in: .global)
+
+                            Action {
+                                // Only calculate the frame once to prevent doing it each time we scroll
+                                if showGradient == nil {
+                                    // Show the gradient if we're going to be wrapped in a scrollview
+                                    showGradient = frame.height > viewFrame.height
+                                }
+                            }
+
+                            if let showGradient, showGradient {
+                                // Determine how much of the login header takes up of the height
+                                // Then make sure the gradient stops there so the content is covered in a solid background
+                                // as the user scrolls
+                                let headerPercentage = loginHeaderHeight / viewFrame.height
+
+                                LinearGradient(gradient: Gradient(stops: [
+                                    Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
+                                    Gradient.Stop(color: backgroundColor, location: headerPercentage),
+                                ]), startPoint: .top, endPoint: .bottom)
+                            }
+                        }
+                    )
                 }
-
-                Spacer()
-
-                LoginButtons(coordinator: coordinator)
             }
-            .padding([.leading, .trailing], Config.padding)
-            .padding(.top, loginHeaderHeight)
-            .padding(.bottom)
         }
-        .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+        .background(backgroundColor.ignoresSafeArea())
     }
 
     private enum Config {
