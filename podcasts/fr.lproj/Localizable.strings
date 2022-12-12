@@ -85,6 +85,12 @@
     <string>Êtes-vous sûr de vouloir supprimer votre compte, il n’y a aucun moyen d’annuler cette action !</string>
     <key>account_delete_account_title</key>
     <string>Supprimer le compte ?</string>
+    <key>account_details_free_account</key>
+    <string>Compte gratuit</string>
+    <key>account_details_listened_for</key>
+    <string>Temps d’écoute : %1$@</string>
+    <key>account_details_plus_title</key>
+    <string>Faites passer votre expérience d’écoute de podcasts au niveau supérieur avec un accès exclusif à des fonctionnalités et à des options de personnalisation.</string>
     <key>account_login</key>
     <string>Se connecter</string>
     <key>account_payment_renews_monthly</key>
@@ -571,6 +577,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Pas maintenant</string>
     <key>eoy_small_title</key>
     <string>Votre année en podcasts</string>
+    <key>eoy_stories_failed</key>
+    <string>Échec du chargement des histoires.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>N’oubliez pas de partager avec vos amis et de mettre en lumière vos créateurs de podcasts préférés.</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +589,42 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>En 2022, vous avez passé %1$@ à écouter des podcasts.</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Cette année, vous avez écouté %1$@ catégories différentes.</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>J’ai écouté %1$@ catégories différentes en 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Découvrez certains de vos podcasts favoris.</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Vous avez écouté plusieurs fois un même podcast…</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>En 2022, j’ai passé %1$@ à écouter des podcasts</string>
     <key>eoy_story_longest_episode</key>
     <string>L’épisode le plus long que vous avez écouté était de %1$@ extrait du podcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>La durée de cet épisode était de %1$@.</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>L’épisode le plus long que j’ai écouté en 2022 %1$@</string>
     <key>eoy_story_replay</key>
     <string>Reprendre la lecture</string>
     <key>eoy_story_top_categories</key>
     <string>Vos meilleures catégories</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mes catégories de podcasts les plus écoutés</string>
     <key>eoy_story_top_podcast</key>
     <string>Votre meilleur podcast était %1$@ de %2$@.</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mon podcast préféré de 2022 ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Vous avez écouté %1$@ épisodes pour une durée totale de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Vos meilleurs podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mes meilleurs podcasts de 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Mes meilleurs podcasts de l’année ! %1$@</string>
     <key>eoy_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_view_year</key>
@@ -826,8 +850,12 @@ Partagez-les avec Pocket Casts, ils apparaîtront ici</string>
     <string>Aucun paiement pour le moment – Annulation à tout moment</string>
     <key>free_trial_duration_free</key>
     <string>Période de gratuité : %1$@</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>ESSAI GRATUIT DE %1$@</string>
     <key>free_trial_pricing_terms</key>
     <string>Période de gratuité : %1$@, ensuite %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>Commencer l’essai gratuit et s’abonner</string>
     <key>free_trial_start_button</key>
     <string>Démarrez votre essai gratuit</string>
     <key>free_trial_title_label</key>
@@ -890,12 +918,54 @@ Partagez-les avec Pocket Casts, ils apparaîtront ici</string>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
+    <key>import_instructions_breaker</key>
+    <string>1. Appuyez sur le bouton « Open Breaker » (Ouvrir Breaker) ci-dessous.
+2. Appuyez sur « Settings » (Réglages) dans la barre d’onglets inférieure.
+3. Appuyez sur « Connection » (Connexion).
+4. Appuyez sur « Export subscriptions » (Exporter des abonnements).
+5. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
+    <key>import_instructions_castbox</key>
+    <string>1. Appuyez sur le bouton « Open Castbox » (Ouvrir Castbox) ci-dessous.
+2. Appuyez sur l’onglet « Personal » (Personnel).
+3. Faites défiler l’écran jusqu’à l’option « Settings » (Réglages), puis appuyez dessus.
+4. Faites défiler l’écran jusqu’à l’option « OPML Export » (Exportation OPML), puis appuyez dessus.
+5. Si une invite s’affiche, appuyez sur « Open in Pocket Casts » (Ouvrir dans Pocket Casts).
+6. Si le fichier s’ouvre dans Safari, appuyez sur le bouton « Download » (Télécharger).
+7. Une fois le téléchargement terminé, appuyez sur l’icône de téléchargement dans la barre d’URL.
+8. Appuyez sur l’élément « Downloads » (Téléchargements).
+9. Appuyez sur le fichier « castbox_opml ». 
+10. Si nécessaire, appuyez sur l’icône de partage, puis ouvrez le fichier avec Pocket Casts.
+11. Lorsque la boîte de dialogue de partage s’ouvre, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
+    <key>import_instructions_castro</key>
+    <string>1. Appuyez sur le bouton « Open Castro » (Ouvrir Castro) ci-dessous.
+2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
+3. Faites défiler l’écran jusqu’à l’option « User Data » (Données utilisateur), puis appuyez dessus.
+4. Appuyez sur l’élément « Export Subscriptions » (Exporter des abonnements).
+5. Lorsque la boîte de dialogue de partage s’ouvre, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
+    <key>import_instructions_import_from</key>
+    <string>Importer depuis %1$@</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>Installer Raccourcis</string>
+    <key>import_instructions_open_in</key>
+    <string>Ouvrir %1$@</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>autres applications</string>
+    <key>import_instructions_overcast</key>
+    <string>1. Appuyez sur le bouton ci-dessous pour ouvrir Overcast.
+2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
+3. Faites défiler l’écran jusqu’à « Export OPML » (Exportation OPML), puis appuyez dessus.
+4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
     <key>import_podcasts_description</key>
     <string>Vous pouvez importer vos abonnements à des podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
 
 Remarque : vous devrez peut-être vous envoyer le fichier OPML par e-mail, appuyer longuement sur la pièce jointe et sélectionner Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>IMPORTER DANS POCKET CASTS</string>
+    <key>import_subtitle</key>
+    <string>Vous utilisiez une autre application auparavant ? Importez vos podcasts et commencez à les écouter. Vous pourrez toujours le faire plus tard dans les paramètres.</string>
+    <key>import_title</key>
+    <string>Emportez vos
+podcasts partout avec</string>
     <key>in_progress</key>
     <string>En cours</string>
     <key>keycommand_close_player</key>
@@ -914,6 +984,10 @@ Remarque : vous devrez peut-être vous envoyer le fichier OPML par e-mail, appu
     <string>Historique d’écoute</string>
     <key>loading</key>
     <string>Chargement en cours…</string>
+    <key>login_subtitle</key>
+    <string>Créez un compte pour synchroniser votre expérience d’écoute sur tous vos appareils.</string>
+    <key>login_title</key>
+    <string>Découvrir votre prochain podcast préféré</string>
     <key>mark_played</key>
     <string>Marquer comme lu</string>
     <key>mark_played_short</key>
@@ -1155,6 +1229,10 @@ MISES À JOUR</string>
     <string>Créez un compte ou connectez-vous pour profiter de votre accès à Pocket Casts Plus.</string>
     <key>plus_account_trial_details</key>
     <string>À la fin de votre essai, vous bénéficierez toujours de tous les avantages de votre compte classique. Bon podcasting !</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>Profiter de toutes les fonctionnalités</string>
+    <key>plus_cancel_terms</key>
+    <string>Annulation possible à tout moment.</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ Go de stockage Cloud</string>
     <key>plus_error_already_registered</key>
@@ -1190,22 +1268,38 @@ MISES À JOUR</string>
 Profitez des applications de bureau, transférez vos propres fichiers et ajoutez une touche de fraîcheur avec de nouveaux thèmes, réservés exclusivement aux membres Plus.</string>
     <key>plus_marketing_folders_description</key>
     <string>Créez des dossiers pour organiser votre collection de podcasts.</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>Une expérience sans publicité qui vous permet de profiter encore plus de ce que vous aimez et qui évite ce qui ne vous intéresse pas</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>Masquer les annonces</string>
     <key>plus_marketing_learn_more_button</key>
     <string>En savoir plus sur Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Soyez vous-même tout en bénéficiant de la diffusion. Téléchargez vos fichiers audio personnels sur nos serveurs Cloud, accédez à votre compte via notre lecteur web, et appropriez-vous l’application.</string>
     <key>plus_marketing_main_title</key>
     <string>Des fonctionnalités optimisées pour les auditeurs exigeants.</string>
+    <key>plus_marketing_subtitle</key>
+    <string>Accéder à des options de personnalisation et à des fonctionnalités exclusives</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Affichez vos véritables couleurs. Des icônes et des thèmes exclusifs pour le club Plus uniquement.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thèmes et icônes</string>
+    <key>plus_marketing_title</key>
+    <string>Tout ce que vous aimez à propos de Pocket Casts, et bien plus encore</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>Chargez vos fichiers dans le stockage Cloud afin de pouvoir y accéder n’importe où</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Écoutez vos podcasts partout grâce à nos applications Windows, macOS et Web</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>Organisez vos podcasts dans des dossiers et synchronisez-les sur tous vos appareils.</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Mise à niveau vers Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>Abandonnez votre téléphone et partez courir - sans perdre un instant. L’Apple Watch est autonome.</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Lecture sur la montre</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@ par mois</string>
     <key>plus_payment_canceled</key>
     <string>Paiement annulé</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1222,6 +1316,10 @@ Profitez des applications de bureau, transférez vos propres fichiers et ajoutez
     <string>Vous êtes de toutes façons bienvenu pour vous inscrire à Pocket Casts Plus, pour créer un compte classique ou plonger directement.</string>
     <key>plus_promotion_used</key>
     <string>Code déjà utilisé</string>
+    <key>plus_purchase_failed</key>
+    <string>Il semble qu’un problème soit survenu lors du traitement de votre paiement. Veuillez réessayer.</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Devenir un membre Plus et profiter de toutes les fonctionnalités de Pocket Casts</string>
     <key>plus_required_feature</key>
     <string>Cette fonctionnalité nécessite Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
@@ -1240,6 +1338,12 @@ Profitez des applications de bureau, transférez vos propres fichiers et ajoutez
     <string>Il semble que vous vous soyez abonné à Pocket Casts Plus depuis le Web.</string>
     <key>plus_subscription_web_details</key>
     <string>Pour annuler votre abonnement, connectez-vous sur le site Pocketcasts.com.</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>Veuillez vérifier votre connexion internet, et réessayer.</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>Chargement impossible</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@ par an</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1248,6 +1352,8 @@ Profitez des applications de bureau, transférez vos propres fichiers et ajoutez
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>Recevoir la newsletter</string>
     <key>podcast_access_ended</key>
     <string>Accès au podcast expiré le %1$@</string>
     <key>podcast_access_ends</key>
@@ -1427,6 +1533,9 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Prévisualisation</string>
     <key>pricing_terms_after_trial</key>
     <string>ensuite %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Les paiements récurrents commenceront après votre
+essai gratuit de %1$@</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1453,6 +1562,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Vous n’avez encore mis aucun épisode en favori.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Aucun favori</string>
+    <key>purchase_terms</key>
+    <string>En continuant, vous acceptez la %1$@politique de confidentialité%2$@ et les %3$@conditions d’utilisation%4$@.</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Supprimer %1$@ épisodes</string>
     <key>queue_clear_queue</key>
@@ -1796,7 +1907,7 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>settings_import_export</key>
     <string>Importer / Exporter</string>
     <key>settings_in_filters_plural_format</key>
-    <string>Inclus dans %1$@ filtres</string>
+    <string>Inclus dans %1$@ filtres</string>
     <key>settings_in_filters_singular</key>
     <string>Inclus dans 1 filtre</string>
     <key>settings_in_menu</key>
@@ -2207,6 +2318,22 @@ Impossible de se tromper. 🙂</string>
     <string>Vous pouvez mettre en file d’attente des épisodes à lire ensuite depuis l’écran de détails de ces derniers, ou les ajouter sur votre téléphone.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Rien dans Up Next</string>
+    <key>welcome_discover_button</key>
+    <string>Trouver mon prochain podcast</string>
+    <key>welcome_discover_description</key>
+    <string>Découvrez des podcasts tendance et d’autres passés inaperçus sur notre page des découvertes sélectionnées avec soin.</string>
+    <key>welcome_discover_title</key>
+    <string>Découvrir quelque chose de nouveau</string>
+    <key>welcome_import_button</key>
+    <string>Importer des podcasts</string>
+    <key>welcome_import_description</key>
+    <string>Vous utilisiez une autre application auparavant ? Emportez vos podcasts partout avec vous.</string>
+    <key>welcome_import_title</key>
+    <string>Importer vos podcasts</string>
+    <key>welcome_new_account_title</key>
+    <string>Bienvenue. Maintenant, commencez à écouter du contenu !</string>
+    <key>welcome_plus_title</key>
+    <string>Merci. Maintenant, commencez à écouter du contenu !</string>
     <key>whats_new</key>
     <string>Quoi de neuf</string>
     <key>whats_new_blog_more_link_text</key>

@@ -21,6 +21,7 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
+        saveNewsletterOptIn()
         track(.welcomeDismissed)
     }
 

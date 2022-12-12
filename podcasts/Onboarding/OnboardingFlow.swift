@@ -37,6 +37,8 @@ struct OnboardingFlow {
     mutating func reset() {
         source = nil
         currentFlow = .none
+
+        NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
     /// Updates the source passed for analytics

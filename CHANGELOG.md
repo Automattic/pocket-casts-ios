@@ -1,10 +1,14 @@
 7.29
 -----
 - Fixed Edit Folder screen layout (#53)
+- Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
+- Fixed an issue where the podcast artwork wasn't appearin in the Now Playing Siri suggestions (#579)
 
 7.28
 -----
 - Updates the onboarding and login process: (#548)
+- Updates the end of year calculation to include the month of December (#554)
+- Updates the End of Year stats designs
 
 7.27
 -----

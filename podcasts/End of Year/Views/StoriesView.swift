@@ -29,25 +29,27 @@ struct StoriesView: View {
 
                 storiesToPreload
 
-                ZStack {
-                    model.story(index: model.currentStory)
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                StoryViewContainer {
+                    // Manually set the zIndex order to ensure we can change the order when needed
+                    model.story(index: model.currentStory).zIndex(3)
 
-                storySwitcher
-
-                ZStack {
-                    model.interactive(index: model.currentStory)
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                    // By default the story switcher will appear above the story and override all
+                    // interaction, but if the story contains interactive elements then move the
+                    // switcher to appear behind the view to allow the story override the switcher, or
+                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
+                }.cornerRadius(Constants.storyCornerRadius)
 
                 header
             }
 
-            ZStack {}
-                .frame(height: Constants.spaceBetweenShareAndStory)
+            // Hide the share button if needed
+            if model.storyIsShareable(index: model.currentStory) {
+                ZStack {}
+                    .frame(height: Constants.spaceBetweenShareAndStory)
 
-            shareButton
+                shareButton
+            }
         }
         .background(Color.black)
     }
@@ -132,13 +134,13 @@ struct StoriesView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.previous()
-            }
+                }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.next()
-            }
+                }
         }
         .simultaneousGesture(
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
@@ -195,7 +197,7 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-        static let shareButtonHorizontalPadding: CGFloat = 5
+        static let shareButtonHorizontalPadding: CGFloat = 20
 
         static let spaceBetweenShareAndStory: CGFloat = 15
 
@@ -251,6 +253,20 @@ private struct CloseButtonStyle: ButtonStyle {
     private enum Constants {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonRadius: CGFloat = 5
+    }
+}
+
+struct StoryViewContainer<Content: View>: View {
+    private var content: () -> Content
+
+    init(@ViewBuilder _ content: @escaping () -> Content) {
+        self.content = content
+    }
+    var body: some View {
+        ZStack {
+            content()
+            StoryLogoView().zIndex(4)
+        }
     }
 }
 

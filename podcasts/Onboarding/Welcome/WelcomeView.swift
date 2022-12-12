@@ -108,7 +108,7 @@ struct WelcomeView_Previews: PreviewProvider {
 }
 
 // MARK: - View Components
-private struct WelcomeConfetti: View {
+struct WelcomeConfetti: View {
     let type: WelcomeConfettiEmitter.ConfettiType
 
     var body: some View {
@@ -273,7 +273,7 @@ private struct SectionButton: ButtonStyle {
 
 // MARK: - Confetti 🎉
 
-private struct WelcomeConfettiEmitter: UIViewRepresentable {
+struct WelcomeConfettiEmitter: UIViewRepresentable {
     let type: ConfettiType
     let frame: CGRect
     let afterDelay: TimeInterval
