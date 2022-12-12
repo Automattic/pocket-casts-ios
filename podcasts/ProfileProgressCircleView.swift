@@ -101,11 +101,8 @@ class ProfileProgressCircleView: ThemeableView {
 
         gravatarImageView.frame = CGRect(x: origin, y: origin, width: imageSize, height: imageSize)
 
-        if let email = ServerSettings.syncingEmail() {
-            let gravatar = "https://www.gravatar.com/avatar/\(email.md5))?d=404"
-            let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
-            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: [.processor(processor)])
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAvatar), name: .userLoginDidChange, object: nil)
+        updateAvatar()
     }
 
     override func draw(_ rect: CGRect) {
@@ -125,5 +122,16 @@ class ProfileProgressCircleView: ThemeableView {
         profileGradientView.backgroundColor = ThemeColor.primaryUi05()
         profileGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
         expiryGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
+    }
+
+    @objc private func updateAvatar() {
+        if let email = ServerSettings.syncingEmail() {
+            let imageSize = frame.size.width - (4 * lineWidth)
+            let gravatar = "https://www.gravatar.com/avatar/\(email.md5))?d=404"
+            let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
+            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: [.processor(processor)])
+        } else {
+            gravatarImageView.image = nil
+        }
     }
 }
