@@ -94,13 +94,8 @@ struct EditFolderView: View {
 
 struct EditFolderView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ForEach (["iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 13 mini"], id: \.self) { simulator in
-                EditFolderView(model: FolderModel(), dismissAction: { _ in })
-                    .environmentObject(Theme(previewTheme: .light))
-                    .previewDevice(PreviewDevice(rawValue: simulator))
-                    .previewDisplayName(simulator)
-            }
-        }
+        EditFolderView(model: FolderModel(), dismissAction: { _ in })
+            .environmentObject(Theme(previewTheme: .light))
+            .previewOnAllDevices()
     }
 }
