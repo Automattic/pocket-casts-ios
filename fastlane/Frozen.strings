@@ -3529,6 +3529,33 @@
 /* Title of a label informing the user they can cancel their subscription at anytime */
 "plus_cancel_terms" = "Can be canceled at anytime";
 
+/* Sub title of a view that informs the user what will happen if they cancel their subscription */
+"cancel_confirm_subtitle" = "This will change your plan to a free account.";
+
+/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiriation */
+"cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
+
+/* Item that appears in place of the user's missing expiration date if it's not available. */
+"cancel_confirm_sub_expiry_date_fallback" = "your expiration date";
+
+/* Title of a list item that informs the user their plus features will be locked if they cancel */
+"cancel_confirm_item_plus" = "Access to Pocket Casts Plus features will be locked after this date.";
+
+/* Title of a list item that informs the user their folders will be removed if they cancel */
+"cancel_confirm_item_folders" = "Your folders will be removed and their contents will move back to the Podcasts screen.";
+
+/* Title of a list item that informs the user uploaded files will be removed if they cancel */
+"cancel_confirm_item_uploads" = "All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)";
+
+/* Title of a list item that informs the user they will no longer be able to access plus on the web if they cancel */
+"cancel_confirm_item_web_player" =  "You will no longer be able to access Pocket Casts using your web browser, or desktop computer.";
+
+/* Button title that lets the user stop the cancellation process */
+"cancel_confirm_stay_button_title" =  "Actually, I want to stay";
+
+/* Button title that lets the user contine the cancellation process */
+"cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
