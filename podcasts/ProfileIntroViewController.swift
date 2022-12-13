@@ -27,7 +27,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     @IBOutlet var authenticationProviders: UIStackView!
     @IBOutlet var signInBtn: ThemeableRoundedButton! {
         didSet {
-            signInBtn.isHidden = FeatureFlag.signInWithApple
+            signInBtn.isHidden = FeatureFlag.signInWithApple.enabled
             signInBtn.setTitle(L10n.signIn, for: .normal)
             signInBtn.shouldFill = false
             signInBtn.titleLabel?.font = buttonFont
@@ -36,7 +36,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 
     @IBOutlet var passwordAuthOption: ThemeableUIButton! {
         didSet {
-            passwordAuthOption.isHidden = !FeatureFlag.signInWithApple
+            passwordAuthOption.isHidden = !FeatureFlag.signInWithApple.enabled
             passwordAuthOption.setTitle(L10n.accountLogin, for: .normal)
             passwordAuthOption.titleLabel?.font = buttonFont
         }
@@ -142,7 +142,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
 // MARK: - Apple Auth
 extension ProfileIntroViewController {
     func setupProviderLoginView() {
-        guard FeatureFlag.signInWithApple else { return }
+        guard FeatureFlag.signInWithApple.enabled else { return }
 
         let authorizationButton = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
         authorizationButton.cornerRadius = createAccountBtn.cornerRadius

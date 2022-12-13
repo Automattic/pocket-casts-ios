@@ -242,6 +242,26 @@ internal enum L10n {
   }
   /// Cancel
   internal static var cancel: String { return L10n.tr("Localizable", "cancel") }
+  /// Yes, Cancel my Subscription
+  internal static var cancelConfirmCancelButtonTitle: String { return L10n.tr("Localizable", "cancel_confirm_cancel_button_title") }
+  /// Your folders will be removed and their contents will move back to the Podcasts screen.
+  internal static var cancelConfirmItemFolders: String { return L10n.tr("Localizable", "cancel_confirm_item_folders") }
+  /// Access to Pocket Casts Plus features will be locked after this date.
+  internal static var cancelConfirmItemPlus: String { return L10n.tr("Localizable", "cancel_confirm_item_plus") }
+  /// All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)
+  internal static var cancelConfirmItemUploads: String { return L10n.tr("Localizable", "cancel_confirm_item_uploads") }
+  /// You will no longer be able to access Pocket Casts using your web browser, or desktop computer.
+  internal static var cancelConfirmItemWebPlayer: String { return L10n.tr("Localizable", "cancel_confirm_item_web_player") }
+  /// Actually, I want to stay
+  internal static var cancelConfirmStayButtonTitle: String { return L10n.tr("Localizable", "cancel_confirm_stay_button_title") }
+  /// Your current subscription will remain active until %1$@.
+  internal static func cancelConfirmSubExpiry(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_confirm_sub_expiry", String(describing: p1))
+  }
+  /// your expiration date
+  internal static var cancelConfirmSubExpiryDateFallback: String { return L10n.tr("Localizable", "cancel_confirm_sub_expiry_date_fallback") }
+  /// This will change your plan to a free account.
+  internal static var cancelConfirmSubtitle: String { return L10n.tr("Localizable", "cancel_confirm_subtitle") }
   /// Cancel Download
   internal static var cancelDownload: String { return L10n.tr("Localizable", "cancel_download") }
   /// Unable To Cancel
