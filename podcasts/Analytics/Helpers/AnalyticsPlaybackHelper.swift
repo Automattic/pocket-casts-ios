@@ -33,9 +33,14 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
             return
         }
 
+        let from = (from / duration)
+        let to = (to / duration)
+
+        guard !from.isNaN, !to.isNaN else { return }
+
         // Use percents to relativize the seeking across any duration episode
-        let seekFrom = Int((from / duration) * 100)
-        let seekPercent = Int((to / duration) * 100)
+        let seekFrom = Int(from * 100)
+        let seekPercent = Int(to * 100)
 
         track(.playbackSeek, properties: ["seek_to_percent": seekPercent, "seek_from_percent": seekFrom])
     }
