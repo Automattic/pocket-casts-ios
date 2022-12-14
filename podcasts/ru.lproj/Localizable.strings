@@ -589,24 +589,45 @@
     <string>В 2022 году у вас ушло %1$@ на прослушивание подкастов</string>
     <key>eoy_story_listened_to_categories</key>
     <string>В этом году вы выбрали %1$@ рубрик (-и)</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Вы прослушали %1$@ в этом году</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>Я выбрал (-а) %1$@ рубрик (-и) в 2022 году</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Взглянем на самые популярные...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>Различных рубрик: %1$@</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>Выпусков: %1$@</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Вы слушали %1$@ подкастов (-а) и %2$@ выпусков (-а)</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Я прослушал (-а) %1$@ подкастов (-а) и %2$@ выпусков (-а) в 2022 году</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Но к одному подкасту вы всегда возвращались...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Но был один выпуск,
+который вы прослушивали снова и снова…</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Вы слушали %1$@ и %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>Различных подкастов: %1$@</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>У меня ушло %1$@ на прослушивание подкастов в 2022 году</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>В этом году вы провели %1$@, слушая подкасты</string>
     <key>eoy_story_longest_episode</key>
     <string>Самым длинным выпуском, который вы слушали, был эпизод %1$@ подкаста %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Этот выпуск длился %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>Самый продолжительный выпуск, прослушанный мною в 2022 году: %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>Этот выпуск был %1$@ от %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>Самый длинный выпуск,
+прослушанный вами:
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>Повторить</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +939,16 @@
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>Можно импортировать подкасты из Apple Podcasts с помощью встроенного приложения "Шорткаты".
+Примечание. Если вы удалили приложение "Шорткаты", появится запрос на его повторную установку.
+
+1. Нажмите кнопку "Установить шорткат" ниже.
+2. Когда появится запрос, нажмите кнопку "Добавить шорткат".
+3. Нажмите вкладку "Шорткаты".
+4. В списке найдите шорткат "Из Apple Podcasts в Pocket Casts".
+5. Нажмите её, чтобы начать импорт.
+6. После запуска шортката снова откроется Pocket Casts для завершения импорта.</string>
     <key>import_instructions_breaker</key>
     <string>1. Нажмите кнопку "Открыть Breaker" ниже.
 2. Нажмите "Настройки" на нижней панели вкладок.
