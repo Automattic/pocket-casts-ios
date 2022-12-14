@@ -127,9 +127,14 @@ class ProfileProgressCircleView: ThemeableView {
     @objc private func updateAvatar() {
         if let email = ServerSettings.syncingEmail() {
             let imageSize = frame.size.width - (4 * lineWidth)
-            let gravatar = "https://www.gravatar.com/avatar/\(email.md5))?d=404"
+            let gravatar = "https://www.gravatar.com/avatar/\(email.md5)?d=404"
             let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
-            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: [.processor(processor)])
+            let options: KingfisherOptionsInfo = [
+                .processor(processor), // rounder corners
+                .cacheSerializer(FormatIndicatedCacheSerializer.png) // convert to a png
+            ]
+
+            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: options)
         } else {
             gravatarImageView.image = nil
         }
