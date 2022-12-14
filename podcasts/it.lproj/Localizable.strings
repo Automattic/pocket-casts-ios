@@ -589,24 +589,45 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Nel 2022, hai passato %1$@ ascoltando podcast</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Hai ascoltato %1$@ differenti categorie quest'anno</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Hai ascoltato %1$@ quest'anno</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>Nel 2022 ho ascoltato %1$@ categorie diverse</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Diamo un'occhiata ad alcuni dei tuoi preferiti...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ differenti categorie</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ episodi</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Hai ascoltato %1$@ differenti podcast e %2$@ episodi</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Nel 2022 ho ascoltato %1$@ podcast differenti e %2$@ episodi</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>C'è stato però uno su cui continuavi a tornare...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Era presente, però, uno
+a cui continuavi a tornare...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Hai ascoltato %1$@ e %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ differenti podcast</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>Nel 2022 ho trascorso %1$@ ascoltando podcast</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>Quest'anno, hai passato %1$@ ascoltando podcast</string>
     <key>eoy_story_longest_episode</key>
     <string>L'episodio più lungo che hai ascoltato è stato di %1$@ del podcast %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Questo episodio è durato %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>L'episodio più lungo ascoltato nel 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>L'episodio è stato %1$@ da %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>L'episodio più lungo
+che hai ascoltato è stato
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>Riproduci</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +939,16 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Nel menu tocca "Copia in Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Ecco fatto, hai finito. Modifica tutti i dettagli che desideri, premi Salva e inizia la riproduzione.</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>Possiamo importare i tuoi podcast da Apple Podcast utilizzando l'app Scorciatoie integrata.
+Nota: se in precedenza hai eliminato l'app Scorciatoie, ti verrà chiesto di reinstallarla.
+
+1. Tocca il pulsante Installa scorciatoia di seguito.
+2. Quando richiesto, tocca il pulsante Aggiungi scorciatoia.
+3. Tocca la scheda Scorciatoie.
+4. Individua nell'elenco la scorciatoia "Da Apple Podcasts a Pocket Casts"
+5. Toccalo per avviare il processo di importazione.
+6. Una volta terminata l'esecuzione della scorciatoia, Pocket Casts si riaprirà e terminerà il processo di importazione.</string>
     <key>import_instructions_breaker</key>
     <string>1. Tocca il pulsante Apri Breaker di seguito
 2. Tocca Impostazioni nella barra della scheda inferiore

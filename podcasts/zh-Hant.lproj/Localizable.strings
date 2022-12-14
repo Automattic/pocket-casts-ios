@@ -589,24 +589,45 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你 2022 年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_listened_to_categories</key>
     <string>你今年收聽了 %1$@ 個不同類別</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>你今年收聽了 %1$@</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>我在 2022 年收聽了 %1$@ 個不同分類</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>來看看你的最愛...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ 個不同類別</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>你收聽了 %1$@ 個不同 Podcast 和 %2$@ 集</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>我在 2022 年收聽了 %1$@ 個不同 Podcast 節目和 %2$@ 集內容</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>但有個節目你持續收聽...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>但是你
+持續收聽的是…</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>你收聽了「%1$@」和「%2$@」</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ 個不同的 Podcast</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>我在 2022 年花了 %1$@ 收聽 Podcast</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>你今年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_longest_episode</key>
     <string>你所收聽時間最長的一集為 Podcast %2$@ 的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>這集長達 %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>我在 2022 年所收聽最長的一集 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>這一集是「%2$@」的「%1$@」</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>你收聽過
+最長的一集是
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>重播</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +939,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中點選「複製到 Pocket Casts」</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>我們可以使用內建的「捷徑」應用程式，從 Apple Podcasts 匯入你的Podcast 節目。
+注意：如果你之前刪除了捷徑應用程式，系統會提示你重新安裝。
+
+1. 點選下方的「安裝捷徑」按鈕。
+2. 出現提示時，點選「新增捷徑」按鈕。
+3. 點選「捷徑」分頁。
+4. 在清單中找到「Apple Podcasts to Pocket Casts」捷徑。
+5. 點選以開始匯入程序。
+6. Pocket Casts 執行完成後，捷徑將重新開啟並完成匯入程序。</string>
     <key>import_instructions_breaker</key>
     <string>1. 點選下方的「開啟 Breaker」按鈕
 2. 點選底端分頁列中的「設定」

@@ -589,24 +589,45 @@
     <string>2022 年，您收听播客的时间为 %1$@</string>
     <key>eoy_story_listened_to_categories</key>
     <string>您今年收听了 %1$@ 种不同的分类</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>您今年收听了 %1$@ 种分类</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>我在 2022 年收听了 %1$@ 种不同的分类</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>我们来看看您最喜欢的内容…</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ 种不同的分类</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>我在 2022 年收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>但还有一个您经常回顾的播客…</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>不过，有一个
+您经常回听的...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>您收听了 %1$@ 个播客和 %2$@ 集</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ 个不同的播客</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>2022 年，我收听播客的时间为 %1$@</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>您今年收听播客的时间为 %1$@</string>
     <key>eoy_story_longest_episode</key>
     <string>您收听的最长剧集为 %2$@ 播客的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>本剧集时长为 %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>2022 年我收听时间最长的剧集 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>该剧集是来自 %2$@ 的 %1$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>您收听过的
+最长的剧集是
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>重播</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +939,16 @@
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>我们可以通过使用内置的 Shortcuts 应用，从 Apple Podcasts 导入播客。
+注意：如果您之前删除了 Shortcuts 应用，系统将提示您重新安装此应用。
+
+1. 点击下面的“安装快捷键”按钮。
+2. 当出现提示时，点击“添加快捷键”按钮。
+3. 点击“快捷键”选项卡。
+4. 在列表中找到“Apple Podcasts 到 Pocket Casts”快捷键。
+5. 点击以开始导入流程。
+6. 快捷键运行完毕后，Pocket Casts 将重新打开并完成导入流程。</string>
     <key>import_instructions_breaker</key>
     <string>1. 点击下面的“打开 Breaker”按钮
 2. 点击底部标签栏的“设置”
