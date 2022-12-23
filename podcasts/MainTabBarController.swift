@@ -29,9 +29,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = profileTabBarItem
 
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
-            profileTabBarItem.badgeValue = "●"
-        }
+        displayEndOfYearBadgeIfNeeded()
 
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
@@ -68,7 +66,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        guard FeatureFlag.onboardingUpdates, Settings.shouldShowInitialOnboardingFlow else { return }
+        guard FeatureFlag.onboardingUpdates.enabled, Settings.shouldShowInitialOnboardingFlow else { return }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
@@ -255,7 +253,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        guard FeatureFlag.onboardingUpdates else {
+        guard FeatureFlag.onboardingUpdates.enabled else {
             let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
             presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
             return
@@ -337,7 +335,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard !SyncManager.isUserLoggedIn() else { return }
 
         let signInController: UIViewController
-        if FeatureFlag.signInWithApple {
+        if FeatureFlag.signInWithApple.enabled {
             signInController = ProfileIntroViewController()
         }
         else {
@@ -389,7 +387,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
         let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
-
         guard let presentedViewController else {
             present(controller, animated: true)
             return
@@ -434,12 +431,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func observersForEndOfYearStats() {
-        guard FeatureFlag.endOfYear else {
+        guard FeatureFlag.endOfYear.enabled else {
             return
         }
 
         NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
             self.endOfYear.resetStateIfNeeded()
+        }
+
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+            self.endOfYear.showPromptBasedOnState(in: self)
+
+            self.displayEndOfYearBadgeIfNeeded()
         }
 
         // If the requirement for EOY changes and registration is not required anymore
@@ -462,21 +465,21 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         .portrait
     }
 
+    // MARK: - End of Year
+
     private func updateTabBarColor() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
 
-        if EndOfYear.isEligible {
-            // Change badge colors
-            [appearance.stackedLayoutAppearance,
-             appearance.inlineLayoutAppearance,
-             appearance.compactInlineLayoutAppearance]
-                .forEach {
-                    $0.normal.badgeBackgroundColor = .clear
-                    $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-                }
-        }
+        // Change badge colors
+        [appearance.stackedLayoutAppearance,
+         appearance.inlineLayoutAppearance,
+         appearance.compactInlineLayoutAppearance]
+            .forEach {
+                $0.normal.badgeBackgroundColor = .clear
+                $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+            }
 
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
@@ -486,6 +489,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
+    }
+
+    private func displayEndOfYearBadgeIfNeeded() {
+        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+            profileTabBarItem.badgeValue = "●"
+        }
     }
 
     @objc private func willEnterForeground() {

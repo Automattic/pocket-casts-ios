@@ -8,7 +8,9 @@ Before anything else, please take a moment to read our [Code of Conduct](CODE-OF
 
 ## Reporting Bugs, Asking Questions, and Suggesting Features
 
-Have a suggestion or feedback? Please go to [Issues](https://github.com/Automattic/pocket-casts-ios/issues) and [open a new issue](https://github.com/Automattic/pocket-casts-ios/issues/new). Prefix the title with a category like _"Bug:"_, _"Question:"_, or _"Feature Request:"_. Screenshots help us resolve issues and answer questions faster, so thanks for including some if you can.
+Have a suggestion or feedback? Please go to [Discussions](https://github.com/Automattic/pocket-casts-ios/discussions) and [open a new discussion](https://github.com/Automattic/pocket-casts-ios/discussions/new). 
+
+For bugs, please head to [Issues](https://github.com/Automattic/pocket-casts-ios/issues) and [open a new issue](https://github.com/Automattic/pocket-casts-ios/issues/new). Screenshots help us resolve issues and answer questions faster, so thanks for including some if you can.
 
 ## Translating
 

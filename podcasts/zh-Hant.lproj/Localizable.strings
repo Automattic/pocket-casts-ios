@@ -85,6 +85,12 @@
     <string>你確定要刪除帳號嗎？刪除後就無法復原了！</string>
     <key>account_delete_account_title</key>
     <string>要刪除帳號嗎？</string>
+    <key>account_details_free_account</key>
+    <string>免費帳號</string>
+    <key>account_details_listened_for</key>
+    <string>已收聽了 %1$@</string>
+    <key>account_details_plus_title</key>
+    <string>運用專屬功能和自訂選項，讓你的 Podcast 體驗更上一層樓。</string>
     <key>account_login</key>
     <string>登入</string>
     <key>account_payment_renews_monthly</key>
@@ -571,6 +577,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>現在不要</string>
     <key>eoy_small_title</key>
     <string>Podcast 年度回顧</string>
+    <key>eoy_stories_failed</key>
+    <string>無法載入故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>別忘了與朋友分享，以及向最愛的 Podcast 創作者致意</string>
     <key>eoy_story_epilogue_title</key>
@@ -581,26 +589,63 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你 2022 年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_listened_to_categories</key>
     <string>你今年收聽了 %1$@ 個不同類別</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>你今年收聽了 %1$@</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>我在 2022 年收聽了 %1$@ 個不同分類</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>來看看你的最愛...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ 個不同類別</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>你收聽了 %1$@ 個不同 Podcast 和 %2$@ 集</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>我在 2022 年收聽了 %1$@ 個不同 Podcast 節目和 %2$@ 集內容</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>但有個節目你持續收聽...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>但是你
+持續收聽的是…</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>你收聽了「%1$@」和「%2$@」</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ 個不同的 Podcast</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>我在 2022 年花了 %1$@ 收聽 Podcast</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>你今年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_longest_episode</key>
     <string>你所收聽時間最長的一集為 Podcast %2$@ 的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>這集長達 %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>我在 2022 年所收聽最長的一集 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>這一集是「%2$@」的「%1$@」</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>你收聽過
+最長的一集是
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>重播</string>
     <key>eoy_story_top_categories</key>
     <string>你最愛的類別</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>我最常收聽的 Podcast 分類</string>
     <key>eoy_story_top_podcast</key>
     <string>你最愛的 Podcast 為 %2$@ 的 %1$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>2022 年我最愛的 Podcast！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>你收聽了 %1$@ 集，總共 %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>你最愛的 Podcast</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>2022 年我最愛的 Podcast</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>本年度我最愛的 Podcast！%1$@</string>
     <key>eoy_title</key>
     <string>你的 Podcast 年度回顧</string>
     <key>eoy_view_year</key>
@@ -826,8 +871,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>現在無需付費，可隨時取消</string>
     <key>free_trial_duration_free</key>
     <string>免費試用 %1$@</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>免費試用 %1$@</string>
     <key>free_trial_pricing_terms</key>
     <string>免費試用 %1$@，之後收費為 %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>開始免費試用和訂閱</string>
     <key>free_trial_start_button</key>
     <string>開始免費試用</string>
     <key>free_trial_title_label</key>
@@ -890,12 +939,64 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中點選「複製到 Pocket Casts」</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>我們可以使用內建的「捷徑」應用程式，從 Apple Podcasts 匯入你的Podcast 節目。
+注意：如果你之前刪除了捷徑應用程式，系統會提示你重新安裝。
+
+1. 點選下方的「安裝捷徑」按鈕。
+2. 出現提示時，點選「新增捷徑」按鈕。
+3. 點選「捷徑」分頁。
+4. 在清單中找到「Apple Podcasts to Pocket Casts」捷徑。
+5. 點選以開始匯入程序。
+6. Pocket Casts 執行完成後，捷徑將重新開啟並完成匯入程序。</string>
+    <key>import_instructions_breaker</key>
+    <string>1. 點選下方的「開啟 Breaker」按鈕
+2. 點選底端分頁列中的「設定」
+3. 點選「連結」
+4. 點選「匯出訂閱項目」
+5. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_instructions_castbox</key>
+    <string>1. 點選下方的「開啟 Castbox」按鈕
+2. 點選「個人」分頁
+3. 向下滑動，看見「設定」選項時點選該選項
+4. 向下滑動，看見「OPML 匯出」選項時點選該選項
+5. 如果出現提示，請點選「在 Pocket Casts 中開啟」
+6. 如果檔案在 Safari 中開啟，請點選「下載」按鈕
+7. 下載完成後，點選 URL 列中的下載圖示
+8. 點選「下載項目」
+9. 點選 castbox_opml 檔案
+10. 若有需要，請點選「分享」圖示，然後使用 Pocket Casts 開啟檔案
+11. 分享對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_instructions_castro</key>
+    <string>1. 點選下方的「開啟 Castro」按鈕
+2. 點選應用程式上角的小齒輪圖示
+3. 向下滑動，看見「使用者資料」選項時點選該選項
+4. 點選「匯出訂閱項目」
+5. 分享對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_instructions_import_from</key>
+    <string>從 %1$@ 匯入</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>安裝「捷徑」應用程式</string>
+    <key>import_instructions_open_in</key>
+    <string>開啟 %1$@</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>其他應用程式</string>
+    <key>import_instructions_overcast</key>
+    <string>1. 點選下方按鈕開啟 Overcast
+2. 點選應用程式上角的小齒輪圖示
+3. 向下滑動，看見「匯出 OPML」選項時點選該選項
+4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
     <key>import_podcasts_description</key>
     <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
 
 注意：你可能需將 OPML 檔案以電子郵件傳送給自己 (長按附件並選取 Pocket Casts)。</string>
     <key>import_podcasts_title</key>
     <string>匯入 POCKET CASTS</string>
+    <key>import_subtitle</key>
+    <string>是其他應用程式的內容？ 匯入並收聽你的 Podcast 節目。 你可以稍後在設定中執行此操作。</string>
+    <key>import_title</key>
+    <string>將 Podcast 節目
+隨身帶著聽 </string>
     <key>in_progress</key>
     <string>進行中</string>
     <key>keycommand_close_player</key>
@@ -914,6 +1015,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>收聽記錄</string>
     <key>loading</key>
     <string>正在載入...</string>
+    <key>login_subtitle</key>
+    <string>建立帳號即可在所有裝置上同步你的收聽體驗。</string>
+    <key>login_title</key>
+    <string>探索下一個最愛的 Podcast 節目</string>
     <key>mark_played</key>
     <string>標記為已播放</string>
     <key>mark_played_short</key>
@@ -1155,6 +1260,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立帳號或登入即可兌換 Pocket Casts Plus 存取權限。</string>
     <key>plus_account_trial_details</key>
     <string>試用期結束後，你仍可使用一般帳號的所有優質功能。祝你聆聽 Podcast 愉快！</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>解鎖所有功能</string>
+    <key>plus_cancel_terms</key>
+    <string>可以隨時取消</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB 雲端儲存空間</string>
     <key>plus_error_already_registered</key>
@@ -1190,22 +1299,38 @@ Tap the button below to sign into your Pocket Casts account again.</string>
 取得桌上型電腦應用程式、上傳自己的檔案，然後用 Plus 會員專屬的全新佈景主題妝點一番。</string>
     <key>plus_marketing_folders_description</key>
     <string>你可以建立資料夾來整理你的 Podcast 收藏。</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>無廣告體驗，讓系統更常顯示你喜歡的內容，並減少顯示不喜歡的內容</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>隱藏廣告</string>
     <key>plus_marketing_learn_more_button</key>
     <string>深入了解 Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>個人化設定，讓節目獲得更多聽眾，雙效合一。將你的音訊檔案上傳到雲端伺服器、透過網頁播放器存取帳號，還可讓 App 更合你所需。</string>
     <key>plus_marketing_main_title</key>
     <string>進階聽眾的進階功能</string>
+    <key>plus_marketing_subtitle</key>
+    <string>使用獨家功能和自訂選項</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>展現你最真實的色彩。僅供 Plus 社群使用的獨家圖示和主題。</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主題和圖示</string>
+    <key>plus_marketing_title</key>
+    <string>包含所有你喜愛的 Pocket Casts 功能，以及更多好康</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>將你的檔案上傳至雲端儲存空間，隨時隨地使用</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>使用我們的 Windows、macOS 和網頁應用程式，在更多地方收聽</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>在資料夾中整理你的 Podcast，並在所有裝置間同步。</string>
     <key>plus_marketing_upgrade_button</key>
     <string>升級為 Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>拋開手機出門跑步，也不用擔心錯失任何精彩內容。Apple Watch 可獨立播放 Podcast。</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>手錶播放</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>每月 %1$@ </string>
     <key>plus_payment_canceled</key>
     <string>付款已取消</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1222,6 +1347,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>歡迎註冊 Pocket Casts Plus，你可以建立一般帳號，也可以馬上開始使用。</string>
     <key>plus_promotion_used</key>
     <string>代碼已使用</string>
+    <key>plus_purchase_failed</key>
+    <string>處理你的付款時似乎發生問題。 請再試一次。</string>
+    <key>plus_purchase_promo_title</key>
+    <string>成為 Plus 會員並解鎖所有 Pocket Casts 功能</string>
     <key>plus_required_feature</key>
     <string>此功能需要 Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
@@ -1240,6 +1369,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你似乎是透過網頁訂閱 Pocket Casts Plus</string>
     <key>plus_subscription_web_details</key>
     <string>若要取消訂閱，請前往 Pocketcasts.com 取消。</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>請檢查你的網際網路連線並再試一次。</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>無法載入</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>每年 %1$@</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts 電子報</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1248,6 +1383,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>取得電子報</string>
     <key>podcast_access_ended</key>
     <string>存取權限結束時間：%1$@</string>
     <key>podcast_access_ends</key>
@@ -1427,6 +1564,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>預覽</string>
     <key>pricing_terms_after_trial</key>
     <string>之後收費為 %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>定期付款將在你
+之後開始免費試用 %1$@ </string>
     <key>profile</key>
     <string>個人檔案</string>
     <key>profile_help_support</key>
@@ -1453,6 +1593,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你尚未將任何單集加上星號。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>沒有加上星號的項目</string>
+    <key>purchase_terms</key>
+    <string>繼續即表示你同意 %1$@隱私權政策%2$@ 和 %3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_queue</key>
@@ -2207,6 +2349,22 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>您可以從「本集詳細資訊」畫面或從手機上，將單集加入接下來要播放的佇列。</string>
     <key>watch_up_next_no_items_title</key>
     <string>「接著播放」中沒有內容</string>
+    <key>welcome_discover_button</key>
+    <string>尋找我的下一個 Podcast</string>
+    <key>welcome_discover_description</key>
+    <string>在我們精心策劃的「探索」頁面中尋找低調時髦的 Podcast。</string>
+    <key>welcome_discover_title</key>
+    <string>探索新事物</string>
+    <key>welcome_import_button</key>
+    <string>匯入 Podcast 節目</string>
+    <key>welcome_import_description</key>
+    <string>是其他應用程式的內容？ 將 Podcast 節目隨身帶著聽。</string>
+    <key>welcome_import_title</key>
+    <string>匯入你的 Podcast 節目</string>
+    <key>welcome_new_account_title</key>
+    <string>歡迎，立刻讓你聽聽看！</string>
+    <key>welcome_plus_title</key>
+    <string>謝謝，立刻讓你聽聽看！</string>
     <key>whats_new</key>
     <string>新功能</string>
     <key>whats_new_blog_more_link_text</key>

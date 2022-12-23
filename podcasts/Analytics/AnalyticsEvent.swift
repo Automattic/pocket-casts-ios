@@ -112,6 +112,7 @@ enum AnalyticsEvent: String {
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
 
+    case accountDetailsCancelTapped
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
 
@@ -608,4 +609,10 @@ enum AnalyticsEvent: String {
     case onboardingImportAppSelected
     case onboardingImportOpenAppTapped
     case onboardingImportDismissed
+
+    // MARK: - Cancel
+    case cancelConfirmationViewShown
+    case cancelConfirmationViewDismissed
+    case cancelConfirmationStayButtonTapped
+    case cancelConfirmationCancelButtonTapped
 }

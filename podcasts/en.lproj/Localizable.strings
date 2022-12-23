@@ -3339,11 +3339,20 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
+/* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
+
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
 
-/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of categories. */
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
+"eoy_story_listened_to_categories_highlighted" = "You listened to %1$@ this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of different categories. */
+"eoy_story_listened_to_categories_text" = "%1$@ different categories";
 
 /* String prompting the user for the next story to check the most listened categories. */
 "eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
@@ -3351,11 +3360,23 @@
 /* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
 "eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
 
-/* String telling the user how much podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder fot eh number of episodes. */
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
 "eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
+"eoy_story_listened_to_numbers_updated" = "You listened to %1$@ and %2$@";
+
+/* String telling the user how many podcasts they listened to this year, %1$@ is a placeholder for the number of podcasts*/
+"eoy_story_listened_to_podcast_text" = "%1$@ different podcasts";
+
+/* String telling the user how many episodes they listened to this year, %1$@ is a placeholder for the number number of episodes. */
+"eoy_story_listened_to_episodes_text" = "%1$@ episodes";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
 "eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
+
+/* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
+"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you\nkept coming back to...";
 
 /* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
 "eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
@@ -3380,6 +3401,12 @@
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
+"eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
+"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
@@ -3460,7 +3487,7 @@
 "import_instructions_castbox" = "1. Tap the Open Castbox button below\n2. Tap the Personal tab\n3. Swipe down until you see the Settings option, then tap on it\n4. Swipe down until you see the OPML Export option, then tap on it\n5. If prompted, tap \"Open in Pocket Casts\"\n6. If the file opens in Safari, tap the Download button\n7. Once the download is complete, tap the download icon in the URL bar\n8. Tap the Downloads item\n9. Tap the castbox_opml file \n10. If needed, tap the Share icon, then open the file using Pocket Casts\n11. When the share dialog opens, locate the Pocket Casts icon, then tap on it";
 
 /* Step by Step instructions on how to import from the app Apple Podcasts. \n are new lines and Apple Podcasts is a proper noun and should not be translated. */
-"import_instructions_apple_podcasts_steps" = "We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.\nNote: If you previously deleted the shortcuts app you will be prompted to reinstall it.\n\n1. Tap the Install Shortcut button below.\n2. When prompted tap the Add Shortcut button.\n3. Tap on the Shortcuts tab.\n4. Locate the \"Apple Podcasts to Pocket Casts\" shortcut in the list.\n5. Tap it to start the import process.\n5. Once the shortcut is done running Pocket Casts will reopen and finish the import process.";
+"import_instructions_apple_podcasts_steps" = "We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.\nNote: If you previously deleted the shortcuts app you will be prompted to reinstall it.\n\n1. Tap the Install Shortcut button below.\n2. When prompted tap the Add Shortcut button.\n3. Tap on the Shortcuts tab.\n4. Locate the \"Apple Podcasts to Pocket Casts\" shortcut in the list.\n5. Tap it to start the import process.\n6. Once the shortcut is done running Pocket Casts will reopen and finish the import process.";
 
 /* Title of an option to import from other apps */
 "import_instructions_other_apps_title" = "other apps";
@@ -3495,5 +3522,32 @@
 /* Title of the button that informs the user they can unlock all the features in plus */
 "plus_button_title_unlock_all" = "Unlock All Features";
 
-/* Title of a label informing the user they can cancel their subscription at anytime */
-"plus_cancel_terms" = "Can be canceled at anytime";
+/* Title of a label informing the user they can cancel their subscription at any time */
+"plus_cancel_terms" = "Can be canceled at any time";
+
+/* Sub title of a view that informs the user what will happen if they cancel their subscription */
+"cancel_confirm_subtitle" = "This will change your plan to a free account.";
+
+/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiriation */
+"cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
+
+/* Item that appears in place of the user's missing expiration date if it's not available. */
+"cancel_confirm_sub_expiry_date_fallback" = "your expiration date";
+
+/* Title of a list item that informs the user their plus features will be locked if they cancel */
+"cancel_confirm_item_plus" = "Access to Pocket Casts Plus features will be locked after this date.";
+
+/* Title of a list item that informs the user their folders will be removed if they cancel */
+"cancel_confirm_item_folders" = "Your folders will be removed and their contents will move back to the Podcasts screen.";
+
+/* Title of a list item that informs the user uploaded files will be removed if they cancel */
+"cancel_confirm_item_uploads" = "All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)";
+
+/* Title of a list item that informs the user they will no longer be able to access plus on the web if they cancel */
+"cancel_confirm_item_web_player" =  "You will no longer be able to access Pocket Casts using your web browser, or desktop computer.";
+
+/* Button title that lets the user stop the cancellation process */
+"cancel_confirm_stay_button_title" =  "Actually, I want to stay";
+
+/* Button title that lets the user contine the cancellation process */
+"cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";

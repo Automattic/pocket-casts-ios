@@ -172,8 +172,12 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func playPodcastIntent(podcastTitle: String, podcastUuid: String) -> INIntent {
-        let podcastUrl = ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 400)
-        let podcastArtwork = INImage(url: podcastUrl)
+        var podcastArtwork: INImage? = INImage(named: "noartwork-page-dark")
+
+        // Load the artwork from cache, or default to the no artwork image
+        if let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcastUuid, size: .grid) {
+            podcastArtwork = INImage(uiImage: image)
+        }
 
         let episode = INMediaItem(identifier: Constants.SiriActions.playPodcastId,
                                   title: L10n.siriShortcutPlayEpisodeTitle,

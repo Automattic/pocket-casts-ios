@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct ListenedCategoriesStory: StoryView {
+struct ListenedCategoriesStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     var duration: TimeInterval = 5.seconds
 
@@ -12,59 +12,24 @@ struct ListenedCategoriesStory: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast)
+            PodcastCoverContainer(geometry: geometry) {
+                PodcastStackView(podcasts: listenedCategories.map { $0.mostListenedPodcast }, geometry: geometry)
 
-                VStack {
-                    ZStack {
-                        let size = geometry.size.width * 0.60
-
-                        ForEach([2, 1, 0], id: \.self) {
-                            podcastCover($0)
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.top, (size * CGFloat($0) * 0.3))
-                        }
+                StoryLabelContainer(geometry: geometry) {
+                    let categories = L10n.eoyStoryListenedToCategoriesText(listenedCategories.count)
+                    if NSLocale.isCurrentLanguageEnglish {
+                        StoryLabel(L10n.eoyStoryListenedToCategoriesHighlighted("\n\(categories)\n"),
+                                   highlighting: [categories],
+                                   for: .title)
+                    } else {
+                        StoryLabel(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"),
+                                   for: .title)
                     }
-
-                    VStack {
-                        Text(L10n.eoyStoryListenedToCategories("\n\(listenedCategories.count)"))
-                            .foregroundColor(.white)
-                            .font(.system(size: 25, weight: .heavy))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-                        Text(L10n.eoyStoryListenedToCategoriesSubtitle)
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .frame(maxHeight: geometry.size.height * 0.07)
-                            .minimumScaleFactor(0.01)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    }
-                    .padding(.trailing, 40)
-                    .padding(.leading, 40)
-                }
-                .padding(.top, -(geometry.size.height * 0.15))
-            }
-
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
+                    StoryLabel(L10n.eoyStoryListenedToCategoriesSubtitle, for: .subtitle)
+                        .opacity(renderForSharing ? 0.0 : 0.8)
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    func podcastCover(_ index: Int) -> some View {
-        let podcast = listenedCategories[safe: index]?.mostListenedPodcast ?? listenedCategories[0].mostListenedPodcast
-        PodcastCover(podcastUuid: podcast.uuid, big: true)
+        }.background(DynamicBackgroundView(podcast: listenedCategories[0].mostListenedPodcast))
     }
 
     func onAppear() {

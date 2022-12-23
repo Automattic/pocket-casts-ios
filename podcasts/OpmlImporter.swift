@@ -77,7 +77,10 @@ class OpmlImporter: Operation, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
         guard elementName.lowercased() == "outline", let url = attributeDict["xmlUrl"] else { return }
 
-        parsedUrls.append(url)
+        let trimmedURL = url.trim()
+        guard !trimmedURL.isEmpty else { return }
+
+        parsedUrls.append(trimmedURL)
     }
 
     private func importPodcasts(urls: [String]) {

@@ -33,13 +33,17 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         }
     }
 
+    func shareableStory(for storyNumber: Int) -> (any ShareableStory)? {
+        story(for: storyNumber) as? (any ShareableStory)
+    }
+
     /// The only interactive view we have is the last one, with the replay button
-    func interactiveView(for storyNumber: Int) -> AnyView {
+    func isInteractiveView(for storyNumber: Int) -> Bool {
         switch stories[storyNumber] {
         case .epilogue:
-            return AnyView(EpilogueStory())
+            return true
         default:
-            return AnyView(EmptyView())
+            return false
         }
     }
 

@@ -46,9 +46,16 @@ class EndOfYearStoriesBuilder {
                 }
             }
 
+            // First, search for top 10 podcasts to use throughout different stories
+            let topPodcasts = dataManager.topPodcasts(limit: 10)
+            if !topPodcasts.isEmpty {
+                data.topPodcasts = Array(topPodcasts.prefix(5))
+                data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
+            }
+
             // Listening time
             if let listeningTime = dataManager.listeningTime(),
-                listeningTime > 0 {
+               listeningTime > 0, !data.top10Podcasts.isEmpty {
                 stories.append(.listeningTime)
                 data.listeningTime = listeningTime
             }
@@ -64,16 +71,14 @@ class EndOfYearStoriesBuilder {
             // Listened podcasts and episodes
             let listenedNumbers = dataManager.listenedNumbers()
             if listenedNumbers.numberOfEpisodes > 0
-                && listenedNumbers.numberOfPodcasts > 0 {
+                && listenedNumbers.numberOfPodcasts > 0
+                && !data.top10Podcasts.isEmpty {
                 data.listenedNumbers = listenedNumbers
                 stories.append(.numberOfPodcastsAndEpisodesListened)
             }
 
             // Top podcasts
-            let topPodcasts = dataManager.topPodcasts(limit: 10)
-            if !topPodcasts.isEmpty {
-                data.topPodcasts = Array(topPodcasts.prefix(5))
-                data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
+            if !data.topPodcasts.isEmpty {
                 stories.append(.topOnePodcast)
             }
 
@@ -89,10 +94,6 @@ class EndOfYearStoriesBuilder {
                 data.longestEpisodePodcast = podcast
                 stories.append(.longestEpisode)
             }
-
-            // TODO: the color of podcasts is downloaded when needed
-            // We need to check here for the ones missing the color
-            // and download it.
 
             continuation.resume(returning: (stories, data))
         }
