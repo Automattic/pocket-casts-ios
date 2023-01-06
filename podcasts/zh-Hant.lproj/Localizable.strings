@@ -221,6 +221,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>大量下載以 %1$@ 個為限。</string>
     <key>cancel</key>
     <string>取消</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>你的資料夾將會移除，而資料夾內容會移回 Podcast 畫面中。</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>在此日期之後，Pocket Casts Plus 功能使用權限將會鎖定。</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>系統會刪除上傳至你 Pocket Casts 帳號的所有檔案 (但會保留下載到行動裝置的檔案)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>目前訂閱有效期限至 %1$@。</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>你的到期日</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>這樣做會將你的方案變更為免費帳號。</string>
     <key>cancel_download</key>
     <string>取消下載</string>
     <key>cancel_failed</key>

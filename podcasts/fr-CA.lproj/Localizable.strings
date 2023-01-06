@@ -221,6 +221,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les téléchargements en lot sont limités à %1$@.</string>
     <key>cancel</key>
     <string>Annuler</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Vos dossiers seront supprimés et leur contenu sera retransféré vers l’écran Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>L’accès aux fonctionnalités de Pocket Casts Plus sera verrouillé après cette date.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Tous les fichiers importés sur votre compte Pocket Casts seront supprimés (mais les fichiers téléchargés sur vos appareils mobiles seront conservés).</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Votre abonnement actuel restera actif jusqu’au %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>votre date d’expiration</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Votre plan passera à un compte gratuit.</string>
     <key>cancel_download</key>
     <string>Annuler le téléchargement</string>
     <key>cancel_failed</key>
@@ -589,24 +601,45 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>En 2022, vous avez passé %1$@ à écouter des podcasts.</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Cette année, vous avez écouté %1$@ catégories différentes.</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Cette année, vous avez écouté %1$@</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>J’ai écouté %1$@ catégories différentes en 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Découvrez certains de vos podcasts favoris.</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ catégories différentes</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ épisodes</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Vous avez écouté plusieurs fois un même podcast…</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Il y en a cependant un que
+vous avez écouté plusieurs fois...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Vous avez écouté %1$@ et %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ podcasts différents</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>En 2022, j’ai passé %1$@ à écouter des podcasts</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>Cette année, vous avez passé %1$@ à écouter des podcasts.</string>
     <key>eoy_story_longest_episode</key>
     <string>L’épisode le plus long que vous avez écouté était de %1$@ extrait du podcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>La durée de cet épisode était de %1$@.</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>L’épisode le plus long que j’ai écouté en 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>L’épisode était %1$@ de %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>L’épisode le plus long
+que vous avez écouté était
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>Reprendre la lecture</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +951,16 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts ».</string>
     <key>how_to_upload_summary</key>
     <string>Voilà! C’est fait. Changez les renseignements de votre choix, appuyez sur Enregistrer et écoutez des balados!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>Nous pouvons importer vos podcasts depuis Apple Podcasts grâce à l’application Raccourcis intégrée.
+Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une invitation pour la réinstaller.
+
+1. Appuyez sur le bouton « Install Shortcut » (Installer Raccourcis) ci-dessous.
+2. Lorsque l’invite s’affiche, appuyez sur le bouton « Add Shortcut » (Ajouter Raccourcis).
+3. Appuyez sur l’onglet « Shortcuts » (Raccourcis).
+4. Recherchez le raccourci « Apple Podcasts to Pocket Casts » (Apple Podcasts vers Pocket Casts) dans la liste.
+5. Appuyez dessus pour lancer l’importation.
+6. Une fois le raccourci exécuté, Pocket Casts se relance et termine l’importation.</string>
     <key>import_instructions_breaker</key>
     <string>1. Appuyez sur le bouton « Open Breaker » (Ouvrir Breaker) ci-dessous.
 2. Appuyez sur « Settings » (Réglages) dans la barre d’onglets inférieure.

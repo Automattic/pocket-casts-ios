@@ -221,6 +221,18 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>I download in blocco sono limitati a %1$@.</string>
     <key>cancel</key>
     <string>Annulla</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Le tue cartelle verranno rimosse e i loro contenuti verranno spostati indietro alla schermata Podcast.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>L'accesso alle funzionalità di Pocket Casts Plus verrà bloccato dopo tale data.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Tutti i file caricati sul tuo account Pocket Casts verranno eliminati (ma i file scaricati sui tuoi dispositivi mobili rimarranno)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Il tuo abbonamento attuale rimarrà attivo fino al %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>la tua data di scadenza</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>In questo modo il tuo piano verrà cambiato in un account gratuito.</string>
     <key>cancel_download</key>
     <string>Annulla download</string>
     <key>cancel_failed</key>

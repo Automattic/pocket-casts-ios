@@ -221,6 +221,18 @@
     <string>Массовое скачивание ограничено %1$@.</string>
     <key>cancel</key>
     <string>Отмена</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Папки будут удалены, а их содержимое перемещено обратно на экран подкастов.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>С этой даты доступ к функциям Pocket Casts Plus будет заблокирован.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Файлы, загруженные в вашу учётную запись Pocket Casts, будут удалены (однако файлы, загруженные на ваши мобильные устройства, сохранятся)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Ваша текущая подписка будет действовать до %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>срок действия</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>При этом ваш тарифный план изменится на бесплатный.</string>
     <key>cancel_download</key>
     <string>Отменить скачивание</string>
     <key>cancel_failed</key>
