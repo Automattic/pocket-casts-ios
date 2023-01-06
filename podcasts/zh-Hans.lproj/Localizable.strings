@@ -221,6 +221,18 @@
     <string>批量下载限制为 %1$@。</string>
     <key>cancel</key>
     <string>取消</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>您的文件夹将被删除，并且其中的内容将移回“播客”屏幕。</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>在此日期后，对 Pocket Casts Plus 功能的访问将被锁定。</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>上传至您的 Pocket Casts 帐户的文件将会删除（但下载到您移动设备上的文件会保留）</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>您的当前订阅将保持启用状态，直到 %1$@。</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>您的到期日期</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>这会将您的套餐更改为免费帐户。</string>
     <key>cancel_download</key>
     <string>取消下载</string>
     <key>cancel_failed</key>

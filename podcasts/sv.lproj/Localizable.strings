@@ -221,6 +221,18 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Massnedladdningar är begränsade till %1$@.</string>
     <key>cancel</key>
     <string>Avbryt</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Dina mappar kommer att tas bort och deras innehåll kommer att flyttas tillbaka till skärmen Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>Åtkomst till Pocket Casts Plus-funktioner kommer att låsas efter detta datum.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdade filer på dina mobila enheter kommer att vara kvar)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Din nuvarande prenumeration förblir aktiv till %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>ditt utgångsdatum</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Detta kommer att ändra ditt paket till ett gratiskonto.</string>
     <key>cancel_download</key>
     <string>Avbryt nedladdning</string>
     <key>cancel_failed</key>
@@ -589,24 +601,45 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Under 2022 lyssnade du på podcasts i %1$@</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Du lyssnade på %1$@ olika kategorier under året</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Du lyssnade på %1$@ under året</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>Jag lyssnade på %1$@ olika kategorier under 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Låt oss titta på några av dina favoriter ...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ olika kategorier</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ avsnitt</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Du lyssnade på %1$@ olika podcasts och %2$@ avsnitt</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Jag lyssnade på %1$@ olika podcasts och %2$@ avsnitt under 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Men det fanns ett avsnitt som du fortsatte att komma tillbaka till ...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Men det fanns ett avsnitt som du
+fortsatte att komma tillbaka till ...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Du lyssnade på %1$@ och %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ olika podcasts</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>Jag lyssnade på podcasts i %1$@ under 2022</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>I år lyssnade du på podcasts i %1$@</string>
     <key>eoy_story_longest_episode</key>
     <string>Det längsta avsnittet du lyssnade på var %1$@ från podcasten %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Avsnittet var %1$@ långt</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>Det längsta avsnittet jag lyssnade på under 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>Avsnittet var %1$@ från %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>Det längsta avsnittet
+du lyssnade på var
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>Spela upp igen</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +951,16 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>Vi kan importera dina podcasts från Apple Podcasts genom att använda den inbyggda appen Genvägar.
+Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att installera den igen.
+
+1. Tryck på knappen Installera Genvägar nedan.
+2. Tryck på knappen Lägg till genväg när du blir ombedd att göra detta.
+3. Tryck på fliken Genvägar.
+4. Lokalisera genvägen "Apple Podcasts till Pocket Casts" i listan.
+5. Tryck på den för att starta importprocessen.
+6. När genvägen är klar kommer Pocket Casts att öppnas igen och slutföra importprocessen.</string>
     <key>import_instructions_breaker</key>
     <string>1. Tryck på knappen Öppna Breaker nedan
 2. Tryck på Inställningar i det nedre flikfältet

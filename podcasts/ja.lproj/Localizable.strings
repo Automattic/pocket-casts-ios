@@ -221,6 +221,18 @@
     <string>一括ダウンロードの上限は%1$@件です。</string>
     <key>cancel</key>
     <string>キャンセル</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>フォルダーは消去され、保存されているコンテンツは再びポッドキャスト画面に移動します。</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>この日付以降、Pocket Casts Plus の機能が利用できなくなります。</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Pocket Casts アカウントにアップロードされたファイルはすべて削除されます (ただし、モバイルデバイスにダウンロードされたファイルは残ります)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>現在のサブスクリプションは%1$@まで有効です。</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>有効期限</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>これにより、お客様のプランが無料アカウントに変更されます。</string>
     <key>cancel_download</key>
     <string>ダウンロードをキャンセル</string>
     <key>cancel_failed</key>
@@ -589,24 +601,45 @@
     <string>2022年、ポッドキャストを聴いた時間は合計%1$@時間です</string>
     <key>eoy_story_listened_to_categories</key>
     <string>今年、%1$@個のカテゴリーを聴きました</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>今年は%1$@を聴きました</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>2022年に%1$@種類のカテゴリーを聴きました</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>お気に入りをいくつか振り返りましょう...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@種類のカテゴリー</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@件のエピソード</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>%1$@個のポッドキャストで%2$@話のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>何度も聴いたエピソードもありました...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>何度も聴いた
+エピソードもありました...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>%1$@と%2$@を聴きました</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@種類のポッドキャスト</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>2022年に%1$@ポッドキャストを聴きました</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>今年ポッドキャストを聴いた時間は%1$@時間でした</string>
     <key>eoy_story_longest_episode</key>
     <string>聴いた最長のエピソードは、ポッドキャスト %2$@ の %1$@ でした</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>このエピソードの時間は%1$@です</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>2022年に聴いた最長のエピソード %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>エピソードは%2$@の%1$@でした</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>お聴きになった
+最長のエピソードは
+%1$@でした</string>
     <key>eoy_story_replay</key>
     <string>再生</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +951,16 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>内蔵のショートカットアプリを使用して Apple Podcasts からポッドキャストをインポートできます。
+注: 以前にショートカットアプリを削除した場合、再度インストールするようメッセージが表示されます。
+
+1. 下の「ショートカットをインストール」ボタンをタップします。
+2. メッセージが表示されたら「ショートカットを追加」ボタンをタップします。
+3. 「ショートカット」タブをタップします。
+4. リストで「Apple Podcasts から Pocket Casts」のショートカットを探します。
+5. タップしてインポートプロセスを開始します。
+6. ショートカットが完了すると、Pocket Casts の実行が再開し、インポートプロセスが完了します。</string>
     <key>import_instructions_breaker</key>
     <string>1. 下の「Breaker を開く」ボタンをタップします
 2. 下部のタブバーの「設定」をタップします

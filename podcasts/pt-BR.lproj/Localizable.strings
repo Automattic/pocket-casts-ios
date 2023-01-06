@@ -221,6 +221,18 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Os downloads em massa têm um limite de %1$@.</string>
     <key>cancel</key>
     <string>Cancelar</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Suas pastas serão removidas, e o conteúdo delas voltará para a tela Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>O acesso às funcionalidades do Pocket Casts Plus será bloqueado após esta data.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Os arquivos enviados para sua conta no Pocket Casts serão removidos (mas os arquivos baixados em seus dispositivos móveis permanecerão)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Sua assinatura atual permanecerá ativa até %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>sua data de expiração</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Esta opção mudará seu plano para uma conta gratuita.</string>
     <key>cancel_download</key>
     <string>Cancelar download</string>
     <key>cancel_failed</key>
