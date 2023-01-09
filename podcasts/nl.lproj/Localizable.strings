@@ -221,6 +221,18 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bulkdownloads zijn beperkt tot %1$@.</string>
     <key>cancel</key>
     <string>Annuleer </string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Je mappen worden verwijderd en hun inhoud wordt teruggezet naar het scherm Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>Na deze datum wordt toegang tot Pocket Casts Plus-functies vergrendeld.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Alle bestanden die zijn geüpload naar je Pocket Casts-account, worden na een week verwijderd (bestanden die zijn gedownload op je mobiele apparaten blijven behouden)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Je huidige abonnement blijft actief tot %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>je vervaldatum</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Hierdoor wordt je abonnement aangepast naar een gratis account.</string>
     <key>cancel_download</key>
     <string>Download annuleren</string>
     <key>cancel_failed</key>
@@ -589,24 +601,45 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>In 2022 heb je %1$@ naar podcasts geluisterd</string>
     <key>eoy_story_listened_to_categories</key>
     <string>Je hebt dit jaar naar %1$@ verschillende categorieën geluisterd</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Je hebt dit jaar naar %1$@ geluisterd</string>
     <key>eoy_story_listened_to_categories_share_text</key>
     <string>Ik heb in 2022 naar %1$@ verschillende categorieën geluisterd</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Laten we eens kijken naar je favorieten...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ verschillende categorieën</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ afleveringen</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Maar er was er een die je
+bleef luisteren...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Je luisterde naar %1$@ en %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ verschillende podcasts</string>
     <key>eoy_story_listened_to_share_text</key>
     <string>Ik heb ik 2022 %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>Dit jaar heb je %1$@ naar podcasts geluisterd</string>
     <key>eoy_story_longest_episode</key>
     <string>De langste aflevering die je hebt geluisterd was %1$@ van de podcast %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Deze aflevering duurde %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
     <string>De langste aflevering waarnaar ik heb geluisterd in 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>De aflevering was %1$@ van %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>De langste aflevering
+waar je naar hebt geluisterd was
+%1$@</string>
     <key>eoy_story_replay</key>
     <string>Herhalen</string>
     <key>eoy_story_top_categories</key>
@@ -918,6 +951,16 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>We kunnen je podcasts importeren van Apple Podcasts met de geïntegreerde Shortcuts-app.
+Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnieuw te installeren.
+
+1. Tik op de onderstaande knop Shortcuts installeren.
+2. Wanneer dit wordt gevraagd, tik op de knop Snelkoppeling toevoegen.
+3. Tik op het tabblad Snelkoppelingen.
+4. Zoek naar de snelkoppeling 'Apple Podcasts naar Pocket Casts' in de lijst.
+5. Tik erop om het importeren te starten.
+6. Zodra de snelkoppeling klaar is, zal Pocket Casts opnieuw openen en het importeren voltooien.</string>
     <key>import_instructions_breaker</key>
     <string>1. Tik op de onderstaande knop Breaker openen
 2. Tik op Instellingen in de onderste tab-balk
