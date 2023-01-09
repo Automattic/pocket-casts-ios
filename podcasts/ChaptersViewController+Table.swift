@@ -23,9 +23,9 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             var state = PlayerChapterCell.ChapterPlayState.played
             let currentChapters = PlaybackManager.shared.currentChapters()
 
-            if chapter.index == currentChapters.index() {
+            if chapter.index == currentChapters.index {
                 state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
-            } else if chapter.index > currentChapters.index() {
+            } else if chapter.index > currentChapters.index {
                 state = .future
             }
 
@@ -37,7 +37,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 }
             }
 
-            chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters().index() - 1 || chapter.index == PlaybackManager.shared.currentChapters().index() || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
+            chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters().index - 1 || chapter.index == PlaybackManager.shared.currentChapters().index || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
         }
 
         return chapterCell
@@ -47,7 +47,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         tableView.deselectRow(at: indexPath, animated: true)
 
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
-            if chapter.index == PlaybackManager.shared.currentChapters().index() {
+            if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
             } else {
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
