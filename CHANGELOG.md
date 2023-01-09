@@ -1,3 +1,7 @@
+7.31
+-----
+
+
 7.30
 -----
 - Display gravatar under Profile (#584)
