@@ -240,7 +240,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @objc private func chapterLinkTapped() {
         let chapters = PlaybackManager.shared.currentChapters()
-        guard let urlString = chapters.url(), let url = URL(string: urlString) else { return }
+        guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

@@ -45,8 +45,8 @@ class NowPlayingHelper {
     }
 
     private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
-        if currentChapters.title().count > 0, Settings.publishChapterTitlesEnabled() {
-            return currentChapters.title()
+        if currentChapters.title.count > 0, Settings.publishChapterTitlesEnabled() {
+            return currentChapters.title
         }
 
         if let podcastEpisode = episode as? Episode, podcastEpisode.episodeNumber > 0 {

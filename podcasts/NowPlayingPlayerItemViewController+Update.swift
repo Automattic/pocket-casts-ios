@@ -98,17 +98,17 @@ extension NowPlayingPlayerItemViewController {
 
     private func updateChapterInfoWithChapters(_ chapters: Chapters) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
-        if let visibleChapter = chapters.visibleChapter(), PlaybackManager.shared.chapterCount() != 0 {
+        if let visibleChapter = chapters.visibleChapter, PlaybackManager.shared.chapterCount() != 0 {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
 
-            chapterName.text = chapters.title().count > 0 ? chapters.title() : playingEpisode.displayableTitle()
+            chapterName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
 
             chapterSkipBackBtn.isEnabled = !visibleChapter.isFirst
             chapterSkipFwdBtn.isEnabled = !visibleChapter.isLast
             chapterCounter.text = L10n.playerChapterCount((visibleChapter.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
 
-            if let artwork = chapters.artwork() {
+            if let artwork = chapters.artwork {
                 showingCustomImage = true
                 episodeImage.image = artwork
                 episodeImage.accessibilityLabel = L10n.playerArtwork(chapterName.text ?? "")
@@ -117,7 +117,7 @@ extension NowPlayingPlayerItemViewController {
                 ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
                 episodeImage.accessibilityLabel = L10n.playerArtwork(playingEpisode.title ?? "")
             }
-            chapterLink.isHidden = chapters.url() == nil
+            chapterLink.isHidden = chapters.url == nil
         } else {
             episodeInfoView.isHidden = false
             chapterInfoView.isHidden = true
@@ -140,7 +140,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func updateChapterProgress() {
-        updateChapterProgress(for: PlaybackManager.shared.currentChapters().visibleChapter(), playheadPosition: PlaybackManager.shared.currentTime())
+        updateChapterProgress(for: PlaybackManager.shared.currentChapters().visibleChapter, playheadPosition: PlaybackManager.shared.currentTime())
     }
 
     private func updateTimeLabels(upTo: TimeInterval, remaining: TimeInterval) {
@@ -169,11 +169,11 @@ extension NowPlayingPlayerItemViewController {
             return
         }
         let chapters = PlaybackManager.shared.chapterForTime(time: time)
-        if chapters.count() > 0 {
-            episodeName.text = chapters.title().count > 0 ? chapters.title() : playingEpisode.displayableTitle()
-            updateChapterProgress(for: chapters.visibleChapter(), playheadPosition: time)
-            updateUpTo(upTo: time, duration: chapters.duration(), moveSlider: false)
-            chapterCounter.text = L10n.playerChapterCount((chapters.index() + 1).localized(), PlaybackManager.shared.chapterCount().localized())
+        if chapters.count > 0 {
+            episodeName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            updateChapterProgress(for: chapters.visibleChapter, playheadPosition: time)
+            updateUpTo(upTo: time, duration: chapters.duration, moveSlider: false)
+            chapterCounter.text = L10n.playerChapterCount((chapters.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())
         }
     }
 
