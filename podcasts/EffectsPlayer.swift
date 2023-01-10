@@ -376,7 +376,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private func createTimePitchUnit() -> AVAudioUnitTimePitch {
         var componentDescription = AudioComponentDescription()
         componentDescription.componentType = kAudioUnitType_FormatConverter
-        componentDescription.componentSubType = kAudioUnitSubType_AUiPodTimeOther
+        componentDescription.componentSubType = kAudioUnitSubType_TimePitch
         componentDescription.componentManufacturer = kAudioUnitManufacturer_Apple
 
         return AVAudioUnitTimePitch(audioComponentDescription: componentDescription)
