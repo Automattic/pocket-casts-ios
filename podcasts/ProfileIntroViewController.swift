@@ -80,8 +80,6 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         handleThemeChanged()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        setupProviderLoginView()
-
         Analytics.track(.setupAccountShown)
     }
 
@@ -161,52 +159,6 @@ private extension ProfileIntroViewController {
 
         errorLabel.text = L10n.accountSsoFailed
         errorLabel.alpha = 1
-    }
-}
-
-// MARK: - Apple Auth
-extension ProfileIntroViewController {
-    func setupProviderLoginView() {
-        guard FeatureFlag.signInWithApple.enabled else { return }
-
-        // Continue with Google button
-        let googleButton = SocialLoginButton(iconName: "sso-icon-google",
-                                             title: L10n.socialSignInContinueWithGoogle,
-                                             font: buttonFont)
-        googleButton.addAction {
-            print("TODO: Add Sign In Action")
-        }
-
-        addSocialButton(googleButton)
-
-        // Continue with Apple button
-        let appleButton = SocialLoginButton(iconName: "sso-icon-apple",
-                                            darkIconName: "sso-icon-apple-dark",
-                                            title: L10n.socialSignInContinueWithApple,
-                                            font: buttonFont)
-        appleButton.addAction {
-            self.handleAppleAuthButtonPress()
-        }
-
-        addSocialButton(appleButton)
-    }
-
-    private func addSocialButton(_ button: SocialLoginButton) {
-        button.heightAnchor.constraint(greaterThanOrEqualToConstant: 56).isActive = true
-        authenticationProviders.insertArrangedSubview(button, at: 1)
-    }
-
-    private func handleAppleAuthButtonPress() {
-        hideError()
-
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
-
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
     }
 }
 

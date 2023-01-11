@@ -3097,7 +3097,6 @@
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				C7F01AFA2911882600EE15D5 /* GoogleSignInSwift in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
@@ -4185,7 +4184,6 @@
 				BD78221E170D4BEA008E1A7E /* Player */,
 				D4DA5CAA1739ED4C003FE24B /* Discovery */,
 				BD55C9F11FB9200C0084A7CB /* Profile */,
-				C7F87F0C291323FF00C15980 /* Sign In */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -5596,7 +5594,6 @@
 				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BDE43412231759060045D0CB /* Files.xcassets */,
 				404BB865230F7FF5006FE8A9 /* WhatsNew.xcassets */,
-				C7F87F08291323D600C15980 /* SingleSignOn.xcassets */,
 				8BE85CA72876258300AEB5FF /* Acknowledgments */,
 				BD7EA4CE1E52C2800014EAC5 /* Animations */,
 				BD663F9217E1FBA600D48373 /* Push Sounds */,
@@ -6413,6 +6410,7 @@
 				BDBD53E817019B2A0048C8C5 /* Sources */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
+				C716FF45296F2BE3006B787D /* Modify Plist */,
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
@@ -6877,7 +6875,6 @@
 				BD6B667B245BC25C00CF5245 /* AppIcon-Indigo20x20@2x~ipad.png in Resources */,
 				BD3EB3AF179E622A00D0731C /* MiniPlayerViewController.xib in Resources */,
 				BDA002E91F7B318B00DCB4AE /* AppIcon-Round20x20@3x.png in Resources */,
-				C7F87F09291323D600C15980 /* SingleSignOn.xcassets in Resources */,
 				BDA002C71F7B318B00DCB4AE /* AppIcon-Dark29x29@2x.png in Resources */,
 				BD424B0C2575F30800C9447B /* PodcastDisclosureCell.xib in Resources */,
 				BD6B6672245BC25B00CF5245 /* AppIcon-Indigo60x60@3x.png in Resources */,
@@ -7308,6 +7305,25 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C716FF45296F2BE3006B787D /* Modify Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
+			);
+			name = "Modify Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
 		};
 		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -8082,7 +8098,6 @@
 				40F1492C218BCC4F008F54EA /* FilterShortcutsViewController.swift in Sources */,
 				BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */,
 				40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */,
-				C7F87F0E291323FF00C15980 /* SocialLoginButton.swift in Sources */,
 				BD3B6D2C1FC6981E004A9376 /* TableSwipeActions.swift in Sources */,
 				4635390E26F3C42C00BA9D35 /* MessageSupportViewModel.swift in Sources */,
 				BD1C46E227BA269300B1D8BB /* FolderPreviewView.swift in Sources */,
@@ -8145,7 +8160,6 @@
 				407083C625423F0A002FC9F8 /* EpisodePreviewCell.swift in Sources */,
 				40FFCDBA2300E5AD00395CA5 /* UpgradeRequiredViewController.swift in Sources */,
 				BD7166951ECA8646007DD36E /* TopAlignedLabel.swift in Sources */,
-				C7F87F122913242C00C15980 /* UIButton+EasyActions.swift in Sources */,
 				463538B826F0E88700BA9D35 /* MessageSupportView.swift in Sources */,
 				8B0EEDE829008B6300075772 /* TopOnePodcastStory.swift in Sources */,
 				BD9A43EE1D067AF20012FD9B /* ColorManager.swift in Sources */,
@@ -10165,11 +10179,6 @@
 		C7BF5E4C29083E2100733C1E /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsServer;
-		};
-		C7F01AF92911882600EE15D5 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

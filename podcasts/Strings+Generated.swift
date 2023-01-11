@@ -2476,10 +2476,6 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1))
   }
-  /// Continue with Apple
-  internal static var socialSignInContinueWithApple: String { return L10n.tr("Localizable", "social_sign_in_continue_with_apple") }
-  /// Continue with Google
-  internal static var socialSignInContinueWithGoogle: String { return L10n.tr("Localizable", "social_sign_in_continue_with_google") }
   /// CONNECT
   internal static var sonosConnectAction: String { return L10n.tr("Localizable", "sonos_connect_action") }
   /// Connect To Sonos
