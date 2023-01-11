@@ -85,6 +85,12 @@
     <string>Är du säker på att du vill ta bort ditt konto. Åtgärden går inte att ångra!</string>
     <key>account_delete_account_title</key>
     <string>Ta bort konto?</string>
+    <key>account_details_free_account</key>
+    <string>Gratis konto</string>
+    <key>account_details_listened_for</key>
+    <string>Lyssnade i %1$@</string>
+    <key>account_details_plus_title</key>
+    <string>Ta din podcastupplevelse till nästa nivå med exklusiv tillgång till funktioner och anpassningsalternativ.</string>
     <key>account_login</key>
     <string>Logga in</string>
     <key>account_payment_renews_monthly</key>
@@ -109,6 +115,8 @@
 Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</string>
     <key>account_signed_out_alert_title</key>
     <string>Du har blivit utloggad.</string>
+    <key>account_sso_failed</key>
+    <string>Inloggning med Apple misslyckades. Försök igen.</string>
     <key>account_title</key>
     <string>Pocket Casts-konto</string>
     <key>account_upgraded</key>
@@ -213,6 +221,18 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Massnedladdningar är begränsade till %1$@.</string>
     <key>cancel</key>
     <string>Avbryt</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Dina mappar kommer att tas bort och deras innehåll kommer att flyttas tillbaka till skärmen Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>Åtkomst till Pocket Casts Plus-funktioner kommer att låsas efter detta datum.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdade filer på dina mobila enheter kommer att vara kvar)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Din nuvarande prenumeration förblir aktiv till %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>ditt utgångsdatum</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Detta kommer att ändra ditt paket till ett gratiskonto.</string>
     <key>cancel_download</key>
     <string>Avbryt nedladdning</string>
     <key>cancel_failed</key>
@@ -399,6 +419,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Utvalt</string>
     <key>discover_featured_episode</key>
     <string>UTVALT AVSNITT</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>Den utvalda podcasten/det utvalda avsnittet hittades inte. Se till att du är ansluten till internet och försök igen.</string>
     <key>discover_fresh_pick</key>
     <string>UTVALD</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +579,89 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Stoppa alla nedladdningar</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>eoy_card_description</key>
+    <string>Se dina favoritpodcasts och -kategorier, lyssningsstatistik med mera.</string>
+    <key>eoy_create_account_to_see</key>
+    <string>Spara dina podcasts i molnet, få din årsslutsöversikt och synkronisera ditt lyssningsförlopp med andra enheter.</string>
+    <key>eoy_description</key>
+    <string>Se dina favoritpodcasts och -kategorier, lyssningsstatistik med mera. Dela med vänner och berätta om dina favoritkreatörer.</string>
+    <key>eoy_not_now</key>
+    <string>Inte nu</string>
+    <key>eoy_small_title</key>
+    <string>Podcastår</string>
+    <key>eoy_stories_failed</key>
+    <string>Det gick inte att ladda berättelser.</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>Glöm inte att dela med dina vänner och att berätta om dina favoritpodcastkreatörer</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Tack för att du har låtit Pocket Casts vara en del av din lyssningsupplevelse under 2022</string>
+    <key>eoy_story_intro_title</key>
+    <string>Låt oss fira ditt lyssningsår ...</string>
+    <key>eoy_story_listened_to</key>
+    <string>Under 2022 lyssnade du på podcasts i %1$@</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>Du lyssnade på %1$@ olika kategorier under året</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Du lyssnade på %1$@ under året</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Jag lyssnade på %1$@ olika kategorier under 2022</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>Låt oss titta på några av dina favoriter ...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ olika kategorier</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ avsnitt</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>Du lyssnade på %1$@ olika podcasts och %2$@ avsnitt</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Jag lyssnade på %1$@ olika podcasts och %2$@ avsnitt under 2022</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>Men det fanns ett avsnitt som du fortsatte att komma tillbaka till ...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Men det fanns ett avsnitt som du
+fortsatte att komma tillbaka till ...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Du lyssnade på %1$@ och %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ olika podcasts</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>Jag lyssnade på podcasts i %1$@ under 2022</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>I år lyssnade du på podcasts i %1$@</string>
+    <key>eoy_story_longest_episode</key>
+    <string>Det längsta avsnittet du lyssnade på var %1$@ från podcasten %2$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>Avsnittet var %1$@ långt</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>Det längsta avsnittet jag lyssnade på under 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>Avsnittet var %1$@ från %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>Det längsta avsnittet
+du lyssnade på var
+%1$@</string>
+    <key>eoy_story_replay</key>
+    <string>Spela upp igen</string>
+    <key>eoy_story_top_categories</key>
+    <string>Dina favoritkategorier</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mina mest lyssnade podcastkategorier</string>
+    <key>eoy_story_top_podcast</key>
+    <string>Din favoritpodcast var %1$@ av %2$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Min favoritpodcast 2022. %1$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>Du lyssnade på %1$@ avsnitt i sammanlagt %2$@</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>Dina favoritpodcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mina favoritpodcasts 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Mina favoritpodcasts för året. %1$@</string>
+    <key>eoy_title</key>
+    <string>Ditt podcastår</string>
+    <key>eoy_view_year</key>
+    <string>Visa mitt 2022</string>
     <key>episode</key>
     <string>Avsnitt</string>
     <key>episode_count_plural_format</key>
@@ -778,8 +883,12 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Ingen betalning nu – Avbryt när som helst</string>
     <key>free_trial_duration_free</key>
     <string>%1$@ GRATIS</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>%1$@ GRATIS PROVPERIOD</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@ gratis, därefter %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>Starta gratis provperiod och prenumerera</string>
     <key>free_trial_start_button</key>
     <string>Starta kostnadsfri testperiod</string>
     <key>free_trial_title_label</key>
@@ -842,12 +951,64 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>Vi kan importera dina podcasts från Apple Podcasts genom att använda den inbyggda appen Genvägar.
+Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att installera den igen.
+
+1. Tryck på knappen Installera Genvägar nedan.
+2. Tryck på knappen Lägg till genväg när du blir ombedd att göra detta.
+3. Tryck på fliken Genvägar.
+4. Lokalisera genvägen "Apple Podcasts till Pocket Casts" i listan.
+5. Tryck på den för att starta importprocessen.
+6. När genvägen är klar kommer Pocket Casts att öppnas igen och slutföra importprocessen.</string>
+    <key>import_instructions_breaker</key>
+    <string>1. Tryck på knappen Öppna Breaker nedan
+2. Tryck på Inställningar i det nedre flikfältet
+3. Tryck på Anslutning
+4. Tryck på Exportera prenumerationer
+5. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
+    <key>import_instructions_castbox</key>
+    <string>1. Tryck på knappen Öppna Castbox nedan
+2. Tryck på fliken Personligt
+3. Svep nedåt tills du ser alternativet Inställningar och klicka sedan på det
+4. Svep nedåt tills du ser alternativet OPML-export och klicka sedan på det
+5. Om du blir ombedd att göra det, tryck på "Öppna i Pocket Casts"
+6. Om filen öppnas i Safari, tryck på knappen Ladda ner
+7. När nedladdningen är klar, tryck på nedladdningsikonen i URL-fältet
+8. Tryck på alternativet Nedladdningar
+9. Tryck på castbox_opml-filen 
+10. Om det behövs, tryck på ikonen Dela och öppna sedan filen med Pocket Casts
+11. När delningsdialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
+    <key>import_instructions_castro</key>
+    <string>1. Tryck på knappen Öppna Castro nedan
+2. Tryck på kugghjulsikonen i det övre hörnet av appen
+3. Svep nedåt tills du ser alternativet Användardata och klicka sedan på det
+4. Tryck på alternativet Exportera prenumerationer
+5. När delningsdialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
+    <key>import_instructions_import_from</key>
+    <string>Importera från %1$@</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>Installera Genvägar</string>
+    <key>import_instructions_open_in</key>
+    <string>Öppna %1$@</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>andra appar</string>
+    <key>import_instructions_overcast</key>
+    <string>1. Tryck på knappen nedan för att öppna Overcast
+2. Tryck på kugghjulsikonen i det övre hörnet av appen
+3. Svep nedåt tills du ser alternativet Exportera OPML och klicka sedan på det
+4. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
     <key>import_podcasts_description</key>
     <string>Du kan importera alla dina prenumerationer till Pocket Casts via en OPML-fil som i stor utsträckning stöds av många podcast applikationer. Exportera filen från din andra app och välj Öppna i Pocket Casts.
 
 Observera: Du kan behöva skicka OPML-filen till dig själv via ett mejl, långtryck sedan på bilagan och välja Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>IMPORTERA TILL POCKET CASTS</string>
+    <key>import_subtitle</key>
+    <string>Kommer du från en annan app? Importera dina podcasts och börja lyssna. Du kan alltid göra detta senare i dina inställningar.</string>
+    <key>import_title</key>
+    <string>Ta dina
+podcasts med dig</string>
     <key>in_progress</key>
     <string>Pågår</string>
     <key>keycommand_close_player</key>
@@ -866,6 +1027,10 @@ Observera: Du kan behöva skicka OPML-filen till dig själv via ett mejl, långt
     <string>Lyssningshistorik</string>
     <key>loading</key>
     <string>Läser in...</string>
+    <key>login_subtitle</key>
+    <string>Skapa ett konto för att synkronisera din lyssningsupplevelse på alla dina enheter.</string>
+    <key>login_title</key>
+    <string>Upptäck din nästa favoritpodcast</string>
     <key>mark_played</key>
     <string>Markera som spelad</string>
     <key>mark_played_short</key>
@@ -1107,6 +1272,10 @@ UPPDATERINGAR</string>
     <string>Skapa ett konto eller logga in för att få åtkomst till Pocket Casts Plus.</string>
     <key>plus_account_trial_details</key>
     <string>När din provperiod är över kommer du fortfarande att ha tillgång till fördelarna med ditt vanliga konto. Lycka till med podcastandet!</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>Lås upp alla funktioner</string>
+    <key>plus_cancel_terms</key>
+    <string>Kan avslutas när som helst</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB molnlagring</string>
     <key>plus_error_already_registered</key>
@@ -1142,22 +1311,38 @@ UPPDATERINGAR</string>
 Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseendet med nya fräscha teman, som är exklusiva för Plus-medlemmar.</string>
     <key>plus_marketing_folders_description</key>
     <string>Skapa mappar för att organisera din podcastsamling.</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>Annonsfri upplevelse som ger dig mer av det du gillar och mindre av det du inte gillar</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>Dölj annonser</string>
     <key>plus_marketing_learn_more_button</key>
     <string>Läs mer om Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Gör appen din egen och bli distribuerad på en och samma gång. Ladda upp dina egna ljudfiler till vår molnserver och få tillgång till ditt konto via vår webbspelare.</string>
     <key>plus_marketing_main_title</key>
     <string>Förbättrade funktioner för avancerade lyssnare</string>
+    <key>plus_marketing_subtitle</key>
+    <string>Få tillgång till exklusiva funktioner och anpassningsalternativ</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Välj bland exklusiva färger och ikoner som endast är tillgängliga för Plus-medlemmar.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Teman och ikoner</string>
+    <key>plus_marketing_title</key>
+    <string>Allt du älskar med Pocket Casts och mer därtill</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>Ladda upp dina filer till molnlagringen och ha dem tillgängliga överallt</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Lyssna på fler platser med våra Windows-, macOS- och webbappar</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>Organisera dina podcasts i mappar och håll dem synkroniserade på alla dina enheter.</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Uppgradera till Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>Strunt i att ta med dig telefonen nästa gång du är ute och springer. En Apple Watch är tillräckligt.</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Klockan</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@ per månad</string>
     <key>plus_payment_canceled</key>
     <string>Betalningen har avbrutits</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1174,6 +1359,10 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Du är välkommen att registrera dig för Pocket Casts Plus ändå, skapa ett vanligt konto eller bara dyka in direkt. </string>
     <key>plus_promotion_used</key>
     <string>Koden har redan använts</string>
+    <key>plus_purchase_failed</key>
+    <string>Det verkar som att det uppstod ett problem när din betalning behandlades. Försök igen.</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Bli Plus-medlem och lås upp alla Pocket Casts-funktioner</string>
     <key>plus_required_feature</key>
     <string>Denna funktion kräver Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
@@ -1192,6 +1381,12 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Det verkar som att du började prenumerera på Pocket Casts Plus via webben</string>
     <key>plus_subscription_web_details</key>
     <string>Om du vill avsluta din prenumeration måste du göra detta via Pocketcasts.com.</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>Kontrollera din internetanslutning och försök igen.</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>Hämtningen kunde inte genomföras</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@ per år</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nyhetsbrev</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1200,6 +1395,8 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>Registrera dig för nyhetsbrevet</string>
     <key>podcast_access_ended</key>
     <string>Åtkomst upphörde: %1$@</string>
     <key>podcast_access_ends</key>
@@ -1379,6 +1576,9 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Förhandsgranska</string>
     <key>pricing_terms_after_trial</key>
     <string>därefter %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Återkommande betalningar börjar efter din
+gratis provperiod på %1$@</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1405,6 +1605,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Du har inte stjärnmärkt några avsnitt.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Inget stjärnmärkt</string>
+    <key>purchase_terms</key>
+    <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_queue</key>
@@ -1748,7 +1950,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>settings_import_export</key>
     <string>Importera/exportera</string>
     <key>settings_in_filters_plural_format</key>
-    <string>Ingår i %1$@ filter</string>
+    <string>Inkluderad i %1$@ filter</string>
     <key>settings_in_filters_singular</key>
     <string>Ingår i 1 filter</string>
     <key>settings_in_menu</key>
@@ -2159,6 +2361,22 @@ Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <string>Du kan placera avsnitt i kö för uppspelning via skärmen Avsnittsinformation, eller så kan du lägga till dem på din telefon.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Inget i Nästa</string>
+    <key>welcome_discover_button</key>
+    <string>Hitta min nästa podcast</string>
+    <key>welcome_discover_description</key>
+    <string>Du kan hitta både mindre kända och trendande podcasts på vår kurerade Upptäck-sida.</string>
+    <key>welcome_discover_title</key>
+    <string>Upptäck något nytt</string>
+    <key>welcome_import_button</key>
+    <string>Importera podcasts</string>
+    <key>welcome_import_description</key>
+    <string>Kommer du från en annan app? Ta dina podcasts med dig.</string>
+    <key>welcome_import_title</key>
+    <string>Importera dina podcasts</string>
+    <key>welcome_new_account_title</key>
+    <string>Välkommen, nu kan du börja lyssna.</string>
+    <key>welcome_plus_title</key>
+    <string>Tack, nu kan du börja lyssna.</string>
     <key>whats_new</key>
     <string>Nyheter</string>
     <key>whats_new_blog_more_link_text</key>

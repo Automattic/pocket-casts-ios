@@ -719,7 +719,7 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
-    // MARK: - Profile Badge for End of Year 2022
+    // MARK: - End of Year 2022
 
     class var showBadgeFor2022EndOfYear: Bool {
         set {
@@ -728,6 +728,45 @@ class Settings: NSObject {
 
         get {
             (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+        }
+    }
+
+    class var endOfYearModalHasBeenShown: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
+        }
+    }
+
+    class var hasSyncedAll2022Episodes: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+        }
+    }
+
+    class var top5PodcastsListLink: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.top5PodcastsListLink)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: Constants.UserDefaults.top5PodcastsListLink)
+        }
+    }
+
+    static var shouldShowInitialOnboardingFlow: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.shouldShowInitialOnboardingFlow)
+        }
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldShowInitialOnboardingFlow)
         }
     }
 
@@ -744,6 +783,11 @@ class Settings: NSObject {
 
         class func episodeSearchDebounceTime() -> TimeInterval {
             remoteMsToTime(key: Constants.RemoteParams.episodeSearchDebounceMs)
+        }
+
+        static var endOfYearRequireAccount: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.endOfYearRequireAccount)
+            return remote.boolValue
         }
 
         private class func remoteMsToTime(key: String) -> TimeInterval {

@@ -85,6 +85,12 @@
     <string>アカウントを削除してもよろしいですか ? この操作は元に戻せません。</string>
     <key>account_delete_account_title</key>
     <string>アカウントを削除しますか ?</string>
+    <key>account_details_free_account</key>
+    <string>無料アカウント</string>
+    <key>account_details_listened_for</key>
+    <string>%1$@視聴しました</string>
+    <key>account_details_plus_title</key>
+    <string>専用の機能やカスタマイズオプションを使用して、あなたのポッドキャスト体験をさらなるレベルに引き上げることができます。</string>
     <key>account_login</key>
     <string>ログイン</string>
     <key>account_payment_renews_monthly</key>
@@ -109,6 +115,8 @@
 下のボタンをタップして、Pocket Casts アカウントに再度ログインしてください。</string>
     <key>account_signed_out_alert_title</key>
     <string>ログアウトされました。</string>
+    <key>account_sso_failed</key>
+    <string>Appleでのサインインに失敗しました。 もう一度お試しください。</string>
     <key>account_title</key>
     <string>Pocket Casts アカウント</string>
     <key>account_upgraded</key>
@@ -213,6 +221,18 @@
     <string>一括ダウンロードの上限は%1$@件です。</string>
     <key>cancel</key>
     <string>キャンセル</string>
+    <key>cancel_confirm_item_folders</key>
+    <string>フォルダーは消去され、保存されているコンテンツは再びポッドキャスト画面に移動します。</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>この日付以降、Pocket Casts Plus の機能が利用できなくなります。</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Pocket Casts アカウントにアップロードされたファイルはすべて削除されます (ただし、モバイルデバイスにダウンロードされたファイルは残ります)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>現在のサブスクリプションは%1$@まで有効です。</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>有効期限</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>これにより、お客様のプランが無料アカウントに変更されます。</string>
     <key>cancel_download</key>
     <string>ダウンロードをキャンセル</string>
     <key>cancel_failed</key>
@@ -399,6 +419,8 @@
     <string>おすすめ</string>
     <key>discover_featured_episode</key>
     <string>おすすめのエピソード</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>そのポッドキャストまたはエピソードが見つかりません。 インターネットに接続されていることを確認してから、もう一度お試しください。</string>
     <key>discover_fresh_pick</key>
     <string>最新セレクション</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +579,89 @@
     <string>すべてのダウンロードを停止</string>
     <key>edit</key>
     <string>編集する</string>
+    <key>eoy_card_description</key>
+    <string>人気のポッドキャスト、カテゴリー、視聴統計などを確認します。</string>
+    <key>eoy_create_account_to_see</key>
+    <string>ポッドキャストをクラウドに保存して、年末レビューを取得し、他の端末と進捗を同期します。</string>
+    <key>eoy_description</key>
+    <string>人気のポッドキャスト、カテゴリー、視聴統計などを確認します。 友達と共有したり、お気に入りのクリエイターにエールを送ったりしましょう。</string>
+    <key>eoy_not_now</key>
+    <string>後で</string>
+    <key>eoy_small_title</key>
+    <string>ポッドキャストで振り返る1年</string>
+    <key>eoy_stories_failed</key>
+    <string>ストーリーの読み込みに失敗しました。</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>友達と共有したりお気に入りのポッドキャストクリエイターにエールを送ったりしましょう</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>2022年、Pocket Casts をお聴きくださりありがとうございました</string>
+    <key>eoy_story_intro_title</key>
+    <string>今年聴いたポッドキャストを振り返ってみましょう...</string>
+    <key>eoy_story_listened_to</key>
+    <string>2022年、ポッドキャストを聴いた時間は合計%1$@時間です</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>今年、%1$@個のカテゴリーを聴きました</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>今年は%1$@を聴きました</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>2022年に%1$@種類のカテゴリーを聴きました</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>お気に入りをいくつか振り返りましょう...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@種類のカテゴリー</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@件のエピソード</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>%1$@個のポッドキャストで%2$@話のエピソードを聴きました</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>何度も聴いたエピソードもありました...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>何度も聴いた
+エピソードもありました...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>%1$@と%2$@を聴きました</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@種類のポッドキャスト</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>2022年に%1$@ポッドキャストを聴きました</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>今年ポッドキャストを聴いた時間は%1$@時間でした</string>
+    <key>eoy_story_longest_episode</key>
+    <string>聴いた最長のエピソードは、ポッドキャスト %2$@ の %1$@ でした</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>このエピソードの時間は%1$@です</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>2022年に聴いた最長のエピソード %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>エピソードは%2$@の%1$@でした</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>お聴きになった
+最長のエピソードは
+%1$@でした</string>
+    <key>eoy_story_replay</key>
+    <string>再生</string>
+    <key>eoy_story_top_categories</key>
+    <string>トップカテゴリー</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>最もよく聴いたポッドキャストカテゴリー</string>
+    <key>eoy_story_top_podcast</key>
+    <string>あなたに人気のポッドキャストは %2$@ による %1$@ でした</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>2022年のお気に入りポッドキャスト ! %1$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>%1$@個のエピソードで合計%2$@聴きました</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>人気のポッドキャスト</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>私の2022年のトップポッドキャスト</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>今年私が一番よく聴いたポッドキャスト ! %1$@</string>
+    <key>eoy_title</key>
+    <string>ポッドキャストで振り返る1年</string>
+    <key>eoy_view_year</key>
+    <string>私の2022年をプレビュー</string>
     <key>episode</key>
     <string>エピソード</string>
     <key>episode_count_plural_format</key>
@@ -778,8 +883,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>無料でお試ししていつでもキャンセル可能</string>
     <key>free_trial_duration_free</key>
     <string>%1$@無料</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>%1$@無料お試し</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@無料で以降 %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>無料お試しとサブスクリプションを開始</string>
     <key>free_trial_start_button</key>
     <string>無料お試しを開始する</string>
     <key>free_trial_title_label</key>
@@ -842,12 +951,64 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>内蔵のショートカットアプリを使用して Apple Podcasts からポッドキャストをインポートできます。
+注: 以前にショートカットアプリを削除した場合、再度インストールするようメッセージが表示されます。
+
+1. 下の「ショートカットをインストール」ボタンをタップします。
+2. メッセージが表示されたら「ショートカットを追加」ボタンをタップします。
+3. 「ショートカット」タブをタップします。
+4. リストで「Apple Podcasts から Pocket Casts」のショートカットを探します。
+5. タップしてインポートプロセスを開始します。
+6. ショートカットが完了すると、Pocket Casts の実行が再開し、インポートプロセスが完了します。</string>
+    <key>import_instructions_breaker</key>
+    <string>1. 下の「Breaker を開く」ボタンをタップします
+2. 下部のタブバーの「設定」をタップします
+3.  「連携」をタップします
+4. 「サブスクリプションをエクスポート」をタップします
+5. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
+    <key>import_instructions_castbox</key>
+    <string>1. 下の「Castbox を開く」ボタンをタップします
+2. 「パーソナル」タブをタップします
+3.  「設定」オプションが表示されるまで下にスワイプしてタップします
+4. 「OPML をエクスポート」オプションが表示されるまで下にスワイプしてタップします
+5. メッセージが表示されたら「Pocket Casts を開く」をタップします
+6. Safari でファイルを開いたら「ダウンロード」ボタンをタップします
+7.  ダウンロードが完了したら、URL バーのダウンロードアイコンをタップします
+8. 「ダウンロード」のアイテムをタップします
+9. castbox_opml ファイルをタップします
+10.  必要に応じて「共有」アイコンをタップし、Pocket Casts を使用してファイルを開きます
+11.  共有ダイアログが開いたら、Pocket Casts アイコンを見つけタップします</string>
+    <key>import_instructions_castro</key>
+    <string>1. 下の「Castro を開く」ボタンをタップします
+2. アプリの上隅にある歯車アイコンをタップします
+3.  「ユーザーデータ」オプションが表示されるまで下にスワイプしてタップします
+4. 「サブスクリプションをエクスポート」の項目をタップします
+5. 共有ダイアログが開いたら、Pocket Casts アイコンを見つけタップします</string>
+    <key>import_instructions_import_from</key>
+    <string>%1$@ からインポート</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>ショートカットをインストール</string>
+    <key>import_instructions_open_in</key>
+    <string>%1$@ を開く</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>その他のアプリ</string>
+    <key>import_instructions_overcast</key>
+    <string>1. 下のボタンをタップして Overcast を開きます
+2. アプリの上隅にある歯車アイコンをタップします
+3.  「OPML をエクスポート」が表示されるまで下にスワイプしてタップします
+4. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
     <key>import_podcasts_description</key>
     <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストのサブスクリプションを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
 
 注意: 自分宛てに OPML ファイルをメールで送信し、添付ファイルを長押しして Pocket Casts を選択する必要がある場合があります。</string>
     <key>import_podcasts_title</key>
     <string>Pocket Casts へのインポート</string>
+    <key>import_subtitle</key>
+    <string>新規ユーザーですか ? ポッドキャストをインポートして聞いてみましょう。 この操作は後でいつでも設定で行うことができます。</string>
+    <key>import_title</key>
+    <string>ポッドキャストを
+移すことができます</string>
     <key>in_progress</key>
     <string>進行中</string>
     <key>keycommand_close_player</key>
@@ -866,6 +1027,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>聴取履歴</string>
     <key>loading</key>
     <string>読み込み中...</string>
+    <key>login_subtitle</key>
+    <string>アカウントを作成すると、すべての端末で視聴内容を同期させることができます。</string>
+    <key>login_title</key>
+    <string>次のお気に入りのポッドキャストを見つける</string>
     <key>mark_played</key>
     <string>再生済みとしてマーク</string>
     <key>mark_played_short</key>
@@ -1107,6 +1272,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントを作成するか、ログインして Pocket Casts Plus へアクセスしてください。</string>
     <key>plus_account_trial_details</key>
     <string>トライアルが終了しても、標準アカウントのすべてのメリットを受けることができます。 ポッドキャストをお楽しみください !</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>すべての機能のロックを解除</string>
+    <key>plus_cancel_terms</key>
+    <string>いつでもキャンセルできます</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@GB のクラウドストレージ</string>
     <key>plus_error_already_registered</key>
@@ -1142,22 +1311,38 @@ Pocket Casts で共有すればここに表示されるようになります</st
 デスクトップアプリを取得し、自分のファイルを取り込んで、フレッシュな新テーマで飾り付けましょう。Plus メンバー限定の特典です。</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>広告非表示の操作環境では気に入ったコンテンツを増やし、気に入らないコンテンツは減らすことができます</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>広告を非表示</string>
     <key>plus_marketing_learn_more_button</key>
     <string>Pocket Casts Plus の詳細</string>
     <key>plus_marketing_main_description</key>
     <string>パーソナルにいろんな仲間とつながる。 個人的な音声ファイルをクラウドサーバーにアップロード。ウェブプレーヤーからアカウントにアクセスして、アプリを自分好みにカスタマイズしましょう。</string>
     <key>plus_marketing_main_title</key>
     <string>上級リスナー向け強化機能</string>
+    <key>plus_marketing_subtitle</key>
+    <string>限定機能とカスタマイズオプションへのアクセス権を取得しましょう</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>あなたの個性を表現しましょう。 Plus クラブ限定の特別なアイコンとテーマ。</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>テーマとアイコン</string>
+    <key>plus_marketing_title</key>
+    <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Pocket Casts の Windows 版、macOS 版、ウェブ版アプリでさらに多くの場所で聞きましょう</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>ポッドキャストをフォルダーに整理し、すべてのデバイス間で同期させます。</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Plus にアップグレード</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>スマホは不要。ビートを刻んでランニングへ。 Apple Watch にすべてお任せ。</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Watch 再生</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@/ 月</string>
     <key>plus_payment_canceled</key>
     <string>支払いをキャンセル済み</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1174,6 +1359,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>そのまま Pocket Casts Plus に登録するか、標準アカウントを作成するか、すぐに使用を開始するかご自由にお選びください。</string>
     <key>plus_promotion_used</key>
     <string>使用済みコード</string>
+    <key>plus_purchase_failed</key>
+    <string>支払の処理で問題が発生したようです。 もう一度お試しください。</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Plus のメンバーになると、すべての Pocket Casts 機能を利用できるようになります</string>
     <key>plus_required_feature</key>
     <string>この機能は Pocket Casts Plus が必要です</string>
     <key>plus_select_payment_frequency</key>
@@ -1192,6 +1381,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ウェブから Pocket Casts Plus に登録したようです</string>
     <key>plus_subscription_web_details</key>
     <string>サブスクリプションは Pocketcasts.com からキャンセルする必要があります。</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>ネットワーク接続を確認して、もう一度お試しください。</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>読み込めません</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@/ 年</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts ニュースレター</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1200,6 +1395,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>ニュースレターをチェック</string>
     <key>podcast_access_ended</key>
     <string>アクセス権終了日: %1$@</string>
     <key>podcast_access_ends</key>
@@ -1379,6 +1576,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>プレビュー</string>
     <key>pricing_terms_after_trial</key>
     <string>以降 %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>後に定期支払いが発生します%1$@無料お試し</string>
     <key>profile</key>
     <string>プロフィール</string>
     <key>profile_help_support</key>
@@ -1405,6 +1604,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>星を付けているエピソードがありません。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>星付きのエピソードがありません</string>
+    <key>purchase_terms</key>
+    <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_queue</key>
@@ -2084,7 +2285,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>today</key>
     <string>今日</string>
     <key>top</key>
-    <string>人気</string>
+    <string>一番上</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>
@@ -2159,6 +2360,22 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソードの詳細画面から次に再生するエピソードを待機リストに追加できます。スマートフォンで追加することもできます。</string>
     <key>watch_up_next_no_items_title</key>
     <string>次のエピソードには何もありません</string>
+    <key>welcome_discover_button</key>
+    <string>次のポッドキャストを検索</string>
+    <key>welcome_discover_description</key>
+    <string>厳選された Discover ページで、まだ知らない最近人気のポッドキャストを見つけましょう。</string>
+    <key>welcome_discover_title</key>
+    <string>新しいものを見つける</string>
+    <key>welcome_import_button</key>
+    <string>ポッドキャストをインポート</string>
+    <key>welcome_import_description</key>
+    <string>新規ユーザーですか ? ポッドキャストを移すことができます。</string>
+    <key>welcome_import_title</key>
+    <string>ポッドキャストをインポートする</string>
+    <key>welcome_new_account_title</key>
+    <string>ようこそ、どうぞお聞きください !</string>
+    <key>welcome_plus_title</key>
+    <string>ありがとうございます。どうぞお聞きください !</string>
     <key>whats_new</key>
     <string>新着情報</string>
     <key>whats_new_blog_more_link_text</key>

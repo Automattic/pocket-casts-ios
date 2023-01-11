@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 
 class AccountViewController: UIViewController, ChangeEmailDelegate {
-    enum TableRow { case changeEmail, changePassword, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
+    enum TableRow { case upgradeView, changeEmail, changePassword, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
     var tableData: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
     static let newsletterCellId = "NewsletterCellId"
@@ -14,6 +14,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             tableView.applyInsetForMiniPlayer()
             tableView.register(UINib(nibName: "NewsletterCell", bundle: nil), forCellReuseIdentifier: AccountViewController.newsletterCellId)
             tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: AccountViewController.actionCellId)
+            tableView.register(PlusAccountPromptTableCell.self, forCellReuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier)
         }
     }
 
@@ -66,7 +67,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         }
     }
 
-    @IBOutlet var upgradeView: ThemeableView!
+    @IBOutlet var oldUpgradeView: ThemeableView!
+
     @IBOutlet var upgradeSeperatorView: ThemeableView! {
         didSet {
             upgradeSeperatorView.style = .primaryUi05
@@ -117,6 +119,15 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     @IBOutlet var pricingCenterConstraint: NSLayoutConstraint!
 
+    private var upgradeView: UIView? {
+        return oldUpgradeView
+    }
+
+    private func hideOldUpgradeViewIfNeeded() {
+        guard FeatureFlag.onboardingUpdates.enabled else { return }
+        oldUpgradeView.removeFromSuperview()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.accountTitle
@@ -136,6 +147,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideOldUpgradeViewIfNeeded()
         updateDisplayedData()
         title = L10n.accountTitle
     }
@@ -166,6 +178,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             emailLabel.text = email
         }
 
+        var upgradeHidden = false
+
         if SubscriptionHelper.hasActiveSubscription() {
             accountTypeLabel.text = L10n.pocketCastsPlus
 
@@ -179,18 +193,29 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     let nextPaymentDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
                     accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
                     paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
-                    upgradeView.isHidden = true
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
                 } else if SubscriptionHelper.subscriptionType() == .supporter {
                     accountDetailsLabel.style = .support02
                     accountDetailsLabel.text = L10n.supporter
                     paymentExpiryLabel.text = L10n.supporterContributionsSubtitle
-                    upgradeView.isHidden = true
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
+                } else {
+                    // This handles a state where the user has plus, but their subscription type is none
+                    // IE: If the receipt request fails the first time
+                    let nextPaymentDate = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
+                    accountDetailsLabel.text = L10n.nextPaymentFormat(nextPaymentDate)
+                    paymentExpiryLabel.text = SubscriptionHelper.subscriptionFrequency()
+                    upgradeHidden = true
+                    upgradeView?.isHidden = true
                 }
             } else { // Gifted account
                 if SubscriptionHelper.subscriptionPlatform() == .gift {
                     if SubscriptionHelper.hasLifetimeGift() {
                         hideExpiryDate = true
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                         accountDetailsLabel.text = L10n.subscriptionsThankYou
                         paymentExpiryLabel.text = L10n.plusLifetimeMembership
                         paymentExpiryLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
@@ -208,19 +233,11 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                     } else if SubscriptionHelper.subscriptionType() == .supporter {
                         accountDetailsLabel.style = .support05
                         accountDetailsLabel.text = L10n.supporterPaymentCanceled
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                     }
                 }
             }
-
-            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
-            if SubscriptionHelper.numActiveSubscriptionBundles() > 0 {
-                newTableRows[0].insert(.supporterContributions, at: 0)
-            }
-            if SubscriptionHelper.hasRenewingSubscription(), SubscriptionHelper.subscriptionType() == .plus {
-                newTableRows[0].append(.cancelSubscription)
-            }
-            updateTableRows(newRows: newTableRows)
 
             if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry(), let expiryDate = expiryDate {
                 if !hideExpiryDate {
@@ -229,30 +246,62 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
                     if expiryTime < 15.days {
                         paymentExpiryLabel.style = .support05
-                        upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeView?.isHidden = SubscriptionHelper.hasRenewingSubscription()
                     } else if expiryTime < 30.days {
                         paymentExpiryLabel.style = .support08
-                        upgradeView.isHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeHidden = SubscriptionHelper.hasRenewingSubscription()
+                        upgradeView?.isHidden = SubscriptionHelper.hasRenewingSubscription()
                     } else {
                         paymentExpiryLabel.style = .primaryText02
-                        upgradeView.isHidden = true
+                        upgradeHidden = true
+                        upgradeView?.isHidden = true
                     }
                 }
                 profileView.secondsTillExpiry = expiryTime
             }
+
+            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+
+            if SubscriptionHelper.numActiveSubscriptionBundles() > 0 {
+                newTableRows[0].insert(.supporterContributions, at: 0)
+            }
+            if SubscriptionHelper.hasRenewingSubscription(), SubscriptionHelper.subscriptionType() == .plus {
+                newTableRows[0].append(.cancelSubscription)
+            }
+
+            if FeatureFlag.onboardingUpdates.enabled, !upgradeHidden {
+                newTableRows[0].insert(.upgradeView, at: 0)
+            }
+
+            updateTableRows(newRows: newTableRows)
+
         } else {
             // Free Account
             accountTypeLabel.text = L10n.pocketCasts
-            accountDetailsLabel.text = nil
-            paymentExpiryLabel.text = nil
-            upgradeView.isHidden = false
 
+            let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
+            if totalListeningTime > 0, let totalTime = totalListeningTime.localizedTimeDescription {
+                accountDetailsLabel.text = L10n.accountDetailsFreeAccount
+                paymentExpiryLabel.text = L10n.accountDetailsListenedFor(totalTime)
+            } else {
+                accountDetailsLabel.text = nil
+                paymentExpiryLabel.text = nil
+            }
+
+            upgradeHidden = false
+            upgradeView?.isHidden = false
             profileView.isSubscribed = false
 
             var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
             if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
+
+            if FeatureFlag.onboardingUpdates.enabled {
+                newTableRows[0].insert(.upgradeView, at: 0)
+            }
+
             updateTableRows(newRows: newTableRows)
         }
 
@@ -262,7 +311,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         // If we're not hiding the upgrade view, then refresh the pricing info
         // If the IAP information hasn't been pulled in yet, this method will trigger a refresh and the view will
         // be updated via `iapProductsUpdated`
-        if upgradeView.isHidden == false {
+        if !FeatureFlag.onboardingUpdates.enabled, upgradeHidden == false {
             updatePricingLabels()
         }
 

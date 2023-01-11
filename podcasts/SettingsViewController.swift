@@ -5,7 +5,7 @@ import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy, developer
+        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy, developer, beta
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -41,6 +41,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
             case .developer:
                 return ("Developer", UIImage(systemName: "ladybug.fill"))
+            case .beta:
+                return ("Beta Features", UIImage(systemName: "testtube.2"))
             }
         }
     }
@@ -140,7 +142,11 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .privacy:
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         case .developer:
-            let hostingController = UIHostingController(rootView: DeveloperMenu())
+            let hostingController = UIHostingController(rootView: DeveloperMenu().setupDefaultEnvironment())
+            navigationController?.pushViewController(hostingController, animated: true)
+        case .beta:
+            let hostingController = UIHostingController(rootView: BetaMenu().setupDefaultEnvironment())
+            hostingController.title = "Beta Features"
             navigationController?.pushViewController(hostingController, animated: true)
         }
     }
@@ -161,7 +167,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         }
 
         #if DEBUG
-        tableData.append([.developer])
+        tableData.insert([.developer, .beta], at: 0)
         #endif
 
         settingsTable.reloadData()

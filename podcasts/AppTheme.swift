@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 class AppTheme {
     private static let tintColor = UIColor(hex: "#F44336")
@@ -529,6 +530,28 @@ class AppTheme {
         }
     }
 
+    static func pcLogoSmallHorizontalForBackgroundImageName() -> String {
+        switch Theme.sharedTheme.activeTheme {
+        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+            return "small-horizontal-logo-dark"
+        case .light, .classic, .indigo, .rosé, .contrastLight:
+            return "small-horizontal-logo"
+        }
+    }
+
+    static func socialIconAppleImageName() -> String {
+        switch Theme.sharedTheme.activeTheme {
+        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+            return "sso-icon-apple-dark"
+        case .light, .classic, .indigo, .rosé, .contrastLight:
+            return "sso-icon-apple"
+        }
+    }
+
+    static func socialIconGoogleImageName() -> String {
+        return "sso-icon-google"
+    }
+
     class func pcPlusLogoVerticalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
         case .dark, .extraDark, .electric, .radioactive, .contrastDark:
@@ -795,6 +818,13 @@ class AppTheme {
 
     class func playlistYellowColor() -> UIColor {
         ThemeColor.filter03()
+    }
+
+    // MARK: - Getting Colors from ThemeStyles
+
+    /// Returns a SwiftUI color for the theme style
+    static func color(for style: ThemeStyle, theme: Theme? = nil) -> Color {
+        return colorForStyle(style, themeOverride: theme?.activeTheme).color
     }
 
     // TODO: there probably is a more elegant way to do this...

@@ -1508,11 +1508,17 @@
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
 
+/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
+"plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
+
 /* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
 "plus_marketing_cloud_storage_title" = "Cloud Storage";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
+
+/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
+"plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
 /* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
 "plus_marketing_desktop_apps_title" = "Desktop Apps";
@@ -1546,6 +1552,15 @@
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
+
+/* Pocket Casts Plus marketing page, description of the Folders feature */
+"plus_marketing_updated_folders_description" = "Organise your podcasts in folders, and keep them in sync across all your devices.";
+
+/* Pocket Casts Plus marketing page, title of the hide ads feature */
+"plus_marketing_hide_ads_title" = "Hide Ads";
+
+/* Pocket Casts Plus marketing page, description of the hide ads feature */
+"plus_marketing_hide_ads_description" = "Ad-free experience which gives you more of what you love and less of what you don't";
 
 /* Informational message informing the user that their recurring payments for Plus have been canceled. */
 "plus_payment_canceled" = "Payment Cancelled";
@@ -2392,7 +2407,7 @@
 "settings_import_export" = "Import / Export";
 
 /* Informs the user that the current podcast is included in one filter. '%1$@' is a placeholder for the number of filters this podcast is included in. */
-"settings_in_filters_plural_format" = "Included In %1$@ Filter";
+"settings_in_filters_plural_format" = "Included In %1$@ Filters";
 
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
@@ -3078,6 +3093,9 @@
 /* The description for the Pocket Casts Newsletter */
 "pocket_casts_newsletter_description" = "Receive news, app updates, themed playlists, interviews, and more.";
 
+/* The heading shown for the Pocket Casts Newsletter */
+"pocket_casts_welcome_newsletter_title" = "Get the Newsletter";
+
 /* Title for page one of the 7.20 what's new dialog. */
 "whats_new_page_one_title_7_20" = "Folders";
 
@@ -3277,6 +3295,30 @@
 /* Pricing terms explaining how much will be charged after a free trial ends, %1$@ is the price ($0.99 / month) */
 "pricing_terms_after_trial" = "then %1$@";
 
+/* Free trial duration with the word free trial emphasized, %1$@ is the localized trial duration (1 month) */
+"free_trial_duration_free_trial" = "%1$@ FREE TRIAL";
+
+/* Title for a button that allows the user to subscrbe with a free trial */
+"free_trial_start_and_subscribe_button" = "Start Free Trial & Subscribe";
+
+/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), \n is a new line */
+"pricing_terms_after_trial_long" = "Recurring payments will begin after your\n%1$@ free trial";
+
+/* Monthly pricing format, %1$@ is the price */
+"plus_monthly_frequency_pricing_format" = "%1$@ per month";
+
+/* Yearly pricing format, %1$@ is the price */
+"plus_yearly_frequency_pricing_format" = "%1$@ per year";
+
+/* Payment failed error message */
+"plus_purchase_failed" = "It looks like there was a problem processing your payment. Please try again.";
+
+/* The title of the purchase promo */
+"plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
+
+/* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
+"purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
 
@@ -3301,17 +3343,47 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
-/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of categories. */
+/* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
+
+/* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
+"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
+"eoy_story_listened_to_categories_highlighted" = "You listened to %1$@ this year";
+
+/* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder for the number of different categories. */
+"eoy_story_listened_to_categories_text" = "%1$@ different categories";
 
 /* String prompting the user for the next story to check the most listened categories. */
 "eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
 
-/* String telling the user how much podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder fot eh number of episodes. */
+/* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
+"eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
+
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
 "eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+
+/* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
+"eoy_story_listened_to_numbers_updated" = "You listened to %1$@ and %2$@";
+
+/* String telling the user how many podcasts they listened to this year, %1$@ is a placeholder for the number of podcasts*/
+"eoy_story_listened_to_podcast_text" = "%1$@ different podcasts";
+
+/* String telling the user how many episodes they listened to this year, %1$@ is a placeholder for the number number of episodes. */
+"eoy_story_listened_to_episodes_text" = "%1$@ episodes";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
 "eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
+
+/* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
+"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you\nkept coming back to...";
+
+/* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
+"eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
 
 /* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
 "eoy_story_top_podcast" = "Your top podcast was %1$@ by %2$@";
@@ -3319,14 +3391,32 @@
 /* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
+/* Text that appear when someone share the top podcast of the year story to Twitter. %1$@ is the URL to the podcast. */
+"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022! %1$@";
+
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
+
+/* Text that appear when someone share the top 5 podcasts of the year story to Twitter. %1$@ is a link to the list of the top podcasts. */
+"eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
+
+/* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
+"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
 
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
+"eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
+
+/* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
+"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
+
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
+
+/* Text that appear when someone share the longest episode they listened to story to Twitter. %1$@ is the URL to the episode. */
+"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022 %1$@";
 
 /* Title for the epilogue story */
 "eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
@@ -3340,8 +3430,131 @@
 /* Title of the top categories story. */
 "eoy_story_top_categories" = "Your Top Categories";
 
+/* Text that appear when someone share the top categories story to Twitter. */
+"eoy_story_top_categories_share_text" = "My most listened to podcast categories";
+
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
+
+/* When loading the End of Year stats stories fails. */
+"eoy_stories_failed" = "Failed to load stories.";
+
+/* Title of the view displayed after a user successfully upgrades to plus */
+"welcome_plus_title" = "Thank you, now let's get you listening!";
+
+/* Title of the view displayed after a user successfully creates an account */
+"welcome_new_account_title" = "Welcome, now let's get you listening!";
+
+/* Title of a section informing the user they can import their podcasts from another app */
+"welcome_import_title" = "Import your podcasts";
+
+/* Description of a section informing the user they can import their podcasts from another app */
+"welcome_import_description" = "Coming from another app? Bring your podcasts with you.";
+
+/* Title of a button prompting the user to import their podcasts */
+"welcome_import_button" = "Import Podcasts";
+
+/* Title of a section informing the user they can find new podcasts in the discover section */
+"welcome_discover_title" = "Discover something new";
+
+/* Description of a section informing the user they can find new podcasts in the discover section */
+"welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
+
+/* Title of a button prompting the user find new podcasts in discover */
+"welcome_discover_button" = "Find My Next Podcast";
+
+/* Label that informs the user they have a free account */
+"account_details_free_account" = "Free Account";
+
+/* Label that shows the user how much time they have listened to podcasts for, %1$@ is the localized formatted time, ie: 2 hours */
+"account_details_listened_for" = "Listened for %1$@";
+
+/* Marketing text that promotes the plus feature to the user */
+"account_details_plus_title" = "Take your podcasting experience to the next level with exclusive access to features and customisation options.";
+
+/* Body of a message informing the user the request failed */
+"plus_upgrade_no_internet_title" = "Unable to Load";
+
+/* Body of a message informing the user they need an internet connect to upgrade to plus */
+"plus_upgrade_no_internet_message" = "Please check your internet connection and try again.";
+
+/* Step by Step instructions on how to import from the app Overcast. \n are new lines and Overcast is a proper noun and should not be translated. */
+"import_instructions_overcast" = "1. Tap the button below to open Overcast\n2. Tap the Cog icon in the top corner of the app\n3. Swipe down until you see Export OPML, then tap on it\n4. When the dialog opens locate the Pocket Casts icon, and tap on it";
+
+/* Step by Step instructions on how to import from the app Breaker. \n are new lines and Breaker is a proper noun and should not be translated. */
+"import_instructions_breaker" = "1. Tap the Open Breaker button below\n2. Tap on Settings in the bottom tab bar\n3. Tap on Connection\n4. Tap on Export subscriptions\n5. When the dialog opens locate the Pocket Casts icon, and tap on it";
+
+/* Step by Step instructions on how to import from the app Castro. \n are new lines and Castro is a proper noun and should not be translated. */
+"import_instructions_castro" = "1. Tap the Open Castro button below\n2. Tap the Cog icon in the top corner of the app\n3. Swipe down until you see the User Data option, then tap on it\n4. Tap the Export Subscriptions item\n5. When the share dialog opens, locate the Pocket Casts icon, then tap on it";
+
+/* Step by Step instructions on how to import from the app Castbox. \n are new lines and Castbox is a proper noun and should not be translated. */
+"import_instructions_castbox" = "1. Tap the Open Castbox button below\n2. Tap the Personal tab\n3. Swipe down until you see the Settings option, then tap on it\n4. Swipe down until you see the OPML Export option, then tap on it\n5. If prompted, tap \"Open in Pocket Casts\"\n6. If the file opens in Safari, tap the Download button\n7. Once the download is complete, tap the download icon in the URL bar\n8. Tap the Downloads item\n9. Tap the castbox_opml file \n10. If needed, tap the Share icon, then open the file using Pocket Casts\n11. When the share dialog opens, locate the Pocket Casts icon, then tap on it";
+
+/* Step by Step instructions on how to import from the app Apple Podcasts. \n are new lines and Apple Podcasts is a proper noun and should not be translated. */
+"import_instructions_apple_podcasts_steps" = "We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.\nNote: If you previously deleted the shortcuts app you will be prompted to reinstall it.\n\n1. Tap the Install Shortcut button below.\n2. When prompted tap the Add Shortcut button.\n3. Tap on the Shortcuts tab.\n4. Locate the \"Apple Podcasts to Pocket Casts\" shortcut in the list.\n5. Tap it to start the import process.\n6. Once the shortcut is done running Pocket Casts will reopen and finish the import process.";
+
+/* Title of an option to import from other apps */
+"import_instructions_other_apps_title" = "other apps";
+
+/* Button title to install a shortcut */
+"import_instructions_install_shortcut" = "Install Shortcut";
+
+/* Button title to open the given app name,  %1$@ is the name of the app */
+"import_instructions_open_in" = "Open %1$@";
+
+/* Button title to import from the given app name,  %1$@ is the name of the app */
+"import_instructions_import_from" = "Import from %1$@";
+
+/* Title of a view promoting the import feature */
+"import_title" = "Bring your\npodcasts with you";
+
+/* Title of a view explaining the import feature */
+"import_subtitle" = "Coming from another app? Import your podcasts and get listening. You can always do this later in settings.";
+
+/* Title of the login marketing view */
+"login_title" = "Discover your next favorite podcast";
+
+/* Subtitle of the login marketing view */
+"login_subtitle" = "Create an account to sync your listening experience across all your devices.";
+
+/* Title of the plus marketing view */
+"plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
+
+/* Subtitle of the plus marketing view */
+"plus_marketing_subtitle" = "Get access to exclusive features and customisation options";
+
+/* Title of the button that informs the user they can unlock all the features in plus */
+"plus_button_title_unlock_all" = "Unlock All Features";
+
+/* Title of a label informing the user they can cancel their subscription at any time */
+"plus_cancel_terms" = "Can be canceled at any time";
+
+/* Sub title of a view that informs the user what will happen if they cancel their subscription */
+"cancel_confirm_subtitle" = "This will change your plan to a free account.";
+
+/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiriation */
+"cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
+
+/* Item that appears in place of the user's missing expiration date if it's not available. */
+"cancel_confirm_sub_expiry_date_fallback" = "your expiration date";
+
+/* Title of a list item that informs the user their plus features will be locked if they cancel */
+"cancel_confirm_item_plus" = "Access to Pocket Casts Plus features will be locked after this date.";
+
+/* Title of a list item that informs the user their folders will be removed if they cancel */
+"cancel_confirm_item_folders" = "Your folders will be removed and their contents will move back to the Podcasts screen.";
+
+/* Title of a list item that informs the user uploaded files will be removed if they cancel */
+"cancel_confirm_item_uploads" = "All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)";
+
+/* Title of a list item that informs the user they will no longer be able to access plus on the web if they cancel */
+"cancel_confirm_item_web_player" =  "You will no longer be able to access Pocket Casts using your web browser, or desktop computer.";
+
+/* Button title that lets the user stop the cancellation process */
+"cancel_confirm_stay_button_title" =  "Actually, I want to stay";
+
+/* Button title that lets the user contine the cancellation process */
+"cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
 
 /* MARK: - InfoPlist.strings */
 

@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    @Published var progress: Double
+    var progress: Double
 
     @Published var currentStory: Int = 0
 
@@ -20,8 +20,14 @@ class StoriesModel: ObservableObject {
         dataSource.story(for: currentStory).duration
     }
 
+    private var currentStoryIdentifier: String = ""
+
     var numberOfStories: Int {
         dataSource.numberOfStories
+    }
+
+    var numberOfStoriesToPreload: Int {
+        configuration.storiesToPreload
     }
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration) {
@@ -40,6 +46,10 @@ class StoriesModel: ObservableObject {
 
     func start() {
         cancellable = publisher.autoconnect().sink(receiveValue: { _ in
+            guard self.numberOfStories > 0 else {
+                return
+            }
+
             var newProgress = self.progress + (0.01 / self.interval)
 
             let currentStory = Int(newProgress)
@@ -57,26 +67,63 @@ class StoriesModel: ObservableObject {
             }
 
             self.progress = newProgress
+            StoriesProgressModel.shared.progress = newProgress
         })
     }
 
     func story(index: Int) -> AnyView {
-        dataSource.storyView(for: index)
+        let story = dataSource.story(for: index)
+        story.onAppear()
+        currentStoryIdentifier = story.identifier
+        return AnyView(story)
     }
 
-    func interactive(index: Int) -> AnyView {
-        dataSource.interactiveView(for: index)
+    func storyIsShareable(index: Int) -> Bool {
+        dataSource.shareableStory(for: index) != nil ? true : false
     }
 
-    func shareableAsset(index: Int) -> Any {
-        dataSource.shareableAsset(for: index)
+    func preload(index: Int) -> AnyView {
+        if index < numberOfStories {
+            return AnyView(dataSource.story(for: index))
+        }
+
+        return AnyView(EmptyView())
+    }
+
+    func sharingAssets() -> [Any]? {
+        guard let story = dataSource.shareableStory(for: currentStory) else {
+            return nil
+        }
+
+        story.willShare()
+
+        // If any of the assets have additional handlers then make sure we add them to the array
+        return story.sharingAssets().flatMap {
+            if let item = $0 as? ShareableMetadataDataSource {
+                return [$0, item.shareableMetadataProvider]
+            }
+
+            return [$0]
+        }
+    }
+
+    func isInteractiveView(index: Int) -> Bool {
+        dataSource.isInteractiveView(for: index)
     }
 
     func next() {
+        guard numberOfStories > 0 else {
+            return
+        }
+
         progress = min(Double(numberOfStories), Double(Int(progress) + 1))
     }
 
     func previous() {
+        guard numberOfStories > 0 else {
+            return
+        }
+
         progress = max(0, Double(Int(progress) - 1))
     }
 
@@ -90,15 +137,29 @@ class StoriesModel: ObservableObject {
         pause()
         start()
     }
+
+    func share() {
+        guard let assets = sharingAssets() else { return }
+
+        pause()
+        EndOfYear().share(assets: assets, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+            self?.start()
+        })
+    }
+
+    func stopAndDismiss() {
+        pause()
+        NavigationManager.sharedManager.dismissPresentedViewController()
+    }
 }
 
 private extension StoriesModel {
     func subscribeToNotifications() {
-        StoriesController.Notifications.allCases.forEach { controller in
+        StoriesController.Notifications.allCases.forEach { [weak self] controller in
             switch controller {
             case .replay:
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { _ in
-                    self.replay()
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
+                    self?.replay()
                 }
             }
         }

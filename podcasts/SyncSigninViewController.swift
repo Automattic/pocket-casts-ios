@@ -256,6 +256,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
     @IBAction func forgotPasswordTapped(_ sender: AnyObject) {
         let forgotPasswordPage = ForgotPasswordViewController()
+        forgotPasswordPage.delegate = self
         navigationController?.pushViewController(forgotPasswordPage, animated: true)
     }
 
@@ -299,6 +300,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     Settings.setPromotionFinishedAcknowledged(true)
                     Settings.setLoginDetailsUpdated()
+
+                    NotificationCenter.postOnMainThread(notification: .userSignedIn)
                 })
             }
         }
@@ -387,5 +390,15 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         UIView.animate(withDuration: animationDuration, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+}
+
+extension SyncSigninViewController: ForgotPasswordDelegate {
+    func handlePasswordResetSuccess() {
+        navigationController?.popToViewController(self, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+
+            SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)
+        }
     }
 }

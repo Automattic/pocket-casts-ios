@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
+    @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
@@ -26,25 +27,29 @@ struct StoriesView: View {
             ZStack {
                 Spacer()
 
-                ZStack {
-                    model.story(index: model.currentStory)
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                storiesToPreload
 
-                storySwitcher
+                StoryViewContainer {
+                    // Manually set the zIndex order to ensure we can change the order when needed
+                    model.story(index: model.currentStory).zIndex(3)
 
-                ZStack {
-                    model.interactive(index: model.currentStory)
-                }
-                .cornerRadius(Constants.storyCornerRadius)
+                    // By default the story switcher will appear above the story and override all
+                    // interaction, but if the story contains interactive elements then move the
+                    // switcher to appear behind the view to allow the story override the switcher, or
+                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
+                }.cornerRadius(Constants.storyCornerRadius)
 
                 header
             }
 
-            ZStack {}
-                .frame(height: Constants.spaceBetweenShareAndStory)
+            // Hide the share button if needed
+            if model.storyIsShareable(index: model.currentStory) {
+                ZStack {}
+                    .frame(height: Constants.spaceBetweenShareAndStory)
 
-            shareButton
+                shareButton
+            }
         }
         .background(Color.black)
     }
@@ -54,11 +59,13 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            ProgressView()
-                .colorInvert()
-                .brightness(1)
-                .padding()
-                .background(Color.black)
+            VStack(spacing: 15) {
+                CircularProgressView()
+                    .frame(width: 40, height: 40)
+                Text(L10n.loading)
+                    .foregroundColor(.white)
+                    .font(style: .body)
+            }
 
             storySwitcher
             header
@@ -69,11 +76,14 @@ struct StoriesView: View {
         ZStack {
             Spacer()
 
-            Text("Failed to load stories.")
+            Text(L10n.eoyStoriesFailed)
                 .foregroundColor(.white)
 
             storySwitcher
             header
+        }
+        .onAppear {
+            Analytics.track(.endOfYearStoriesFailedToLoad)
         }
     }
 
@@ -81,12 +91,13 @@ struct StoriesView: View {
     var header: some View {
         ZStack {
             VStack {
-                HStack {
+                HStack(spacing: 2) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
-                        StoryIndicator(progress: min(max((CGFloat(model.progress) - CGFloat(x)), 0.0), 1.0))
+                        StoryIndicator(index: x)
                     }
                 }
                 .frame(height: Constants.storyIndicatorHeight)
+                .padding(.top, 4)
                 Spacer()
             }
             .padding(.leading, Constants.storyIndicatorVerticalPadding)
@@ -101,13 +112,14 @@ struct StoriesView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button(action: {
-                        NavigationManager.sharedManager.dismissPresentedViewController()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.white)
-                            .padding(Constants.closeButtonPadding)
-                    }
+                    Button("") {
+                        Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "close_button"])
+                        model.stopAndDismiss()
+                    }.buttonStyle(CloseButtonStyle(showButtonShapes: showButtonShapes))
+                    // Inset the button a bit if we're showing the button shapes
+                    .padding(.trailing, showButtonShapes ? Constants.storyIndicatorVerticalPadding : 5)
+                    .padding(.top, 5)
+                    .accessibilityLabel(L10n.accessibilityDismiss)
                 }
                 .padding(.top, Constants.closeButtonTopPadding)
                 Spacer()
@@ -122,13 +134,13 @@ struct StoriesView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.previous()
-            }
+                }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.next()
-            }
+                }
         }
         .simultaneousGesture(
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
@@ -143,7 +155,8 @@ struct StoriesView: View {
 
                     // If a quick swipe down is performed, dismiss the view
                     if velocity.height > 200 {
-                        NavigationManager.sharedManager.dismissPresentedViewController()
+                        Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "swipe_down"])
+                        model.stopAndDismiss()
                     } else {
                         model.start()
                     }
@@ -152,30 +165,23 @@ struct StoriesView: View {
     }
 
     var shareButton: some View {
-        Button(action: {
-            model.pause()
-            EndOfYear().share(asset: { model.shareableAsset(index: model.currentStory) }, onDismiss: {
-                model.start()
-            })
-        }) {
-            HStack {
-                Spacer()
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(.white)
-                Text("Share")
-                    .foregroundColor(.white)
-                Spacer()
+        Button(L10n.share) {
+            model.share()
+        }
+        .buttonStyle(ShareButtonStyle())
+        .padding([.leading, .trailing], Constants.shareButtonHorizontalPadding)
+    }
+
+    var storiesToPreload: some View {
+        ZStack {
+            if model.numberOfStoriesToPreload > 0 {
+                ForEach(0...model.numberOfStoriesToPreload, id: \.self) { index in
+                    model.preload(index: model.currentStory + index + 1)
+                }
             }
         }
-        .contentShape(Rectangle())
-        .padding(.top, Constants.shareButtonVerticalPadding)
-        .padding(.bottom, Constants.shareButtonVerticalPadding)
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
-                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
-        )
-        .padding(.leading, Constants.shareButtonHorizontalPadding)
-        .padding(.trailing, Constants.shareButtonHorizontalPadding)
+        .opacity(0)
+        .allowsHitTesting(false)
     }
 }
 
@@ -191,15 +197,76 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-
-        static let shareButtonVerticalPadding: CGFloat = 10
-        static let shareButtonHorizontalPadding: CGFloat = 5
-        static let shareButtonCornerRadius: CGFloat = 10
-        static let shareButtonBorderSize: CGFloat = 1
+        static let shareButtonHorizontalPadding: CGFloat = 20
 
         static let spaceBetweenShareAndStory: CGFloat = 15
 
         static let storyCornerRadius: CGFloat = 15
+    }
+}
+
+// MARK: - Custom Buttons
+
+private struct ShareButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            Spacer()
+            Image("share")
+            configuration.label
+            Spacer()
+        }
+        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+        .foregroundColor(Constants.shareButtonColor)
+
+        .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
+
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
+                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
+        )
+        .applyButtonEffect(isPressed: configuration.isPressed)
+        .contentShape(Rectangle())
+    }
+
+    private struct Constants {
+        static let shareButtonColor = Color.white
+        static let shareButtonVerticalPadding: CGFloat = 13
+        static let shareButtonCornerRadius: CGFloat = 12
+        static let shareButtonBorderSize: CGFloat = 2
+    }
+}
+
+private struct CloseButtonStyle: ButtonStyle {
+    let showButtonShapes: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        Image("close")
+            .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
+            .foregroundColor(.white)
+            .padding(Constants.closeButtonPadding)
+            .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
+            .cornerRadius(Constants.closeButtonRadius)
+            .contentShape(Rectangle())
+            .applyButtonEffect(isPressed: configuration.isPressed)
+    }
+
+    private enum Constants {
+        static let closeButtonPadding: CGFloat = 13
+        static let closeButtonRadius: CGFloat = 5
+    }
+}
+
+struct StoryViewContainer<Content: View>: View {
+    private var content: () -> Content
+
+    init(@ViewBuilder _ content: @escaping () -> Content) {
+        self.content = content
+    }
+    var body: some View {
+        ZStack {
+            content()
+            StoryLogoView().zIndex(4)
+        }
     }
 }
 

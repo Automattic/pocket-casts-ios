@@ -15,13 +15,13 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .intro:
             return IntroStory()
         case .listeningTime:
-            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.randomPodcasts)
+            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
         case .listenedCategories:
             return ListenedCategoriesStory(listenedCategories: data.listenedCategories.reversed())
-        case .topFiveCategories:
-            return TopListenedCategories(listenedCategories: data.listenedCategories)
-        case .listenedNumbers:
-            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.randomPodcasts)
+        case .topCategories:
+            return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
+        case .numberOfPodcastsAndEpisodesListened:
+            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
         case .topOnePodcast:
             return TopOnePodcastStory(topPodcast: data.topPodcasts[0])
         case .topFivePodcasts:
@@ -33,13 +33,17 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         }
     }
 
+    func shareableStory(for storyNumber: Int) -> (any ShareableStory)? {
+        story(for: storyNumber) as? (any ShareableStory)
+    }
+
     /// The only interactive view we have is the last one, with the replay button
-    func interactiveView(for storyNumber: Int) -> AnyView {
+    func isInteractiveView(for storyNumber: Int) -> Bool {
         switch stories[storyNumber] {
         case .epilogue:
-            return AnyView(EpilogueStory())
+            return true
         default:
-            return AnyView(EmptyView())
+            return false
         }
     }
 

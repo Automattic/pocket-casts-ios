@@ -2,13 +2,27 @@ import XCTest
 
 @testable import podcasts
 @testable import PocketCastsDataModel
+@testable import PocketCastsServer
 
 class EndOfYearStoriesBuilderTests: XCTestCase {
+    override func setUp() {
+        // Do not sync for episodes
+        Settings.hasSyncedAll2022Episodes = true
+
+        // Pretend we're logged in
+        ServerSettings.setSyncingEmail(email: "test@test.com")
+    }
+
     func testReturnListeningTimeStoryIfBiggerThanZero() async {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
+        endOfYearManager.topPodcastsToReturn = [
+            TopPodcast(podcast: Podcast.previewPodcast(),
+                       numberOfPlayedEpisodes: 3,
+                       totalPlayedTime: 3000)
+        ]
         endOfYearManager.listeningTimeToReturn = 3000
         let stories = await builder.build()
 
@@ -34,12 +48,12 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
         endOfYearManager.listenedCategoriesToReturn = [
-            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast())
+            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500)
         ]
         let stories = await builder.build()
 
         XCTAssertEqual(stories.0.first, EndOfYearStory.listenedCategories)
-        XCTAssertEqual(stories.0[1], EndOfYearStory.topFiveCategories)
+        XCTAssertEqual(stories.0[1], EndOfYearStory.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
     }
@@ -53,7 +67,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let stories = await builder.build()
 
         XCTAssertFalse(stories.0.contains(.listenedCategories))
-        XCTAssertFalse(stories.0.contains(.topFiveCategories))
+        XCTAssertFalse(stories.0.contains(.topCategories))
         XCTAssertTrue(stories.1.listenedCategories.isEmpty)
     }
 
@@ -62,10 +76,15 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
+        endOfYearManager.topPodcastsToReturn = [
+            TopPodcast(podcast: Podcast.previewPodcast(),
+                       numberOfPlayedEpisodes: 3,
+                       totalPlayedTime: 3000)
+        ]
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 3, numberOfEpisodes: 10)
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.listenedNumbers)
+        XCTAssertEqual(stories.0.first, EndOfYearStory.numberOfPodcastsAndEpisodesListened)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfPodcasts, 3)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfEpisodes, 10)
     }
@@ -78,7 +97,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
         let stories = await builder.build()
 
-        XCTAssertFalse(stories.0.contains(.listenedNumbers))
+        XCTAssertFalse(stories.0.contains(.numberOfPodcastsAndEpisodesListened))
         XCTAssertNil(stories.1.listenedNumbers)
     }
 
@@ -163,7 +182,8 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
+        Settings.hasSyncedAll2022Episodes = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         let stories = await builder.build()
@@ -171,13 +191,14 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertTrue(syncCalled)
     }
 
-    func testDontSyncWhenNotNeeded() async {
+    func testDontSyncWhenAlreadySynced() async {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
+        Settings.hasSyncedAll2022Episodes = true
 
-        endOfYearManager.isFullListeningHistoryToReturn = true
+        endOfYearManager.isFullListeningHistoryToReturn = false
         let stories = await builder.build()
 
         XCTAssertFalse(syncCalled)

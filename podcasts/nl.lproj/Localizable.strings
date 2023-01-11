@@ -85,6 +85,12 @@
     <string>Weet je zeker dat je je account wilt verwijderen? Je kan dit niet ongedaan maken!</string>
     <key>account_delete_account_title</key>
     <string>Account verwijderen?</string>
+    <key>account_details_free_account</key>
+    <string>Gratis account</string>
+    <key>account_details_listened_for</key>
+    <string>%1$@ geluisterd</string>
+    <key>account_details_plus_title</key>
+    <string>Til je podcast-ervaring naar het volgende niveau met exclusieve toegang tot functies en aanpassingsmogelijkheden.</string>
     <key>account_login</key>
     <string>Log in.</string>
     <key>account_payment_renews_monthly</key>
@@ -109,6 +115,8 @@
 Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.</string>
     <key>account_signed_out_alert_title</key>
     <string>Je bent uitgelogd.</string>
+    <key>account_sso_failed</key>
+    <string>Aanmelden met Apple mislukt. Probeer het nog eens.</string>
     <key>account_title</key>
     <string>Pocket Casts-account</string>
     <key>account_upgraded</key>
@@ -213,6 +221,18 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bulkdownloads zijn beperkt tot %1$@.</string>
     <key>cancel</key>
     <string>Annuleer </string>
+    <key>cancel_confirm_item_folders</key>
+    <string>Je mappen worden verwijderd en hun inhoud wordt teruggezet naar het scherm Podcasts.</string>
+    <key>cancel_confirm_item_plus</key>
+    <string>Na deze datum wordt toegang tot Pocket Casts Plus-functies vergrendeld.</string>
+    <key>cancel_confirm_item_uploads</key>
+    <string>Alle bestanden die zijn geüpload naar je Pocket Casts-account, worden na een week verwijderd (bestanden die zijn gedownload op je mobiele apparaten blijven behouden)</string>
+    <key>cancel_confirm_sub_expiry</key>
+    <string>Je huidige abonnement blijft actief tot %1$@.</string>
+    <key>cancel_confirm_sub_expiry_date_fallback</key>
+    <string>je vervaldatum</string>
+    <key>cancel_confirm_subtitle</key>
+    <string>Hierdoor wordt je abonnement aangepast naar een gratis account.</string>
     <key>cancel_download</key>
     <string>Download annuleren</string>
     <key>cancel_failed</key>
@@ -399,6 +419,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Uitgelicht</string>
     <key>discover_featured_episode</key>
     <string>UITGELICHTE AFLEVERING</string>
+    <key>discover_featured_episode_error_not_found</key>
+    <string>Aanbevolen podcast of aflevering niet gevonden. Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
     <key>discover_fresh_pick</key>
     <string>VERSE SELECTIE</string>
     <key>discover_no_podcasts_found</key>
@@ -557,6 +579,89 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alle downloads stoppen</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>eoy_card_description</key>
+    <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer.</string>
+    <key>eoy_create_account_to_see</key>
+    <string>Sla je podcasts op in de cloud, krijg je beoordeling aan het einde van het jaar en synchroniseer je voortgang met andere apparaten.</string>
+    <key>eoy_description</key>
+    <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer. Deel met vrienden en geef een shoutout naar je favoriete makers!</string>
+    <key>eoy_not_now</key>
+    <string>Niet nu</string>
+    <key>eoy_small_title</key>
+    <string>Jaar in podcasts</string>
+    <key>eoy_stories_failed</key>
+    <string>Verhalen konden niet geladen worden.</string>
+    <key>eoy_story_epilogue_subtitle</key>
+    <string>Vergeet niet om te delen met je vrienden en een shoutout te geven naar je favoriete podcastmakers</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Bedankt dat je Pocket Casts onderdeel maakt van je luisterervaring in 2022</string>
+    <key>eoy_story_intro_title</key>
+    <string>Laten we je luisterjaar vieren...</string>
+    <key>eoy_story_listened_to</key>
+    <string>In 2022 heb je %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_categories</key>
+    <string>Je hebt dit jaar naar %1$@ verschillende categorieën geluisterd</string>
+    <key>eoy_story_listened_to_categories_highlighted</key>
+    <string>Je hebt dit jaar naar %1$@ geluisterd</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Ik heb in 2022 naar %1$@ verschillende categorieën geluisterd</string>
+    <key>eoy_story_listened_to_categories_subtitle</key>
+    <string>Laten we eens kijken naar je favorieten...</string>
+    <key>eoy_story_listened_to_categories_text</key>
+    <string>%1$@ verschillende categorieën</string>
+    <key>eoy_story_listened_to_episodes_text</key>
+    <string>%1$@ afleveringen</string>
+    <key>eoy_story_listened_to_numbers</key>
+    <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>eoy_story_listened_to_numbers_subtitle</key>
+    <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
+    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
+    <string>Maar er was er een die je
+bleef luisteren...</string>
+    <key>eoy_story_listened_to_numbers_updated</key>
+    <string>Je luisterde naar %1$@ en %2$@</string>
+    <key>eoy_story_listened_to_podcast_text</key>
+    <string>%1$@ verschillende podcasts</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>Ik heb ik 2022 %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_updated</key>
+    <string>Dit jaar heb je %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_longest_episode</key>
+    <string>De langste aflevering die je hebt geluisterd was %1$@ van de podcast %2$@</string>
+    <key>eoy_story_longest_episode_duration</key>
+    <string>Deze aflevering duurde %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>De langste aflevering waarnaar ik heb geluisterd in 2022 %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>De aflevering was %1$@ van %2$@</string>
+    <key>eoy_story_longest_episode_time</key>
+    <string>De langste aflevering
+waar je naar hebt geluisterd was
+%1$@</string>
+    <key>eoy_story_replay</key>
+    <string>Herhalen</string>
+    <key>eoy_story_top_categories</key>
+    <string>Je beste categorieën</string>
+    <key>eoy_story_top_categories_share_text</key>
+    <string>Mijn meest beluisterde podcast-categorieën</string>
+    <key>eoy_story_top_podcast</key>
+    <string>Je beste podcast was %1$@ van %2$@</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mijn favoriete podcast van 2022! %1$@</string>
+    <key>eoy_story_top_podcast_subtitle</key>
+    <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
+    <key>eoy_story_top_podcasts</key>
+    <string>Je beste podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mijn beste podcasts van 2022</string>
+    <key>eoy_story_top_podcasts_share_text</key>
+    <string>Mijn beste podcasts van het jaar! %1$@</string>
+    <key>eoy_title</key>
+    <string>Jouw jaar in podcasts</string>
+    <key>eoy_view_year</key>
+    <string>Mijn 2022 bekijken</string>
     <key>episode</key>
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
@@ -778,8 +883,12 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Nu geen betaling - Annuleer wanneer je wilt</string>
     <key>free_trial_duration_free</key>
     <string>%1$@ GRATIS</string>
+    <key>free_trial_duration_free_trial</key>
+    <string>%1$@ GRATIS PROEFVERSIE</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@ gratis, daarna %2$@</string>
+    <key>free_trial_start_and_subscribe_button</key>
+    <string>Probeer de gratis proefversie en abonneer je</string>
     <key>free_trial_start_button</key>
     <string>Gratis proefversie starten</string>
     <key>free_trial_title_label</key>
@@ -842,12 +951,64 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>import_instructions_apple_podcasts_steps</key>
+    <string>We kunnen je podcasts importeren van Apple Podcasts met de geïntegreerde Shortcuts-app.
+Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnieuw te installeren.
+
+1. Tik op de onderstaande knop Shortcuts installeren.
+2. Wanneer dit wordt gevraagd, tik op de knop Snelkoppeling toevoegen.
+3. Tik op het tabblad Snelkoppelingen.
+4. Zoek naar de snelkoppeling 'Apple Podcasts naar Pocket Casts' in de lijst.
+5. Tik erop om het importeren te starten.
+6. Zodra de snelkoppeling klaar is, zal Pocket Casts opnieuw openen en het importeren voltooien.</string>
+    <key>import_instructions_breaker</key>
+    <string>1. Tik op de onderstaande knop Breaker openen
+2. Tik op Instellingen in de onderste tab-balk
+3. Tik op Verbinding
+4. Tik op Abonnementen exporteren
+5. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
+    <key>import_instructions_castbox</key>
+    <string>1. Tik op de onderstaande knop Castbox openen
+2. Tik op het tabblad Persoonlijk
+3. Veeg omlaag tot je de optie Instellingen ziet en tik erop
+4. Veeg omlaag tot je de optie OPML-export ziet en tik erop
+5. Wanneer dit wordt gevraagd, tik op 'In Pocket Casts openen'
+6. Als het bestand in Safari opent, tik op de knop Downloaden
+7. Zodra de download is voltooid, tik op het download-pictogram in de URL-balk
+8. Tik op het item Downloads
+9. Tik op het castbox_opml-bestand 
+10. Indien dit nodig is, tik op het pictogram Delen en open het bestand vervolgens met Pocket Casts
+11. Wanneer het dialoogvenster voor delen opent, tik op het pictogram van Pocket Casts</string>
+    <key>import_instructions_castro</key>
+    <string>1. Tik op de onderstaande knop Castro openen
+2. Tik op het tandwieltje in de bovenhoek van de app
+3. Veeg omlaag tot je de optie Gebruikersgegevens ziet en tik erop
+4. Tik op het item Abonnementen exporteren
+5. Wanneer het dialoogvenster voor delen opent, tik op het pictogram van Pocket Casts</string>
+    <key>import_instructions_import_from</key>
+    <string>Importeer van %1$@</string>
+    <key>import_instructions_install_shortcut</key>
+    <string>Shortcut installeren</string>
+    <key>import_instructions_open_in</key>
+    <string>%1$@ openen</string>
+    <key>import_instructions_other_apps_title</key>
+    <string>andere apps</string>
+    <key>import_instructions_overcast</key>
+    <string>1. Tik op de onderstaande knop om Overcast te openen
+2. Tik op het tandwieltje in de bovenhoek van de app
+3. Veeg omlaag tot je OPML exporteren ziet en tik erop
+4. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
     <key>import_podcasts_description</key>
     <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
 Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk je op de bijlage en selecteer je Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>IMPORTEREN NAAR POCKET CASTS</string>
+    <key>import_subtitle</key>
+    <string>Afkomstig van een andere app? Importeer je podcast en begin met luisteren. Je kunt dit later altijd nog doen in de instellingen.</string>
+    <key>import_title</key>
+    <string>Neem je
+podcasts mee</string>
     <key>in_progress</key>
     <string>Nog steeds bezig</string>
     <key>keycommand_close_player</key>
@@ -866,6 +1027,10 @@ Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk j
     <string>Luistergeschiedenis</string>
     <key>loading</key>
     <string>Laden...</string>
+    <key>login_subtitle</key>
+    <string>Maak een account aan om je luisterervaring te synchroniseren op al je apparaten.</string>
+    <key>login_title</key>
+    <string>Ontdek je volgende nieuwe favoriete podcast</string>
     <key>mark_played</key>
     <string>Markeren als afgespeeld</string>
     <key>mark_played_short</key>
@@ -1107,6 +1272,10 @@ UPDATES</string>
     <string>Maak een account aan of meld je aan om je toegang tot Pocket Casts Plus te verzilveren.</string>
     <key>plus_account_trial_details</key>
     <string>Wanneer je proefperiode afgelopen is, kan je nog altijd profiteren van de geweldige voordelen van je normale account. Veel plezier met podcasten!</string>
+    <key>plus_button_title_unlock_all</key>
+    <string>Ontgrendel alle functies</string>
+    <key>plus_cancel_terms</key>
+    <string>Kan op elk moment worden opgezegd</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB cloud-opslagruimte</string>
     <key>plus_error_already_registered</key>
@@ -1142,22 +1311,38 @@ UPDATES</string>
 Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieuwe thema's, die exclusief beschikbaar zijn voor Plus-leden.</string>
     <key>plus_marketing_folders_description</key>
     <string>Maak mappen aan om je podcastverzameling te sorteren.</string>
+    <key>plus_marketing_hide_ads_description</key>
+    <string>Een advertentievrije ervaring die je meer biedt van wat je leuk vindt en minder van wat je niet leuk vindt</string>
+    <key>plus_marketing_hide_ads_title</key>
+    <string>Advertenties verbergen</string>
     <key>plus_marketing_learn_more_button</key>
     <string>Bekijk meer informatie over Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Tegelijkertijd persoonlijk zijn en gedeeld worden. Upload je persoonlijke audiobestanden naar onze cloudservers, krijg toegang tot je account via onze online speler en pas de app naar je eigen voorkeuren aan.</string>
     <key>plus_marketing_main_title</key>
     <string>Verbeterde functies voor geavanceerde luisteraars</string>
+    <key>plus_marketing_subtitle</key>
+    <string>Krijg toegang tot exclusieve functies en aanpassingsmogelijkheden</string>
     <key>plus_marketing_themes_icons_description</key>
     <string>Toon je ware aard. Exclusieve pictogrammen en thema's voor Plus-abonnees.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thema's en pictogrammen</string>
+    <key>plus_marketing_title</key>
+    <string>Alles wat je geweldig vindt aan Pocket Casts en meer</string>
+    <key>plus_marketing_updated_cloud_storage_description</key>
+    <string>Wanneer je je bestanden naar een cloudopslag uploadt, zijn ze overal beschikbaar</string>
+    <key>plus_marketing_updated_desktop_apps_description</key>
+    <string>Luister overal met onze apps voor Windows en macOS en de online apps</string>
+    <key>plus_marketing_updated_folders_description</key>
+    <string>Organiseer je podcasts in mappen en synchroniseer ze op al je apparaten.</string>
     <key>plus_marketing_upgrade_button</key>
     <string>Upgraden naar Plus</string>
     <key>plus_marketing_watch_playback_description</key>
     <string>Laat je telefoon achter terwijl je hardloopt zonder iets te hoeven missen. Apple Watch staat op zichzelf.</string>
     <key>plus_marketing_watch_playback_title</key>
     <string>Afspelen op horloge</string>
+    <key>plus_monthly_frequency_pricing_format</key>
+    <string>%1$@ per maand</string>
     <key>plus_payment_canceled</key>
     <string>Betaling geannuleerd</string>
     <key>plus_payment_frequency_best_value</key>
@@ -1174,6 +1359,10 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Je kan je toch aanmelden voor Pocket Casts Plus, een normaal account aanmaken of gewoon beginnen.</string>
     <key>plus_promotion_used</key>
     <string>Code al gebruikt</string>
+    <key>plus_purchase_failed</key>
+    <string>Het lijkt erop dat er een probleem is opgetreden bij het verwerken van je betaling. Probeer het opnieuw.</string>
+    <key>plus_purchase_promo_title</key>
+    <string>Word Plus-lid en profiteer van alle Pocket Casts-functies</string>
     <key>plus_required_feature</key>
     <string>Voor deze functie is Pocket Casts plus vereist</string>
     <key>plus_select_payment_frequency</key>
@@ -1192,6 +1381,12 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Het lijkt erop alsof je je online hebt geabonneerd op Pocket Casts Plus</string>
     <key>plus_subscription_web_details</key>
     <string>Om je abonnement te annuleren, moet je het annuleren via Pocketcasts.com.</string>
+    <key>plus_upgrade_no_internet_message</key>
+    <string>Controleer je internetverbinding en probeer opnieuw.</string>
+    <key>plus_upgrade_no_internet_title</key>
+    <string>Kan niet laden</string>
+    <key>plus_yearly_frequency_pricing_format</key>
+    <string>%1$@ per jaar</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nieuwsbrief</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1200,6 +1395,8 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
+    <key>pocket_casts_welcome_newsletter_title</key>
+    <string>Meld je aan voor de nieuwsbrief</string>
     <key>podcast_access_ended</key>
     <string>Toegang beëindigd: %1$@</string>
     <key>podcast_access_ends</key>
@@ -1379,6 +1576,9 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Voorbeeld</string>
     <key>pricing_terms_after_trial</key>
     <string>daarna %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Herhaaldelijke betalingen beginnen na je
+%1$@ gratis proefversie</string>
     <key>profile</key>
     <string>Profiel</string>
     <key>profile_help_support</key>
@@ -1405,6 +1605,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Je hebt nog geen aflevering aan favorieten toegevoegd.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Geen favorieten</string>
+    <key>purchase_terms</key>
+    <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_queue</key>
@@ -1748,7 +1950,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>settings_import_export</key>
     <string>Importeren/exporteren</string>
     <key>settings_in_filters_plural_format</key>
-    <string>Toegevoegd aan %1$@ filter</string>
+    <string>Toegevoegd aan %1$@ filters</string>
     <key>settings_in_filters_singular</key>
     <string>Toegevoegd aan 1 filter</string>
     <key>settings_in_menu</key>
@@ -2159,6 +2361,22 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Je kunt in het scherm Informatie over aflevering of vanaf je telefoon afleveringen in de wachtrij zetten om als volgende te worden afgespeeld.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Niets in Hierna</string>
+    <key>welcome_discover_button</key>
+    <string>Vind mijn volgende podcast</string>
+    <key>welcome_discover_description</key>
+    <string>Vind geheime en trending podcasts in onze handmatig samengestelde Ontdekkingspagina.</string>
+    <key>welcome_discover_title</key>
+    <string>Ontdek iets nieuws</string>
+    <key>welcome_import_button</key>
+    <string>Podcasts importeren</string>
+    <key>welcome_import_description</key>
+    <string>Afkomstig van een andere app? Neem je podcasts overal mee naartoe.</string>
+    <key>welcome_import_title</key>
+    <string>Importeer je podcasts</string>
+    <key>welcome_new_account_title</key>
+    <string>Welkom, laten we je aan het luisteren zetten!</string>
+    <key>welcome_plus_title</key>
+    <string>Bedankt, laten we je aan het luisteren zetten!</string>
     <key>whats_new</key>
     <string>Wat is nieuw</string>
     <key>whats_new_blog_more_link_text</key>

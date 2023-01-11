@@ -112,6 +112,7 @@ enum AnalyticsEvent: String {
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
 
+    case accountDetailsCancelTapped
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
 
@@ -582,4 +583,36 @@ enum AnalyticsEvent: String {
 
     case incomingShareListShown
     case incomingShareListSubscribedAll
+
+    // MARK: - End of Year stats
+
+    case endOfYearModalShown
+    case endOfYearStoriesShown
+    case endOfYearStoriesDismissed
+    case endOfYearStoriesFailedToLoad
+    case endOfYearStoryReplayButtonTapped
+    case endOfYearStoryShown
+    case endOfYearStoryShare
+    case endOfYearStoryShared
+    case endOfYearProfileCardTapped
+
+    // MARK: - Welcome View
+
+    case welcomeShown
+    case welcomeImportTapped
+    case welcomeDiscoverTapped
+    case welcomeDismissed
+
+    // MARK: - Import
+
+    case onboardingImportShown
+    case onboardingImportAppSelected
+    case onboardingImportOpenAppTapped
+    case onboardingImportDismissed
+
+    // MARK: - Cancel
+    case cancelConfirmationViewShown
+    case cancelConfirmationViewDismissed
+    case cancelConfirmationStayButtonTapped
+    case cancelConfirmationCancelButtonTapped
 }

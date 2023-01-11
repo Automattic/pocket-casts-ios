@@ -24,6 +24,7 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>unofficial.opml</string>
+				<string>public.opml</string>
 			</array>
 		</dict>
 		<dict>
@@ -387,6 +388,13 @@
 					<string>AppIcon-Round-Pink40x40@2x</string>
 				</array>
 			</dict>
+			<key>AppIcon-Halloween</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Halloween</string>
+				</array>
+			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
@@ -727,6 +735,14 @@
 					<string>AppIcon-Round-Pink40x40@2x</string>
 				</array>
 			</dict>
+			<key>AppIcon-Halloween</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Halloween</string>
+					<string>AppIcon-Halloween-152</string>
+				</array>
+			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
@@ -794,6 +810,8 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>
@@ -801,9 +819,11 @@
 		<string>tweetbot</string>
 		<string>twitterrific</string>
 		<string>twitter</string>
+		<string>co.supertop.Castro-2</string>
+		<string>overcast</string>
+		<string>breaker</string>
+		<string>wazecastbox</string>
 	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
 	<key>NSAppTransportSecurity</key>

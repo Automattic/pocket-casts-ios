@@ -1,13 +1,14 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 /// The available stories for EoY
 enum EndOfYearStory {
     case intro
     case listeningTime
     case listenedCategories
-    case topFiveCategories
-    case listenedNumbers
+    case topCategories
+    case numberOfPodcastsAndEpisodesListened
     case topOnePodcast
     case topFivePodcasts
     case longestEpisode
@@ -22,9 +23,9 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
-    private let sync: (() -> Void)?
+    private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Void)? = nil) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync) {
         self.dataManager = dataManager
         self.sync = sync
     }
@@ -32,15 +33,29 @@ class EndOfYearStoriesBuilder {
     /// Call this method to build the list of stories and the data provider
     func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
         await withCheckedContinuation { continuation in
+
             // Check if the user has the full listening history for this year
-            if !dataManager.isFullListeningHistory() {
-                // TODO: update with the correct endpoint to sync history (eoy-todo)
-                sync?()
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedAll2022Episodes {
+                let syncedWithSuccess = sync?()
+
+                if syncedWithSuccess == true {
+                    Settings.hasSyncedAll2022Episodes = true
+                } else {
+                    continuation.resume(returning: ([], data))
+                    return
+                }
+            }
+
+            // First, search for top 10 podcasts to use throughout different stories
+            let topPodcasts = dataManager.topPodcasts(limit: 10)
+            if !topPodcasts.isEmpty {
+                data.topPodcasts = Array(topPodcasts.prefix(5))
+                data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
             }
 
             // Listening time
             if let listeningTime = dataManager.listeningTime(),
-                listeningTime > 0 {
+               listeningTime > 0, !data.top10Podcasts.isEmpty {
                 stories.append(.listeningTime)
                 data.listeningTime = listeningTime
             }
@@ -50,22 +65,20 @@ class EndOfYearStoriesBuilder {
             if !listenedCategories.isEmpty {
                 data.listenedCategories = listenedCategories
                 stories.append(.listenedCategories)
-                stories.append(.topFiveCategories)
+                stories.append(.topCategories)
             }
 
             // Listened podcasts and episodes
             let listenedNumbers = dataManager.listenedNumbers()
             if listenedNumbers.numberOfEpisodes > 0
-                && listenedNumbers.numberOfPodcasts > 0 {
+                && listenedNumbers.numberOfPodcasts > 0
+                && !data.top10Podcasts.isEmpty {
                 data.listenedNumbers = listenedNumbers
-                stories.append(.listenedNumbers)
+                stories.append(.numberOfPodcastsAndEpisodesListened)
             }
 
             // Top podcasts
-            let topPodcasts = dataManager.topPodcasts(limit: 10)
-            if !topPodcasts.isEmpty {
-                data.topPodcasts = Array(topPodcasts.prefix(5))
-                data.randomPodcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
+            if !data.topPodcasts.isEmpty {
                 stories.append(.topOnePodcast)
             }
 
@@ -81,10 +94,6 @@ class EndOfYearStoriesBuilder {
                 data.longestEpisodePodcast = podcast
                 stories.append(.longestEpisode)
             }
-
-            // TODO: the color of podcasts is downloaded when needed
-            // We need to check here for the ones missing the color
-            // and download it.
 
             continuation.resume(returning: (stories, data))
         }
@@ -105,5 +114,5 @@ class EndOfYearStoriesData {
 
     var longestEpisodePodcast: Podcast!
 
-    var randomPodcasts: [Podcast] = []
+    var top10Podcasts: [Podcast] = []
 }

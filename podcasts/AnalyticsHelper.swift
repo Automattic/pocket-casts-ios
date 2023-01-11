@@ -375,6 +375,8 @@ private extension AnalyticsHelper {
     static let logger = Logger()
 
     class func bumpStat(_ name: String, parameters: [String: Any]? = nil) {
+        guard optedOut == false else { return }
+
         #if !os(watchOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
         #endif
@@ -387,7 +389,7 @@ private extension AnalyticsHelper {
         #if !os(watchOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
-            if FeatureFlag.firebaseLoggingEnabled {
+        if FeatureFlag.firebaseLogging.enabled {
                 if let parameters = parameters {
                     logger.debug("🟢 Tracked: \(name) \(parameters)")
                 } else {

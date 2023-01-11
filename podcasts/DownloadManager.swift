@@ -314,11 +314,18 @@ class DownloadManager: NSObject, FilePathProtocol {
             return false
         }
 
-        if episode.episodeStatus == DownloadStatus.notDownloaded.rawValue || episode.episodeStatus == DownloadStatus.downloadFailed.rawValue {
+        if episode.episodeStatus == DownloadStatus.notDownloaded.rawValue || episode.episodeStatus == DownloadStatus.downloadFailed.rawValue || !isEpisodeDownloading(episode) {
             DataManager.sharedManager.clearDownloadTaskId(episode: episode)
+            episode.downloadTaskId = nil
         }
 
         return (episode.downloadTaskId == nil)
+    }
+
+    func isEpisodeDownloading(_ episode: BaseEpisode) -> Bool {
+        return downloadingEpisodesCache.contains(where: { (_, downloadingEpisode) in
+            return episode.uuid == downloadingEpisode.uuid
+        })
     }
 
     func tempPathForEpisode(_ episode: BaseEpisode) -> String {

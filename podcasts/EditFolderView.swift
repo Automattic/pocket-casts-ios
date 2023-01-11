@@ -16,22 +16,27 @@ struct EditFolderView: View {
                         .textStyle(SecondaryText())
                         .font(.subheadline)
                         .padding(.bottom, -8)
+                        .padding(.top, 30)
                     TextField("", text: $model.name)
                         .onChange(of: model.name, perform: model.validateFolderName)
                         .themedTextField()
                 }
                 .padding(.bottom, 10)
+                .padding([.leading, .trailing], 16)
                 VStack(alignment: .leading, spacing: 20) {
                     Text(L10n.color.localizedUppercase)
                         .textStyle(SecondaryText())
                         .font(.subheadline)
                         .padding(.bottom, -14)
+                        .padding([.leading, .trailing], 16)
                     ThemedDivider()
                     ColorSelectRow(model: model)
+                        .padding([.leading, .trailing], 16)
                 }
                 .padding(.vertical, 10)
                 ThemedDivider()
-                VStack(alignment: .leading, spacing: 20) {
+                    .padding(.bottom, 16)
+                VStack(alignment: .leading, spacing: 15) {
                     ThemedDivider()
                     Button {
                         showingDeleteConfirmation = true
@@ -43,7 +48,7 @@ struct EditFolderView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .foregroundColor(ThemeColor.support05(for: theme.activeTheme).color)
-                        .padding(.leading, 6)
+                        .padding(.leading, 16)
                     }
                     .alert(isPresented: $showingDeleteConfirmation) {
                         Alert(
@@ -62,7 +67,6 @@ struct EditFolderView: View {
                 .padding(.top, 10)
                 Spacer()
             }
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -85,5 +89,13 @@ struct EditFolderView: View {
             .navigationTitle(L10n.folderEdit)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+struct EditFolderView_Previews: PreviewProvider {
+    static var previews: some View {
+        EditFolderView(model: FolderModel(), dismissAction: { _ in })
+            .environmentObject(Theme(previewTheme: .light))
+            .previewOnAllDevices()
     }
 }

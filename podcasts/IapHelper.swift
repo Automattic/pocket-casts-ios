@@ -44,6 +44,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return nil
     }
 
+    /// Whether the products have been loaded from StoreKit
+    var hasLoadedProducts: Bool { productsArray.count > 0 }
+
     public func getPriceForIdentifier(identifier: String) -> String {
         guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
 
@@ -75,6 +78,20 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             return L10n.year
         }
         return ""
+    }
+
+    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String? {
+        let price = getPriceForIdentifier(identifier: identifier.rawValue)
+        guard !price.isEmpty else {
+            return nil
+        }
+
+        switch identifier {
+        case .yearly:
+            return L10n.plusYearlyFrequencyPricingFormat(price)
+        case .monthly:
+            return L10n.plusMonthlyFrequencyPricingFormat(price)
+        }
     }
 
     // MARK: SKProductReuqestDelelgate
@@ -157,7 +174,7 @@ extension IapHelper {
     }
 
     func isEligibleForFreeTrial() -> Bool {
-        return FeatureFlag.freeTrialsEnabled && isEligibleForTrial
+        return FeatureFlag.freeTrialsEnabled.enabled && isEligibleForTrial
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -201,7 +218,7 @@ private extension IapHelper {
     private func updateTrialEligibility() {
         guard
             isCheckingEligibility == false,
-            FeatureFlag.freeTrialsEnabled,
+            FeatureFlag.freeTrialsEnabled.enabled,
             getFirstFreeTrialProductId() != nil,
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,

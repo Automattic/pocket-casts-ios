@@ -10,9 +10,26 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         .portrait
     }
 
-    init(rootView content: ContentView) {
+    let backgroundColor: UIColor?
+    let backgroundStyle: ThemeStyle?
+
+    init(rootView content: ContentView, backgroundColor: UIColor) {
+        self.backgroundColor = backgroundColor
+        self.backgroundStyle = nil
         super.init(nibName: nil, bundle: nil)
 
+        setup(content: content, backgroundColor: backgroundColor)
+    }
+
+    init(rootView content: ContentView, backgroundStyle: ThemeStyle = .primaryUi01) {
+        self.backgroundStyle = backgroundStyle
+        self.backgroundColor = nil
+
+        super.init(nibName: nil, bundle: nil)
+        setup(content: content, backgroundStyle: backgroundStyle)
+    }
+
+    private func setup(content: ContentView, backgroundStyle: ThemeStyle? = nil, backgroundColor: UIColor? = nil) {
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -28,13 +45,34 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         )
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
-        hostingController.view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+
+        if let backgroundStyle {
+            hostingController.view.backgroundColor = AppTheme.colorForStyle(backgroundStyle)
+        } else if let backgroundColor {
+            hostingController.view.backgroundColor = backgroundColor
+        }
+    }
+
+    override func loadView() {
+        if let backgroundStyle {
+            let themeView = ThemeableView()
+            themeView.style = backgroundStyle
+            view = themeView
+        } else if let backgroundColor {
+            view = UIView()
+            view.backgroundColor = backgroundColor
+        }
+
+        // Prevents a flicker from happening just before the view appears
+        view.alpha = 0
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         preferredContentSize = .init(width: .zero, height: stackView.frame.height)
 
+        // Reset the alpha
+        view.alpha = 1
     }
 
     required init?(coder: NSCoder) {
@@ -44,7 +82,14 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
     /// Present a SwiftUI us a bottom sheet in the given VC
     static func present(_ content: ContentView, in viewController: UIViewController) {
         let wrapperController = MDCSwiftUIWrapper(rootView: content)
-        let bottomSheet = MDCBottomSheetController(contentViewController: wrapperController)
+        wrapperController.presentModally(in: viewController)
+    }
+}
+
+
+extension UIViewController {
+    func presentModally(in viewController: UIViewController) {
+        let bottomSheet = MDCBottomSheetController(contentViewController: self)
 
         let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
         bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
@@ -52,6 +97,7 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
         bottomSheet.isScrimAccessibilityElement = true
         bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
+        bottomSheet.ignoreKeyboardHeight = true
 
         viewController.present(bottomSheet, animated: true, completion: nil)
     }

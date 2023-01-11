@@ -1,4 +1,5 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit

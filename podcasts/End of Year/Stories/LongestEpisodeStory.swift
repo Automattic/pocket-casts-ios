@@ -2,8 +2,10 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct LongestEpisodeStory: StoryView {
+struct LongestEpisodeStory: ShareableStory {
     let duration: TimeInterval = 5.seconds
+
+    var identifier: String = "longest_episode"
 
     let episode: Episode
 
@@ -19,66 +21,40 @@ struct LongestEpisodeStory: StoryView {
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                DynamicBackgroundView(podcast: podcast)
+            PodcastCoverContainer(geometry: geometry) {
+                PodcastStackView(podcasts: [podcast], geometry: geometry)
 
-                VStack {
-                    VStack {
-                        ZStack {
-                            let size = geometry.size.width * 0.45
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.darkThemeTintForPodcast(podcast).color)
-                                .modifier(PodcastCover())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                                .padding(.top, (size * 0.7))
-
-                            Rectangle().frame(width: size, height: size)
-                                .foregroundColor(ColorManager.lightThemeTintForPodcast(podcast).color)
-                                .modifier(PodcastCover())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                                .padding(.top, (size * 0.35))
-
-                            ImageView(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
-                                .frame(width: size, height: size)
-                                .modifier(PodcastCover())
-                                .modifier(PodcastCoverPerspective())
-                                .padding(.leading, -60)
-                        }
-
-                        Text(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""))
-                            .foregroundColor(.white)
-                            .font(.system(size: 25, weight: .heavy))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .frame(maxHeight: geometry.size.height * 0.12)
-                            .minimumScaleFactor(0.01)
-                            .padding(.top)
-                        Text(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""))
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .frame(maxHeight: geometry.size.height * 0.07)
-                            .minimumScaleFactor(0.01)
+                StoryLabelContainer(geometry: geometry) {
+                    if NSLocale.isCurrentLanguageEnglish {
+                        let time = episode.duration.storyTimeDescription
+                        let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
+                        let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
+                        StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
+                        StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), highlighting: [episodeTitle, podcastTitle], for: .subtitle)
+                            .opacity(0.8)
+                    } else {
+                        StoryLabel(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""), for: .title)
+                        StoryLabel(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""), for: .subtitle)
                             .opacity(0.8)
                     }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 40)
                 }
             }
-            .padding(.top, -(0.05 * geometry.size.height))
+        }.background(DynamicBackgroundView(podcast: podcast))
+    }
 
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Image("logo_white")
-                        .padding(.bottom, 40)
-                    Spacer()
-                }
-            }
-        }
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyStoryLongestEpisodeShareText("%1$@"), episode: episode)
+        ]
     }
 }
 

@@ -3,15 +3,22 @@ import PocketCastsUtils
 
 /// Calculates user End of Year stats
 class EndOfYearDataManager {
-    private let endPeriod = "2022-12-01"
+    /// The date to start calculating results from
+    /// The data will start from 00:00:00 (midnight) the users device time
+    private let startDate = "2022-01-01"
+
+    /// The date to stop including results from
+    /// This is set to the day after the final day we want to include in the results to make sure we include the full
+    /// day up to midnight
+    private let endDate = "2023-01-01"
 
     private lazy var listenedEpisodesThisYear = """
-                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '\(endPeriod)')
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(startDate)') and strftime('%s', '\(endDate)')
                                            """
 
     /// If the user is eligible to see End of Year stats
     ///
-    /// All it's needed is a single episode listened for more than 30 minutes.
+    /// All it's needed is a single episode listened for more than 5 minutes.
     func isEligible(dbQueue: FMDatabaseQueue) -> Bool {
         var isEligible = false
 
@@ -20,7 +27,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT playedUpTo from \(DataManager.episodeTableName)
                             WHERE
-                            playedUpTo > 1800 AND
+                            playedUpTo > 300 AND
                             \(listenedEpisodesThisYear)
                             LIMIT 1
                             """
@@ -55,7 +62,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT * from \(DataManager.episodeTableName)
                             WHERE
-                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '2022-01-01')
+                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < strftime('%s', '\(startDate)')
                             LIMIT 1
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -63,8 +70,6 @@ class EndOfYearDataManager {
 
                 if resultSet.next() {
                     isFullListeningHistory = true
-                } else {
-                    isFullListeningHistory = numberOfItemsInListeningHistory(db: db) <= 100
                 }
             } catch {
                 FileLog.shared.addMessage("EndOfYearDataManager.isFullListeningHistory error: \(error)")
@@ -74,13 +79,38 @@ class EndOfYearDataManager {
         return isFullListeningHistory
     }
 
+    /// Returns the number of episodes we have for this year
+    func numberOfEpisodes(dbQueue: FMDatabaseQueue) -> Int {
+        var numberOfEpisodes: Int = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as numberOfEpisodes from \(DataManager.episodeTableName)
+                            WHERE
+                            \(listenedEpisodesThisYear)
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    numberOfEpisodes = Int(resultSet.int(forColumn: "numberOfEpisodes"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.numberOfEpisodes error: \(error)")
+            }
+        }
+
+        return numberOfEpisodes
+    }
+
     /// Returns the approximate listening time for the current year
     func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         var listeningTime: Double?
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
+                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -104,13 +134,15 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
+                            SELECT DISTINCT \(DataManager.episodeTableName).uuid,
+                                COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
                                 SUM(playedUpTo) as totalPlayedTime,
                                 \(DataManager.podcastTableName).*,
-                                replace(IFNULL( nullif(substr(\(DataManager.podcastTableName).podcastCategory, 0, INSTR(\(DataManager.podcastTableName).podcastCategory, char(10))), '') , \(DataManager.podcastTableName).podcastCategory), CHAR(10), '') as category
+                                substr(trim(\(DataManager.podcastTableName).podcastCategory),1,instr(trim(\(DataManager.podcastTableName).podcastCategory)||char(10),char(10))-1) as category
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE \(DataManager.podcastTableName).uuid = \(DataManager.episodeTableName).podcastUuid and
-                                \(listenedEpisodesThisYear)
+                                \(listenedEpisodesThisYear) and
+                            category IS NOT NULL and category != ''
                             GROUP BY category
                             ORDER BY totalPlayedTime DESC
 """
@@ -120,11 +152,12 @@ class EndOfYearDataManager {
 
                 while resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "numberOfPodcasts"))
+                    let totalPlayedTime = resultSet.double(forColumn: "totalPlayedTime")
                     if let categoryTitle = resultSet.string(forColumn: "category") {
                         listenedCategories.append(ListenedCategory(
                             numberOfPodcasts: numberOfPodcasts,
                             categoryTitle: categoryTitle,
-                            mostListenedPodcast: Podcast.from(resultSet: resultSet))
+                            mostListenedPodcast: Podcast.from(resultSet: resultSet), totalPlayedTime: totalPlayedTime)
                         )
                     }
                 }
@@ -139,12 +172,12 @@ class EndOfYearDataManager {
     /// Return the number of podcasts and episodes listened
     ///
     func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
-        var listenedNumbers: ListenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
+        var listenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
 
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT COUNT(\(DataManager.episodeTableName).id) as episodes,
+                            SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodes,
                                 COUNT(DISTINCT \(DataManager.podcastTableName).uuid) as podcasts
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
@@ -173,14 +206,15 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT SUM(playedUpTo) as totalPlayedTime,
+                            SELECT DISTINCT \(DataManager.episodeTableName).uuid,
+                                SUM(playedUpTo) as totalPlayedTime,
                                 COUNT(\(DataManager.episodeTableName).id) as played_episodes,
                                 \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
                                 \(listenedEpisodesThisYear)
                             GROUP BY podcastUuid
-                            ORDER BY played_episodes DESC
+                            ORDER BY totalPlayedTime DESC
                             LIMIT \(limit)
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -196,12 +230,12 @@ class EndOfYearDataManager {
             }
         }
 
-        // If there's a tie on number of played episodes, check played time
+        // If there's a tie on total played time, check number of played episodes
         return allPodcasts.sorted(by: {
-            if $0.numberOfPlayedEpisodes == $1.numberOfPlayedEpisodes {
-                return $0.totalPlayedTime > $1.totalPlayedTime
+            if $0.totalPlayedTime == $1.totalPlayedTime {
+                return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
             }
-            return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+            return $0.totalPlayedTime > $1.totalPlayedTime
         })
     }
 
@@ -231,6 +265,32 @@ class EndOfYearDataManager {
         return episode
     }
 
+    /// Given a list of UUIDs, return which UUIDs are present on the database
+    func episodesThatExist(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
+        var episodes: [String] = []
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
+                                \(listenedEpisodesThisYear)
+                            """
+                let resultSet = try db.executeQuery(query, values: uuids)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let uuid = resultSet.string(forColumn: "uuid") {
+                        episodes.append(uuid)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.episodesThatExist error: \(error)")
+            }
+        }
+
+        return episodes
+    }
+
     private func numberOfItemsInListeningHistory(db: FMDatabase) -> Int {
         var numberOfItemsInListeningHistory = 0
 
@@ -247,7 +307,6 @@ class EndOfYearDataManager {
             if resultSet.next() {
                 numberOfItemsInListeningHistory = Int(resultSet.int(forColumn: "total"))
             } else {
-
             }
         } catch {
             FileLog.shared.addMessage("EndOfYearDataManager.numberOfItemsInListeningHistory error: \(error)")
@@ -255,13 +314,20 @@ class EndOfYearDataManager {
 
         return numberOfItemsInListeningHistory
     }
-
 }
 
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
     public let categoryTitle: String
     public let mostListenedPodcast: Podcast
+    public let totalPlayedTime: Double
+
+    public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double) {
+        self.numberOfPodcasts = numberOfPodcasts
+        self.categoryTitle = categoryTitle
+        self.mostListenedPodcast = mostListenedPodcast
+        self.totalPlayedTime = totalPlayedTime
+    }
 }
 
 public struct ListenedNumbers {

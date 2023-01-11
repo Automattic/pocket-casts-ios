@@ -5,19 +5,20 @@ struct EndOfYearModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            pill
+            ModalTopPill()
 
             VStack(alignment: .center, spacing: Constants.verticalSpacing) {
 
                 Text(L10n.eoyTitle)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 cover
 
                 Text(L10n.eoyDescription)
-                    .font(.body)
+                    .font(style: .body, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .allowsTightening(false)
 
                 showStoriesButton
@@ -28,15 +29,10 @@ struct EndOfYearModal: View {
         }
         .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
-    }
-
-    var pill: some View {
-        Rectangle()
-            .fill(ThemeColor.primaryText02(for: theme.activeTheme).color)
-            .frame(width: Constants.pillSize.width, height: Constants.pillSize.height)
-            .cornerRadius(Constants.pillCornerRadius)
-            .padding(.top, Constants.pillTopPadding)
-            .opacity(Constants.pillOpacity)
+        .onAppear {
+            Settings.endOfYearModalHasBeenShown = true
+            Analytics.track(.endOfYearModalShown)
+        }
     }
 
     var cover: some View {
@@ -69,31 +65,19 @@ struct EndOfYearModal: View {
     }
 
     var showStoriesButton: some View {
-        Button(action: {
+        Button(L10n.eoyViewYear) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
-        }) {
-            HStack {
-                Spacer()
-                Text(L10n.eoyViewYear)
-                Spacer()
-            }
         }
-        .textStyle(RoundedDarkButton())
-        .contentShape(Rectangle())
+        .buttonStyle(RoundedDarkButton(theme: theme))
+        .frame(height: 44)
     }
 
     var dismissButton: some View {
-        Button(action: {
+        Button(L10n.eoyNotNow) {
             NavigationManager.sharedManager.dismissPresentedViewController()
-        }) {
-            HStack {
-                Spacer()
-                Text(L10n.eoyNotNow)
-                Spacer()
-            }
         }
-        .textStyle(StrokeButton())
-        .contentShape(Rectangle())
+        .buttonStyle(StrokeButton(theme: theme))
+        .frame(height: 44)
     }
 
     private enum Constants {
@@ -113,11 +97,6 @@ struct EndOfYearModal: View {
 
         static let coverWrapperHeight: CGFloat = 180
         static let coverWrapperCornerRadius: CGFloat = 16
-
-        static let pillSize: CGSize = .init(width: 60, height: 4)
-        static let pillCornerRadius: CGFloat = 10
-        static let pillTopPadding: CGFloat = 8
-        static let pillOpacity: CGFloat = 0.2
     }
 }
 

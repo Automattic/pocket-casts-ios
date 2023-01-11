@@ -29,9 +29,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = profileTabBarItem
 
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
-            profileTabBarItem.badgeValue = "●"
-        }
+        displayEndOfYearBadgeIfNeeded()
 
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
@@ -51,6 +49,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
+
+        observersForEndOfYearStats()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +61,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPrompt(in: self)
+        endOfYear.showPromptBasedOnState(in: self)
+        showInitialOnboardingIfNeeded()
+    }
+
+    private func showInitialOnboardingIfNeeded() {
+        guard FeatureFlag.onboardingUpdates.enabled, Settings.shouldShowInitialOnboardingFlow else { return }
+
+        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
+
+        // Set the flag so the user won't see the on launch flow again
+        Settings.shouldShowInitialOnboardingFlow = false
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -241,9 +251,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
         // If we're already presenting a view, then present from that view if possible
-        let controller = presentedViewController ?? view.window?.rootViewController
-        let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-        controller?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+        let presentingController = presentedViewController ?? view.window?.rootViewController
+
+        guard FeatureFlag.onboardingUpdates.enabled else {
+            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
+            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
+            return
+        }
+
+        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
+        presentingController?.present(controller, animated: true, completion: nil)
     }
 
     func showPlusMarketingPage() {
@@ -318,7 +335,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard !SyncManager.isUserLoggedIn() else { return }
 
         let signInController: UIViewController
-        if FeatureFlag.signInWithApple {
+        if FeatureFlag.signInWithApple.enabled {
             signInController = ProfileIntroViewController()
         }
         else {
@@ -355,17 +372,29 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showEndOfYearStories() {
         guard let presentedViewController else {
-            endOfYear.showStories(in: self)
+            endOfYear.showStories(in: self, from: .modal)
             return
         }
 
         presentedViewController.dismiss(animated: true) {
-            self.endOfYear.showStories(in: self)
+            self.endOfYear.showStories(in: self, from: .modal)
         }
     }
 
     func dismissPresentedViewController() {
         presentedViewController?.dismiss(animated: true)
+    }
+
+    func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
+        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
+        guard let presentedViewController else {
+            present(controller, animated: true)
+            return
+        }
+
+        presentedViewController.dismiss(animated: true) {
+            self.present(controller, animated: true)
+        }
     }
 
     private func topController() -> UIViewController {
@@ -394,11 +423,39 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return true
     }
 
-    // MARK: - End of Year badge
+    // MARK: - End of Year
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
         Settings.showBadgeFor2022EndOfYear = false
+    }
+
+    func observersForEndOfYearStats() {
+        guard FeatureFlag.endOfYear.enabled else {
+            return
+        }
+
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+            self.endOfYear.resetStateIfNeeded()
+        }
+
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+            self.endOfYear.showPromptBasedOnState(in: self)
+
+            self.displayEndOfYearBadgeIfNeeded()
+        }
+
+        // If the requirement for EOY changes and registration is not required anymore
+        // Show the modal
+        NotificationCenter.default.addObserver(forName: .eoyRegistrationNotRequired, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
+
+            if self.presentedViewController == nil {
+                self.endOfYear.showPrompt(in: self)
+            }
+        }
     }
 
     // MARK: - Orientation
@@ -408,21 +465,21 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         .portrait
     }
 
+    // MARK: - End of Year
+
     private func updateTabBarColor() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
 
-        if EndOfYear.isEligible {
-            // Change badge colors
-            [appearance.stackedLayoutAppearance,
-             appearance.inlineLayoutAppearance,
-             appearance.compactInlineLayoutAppearance]
-                .forEach {
-                    $0.normal.badgeBackgroundColor = .clear
-                    $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-                }
-        }
+        // Change badge colors
+        [appearance.stackedLayoutAppearance,
+         appearance.inlineLayoutAppearance,
+         appearance.compactInlineLayoutAppearance]
+            .forEach {
+                $0.normal.badgeBackgroundColor = .clear
+                $0.normal.badgeTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+            }
 
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
@@ -432,6 +489,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
+    }
+
+    private func displayEndOfYearBadgeIfNeeded() {
+        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+            profileTabBarItem.badgeValue = "●"
+        }
     }
 
     @objc private func willEnterForeground() {
