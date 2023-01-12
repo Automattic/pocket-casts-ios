@@ -1418,6 +1418,7 @@
 		C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */; };
 		C7FAFF5D2941844C00329B40 /* CancelConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5C2941844C00329B40 /* CancelConfirmationViewModel.swift */; };
 		C7FAFF6A2942E78A00329B40 /* HighlightedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF682942E6A400329B40 /* HighlightedText.swift */; };
+		C7FF467A297069310031FD71 /* ImportHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF4679297069310031FD71 /* ImportHostingController.swift */; };
 		C7FF76C0291B4F430082A464 /* ProportionalValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF76BF291B4F430082A464 /* ProportionalValue.swift */; };
 		C7FF76C2291B5F100082A464 /* PlusButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF76C1291B5F100082A464 /* PlusButtonStyles.swift */; };
 		C7FF770C291C2C4D0082A464 /* LoginLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF770B291C2C4D0082A464 /* LoginLandingView.swift */; };
@@ -3000,6 +3001,7 @@
 		C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelConfirmationView.swift; sourceTree = "<group>"; };
 		C7FAFF5C2941844C00329B40 /* CancelConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelConfirmationViewModel.swift; sourceTree = "<group>"; };
 		C7FAFF682942E6A400329B40 /* HighlightedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedText.swift; sourceTree = "<group>"; };
+		C7FF4679297069310031FD71 /* ImportHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportHostingController.swift; sourceTree = "<group>"; };
 		C7FF76BF291B4F430082A464 /* ProportionalValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProportionalValue.swift; sourceTree = "<group>"; };
 		C7FF76C1291B5F100082A464 /* PlusButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyles.swift; sourceTree = "<group>"; };
 		C7FF770B291C2C4D0082A464 /* LoginLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingView.swift; sourceTree = "<group>"; };
@@ -6077,6 +6079,7 @@
 				C71C04C829243F7D00F2858A /* ImportViewModel.swift */,
 				C71C04CA2924403000F2858A /* ImportLandingView.swift */,
 				C71C04CC2924403800F2858A /* ImportDetailsView.swift */,
+				C7FF4679297069310031FD71 /* ImportHostingController.swift */,
 			);
 			path = Import;
 			sourceTree = "<group>";
@@ -7532,6 +7535,7 @@
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
 				4006E30B23A35F1500174DEB /* CollectionSummaryViewController.swift in Sources */,
+				C7FF467A297069310031FD71 /* ImportHostingController.swift in Sources */,
 				46A6AC0028F5B65F000E6254 /* CrashLoggingAdapter.swift in Sources */,
 				4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */,
 				BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */,
