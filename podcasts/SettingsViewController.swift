@@ -26,7 +26,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .help:
                 return (L10n.settingsHelp, UIImage(named: "settings_help"))
             case .opml:
-                return (L10n.settingsOpml, UIImage(named: "settings_importexport"))
+                return (L10n.exportPodcastsOption, UIImage(named: "settings_export_podcasts"))
             case .about:
                 return (L10n.settingsAbout, UIImage(named: "settings_about"))
             case .siriShortcuts:
