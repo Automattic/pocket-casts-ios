@@ -5,7 +5,7 @@ import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy, developer, beta
+        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, importSteps, opml, about, pocketCastsPlus, privacy, developer, beta
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -25,6 +25,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsAutoDownload, UIImage(named: "settings_autodownload"))
             case .help:
                 return (L10n.settingsHelp, UIImage(named: "settings_help"))
+            case .importSteps:
+                return (L10n.welcomeImportButton, UIImage(named: "settings_import_podcasts"))
             case .opml:
                 return (L10n.exportPodcastsOption, UIImage(named: "settings_export_podcasts"))
             case .about:
@@ -120,6 +122,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .help:
             let navController = SJUIUtils.navController(for: OnlineSupportController())
             present(navController, animated: true, completion: nil)
+        case .importSteps:
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:
@@ -157,9 +160,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
     private func reloadTable() {
         if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml], [.privacy, .about]]
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
         } else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml], [.privacy, .about]]
+            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
         }
 
         if !SubscriptionHelper.hasActiveSubscription() {
