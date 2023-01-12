@@ -19,6 +19,11 @@ class ImportViewModel: OnboardingModel {
         OnboardingFlow.shared.track(.onboardingImportDismissed)
     }
 
+    @objc func dismissTapped() {
+        OnboardingFlow.shared.track(.onboardingImportDismissed)
+        navigationController?.dismiss(animated: true)
+    }
+
     // MARK: - Import apps
     private let supportedApps: [ImportApp] = [
         .init(id: .applePodcasts, displayName: "Apple Podcasts", steps: L10n.importInstructionsApplePodcastsSteps),
@@ -100,14 +105,17 @@ class ImportViewModel: OnboardingModel {
 }
 
 extension ImportViewModel {
-    static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, source: String? = nil) -> UIViewController {
         let viewModel = ImportViewModel()
-        let controller = OnboardingHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
+        let controller = ImportHostingController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
         controller.viewModel = viewModel
 
+        if let source {
+            OnboardingFlow.shared.updateAnalyticsSource(source)
+        }
         return navigationController == nil ? navController : controller
     }
 }
