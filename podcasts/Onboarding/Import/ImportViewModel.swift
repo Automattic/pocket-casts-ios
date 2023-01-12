@@ -5,6 +5,8 @@ class ImportViewModel: OnboardingModel {
     var navigationController: UINavigationController?
     let installedApps: [ImportApp]
 
+    var showSubtitle: Bool = true
+
     init() {
         self.installedApps = supportedApps.filter { $0.isInstalled }
     }
@@ -105,8 +107,10 @@ class ImportViewModel: OnboardingModel {
 }
 
 extension ImportViewModel {
-    static func make(in navigationController: UINavigationController? = nil, source: String? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, source: String? = nil, showSubtitle: Bool = true) -> UIViewController {
         let viewModel = ImportViewModel()
+        viewModel.showSubtitle = showSubtitle
+
         let controller = ImportHostingController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
