@@ -32,7 +32,7 @@ class ImportViewModel: OnboardingModel {
     enum ImportAppId: String, AnalyticsDescribable {
         case breaker, castbox = "wazecastbox", overcast, other
         case castro = "co.supertop.Castro-2"
-        case applePodcasts = "https://www.icloud.com/shortcuts/0d1cf7d3dc9f4cda9c01d8cd58849331"
+        case applePodcasts = "https://pocketcasts.com/import-from-apple-podcasts"
 
         var analyticsDescription: String {
             switch self {
@@ -63,7 +63,9 @@ class ImportViewModel: OnboardingModel {
             #endif
 
             // Always installed
-            if id == .other {
+            // Note: Even if Apple podcasts has been uninstalled by the user, the system will always report
+            // that it's installed.
+            if [.other, .applePodcasts].contains(id) {
                 return true
             }
 
@@ -98,6 +100,7 @@ class ImportViewModel: OnboardingModel {
         }
     }
 }
+
 
 extension ImportViewModel {
     static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
