@@ -188,8 +188,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
-        guard let currEpisode = currentEpisode() else { return }
+    func play(episode: BaseEpisode? = nil, completion: (() -> Void)? = nil, userInitiated: Bool = true) {
+        guard let currEpisode = episode ?? currentEpisode() else { return }
 
         if userInitiated {
             analyticsPlaybackHelper.play()
@@ -919,6 +919,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             } else {
                 EpisodeManager.cleanupUnusedBuffers(episode: episode)
             }
+        }
+
+        // Put the logic here
+
+        // Check if there's a next episode
+        if let episode = currentEpisode(),
+           queue.upNextCount() == 0,
+           let nextEpisode = DataManager.sharedManager.findNextEpisode(currentEpisodeUuid: episode.uuid) {
+            queue.add(episode: nextEpisode, fireNotification: false)
         }
 
         // check to see if there's another episode we should be moving onto

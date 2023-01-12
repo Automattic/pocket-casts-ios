@@ -343,6 +343,10 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
+    public func findNextEpisode(currentEpisodeUuid: String) -> Episode? {
+        episodeManager.nextEpisode(currentEpisodeUuid: currentEpisodeUuid, dbQueue: dbQueue)
+    }
+
     public func findLatestEpisode(podcast: Podcast) -> Episode? {
         episodeManager.findLatestEpisode(podcast: podcast, dbQueue: dbQueue)
     }

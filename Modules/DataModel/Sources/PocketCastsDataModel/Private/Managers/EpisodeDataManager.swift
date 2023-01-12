@@ -86,6 +86,10 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
 
+    func nextEpisode(currentEpisodeUuid: String, dbQueue: FMDatabaseQueue) -> Episode? {
+        loadSingle(query: "SELECT * FROM \(DataManager.episodeTableName) WHERE podcastUuid = (SELECT podcastUuid FROM SJEpisode WHERE uuid = ?) AND archived = 0 AND publishedDate > (SELECT publishedDate FROM SJEpisode WHERE uuid = ?) ORDER BY publishedDate DESC, addedDate DESC", values: [currentEpisodeUuid, currentEpisodeUuid], dbQueue: dbQueue)
+    }
+
     func allEpisodesForPodcast(id: Int64, dbQueue: FMDatabaseQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [id], dbQueue: dbQueue)
     }
