@@ -123,6 +123,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             let navController = SJUIUtils.navController(for: OnlineSupportController())
             present(navController, animated: true, completion: nil)
         case .importSteps:
+            let controller = ImportViewModel.make(source: "settings")
+            navigationController?.present(controller, animated: true)
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:
