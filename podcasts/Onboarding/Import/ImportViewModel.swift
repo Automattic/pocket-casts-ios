@@ -5,6 +5,8 @@ class ImportViewModel: OnboardingModel {
     var navigationController: UINavigationController?
     let installedApps: [ImportApp]
 
+    var showSubtitle: Bool = true
+
     init() {
         self.installedApps = supportedApps.filter { $0.isInstalled }
     }
@@ -17,6 +19,11 @@ class ImportViewModel: OnboardingModel {
         guard type == .swipe else { return }
 
         OnboardingFlow.shared.track(.onboardingImportDismissed)
+    }
+
+    @objc func dismissTapped() {
+        OnboardingFlow.shared.track(.onboardingImportDismissed)
+        navigationController?.dismiss(animated: true)
     }
 
     // MARK: - Import apps
@@ -100,14 +107,19 @@ class ImportViewModel: OnboardingModel {
 }
 
 extension ImportViewModel {
-    static func make(in navigationController: UINavigationController? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, source: String? = nil, showSubtitle: Bool = true) -> UIViewController {
         let viewModel = ImportViewModel()
-        let controller = OnboardingHostingViewController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
+        viewModel.showSubtitle = showSubtitle
+
+        let controller = ImportHostingController(rootView: ImportLandingView(viewModel: viewModel).setupDefaultEnvironment())
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
         controller.viewModel = viewModel
 
+        if let source {
+            OnboardingFlow.shared.updateAnalyticsSource(source)
+        }
         return navigationController == nil ? navController : controller
     }
 }

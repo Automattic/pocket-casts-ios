@@ -1,6 +1,6 @@
 7.31
 -----
-
+- Updated the import process in Settings (#641)
 
 7.30
 -----
