@@ -3551,3 +3551,9 @@
 
 /* Button title that lets the user contine the cancellation process */
 "cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
+
+/* Label of a button that lets the user login/signup with Apple */
+"social_sign_in_continue_with_apple" = "Continue with Apple";
+
+/* Label of a button that lets the user login/signup with Google */
+"social_sign_in_continue_with_google" = "Continue with Google";

@@ -351,11 +351,11 @@ private struct SocialLoginButtons: View {
         if !FeatureFlag.signInWithApple.enabled {
             EmptyView()
         } else {
-            Button("Continue with Apple") {
+            Button(L10n.socialSignInContinueWithApple) {
                 coordinator.signInWithAppleTapped()
             }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
 
-            Button("Continue with Google") {
+            Button(L10n.socialSignInContinueWithGoogle) {
                 coordinator.signInWithGoogleTapped()
             }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
         }
