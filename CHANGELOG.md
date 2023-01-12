@@ -5,6 +5,7 @@
 7.30
 -----
 - Display gravatar under Profile (#584)
+- Fixed some podcasts being excluded from the Apple Podcasts import (#640)
 
 7.29
 -----
