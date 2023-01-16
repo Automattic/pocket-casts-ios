@@ -10,4 +10,10 @@ public struct AuthenticationResponse: Codable {
         uuid = apiResponse.uuid.isEmpty ? nil : apiResponse.uuid
         email = apiResponse.email.isEmpty ? nil : apiResponse.email
     }
+
+    internal init(from apiResponse: Api_TokenLoginResponse) {
+        token = apiResponse.accessToken.isEmpty ? nil : apiResponse.accessToken
+        uuid = apiResponse.uuid.isEmpty ? nil : apiResponse.uuid
+        email = apiResponse.email.isEmpty ? nil : apiResponse.email
+    }
 }
