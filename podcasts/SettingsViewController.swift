@@ -40,7 +40,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
             case .privacy:
-                return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
+                return (L10n.settingsPrivacy, UIImage(named: "privacy"))
             case .developer:
                 return ("Developer", UIImage(systemName: "ladybug.fill"))
             case .beta:
