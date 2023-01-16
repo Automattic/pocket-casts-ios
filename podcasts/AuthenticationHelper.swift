@@ -49,6 +49,13 @@ class AuthenticationHelper {
         return response
     }
 
+    static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
+        handleSuccessfulSignIn(response, .ssoApple)
+
+        return response
+    }
+
     // MARK: Common
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
