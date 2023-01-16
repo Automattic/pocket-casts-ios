@@ -95,12 +95,24 @@ extension LoginCoordinator {
         authorizationController.performRequests()
     }
 
+    @MainActor
     func signInWithGoogleTapped() {
         guard let navigationController else {
             return
         }
 
-        googleSocialLogin.getToken(from: navigationController)
+        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+        progressAlert.showAlert(navigationController, hasProgress: false, completion: { [self] in
+            Task {
+                do {
+                    _ = try await self.googleSocialLogin.getToken(from: navigationController)
+                    progressAlert.hideAlert(false)
+                    self.signingProcessCompleted()
+                } catch {
+                    self.showError(error)
+                }
+            }
+        })
     }
 }
 

@@ -1,42 +1,40 @@
 import Foundation
 import GoogleSignIn
 
+enum GoogleSocialLoginError: Error {
+    case emptyIdToken
+}
+
 class GoogleSocialLogin {
-    func getToken(from viewController: UIViewController) {
-        let config = GIDConfiguration(
-            clientID: ApiCredentials.googleSignInSecret,
-            serverClientID: ApiCredentials.googleSignInServerClientId
-        )
+    func getToken(from viewController: UIViewController) async throws -> Bool {
+        let idToken = try await idToken(from: viewController)
 
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { [weak self] signInResult, error in
-            guard error == nil else { return }
+        try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
 
-            guard let idToken = signInResult?.authentication.idToken else {
-                return
-            }
-
-            self?.handleGoogleCredential(idToken)
-        }
+        return true
     }
 
-    func handleGoogleCredential(_ idToken: String) {
-        Task {
-            var success = false
-            do {
-                try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
-                success = true
-            } catch {
-                DispatchQueue.main.async {
-//                    self.showError(error)
-                }
-            }
+    @MainActor
+    private func idToken(from viewController: UIViewController) async throws -> String {
+        try await withUnsafeThrowingContinuation { continuation in
+            let config = GIDConfiguration(
+                clientID: ApiCredentials.googleSignInSecret,
+                serverClientID: ApiCredentials.googleSignInServerClientId
+            )
 
-            if success {
-                DispatchQueue.main.async {
-    //                    self.signingProcessCompleted()
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { signInResult, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
                 }
-            }
 
+                guard let idToken = signInResult?.authentication.idToken else {
+                    continuation.resume(throwing: GoogleSocialLoginError.emptyIdToken)
+                    return
+                }
+
+                continuation.resume(returning: idToken)
+            }
         }
     }
 }
