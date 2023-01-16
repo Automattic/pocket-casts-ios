@@ -6,12 +6,14 @@ enum GoogleSocialLoginError: Error {
 }
 
 class GoogleSocialLogin {
-    func getToken(from viewController: UIViewController) async throws -> Bool {
-        let idToken = try await idToken(from: viewController)
+    private var idToken = ""
 
-        try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
+    func getToken(from viewController: UIViewController) async throws {
+        idToken = try await idToken(from: viewController)
+    }
 
-        return true
+    func login() async throws {
+        _ = try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
     }
 
     @MainActor
