@@ -9,6 +9,8 @@ class LoginCoordinator: NSObject, OnboardingModel {
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
+    let googleSocialLogin = GoogleSocialLogin()
+
     override init() {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
@@ -98,7 +100,7 @@ extension LoginCoordinator {
             return
         }
 
-        GoogleSocialLogin().getToken(from: navigationController)
+        googleSocialLogin.getToken(from: navigationController)
     }
 }
 
