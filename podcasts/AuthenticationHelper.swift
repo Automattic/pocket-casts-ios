@@ -74,7 +74,9 @@ class AuthenticationHelper {
             ServerSettings.setSyncingEmail(email: response.email)
         }
 
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        }
         Analytics.track(.userSignedIn, properties: ["source": source])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
