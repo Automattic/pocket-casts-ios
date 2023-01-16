@@ -512,6 +512,7 @@
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
 		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
+		8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */; };
 		8BB1187F290C56F7009E3A39 /* CategoryPillar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */; };
 		8BB11881290C5720009E3A39 /* CategoriesContrastingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB11880290C5720009E3A39 /* CategoriesContrastingColor.swift */; };
 		8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */; };
@@ -2115,6 +2116,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialLogin.swift; sourceTree = "<group>"; };
 		8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPillar.swift; sourceTree = "<group>"; };
 		8BB11880290C5720009E3A39 /* CategoriesContrastingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesContrastingColor.swift; sourceTree = "<group>"; };
 		8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableProvider.swift; sourceTree = "<group>"; };
@@ -3876,6 +3878,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		8BAD6E5F2975AF9900DB7259 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		8BB1187D290C56D1009E3A39 /* TopCategoriesStory */ = {
 			isa = PBXGroup;
 			children = (
@@ -4147,6 +4157,7 @@
 			children = (
 				C74887782919DC7B00EBC926 /* SwiftUI */,
 				C7AF578F289D7F1E0089E435 /* Analytics */,
+				8BAD6E5F2975AF9900DB7259 /* Login */,
 				BD2A49E41701A6AE00C2F192 /* SJCommonUtils.h */,
 				BD2A49E51701A6AE00C2F192 /* SJCommonUtils.m */,
 				BDB5F0CC20450FDC00437669 /* Enumerations.swift */,
@@ -7952,6 +7963,7 @@
 				BDF7BDD51CA24F5C0045AB6D /* FunnyTimeConverter.swift in Sources */,
 				4006E31723AC935700174DEB /* DescriptiveCollectionCell.swift in Sources */,
 				BD90134F275F3346004AC104 /* ThemeSelectorView.swift in Sources */,
+				8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */,
 				46C22EE328F7497300F4173B /* DeveloperMenu.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,

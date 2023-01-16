@@ -93,7 +93,13 @@ extension LoginCoordinator {
         authorizationController.performRequests()
     }
 
-    func signInWithGoogleTapped() { }
+    func signInWithGoogleTapped() {
+        guard let navigationController else {
+            return
+        }
+
+        GoogleSocialLogin().getToken(from: navigationController)
+    }
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
