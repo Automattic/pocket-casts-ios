@@ -511,6 +511,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BB1187F290C56F7009E3A39 /* CategoryPillar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */; };
 		8BB11881290C5720009E3A39 /* CategoriesContrastingColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB11880290C5720009E3A39 /* CategoriesContrastingColor.swift */; };
 		8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */; };
@@ -3097,6 +3098,7 @@
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
@@ -6442,6 +6444,7 @@
 				8BE36DFF2873552500E35313 /* PocketCastsServer */,
 				8BE36E022873552600E35313 /* PocketCastsUtils */,
 				C72CED33289DA28B0017883A /* AutomatticTracks */,
+				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -10099,6 +10102,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 		8BE36DE7287352A100E35313 /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
