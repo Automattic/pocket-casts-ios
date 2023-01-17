@@ -110,7 +110,7 @@ class WatchSyncManager {
 
                 ServerSettings.setSyncingEmail(email: username)
                 ServerSettings.saveSyncingPassword(password)
-                ServerSettings.appleAuthIdentityToken = appleAuthToken
+                ServerSettings.refreshToken = appleAuthToken
                 ServerSettings.appleAuthUserID = appleUserId
 
                 if !username.isEmpty {
@@ -178,7 +178,7 @@ class WatchSyncManager {
 
             ServerSettings.setSyncingEmail(email: username)
             ServerSettings.saveSyncingPassword(password)
-            ServerSettings.appleAuthIdentityToken = appleAuthToken
+            ServerSettings.refreshToken = appleAuthToken
             ServerSettings.appleAuthUserID = appleUserId
 
             if SyncManager.isUserLoggedIn(), username.isEmpty {

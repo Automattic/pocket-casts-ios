@@ -163,7 +163,7 @@ class TokenHelper {
             logMessages.append("no password")
         }
 
-        if ServerSettings.appleAuthIdentityToken == nil {
+        if ServerSettings.refreshToken == nil {
             logMessages.append("no SSO token")
         }
 

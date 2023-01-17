@@ -336,13 +336,13 @@ public extension ServerSettings {
         }
     }
 
-    class var appleAuthIdentityToken: String? {
+    class var refreshToken: String? {
         get {
-            KeychainHelper.string(for: ServerConstants.Values.appleAuthIdentityTokenKey)
+            KeychainHelper.string(for: ServerConstants.Values.refreshTokenKey)
         }
 
         set {
-            KeychainHelper.save(string: newValue, key: ServerConstants.Values.appleAuthIdentityTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+            KeychainHelper.save(string: newValue, key: ServerConstants.Values.refreshTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         }
     }
 
