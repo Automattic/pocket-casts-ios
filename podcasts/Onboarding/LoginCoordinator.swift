@@ -13,6 +13,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     private var progressAlert: ShiftyLoadingAlert?
 
+    /// Used to determine which screen after login to show to the user
     private var newAccountCreated = false
 
     override init() {
