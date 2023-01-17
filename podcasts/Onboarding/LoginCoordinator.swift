@@ -118,8 +118,9 @@ extension LoginCoordinator {
                     }
                 }
             } catch {
-                progressAlert.hideAlert(false)
-                self.showError(error)
+                progressAlert.hideAlert(false) {
+                    self.showError(error)
+                }
             }
         }
     }
