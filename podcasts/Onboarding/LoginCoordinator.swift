@@ -11,6 +11,10 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     let googleSocialLogin = GoogleSocialLogin()
 
+    private var progressAlert: ShiftyLoadingAlert?
+
+    private var newAccountCreated = false
+
     override init() {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
@@ -39,6 +43,10 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func didAppear() {
         OnboardingFlow.shared.track(.setupAccountShown)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -102,23 +110,17 @@ extension LoginCoordinator {
         }
 
         Task {
-            let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+            progressAlert = SyncLoadingAlert()
             do {
                 // First get token
                 try await self.googleSocialLogin.getToken(from: navigationController)
 
                 // If token is returned, perform login on our servers
-                progressAlert.showAlert(navigationController, hasProgress: false, completion: nil)
+                progressAlert?.showAlert(navigationController, hasProgress: false, completion: nil)
                 let response = try await self.googleSocialLogin.login()
-                progressAlert.hideAlert(false) {
-                    if response.isNewAccount ?? false {
-                        self.handleAccountCreated()
-                    } else {
-                        self.signingProcessCompleted()
-                    }
-                }
+                newAccountCreated = response.isNewAccount ?? false
             } catch {
-                progressAlert.hideAlert(false) {
+                progressAlert?.hideAlert(false) {
                     self.showError(error)
                 }
             }
@@ -127,6 +129,19 @@ extension LoginCoordinator {
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    @objc private func syncCompleted() {
+         DispatchQueue.main.async {
+             self.progressAlert?.hideAlert(false)
+             self.progressAlert = nil
+
+             if self.newAccountCreated {
+                 self.handleAccountCreated()
+             } else {
+                 self.signingProcessCompleted()
+             }
+         }
+     }
+
     func signingProcessCompleted() {
         let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
 
