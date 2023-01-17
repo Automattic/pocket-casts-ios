@@ -116,7 +116,7 @@
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
 /* Error message for when the account registration request has failed. */
-"account_sso_failed" = "Sign in with Apple failed. Please try again.";
+"account_sso_failed" = "Sign in failed. Please try again.";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Pocket Casts Account";

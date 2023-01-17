@@ -110,12 +110,12 @@ extension LoginCoordinator {
                 // If token is returned, perform login on our servers
                 progressAlert.showAlert(navigationController, hasProgress: false, completion: nil)
                 let response = try await self.googleSocialLogin.login()
-                progressAlert.hideAlert(false)
-
-                if response.isNewAccount ?? false {
-                    self.handleAccountCreated()
-                } else {
-                    self.signingProcessCompleted()
+                progressAlert.hideAlert(false) {
+                    if response.isNewAccount ?? false {
+                        self.handleAccountCreated()
+                    } else {
+                        self.signingProcessCompleted()
+                    }
                 }
             } catch {
                 progressAlert.hideAlert(false)
