@@ -102,17 +102,23 @@ extension LoginCoordinator {
         }
 
         Task {
+            let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
             do {
                 // First get token
                 try await self.googleSocialLogin.getToken(from: navigationController)
 
                 // If token is returned, perform login on our servers
-                let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
                 progressAlert.showAlert(navigationController, hasProgress: false, completion: nil)
-                try await self.googleSocialLogin.login()
+                let response = try await self.googleSocialLogin.login()
                 progressAlert.hideAlert(false)
-                self.signingProcessCompleted()
+
+                if response.isNewAccount ?? false {
+                    self.handleAccountCreated()
+                } else {
+                    self.signingProcessCompleted()
+                }
             } catch {
+                progressAlert.hideAlert(false)
                 self.showError(error)
             }
         }

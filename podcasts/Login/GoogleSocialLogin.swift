@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 import GoogleSignIn
 
 enum GoogleSocialLoginError: Error {
@@ -12,8 +13,8 @@ class GoogleSocialLogin {
         idToken = try await idToken(from: viewController)
     }
 
-    func login() async throws {
-        _ = try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
+    func login() async throws -> AuthenticationResponse {
+        try await AuthenticationHelper.validateLogin(identityToken: idToken, provider: .google)
     }
 
     @MainActor
