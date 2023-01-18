@@ -6,16 +6,19 @@ enum AppleSocialLoginError: Error {
     case emptyIdToken
 }
 
-class AppleSocialLogin: NSObject {
+class AppleSocialLogin: NSObject, SocialLogin {
     private weak var viewController: UIViewController?
 
     private var idToken = ""
 
     private var continuation: UnsafeContinuation<String, Error>?
 
-    func getToken(from viewController: UIViewController) async throws {
+    required init(viewController: UIViewController) {
         self.viewController = viewController
-        idToken = try await idToken(from: viewController)
+    }
+
+    func getToken() async throws {
+        idToken = try await idToken(from: viewController!)
     }
 
     func login() async throws -> AuthenticationResponse {
