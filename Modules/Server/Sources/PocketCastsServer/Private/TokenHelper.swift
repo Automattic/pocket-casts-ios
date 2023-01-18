@@ -53,12 +53,13 @@ class TokenHelper {
     class func acquireToken() -> String? {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
+        var refreshedRefreshToken: String? = nil
 
         asyncAcquireToken { result in
             switch result {
-            case .success(let token):
-                refreshedToken = token
-                ServerSettings.syncingV2Token = token
+            case .success(let tokens):
+                refreshedToken = tokens.0
+                refreshedRefreshToken = tokens.1
             case .failure:
                 refreshedToken = nil
             }
@@ -69,6 +70,7 @@ class TokenHelper {
 
         if let token = refreshedToken, !token.isEmpty {
             ServerSettings.syncingV2Token = token
+            ServerSettings.refreshToken = refreshedRefreshToken
         }
         else {
             // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
@@ -129,15 +131,15 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<String?, APIError>) -> Void) {
+    private class func asyncAcquireToken(completion: @escaping (Result<(String?, String?), APIError>) -> Void) {
         if let token = acquirePasswordToken() {
-            completion(.success(token))
+            completion(.success((token, nil)))
             return
         }
 
         Task {
-            if let token = await acquireIdentityToken() {
-                completion(.success(token))
+            if let tokens = await acquireIdentityToken() {
+                completion(.success(tokens))
             }
             else {
                 completion(.failure(.UNKNOWN))
@@ -147,7 +149,7 @@ class TokenHelper {
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> String? {
+    private class func acquireIdentityToken() async -> (String?, String?)? {
         return try? await ApiServerHandler.shared.refreshIdentityToken()
     }
 

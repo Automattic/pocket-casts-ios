@@ -53,7 +53,7 @@ public extension ApiServerHandler {
         return try await obtainToken(request: request, provider: provider)
     }
 
-    func refreshIdentityToken() async throws -> String? {
+    func refreshIdentityToken() async throws -> (String?, String?) {
         guard
             let identityToken = ServerSettings.refreshToken,
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
@@ -62,22 +62,25 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        if try await hasValidSSOToken() {
-            let response = try await obtainToken(request: request)
-            return response.token
-        } else {
-            return nil
-        }
+        let response = try await obtainToken(request: request, provider: .google)
+        return (response.token, response.refreshToken)
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login_apple")
-        guard let identityToken = identityToken,
-              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
-        else { return nil }
+        guard let identityToken else {
+            return nil
+        }
 
-        request.setValue("Bearer \(identityToken)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/token")
+
+        var data = Api_UserTokenRequest()
+        data.refreshToken = identityToken
+        data.grantType = "refresh_token"
+
+        var request = ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
+        request?.setValue("Bearer \(ServerSettings.syncingV2Token!)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
         return request
+
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds, provider: SocialAuthProvider) -> URLRequest? {
