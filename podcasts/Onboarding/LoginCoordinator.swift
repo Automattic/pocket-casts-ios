@@ -5,7 +5,7 @@ import SwiftUI
 import PocketCastsDataModel
 
 class LoginCoordinator: NSObject, OnboardingModel {
-    var navigationController: UINavigationController? = nil
+    weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
