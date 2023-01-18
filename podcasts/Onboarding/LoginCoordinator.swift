@@ -117,7 +117,11 @@ extension LoginCoordinator {
                 try await self.googleSocialLogin.getToken(from: navigationController)
 
                 // If token is returned, perform login on our servers
-                progressAlert?.showAlert(navigationController, hasProgress: false, completion: nil)
+                await withUnsafeContinuation { continuation in
+                    progressAlert?.showAlert(navigationController, hasProgress: false) {
+                        continuation.resume()
+                    }
+                }
                 let response = try await self.googleSocialLogin.login()
                 newAccountCreated = response.isNewAccount ?? false
             } catch {
@@ -163,7 +167,6 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func showError(_ error: Error) {
-        navigationController?.presentedViewController?.dismiss(animated: true)
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
