@@ -2,6 +2,10 @@ import Foundation
 import AuthenticationServices
 import PocketCastsServer
 
+enum AppleSocialLoginError: Error {
+    case emptyIdToken
+}
+
 class AppleSocialLogin: NSObject {
     private weak var viewController: UIViewController?
 
@@ -52,7 +56,7 @@ extension AppleSocialLogin: ASAuthorizationControllerDelegate {
                let identityToken = String(data: identityTokenData, encoding: .utf8) {
                 continuation?.resume(returning: identityToken)
             } else {
-                // throw error
+                continuation?.resume(throwing: AppleSocialLoginError.emptyIdToken)
             }
         default:
             break
