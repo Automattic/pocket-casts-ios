@@ -15,7 +15,7 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
 
     override func hideAlert(_ animated: Bool, completion: (() -> Void)? = nil) {
         super.hideAlert(animated, completion: completion)
-        unSubscribeToSyncChanges()
+        unsubscribeToSyncChanges()
     }
 
     private func subscribeToSyncChanges() {
@@ -25,7 +25,7 @@ class SyncLoadingAlert: ShiftyLoadingAlert {
         NotificationCenter.default.addObserver(self, selector: #selector(loggedIn), name: .userLoginDidChange, object: nil)
     }
 
-    private func unSubscribeToSyncChanges() {
+    private func unsubscribeToSyncChanges() {
         NotificationCenter.default.removeObserver(self)
     }
 
