@@ -8,9 +8,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
-    let googleSocialLogin = GoogleSocialLogin()
-
-    let appleSocialLogin = AppleSocialLogin()
+    private var socialLogin: SocialLogin?
 
     private var progressAlert: ShiftyLoadingAlert?
 
@@ -98,49 +96,17 @@ class LoginCoordinator: NSObject, OnboardingModel {
 extension LoginCoordinator {
     @MainActor
     func signIn(with provider: SocialAuthProvider) {
-        switch provider {
-        case .google:
-            signInWithGoogleTapped()
-        case .apple:
-            signInWithAppleTapped()
-        }
-    }
-
-    @MainActor
-    private func signInWithAppleTapped() {
         guard let navigationController else {
             return
         }
+
+        socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
 
         Task {
             progressAlert = SyncLoadingAlert()
             do {
                 // First get token
-                try await self.appleSocialLogin.getToken(from: navigationController)
-
-                // If token is returned, perform login on our servers
-                progressAlert?.showAlert(navigationController, hasProgress: false, completion: nil)
-                let response = try await self.appleSocialLogin.login()
-                newAccountCreated = response.isNewAccount ?? false
-            } catch {
-                progressAlert?.hideAlert(false) {
-                    self.showError(error)
-                }
-            }
-        }
-    }
-
-    @MainActor
-    private func signInWithGoogleTapped() {
-        guard let navigationController else {
-            return
-        }
-
-        Task {
-            progressAlert = SyncLoadingAlert()
-            do {
-                // First get token
-                try await self.googleSocialLogin.getToken(from: navigationController)
+                try await self.socialLogin?.getToken()
 
                 // If token is returned, perform login on our servers
                 await withUnsafeContinuation { continuation in
@@ -148,8 +114,8 @@ extension LoginCoordinator {
                         continuation.resume()
                     }
                 }
-                let response = try await self.googleSocialLogin.login()
-                newAccountCreated = response.isNewAccount ?? false
+                let response = try await self.socialLogin?.login()
+                newAccountCreated = response?.isNewAccount ?? false
             } catch {
                 progressAlert?.hideAlert(false) {
                     self.showError(error)
@@ -200,6 +166,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func showError(_ error: Error) {
+        navigationController?.presentedViewController?.dismiss(animated: true)
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
