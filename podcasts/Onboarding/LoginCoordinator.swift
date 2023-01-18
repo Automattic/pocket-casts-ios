@@ -95,7 +95,17 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
 // MARK: - Social Buttons
 extension LoginCoordinator {
-    func signInWithAppleTapped() {
+    @MainActor
+    func signIn(with provider: SocialAuthProvider) {
+        switch provider {
+        case .google:
+            signInWithGoogleTapped()
+        case .apple:
+            signInWithAppleTapped()
+        }
+    }
+
+    private func signInWithAppleTapped() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.email]
@@ -107,7 +117,7 @@ extension LoginCoordinator {
     }
 
     @MainActor
-    func signInWithGoogleTapped() {
+    private func signInWithGoogleTapped() {
         guard let navigationController else {
             return
         }

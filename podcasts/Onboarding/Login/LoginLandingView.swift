@@ -352,15 +352,15 @@ private struct SocialLoginButtons: View {
         if !FeatureFlag.signInWithApple.enabled {
             EmptyView()
         } else {
-            ForEach(SocialAuthProvider.allCases, id: \.self) {
-                switch $0 {
+            ForEach(SocialAuthProvider.allCases, id: \.self) { provider in
+                switch provider {
                 case .apple:
                     Button(L10n.socialSignInContinueWithApple) {
-                        coordinator.signInWithAppleTapped()
+                        coordinator.signIn(with: provider)
                     }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
                 case .google:
                     Button(L10n.socialSignInContinueWithGoogle) {
-                        coordinator.signInWithGoogleTapped()
+                        coordinator.signIn(with: provider)
                     }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
                 }
             }
