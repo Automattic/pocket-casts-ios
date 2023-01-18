@@ -53,7 +53,7 @@ public extension ApiServerHandler {
         return try await obtainToken(request: request, provider: provider)
     }
 
-    func refreshIdentityToken() async throws -> (String?, String?) {
+    func refreshIdentityToken() async throws -> AuthenticationResponse {
         guard
             let identityToken = ServerSettings.refreshToken,
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
@@ -62,8 +62,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        let response = try await obtainToken(request: request, provider: .google)
-        return (response.token, response.refreshToken)
+        return try await obtainToken(request: request, provider: .google)
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {

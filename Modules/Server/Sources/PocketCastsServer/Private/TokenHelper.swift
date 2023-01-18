@@ -57,9 +57,9 @@ class TokenHelper {
 
         asyncAcquireToken { result in
             switch result {
-            case .success(let tokens):
-                refreshedToken = tokens.0
-                refreshedRefreshToken = tokens.1
+            case .success(let authenticationResponse):
+                refreshedToken = authenticationResponse?.token
+                refreshedRefreshToken = authenticationResponse?.refreshToken
             case .failure:
                 refreshedToken = nil
             }
@@ -83,7 +83,7 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    class func acquirePasswordToken() -> String? {
+    class func acquirePasswordToken() -> AuthenticationResponse? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
             return nil
@@ -113,8 +113,8 @@ class TokenHelper {
             }
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
-                let token = try Api_UserLoginResponse(serializedData: validData).token
-                return token
+                let userLoginResponse = try Api_UserLoginResponse(serializedData: validData)
+                return AuthenticationResponse(from: userLoginResponse)
             }
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
@@ -131,15 +131,15 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<(String?, String?), APIError>) -> Void) {
-        if let token = acquirePasswordToken() {
-            completion(.success((token, nil)))
+    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, APIError>) -> Void) {
+        if let authenticationResponse = acquirePasswordToken() {
+            completion(.success(authenticationResponse))
             return
         }
 
         Task {
-            if let tokens = await acquireIdentityToken() {
-                completion(.success(tokens))
+            if let authenticationResponse = await acquireIdentityToken() {
+                completion(.success(authenticationResponse))
             }
             else {
                 completion(.failure(.UNKNOWN))
@@ -149,7 +149,7 @@ class TokenHelper {
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> (String?, String?)? {
+    private class func acquireIdentityToken() async -> AuthenticationResponse? {
         return try? await ApiServerHandler.shared.refreshIdentityToken()
     }
 
