@@ -1,5 +1,4 @@
 import Foundation
-import AuthenticationServices
 import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
@@ -228,56 +227,5 @@ extension LoginCoordinator {
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
-    }
-}
-
-// MARK: - Sign In With Apple
-
-extension LoginCoordinator: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = navigationController?.view.window else { return UIApplication.shared.windows.first! }
-        return window
-    }
-}
-
-extension LoginCoordinator: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            DispatchQueue.main.async {
-                self.handleAppleIDCredential(appleIDCredential)
-            }
-        default:
-            break
-        }
-    }
-
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        showError(error)
-    }
-
-    @MainActor
-    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
-        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-        progressAlert.showAlert(navigationController!, hasProgress: false, completion: {
-            Task {
-                var success = false
-                do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
-                    success = true
-                } catch {
-                    DispatchQueue.main.async {
-                        self.showError(error)
-                    }
-                }
-
-                DispatchQueue.main.async {
-                    progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
-                    }
-                }
-            }
-        })
     }
 }
