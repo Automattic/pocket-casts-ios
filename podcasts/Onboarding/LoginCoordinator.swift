@@ -11,6 +11,8 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     let googleSocialLogin = GoogleSocialLogin()
 
+    let appleSocialLogin = AppleSocialLogin()
+
     private var progressAlert: ShiftyLoadingAlert?
 
     private var loginFinished = false
@@ -105,15 +107,28 @@ extension LoginCoordinator {
         }
     }
 
+    @MainActor
     private func signInWithAppleTapped() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
+        guard let navigationController else {
+            return
+        }
 
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
+        Task {
+            progressAlert = SyncLoadingAlert()
+            do {
+                // First get token
+                try await self.appleSocialLogin.getToken(from: navigationController)
+
+                // If token is returned, perform login on our servers
+                progressAlert?.showAlert(navigationController, hasProgress: false, completion: nil)
+                let response = try await self.appleSocialLogin.login()
+                newAccountCreated = response.isNewAccount ?? false
+            } catch {
+                progressAlert?.hideAlert(false) {
+                    self.showError(error)
+                }
+            }
+        }
     }
 
     @MainActor
