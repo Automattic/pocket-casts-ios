@@ -63,6 +63,7 @@ class AuthenticationHelper {
 
         ServerSettings.userId = response.uuid
         ServerSettings.syncingV2Token = response.token
+        ServerSettings.refreshToken = response.refreshToken
 
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
