@@ -1,5 +1,6 @@
 7.31
 -----
+- Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
 - Updated the import process in Settings (#641)
 
 7.30
