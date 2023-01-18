@@ -162,30 +162,14 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_UserLoginResponse(serializedData: responseData)
-                    continuation.resume(returning: AuthenticationResponse(from: response))
-                } catch {
-                    FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
-                    continuation.resume(throwing: APIError.UNKNOWN)
-                }
-
-            }.resume()
-        }
-    }
-
-    func obtainToken(request: URLRequest, provider: SocialAuthProvider) async throws -> AuthenticationResponse {
-        try await withUnsafeThrowingContinuation { continuation in
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
-                    FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
-                    continuation.resume(throwing: errorResponse ?? .UNKNOWN)
-                    return
-                }
-
-                do {
-                    let response = try Api_TokenLoginResponse(serializedData: responseData)
-                    continuation.resume(returning: AuthenticationResponse(from: response))
+                    // Response that contains the refresh token
+                    if let response = try? Api_TokenLoginResponse(serializedData: responseData) {
+                        continuation.resume(returning: AuthenticationResponse(from: response))
+                    } else {
+                        // Old response for username/password without refresh token
+                        let userLoginResponse = try Api_UserLoginResponse(serializedData: responseData)
+                        continuation.resume(returning: AuthenticationResponse(from: userLoginResponse))
+                    }
                 } catch {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     continuation.resume(throwing: APIError.UNKNOWN)

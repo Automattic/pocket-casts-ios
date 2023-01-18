@@ -50,7 +50,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request, provider: provider)
+        return try await obtainToken(request: request)
     }
 
     func refreshIdentityToken() async throws -> AuthenticationResponse {
@@ -62,7 +62,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request, provider: .google)
+        return try await obtainToken(request: request)
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
