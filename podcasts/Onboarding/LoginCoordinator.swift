@@ -5,13 +5,15 @@ import SwiftUI
 import PocketCastsDataModel
 
 class LoginCoordinator: NSObject, OnboardingModel {
-    var navigationController: UINavigationController? = nil
+    weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
     let googleSocialLogin = GoogleSocialLogin()
 
     private var progressAlert: ShiftyLoadingAlert?
+
+    private var loginFinished = false
 
     /// Used to determine which screen after login to show to the user
     private var newAccountCreated = false
@@ -148,6 +150,13 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
+        // This can be called multiple times depending on the flow
+        // With this check we ensure this will be executed only once
+        guard !loginFinished else {
+            return
+        }
+
+        loginFinished = true
         let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
 
         if shouldDismiss {

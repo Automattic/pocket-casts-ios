@@ -13,7 +13,7 @@ class AuthenticationHelper {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
-        else if FeatureFlag.signInWithApple.enabled, let token = ServerSettings.appleAuthIdentityToken, let userID = ServerSettings.appleAuthUserID {
+        else if FeatureFlag.signInWithApple.enabled, let token = ServerSettings.refreshToken, let userID = ServerSettings.appleAuthUserID {
             return try await validateLogin(identityToken: token, userID: userID).token
         }
 
@@ -43,7 +43,7 @@ class AuthenticationHelper {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
         handleSuccessfulSignIn(response, .ssoApple)
 
-        ServerSettings.appleAuthIdentityToken = identityToken
+        ServerSettings.refreshToken = identityToken
         ServerSettings.appleAuthUserID = userID
 
         return response
@@ -63,6 +63,7 @@ class AuthenticationHelper {
 
         ServerSettings.userId = response.uuid
         ServerSettings.syncingV2Token = response.token
+        ServerSettings.refreshToken = response.refreshToken
 
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
