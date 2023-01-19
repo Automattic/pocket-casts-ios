@@ -1,7 +1,6 @@
 import UIKit
 import PocketCastsUtils
 import PocketCastsServer
-import AuthenticationServices
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
@@ -159,49 +158,5 @@ private extension ProfileIntroViewController {
 
         errorLabel.text = L10n.accountSsoFailed
         errorLabel.alpha = 1
-    }
-}
-
-extension ProfileIntroViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = view.window else { return UIApplication.shared.windows.first! }
-        return window
-    }
-}
-
-extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            DispatchQueue.main.async {
-                self.handleAppleIDCredential(appleIDCredential)
-            }
-        default:
-            break
-        }
-    }
-
-    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
-        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-        progressAlert.showAlert(self, hasProgress: false, completion: {
-            Task {
-                var success = false
-                do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
-                    success = true
-                } catch {
-                    DispatchQueue.main.async {
-                        self.showError(error)
-                    }
-                }
-
-                DispatchQueue.main.async {
-                    progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
-                    }
-                }
-            }
-        })
     }
 }
