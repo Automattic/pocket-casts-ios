@@ -41,7 +41,7 @@ class AuthenticationHelper {
 
     static func validateLogin(identityToken: String)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
-        handleSuccessfulSignIn(response, .ssoApple)
+        handleSuccessfulSignIn(response, .sso)
 
         ServerSettings.refreshToken = response.refreshToken
 
@@ -50,7 +50,7 @@ class AuthenticationHelper {
 
     static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
-        handleSuccessfulSignIn(response, .ssoApple)
+        handleSuccessfulSignIn(response, .sso)
 
         return response
     }
@@ -86,7 +86,7 @@ class AuthenticationHelper {
 // MARK: - Enums
 enum AuthenticationSource: String, AnalyticsDescribable {
     case password = "password"
-    case ssoApple = "sso_apple"
+    case sso = "sso"
 
     var analyticsDescription: String { rawValue }
 }
