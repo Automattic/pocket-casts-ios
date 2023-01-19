@@ -49,6 +49,13 @@ class AuthenticationHelper {
         return response
     }
 
+    static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
+        handleSuccessfulSignIn(response, .ssoApple)
+
+        return response
+    }
+
     // MARK: Common
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
@@ -67,7 +74,7 @@ class AuthenticationHelper {
             ServerSettings.setSyncingEmail(email: response.email)
         }
 
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
         Analytics.track(.userSignedIn, properties: ["source": source])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)

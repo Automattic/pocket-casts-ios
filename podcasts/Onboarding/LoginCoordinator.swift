@@ -9,6 +9,13 @@ class LoginCoordinator: NSObject, OnboardingModel {
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
+    let googleSocialLogin = GoogleSocialLogin()
+
+    private var progressAlert: ShiftyLoadingAlert?
+
+    /// Used to determine which screen after login to show to the user
+    private var newAccountCreated = false
+
     override init() {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
@@ -37,6 +44,10 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func didAppear() {
         OnboardingFlow.shared.track(.setupAccountShown)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -93,10 +104,49 @@ extension LoginCoordinator {
         authorizationController.performRequests()
     }
 
-    func signInWithGoogleTapped() { }
+    @MainActor
+    func signInWithGoogleTapped() {
+        guard let navigationController else {
+            return
+        }
+
+        Task {
+            progressAlert = SyncLoadingAlert()
+            do {
+                // First get token
+                try await self.googleSocialLogin.getToken(from: navigationController)
+
+                // If token is returned, perform login on our servers
+                await withUnsafeContinuation { continuation in
+                    progressAlert?.showAlert(navigationController, hasProgress: false) {
+                        continuation.resume()
+                    }
+                }
+                let response = try await self.googleSocialLogin.login()
+                newAccountCreated = response.isNewAccount ?? false
+            } catch {
+                progressAlert?.hideAlert(false) {
+                    self.showError(error)
+                }
+            }
+        }
+    }
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    @objc private func syncCompleted() {
+         DispatchQueue.main.async {
+             self.progressAlert?.hideAlert(false)
+             self.progressAlert = nil
+
+             if self.newAccountCreated {
+                 self.handleAccountCreated()
+             } else {
+                 self.signingProcessCompleted()
+             }
+         }
+     }
+
     func signingProcessCompleted() {
         let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
 
@@ -117,7 +167,6 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func showError(_ error: Error) {
-        navigationController?.presentedViewController?.dismiss(animated: true)
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
