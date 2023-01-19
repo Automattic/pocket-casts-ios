@@ -33,6 +33,12 @@ class GoogleSocialLogin: SocialLogin {
 
             GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { signInResult, error in
                 if let error {
+
+                    if let err = error as? GIDSignInError, err.code == .canceled {
+                        continuation.resume(throwing: SocialLoginError.canceled)
+                        return
+                    }
+
                     continuation.resume(throwing: error)
                     return
                 }

@@ -1,6 +1,10 @@
 import Foundation
 import PocketCastsServer
 
+enum SocialLoginError: Error {
+    case canceled
+}
+
 protocol SocialLogin {
     init(viewController: UIViewController)
 

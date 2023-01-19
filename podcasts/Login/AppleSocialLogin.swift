@@ -67,6 +67,11 @@ extension AppleSocialLogin: ASAuthorizationControllerDelegate {
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        if let err = error as? ASAuthorizationError, err.code == .canceled {
+            continuation?.resume(throwing: SocialLoginError.canceled)
+            return
+        }
+
         continuation?.resume(throwing: error)
     }
 }
