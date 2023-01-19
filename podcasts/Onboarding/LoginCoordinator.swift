@@ -111,10 +111,10 @@ extension LoginCoordinator {
                     }
                 }
 
-                listenToSync()
-
                 let response = try await self.socialLogin?.login()
                 newAccountCreated = response?.isNewAccount ?? false
+
+                listenToSync()
             } catch {
                 progressAlert?.hideAlert(false) {
                     self.showError(error)
