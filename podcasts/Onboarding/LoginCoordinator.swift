@@ -45,10 +45,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func didAppear() {
         OnboardingFlow.shared.track(.setupAccountShown)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -114,6 +110,9 @@ extension LoginCoordinator {
                         continuation.resume()
                     }
                 }
+
+                listenToSync()
+
                 let response = try await self.socialLogin?.login()
                 newAccountCreated = response?.isNewAccount ?? false
             } catch {
@@ -126,6 +125,12 @@ extension LoginCoordinator {
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    private func listenToSync() {
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
+    }
+
     @objc private func syncCompleted() {
          DispatchQueue.main.async {
              self.progressAlert?.hideAlert(false)
