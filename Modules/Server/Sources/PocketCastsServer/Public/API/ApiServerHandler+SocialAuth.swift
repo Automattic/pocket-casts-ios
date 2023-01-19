@@ -40,7 +40,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     func validateLogin(identityToken: String, provider: SocialAuthProvider) async throws -> AuthenticationResponse {
@@ -50,7 +50,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     func refreshIdentityToken() async throws -> AuthenticationResponse {
@@ -62,7 +62,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
