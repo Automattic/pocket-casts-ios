@@ -171,7 +171,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func showError(_ error: Error) {
-        navigationController?.presentedViewController?.dismiss(animated: true)
+        guard (error as? SocialLoginError) != .canceled else {
+            return
+        }
+
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
