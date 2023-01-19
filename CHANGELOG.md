@@ -2,6 +2,7 @@
 -----
 - Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
 - Updated the import process in Settings (#641)
+- Updated the Now Playing metadata to put podcast author in the Artist fields to fix Siri responses and Siri Suggestions (#48)
 
 7.30
 -----
