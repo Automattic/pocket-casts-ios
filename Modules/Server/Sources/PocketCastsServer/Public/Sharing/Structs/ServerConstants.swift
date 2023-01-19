@@ -38,10 +38,6 @@ public enum ServerConstants {
             production() ? "https://lists.pocketcasts.com/" : "https://lists.pocketcasts.net/"
         }
 
-        public static func refreshToken() -> String {
-            Self.api() + "user/token"
-        }
-
         public static let support = "https://support.pocketcasts.com/ios/"
         public static let cancelSubscription = "https://support.pocketcasts.com/article/subscription-info/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"

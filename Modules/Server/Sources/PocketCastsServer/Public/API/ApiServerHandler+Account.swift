@@ -162,8 +162,7 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    if request.url?.absoluteString == ServerConstants.Urls.refreshToken() {
-                        let response = try Api_TokenLoginResponse(serializedData: responseData)
+                    if let response = try? Api_TokenLoginResponse(serializedData: responseData) {
                         continuation.resume(returning: AuthenticationResponse(from: response))
                     } else {
                         let userLoginResponse = try Api_UserLoginResponse(serializedData: responseData)

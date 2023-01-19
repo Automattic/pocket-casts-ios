@@ -70,7 +70,7 @@ public extension ApiServerHandler {
             return nil
         }
 
-        let url = ServerHelper.asUrl(ServerConstants.Urls.refreshToken())
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/token")
 
         var data = Api_UserTokenRequest()
         data.refreshToken = identityToken
