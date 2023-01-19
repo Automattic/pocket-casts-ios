@@ -77,7 +77,6 @@ public extension ApiServerHandler {
         data.grantType = "refresh_token"
 
         var request = ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
-        request?.setValue("Bearer \(ServerSettings.syncingV2Token!)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
         return request
 
     }

@@ -38,7 +38,6 @@ public class SyncManager {
 
         ServerSettings.setSyncingEmail(email: nil)
         ServerSettings.userId = nil
-        ServerSettings.refreshToken = nil
 
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.upNextServerLastModified)
