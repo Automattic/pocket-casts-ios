@@ -150,7 +150,7 @@ class UpNextSyncTask: ApiBaseTask {
         if localEpisodes.count == episodes.count {
             // if they are both 0, nothing to do
             if localEpisodes.count == 0 {
-                FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, nothing action required")
+                FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, no action required")
                 return
             }
 
@@ -161,7 +161,7 @@ class UpNextSyncTask: ApiBaseTask {
                 }
             }
             if allMatch {
-                FileLog.shared.addMessage("UpNextSyncTask: server copy matches our copy, nothing action required")
+                FileLog.shared.addMessage("UpNextSyncTask: server copy matches our copy, no action required")
                 return
             }
         }
