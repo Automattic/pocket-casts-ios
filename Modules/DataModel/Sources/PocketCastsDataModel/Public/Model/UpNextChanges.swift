@@ -10,4 +10,8 @@ public class UpNextChanges {
     public var uuid: String?
     public var uuids: String?
     public var utcTime: Int64 = 0
+
+    public var action: Actions? {
+        Actions(rawValue: type)
+    }
 }
