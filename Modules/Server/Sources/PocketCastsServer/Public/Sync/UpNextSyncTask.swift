@@ -50,15 +50,6 @@ class UpNextSyncTask: ApiBaseTask {
         var upNextChanges = Api_UpNextChanges()
         var latestActionTime: Int64 = 0
         var changes = [Api_UpNextChanges.Change]()
-        // replace action
-        if let replaceAction = DataManager.sharedManager.findReplaceAction() {
-            if replaceAction.utcTime > latestActionTime {
-                latestActionTime = replaceAction.utcTime
-            }
-            if let action = convertToProto(action: replaceAction) {
-                changes.append(action)
-            }
-        }
 
         FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(ServerSettings.syncReason?.rawValue ?? "None")")
 
