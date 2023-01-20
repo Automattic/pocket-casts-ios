@@ -133,12 +133,15 @@ class UpNextSyncTask: ApiBaseTask {
     }
 
     private func applyServerChanges(episodes: [Api_UpNextResponse.EpisodeResponse]) {
-        if upNextServerModified() == nil, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
+        // If we're syncing because the account is being newly created, then the server can return an empty array to us
+        // However, we want to make sure that our local copy of the queue is "the source of truth" so we'll ignore the
+        // response from the server and instead persist the local queue and send it to the server
+        let reason = ServerSettings.syncReason
+        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
+            FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync of a new account, saving that as the most current version and overwriting server copy")
+
             ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
-
-            FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync, saving that as the most current version and overwriting server copy")
-
             return
         }
 
