@@ -313,6 +313,23 @@ public class ServerSettings {
     }
 }
 
+// MARK: - Syncing Support
+public extension ServerSettings {
+    class var syncReason: ServerConstants.SyncingReason? {
+        get {
+            guard let value = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.syncReason) else {
+                return nil
+            }
+
+            return ServerConstants.SyncingReason(rawValue: value)
+        }
+
+        set {
+            UserDefaults.standard.set(newValue?.rawValue, forKey: ServerConstants.UserDefaults.syncReason)
+        }
+    }
+}
+
 // MARK: - Authentication Support
 
 public extension ServerSettings {

@@ -137,10 +137,18 @@ public enum ServerConstants {
         static let statsAutoSkipServer = "StatsIntroSkipServer"
         static let statsStartedDateServer = "StatsStartedDateServer"
         static let userId = "UserId"
+        static let syncReason = "SyncReasonKey"
     }
 
     public enum Limits {
         static let maxHistoryItems = 100
         static let maxEpisodesToSync = 2000
+    }
+
+
+    /// Defines a reason why a sync is being performed
+    public enum SyncingReason: String {
+        case accountCreated
+        case login
     }
 }
