@@ -232,7 +232,38 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
 
-        FileLog.shared.addMessage("UpNextSyncTask: Finishing adding remote episodes to the queue")
+        FileLog.shared.addMessage("UpNextSyncTask: All done adding remote episodes to the queue")
+
+        // Since we didn't send the queue changes in the request, we received the latest up next queue
+        // from the server and have applied all those changes to our local queue.
+        //
+        // We'll now apply a basic merge of our local episodes to make sure episodes aren't removed
+        // that were added locally but not sync'd.
+        //
+        // 🚨 THIS IS A NON-DESTRUCTIVE MERGE 🚨
+        // Meaning any episodes that exist on the server and locally will be kept.
+        //
+        // This can result in episodes being "added back" after logging in on a different device,
+        // however this is preferable to accidentally deleting data.
+        //
+        var didMerge = false
+
+        if reason == .login {
+            // Get all the locally added episodes, and add them to the uuids list to make sure they aren't
+            // removed unintentionally.
+            let localUUIDs = localEpisodes.compactMap { uuids.contains($0.uuid) ? nil : $0.uuid }
+
+            if localUUIDs.count != 0 {
+                FileLog.shared.addMessage("UpNextSyncTask: Merging \(localEpisodes.count) local episodes that were not in the remote server call")
+
+                uuids.append(contentsOf: localUUIDs)
+                didMerge = true
+            }
+        }
+
+        FileLog.shared.addMessage("UpNextSyncTask: The following \(uuids.count) episodes will be kept: \(uuids)")
+
+        // Remove any episodes that no longer need to be in the queue.
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
