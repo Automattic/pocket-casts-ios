@@ -265,6 +265,17 @@ class UpNextSyncTask: ApiBaseTask {
 
         // Remove any episodes that no longer need to be in the queue.
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
+
+        // Apply the new changes if needed.
+        if didMerge {
+            FileLog.shared.addMessage("UpNextSyncTask: Local and remote episode merge detected, saving updated queue to the server.")
+
+            // Now that we've finalized the merge between the remote and local changes. This will now be considered
+            // the source of truth, so persist the local queue and send it to the server to be saved
+            ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
+            return
+        }
+
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
