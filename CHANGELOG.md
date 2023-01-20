@@ -3,6 +3,7 @@
 - Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
 - Updated the import process in Settings (#641)
 - Fixed shownotes not always scrolling back to the beginning when new episode is loaded (#651)
+- Fixed an issue where logged out users were incorrectly prompted to sign in when starring episodes on the Now Playing screen (#653)
 
 7.30
 -----
