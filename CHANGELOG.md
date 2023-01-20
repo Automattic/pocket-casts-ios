@@ -3,10 +3,12 @@
 - Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
 - Updated the import process in Settings (#641)
 - Updated the Now Playing metadata to put podcast author in the Artist fields to fix Siri responses and Siri Suggestions (#48)
+- Fixed shownotes not always scrolling back to the beginning when new episode is loaded (#651)
 
 7.30
 -----
 - Display gravatar under Profile (#584)
+- Fixed some podcasts being excluded from the Apple Podcasts import (#640)
 
 7.29
 -----
