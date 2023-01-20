@@ -17,9 +17,9 @@ class PlaybackQueue: NSObject {
 
         FileLog.shared.addMessage("PlaybackQueue: removing \(episode.title ?? "Untitled") episode")
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
-        if SyncManager.isUserLoggedIn() {
+
+        saveQueueEdit {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: episode.uuid)
-            startSyncTimer()
         }
 
         refreshAppFiring(notificationName: fireNotification ? Constants.Notifications.upNextEpisodeRemoved : nil, notificationObject: episode.uuid)
@@ -30,9 +30,9 @@ class PlaybackQueue: NSObject {
 
         FileLog.shared.addMessage("PlaybackQueue: removing \(episodeToRemove.title) episode")
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
-        if SyncManager.isUserLoggedIn() {
+
+        saveQueueEdit {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: uuid)
-            startSyncTimer()
         }
 
         refreshAppFiring(notificationName: fireNotification ? Constants.Notifications.upNextEpisodeRemoved : nil, notificationObject: uuid)
@@ -59,14 +59,14 @@ class PlaybackQueue: NSObject {
             DataManager.sharedManager.save(playlistEpisode: newEpisode)
         }
 
-        if !partOfBulkAdd, SyncManager.isUserLoggedIn() {
-            if toTop {
-                DataManager.sharedManager.saveUpNextAddToTop(episodeUuid: episode.uuid)
-            } else {
-                DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
+        if !partOfBulkAdd {
+            saveQueueEdit {
+                if toTop {
+                    DataManager.sharedManager.saveUpNextAddToTop(episodeUuid: episode.uuid)
+                } else {
+                    DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
+                }
             }
-
-            startSyncTimer()
         }
 
         // don't update until this bulk operation is complete
@@ -143,9 +143,8 @@ class PlaybackQueue: NSObject {
             DataManager.sharedManager.movePlaylistEpisode(from: -1, to: 0)
         }
 
-        if SyncManager.isUserLoggedIn() {
+        saveQueueEdit {
             DataManager.sharedManager.saveUpNextAddNowPlaying(episodeUuid: episode.uuid)
-            startSyncTimer()
         }
 
         refreshAppFiring(notificationName: Constants.Notifications.upNextQueueChanged)
@@ -349,18 +348,16 @@ class PlaybackQueue: NSObject {
     }
 
     private func saveReplaceIfRequired() {
-        if !SyncManager.isUserLoggedIn() { return }
+        saveQueueEdit(action: {
+            var episodeUuids = [String]()
+            for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
+                episodeUuids.append(playlistEpisode.episodeUuid)
+            }
 
-        var episodeUuids = [String]()
-        for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
-            episodeUuids.append(playlistEpisode.episodeUuid)
-        }
+            FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
 
-        FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
-
-        DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
-
-        startSyncTimer()
+            DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
+        }, triggerSync: false)
     }
 
     // MARK: - Sync Timer
@@ -387,5 +384,17 @@ class PlaybackQueue: NSObject {
 
     @objc private func syncTimerFired() {
         RefreshManager.shared.syncUpNext()
+    }
+}
+
+private extension PlaybackQueue {
+    /// Performs the given action and will start a sync if needed
+    func saveQueueEdit(action: (() -> Void), triggerSync: Bool = true) {
+        action()
+
+        // Trigger a sync if the user is logged in
+        guard triggerSync, SyncManager.isUserLoggedIn() else { return }
+
+        startSyncTimer()
     }
 }
