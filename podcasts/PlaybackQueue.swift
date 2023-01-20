@@ -355,7 +355,7 @@ class PlaybackQueue: NSObject {
             }
 
             FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
-
+ 
             DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
         }, triggerSync: false)
     }

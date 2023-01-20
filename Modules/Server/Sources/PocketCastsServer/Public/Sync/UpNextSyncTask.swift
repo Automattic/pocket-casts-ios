@@ -140,27 +140,49 @@ class UpNextSyncTask: ApiBaseTask {
         if modifiedList.count > 0 {
             for (index, episodeInfo) in modifiedList.enumerated() {
                 uuids.append(episodeInfo.uuid)
+
+                // if the episode exists in the queue already
+                // move it to a new position if it's not already there
                 if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episodeInfo.uuid) {
+                    FileLog.shared.addMessage("UpNextSyncTask: Found episode \(episodeInfo.uuid) in the queue already at position \(existingEpisode.episodePosition)")
+
                     if existingEpisode.episodePosition != Int32(index) {
+                        FileLog.shared.addMessage("UpNextSyncTask: Moving existing episode \(episodeInfo.uuid) from \(existingEpisode.episodePosition) to \(index)")
                         existingEpisode.episodePosition = Int32(index)
                         DataManager.sharedManager.save(playlistEpisode: existingEpisode)
                     }
                 } else {
+                    FileLog.shared.addMessage("UpNextSyncTask: Incoming episode not found \(episodeInfo.uuid) in the devices queue.")
+
                     let newEpisode = PlaylistEpisode()
                     newEpisode.episodePosition = Int32(index)
                     newEpisode.episodeUuid = episodeInfo.uuid
+
+                    // The incoming episode from the server is not in the queue already.
+                    // The code below adds each missing episode to the queue using one of 3 checks:
+
+                    // 1. If the new episode exists in the local database already, then just add it to the queue
                     if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    } else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
+                    }
+                    // 2. If the episode is a custom episode..
+                    else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(episodeInfo.title) is a custom episode, adding to the queue")
                         // because a custom episode import task always runs before an Up Next sync, if we don't have this episode it's most likely local only on some other device
                         // handle this here by adding it to our Up Next
                         newEpisode.podcastUuid = DataConstants.userEpisodeFakePodcastId
                         newEpisode.title = episodeInfo.title
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    } else {
+                    }
+                    // 3. The episode is not in the local database, and is not custom so it will attempt to retrieve the episode from
+                    // the server. And will only add the episode if that succeeds.
+                    else {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(episodeInfo.title) is not in the local DB, fetching from the server...")
+
                         // we don't have this episode locally, so try and find it and add it to our database
                         // if we can't find it, don't add it to Up Next, since we can't support episodes that don't have parent podcasts
                         let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date)
@@ -168,9 +190,13 @@ class UpNextSyncTask: ApiBaseTask {
                         dispatchGroup.enter()
                         ServerPodcastManager.shared.addPodcastFromUpNextItem(upNextItem) { added in
                             if added {
+                                FileLog.shared.addMessage("UpNextSyncTask [EpisodeServerFetch]: Episode (UUID: \(episodeInfo.uuid) - Title: \(episodeInfo.title)) found! Adding to the queue.")
+
                                 newEpisode.podcastUuid = episodeInfo.podcast
                                 newEpisode.title = episodeInfo.title
                                 DataManager.sharedManager.save(playlistEpisode: newEpisode)
+                            } else {
+                                FileLog.shared.addMessage("UpNextSyncTask [EpisodeServerFetch]: Episode (UUID: \(episodeInfo.uuid) - Title: \(episodeInfo.title)) NOT FOUND. It will not be added to the queue")
                             }
 
                             dispatchGroup.leave()
@@ -181,6 +207,7 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
 
+        FileLog.shared.addMessage("UpNextSyncTask: Finishing adding remote episodes to the queue")
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
