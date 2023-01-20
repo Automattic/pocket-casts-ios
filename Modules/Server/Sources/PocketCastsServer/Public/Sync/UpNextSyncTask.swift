@@ -60,24 +60,55 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
 
-        // all other add/remove actions
-        let actions = DataManager.sharedManager.findUpdateActions()
-        if actions.count > 0 {
-            for action in actions {
-                if action.utcTime > latestActionTime {
-                    latestActionTime = action.utcTime
+        FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(ServerSettings.syncReason?.rawValue ?? "None")")
+
+        // The way the server up next syncing works is we first send over all the changes
+        // we have locally. It will then attempt to apply those changes to the up next queue
+        // that is stored in the database.
+
+        // Once it's done it will then save the updated queue to the DB, and send it back to us
+        // If there are changes to the queue, they are applied using the logic in: `applyServerChanges`
+        //
+        // During account creation, or a normal sync this works fine because REASONS?
+        //
+        // However if the user is logging into an existing account and has local changes that are not fully up to
+        // sync with the latest server changes (Ie: a user who is installing the app on another device), then sending
+        // the devices changes could result in the remote data being replaced unintentionally.
+        //
+        // Instead, during a login we don't send the changes to the server which will return the latest up next queue
+        // to us, and we will attempt to merge the changes in the `applyServerChanges` call below
+        //
+        if ServerSettings.syncReason != .login {
+            // replace action
+            if let replaceAction = DataManager.sharedManager.findReplaceAction() {
+                if replaceAction.utcTime > latestActionTime {
+                    latestActionTime = replaceAction.utcTime
                 }
-                if let protoAction = convertToProto(action: action) {
-                    changes.append(protoAction)
+                if let action = convertToProto(action: replaceAction) {
+                    changes.append(action)
                 }
             }
-        }
-        upNextChanges.changes = changes
 
-        if let modified = upNextServerModified() {
-            upNextChanges.serverModified = modified
+            // all other add/remove actions
+            let actions = DataManager.sharedManager.findUpdateActions()
+            if actions.count > 0 {
+                for action in actions {
+                    if action.utcTime > latestActionTime {
+                        latestActionTime = action.utcTime
+                    }
+                    if let protoAction = convertToProto(action: action) {
+                        changes.append(protoAction)
+                    }
+                }
+            }
+
+            upNextChanges.changes = changes
+
+            if let modified = upNextServerModified() {
+                upNextChanges.serverModified = modified
+            }
+            syncRequest.upNext = upNextChanges
         }
-        syncRequest.upNext = upNextChanges
 
         FileLog.shared.addMessage("UpNextSyncTask: Syncing Up Next, sending \(changes.count) changes, modified time \(upNextChanges.serverModified)")
         return (syncRequest, latestActionTime)
