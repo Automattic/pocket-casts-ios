@@ -2,6 +2,7 @@
 -----
 - Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
 - Updated the import process in Settings (#641)
+- Fixed an issue where the up next queue could be cleared or replaced (#661)
 
 7.30
 -----
