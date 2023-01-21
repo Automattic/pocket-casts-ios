@@ -53,22 +53,17 @@ class UpNextSyncTask: ApiBaseTask {
 
         FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(ServerSettings.syncReason?.rawValue ?? "None")")
 
-        // The way the server up next syncing works is we first send over all the changes
-        // we have locally. It will then attempt to apply those changes to the up next queue
-        // that is stored in the database.
-
-        // Once it's done it will then save the updated queue to the DB, and send it back to us
-        // If there are changes to the queue, they are applied using the logic in: `applyServerChanges`
+        // The process for syncing the up next queue involves sending all local changes to the server, which then attempts
+        // to apply those changes to the stored queue in the database. Once complete, the modified queue is saved in the
+        // database and sent back to us. The changes are then applied to the local queue by the "applyServerChanges" logic.
         //
-        // During account creation, or a normal sync this works fine because REASONS?
+        // This works well when each device keeps up to date and tracks its own changes to the queue, but can be problematic if a user
+        // signs into an existing account using a device whose queue is completely different from what is stored on the server,
+        // such as a user who installs the app, adds items to their queue, and then signs into an existing account. This
+        // can result in the queue being completely replaced by the new devices changes.
         //
-        // However if the user is logging into an existing account and has local changes that are not fully up to
-        // sync with the latest server changes (Ie: a user who is installing the app on another device), then sending
-        // the devices changes could result in the remote data being replaced unintentionally.
-        //
-        // Instead, during a login we don't send the changes to the server which will return the latest up next queue
-        // to us, and we will attempt to merge the changes in the `applyServerChanges` call below
-        //
+        // To prevent this, during a login we no longer send any local changes to the server, instead we pull the latest sync'd
+        // up next queue and attempt to merge the changes later in the "applyServerChanges" call.
         if ServerSettings.syncReason != .login {
             // replace action
             if let replaceAction = DataManager.sharedManager.findReplaceAction() {
