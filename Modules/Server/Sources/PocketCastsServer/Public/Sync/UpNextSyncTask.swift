@@ -273,7 +273,6 @@ class UpNextSyncTask: ApiBaseTask {
             // Now that we've finalized the merge between the remote and local changes. This will now be considered
             // the source of truth, so persist the local queue and send it to the server to be saved
             ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
-            return
         }
 
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
