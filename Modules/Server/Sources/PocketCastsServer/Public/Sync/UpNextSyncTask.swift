@@ -119,9 +119,9 @@ class UpNextSyncTask: ApiBaseTask {
     }
 
     private func applyServerChanges(episodes: [Api_UpNextResponse.EpisodeResponse]) {
-        // If we're syncing because the account is being newly created, then the server can return an empty array to us
-        // However, we want to make sure that our local copy of the queue is "the source of truth" so we'll ignore the
-        // response from the server and instead persist the local queue and send it to the server
+        // When a new account is being created, the server creates an empty up next queue in the database and sends that to us.
+        // To ensure that the device's local copy of the queue is maintained, we stop further processing and instead
+        // save our local copy and then send it back to the server.
         let reason = ServerSettings.syncReason
         if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
@@ -229,14 +229,12 @@ class UpNextSyncTask: ApiBaseTask {
 
         FileLog.shared.addMessage("UpNextSyncTask: All done adding remote episodes to the queue")
 
-        // Since we didn't send the queue changes in the request, we received the latest up next queue
-        // from the server and have applied all those changes to our local queue.
-        //
-        // We'll now apply a basic merge of our local episodes to make sure episodes aren't removed
-        // that were added locally but not sync'd.
+        // Add any episodes from the local queue that were not included in the server's queue to
+        // "keep" list to make sure they are not removed.
         //
         // 🚨 THIS IS A NON-DESTRUCTIVE MERGE 🚨
-        // Meaning any episodes that exist on the server and locally will be kept.
+        // Meaning any episodes that exist on the server and locally will be kept regardless of if they were removed from
+        // the another device or not.
         //
         // This can result in episodes being "added back" after logging in on a different device,
         // however this is preferable to accidentally deleting data.
