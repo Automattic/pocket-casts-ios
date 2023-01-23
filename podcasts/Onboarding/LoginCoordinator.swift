@@ -1,5 +1,4 @@
 import Foundation
-import AuthenticationServices
 import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
@@ -9,7 +8,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
-    let googleSocialLogin = GoogleSocialLogin()
+    private var socialLogin: SocialLogin?
 
     private var progressAlert: ShiftyLoadingAlert?
 
@@ -46,10 +45,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func didAppear() {
         OnboardingFlow.shared.track(.setupAccountShown)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -95,28 +90,19 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
 // MARK: - Social Buttons
 extension LoginCoordinator {
-    func signInWithAppleTapped() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
-
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
-    }
-
     @MainActor
-    func signInWithGoogleTapped() {
+    func signIn(with provider: SocialAuthProvider) {
         guard let navigationController else {
             return
         }
+
+        socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
 
         Task {
             progressAlert = SyncLoadingAlert()
             do {
                 // First get token
-                try await self.googleSocialLogin.getToken(from: navigationController)
+                try await self.socialLogin?.getToken()
 
                 // If token is returned, perform login on our servers
                 await withUnsafeContinuation { continuation in
@@ -124,8 +110,11 @@ extension LoginCoordinator {
                         continuation.resume()
                     }
                 }
-                let response = try await self.googleSocialLogin.login()
-                newAccountCreated = response.isNewAccount ?? false
+
+                let response = try await self.socialLogin?.login()
+                newAccountCreated = response?.isNewAccount ?? false
+
+                listenToSync()
             } catch {
                 progressAlert?.hideAlert(false) {
                     self.showError(error)
@@ -136,6 +125,12 @@ extension LoginCoordinator {
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    private func listenToSync() {
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
+    }
+
     @objc private func syncCompleted() {
          DispatchQueue.main.async {
              self.progressAlert?.hideAlert(false)
@@ -176,6 +171,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func showError(_ error: Error) {
+        guard (error as? SocialLoginError) != .canceled else {
+            return
+        }
+
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
@@ -203,56 +202,5 @@ extension LoginCoordinator {
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
-    }
-}
-
-// MARK: - Sign In With Apple
-
-extension LoginCoordinator: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = navigationController?.view.window else { return UIApplication.shared.windows.first! }
-        return window
-    }
-}
-
-extension LoginCoordinator: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            DispatchQueue.main.async {
-                self.handleAppleIDCredential(appleIDCredential)
-            }
-        default:
-            break
-        }
-    }
-
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        showError(error)
-    }
-
-    @MainActor
-    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
-        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-        progressAlert.showAlert(navigationController!, hasProgress: false, completion: {
-            Task {
-                var success = false
-                do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential: appleIDCredential)
-                    success = true
-                } catch {
-                    DispatchQueue.main.async {
-                        self.showError(error)
-                    }
-                }
-
-                DispatchQueue.main.async {
-                    progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
-                    }
-                }
-            }
-        })
     }
 }

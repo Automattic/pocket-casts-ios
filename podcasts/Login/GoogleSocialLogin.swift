@@ -6,11 +6,17 @@ enum GoogleSocialLoginError: Error {
     case emptyIdToken
 }
 
-class GoogleSocialLogin {
+class GoogleSocialLogin: SocialLogin {
+    private weak var viewController: UIViewController?
+
     private var idToken = ""
 
-    func getToken(from viewController: UIViewController) async throws {
-        idToken = try await idToken(from: viewController)
+    required init(viewController: UIViewController) {
+        self.viewController = viewController
+    }
+
+    func getToken() async throws {
+        idToken = try await idToken(from: viewController!)
     }
 
     func login() async throws -> AuthenticationResponse {
@@ -27,6 +33,12 @@ class GoogleSocialLogin {
 
             GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { signInResult, error in
                 if let error {
+
+                    if let err = error as? GIDSignInError, err.code == .canceled {
+                        continuation.resume(throwing: SocialLoginError.canceled)
+                        return
+                    }
+
                     continuation.resume(throwing: error)
                     return
                 }

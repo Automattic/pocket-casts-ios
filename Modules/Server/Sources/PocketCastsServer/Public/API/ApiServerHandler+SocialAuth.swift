@@ -95,7 +95,7 @@ public extension ApiServerHandler {
     }
 }
 
-public enum SocialAuthProvider {
+public enum SocialAuthProvider: CaseIterable {
     case apple
     case google
 
