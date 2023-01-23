@@ -62,7 +62,11 @@ private extension SonosLinkController {
     }
 
     func signIntoPocketCasts() {
-        navigationController?.pushViewController(SonosLoginIntroViewController(), animated: true)
+        let loginViewController = LoginCoordinator.make(in: navigationController, signingProcessCompletedCallback: { [weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
+        })
+
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
 
     func connectWithSonos() {
