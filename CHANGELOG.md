@@ -5,6 +5,7 @@
 - Updated the Now Playing metadata to put podcast author in the Artist fields to fix Siri responses and Siri Suggestions (#48)
 - Fixed shownotes not always scrolling back to the beginning when new episode is loaded (#651)
 - Fixed an issue where logged out users were incorrectly prompted to sign in when starring episodes on the Now Playing screen (#653)
+- Fixed an issue where playback speed was incorrectly set to 1x when using the "Play my podcasts" Siri intent (#41)
 
 7.30
 -----
