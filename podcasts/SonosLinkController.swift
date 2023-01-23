@@ -100,27 +100,3 @@ private extension SonosLinkController {
         }
     }
 }
-
-
-/// This is a small subclass of the ProfileIntroViewController to allow overriding a few features to allow it to work with the Sonos login.
-private class SonosLoginIntroViewController: ProfileIntroViewController {
-    /// Reuse the super class xib
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "ProfileIntroViewController", bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationItem.leftBarButtonItem = nil
-        navigationItem.hidesBackButton = false
-    }
-
-    override func signingProcessCompleted() {
-        navigationController?.popToRootViewController(animated: true)
-    }
-}
