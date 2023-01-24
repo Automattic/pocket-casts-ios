@@ -126,9 +126,7 @@ class PlaybackQueue: NSObject {
 
     func persistLocalCopyAsReplace() {
         saveReplaceIfRequired()
-
-        // Persist the copy on the server immediately.
-        RefreshManager.shared.syncUpNext()
+        startSyncTimer()
     }
 
     func pushNewCurrentlyPlaying(episode: BaseEpisode) {
