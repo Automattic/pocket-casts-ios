@@ -13,8 +13,8 @@ class AuthenticationHelper {
         if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
-        else if FeatureFlag.signInWithApple.enabled, let token = ServerSettings.refreshToken, let userID = ServerSettings.appleAuthUserID {
-            return try await validateLogin(identityToken: token, userID: userID).token
+        else if let token = ServerSettings.refreshToken {
+            return try await validateLogin(identityToken: token).token
         }
 
         return nil
@@ -39,19 +39,18 @@ class AuthenticationHelper {
 
     // MARK: Apple SSO
 
-    static func validateLogin(identityToken: String, userID: String)  async throws -> AuthenticationResponse {
+    static func validateLogin(identityToken: String)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
-        handleSuccessfulSignIn(response, .ssoApple)
+        handleSuccessfulSignIn(response, .sso)
 
-        ServerSettings.refreshToken = identityToken
-        ServerSettings.appleAuthUserID = userID
+        ServerSettings.refreshToken = response.refreshToken
 
         return response
     }
 
     static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
-        handleSuccessfulSignIn(response, .ssoApple)
+        handleSuccessfulSignIn(response, .sso)
 
         return response
     }
@@ -84,55 +83,10 @@ class AuthenticationHelper {
     }
 }
 
-// MARK: - Only available to the main app, not the watch app
-#if !os(watchOS)
-extension AuthenticationHelper {
-    static func validateLogin(appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
-        guard let identityToken = appleIDCredential.identityToken,
-              let token = String(data: identityToken, encoding: .utf8)
-        else {
-            FileLog.shared.addMessage("Unable to parse Apple SSO token")
-            throw APIError.UNKNOWN
-        }
-
-        try await validateLogin(identityToken: token, userID: appleIDCredential.user)
-    }
-
-    static func validateAppleSSOCredentials() {
-        guard ServerSettings.appleAuthUserID != nil else {
-            // No need to Check if we don't have a user ID
-            return
-        }
-        Task {
-            let state = try await ApiServerHandler.shared.ssoCredentialState()
-            FileLog.shared.addMessage("Validated Apple SSO token state: \(state.loggingValue)")
-            switch state {
-            case .revoked, .transferred:
-                handleSSOTokenRevoked()
-            default:
-                break
-            }
-        }
-    }
-
-    static func observeAppleSSOEvents() {
-        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
-            handleSSOTokenRevoked()
-        }
-    }
-
-    private static func handleSSOTokenRevoked() {
-        FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
-        SyncManager.signout()
-        Settings.setLoginDetailsUpdated()
-    }
-}
-#endif
-
 // MARK: - Enums
 enum AuthenticationSource: String, AnalyticsDescribable {
     case password = "password"
-    case ssoApple = "sso_apple"
+    case sso = "sso"
 
     var analyticsDescription: String { rawValue }
 }

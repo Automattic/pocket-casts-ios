@@ -334,9 +334,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         if let password = ServerSettings.syncingPassword() {
             response[WatchConstants.Messages.LoginDetailsResponse.password] = password
         }
-        else if let authToken = ServerSettings.refreshToken, let appleUserId = ServerSettings.appleAuthUserID {
-            response[WatchConstants.Messages.LoginDetailsResponse.appleAuthToken] = authToken
-            response[WatchConstants.Messages.LoginDetailsResponse.appleAuthUserID] = appleUserId
+        else if let refreshToken = ServerSettings.refreshToken {
+            response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] = refreshToken
         }
 
         Settings.clearLoginDetailsUpdated()

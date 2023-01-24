@@ -105,13 +105,11 @@ class WatchSyncManager {
             SessionManager.shared.requestLoginDetails(replyHandler: { response in
                 let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
                 let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
-                let appleAuthToken = response[WatchConstants.Messages.LoginDetailsResponse.appleAuthToken] as? String
-                let appleUserId = response[WatchConstants.Messages.LoginDetailsResponse.appleAuthUserID] as? String
+                let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
 
                 ServerSettings.setSyncingEmail(email: username)
                 ServerSettings.saveSyncingPassword(password)
-                ServerSettings.refreshToken = appleAuthToken
-                ServerSettings.appleAuthUserID = appleUserId
+                ServerSettings.refreshToken = refreshToken
 
                 if !username.isEmpty {
                     self.login()
@@ -173,13 +171,11 @@ class WatchSyncManager {
         SessionManager.shared.requestLoginDetails(replyHandler: { response in
             let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
             let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
-            let appleAuthToken = response[WatchConstants.Messages.LoginDetailsResponse.appleAuthToken] as? String
-            let appleUserId = response[WatchConstants.Messages.LoginDetailsResponse.appleAuthUserID] as? String
+            let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
 
             ServerSettings.setSyncingEmail(email: username)
             ServerSettings.saveSyncingPassword(password)
-            ServerSettings.refreshToken = appleAuthToken
-            ServerSettings.appleAuthUserID = appleUserId
+            ServerSettings.refreshToken = refreshToken
 
             if SyncManager.isUserLoggedIn(), username.isEmpty {
                 FileLog.shared.addMessage("Logging out as phone has logged out ")

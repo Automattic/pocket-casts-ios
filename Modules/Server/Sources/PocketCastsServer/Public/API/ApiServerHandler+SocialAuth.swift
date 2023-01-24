@@ -40,7 +40,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     func validateLogin(identityToken: String, provider: SocialAuthProvider) async throws -> AuthenticationResponse {
@@ -50,7 +50,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     func refreshIdentityToken() async throws -> AuthenticationResponse {
@@ -62,7 +62,7 @@ public extension ApiServerHandler {
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
@@ -76,8 +76,7 @@ public extension ApiServerHandler {
         data.refreshToken = identityToken
         data.grantType = "refresh_token"
 
-        var request = ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
-        return request
+        return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
 
     }
 
@@ -108,33 +107,3 @@ public enum SocialAuthProvider: CaseIterable {
         }
     }
 }
-
-// MARK: - Only available to the main app, not the watch app
-#if !os(watchOS)
-extension ApiServerHandler {
-    public func ssoCredentialState() async throws -> ASAuthorizationAppleIDProvider.CredentialState {
-        guard let userID = ServerSettings.appleAuthUserID else { return .notFound }
-        return try await ASAuthorizationAppleIDProvider().credentialState(forUserID: userID)
-    }
-
-    private func hasValidSSOToken() async throws -> Bool {
-        let tokenState = try await ssoCredentialState()
-        FileLog.shared.addMessage("Validated Apple SSO token state: \(tokenState.loggingValue)")
-
-        switch tokenState {
-        case .authorized:
-            return true
-        default:
-            FileLog.shared.addMessage("Apple SSO token has been revoked")
-            return false
-        }
-    }
-}
-#else
-
-extension ApiServerHandler {
-    private func hasValidSSOToken() async throws -> Bool {
-        return true
-    }
-}
-#endif
