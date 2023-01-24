@@ -51,7 +51,7 @@ class UpNextSyncTask: ApiBaseTask {
         var latestActionTime: Int64 = 0
         var changes = [Api_UpNextChanges.Change]()
 
-        FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(ServerSettings.syncReason?.rawValue ?? "None")")
+        FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(SyncManager.syncReason?.rawValue ?? "None")")
 
         // The process for syncing the up next queue involves sending all local changes to the server, which then attempts
         // to apply those changes to the stored queue in the database. Once complete, the modified queue is saved in the
@@ -64,7 +64,7 @@ class UpNextSyncTask: ApiBaseTask {
         //
         // To prevent this, during a login we no longer send any local changes to the server, instead we pull the latest sync'd
         // up next queue and attempt to merge the changes later in the "applyServerChanges" call.
-        if ServerSettings.syncReason != .login {
+        if SyncManager.syncReason != .login {
             // replace action
             if let replaceAction = DataManager.sharedManager.findReplaceAction() {
                 if replaceAction.utcTime > latestActionTime {
@@ -122,7 +122,7 @@ class UpNextSyncTask: ApiBaseTask {
         // When a new account is being created, the server creates an empty up next queue in the database and sends that to us.
         // To ensure that the device's local copy of the queue is maintained, we stop further processing and instead
         // save our local copy and then send it back to the server.
-        let reason = ServerSettings.syncReason
+        let reason = SyncManager.syncReason
         if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
             FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync of a new account, saving that as the most current version and overwriting server copy")

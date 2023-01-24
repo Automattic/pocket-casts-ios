@@ -313,11 +313,6 @@ public class ServerSettings {
     }
 }
 
-// MARK: - Syncing Support
-public extension ServerSettings {
-    static var syncReason: ServerConstants.SyncingReason? = nil
-}
-
 // MARK: - Authentication Support
 
 public extension ServerSettings {

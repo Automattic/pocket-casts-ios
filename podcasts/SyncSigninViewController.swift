@@ -334,7 +334,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
 
-        ServerSettings.syncReason = .login
+        SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
 

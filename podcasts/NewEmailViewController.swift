@@ -197,7 +197,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
                 FileLog.shared.addMessage("Registered new account for \(username)")
                 self.saveUsernameAndPassword(username, password: password, userId: userId)
 
-                ServerSettings.syncReason = .accountCreated
+                SyncManager.syncReason = .accountCreated
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
 
                 Settings.setLoginDetailsUpdated()
