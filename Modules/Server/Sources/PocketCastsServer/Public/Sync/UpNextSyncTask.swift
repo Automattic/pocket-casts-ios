@@ -120,7 +120,7 @@ class UpNextSyncTask: ApiBaseTask {
 
     private func applyServerChanges(episodes: [Api_UpNextResponse.EpisodeResponse]) {
         // When a new account is being created, the server creates an empty up next queue in the database and sends that to us.
-        // To ensure that the device's local copy of the queue is maintained, we stop further processing and instead
+        // To ensure that the device's local copy of the queue is maintained, we ignore the incoming remote data and instead
         // save our local copy and then send it back to the server.
         let reason = SyncManager.syncReason
         if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
