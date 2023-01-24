@@ -66,7 +66,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        guard FeatureFlag.onboardingUpdates.enabled, Settings.shouldShowInitialOnboardingFlow else { return }
+        // Show if the user is not logged in and has never seen the prompt before
+        if SyncManager.isUserLoggedIn() || (Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true) {
+            return
+        }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 

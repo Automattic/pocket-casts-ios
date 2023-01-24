@@ -770,6 +770,12 @@ class Settings: NSObject {
         }
     }
 
+    static var hasSeenInitialOnboardingBefore: Bool {
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldShowInitialOnboardingFlow) != nil
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
