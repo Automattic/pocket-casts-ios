@@ -56,6 +56,7 @@ class AuthenticationHelper {
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
 
+        SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: response.email)
 
