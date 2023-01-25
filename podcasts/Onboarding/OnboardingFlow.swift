@@ -3,7 +3,7 @@ import Foundation
 struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
-    private var currentFlow: Flow = .none
+    private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
