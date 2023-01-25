@@ -12,8 +12,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     private var progressAlert: ShiftyLoadingAlert?
 
-    private var signingProcessCompletedCallback: (() -> Void)?
-
     /// Used to determine which screen after login to show to the user
     private var newAccountCreated = false
 
@@ -145,12 +143,6 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
-        if let signingProcessCompletedCallback {
-            signingProcessCompletedCallback()
-            return
-        }
-
-        let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
 
         if shouldDismiss {
             navigationController?.dismiss(animated: true) {
@@ -188,10 +180,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, fromUpgrade: Bool = false, signingProcessCompletedCallback: (() -> Void)? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, fromUpgrade: Bool = false) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.presentedFromUpgrade = fromUpgrade
-        coordinator.signingProcessCompletedCallback = signingProcessCompletedCallback
 
         let view = LoginLandingView(coordinator: coordinator)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
