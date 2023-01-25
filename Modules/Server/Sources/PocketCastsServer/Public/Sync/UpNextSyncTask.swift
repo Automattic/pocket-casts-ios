@@ -50,34 +50,51 @@ class UpNextSyncTask: ApiBaseTask {
         var upNextChanges = Api_UpNextChanges()
         var latestActionTime: Int64 = 0
         var changes = [Api_UpNextChanges.Change]()
-        // replace action
-        if let replaceAction = DataManager.sharedManager.findReplaceAction() {
-            if replaceAction.utcTime > latestActionTime {
-                latestActionTime = replaceAction.utcTime
-            }
-            if let action = convertToProto(action: replaceAction) {
-                changes.append(action)
-            }
-        }
 
-        // all other add/remove actions
-        let actions = DataManager.sharedManager.findUpdateActions()
-        if actions.count > 0 {
-            for action in actions {
-                if action.utcTime > latestActionTime {
-                    latestActionTime = action.utcTime
+        FileLog.shared.addMessage("UpNextSyncTask [createUpNextSyncRequest]: Sync Reason? \(SyncManager.syncReason?.rawValue ?? "None")")
+
+        // The process for syncing the up next queue involves sending all local changes to the server, which then attempts
+        // to apply those changes to the stored queue in the database. Once complete, the modified queue is saved in the
+        // database and sent back to us. The changes are then applied to the local queue by the "applyServerChanges" logic.
+        //
+        // This works well when each device keeps up to date and tracks its own changes to the queue, but can be problematic if a user
+        // signs into an existing account using a device whose queue is completely different from what is stored on the server,
+        // such as a user who installs the app, adds items to their queue, and then signs into an existing account. This
+        // can result in the queue being completely replaced by the new devices changes.
+        //
+        // To prevent this, during a login we no longer send any local changes to the server, instead we pull the latest sync'd
+        // up next queue and attempt to merge the changes later in the "applyServerChanges" call.
+        if SyncManager.syncReason != .login {
+            // replace action
+            if let replaceAction = DataManager.sharedManager.findReplaceAction() {
+                if replaceAction.utcTime > latestActionTime {
+                    latestActionTime = replaceAction.utcTime
                 }
-                if let protoAction = convertToProto(action: action) {
-                    changes.append(protoAction)
+                if let action = convertToProto(action: replaceAction) {
+                    changes.append(action)
                 }
             }
-        }
-        upNextChanges.changes = changes
 
-        if let modified = upNextServerModified() {
-            upNextChanges.serverModified = modified
+            // all other add/remove actions
+            let actions = DataManager.sharedManager.findUpdateActions()
+            if actions.count > 0 {
+                for action in actions {
+                    if action.utcTime > latestActionTime {
+                        latestActionTime = action.utcTime
+                    }
+                    if let protoAction = convertToProto(action: action) {
+                        changes.append(protoAction)
+                    }
+                }
+            }
+
+            upNextChanges.changes = changes
+
+            if let modified = upNextServerModified() {
+                upNextChanges.serverModified = modified
+            }
+            syncRequest.upNext = upNextChanges
         }
-        syncRequest.upNext = upNextChanges
 
         FileLog.shared.addMessage("UpNextSyncTask: Syncing Up Next, sending \(changes.count) changes, modified time \(upNextChanges.serverModified)")
         return (syncRequest, latestActionTime)
@@ -102,12 +119,15 @@ class UpNextSyncTask: ApiBaseTask {
     }
 
     private func applyServerChanges(episodes: [Api_UpNextResponse.EpisodeResponse]) {
-        if upNextServerModified() == nil, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
+        // When a new account is being created, the server creates an empty up next queue in the database and sends that to us.
+        // To ensure that the device's local copy of the queue is maintained, we ignore the incoming remote data and instead
+        // save our local copy and then send it back to the server.
+        let reason = SyncManager.syncReason
+        if reason == .accountCreated, ServerConfig.shared.playbackDelegate?.currentEpisode() != nil {
             // if this is our first sync (eg: no server modified stored), treat our local copy as the one that should be used. This avoids issues with users getting their Up Next list wiped by the server copy
+            FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync of a new account, saving that as the most current version and overwriting server copy")
+
             ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
-
-            FileLog.shared.addMessage("UpNextSyncTask: We have a local Up Next list during first sync, saving that as the most current version and overwriting server copy")
-
             return
         }
 
@@ -116,7 +136,7 @@ class UpNextSyncTask: ApiBaseTask {
         if localEpisodes.count == episodes.count {
             // if they are both 0, nothing to do
             if localEpisodes.count == 0 {
-                FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, nothing action required")
+                FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, no action required")
                 return
             }
 
@@ -127,7 +147,7 @@ class UpNextSyncTask: ApiBaseTask {
                 }
             }
             if allMatch {
-                FileLog.shared.addMessage("UpNextSyncTask: server copy matches our copy, nothing action required")
+                FileLog.shared.addMessage("UpNextSyncTask: server copy matches our copy, no action required")
                 return
             }
         }
@@ -140,27 +160,49 @@ class UpNextSyncTask: ApiBaseTask {
         if modifiedList.count > 0 {
             for (index, episodeInfo) in modifiedList.enumerated() {
                 uuids.append(episodeInfo.uuid)
+
+                // if the episode exists in the queue already
+                // move it to a new position if it's not already there
                 if let existingEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episodeInfo.uuid) {
+                    FileLog.shared.addMessage("UpNextSyncTask: Found episode \(episodeInfo.uuid) in the queue already at position \(existingEpisode.episodePosition)")
+
                     if existingEpisode.episodePosition != Int32(index) {
+                        FileLog.shared.addMessage("UpNextSyncTask: Moving existing episode \(episodeInfo.uuid) from \(existingEpisode.episodePosition) to \(index)")
                         existingEpisode.episodePosition = Int32(index)
                         DataManager.sharedManager.save(playlistEpisode: existingEpisode)
                     }
                 } else {
+                    FileLog.shared.addMessage("UpNextSyncTask: Incoming episode not found \(episodeInfo.uuid) in the devices queue.")
+
                     let newEpisode = PlaylistEpisode()
                     newEpisode.episodePosition = Int32(index)
                     newEpisode.episodeUuid = episodeInfo.uuid
+
+                    // The incoming episode from the server is not in the queue already.
+                    // The code below adds each missing episode to the queue using one of 3 checks:
+
+                    // 1. If the new episode exists in the local database already, then just add it to the queue
                     if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
                         newEpisode.title = localEpisode.displayableTitle()
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    } else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
+                    }
+                    // 2. If the episode is a custom episode..
+                    else if episodeInfo.podcast == DataConstants.userEpisodeFakePodcastId {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(episodeInfo.title) is a custom episode, adding to the queue")
                         // because a custom episode import task always runs before an Up Next sync, if we don't have this episode it's most likely local only on some other device
                         // handle this here by adding it to our Up Next
                         newEpisode.podcastUuid = DataConstants.userEpisodeFakePodcastId
                         newEpisode.title = episodeInfo.title
                         DataManager.sharedManager.save(playlistEpisode: newEpisode)
-                    } else {
+                    }
+                    // 3. The episode is not in the local database, and is not custom so it will attempt to retrieve the episode from
+                    // the server. And will only add the episode if that succeeds.
+                    else {
+                        FileLog.shared.addMessage("UpNextSyncTask: Episode \(episodeInfo.title) is not in the local DB, fetching from the server...")
+
                         // we don't have this episode locally, so try and find it and add it to our database
                         // if we can't find it, don't add it to Up Next, since we can't support episodes that don't have parent podcasts
                         let upNextItem = UpNextItem(podcastUuid: episodeInfo.podcast, episodeUuid: episodeInfo.uuid, title: episodeInfo.title, url: episodeInfo.url, published: episodeInfo.published.date)
@@ -168,9 +210,13 @@ class UpNextSyncTask: ApiBaseTask {
                         dispatchGroup.enter()
                         ServerPodcastManager.shared.addPodcastFromUpNextItem(upNextItem) { added in
                             if added {
+                                FileLog.shared.addMessage("UpNextSyncTask [EpisodeServerFetch]: Episode (UUID: \(episodeInfo.uuid) - Title: \(episodeInfo.title)) found! Adding to the queue.")
+
                                 newEpisode.podcastUuid = episodeInfo.podcast
                                 newEpisode.title = episodeInfo.title
                                 DataManager.sharedManager.save(playlistEpisode: newEpisode)
+                            } else {
+                                FileLog.shared.addMessage("UpNextSyncTask [EpisodeServerFetch]: Episode (UUID: \(episodeInfo.uuid) - Title: \(episodeInfo.title)) NOT FOUND. It will not be added to the queue")
                             }
 
                             dispatchGroup.leave()
@@ -181,7 +227,47 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
 
+        FileLog.shared.addMessage("UpNextSyncTask: All done adding remote episodes to the queue")
+
+        // Add any episodes from the local queue that were not included in the server's queue to
+        // "keep" list to make sure they are not removed.
+        //
+        // 🚨 THIS IS A NON-DESTRUCTIVE MERGE 🚨
+        // Meaning any episodes that exist on the server and locally will be kept regardless of if they were removed from
+        // the another device or not.
+        //
+        // This can result in episodes being "added back" after logging in on a different device,
+        // however this is preferable to accidentally deleting data.
+        //
+        var didMerge = false
+
+        if reason == .login {
+            // Get all the locally added episodes, and add them to the uuids list to make sure they aren't
+            // removed unintentionally.
+            let localUUIDs = localEpisodes.compactMap { uuids.contains($0.uuid) ? nil : $0.uuid }
+
+            if localUUIDs.count != 0 {
+                FileLog.shared.addMessage("UpNextSyncTask: Merging \(localEpisodes.count) local episodes that were not in the remote server call")
+
+                uuids.append(contentsOf: localUUIDs)
+                didMerge = true
+            }
+        }
+
+        FileLog.shared.addMessage("UpNextSyncTask: The following \(uuids.count) episodes will be kept: \(uuids)")
+
+        // Remove any episodes that no longer need to be in the queue.
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
+
+        // Apply the new changes if needed.
+        if didMerge {
+            FileLog.shared.addMessage("UpNextSyncTask: Local and remote episode merge detected, saving updated queue to the server.")
+
+            // Now that we've finalized the merge between the remote and local changes. This will now be considered
+            // the source of truth, so persist the local queue and send it to the server to be saved
+            ServerConfig.shared.playbackDelegate?.queuePersistLocalCopyAsReplace()
+        }
+
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
