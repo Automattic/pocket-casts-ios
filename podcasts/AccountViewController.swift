@@ -9,6 +9,10 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     static let newsletterCellId = "NewsletterCellId"
     static let actionCellId = "AccountActionCellId"
 
+    private var isUsernamePasswordLogin: Bool {
+        ServerSettings.syncingPassword() != nil
+    }
+
     @IBOutlet var tableView: ThemeableTable! {
         didSet {
             tableView.applyInsetForMiniPlayer()
@@ -178,6 +182,14 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             emailLabel.text = email
         }
 
+        // Only accounts created with username/password can change email/password
+        var accountOptions: [TableRow]
+        if isUsernamePasswordLogin {
+            accountOptions = [.changeEmail, .changePassword, .newsletter]
+        } else {
+            accountOptions = [.newsletter]
+        }
+
         var upgradeHidden = false
 
         if SubscriptionHelper.hasActiveSubscription() {
@@ -261,7 +273,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
                 profileView.secondsTillExpiry = expiryTime
             }
 
-            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+            var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
             if SubscriptionHelper.numActiveSubscriptionBundles() > 0 {
                 newTableRows[0].insert(.supporterContributions, at: 0)
@@ -293,7 +305,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             upgradeView?.isHidden = false
             profileView.isSubscribed = false
 
-            var newTableRows: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
+            var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
             if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
