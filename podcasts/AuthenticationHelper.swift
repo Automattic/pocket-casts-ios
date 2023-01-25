@@ -67,6 +67,7 @@ class AuthenticationHelper {
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
 
+        SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
 
         // This check may not be necessary in the long run see: https://github.com/Automattic/pocket-casts-ios/issues/412
