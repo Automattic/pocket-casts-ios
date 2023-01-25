@@ -87,7 +87,11 @@ class NowPlayingHelper {
             nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastAuthor as NSString
             nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastAuthor as NSString
 
-            nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = safeCharacterPodcastTitle as NSString
+            // we purposely show the date here instead, but as with the above there's a car stereo bug we need to work around as well where we don't show the word "Wednesday" in the artist field
+            // because on some car stereos that have embedded image databases, this comes up with a really grotesque image (more info: https://github.com/shiftyjelly/pocketcasts-ios/issues/3874)
+            let publishedDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).replacingOccurrences(of: "Wednesday", with: "Wed", options: .caseInsensitive)
+            nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = publishedDate as NSString
+
             nowPlayingInfo[MPMediaItemPropertyPodcastTitle] = safeCharacterPodcastTitle as NSString
 
             // genre
