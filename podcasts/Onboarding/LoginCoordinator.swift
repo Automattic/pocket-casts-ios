@@ -143,13 +143,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
+        let shouldDismiss = OnboardingFlow.shared.currentFlow == .sonosLink || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
 
         if shouldDismiss {
-            navigationController?.dismiss(animated: true) {
-                DispatchQueue.main.async {
-                    OnboardingFlow.shared.reset()
-                }
-            }
+            handleDismiss()
             return
         }
 
@@ -157,7 +154,22 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
+        let shouldDismiss = OnboardingFlow.shared.currentFlow == .sonosLink
+
+        if shouldDismiss {
+            handleDismiss()
+            return
+        }
+
         goToPlus(from: .accountCreated)
+    }
+
+    private func handleDismiss() {
+        navigationController?.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                OnboardingFlow.shared.reset()
+            }
+        }
     }
 
     func showError(_ error: Error) {
