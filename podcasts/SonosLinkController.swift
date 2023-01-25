@@ -59,10 +59,6 @@ private extension SonosLinkController {
         connectBtn.setTitle(title, for: .normal)
     }
 
-    func signIntoPocketCasts() {
-        let loginViewController = LoginCoordinator.make(in: navigationController, signingProcessCompletedCallback: { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
-        })
     func updateConnectButton() {
         if SyncManager.isUserLoggedIn() {
             mainMessage.text = L10n.sonosConnectionPrivacyNotice
@@ -73,7 +69,9 @@ private extension SonosLinkController {
         }
     }
 
-        navigationController?.pushViewController(loginViewController, animated: true)
+    func signIntoPocketCasts() {
+        let controller = OnboardingFlow.shared.begin(flow: .sonosLink)
+        navigationController?.present(controller, animated: true)
     }
 
     func connectWithSonos() {
