@@ -240,7 +240,7 @@ private struct CloseButtonStyle: ButtonStyle {
     let showButtonShapes: Bool
 
     func makeBody(configuration: Configuration) -> some View {
-        Image("close")
+        Image("eoy-close")
             .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
             .foregroundColor(.white)
             .padding(Constants.closeButtonPadding)
