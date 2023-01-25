@@ -28,6 +28,10 @@ class SonosLinkController: PCViewController {
         mainMessage.font = .systemFont(ofSize: 18)
 
         connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            self.updateConnectButton()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
