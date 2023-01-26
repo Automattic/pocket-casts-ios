@@ -88,5 +88,16 @@ struct OnboardingFlow {
         case sonosLink = "sonos_link"
 
         var analyticsDescription: String { rawValue }
+
+        /// If after a successful sign in or sign up the onboarding flow
+        /// should be dismissed right away
+        var shouldDismiss: Bool {
+            switch self {
+            case .sonosLink, .loggedOut:
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
