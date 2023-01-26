@@ -154,7 +154,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
-        let shouldDismiss = OnboardingFlow.shared.currentFlow == .sonosLink
+        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss
 
         if shouldDismiss {
             handleDismiss()
