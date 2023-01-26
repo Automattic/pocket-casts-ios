@@ -17,9 +17,6 @@ struct StorageManager {
         let attrs = (attributes ?? [:]).merging(Constants.defaultAttributes) { current, _ in current }
         setAttributes(attrs, of: toURL)
 
-        #if DEBUG
-        FileLog.shared.addMessage("🟢 [StorageManager] moveItem: fromURL: \(fromURL.path) to: \(toURL.path)")
-        #endif
         return true
     }
 
