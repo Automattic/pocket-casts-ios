@@ -28,18 +28,16 @@ class SonosLinkController: PCViewController {
         mainMessage.font = .systemFont(ofSize: 18)
 
         connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            self.updateConnectButton()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if SyncManager.isUserLoggedIn() {
-            mainMessage.text = L10n.sonosConnectionPrivacyNotice
-            updateConnectButtonTitle(L10n.sonosConnectAction)
-        } else {
-            mainMessage.text = L10n.sonosConnectionSignInPrompt
-            updateConnectButtonTitle(L10n.continue.localizedUppercase)
-        }
+        updateConnectButton()
     }
 
     @IBAction func connect(_ sender: Any) {
@@ -61,12 +59,19 @@ private extension SonosLinkController {
         connectBtn.setTitle(title, for: .normal)
     }
 
-    func signIntoPocketCasts() {
-        let loginViewController = LoginCoordinator.make(in: navigationController, signingProcessCompletedCallback: { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
-        })
+    func updateConnectButton() {
+        if SyncManager.isUserLoggedIn() {
+            mainMessage.text = L10n.sonosConnectionPrivacyNotice
+            updateConnectButtonTitle(L10n.sonosConnectAction)
+        } else {
+            mainMessage.text = L10n.sonosConnectionSignInPrompt
+            updateConnectButtonTitle(L10n.continue.localizedUppercase)
+        }
+    }
 
-        navigationController?.pushViewController(loginViewController, animated: true)
+    func signIntoPocketCasts() {
+        let controller = OnboardingFlow.shared.begin(flow: .sonosLink)
+        navigationController?.present(controller, animated: true)
     }
 
     func connectWithSonos() {
