@@ -64,4 +64,16 @@ public class SyncManager {
         KeychainHelper.removeKey(ServerConstants.Values.appleAuthIdentityTokenKey)
         KeychainHelper.removeKey(ServerConstants.Values.appleAuthUserIDKey)
     }
+
+}
+
+// MARK: - Sync Reason
+public extension SyncManager {
+    enum SyncingReason: String {
+        case accountCreated
+        case login
+    }
+
+    /// Defines a reason why a sync is being performed
+    static var syncReason: SyncManager.SyncingReason? = nil
 }

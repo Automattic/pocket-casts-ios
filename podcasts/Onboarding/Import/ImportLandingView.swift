@@ -16,13 +16,16 @@ struct ImportLandingView: View {
                         .font(size: 31, style: .largeTitle, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
+                        .padding(.bottom, viewModel.showSubtitle ? 0 : 32)
 
-                    Text(L10n.importSubtitle)
-                        .font(size: 18, style: .body, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
-                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, 10)
-                        .padding(.bottom, 32)
+                    if viewModel.showSubtitle {
+                        Text(L10n.importSubtitle)
+                            .font(size: 18, style: .body, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.top, 10)
+                            .padding(.bottom, 32)
+                    }
 
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(viewModel.installedApps) { app in

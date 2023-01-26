@@ -43,10 +43,10 @@ struct HTMLTextView: UIViewRepresentable {
     }
 
     private var attributedString: NSAttributedString {
-        let data = Data(text.utf8)
         let options = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html]
 
-        guard let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) else {
+        guard let data = text.data(using: .unicode),
+            let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) else {
             return NSAttributedString(string: text)
         }
 

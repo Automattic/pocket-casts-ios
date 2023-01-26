@@ -22,12 +22,14 @@ class ServerNotificationsHelper {
 
     func fireSyncCompleted() {
         ServerSettings.setLastSyncSucceeded(true)
+        SyncManager.syncReason = nil
 
         NotificationCenter.default.post(name: ServerNotifications.syncCompleted, object: nil)
     }
 
     func fireSyncFailed() {
         ServerSettings.setLastSyncSucceeded(false)
+        SyncManager.syncReason = nil
 
         NotificationCenter.default.post(name: ServerNotifications.syncFailed, object: nil)
     }

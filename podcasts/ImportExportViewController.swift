@@ -58,7 +58,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = L10n.settingsImportExport
+        title = L10n.exportPodcastsOption
         Analytics.track(.settingsImportShown)
     }
 

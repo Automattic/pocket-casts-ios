@@ -439,11 +439,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         player?.rate = Float(requiredPlaybackRate)
+
         if requiredPlaybackRate < 1.0 || requiredPlaybackRate > 1.0 {
-            player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
-        } else {
-            player?.currentItem?.audioTimePitchAlgorithm = .lowQualityZeroLatency
-        }
+             player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
+         } else {
+             player?.currentItem?.audioTimePitchAlgorithm = .lowQualityZeroLatency
+         }
     }
 
     private func jumpToStartingPosition() {
