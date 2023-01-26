@@ -118,9 +118,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
         do {
-            do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
-
-            try fileManager.moveItem(at: location, to: destinationUrl)
+            try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
             DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
