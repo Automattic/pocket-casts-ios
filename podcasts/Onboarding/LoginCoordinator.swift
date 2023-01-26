@@ -12,8 +12,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     private var progressAlert: ShiftyLoadingAlert?
 
-    private var loginFinished = false
-
     /// Used to determine which screen after login to show to the user
     private var newAccountCreated = false
 
@@ -145,21 +143,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
-        // This can be called multiple times depending on the flow
-        // With this check we ensure this will be executed only once
-        guard !loginFinished else {
-            return
-        }
-
-        loginFinished = true
-        let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
+        let shouldDismiss = OnboardingFlow.shared.currentFlow == .sonosLink || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
 
         if shouldDismiss {
-            navigationController?.dismiss(animated: true) {
-                DispatchQueue.main.async {
-                    OnboardingFlow.shared.reset()
-                }
-            }
+            handleDismiss()
             return
         }
 
@@ -167,7 +154,22 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
+        let shouldDismiss = OnboardingFlow.shared.currentFlow == .sonosLink
+
+        if shouldDismiss {
+            handleDismiss()
+            return
+        }
+
         goToPlus(from: .accountCreated)
+    }
+
+    private func handleDismiss() {
+        navigationController?.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                OnboardingFlow.shared.reset()
+            }
+        }
     }
 
     func showError(_ error: Error) {

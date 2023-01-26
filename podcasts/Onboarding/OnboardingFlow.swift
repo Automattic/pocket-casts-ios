@@ -3,7 +3,7 @@ import Foundation
 struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
-    private var currentFlow: Flow = .none
+    private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
@@ -81,6 +81,11 @@ struct OnboardingFlow {
         /// When the user is logged out and enters the login flow
         /// This is the same as the onboarding flow
         case loggedOut = "logged_out"
+
+        /// When the user is brought into the onboarding flow from the Sonos connect view
+        /// After the user logs in or creates an account, the flow is dismissed so they can
+        /// continue with the Sonos connection process
+        case sonosLink = "sonos_link"
 
         var analyticsDescription: String { rawValue }
     }

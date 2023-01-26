@@ -28,18 +28,16 @@ class SonosLinkController: PCViewController {
         mainMessage.font = .systemFont(ofSize: 18)
 
         connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            self.updateConnectButton()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if SyncManager.isUserLoggedIn() {
-            mainMessage.text = L10n.sonosConnectionPrivacyNotice
-            updateConnectButtonTitle(L10n.sonosConnectAction)
-        } else {
-            mainMessage.text = L10n.sonosConnectionSignInPrompt
-            updateConnectButtonTitle(L10n.continue.localizedUppercase)
-        }
+        updateConnectButton()
     }
 
     @IBAction func connect(_ sender: Any) {
@@ -61,8 +59,19 @@ private extension SonosLinkController {
         connectBtn.setTitle(title, for: .normal)
     }
 
+    func updateConnectButton() {
+        if SyncManager.isUserLoggedIn() {
+            mainMessage.text = L10n.sonosConnectionPrivacyNotice
+            updateConnectButtonTitle(L10n.sonosConnectAction)
+        } else {
+            mainMessage.text = L10n.sonosConnectionSignInPrompt
+            updateConnectButtonTitle(L10n.continue.localizedUppercase)
+        }
+    }
+
     func signIntoPocketCasts() {
-        navigationController?.pushViewController(SonosLoginIntroViewController(), animated: true)
+        let controller = OnboardingFlow.shared.begin(flow: .sonosLink)
+        navigationController?.present(controller, animated: true)
     }
 
     func connectWithSonos() {
@@ -94,29 +103,5 @@ private extension SonosLinkController {
                 }
             }
         }
-    }
-}
-
-
-/// This is a small subclass of the ProfileIntroViewController to allow overriding a few features to allow it to work with the Sonos login.
-private class SonosLoginIntroViewController: ProfileIntroViewController {
-    /// Reuse the super class xib
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "ProfileIntroViewController", bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationItem.leftBarButtonItem = nil
-        navigationItem.hidesBackButton = false
-    }
-
-    override func signingProcessCompleted() {
-        navigationController?.popToRootViewController(animated: true)
     }
 }
