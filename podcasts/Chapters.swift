@@ -41,15 +41,10 @@ class Chapters: Equatable {
     }
 #endif
 
-    init() {
-        self.chapters = []
-    }
-
-    init?(chapters: [ChapterInfo]) {
-        if !chaptersOverlap(chapters) {
-            return nil
+    init(chapters: [ChapterInfo] = []) {
+        if chaptersOverlap(chapters) {
+            self.chapters = chapters
         }
-        self.chapters = chapters
     }
 
     static func == (lhs: Chapters, rhs: Chapters) -> Bool {
@@ -57,27 +52,30 @@ class Chapters: Equatable {
     }
 }
 
-private func chaptersOverlap(_ chapters: [ChapterInfo]) -> Bool {
-    let ranges = chapters.compactMap { $0.duration > 0 ? $0.startTime.seconds ... ($0.startTime.seconds + $0.duration) : nil }
-    var ranegsOverlap = true
-    var lowerbound = -Double.infinity, upperbound = Double.infinity
+private extension Chapters {
 
-    for r in ranges {
-        var didSet = false
-        if r.lowerBound >= lowerbound && r.lowerBound < upperbound {
-            lowerbound = r.lowerBound
-            didSet = true
-        }
+    func chaptersOverlap(_ chapters: [ChapterInfo]) -> Bool {
+        let ranges = chapters.compactMap { $0.duration > 0 ? $0.startTime.seconds ... ($0.startTime.seconds + $0.duration) : nil }
+        var rangesOverlap = true
+        var lowerbound = -Double.infinity, upperbound = Double.infinity
 
-        if r.upperBound <= upperbound && r.upperBound > lowerbound {
-            upperbound = r.upperBound
-            didSet = true
-        }
+        for r in ranges {
+            var didSet = false
+            if r.lowerBound >= lowerbound && r.lowerBound < upperbound {
+                lowerbound = r.lowerBound
+                didSet = true
+            }
 
-        if !didSet {
-            ranegsOverlap = false
-            break
+            if r.upperBound <= upperbound && r.upperBound > lowerbound {
+                upperbound = r.upperBound
+                didSet = true
+            }
+
+            if !didSet {
+                rangesOverlap = false
+                break
+            }
         }
+        return rangesOverlap
     }
-    return ranegsOverlap
 }
