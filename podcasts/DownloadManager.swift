@@ -79,19 +79,20 @@ class DownloadManager: NSObject, FilePathProtocol {
         if let cachePath = paths.first as NSString? {
             tempDownloadFolder = cachePath.appendingPathComponent("temp_download")
 
-            let fileManager = FileManager.default
+            let fileManager = StorageManager.self
 
-            do {
-                try fileManager.createDirectory(atPath: tempDownloadFolder, withIntermediateDirectories: true, attributes: nil)
-                try fileManager.createDirectory(atPath: podcastsDirectory, withIntermediateDirectories: true, attributes: nil)
-                #if !os(watchOS)
-                    SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: podcastsDirectory))
-                #endif
-                try fileManager.createDirectory(atPath: streamingBufferDirectory, withIntermediateDirectories: true, attributes: nil)
-                #if !os(watchOS)
-                    SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
-                #endif
-            } catch {}
+            fileManager.createDirectory(atPath: tempDownloadFolder, withIntermediateDirectories: true)
+            fileManager.createDirectory(atPath: podcastsDirectory, withIntermediateDirectories: true)
+            #if !os(watchOS)
+                SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: podcastsDirectory))
+            #endif
+            fileManager.createDirectory(atPath: streamingBufferDirectory, withIntermediateDirectories: true)
+            #if !os(watchOS)
+                SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
+            #endif
+        }
+    }
+
     func updateProtectionPermissionsForAllExistingFiles() async {
         // Update the root permissions for the directory
         let folders = [
