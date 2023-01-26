@@ -103,7 +103,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         for folder in folders {
             let url = URL(fileURLWithPath: folder)
-            StorageManager.setAttributes([.protectionKey: FileProtectionType.none], of: url)
+            StorageManager.updateFileProtectionToDefault(for: url)
         }
 
         // Update all the downloaded files existing protections
@@ -113,7 +113,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         for path in paths {
             let url = URL(fileURLWithPath: podcastsDirectory + "/" + path)
-            StorageManager.setAttributes([.protectionKey: FileProtectionType.none], of: url)
+            StorageManager.updateFileProtectionToDefault(for: url)
         }
     }
 

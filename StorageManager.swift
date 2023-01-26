@@ -44,6 +44,11 @@ struct StorageManager {
         tryLog(try fileManager.setAttributes(attributes, ofItemAtPath: url.path), operation: "setAttributes")
     }
 
+    @discardableResult
+    static func updateFileProtectionToDefault(for url: URL) -> Bool {
+        return setAttributes(Constants.defaultAttributes, of: url)
+    }
+
     private static func moveItem(at fromURL: URL, to toURL: URL) throws {
         try fileManager.moveItem(at: fromURL, to: toURL)
     }
