@@ -100,6 +100,12 @@ extension AppDelegate {
             retrieveUserIdIfNeeded()
         }
 
+        performUpdateIfRequired(updateKey: "UpdateFileProtection1") {
+            Task {
+                await DownloadManager.shared.updateProtectionPermissionsForAllExistingFiles()
+            }
+        }
+
         defaults.synchronize()
     }
 

@@ -92,6 +92,27 @@ class DownloadManager: NSObject, FilePathProtocol {
                     SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
                 #endif
             } catch {}
+    func updateProtectionPermissionsForAllExistingFiles() async {
+        // Update the root permissions for the directory
+        let folders = [
+            tempDownloadFolder,
+            podcastsDirectory,
+            streamingBufferDirectory
+        ]
+
+        for folder in folders {
+            let url = URL(fileURLWithPath: folder)
+            StorageManager.setAttributes([.protectionKey: FileProtectionType.none], of: url)
+        }
+
+        // Update all the downloaded files existing protections
+        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), paths.count > 0 else {
+            return
+        }
+
+        for path in paths {
+            let url = URL(fileURLWithPath: podcastsDirectory + "/" + path)
+            StorageManager.setAttributes([.protectionKey: FileProtectionType.none], of: url)
         }
     }
 
