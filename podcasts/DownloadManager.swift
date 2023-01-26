@@ -170,9 +170,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
             let fileManager = FileManager.default
             do {
-                do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
-
-                try fileManager.moveItem(at: sourceUrl, to: destinationUrl)
+                try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
 
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
