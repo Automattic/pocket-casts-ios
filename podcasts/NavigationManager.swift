@@ -162,7 +162,8 @@ class NavigationManager {
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
         } else if place == NavigationManager.signInPage {
-            mainController?.showSignInPage()
+            let flow: OnboardingFlow.Flow = data?["flow"] as? OnboardingFlow.Flow ?? .initialOnboarding
+            mainController?.showSignIn(flow: flow)
         } else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
             if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {
