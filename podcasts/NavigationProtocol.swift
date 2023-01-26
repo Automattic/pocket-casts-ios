@@ -31,7 +31,6 @@ protocol NavigationProtocol: AnyObject {
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
 
-    func showSignIn(flow: OnboardingFlow.Flow)
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)
     func showSupporterBundleDetails(bundleUuid: String?)

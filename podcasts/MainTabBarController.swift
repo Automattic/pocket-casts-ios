@@ -333,15 +333,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func showSignIn(flow: OnboardingFlow.Flow) {
-        switchToTab(.profile)
-        guard !SyncManager.isUserLoggedIn() else { return }
-
-        let signInController = OnboardingFlow.shared.begin(flow: flow)
-
-        present(signInController, animated: true, completion: nil)
-    }
-
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController
