@@ -119,14 +119,11 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func addLocalFile(url: URL, uuid: String) -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
-        let fileManager = FileManager.default
         do {
-            do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
-            try fileManager.moveItem(at: url, to: destinationUrl)
-            return destinationUrl
-        } catch {
-            return nil
-        }
+            try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
+        } catch { return nil }
+
+        return destinationUrl
     }
 
     func queueForLaterDownload(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
