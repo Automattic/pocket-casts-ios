@@ -25,7 +25,7 @@ class BackgroundSignOutListener {
 
     func showSignIn() {
         canShowSignOut = true
-        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.forcedLoggedOut])
+        navigationManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.forcedLoggedOut])
     }
 }
 
