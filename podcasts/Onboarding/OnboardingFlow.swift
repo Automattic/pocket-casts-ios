@@ -87,6 +87,21 @@ struct OnboardingFlow {
         /// continue with the Sonos connection process
         case sonosLink = "sonos_link"
 
+        /// When the user was logged out due to a server or token issue, not as a result of user interaction and is
+        /// asked to sign in again. See the `BackgroundSignOutListener`
+        case forcedLoggedOut = "forced_logged_out"
+
         var analyticsDescription: String { rawValue }
+
+        /// If after a successful sign in or sign up the onboarding flow
+        /// should be dismissed right away
+        var shouldDismiss: Bool {
+            switch self {
+            case .sonosLink, .forcedLoggedOut:
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
