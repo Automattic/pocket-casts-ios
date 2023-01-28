@@ -516,9 +516,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] _, _ in
+        rateObserver = player?.observe(\.rate) { [weak self] player, _ in
             guard let self = self else { return }
 
-            if let rate = self.player?.rate, rate == 1 {
+            if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
                 // the easiest way to repeat this is to play a video at 2x, and press pause once it's in picture in picture mode
                 let requiredSpeed = PlaybackManager.shared.effects().playbackSpeed
@@ -527,7 +528,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 }
             }
 
-            if let lastBackgroundedDate = self.lastBackgroundedDate, let player = self.player {
+            if let lastBackgroundedDate = self.lastBackgroundedDate {
                 let timeintervalSinceBackground = fabs(lastBackgroundedDate.timeIntervalSinceNow)
                 // we were backgrounded in the last 2 seconds, then the rate has changed, sounds like iOS is pausing video
                 if player.rate <= 0, self.shouldKeepPlaying, timeintervalSinceBackground > 0, timeintervalSinceBackground < 2 {
