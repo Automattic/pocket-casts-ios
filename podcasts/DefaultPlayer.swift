@@ -83,7 +83,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         return 0
     }
 
-    func play(completion: (() -> Void)?) {
+    func play(completion: (() -> Void)? = nil) {
         startBackgroundTask()
 
         shouldKeepPlaying = true
