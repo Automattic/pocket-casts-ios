@@ -20,6 +20,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
+    private var timeControlStatusObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -515,7 +516,19 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             PlaybackManager.shared.playerDidCalculateDuration()
         }
 
-        rateObserver = player?.observe(\.rate) { [weak self] _, _ in
+        // Listen for changes to the timeControlStatus to determine if the system has decided to pause the playback
+        // and if we need to try playing again. This seems to only happen when streaming on AirPlay for some reason.
+        //
+        // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
+        timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
+            guard player.timeControlStatus == .paused, self?.shouldKeepPlaying == true else {
+                return
+            }
+
+            FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
+            self?.play()
+        }
+
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
             guard let self = self else { return }
 
@@ -590,6 +603,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         rateObserver = nil
         playerStatusObserver = nil
         playerItemStatusObserver = nil
+        timeControlStatusObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)
