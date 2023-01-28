@@ -1,6 +1,6 @@
 7.32
 -----
-
+- Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
 
 7.31
 -----
