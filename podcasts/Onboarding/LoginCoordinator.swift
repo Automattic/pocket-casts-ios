@@ -99,7 +99,7 @@ extension LoginCoordinator {
 
         socialAuthProvider = provider
 
-        Analytics.track(.signInStarted, properties: ["source": provider.rawValue])
+        Analytics.track(.ssoStarted, properties: ["source": provider.rawValue])
 
         socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
 
