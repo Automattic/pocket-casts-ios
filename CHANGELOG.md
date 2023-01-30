@@ -1,6 +1,6 @@
 7.32
 -----
-
+- When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
 
 7.31
 -----
