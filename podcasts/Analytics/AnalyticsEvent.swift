@@ -19,6 +19,7 @@ enum AnalyticsEvent: String {
     case userEmailUpdated
     case userPasswordUpdated
     case userPasswordReset
+    case ssoStarted
 
     // MARK: - Payment Events
 
@@ -42,7 +43,6 @@ enum AnalyticsEvent: String {
 
     case signInShown
     case signInDismissed
-    case ssoStarted
 
     // MARK: - Select Account Type
 
