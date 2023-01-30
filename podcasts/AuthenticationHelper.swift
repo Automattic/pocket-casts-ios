@@ -24,7 +24,7 @@ class AuthenticationHelper {
 
     static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
-        handleSuccessfulSignIn(response)
+        handleSuccessfulSignIn(response, .password)
 
         // If the server didn't return a new email, and the call was successful, then reset the email to the one used to
         // validate the login
@@ -41,7 +41,7 @@ class AuthenticationHelper {
 
     static func validateLogin(identityToken: String)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
-        handleSuccessfulSignIn(response)
+        handleSuccessfulSignIn(response, .sso)
 
         ServerSettings.refreshToken = response.refreshToken
 
@@ -50,14 +50,14 @@ class AuthenticationHelper {
 
     static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
         let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
-        handleSuccessfulSignIn(response)
+        handleSuccessfulSignIn(response, .sso)
 
         return response
     }
 
     // MARK: Common
 
-    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {
+    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
         SyncManager.clearTokensFromKeyChain()
 
         ServerSettings.userId = response.uuid
@@ -75,7 +75,8 @@ class AuthenticationHelper {
             ServerSettings.setSyncingEmail(email: response.email)
         }
 
-        NotificationCenter.postOnMainThread(notification: .userLoginDidChange, userInfo: ["status": "signIn"])
+        NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
+        Analytics.track(.userSignedIn, properties: ["source": source])
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)
@@ -84,6 +85,12 @@ class AuthenticationHelper {
 }
 
 // MARK: - Enums
+enum AuthenticationSource: String, AnalyticsDescribable {
+    case password = "password"
+    case sso = "sso"
+
+    var analyticsDescription: String { rawValue }
+}
 
 enum AuthenticationScope: String {
     case mobile
