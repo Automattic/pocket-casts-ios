@@ -44,6 +44,8 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func didAppear() {
         OnboardingFlow.shared.track(.setupAccountShown)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userLoginDidChange(_:)), name: .userLoginDidChange, object: nil)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -134,6 +136,12 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
+    }
+
+    @objc private func userLoginDidChange(_ notification: Notification) {
+        if notification.userInfo?["status"] as? String == "signedIn" {
+            Analytics.track(.userSignedIn, properties: ["source": socialAuthProvider?.rawValue ?? "password"])
+        }
     }
 
     @objc private func syncCompleted() {
