@@ -9,6 +9,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     var presentedFromUpgrade: Bool = false
 
     private var socialLogin: SocialLogin?
+    private var socialAuthProvider: SocialAuthProvider?
 
     private var progressAlert: ShiftyLoadingAlert?
 
@@ -51,6 +52,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     }
 
     func loginTapped() {
+        socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         let controller = SyncSigninViewController()
         controller.delegate = self
@@ -58,6 +60,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     }
 
     func signUpTapped() {
+        socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
         let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
         controller.delegate = self
@@ -93,6 +96,8 @@ extension LoginCoordinator {
         guard let navigationController else {
             return
         }
+
+        socialAuthProvider = provider
 
         Analytics.track(.signInStarted, properties: ["source": provider.rawValue])
 
@@ -156,9 +161,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
-        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss
+        Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider?.rawValue ?? "password"])
 
-        if shouldDismiss {
+        if OnboardingFlow.shared.currentFlow.shouldDismiss {
             handleDismiss()
             return
         }
