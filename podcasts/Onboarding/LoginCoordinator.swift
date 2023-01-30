@@ -186,6 +186,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
             return
         }
 
+        Analytics.track(.userSignInFailed, properties: ["source": socialAuthProvider?.rawValue ?? "password", "error_code": (error as NSError).code])
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
