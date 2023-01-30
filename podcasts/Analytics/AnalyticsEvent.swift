@@ -42,6 +42,7 @@ enum AnalyticsEvent: String {
 
     case signInShown
     case signInDismissed
+    case signInStarted
 
     // MARK: - Select Account Type
 

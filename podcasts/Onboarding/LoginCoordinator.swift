@@ -94,6 +94,8 @@ extension LoginCoordinator {
             return
         }
 
+        Analytics.track(.signInStarted, properties: ["source": provider.rawValue])
+
         socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
 
         Task {
