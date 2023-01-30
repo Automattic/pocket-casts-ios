@@ -8,6 +8,7 @@ protocol SyncSigninDelegate: AnyObject {
 }
 
 class SyncSigninViewController: PCViewController, UITextFieldDelegate {
+    private let authSource = AuthenticationSource.password.rawValue
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
             emailField.placeholder = L10n.signInEmailAddressPrompt
@@ -274,7 +275,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 if !success {
-                    Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error ?? .UNKNOWN).rawValue])
+                    Analytics.track(.userSignInFailed, properties: ["source": self.authSource, "error_code": (error ?? .UNKNOWN).rawValue])
 
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
@@ -338,6 +339,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+
+        Analytics.track(.userSignedIn, properties: ["source": authSource])
     }
 
     private func showErrorMessage(_ message: String) {
