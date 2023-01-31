@@ -20,6 +20,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
+    private var timeControlStatusObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -83,7 +84,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         return 0
     }
 
-    func play(completion: (() -> Void)?) {
+    func play(completion: (() -> Void)? = nil) {
         startBackgroundTask()
 
         shouldKeepPlaying = true
@@ -515,10 +516,23 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             PlaybackManager.shared.playerDidCalculateDuration()
         }
 
-        rateObserver = player?.observe(\.rate) { [weak self] _, _ in
+        // Listen for changes to the timeControlStatus to determine if the system has decided to pause the playback
+        // and if we need to try playing again. This seems to only happen when streaming on AirPlay for some reason.
+        //
+        // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
+        timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
+            guard player.timeControlStatus == .paused, self?.shouldKeepPlaying == true else {
+                return
+            }
+
+            FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
+            self?.play()
+        }
+
+        rateObserver = player?.observe(\.rate) { [weak self] player, _ in
             guard let self = self else { return }
 
-            if let rate = self.player?.rate, rate == 1 {
+            if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
                 // the easiest way to repeat this is to play a video at 2x, and press pause once it's in picture in picture mode
                 let requiredSpeed = PlaybackManager.shared.effects().playbackSpeed
@@ -527,7 +541,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 }
             }
 
-            if let lastBackgroundedDate = self.lastBackgroundedDate, let player = self.player {
+            if let lastBackgroundedDate = self.lastBackgroundedDate {
                 let timeintervalSinceBackground = fabs(lastBackgroundedDate.timeIntervalSinceNow)
                 // we were backgrounded in the last 2 seconds, then the rate has changed, sounds like iOS is pausing video
                 if player.rate <= 0, self.shouldKeepPlaying, timeintervalSinceBackground > 0, timeintervalSinceBackground < 2 {
@@ -589,6 +603,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         rateObserver = nil
         playerStatusObserver = nil
         playerItemStatusObserver = nil
+        timeControlStatusObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)

@@ -1,6 +1,7 @@
 7.32
 -----
 - When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
+- Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
 
 7.31
 -----
