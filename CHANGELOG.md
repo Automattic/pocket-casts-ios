@@ -1,6 +1,6 @@
 7.32
 -----
-
+- Fixed an issue where effects were not re-enabled when switching from an Airplay device back to phone output (#678)
 
 7.31
 -----
