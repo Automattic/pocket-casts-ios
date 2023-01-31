@@ -99,7 +99,7 @@ extension LoginCoordinator {
 
         socialAuthProvider = provider
 
-        Analytics.track(.ssoStarted, properties: ["source": provider.rawValue])
+        Analytics.track(.ssoStarted, properties: ["source": provider.analyticsDescription])
 
         socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
 
@@ -120,7 +120,7 @@ extension LoginCoordinator {
                 newAccountCreated = response?.isNewAccount ?? false
 
                 if !newAccountCreated {
-                    Analytics.track(.userSignedIn, properties: ["source": provider.rawValue])
+                    Analytics.track(.userSignedIn, properties: ["source": provider.analyticsDescription])
                 }
 
                 listenToSync()
@@ -165,7 +165,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
-        Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider?.rawValue ?? "password"])
+        Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider?.analyticsDescription ?? "password"])
 
         if OnboardingFlow.shared.currentFlow.shouldDismiss {
             handleDismiss()
@@ -188,7 +188,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
             return
         }
 
-        Analytics.track(.userSignInFailed, properties: ["source": socialAuthProvider?.rawValue ?? "password", "error_code": (error as NSError).code])
+        Analytics.track(.userSignInFailed, properties: ["source": socialAuthProvider?.analyticsDescription ?? "password", "error_code": (error as NSError).code])
         SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
