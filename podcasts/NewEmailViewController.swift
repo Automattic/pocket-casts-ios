@@ -192,8 +192,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
                     }
                     self.nextButton.setTitle(L10n.next, for: .normal)
                     return
-                } else {
-                    Analytics.track(.userSignedIn, properties: ["source": "password"])
                 }
 
                 FileLog.shared.addMessage("Registered new account for \(username)")

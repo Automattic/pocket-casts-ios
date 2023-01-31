@@ -119,7 +119,9 @@ extension LoginCoordinator {
                 let response = try await self.socialLogin?.login()
                 newAccountCreated = response?.isNewAccount ?? false
 
-                Analytics.track(.userSignedIn, properties: ["source": provider.rawValue])
+                if !newAccountCreated {
+                    Analytics.track(.userSignedIn, properties: ["source": provider.rawValue])
+                }
 
                 listenToSync()
             } catch {
