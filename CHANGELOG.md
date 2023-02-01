@@ -1,6 +1,7 @@
 7.32
 -----
 - Fixed an issue where effects were not re-enabled when switching from an Airplay device back to phone output (#678)
+- When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
 - Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
 
 7.31
