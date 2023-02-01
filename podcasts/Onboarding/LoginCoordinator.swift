@@ -120,7 +120,7 @@ extension LoginCoordinator {
                 newAccountCreated = response?.isNewAccount ?? false
 
                 if !newAccountCreated {
-                    Analytics.track(.userSignedIn, properties: ["source": provider.analyticsDescription])
+                    Analytics.track(.userSignedIn, properties: ["source": provider])
                 }
 
                 listenToSync()
