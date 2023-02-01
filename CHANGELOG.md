@@ -4,6 +4,7 @@
 - When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
 - Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
 
+
 7.31
 -----
 - Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)

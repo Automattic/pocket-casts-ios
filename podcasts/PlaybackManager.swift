@@ -1670,7 +1670,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
 
         let reason = changeReason.uintValue
-        if let currEpisode = currentEpisode(), playerSwitchRequired() {
+        if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: true, overrideUpNext: false)
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
