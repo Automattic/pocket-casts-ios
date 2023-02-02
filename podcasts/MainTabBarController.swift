@@ -333,23 +333,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func showSignInPage() {
-        switchToTab(.profile)
-        guard !SyncManager.isUserLoggedIn() else { return }
-
-        let signInController: UIViewController
-        if FeatureFlag.signInWithApple.enabled {
-            signInController = ProfileIntroViewController()
-        }
-        else {
-            signInController = SyncSigninViewController()
-            (signInController as! SyncSigninViewController).dismissOnCancel = true
-        }
-
-        let navController = SJUIUtils.popupNavController(for: signInController)
-        present(navController, animated: true, completion: nil)
-    }
-
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController

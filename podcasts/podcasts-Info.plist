@@ -181,6 +181,13 @@
 					<string>AppIcon-Electric-Pink40x40@2x</string>
 				</array>
 			</dict>
+			<key>AppIcon-Halloween</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Halloween</string>
+				</array>
+			</dict>
 			<key>AppIcon-Indigo</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -520,6 +527,14 @@
 					<string>AppIcon-Electric-Pink40x40@2x</string>
 				</array>
 			</dict>
+			<key>AppIcon-Halloween</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Halloween</string>
+					<string>AppIcon-Halloween-152</string>
+				</array>
+			</dict>
 			<key>AppIcon-Indigo</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -780,6 +795,14 @@
 				<string>pktc</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>GoogleSignIn</string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -842,7 +865,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This allows you to add custom images to your files</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Pocket Casts uses this to find Google Cast devices on your network. If you don&apos;t use this feature feel free to say no.</string>
+	<string>Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

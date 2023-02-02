@@ -1,19 +1,19 @@
 import UIKit
 import PocketCastsUtils
-import AuthenticationServices
-import PocketCastsUtils
 import PocketCastsServer
 
 class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
     weak var upgradeRootViewController: UIViewController?
 
     private var buttonFont: UIFont {
-        .systemFont(ofSize: 18, weight: .semibold)
+        .font(ofSize: 18, weight: .semibold, scalingWith: .body, maxSizeCategory: .extraExtraLarge)
     }
 
     @IBOutlet var errorLabel: ThemeableLabel! {
         didSet {
             errorLabel.style = .support05
+            errorLabel.font = .font(with: .subheadline, maxSizeCategory: .extraExtraLarge)
+            hideError()
         }
     }
 
@@ -52,6 +52,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             signOrCreateLabel.text = L10n.signInPrompt
             signOrCreateLabel.style = .primaryText01
+            signOrCreateLabel.font = .font(with: .title2, weight: .bold, maxSizeCategory: .accessibilityMedium)
         }
     }
 
@@ -59,6 +60,7 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         didSet {
             infoLabel.text = infoLabelText ?? L10n.signInMessage
             infoLabel.style = .primaryText02
+            infoLabel.font = .font(ofSize: 18, weight: .medium, scalingWith: .body, maxSizeCategory: .accessibilityMedium)
         }
     }
 
@@ -68,17 +70,14 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         super.viewDidLoad()
 
         title = L10n.setupAccount
+        showPocketCastsLogoInTitle()
 
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
 
         handleThemeChanged()
-        let doneButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(doneTapped))
-        doneButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-
-        setupProviderLoginView()
 
         Analytics.track(.setupAccountShown)
     }
@@ -91,29 +90,9 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         closeWindow()
     }
 
-    private func closeWindow(completion: (() -> Void)? = nil) {
-        dismiss(animated: true, completion: completion)
-        AnalyticsHelper.createAccountDismissed()
-        Analytics.track(.setupAccountDismissed)
-    }
-
-    // MARK: - SyncSigninDelegate
-
-    func signingProcessCompleted() {
-        closeWindow {
-            if let presentingController = self.upgradeRootViewController {
-                let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-                presentingController.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
-            }
-        }
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        AppTheme.popupStatusBarStyle()
-    }
-
     @IBAction func signInTapped() {
-        errorLabel.isHidden = true
+        hideError()
+
         let signinPage = SyncSigninViewController()
         signinPage.delegate = self
 
@@ -132,86 +111,52 @@ class ProfileIntroViewController: PCViewController, SyncSigninDelegate {
         Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
     }
 
-    // MARK: - Orientation
+    // MARK: - View Configuration
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        AppTheme.popupStatusBarStyle()
+    }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }
-}
 
-// MARK: - Apple Auth
-extension ProfileIntroViewController {
-    func setupProviderLoginView() {
-        guard FeatureFlag.signInWithApple.enabled else { return }
-
-        let authorizationButton = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
-        authorizationButton.cornerRadius = createAccountBtn.cornerRadius
-        authorizationButton.addTarget(self, action: #selector(handleAppleAuthButtonPress), for: .touchUpInside)
-        authorizationButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        authenticationProviders.insertArrangedSubview(authorizationButton, at: 0)
-    }
-
-    @objc
-    func handleAppleAuthButtonPress() {
-        errorLabel.isHidden = true
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
-
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
-    }
-}
-
-extension ProfileIntroViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = view.window else { return UIApplication.shared.windows.first! }
-        return window
-    }
-}
-
-extension ProfileIntroViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            DispatchQueue.main.async {
-                self.handleAppleIDCredential(appleIDCredential)
+    // MARK: - SyncSigninDelegate
+    func signingProcessCompleted() {
+        closeWindow {
+            if let presentingController = self.upgradeRootViewController {
+                let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
+                presentingController.present(SJUIUtils.popupNavController(for: TermsViewController(newSubscription: newSubscription)), animated: true)
             }
-        default:
-            break
         }
     }
+}
 
-    func handleAppleIDCredential(_ appleIDCredential: ASAuthorizationAppleIDCredential) {
-        let progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-        progressAlert.showAlert(self, hasProgress: false, completion: {
-            Task {
-                var success = false
-                do {
-                    try await AuthenticationHelper.validateLogin(appleIDCredential)
-                    success = true
-                } catch {
-                    self.showError(error)
-                }
-
-                DispatchQueue.main.async {
-                    progressAlert.hideAlert(false)
-                    if success {
-                        self.signingProcessCompleted()
-                    }
-                }
-            }
-        })
+private extension ProfileIntroViewController {
+    func closeWindow(completion: (() -> Void)? = nil) {
+        dismiss(animated: true, completion: completion)
+        AnalyticsHelper.createAccountDismissed()
+        Analytics.track(.setupAccountDismissed)
     }
 
-    func showError(_ error: Error) {
-        FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
+    func showPocketCastsLogoInTitle() {
+        let imageView = ThemeableImageView(frame: .zero)
+        imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalImageName
+        imageView.accessibilityLabel = title
 
-        DispatchQueue.main.async {
-            self.errorLabel.text = L10n.accountSsoFailed
-            self.errorLabel.isHidden = false
+        navigationItem.titleView = imageView
+    }
+
+    func hideError() {
+        errorLabel.alpha = 0
+        errorLabel.text = nil
+    }
+
+    func showError(_ error: Error? = nil) {
+        if let error {
+            FileLog.shared.addMessage("Failed to connect SSO account: \(error.localizedDescription)")
         }
+
+        errorLabel.text = L10n.accountSsoFailed
+        errorLabel.alpha = 1
     }
 }

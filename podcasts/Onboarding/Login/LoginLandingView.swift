@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct LoginLandingView: View {
     @EnvironmentObject var theme: Theme
@@ -351,13 +352,18 @@ private struct SocialLoginButtons: View {
         if !FeatureFlag.signInWithApple.enabled {
             EmptyView()
         } else {
-            Button("Continue with Apple") {
-                coordinator.signInWithAppleTapped()
-            }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
-
-            Button("Continue with Google") {
-                coordinator.signInWithGoogleTapped()
-            }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
+            ForEach(SocialAuthProvider.allCases, id: \.self) { provider in
+                switch provider {
+                case .apple:
+                    Button(L10n.socialSignInContinueWithApple) {
+                        coordinator.signIn(with: provider)
+                    }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
+                case .google:
+                    Button(L10n.socialSignInContinueWithGoogle) {
+                        coordinator.signIn(with: provider)
+                    }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
+                }
+            }
         }
     }
 }

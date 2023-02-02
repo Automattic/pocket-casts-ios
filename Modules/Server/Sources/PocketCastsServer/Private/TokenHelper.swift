@@ -53,12 +53,13 @@ class TokenHelper {
     class func acquireToken() -> String? {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
+        var refreshedRefreshToken: String? = nil
 
         asyncAcquireToken { result in
             switch result {
-            case .success(let token):
-                refreshedToken = token
-                ServerSettings.syncingV2Token = token
+            case .success(let authenticationResponse):
+                refreshedToken = authenticationResponse?.token
+                refreshedRefreshToken = authenticationResponse?.refreshToken
             case .failure:
                 refreshedToken = nil
             }
@@ -69,6 +70,7 @@ class TokenHelper {
 
         if let token = refreshedToken, !token.isEmpty {
             ServerSettings.syncingV2Token = token
+            ServerSettings.refreshToken = refreshedRefreshToken
         }
         else {
             // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
@@ -81,7 +83,7 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    class func acquirePasswordToken() -> String? {
+    class func acquirePasswordToken() -> AuthenticationResponse? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
             return nil
@@ -111,8 +113,8 @@ class TokenHelper {
             }
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
-                let token = try Api_UserLoginResponse(serializedData: validData).token
-                return token
+                let userLoginResponse = try Api_UserLoginResponse(serializedData: validData)
+                return AuthenticationResponse(from: userLoginResponse)
             }
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
@@ -129,15 +131,15 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<String?, APIError>) -> Void) {
-        if let token = acquirePasswordToken() {
-            completion(.success(token))
+    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, APIError>) -> Void) {
+        if let authenticationResponse = acquirePasswordToken() {
+            completion(.success(authenticationResponse))
             return
         }
 
         Task {
-            if let token = await acquireIdentityToken() {
-                completion(.success(token))
+            if let authenticationResponse = await acquireIdentityToken() {
+                completion(.success(authenticationResponse))
             }
             else {
                 completion(.failure(.UNKNOWN))
@@ -147,7 +149,7 @@ class TokenHelper {
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> String? {
+    private class func acquireIdentityToken() async -> AuthenticationResponse? {
         return try? await ApiServerHandler.shared.refreshIdentityToken()
     }
 
@@ -163,7 +165,7 @@ class TokenHelper {
             logMessages.append("no password")
         }
 
-        if ServerSettings.appleAuthIdentityToken == nil {
+        if ServerSettings.refreshToken == nil {
             logMessages.append("no SSO token")
         }
 
