@@ -1,104 +1,101 @@
-"0EmR82" = "Open ${filterName} Filter";
-
-"0YXvyS" = "Previous";
-
-"1uT6VF" = "Media Search";
-
-"3aWmex" = "Chapter";
-
-"5oBQUn" = "${mediaItems}";
-
-"5yWeuV" = "Play at ${playbackSpeed}";
-
-"ApUiZd" = "${mediaItems}";
-
-"CXbd65" = "Set Sleep Timer";
-
-"E6Nzn4-No0K9w" = "resume Pocket Casts";
-
-"E6Nzn4-Pk1Fkx" = "don't resume Pocket Casts";
-
-"ErAaNp" = "Repeat Mode";
-
-"EwNFJ5" = "Extend Sleep Timer";
-
-"G0iCil" = "Unable to skip chapter";
-
-"G3J6fP" = "Play podcast";
-
-"IyhbAH" = "Open Filter";
-
-"KcCcQu" = "${mediaItems}";
-
-"LdrEPN" = "A request to play media";
-
-"MbU5ep" = "Shuffle ${mediaItems}";
-
-"No0K9w" = "resume";
-
-"Ntulol" = "Skip Chapter";
-
-"OJvsVr" = "Extend Sleep Timer by 5 mins";
-
-"Pk1Fkx" = "don't resume";
-
-"QektJm" = "Open Filter";
-
-"QqdHiR" = "shuffled";
-
-"RvX3Zd" = "Playback Speed";
-
-"WEjMGd" = "Play ${mediaContainer}";
-
-"Wj0EAI" = "Skip";
-
-"WktFNa" = "Shuffled";
-
-"YYfsKp" = "Play ${mediaContainer}";
-
-"bVm1vW" = "Set sleep timer";
-
-"cV2HLF" = "Queue Location";
-
-"cfJexL" = "Items";
-
-"dBTobY" = "Skip chapter";
-
-"emhqzv" = "Podcast doesn't support chapters";
-
-"gD0dlx" = "Next";
-
-"iQo0yQ-0YXvyS" = "Previous Chapter";
-
-"iQo0yQ-Wj0EAI" = "Skip Chapter";
-
-"iQo0yQ-gD0dlx" = "Next Chapter";
-
-"mCAocc" = "not shuffled";
-
-"mIvv3D" = " ${mediaItems}";
-
-"nAv25k" = "Shuffle ${mediaContainer}";
-
-"nNozW1" = "Shuffle ${mediaContainer}";
-
-"nR0neu" = "Sleep Timer";
-
-"ny98Lo" = "Extend Sleep Timer";
-
-"o6CuZu" = "Resume ${mediaContainer}";
-
-"q8QY8B" = "Play ${mediaItems} at ${playbackSpeed}";
-
-"rnkZnd" = "Skip chapter";
-
-"rvNMpm" = "Resume";
-
-"sLPQxZ" = "Play ${mediaContainer}";
-
-"vUAqfM" = "${mediaItems}";
-
-"xdnqvn" = "Container";
-
-"zvlpk3" = "Skipped chapter";
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>0EmR82</key>
+    <string>Obrir el filtre ${filterName}</string>
+    <key>0YXvyS</key>
+    <string>Anterior</string>
+    <key>1uT6VF</key>
+    <string>Cerca de contingut multimèdia</string>
+    <key>3aWmex</key>
+    <string>Capítol</string>
+    <key>5yWeuV</key>
+    <string>Reprodueix a ${playbackSpeed}</string>
+    <key>CXbd65</key>
+    <string>Configurar temporitzador</string>
+    <key>E6Nzn4-No0K9w</key>
+    <string>reprendre Pocket Casts</string>
+    <key>E6Nzn4-Pk1Fkx</key>
+    <string>no reprendre Pocket Casts</string>
+    <key>ErAaNp</key>
+    <string>Mode de repetició</string>
+    <key>EwNFJ5</key>
+    <string>Ampliar temporitzador</string>
+    <key>G0iCil</key>
+    <string>No es pot saltar el capítol</string>
+    <key>G3J6fP</key>
+    <string>Reproduir podcast</string>
+    <key>IyhbAH</key>
+    <string>Obrir filtre</string>
+    <key>LdrEPN</key>
+    <string>Una petició per reproduir contingut multimèdia</string>
+    <key>MbU5ep</key>
+    <string>Reproduir aleatòriament ${mediaItems}</string>
+    <key>No0K9w</key>
+    <string>reprendre</string>
+    <key>Ntulol</key>
+    <string>Saltar capítol</string>
+    <key>OJvsVr</key>
+    <string>Ampliar el temporitzador 5 minuts</string>
+    <key>Pk1Fkx</key>
+    <string>no reprendre</string>
+    <key>QektJm</key>
+    <string>Obrir el filtre</string>
+    <key>QqdHiR</key>
+    <string>aleatori</string>
+    <key>RvX3Zd</key>
+    <string>Velocitat de reproducció</string>
+    <key>WEjMGd</key>
+    <string>Reproduir ${mediaContainer}</string>
+    <key>Wj0EAI</key>
+    <string>Saltar</string>
+    <key>WktFNa</key>
+    <string>Aleatori</string>
+    <key>YYfsKp</key>
+    <string>Reproduir ${mediaContainer}</string>
+    <key>bVm1vW</key>
+    <string>Configurar temporitzador</string>
+    <key>cV2HLF</key>
+    <string>Ubicació a la cua</string>
+    <key>cfJexL</key>
+    <string>Elements</string>
+    <key>dBTobY</key>
+    <string>Saltar capítol</string>
+    <key>emhqzv</key>
+    <string>El podcast no admet capítols</string>
+    <key>gD0dlx</key>
+    <string>Següent</string>
+    <key>iQo0yQ-0YXvyS</key>
+    <string>Capitol anterior</string>
+    <key>iQo0yQ-Wj0EAI</key>
+    <string>Saltar capítol</string>
+    <key>iQo0yQ-gD0dlx</key>
+    <string>Capítol següent</string>
+    <key>mCAocc</key>
+    <string>no aleatori</string>
+    <key>nAv25k</key>
+    <string> Reproduir aleatòriament ${mediaContainer} </string>
+    <key>nNozW1</key>
+    <string>Reproduir aleatòriament ${mediaContainer}</string>
+    <key>nR0neu</key>
+    <string>Temporitzador</string>
+    <key>ny98Lo</key>
+    <string>Ampliar temporitzador</string>
+    <key>o6CuZu</key>
+    <string>Reprendre ${mediaContainer}</string>
+    <key>q8QY8B</key>
+    <string>Reproduir ${mediaItems} a ${playbackSpeed}</string>
+    <key>rnkZnd</key>
+    <string>Saltar capítol</string>
+    <key>rvNMpm</key>
+    <string>Reanudar</string>
+    <key>sLPQxZ</key>
+    <string>Reproduir ${mediaContainer}</string>
+    <key>xdnqvn</key>
+    <string>Contenidor</string>
+    <key>zvlpk3</key>
+    <string>Capítol saltat</string>
+  </dict>
+</plist>

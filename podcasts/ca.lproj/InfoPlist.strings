@@ -1,17 +1,19 @@
-/* A message that tells the user why the app is requesting access to the device’s camera. */
-NSCameraUsageDescription = "This allows you to add custom images to your files";
-
-/* A message that tells the user why the app needs access to Bluetooth. */
-NSBluetoothAlwaysUsageDescription = "Pocket Casts needs to access your bluetooth in order to detect nearby Google Cast devices.";
-
-/* A message that tells the user why the app is requesting access to the local network. */
-NSLocalNetworkUsageDescription = "Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.";
-
-/* A message that tells the user why the app is requesting access to the device’s microphone. */
-NSMicrophoneUsageDescription = "Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.";
-
-/* A message that tells the user why the app is requesting access to the user’s photo library. */
-NSPhotoLibraryUsageDescription = "Pocket Casts needs permission to save this image to your photo library.";
-
-/* A message that tells the user why the app is requesting add-only access to the user’s photo library. */
-NSPhotoLibraryAddUsageDescription = "Pocket Casts needs permission to save this image to your photo library.";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts necessita accedir al teu Bluetooth per detectar dispositius Google Cast que es trobin a prop.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Això et permet afegir imatges personalitzades als teus fitxers.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts l'utilitza per trobar dispositius Google Cast a la teva xarxa. Si no utilitzes aquesta funció, no dubtis a denegar el permís.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts necessita accedir al teu micròfon per detectar dispositius Google Cast que es trobin a prop.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts necessita permís per desar aquesta imatge a la teva biblioteca de fotos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts necessita permís per desar aquesta imatge a la teva biblioteca de fotos.</string>
+  </dict>
+</plist>
