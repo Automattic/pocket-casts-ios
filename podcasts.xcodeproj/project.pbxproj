@@ -4196,6 +4196,7 @@
 				8B68C1D0294219EB00CF25C5 /* FeatureFlagOverrideStore.swift */,
 				C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */,
 				C7D6551328E5153200AD7174 /* Debounce.swift */,
+				C791418C294CE32D00F1852B /* StorageManager.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5481,7 +5482,6 @@
 		BDBD53E317019B290048C8C5 = {
 			isa = PBXGroup;
 			children = (
-				C791418C294CE32D00F1852B /* StorageManager.swift */,
 				3F299D882872BF3600F2ED7F /* config */,
 				BDBD53F717019B2A0048C8C5 /* Pocket Casts */,
 				BD3A210E1E6CFC2400F42241 /* NotificationExtension */,
