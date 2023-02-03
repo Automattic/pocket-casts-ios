@@ -2072,6 +2072,9 @@
 		8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopOnePodcastStory.swift; sourceTree = "<group>"; };
 		8B0EEDE92900990D00075772 /* LongestEpisodeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestEpisodeStory.swift; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8B17365B298D47B10057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Intents.strings; sourceTree = "<group>"; };
+		8B17365C298D47B10057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B17365D298D47B20057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearStoriesBuilder.swift; sourceTree = "<group>"; };
@@ -6646,6 +6649,7 @@
 				"zh-Hant",
 				"fr-CA",
 				"es-MX",
+				ca,
 			);
 			mainGroup = BDBD53E317019B290048C8C5;
 			packageReferences = (
@@ -8468,6 +8472,7 @@
 				BD6E223F27338A3600474349 /* zh-Hant */,
 				BDCE59A827D9A394009642C1 /* fr-CA */,
 				BDCE59AB27D9A3B6009642C1 /* es-MX */,
+				8B17365C298D47B10057E893 /* ca */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -8490,6 +8495,7 @@
 				46FBD8D1276A876D00867746 /* sv */,
 				BDCE59A727D9A394009642C1 /* fr-CA */,
 				BDCE59AA27D9A3B6009642C1 /* es-MX */,
+				8B17365B298D47B10057E893 /* ca */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";
@@ -8511,6 +8517,7 @@
 				BD6E224027338A3600474349 /* zh-Hant */,
 				BDCE59A927D9A394009642C1 /* fr-CA */,
 				BDCE59AC27D9A3B6009642C1 /* es-MX */,
+				8B17365D298D47B20057E893 /* ca */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--Warning: Auto-generated file, do not edit.-->
+<plist version="1.0">
+  <dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Pocket Casts necessita accedir al teu Bluetooth per detectar dispositius Google Cast que es trobin a prop.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Això et permet afegir imatges personalitzades als teus fitxers.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Pocket Casts l'utilitza per trobar dispositius Google Cast a la teva xarxa. Si no utilitzes aquesta funció, no dubtis a denegar el permís.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Pocket Casts necessita accedir al teu micròfon per detectar dispositius Google Cast que es trobin a prop.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Pocket Casts necessita permís per desar aquesta imatge a la teva biblioteca de fotos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Pocket Casts necessita permís per desar aquesta imatge a la teva biblioteca de fotos.</string>
+  </dict>
+</plist>
