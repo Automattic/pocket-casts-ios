@@ -12,4 +12,7 @@ extension NSNotification.Name {
 
     /// When the updated onboarding flow dismisses
     static let onboardingFlowDidDismiss = NSNotification.Name("Onboarding.didDismiss")
+
+    static let tableViewReorderWillBegin = NSNotification.Name("TableView.ReorderWillBegin")
+    static let tableViewReorderDidEnd = NSNotification.Name("TableView.ReorderDidEnd")
 }

@@ -105,8 +105,14 @@ class WatchSyncManager {
             SessionManager.shared.requestLoginDetails(replyHandler: { response in
                 let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
                 let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
-                if username.count > 0, password.count > 0 {
-                    self.login(username: username, password: password)
+                let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
+
+                ServerSettings.setSyncingEmail(email: username)
+                ServerSettings.saveSyncingPassword(password)
+                ServerSettings.refreshToken = refreshToken
+
+                if !username.isEmpty {
+                    self.login()
                 } else {
                     FileLog.shared.addMessage("No username or password, don't attempt login")
                 }
@@ -116,37 +122,40 @@ class WatchSyncManager {
         }
     }
 
-    func login(username: String, password: String) {
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
-            DispatchQueue.main.async {
-                if !success {
-                    if let message = error?.rawValue, !message.isEmpty {
-                        FileLog.shared.addMessage("FAILED Login \(message)")
-                    } else {
-                        FileLog.shared.addMessage("FAILED Login - no message")
-                    }
-                    SyncManager.signout()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
-                    NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-                    return
+    func login() {
+        Task {
+            do {
+                try await AuthenticationHelper.refreshLogin()
+                DispatchQueue.main.async {
+                    self.handleLogin()
                 }
-                FileLog.shared.addMessage("Login successful")
-
-                // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
-                SyncManager.clearTokensFromKeyChain()
-                ServerSettings.saveSyncingPassword(password)
-                ServerSettings.clearLastSyncTime()
-                ServerSettings.setSyncingEmail(email: username)
-                ServerSettings.userId = userId
-
-                // we've signed in, set all our existing podcasts to be non synced
-                DataManager.sharedManager.markAllPodcastsUnsynced()
-
-                self.checkSubscriptionStatus()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
-                NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+            }
+            catch {
+                DispatchQueue.main.async {
+                    self.handleError(error)
+                }
             }
         }
+    }
+
+    private func handleLogin() {
+        FileLog.shared.addMessage("Login successful")
+        self.checkSubscriptionStatus()
+        NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+    }
+
+    private func handleError(_ error: Error) {
+        let error = error as? APIError
+
+        if let message = error?.rawValue, !message.isEmpty {
+            FileLog.shared.addMessage("FAILED Login \(message)")
+        } else {
+            FileLog.shared.addMessage("FAILED Login - no message")
+        }
+        SyncManager.signout()
+        NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 
     @objc func handleUpdateFromPhone() {
@@ -162,14 +171,18 @@ class WatchSyncManager {
         SessionManager.shared.requestLoginDetails(replyHandler: { response in
             let username = response[WatchConstants.Messages.LoginDetailsResponse.username] as? String ?? ""
             let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
+            let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
+
             ServerSettings.setSyncingEmail(email: username)
             ServerSettings.saveSyncingPassword(password)
-            if SyncManager.isUserLoggedIn(), username.count == 0, password.count == 0 {
+            ServerSettings.refreshToken = refreshToken
+
+            if SyncManager.isUserLoggedIn(), username.isEmpty {
                 FileLog.shared.addMessage("Logging out as phone has logged out ")
                 SyncManager.signout()
                 WKExtension.shared().visibleInterfaceController?.popToRootController()
             } else if !SyncManager.isUserLoggedIn() {
-                self.login(username: username, password: password)
+                self.login()
             }
         }, errorHandler: { error in
             FileLog.shared.addMessage("Failed to get login details: \(error?.localizedDescription ?? "No error information")")

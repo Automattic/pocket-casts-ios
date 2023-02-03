@@ -52,7 +52,6 @@ class NavigationManager {
 
     static let settingsAppearanceKey = "appearancePage"
     static let settingsProfileKey = "profilePage"
-    static let signInPage = "signInPage"
 
     static let endOfYearStories = "endOfYearStories"
     static let onboardingFlow = "onboardingFlow"
@@ -161,8 +160,6 @@ class NavigationManager {
             mainController?.showSettingsAppearance()
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
-        } else if place == NavigationManager.signInPage {
-            mainController?.showSignInPage()
         } else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
             if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {

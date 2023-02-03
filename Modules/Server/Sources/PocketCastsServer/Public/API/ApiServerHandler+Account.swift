@@ -7,6 +7,22 @@ import PocketCastsUtils
 import SwiftyJSON
 
 public extension ApiServerHandler {
+    func validateLogin(username: String, password: String, scope: String) async throws -> AuthenticationResponse {
+        var loginRequest = Api_UserLoginRequest()
+        loginRequest.email = username
+        loginRequest.password = password
+        loginRequest.scope = scope
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login")
+        let data = try loginRequest.serializedData()
+        guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
+            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token")
+            throw APIError.UNKNOWN
+        }
+
+        return try await obtainToken(request: request, usingRefreshToken: false)
+    }
+
     func validateLogin(username: String, password: String, completion: @escaping (_ success: Bool, _ userId: String?, _ error: APIError?) -> Void) {
         obtainToken(username: username, password: password, scope: ServerConstants.Values.apiScope) { token, userId, error in
             completion(token != nil, userId, error)
@@ -127,7 +143,7 @@ public extension ApiServerHandler {
     func obtainToken(request: URLRequest, completion: @escaping (Result<AuthenticationResponse, APIError>) -> Void) {
         Task {
             do {
-                let response = try await obtainToken(request: request)
+                let response = try await obtainToken(request: request, usingRefreshToken: false)
                 completion(.success(response))
             } catch {
                 completion(.failure((error as? APIError) ?? .UNKNOWN))
@@ -135,7 +151,7 @@ public extension ApiServerHandler {
         }
     }
 
-    func obtainToken(request: URLRequest) async throws -> AuthenticationResponse {
+    func obtainToken(request: URLRequest, usingRefreshToken: Bool) async throws -> AuthenticationResponse {
         try await withUnsafeThrowingContinuation { continuation in
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
@@ -146,8 +162,13 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_UserLoginResponse(serializedData: responseData)
-                    continuation.resume(returning: AuthenticationResponse(from: response))
+                    if usingRefreshToken {
+                        let response = try Api_TokenLoginResponse(serializedData: responseData)
+                        continuation.resume(returning: AuthenticationResponse(from: response))
+                    } else {
+                        let userLoginResponse = try Api_UserLoginResponse(serializedData: responseData)
+                        continuation.resume(returning: AuthenticationResponse(from: userLoginResponse))
+                    }
                 } catch {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     continuation.resume(throwing: APIError.UNKNOWN)
