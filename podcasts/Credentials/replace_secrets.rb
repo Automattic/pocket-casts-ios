@@ -62,7 +62,7 @@ def process(template_path, secrets_path)
     end
     template.close
   rescue => exception
-    STDERR.puts("\n🚨🚨 Failed to generate the ApiCredentials file. 🚨🚨")
+    STDERR.puts("\n🚨🚨 Failed to generate credentials file from template: " + File.basename(template_path) +  " 🚨🚨")
     STDERR.puts("\n-> Exception: " + exception.message)
     STDERR.puts("-> Reason: Secrets are most likely out of date.")
     STDERR.puts("-> Solution: Run: bundle exec fastlane run configure_apply\n\n")
