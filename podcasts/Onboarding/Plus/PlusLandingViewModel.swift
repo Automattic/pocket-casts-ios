@@ -3,7 +3,7 @@ import PocketCastsServer
 import SwiftUI
 
 class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
-    var navigationController: UINavigationController? = nil
+    weak var navigationController: UINavigationController? = nil
 
     var continueUpgrade: Bool
     let source: Source
