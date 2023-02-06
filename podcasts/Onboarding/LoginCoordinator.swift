@@ -154,6 +154,12 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
+        // Due to connection issues this might be called even if the user didn't actually
+        // signed in. So we make sure the user is actually logged in.
+        guard SyncManager.isUserLoggedIn() else {
+            return
+        }
+
         let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
 
         if shouldDismiss {
