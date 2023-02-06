@@ -4,6 +4,12 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension CarPlaySceneDelegate {
+    func upNextTapped(showNowPlaying: Bool) {
+        pushEpisodeList(title: L10n.upNext, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
+            PlaybackManager.shared.queue.allEpisodes(includeNowPlaying: showNowPlaying)
+        }
+    }
+
     func filterTapped(_ filter: EpisodeFilter) {
         pushEpisodeList(title: filter.playlistName, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
             let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxCarplayItems)
