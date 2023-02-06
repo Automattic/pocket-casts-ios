@@ -118,16 +118,6 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         template.updateNowPlayingButtons(buttons)
     }
 
-    func createUpNextList(includeNowPlaying: Bool) -> CPListTemplate {
-        let episodes = PlaybackManager.shared.queue.allEpisodes(includeNowPlaying: includeNowPlaying)
-        let upNextEpisodes = convertToListItems(episodes: episodes, showArtwork: true, closeListOnTap: true)
-
-        let upNextSection = CPListSection(items: upNextEpisodes)
-        let template = CPListTemplate(title: L10n.upNext, sections: [upNextSection])
-
-        return template
-    }
-
     // MARK: - CPNowPlayingTemplateObserver
 
     func nowPlayingTemplateUpNextButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
