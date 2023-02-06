@@ -53,14 +53,21 @@ end
 ## located at a given path.
 ##
 def process(template_path, secrets_path)
-  secrets = load(secrets_path)
-  template = File.open(template_path, 'r')
+  begin
+    secrets = load(secrets_path)
+    template = File.open(template_path, 'r')
 
-  template.each_line do |line|
-    puts line % secrets
+    template.each_line do |line|
+      puts line % secrets
+    end
+    template.close
+  rescue => exception
+    STDERR.puts("\n🚨🚨 Failed to generate the ApiCredentials file. 🚨🚨")
+    STDERR.puts("\n-> Exception: " + exception.message)
+    STDERR.puts("-> Reason: Secrets are most likely out of date.")
+    STDERR.puts("-> Solution: Run: bundle exec fastlane run configure_apply\n\n")
+    exit(false)
   end
-
-  template.close
 end
 
 ## Main!
