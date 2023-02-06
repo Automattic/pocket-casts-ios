@@ -131,8 +131,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     // MARK: - CPNowPlayingTemplateObserver
 
     func nowPlayingTemplateUpNextButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
-        let upNextList = createUpNextList(includeNowPlaying: false)
-        interfaceController?.pushTemplate(upNextList, animated: true, completion: nil)
+        upNextTapped(showNowPlaying: false)
     }
 
     func nowPlayingTemplateAlbumArtistButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
