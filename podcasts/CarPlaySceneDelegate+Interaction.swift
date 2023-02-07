@@ -133,19 +133,15 @@ extension CarPlaySceneDelegate {
         itemList.append(item)
     }
 
-    private func pushEpisodeList(title: String, showArtwork: Bool, closeListOnTap: Bool, episodeLoader: @escaping (() -> [BaseEpisode])) {
-        let listTemplate = CarPlayListData.template(title: title, emptyTitle: L10n.watchNoEpisodes) { [weak self] in
             guard let self else { return nil }
 
             let episodes = episodeLoader()
-            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork, closeListOnTap: closeListOnTap)
             return [CPListSection(items: episodeItems)]
         }
 
         interfaceController?.push(listTemplate)
     }
 
-    private func pushPodcastList(title: String, closeListOnTap: Bool, podcastLoader: @escaping (() -> [Podcast])) {
         let listTemplate = CarPlayListData.template(title: title, emptyTitle: L10n.watchNoEpisodes) { [weak self] in
             guard let self else { return nil }
 
