@@ -156,6 +156,10 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     private func themeTintedImage(named imageName: String) -> UIImage? {
         // default to dark if no theme information is available since that's a more commone setup
         let isDarkTheme = interfaceController?.carTraitCollection.userInterfaceStyle != .light
+        return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
+    }
+}
+
 // MARK: - CPInterfaceControllerDelegate
 extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
     func templateDidAppear(_ template: CPTemplate, animated: Bool) {
@@ -169,7 +173,7 @@ extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
         template.didAppear()
     }
 
-        return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
+
     func templateDidDisappear(_ template: CPTemplate, animated: Bool) {
         template.didDisappear()
     }
