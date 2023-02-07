@@ -41,6 +41,7 @@ extension CarPlaySceneDelegate {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         }
 
+        interfaceController?.showNowPlaying()
     }
 
     func listeningHistoryTapped() {
