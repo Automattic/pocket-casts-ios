@@ -67,10 +67,18 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
             let nowPlayingTemplate = CPNowPlayingTemplate.shared
             self.updateNowPlayingButtons(template: nowPlayingTemplate)
+
+            // Also update the episode list if needed, this makes sure its updated when the episode ends
+            self.reloadVisibleTemplate()
         }
     }
 
     @objc private func handleDataUpdated() {
+        // Prevent updating too often when multiple notifications fire at once
+        debouncer.call {
+            self.reloadVisibleTemplate()
+        }
+
         guard let currentList = currentList else { return }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -81,6 +89,10 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
             currentList.list.updateSections([mainSection])
         }
+    }
+
+    func reloadVisibleTemplate() {
+        visibleTemplate?.reloadData()
     }
 
     private func setupNowPlaying() {
