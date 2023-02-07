@@ -91,8 +91,7 @@ extension CarPlaySceneDelegate {
 
         let mainSection = CPListSection(items: chapterItems)
         let listTemplate = CPListTemplate(title: L10n.chapters, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     func speedTapped() {
@@ -115,7 +114,7 @@ extension CarPlaySceneDelegate {
         let mainSection = CPListSection(items: speedItems)
         let listTemplate = CPListTemplate(title: L10n.carplayPlaybackSpeed, sections: [mainSection])
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     private func addSpeed(_ speed: Double, to itemList: inout [CPListItem], currentSpeed: Double) {
@@ -141,8 +140,8 @@ extension CarPlaySceneDelegate {
         let mainSection = CPListSection(items: episodeItems)
         let listTemplate = CPListTemplate(title: title, sections: [mainSection])
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
         currentList = CarPlayListHelper(list: listTemplate, episodeLoader: episodeLoader, showsArtwork: showArtwork, closeListOnTap: closeListOnTap)
+        interfaceController?.push(listTemplate)
     }
 
     private func pushPodcastList(title: String, closeListOnTap: Bool, podcastLoader: @escaping (() -> [Podcast])) {
@@ -156,7 +155,7 @@ extension CarPlaySceneDelegate {
         let mainSection = CPListSection(items: podcastItems)
         let listTemplate = CPListTemplate(title: title, sections: [mainSection])
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
         currentList = nil
+        interfaceController?.push(listTemplate)
     }
 }
