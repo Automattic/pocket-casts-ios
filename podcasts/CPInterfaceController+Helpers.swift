@@ -9,7 +9,6 @@ extension CPInterfaceController {
         let template = CPNowPlayingTemplate.shared
 
         // We can't push to it if it exists in the stack, so pop to it instead
-        // TODO: Try not to use templates
         templates.contains(template) ? pop(to: template) : push(template)
     }
 
