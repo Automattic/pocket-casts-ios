@@ -53,21 +53,17 @@ end
 ## located at a given path.
 ##
 def process(template_path, secrets_path)
-  begin
-    secrets = load(secrets_path)
-    template = File.open(template_path, 'r')
+  secrets = load(secrets_path)
+  template = File.open(template_path, 'r')
 
-    template.each_line do |line|
-      puts line % secrets
-    end
-    template.close
-  rescue => exception
-    STDERR.puts("\n🚨🚨 Failed to generate credentials file from template: " + File.basename(template_path) +  " 🚨🚨")
-    STDERR.puts("\n-> Exception: " + exception.message)
-    STDERR.puts("-> Reason: Secrets are most likely out of date.")
-    STDERR.puts("-> Solution: Run: bundle exec fastlane run configure_apply\n\n")
-    exit(false)
-  end
+  template.each_line { |line| puts line % secrets }
+  template.close
+rescue StandardError => e
+  warn("\n🚨🚨 Failed to generate credentials file from template: #{File.basename(template_path)} 🚨🚨")
+  warn("\n-> Exception: #{e.message}")
+  warn('-> Reason: Secrets are most likely out of date.')
+  warn("-> Solution: Run: bundle exec fastlane run configure_apply\n\n")
+  exit(false)
 end
 
 ## Main!
