@@ -152,8 +152,11 @@ extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
         }
 
         visibleTemplate = template
+        template.didAppear()
     }
 
         return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
+    func templateDidDisappear(_ template: CPTemplate, animated: Bool) {
+        template.didDisappear()
     }
 }
