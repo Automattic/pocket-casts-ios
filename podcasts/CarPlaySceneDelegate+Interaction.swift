@@ -35,13 +35,22 @@ extension CarPlaySceneDelegate {
     func episodeTapped(_ episode: BaseEpisode) {
         AnalyticsPlaybackHelper.shared.currentSource = .carPlay
 
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
-            PlaybackManager.shared.playPause()
-        } else {
-            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+        defer {
+            interfaceController?.showNowPlaying()
         }
 
-        interfaceController?.showNowPlaying()
+        // Don't change the playing state if the user taps the actively playing episode
+        // Just push to the now playing view and allow further action from there.
+        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
+
+        // If the episode is the currently playing one but isn't actively being played, then start playing it
+        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            PlaybackManager.shared.play()
+            return
+        }
+
+        // Anything else, load the episode and start playing it
+        PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
 
     func listeningHistoryTapped() {
