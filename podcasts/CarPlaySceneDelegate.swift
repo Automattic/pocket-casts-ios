@@ -8,6 +8,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     var interfaceController: CPInterfaceController?
 
     var currentList: CarPlayListHelper?
+    // Reloading
+    var debouncer: Debounce = .init(delay: 0.2)
     weak var visibleTemplate: CPTemplate?
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
