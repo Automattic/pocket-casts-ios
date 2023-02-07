@@ -17,7 +17,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         interfaceController.delegate = self
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
-        interfaceController.setRootTemplate(tabTemplate, animated: true, completion: nil)
+        interfaceController.setRootTemplate(tabTemplate)
 
         self.visibleTemplate = tabTemplate.selectedTemplate
 
