@@ -69,7 +69,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             self.updateNowPlayingButtons(template: nowPlayingTemplate)
 
             // Also update the episode list if needed, this makes sure its updated when the episode ends
-            self.reloadVisibleTemplate()
+            self.handleDataUpdated()
         }
     }
 
