@@ -12,6 +12,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
         self.interfaceController = interfaceController
+        interfaceController.delegate = self
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
         interfaceController.setRootTemplate(tabTemplate, animated: true, completion: nil)
@@ -24,7 +25,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
         removeAllCustomObservers()
-
+        self.interfaceController?.delegate = nil
         self.interfaceController = nil
         currentList = nil
     }
@@ -141,6 +142,17 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     private func themeTintedImage(named imageName: String) -> UIImage? {
         // default to dark if no theme information is available since that's a more commone setup
         let isDarkTheme = interfaceController?.carTraitCollection.userInterfaceStyle != .light
+// MARK: - CPInterfaceControllerDelegate
+extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
+    func templateDidAppear(_ template: CPTemplate, animated: Bool) {
+        // We ignore the tab template because we only want to get the selected tab template
+        // This will be called for both the tab template, and the selected tab
+        guard (template as? CPTabBarTemplate) == nil, visibleTemplate != template else {
+            return
+        }
+
+        visibleTemplate = template
+    }
 
         return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
     }
