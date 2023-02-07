@@ -1385,6 +1385,7 @@
 		C7A110F7291F65FB00887A90 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F6291F65FB00887A90 /* WelcomeView.swift */; };
 		C7A110F9291F66C700887A90 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F8291F66C700887A90 /* Confetti.swift */; };
 		C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */; };
+		C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A654022991A7C900BB84C1 /* CarPlayListData.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578A289C60C50089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2989,6 +2990,7 @@
 		C7A110F6291F65FB00887A90 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		C7A110F8291F66C700887A90 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingHostingController.swift; sourceTree = "<group>"; };
+		C7A654022991A7C900BB84C1 /* CarPlayListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListData.swift; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusHostingViewController.swift; sourceTree = "<group>"; };
@@ -5953,6 +5955,7 @@
 				BDED930A251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift */,
 				BDED9311251DD5EB000BF622 /* CarPlayImageHelper.swift */,
 				BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */,
+				C7A654022991A7C900BB84C1 /* CarPlayListData.swift */,
 			);
 			name = CarPlay;
 			sourceTree = "<group>";
@@ -7603,6 +7606,7 @@
 				BD1F07F91BAAA6F0007A768D /* CategoryPodcastsViewController.swift in Sources */,
 				BD998ACA27B2408500B38857 /* CreateFolderView.swift in Sources */,
 				4067563124D7B163003684FC /* CategorySponsoredCell.swift in Sources */,
+				C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */,
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
