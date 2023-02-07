@@ -8,12 +8,15 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     var interfaceController: CPInterfaceController?
 
     var currentList: CarPlayListHelper?
+    weak var visibleTemplate: CPTemplate?
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
         self.interfaceController = interfaceController
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
         interfaceController.setRootTemplate(tabTemplate, animated: true, completion: nil)
+
+        self.visibleTemplate = tabTemplate.selectedTemplate
 
         setupNowPlaying()
         addChangeListeners()
