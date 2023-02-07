@@ -36,6 +36,23 @@ final class CarPlayListData {
 // MARK: - Template Reloading
 
 extension CPTemplate {
+    /// Will reloadData if needed
+    func didAppear() {
+        guard let dataSource = userInfo as? CarPlayListData else { return }
+
+        if dataSource.needsUpdate {
+            reloadData()
+        }
+
+        dataSource.needsUpdate = false
+    }
+
+    /// Tracks whether the data needs to be updated on appear
+    func didDisappear() {
+        guard let dataSource = userInfo as? CarPlayListData else { return }
+        dataSource.needsUpdate = true
+    }
+
     /// Refresh the data for the template if possible
     func reloadData() {
         guard let list = self as? CPListTemplate, let dataSource = userInfo as? CarPlayListData else {
