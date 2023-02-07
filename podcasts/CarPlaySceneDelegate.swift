@@ -107,25 +107,26 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     private func updateNowPlayingButtons(template: CPNowPlayingTemplate) {
-        guard let markPlayedImage = themeTintedImage(named: "car_markasplayed") else { return }
-
         var buttons = [CPNowPlayingButton]()
 
-        let markPlayedBtn = CPNowPlayingImageButton(image: markPlayedImage) { _ in
-            guard let episode = PlaybackManager.shared.currentEpisode() else { return }
-            AnalyticsEpisodeHelper.shared.currentSource = .carPlay
+        if let image = UIImage(named: "car_markasplayed") {
+            let markPlayedBtn = CPNowPlayingImageButton(image: image) { _ in
+                guard let episode = PlaybackManager.shared.currentEpisode() else { return }
+                AnalyticsEpisodeHelper.shared.currentSource = .carPlay
 
-            EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+                EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+            }
+            buttons.append(markPlayedBtn)
         }
-        buttons.append(markPlayedBtn)
 
         let rateButton = CPNowPlayingPlaybackRateButton { [weak self] _ in
             self?.speedTapped()
         }
+
         buttons.append(rateButton)
 
         // show the chapter picker if there are chapters
-        if PlaybackManager.shared.chapterCount() > 0, let chapterImage = themeTintedImage(named: "car_chapters") {
+        if PlaybackManager.shared.chapterCount() > 0, let chapterImage = UIImage(named: "car_chapters") {
             let chapterButton = CPNowPlayingImageButton(image: chapterImage) { [weak self] _ in
                 self?.chaptersTapped()
             }
@@ -151,13 +152,6 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             filesTapped(closeListOnTap: true)
         }
     }
-
-    // while the documentation says you can do this at an Asset Catalog level by specifying different images, it doesn't appear to work for CarPlay (last tested in iOS 14.1)
-    private func themeTintedImage(named imageName: String) -> UIImage? {
-        // default to dark if no theme information is available since that's a more commone setup
-        let isDarkTheme = interfaceController?.carTraitCollection.userInterfaceStyle != .light
-        return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
-    }
 }
 
 // MARK: - CPInterfaceControllerDelegate
@@ -172,7 +166,6 @@ extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
         visibleTemplate = template
         template.didAppear()
     }
-
 
     func templateDidDisappear(_ template: CPTemplate, animated: Bool) {
         template.didDisappear()
