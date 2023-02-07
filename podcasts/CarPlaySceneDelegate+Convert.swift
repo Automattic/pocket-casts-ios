@@ -67,8 +67,7 @@ extension CarPlaySceneDelegate {
         item.handler = { [weak self] _, completion in
             guard let self = self else { return }
 
-            let upNext = self.createUpNextList(includeNowPlaying: true)
-            self.interfaceController?.pushTemplate(upNext, animated: true, completion: nil)
+            self.upNextTapped(showNowPlaying: true)
             completion()
         }
 

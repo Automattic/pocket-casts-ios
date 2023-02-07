@@ -8,12 +8,18 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     var interfaceController: CPInterfaceController?
 
     var currentList: CarPlayListHelper?
+    // Reloading
+    var debouncer: Debounce = .init(delay: 0.2)
+    weak var visibleTemplate: CPTemplate?
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
         self.interfaceController = interfaceController
+        interfaceController.delegate = self
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
         interfaceController.setRootTemplate(tabTemplate, animated: true, completion: nil)
+
+        self.visibleTemplate = tabTemplate.selectedTemplate
 
         setupNowPlaying()
         addChangeListeners()
@@ -21,7 +27,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
         removeAllCustomObservers()
-
+        self.interfaceController?.delegate = nil
         self.interfaceController = nil
         currentList = nil
     }
@@ -63,10 +69,18 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
             let nowPlayingTemplate = CPNowPlayingTemplate.shared
             self.updateNowPlayingButtons(template: nowPlayingTemplate)
+
+            // Also update the episode list if needed, this makes sure its updated when the episode ends
+            self.reloadVisibleTemplate()
         }
     }
 
     @objc private func handleDataUpdated() {
+        // Prevent updating too often when multiple notifications fire at once
+        debouncer.call {
+            self.reloadVisibleTemplate()
+        }
+
         guard let currentList = currentList else { return }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -77,6 +91,10 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
             currentList.list.updateSections([mainSection])
         }
+    }
+
+    func reloadVisibleTemplate() {
+        visibleTemplate?.reloadData()
     }
 
     private func setupNowPlaying() {
@@ -118,21 +136,10 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         template.updateNowPlayingButtons(buttons)
     }
 
-    func createUpNextList(includeNowPlaying: Bool) -> CPListTemplate {
-        let episodes = PlaybackManager.shared.queue.allEpisodes(includeNowPlaying: includeNowPlaying)
-        let upNextEpisodes = convertToListItems(episodes: episodes, showArtwork: true, closeListOnTap: true)
-
-        let upNextSection = CPListSection(items: upNextEpisodes)
-        let template = CPListTemplate(title: L10n.upNext, sections: [upNextSection])
-
-        return template
-    }
-
     // MARK: - CPNowPlayingTemplateObserver
 
     func nowPlayingTemplateUpNextButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
-        let upNextList = createUpNextList(includeNowPlaying: false)
-        interfaceController?.pushTemplate(upNextList, animated: true, completion: nil)
+        upNextTapped(showNowPlaying: false)
     }
 
     func nowPlayingTemplateAlbumArtistButtonTapped(_ nowPlayingTemplate: CPNowPlayingTemplate) {
@@ -149,7 +156,25 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     private func themeTintedImage(named imageName: String) -> UIImage? {
         // default to dark if no theme information is available since that's a more commone setup
         let isDarkTheme = interfaceController?.carTraitCollection.userInterfaceStyle != .light
-
         return UIImage(named: imageName)?.tintedImage(isDarkTheme ? UIColor.white : UIColor.black)
+    }
+}
+
+// MARK: - CPInterfaceControllerDelegate
+extension CarPlaySceneDelegate: CPInterfaceControllerDelegate {
+    func templateDidAppear(_ template: CPTemplate, animated: Bool) {
+        // We ignore the tab template because we only want to get the selected tab template
+        // This will be called for both the tab template, and the selected tab
+        guard (template as? CPTabBarTemplate) == nil, visibleTemplate != template else {
+            return
+        }
+
+        visibleTemplate = template
+        template.didAppear()
+    }
+
+
+    func templateDidDisappear(_ template: CPTemplate, animated: Bool) {
+        template.didDisappear()
     }
 }
