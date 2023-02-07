@@ -160,14 +160,3 @@ extension CarPlaySceneDelegate {
         currentList = nil
     }
 }
-
-extension CPInterfaceController {
-    // popTemplate will throw an exception if no completion handler is present and a template can't be popped, so to work around that we have this method which captures the error and prints it since we don't particularly care
-    func popTemplateIgnoringException() {
-        popTemplate(animated: true) { _, error in
-            if let error = error {
-                print(error)
-            }
-        }
-    }
-}
