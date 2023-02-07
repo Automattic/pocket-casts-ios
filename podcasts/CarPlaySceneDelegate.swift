@@ -134,9 +134,9 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if let episode = playingEpisode as? Episode, let podcast = episode.parentPodcast() {
-            podcastTapped(podcast, closeListOnTap: true)
+            podcastTapped(podcast)
         } else if playingEpisode is UserEpisode {
-            filesTapped(closeListOnTap: true)
+            filesTapped()
         }
     }
 }
