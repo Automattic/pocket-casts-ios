@@ -29,6 +29,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        // The traits are only set after the scene is active, and needed to size the images properly
+        CarPlayImageHelper.carTraitCollection = interfaceController?.carTraitCollection
         self.visibleTemplate?.reloadData()
 
         appDelegate()?.handleBecomeActive()
