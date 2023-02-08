@@ -196,7 +196,10 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
 
                 FileLog.shared.addMessage("Registered new account for \(username)")
                 self.saveUsernameAndPassword(username, password: password, userId: userId)
+
+                SyncManager.syncReason = .accountCreated
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+
                 Settings.setLoginDetailsUpdated()
 
                 // Let a delegate decide what to do next
@@ -259,8 +262,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         NotificationCenter.postOnMainThread(notification: .userSignedIn)
-
-        Analytics.track(.userAccountCreated)
     }
 
     // MARK: - UITextField Methods

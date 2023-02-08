@@ -1,4 +1,5 @@
 import AVKit
+import PocketCastsServer
 import Foundation
 import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
@@ -322,7 +323,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
-        EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
+        EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
 
         if let starBtn = starBtn {
             let starImage = episode.keepEpisode ? UIImage(named: "player_star_filled") : UIImage(named: "player_star_empty")

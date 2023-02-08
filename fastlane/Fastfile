@@ -77,7 +77,8 @@ GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES = {
   'ru' => 'ru',         # Russian
   'es' => 'es',         # Spanish
   'es-mx' => 'es-MX',   # Spanish (Mexico)
-  'sv' => 'sv'          # Swedish
+  'sv' => 'sv',         # Swedish
+  'ca' => 'ca'          # Catalan
 }.freeze
 
 # Mapping of all locales which can be used for AppStore metadata

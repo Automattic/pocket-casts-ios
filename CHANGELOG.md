@@ -1,10 +1,29 @@
-7.31
+7.33
 -----
 
+
+7.32
+-----
+- Fixed an issue where effects were not re-enabled when switching from an Airplay device back to phone output (#678)
+- When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
+- Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
+- Show Starred for logged out users (#685)
+- Fixed an issue where the swipe actions in Up Next could be triggered when trying to reorder a row (#684)
+
+7.31
+-----
+- Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
+- Updated the import process in Settings (#641)
+- Fixed an issue where the up next queue could be cleared or replaced (#661)
+- Updated the Now Playing metadata to put podcast author in the Artist fields to fix Siri responses and Siri Suggestions (#48)
+- Fixed shownotes not always scrolling back to the beginning when new episode is loaded (#651)
+- Fixed an issue where logged out users were incorrectly prompted to sign in when starring episodes on the Now Playing screen (#653)
+- Fixed an issue where playback speed was incorrectly set to 1x when using the "Play my podcasts" Siri intent (#41)
 
 7.30
 -----
 - Display gravatar under Profile (#584)
+- Fixed some podcasts being excluded from the Apple Podcasts import (#640)
 
 7.29
 -----

@@ -66,7 +66,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func showInitialOnboardingIfNeeded() {
-        guard FeatureFlag.onboardingUpdates.enabled, Settings.shouldShowInitialOnboardingFlow else { return }
+        // Show if the user is not logged in and has never seen the prompt before
+        if SyncManager.isUserLoggedIn() || (Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true) {
+            return
+        }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
@@ -328,23 +331,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
         }
-    }
-
-    func showSignInPage() {
-        switchToTab(.profile)
-        guard !SyncManager.isUserLoggedIn() else { return }
-
-        let signInController: UIViewController
-        if FeatureFlag.signInWithApple.enabled {
-            signInController = ProfileIntroViewController()
-        }
-        else {
-            signInController = SyncSigninViewController()
-            (signInController as! SyncSigninViewController).dismissOnCancel = true
-        }
-
-        let navController = SJUIUtils.popupNavController(for: signInController)
-        present(navController, animated: true, completion: nil)
     }
 
     func showSupporterSignIn(podcastInfo: PodcastInfo) {

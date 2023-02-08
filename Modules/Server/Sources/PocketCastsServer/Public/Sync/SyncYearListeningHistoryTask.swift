@@ -40,7 +40,6 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
     private func performRequest(token: String, shouldSync: Bool) {
         var dataToSync = Api_YearHistoryRequest()
-        dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         dataToSync.version = apiVersion
         dataToSync.year = yearToSync
         dataToSync.count = !shouldSync

@@ -161,6 +161,10 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 let isCurrentEpisode = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
                 let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: tintColor, convertTimesToLinks: isCurrentEpisode, bgColor: nil, textColor: ThemeColor.playerContrast01())
                 strongSelf.showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
+                // We need to ensure that the scroll view offset is back at 0,0 to cater for instances
+                // where the user scrolled the previous show notes
+                // See https://github.com/Automattic/pocket-casts-ios/issues/651
+                strongSelf.showNotesScrollView.setContentOffset(CGPointZero, animated: false)
             }
         }
     }
