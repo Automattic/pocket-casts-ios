@@ -19,9 +19,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         interfaceController.setRootTemplate(tabTemplate)
 
         self.visibleTemplate = tabTemplate.selectedTemplate
-
         setupNowPlaying()
-        addChangeListeners()
     }
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
@@ -31,6 +29,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        self.visibleTemplate?.reloadData()
+
         appDelegate()?.handleBecomeActive()
         addChangeListeners()
     }
