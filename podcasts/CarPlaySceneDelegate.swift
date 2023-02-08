@@ -26,6 +26,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         removeAllCustomObservers()
         self.interfaceController?.delegate = nil
         self.interfaceController = nil
+
+        CPNowPlayingTemplate.shared.remove(self)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
