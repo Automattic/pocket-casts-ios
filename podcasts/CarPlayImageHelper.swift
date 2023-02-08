@@ -1,8 +1,9 @@
 import Foundation
+import Kingfisher
 import PocketCastsDataModel
 
 class CarPlayImageHelper {
-    class func imageForPodcast(_ podcast: Podcast) -> UIImage {
+    static var imageCache = ImageCache(name: "carplay_cache")
     static var carTraitCollection: UITraitCollection?
         let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
 
