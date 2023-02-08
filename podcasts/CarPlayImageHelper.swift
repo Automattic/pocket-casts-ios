@@ -51,3 +51,56 @@ class CarPlayImageHelper {
         static let folderPreviewSize: CGRect = .init(x: 0, y: 0, width: 240, height: 240)
     }
 }
+
+// MARK: - CarPlay Resizing
+
+private extension UIImage {
+    /// This will process the image for us and return an image that CarPlay expects for its current traits (ie: scaling)
+    func carPlayImage(with traits: UITraitCollection, maxSize: CGSize) -> UIImage {
+        let imageAsset = UIImageAsset()
+        imageAsset.register(self, with: traits)
+        let processedImage = imageAsset.image(with: traits)
+
+        // Don't resize if we don't need to
+        if processedImage.size == maxSize {
+            return processedImage
+        }
+
+        // Scale the image to the max size CarPlay expects
+        return processedImage.scaleTo(maxSize: maxSize, traits: traits)
+    }
+
+    /// Resize the image to the CPListItem.maximumImageSize
+    func scaleTo(maxSize: CGSize, traits: UITraitCollection) -> UIImage {
+        let displayScale = traits.displayScale
+
+        let widthRatio = maxSize.width / size.width
+        let heightRatio = maxSize.height / size.height
+
+        let scaleFactor = min(widthRatio, heightRatio)
+        let scaledImageSize = CGSize(
+            width: size.width * scaleFactor,
+            height: size.height * scaleFactor
+        )
+
+        guard let resized = resized(to: scaledImageSize, scale: displayScale) else {
+            return self
+        }
+
+        return resized
+    }
+}
+
+private extension BaseEpisode {
+    var cacheKey: String {
+        if let episode = self as? Episode {
+            return episode.podcastUuid
+        }
+
+        if let userEpisode = self as? UserEpisode {
+            return userEpisode.urlForImage().absoluteString
+        }
+
+        return uuid
+    }
+}
