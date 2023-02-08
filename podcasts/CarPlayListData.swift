@@ -5,25 +5,35 @@ final class CarPlayListData {
     typealias SectionDataSource = () -> [CPListSection]?
 
     private var dataSource: SectionDataSource
+    private let emptyTitle: String
 
     /// Track whether we need to refresh the data source
     /// fileprivate on purpose to allow it to only be used by the template extension below
-    fileprivate var needsUpdate = false
+    fileprivate var needsUpdate = true
 
-    init(_ dataSource: @escaping SectionDataSource) {
+    init(emptyTitle: String, _ dataSource: @escaping SectionDataSource) {
+        self.emptyTitle = emptyTitle
         self.dataSource = dataSource
     }
 
     /// Refresh the given template data from the dataSource
     func reloadData(_ template: CPListTemplate) {
+        template.emptyViewSubtitleVariants = [emptyTitle]
+
         // If the data returned is missing, don't update
         guard let data = dataSource() else { return }
-
         template.updateSections(data)
     }
 
     /// Creates a new `CPListTemplate` with a data source attached to it
     static func template(title: String, emptyTitle: String, image: UIImage? = nil, _ dataSource: @escaping SectionDataSource) -> CPListTemplate {
+        let template = CPListTemplate(title: title, sections: [])
+        template.tabTitle = title
+        template.tabImage = image
+        template.emptyViewSubtitleVariants = [L10n.loading]
+        template.userInfo = CarPlayListData(emptyTitle: emptyTitle, dataSource)
+        return template
+    }
         let template = CPListTemplate(title: title, sections: dataSource() ?? [])
         template.tabTitle = title
         template.tabImage = image
