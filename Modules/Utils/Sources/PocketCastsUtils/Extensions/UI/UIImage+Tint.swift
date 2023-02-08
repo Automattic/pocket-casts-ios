@@ -26,8 +26,8 @@ public extension UIImage {
         return coloredImage
     }
 
-    func resized(to newSize: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+    func resized(to newSize: CGSize, scale: CGFloat = 0) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
         defer { UIGraphicsEndImageContext() }
 
         draw(in: CGRect(origin: .zero, size: newSize))
