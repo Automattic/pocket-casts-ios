@@ -36,15 +36,46 @@ class CarPlayImageHelper {
         }
 
         return adjustImageIfRequired(image: image ?? UIImage(named: "noartwork-list-dark")!)
+    private class func adjustImageIfRequired(image: UIImage, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+        guard let carTraitCollection else { return image }
+        return image.carPlayImage(with: carTraitCollection, maxSize: maxSize)
     }
 
-    private class func adjustImageIfRequired(image: UIImage) -> UIImage {
-        // CarPlay list rows have a bug where if the scale is 1, it will draw a half size image, so here we make sure to set the scale correctly
-        if image.scale == 1, let cgImage = image.cgImage {
-            return UIImage(cgImage: cgImage, scale: 2.0, orientation: image.imageOrientation)
+    private static func cachedImage(for key: String, maxSize: CGSize) -> UIImage? {
+        let cacheKey = "\(key)_\(maxSize.width)"
+
+        // Check the memory and disk cache
+        guard imageCache.isCached(forKey: cacheKey) else { return nil }
+
+        // Try to get from memory first
+        if let image = imageCache.retrieveImageInMemoryCache(forKey: cacheKey) {
+            return image
         }
 
-        return image
+        var cachedImage: UIImage? = nil
+        
+        imageCache.retrieveImageInDiskCache(forKey: cacheKey, options: [.loadDiskFileSynchronously]) { result in
+            switch result {
+            case let .success(image):
+                cachedImage = image
+            default: break
+            }
+        }
+
+        guard let cachedImage else { return nil }
+
+        // When the image is loaded from disk the scale/etc gets reset, so update it again
+        let processedImage = cachedImage.carPlayImage(with: carTraitCollection ?? .current, maxSize: maxSize)
+
+        // Store the processed image in memory again
+        imageCache.store(processedImage, forKey: cacheKey, toDisk: false)
+        return processedImage
+    }
+
+    private static func cacheImage(_ image: UIImage, for key: String, maxSize: CGSize) {
+        let cacheKey = "\(key)_\(maxSize.width)"
+
+        imageCache.store(image, forKey: cacheKey)
     }
 
     private enum Constants {
