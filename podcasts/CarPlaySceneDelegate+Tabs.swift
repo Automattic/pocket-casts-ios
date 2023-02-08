@@ -19,7 +19,7 @@ extension CarPlaySceneDelegate {
 
                 item.accessoryType = .disclosureIndicator
                 item.handler = { [weak self] _, completion in
-                    self?.folderTapped(folder, closeListOnTap: false)
+                    self?.folderTapped(folder)
                     completion()
                 }
                 podcastItems.append(item)
@@ -80,7 +80,7 @@ extension CarPlaySceneDelegate {
 extension CarPlaySceneDelegate {
     private var downloadTabSections: [CPListSection] {
         let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxCarplayItems)", arguments: nil)
-        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true, closeListOnTap: false)
+        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true)
 
         return [CPListSection(items: items)]
     }
@@ -109,7 +109,7 @@ extension CarPlaySceneDelegate {
             let filesItem = CPListItem(text: L10n.files, detailText: nil, image: UIImage(named: "car_more_files"))
             filesItem.accessoryType = .disclosureIndicator
             filesItem.handler = { [weak self] _, completion in
-                self?.filesTapped(closeListOnTap: false)
+                self?.filesTapped()
                 completion()
             }
 

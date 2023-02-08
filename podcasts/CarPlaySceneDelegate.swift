@@ -69,7 +69,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             self.updateNowPlayingButtons(template: nowPlayingTemplate)
 
             // Also update the episode list if needed, this makes sure its updated when the episode ends
-            self.reloadVisibleTemplate()
+            self.handleDataUpdated()
         }
     }
 
@@ -134,9 +134,9 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if let episode = playingEpisode as? Episode, let podcast = episode.parentPodcast() {
-            podcastTapped(podcast, closeListOnTap: true)
+            podcastTapped(podcast)
         } else if playingEpisode is UserEpisode {
-            filesTapped(closeListOnTap: true)
+            filesTapped()
         }
     }
 }

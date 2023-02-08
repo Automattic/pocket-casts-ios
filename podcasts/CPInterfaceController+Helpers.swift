@@ -3,6 +3,14 @@ import PocketCastsUtils
 
 extension CPInterfaceController {
 
+    /// Shows the Now Playing template regardless of whether it's in the stack already or not.
+    /// This will push to it if it's not already in the stack, or pop back to it if it is.
+    func showNowPlaying() {
+        let template = CPNowPlayingTemplate.shared
+
+        // We can't push to it if it exists in the stack, so pop to it instead
+        templates.contains(template) ? pop(to: template) : push(template)
+    }
 
     /// Sets the root template of the controller, and will log any errors on failure
     func setRootTemplate(_ template: CPTemplate) {
