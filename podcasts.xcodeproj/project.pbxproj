@@ -756,7 +756,6 @@
 		BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */; };
 		BD42E31B1B940AFF000EA14F /* DiscoverPodcastTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */; };
 		BD43BDE72122AD0600E63165 /* skip_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BD43BDE52122AD0600E63165 /* skip_button.json */; };
-		BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */; };
 		BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */; };
 		BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */; };
 		BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */; };
@@ -1386,6 +1385,7 @@
 		C7A110F9291F66C700887A90 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F8291F66C700887A90 /* Confetti.swift */; };
 		C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */; };
 		C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A654022991A7C900BB84C1 /* CarPlayListData.swift */; };
+		C7A654052992971100BB84C1 /* CPInterfaceController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578A289C60C50089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2377,7 +2377,6 @@
 		BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverPodcastTableCell.swift; sourceTree = "<group>"; };
 		BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverPodcastTableCell.xib; sourceTree = "<group>"; };
 		BD43BDE52122AD0600E63165 /* skip_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skip_button.json; sourceTree = "<group>"; };
-		BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListHelper.swift; sourceTree = "<group>"; };
 		BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleCastManager.swift; sourceTree = "<group>"; };
 		BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUpNextItem.swift; sourceTree = "<group>"; };
 		BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastChapterParser.swift; sourceTree = "<group>"; };
@@ -2991,6 +2990,7 @@
 		C7A110F8291F66C700887A90 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingHostingController.swift; sourceTree = "<group>"; };
 		C7A654022991A7C900BB84C1 /* CarPlayListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListData.swift; sourceTree = "<group>"; };
+		C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CPInterfaceController+Helpers.swift"; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusHostingViewController.swift; sourceTree = "<group>"; };
@@ -5954,8 +5954,8 @@
 				BDED9303251DC459000BF622 /* CarPlaySceneDelegate+Convert.swift */,
 				BDED930A251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift */,
 				BDED9311251DD5EB000BF622 /* CarPlayImageHelper.swift */,
-				BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */,
 				C7A654022991A7C900BB84C1 /* CarPlayListData.swift */,
+				C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */,
 			);
 			name = CarPlay;
 			sourceTree = "<group>";
@@ -8031,6 +8031,7 @@
 				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,
 				BD92323823629FAA00C1E118 /* ShowNotesPlayerItemViewController.swift in Sources */,
+				C7A654052992971100BB84C1 /* CPInterfaceController+Helpers.swift in Sources */,
 				40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */,
 				BD35BB6C1CF697650018D63E /* AudioUtils.swift in Sources */,
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
@@ -8220,7 +8221,6 @@
 				C7A110F0291EFF7A00887A90 /* PlusPurchaseModel.swift in Sources */,
 				409C7929222369C800386495 /* UserEpisodeDetailViewController.swift in Sources */,
 				BDC8CDDA203BF8BA00D88313 /* PodcastListViewController.swift in Sources */,
-				BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */,
 				BD2F3BAB2366C96E00416633 /* NowPlayingPlayerItemViewController+Update.swift in Sources */,
 				BD965761246906C900873BB5 /* CastDevicesManager.swift in Sources */,
 				BD561031200DADA0002F2D53 /* Episode+Formatting.swift in Sources */,

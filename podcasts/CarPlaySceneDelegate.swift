@@ -7,7 +7,6 @@ import UIKit
 class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, CPNowPlayingTemplateObserver {
     var interfaceController: CPInterfaceController?
 
-    var currentList: CarPlayListHelper?
     // Reloading
     var debouncer: Debounce = .init(delay: 0.2)
     weak var visibleTemplate: CPTemplate?
@@ -17,7 +16,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         interfaceController.delegate = self
 
         let tabTemplate = CPTabBarTemplate(templates: [createPodcastsTab(), createFiltersTab(), createDownloadsTab(), createMoreTab()])
-        interfaceController.setRootTemplate(tabTemplate, animated: true, completion: nil)
+        interfaceController.setRootTemplate(tabTemplate)
 
         self.visibleTemplate = tabTemplate.selectedTemplate
 
@@ -29,7 +28,6 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         removeAllCustomObservers()
         self.interfaceController?.delegate = nil
         self.interfaceController = nil
-        currentList = nil
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -79,17 +77,6 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         // Prevent updating too often when multiple notifications fire at once
         debouncer.call {
             self.reloadVisibleTemplate()
-        }
-
-        guard let currentList = currentList else { return }
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-
-            let reloadedEpisodes = currentList.episodeLoader()
-            let episodeItems = self.convertToListItems(episodes: reloadedEpisodes, showArtwork: currentList.showsArtwork, closeListOnTap: currentList.closeListOnTap)
-            let mainSection = CPListSection(items: episodeItems)
-
-            currentList.list.updateSections([mainSection])
         }
     }
 

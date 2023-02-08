@@ -91,8 +91,7 @@ extension CarPlaySceneDelegate {
 
         let mainSection = CPListSection(items: chapterItems)
         let listTemplate = CPListTemplate(title: L10n.chapters, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     func speedTapped() {
@@ -115,7 +114,7 @@ extension CarPlaySceneDelegate {
         let mainSection = CPListSection(items: speedItems)
         let listTemplate = CPListTemplate(title: L10n.carplayPlaybackSpeed, sections: [mainSection])
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     private func addSpeed(_ speed: Double, to itemList: inout [CPListItem], currentSpeed: Double) {
@@ -135,39 +134,31 @@ extension CarPlaySceneDelegate {
     }
 
     private func pushEpisodeList(title: String, showArtwork: Bool, closeListOnTap: Bool, episodeLoader: @escaping (() -> [BaseEpisode])) {
-        let episodes = episodeLoader()
-        let episodeItems = convertToListItems(episodes: episodes, showArtwork: showArtwork, closeListOnTap: closeListOnTap)
+        let listTemplate = CarPlayListData.template(title: title, emptyTitle: L10n.watchNoEpisodes) { [weak self] in
+            guard let self else { return nil }
 
-        let mainSection = CPListSection(items: episodeItems)
-        let listTemplate = CPListTemplate(title: title, sections: [mainSection])
+            let episodes = episodeLoader()
+            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork, closeListOnTap: closeListOnTap)
+            return [CPListSection(items: episodeItems)]
+        }
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
-        currentList = CarPlayListHelper(list: listTemplate, episodeLoader: episodeLoader, showsArtwork: showArtwork, closeListOnTap: closeListOnTap)
+        interfaceController?.push(listTemplate)
     }
 
     private func pushPodcastList(title: String, closeListOnTap: Bool, podcastLoader: @escaping (() -> [Podcast])) {
-        let podcasts = podcastLoader()
-        var podcastItems = [CPListItem]()
-        for podcast in podcasts {
-            let item = convertPodcastToListItem(podcast)
-            podcastItems.append(item)
-        }
+        let listTemplate = CarPlayListData.template(title: title, emptyTitle: L10n.watchNoEpisodes) { [weak self] in
+            guard let self else { return nil }
 
-        let mainSection = CPListSection(items: podcastItems)
-        let listTemplate = CPListTemplate(title: title, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
-        currentList = nil
-    }
-}
-
-extension CPInterfaceController {
-    // popTemplate will throw an exception if no completion handler is present and a template can't be popped, so to work around that we have this method which captures the error and prints it since we don't particularly care
-    func popTemplateIgnoringException() {
-        popTemplate(animated: true) { _, error in
-            if let error = error {
-                print(error)
+            let podcasts = podcastLoader()
+            var podcastItems = [CPListItem]()
+            for podcast in podcasts {
+                let item = self.convertPodcastToListItem(podcast)
+                podcastItems.append(item)
             }
+
+            return [CPListSection(items: podcastItems)]
         }
+
+        interfaceController?.push(listTemplate)
     }
 }
