@@ -1,5 +1,9 @@
 7.33
 -----
+- CarPlay: Improved speed and reduced crashing (#705)
+- CarPlay: Tapping an episode now goes to the now playing screen (#702)
+- CarPlay: The mark as played and chapter icons now update with the dark/light mode (#700)
+- CarPlay: Fixed many issues where the UI would not refresh correctly (#699)
 
 
 7.32
