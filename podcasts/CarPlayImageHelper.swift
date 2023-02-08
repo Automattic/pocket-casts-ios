@@ -1,3 +1,4 @@
+import CarPlay
 import Foundation
 import Kingfisher
 import PocketCastsDataModel
@@ -5,9 +6,19 @@ import PocketCastsDataModel
 class CarPlayImageHelper {
     static var imageCache = ImageCache(name: "carplay_cache")
     static var carTraitCollection: UITraitCollection?
+
+    class func imageForPodcast(_ podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+        let cacheKey = podcast.uuid
+
+        if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {
+            return cachedImage
+        }
+
         let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: podcast.uuid, size: .list) ?? UIImage(named: "noartwork-grid-dark")!
 
-        return adjustImageIfRequired(image: image)
+        let adjustedImage = adjustImageIfRequired(image: image)
+        cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
+        return adjustedImage
     }
 
     class func imageForFolder(_ folder: Folder) -> UIImage {
@@ -27,7 +38,13 @@ class CarPlayImageHelper {
         return adjustImageIfRequired(image: image)
     }
 
-    class func imageForEpisode(_ episode: BaseEpisode) -> UIImage {
+    class func imageForEpisode(_ episode: BaseEpisode, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
+        let cacheKey = episode.cacheKey
+
+        if let cachedImage = cachedImage(for: cacheKey, maxSize: maxSize) {
+            return cachedImage
+        }
+
         var image: UIImage?
         if let episode = episode as? Episode {
             image = ImageManager.sharedManager.cachedImageFor(podcastUuid: episode.podcastUuid, size: .list)
@@ -35,7 +52,11 @@ class CarPlayImageHelper {
             image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
 
-        return adjustImageIfRequired(image: image ?? UIImage(named: "noartwork-list-dark")!)
+        let adjustedImage = adjustImageIfRequired(image: image ?? UIImage(named: "noartwork-list-dark")!, maxSize: maxSize)
+        cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
+        return adjustedImage
+    }
+
     private class func adjustImageIfRequired(image: UIImage, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
         guard let carTraitCollection else { return image }
         return image.carPlayImage(with: carTraitCollection, maxSize: maxSize)
