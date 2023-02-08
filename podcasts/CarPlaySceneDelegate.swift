@@ -93,9 +93,11 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     @objc private func handleDataUpdated() {
-        // Prevent updating too often when multiple notifications fire at once
-        debouncer.call {
-            self.reloadVisibleTemplate()
+        DispatchQueue.main.async {
+            // Prevent updating too often when multiple notifications fire at once
+            self.debouncer.call {
+                self.reloadVisibleTemplate()
+            }
         }
     }
 
