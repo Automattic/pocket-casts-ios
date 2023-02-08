@@ -32,6 +32,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         appDelegate()?.handleBecomeActive()
+        addChangeListeners()
     }
 
     private func addChangeListeners() {
