@@ -34,11 +34,12 @@ final class CarPlayListData {
         template.userInfo = CarPlayListData(emptyTitle: emptyTitle, dataSource)
         return template
     }
+
+    /// Creates a new `CPListTemplate` that doesn't update
+    static func staticTemplate(title: String, image: UIImage? = nil, _ dataSource: @escaping SectionDataSource) -> CPListTemplate {
         let template = CPListTemplate(title: title, sections: dataSource() ?? [])
         template.tabTitle = title
         template.tabImage = image
-        template.emptyViewSubtitleVariants = [emptyTitle]
-        template.userInfo = CarPlayListData(dataSource)
         return template
     }
 }
