@@ -26,7 +26,28 @@ public extension UIImage {
         return coloredImage
     }
 
-    func resized(to newSize: CGSize, scale: CGFloat = 0) -> UIImage? {
+
+    /// Resize the image using the aspect ration to the given size
+    /// Specify the displayScale to set the UIImage.scale factor of the image
+    func resizeProportionally(to newSize: CGSize, displayScale: CGFloat = 0) -> UIImage {
+        let widthRatio = newSize.width / size.width
+        let heightRatio = newSize.height / size.height
+
+        let scaleFactor = min(widthRatio, heightRatio)
+        let scaledImageSize = CGSize(
+            width: size.width * scaleFactor,
+            height: size.height * scaleFactor
+        )
+
+        // If it fails, just return the same image
+        guard let resized = resized(to: scaledImageSize, displayScale: displayScale) else {
+            return self
+        }
+
+        return resized
+    }
+
+    func resized(to newSize: CGSize, displayScale: CGFloat = 0) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
         defer { UIGraphicsEndImageContext() }
 

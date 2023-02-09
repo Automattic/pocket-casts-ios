@@ -119,27 +119,7 @@ private extension UIImage {
         }
 
         // Scale the image to the max size CarPlay expects
-        return processedImage.scaleTo(maxSize: maxSize, traits: traits)
-    }
-
-    /// Resize the image to the CPListItem.maximumImageSize
-    func scaleTo(maxSize: CGSize, traits: UITraitCollection) -> UIImage {
-        let displayScale = traits.displayScale
-
-        let widthRatio = maxSize.width / size.width
-        let heightRatio = maxSize.height / size.height
-
-        let scaleFactor = min(widthRatio, heightRatio)
-        let scaledImageSize = CGSize(
-            width: size.width * scaleFactor,
-            height: size.height * scaleFactor
-        )
-
-        guard let resized = resized(to: scaledImageSize, scale: displayScale) else {
-            return self
-        }
-
-        return resized
+        return processedImage.resizeProportionally(to: maxSize, displayScale: traits.displayScale)
     }
 }
 
