@@ -74,7 +74,7 @@ class CarPlayImageHelper {
         }
 
         var cachedImage: UIImage? = nil
-        
+
         imageCache.retrieveImageInDiskCache(forKey: cacheKey, options: [.loadDiskFileSynchronously]) { result in
             switch result {
             case let .success(image):
