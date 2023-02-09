@@ -53,7 +53,7 @@ extension CarPlaySceneDelegate {
     func createUpNextImageItem(episodes: [BaseEpisode]) -> CPListImageRowItem {
         var images = [UIImage]()
         for episode in episodes {
-            images.append(CarPlayImageHelper.imageForEpisode(episode))
+            images.append(CarPlayImageHelper.imageForEpisode(episode, maxSize: CPListImageRowItem.maximumImageSize))
         }
 
         let item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)

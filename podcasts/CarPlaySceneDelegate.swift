@@ -19,46 +19,69 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
         interfaceController.setRootTemplate(tabTemplate)
 
         self.visibleTemplate = tabTemplate.selectedTemplate
-
         setupNowPlaying()
-        addChangeListeners()
     }
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
         removeAllCustomObservers()
         self.interfaceController?.delegate = nil
         self.interfaceController = nil
+
+        CPNowPlayingTemplate.shared.remove(self)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        // The traits are only set after the scene is active, and needed to size the images properly
+        CarPlayImageHelper.carTraitCollection = interfaceController?.carTraitCollection
+        self.visibleTemplate?.reloadData()
+
         appDelegate()?.handleBecomeActive()
+        addChangeListeners()
     }
 
     private func addChangeListeners() {
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.episodeDurationChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(ServerNotifications.episodeTypeOrLengthChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(handleDataUpdated))
+        let notifications = [
+            // Podcast Changes
+            ServerNotifications.podcastsRefreshed,
+            Constants.Notifications.opmlImportCompleted,
 
-        // playback related
-        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(handlePlaybackStateChanged))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(handlePlaybackStateChanged))
-        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(handlePlaybackStateChanged))
-        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(handlePlaybackStateChanged))
+            // Filters
+            Constants.Notifications.filterChanged,
 
-        // user episode notifications
-        addCustomObserver(Constants.Notifications.userEpisodeUpdated, selector: #selector(handleDataUpdated))
-        addCustomObserver(Constants.Notifications.userEpisodeDeleted, selector: #selector(handleDataUpdated))
-        addCustomObserver(ServerNotifications.userEpisodesRefreshed, selector: #selector(handleDataUpdated))
+            // Episode changes
+            Constants.Notifications.episodeDownloaded,
+            Constants.Notifications.episodePlayStatusChanged,
+            Constants.Notifications.episodeArchiveStatusChanged,
+            Constants.Notifications.episodeDurationChanged,
+            Constants.Notifications.episodeDownloadStatusChanged,
+            ServerNotifications.episodeTypeOrLengthChanged,
+            Constants.Notifications.manyEpisodesChanged,
+
+            // Up Next Changes
+            Constants.Notifications.upNextQueueChanged,
+            Constants.Notifications.upNextEpisodeAdded,
+            Constants.Notifications.upNextEpisodeRemoved,
+
+            // User Episodes
+            Constants.Notifications.userEpisodeUpdated,
+            Constants.Notifications.userEpisodeDeleted,
+            ServerNotifications.userEpisodesRefreshed,
+        ]
+
+        for notification in notifications {
+            addCustomObserver(notification, selector: #selector(handleDataUpdated))
+        }
+
+        let playbackNotifications = [
+            Constants.Notifications.playbackTrackChanged,
+            Constants.Notifications.playbackEnded,
+            Constants.Notifications.podcastChaptersDidUpdate,
+            Constants.Notifications.playbackStarted
+        ]
+
+        for notification in playbackNotifications {
+            addCustomObserver(notification, selector: #selector(handlePlaybackStateChanged))
+        }
     }
 
     @objc private func handlePlaybackStateChanged() {
@@ -74,9 +97,11 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     @objc private func handleDataUpdated() {
-        // Prevent updating too often when multiple notifications fire at once
-        debouncer.call {
-            self.reloadVisibleTemplate()
+        DispatchQueue.main.async {
+            // Prevent updating too often when multiple notifications fire at once
+            self.debouncer.call {
+                self.reloadVisibleTemplate()
+            }
         }
     }
 
