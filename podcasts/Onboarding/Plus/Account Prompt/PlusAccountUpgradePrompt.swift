@@ -59,7 +59,6 @@ struct PlusAccountUpgradePrompt: View {
         PlusMiniFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
         PlusMiniFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())),
         PlusMiniFeature(iconName: "plus-feature-folders", title: L10n.folders),
-        PlusMiniFeature(iconName: "plus-feature-hide-ads", title: L10n.plusMarketingHideAdsTitle),
         PlusMiniFeature(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
     ]
 }
