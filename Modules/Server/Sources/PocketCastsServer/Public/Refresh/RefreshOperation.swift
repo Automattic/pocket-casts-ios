@@ -181,7 +181,7 @@ class RefreshOperation: Operation {
         }
 
         for candidate in autoAddCandidates {
-            // Ignore any podcasts that no longer have the setting on
+            // Ignore any podcasts that no longer have the setting enabled
             guard candidate.autoAddToUpNextSetting != .off else {
                 continue
             }
@@ -207,10 +207,10 @@ class RefreshOperation: Operation {
             DataManager.sharedManager.autoAddCandidates.remove(candidate)
         }
 
-        // We have finished processing all of the up next candiates.
+        // We have finished processing all of the up next candidates.
         //
-        // There is a chance that some candidates are invalid and were not processed. We'll solve this clearing all
-        // of the candidates from the DB to ensure there are no orphaned or ghost episodes.
+        // There is a chance that some candidates are invalid and were not processed. We'll solve this by deleting all
+        // of the candidates from the DB to ensure there are no ghost episodes left over.
         DataManager.sharedManager.autoAddCandidates.clearAll()
     }
 }
