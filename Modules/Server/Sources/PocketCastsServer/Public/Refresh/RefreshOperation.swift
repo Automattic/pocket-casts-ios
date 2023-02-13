@@ -168,6 +168,8 @@ class RefreshOperation: Operation {
                     var newEpisodes = addToUpNextCandidateEpisodes[podcast.uuid] ?? [String]()
                     newEpisodes.append(newEpisode.uuid)
                     addToUpNextCandidateEpisodes[podcast.uuid] = newEpisodes
+
+                    DataManager.sharedManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: newEpisode.uuid)
                 }
 
                 #if !os(watchOS)
