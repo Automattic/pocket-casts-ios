@@ -181,6 +181,11 @@ class RefreshOperation: Operation {
         }
 
         for candidate in autoAddCandidates {
+            // Ignore any podcasts that no longer have the setting on
+            guard candidate.autoAddToUpNextSetting != .off else {
+                continue
+            }
+
             let episodeUuid = candidate.episodeUuid
             let toTop = candidate.autoAddToUpNextSetting == .addFirst
 
