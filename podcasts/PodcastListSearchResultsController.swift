@@ -91,7 +91,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
     func clearSearch() {
         localResults.removeAll()
         remoteResults.removeAll()
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performLocalSearch(searchTerm: String) {

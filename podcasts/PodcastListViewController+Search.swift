@@ -1,15 +1,19 @@
 import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
+    var searchControllerView: UIView {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler.view
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard searchResultsControler?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
         refreshControl?.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard searchResultsControler?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
         refreshControl?.scrollViewDidEndDragging(scrollView)
@@ -84,7 +88,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     // MARK: - PCSearchBarDelegate
 
     func searchDidBegin() {
-        guard let searchView = searchResultsControler.view else { return }
+        let searchView = searchControllerView
 
         searchView.alpha = 0
         view.addSubview(searchView)
@@ -98,15 +102,15 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         ])
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
-            self.searchResultsControler.view.alpha = 1
+            searchView.alpha = 1
         }
     }
 
     func searchDidEnd() {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-            self.searchResultsControler.view.alpha = 0
+            self.searchControllerView.alpha = 0
         }) { _ in
-            self.searchResultsControler.view.removeFromSuperview()
+            self.searchControllerView.removeFromSuperview()
             self.searchResultsControler.clearSearch()
         }
     }
