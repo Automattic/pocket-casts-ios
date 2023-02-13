@@ -199,4 +199,38 @@ class RefreshOperation: Operation {
     private func cleanupAfterCancel() {
         apiQueue.cancelAllOperations()
     }
+
+    private func processAutoAddUpNextCandidates() {
+        // look through our candidate episodes that are new and should be added to Up Next, and add any that haven't been played or archived as part of the sync
+        let upNextLimit = ServerSettings.autoAddToUpNextLimit()
+
+        let autoAddCandidates = DataManager.sharedManager.autoAddCandidates.candidates()
+
+        if autoAddCandidates.count > 0 {
+            let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
+            FileLog.shared.addMessage("Checking for auto add to up next episodes in \(autoAddCandidates.count) podcasts that have been updated with auto add to up next turned on limit is \(upNextLimit) starting count is \(startingCount)")
+        }
+
+        for candidate in autoAddCandidates {
+            let episodeUuid = candidate.episodeUuid
+            let toTop = candidate.autoAddToUpNextSetting == .addFirst
+
+            guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid), !episode.played(), !episode.archived, let inUpNext = ServerConfig.shared.playbackDelegate?.inUpNext(episode: episode), inUpNext == false else { continue }
+
+            let currentCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
+            if currentCount < upNextLimit {
+                FileLog.shared.addMessage("Current Up Next count \(currentCount) is less than the limit, adding \(episode.displayableTitle()) to the \(toTop ? "top" : "bottom") of Up Next")
+                ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: false, toTop: toTop)
+            } else if toTop, ServerSettings.onAutoAddLimitReached() == .addToTopOnly {
+                FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit but still adding \(episode.displayableTitle()) to the top of the list")
+                ServerConfig.shared.playbackDelegate?.removeLastEpisodeFromUpNext()
+                ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop)
+            } else {
+                FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit not adding episode \(episode.displayableTitle())")
+            }
+
+            // The candidate has been processed, remove it from the database
+            DataManager.sharedManager.autoAddCandidates.remove(candidate)
+        }
+    }
 }
