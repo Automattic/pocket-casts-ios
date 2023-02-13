@@ -4,6 +4,7 @@
 - CarPlay: Tapping an episode now goes to the now playing screen (#702)
 - CarPlay: The mark as played and chapter icons now update with the dark/light mode (#700)
 - CarPlay: Fixed many issues where the UI would not refresh correctly (#699)
+- Auto Add Up Next: Fixed an issue that could cause items in Auto Add Up Next to not be added (#711)
 
 
 7.32
