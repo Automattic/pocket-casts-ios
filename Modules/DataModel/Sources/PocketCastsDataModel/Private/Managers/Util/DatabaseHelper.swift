@@ -641,6 +641,26 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 41 {
+            do {
+                try db.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS AutoAddCandidates (
+                    id INTEGER PRIMARY KEY,
+                    episode_uuid varchar(40) NOT NULL,
+                    podcast_uuid varchar(40) NOT NULL
+                );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode ON AutoAddCandidates (episode_uuid)", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast ON AutoAddCandidates (podcast_uuid)", values: nil)
+
+                schemaVersion = 41
+            } catch {
+                failedAt(41)
+                return
+            }
+        }
+
         db.commit()
     }
 }
