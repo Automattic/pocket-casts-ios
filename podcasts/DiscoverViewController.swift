@@ -20,6 +20,8 @@ class DiscoverViewController: PCViewController {
     var searchController: PCSearchBarController!
     var searchResultsController: DiscoverPodcastSearchResultsController!
 
+    var newSearchResultsController: SearchResultsViewController!
+
     private var loadingContent = false
 
     var discoverLayout: DiscoverLayout?
