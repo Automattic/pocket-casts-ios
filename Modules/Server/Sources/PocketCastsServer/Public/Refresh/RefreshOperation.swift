@@ -7,8 +7,6 @@ class RefreshOperation: Operation {
 
     private var completionHandler: ((RefreshFetchResult) -> Void)?
 
-    private var addToUpNextCandidateEpisodes = [String: [String]]() // podcastUuid : [episodeUuid]
-
     private lazy var apiQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -92,35 +90,10 @@ class RefreshOperation: Operation {
             } else { // no sync required, we're done
                 completionHandler?(refreshResult == .successNewData ? .newData : .noData)
             }
+
             ServerConfig.shared.syncDelegate?.applyAutoArchivingToAllPodcasts()
 
-            // look through our candidate episodes that are new and should be added to Up Next, and add any that haven't been played or archived as part of the sync
-            let upNextLimit = ServerSettings.autoAddToUpNextLimit()
-            if addToUpNextCandidateEpisodes.keys.count > 0 {
-                let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
-                FileLog.shared.addMessage("Checking for auto add to up next episodes in \(addToUpNextCandidateEpisodes.keys.count) podcasts that have been updated with auto add to up next turned on limit is \(upNextLimit) starting count is \(startingCount)")
-            }
-            for podcastUuid in addToUpNextCandidateEpisodes.keys {
-                guard let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { continue }
-
-                for episodeUuid in addToUpNextCandidateEpisodes[podcastUuid] ?? [String]() {
-                    guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid), !episode.played(), !episode.archived, let inUpNext = ServerConfig.shared.playbackDelegate?.inUpNext(episode: episode), inUpNext == false else { continue }
-
-                    let toTop = podcast.autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
-
-                    let currentCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
-                    if currentCount < upNextLimit {
-                        FileLog.shared.addMessage("Current Up Next count \(currentCount) is less than the limit, adding \(episode.displayableTitle()) to the \(toTop ? "top" : "bottom") of Up Next")
-                        ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: false, toTop: toTop)
-                    } else if toTop, ServerSettings.onAutoAddLimitReached() == .addToTopOnly {
-                        FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit but still adding \(episode.displayableTitle()) to the top of the list")
-                        ServerConfig.shared.playbackDelegate?.removeLastEpisodeFromUpNext()
-                        ServerConfig.shared.playbackDelegate?.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop)
-                    } else {
-                        FileLog.shared.addMessage("Current Up Next count \(currentCount) is over the limit not adding episode \(episode.displayableTitle())")
-                    }
-                }
-            }
+            processAutoAddUpNextCandidates()
 
             ServerConfig.shared.syncDelegate?.performActionsAfterSync()
         }
@@ -165,10 +138,6 @@ class RefreshOperation: Operation {
 
                 // store episodes that we might possibly add to Up Next for processing after a sync
                 if podcast.autoAddToUpNextOn() {
-                    var newEpisodes = addToUpNextCandidateEpisodes[podcast.uuid] ?? [String]()
-                    newEpisodes.append(newEpisode.uuid)
-                    addToUpNextCandidateEpisodes[podcast.uuid] = newEpisodes
-
                     DataManager.sharedManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: newEpisode.uuid)
                 }
 
