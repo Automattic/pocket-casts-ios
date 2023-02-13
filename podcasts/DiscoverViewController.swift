@@ -20,7 +20,7 @@ class DiscoverViewController: PCViewController {
     var searchController: PCSearchBarController!
     var searchResultsController: DiscoverPodcastSearchResultsController!
 
-    var newSearchResultsController: SearchResultsViewController!
+    lazy var newSearchResultsController = SearchResultsViewController()
 
     private var loadingContent = false
 
