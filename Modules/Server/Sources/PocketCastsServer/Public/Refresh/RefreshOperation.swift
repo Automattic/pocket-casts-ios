@@ -206,5 +206,11 @@ class RefreshOperation: Operation {
             // The candidate has been processed, remove it from the database
             DataManager.sharedManager.autoAddCandidates.remove(candidate)
         }
+
+        // We have finished processing all of the up next candiates.
+        //
+        // There is a chance that some candidates are invalid and were not processed. We'll solve this clearing all
+        // of the candidates from the DB to ensure there are no orphaned or ghost episodes.
+        DataManager.sharedManager.autoAddCandidates.clearAll()
     }
 }
