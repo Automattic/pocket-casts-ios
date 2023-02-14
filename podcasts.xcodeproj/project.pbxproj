@@ -514,6 +514,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */; };
 		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */; };
 		8BB1187F290C56F7009E3A39 /* CategoryPillar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */; };
@@ -2130,6 +2131,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialLogin.swift; sourceTree = "<group>"; };
 		8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPillar.swift; sourceTree = "<group>"; };
 		8BB11880290C5720009E3A39 /* CategoriesContrastingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesContrastingColor.swift; sourceTree = "<group>"; };
@@ -3894,6 +3896,14 @@
 				8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8BAB8B2D299ABC5E00B8404C /* New Search */ = {
+			isa = PBXGroup;
+			children = (
+				8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */,
+			);
+			path = "New Search";
 			sourceTree = "<group>";
 		};
 		8BAD6E5F2975AF9900DB7259 /* Login */ = {
@@ -6282,6 +6292,7 @@
 				BD98C5511BA808CF00E85D3B /* Cells */,
 				BD95ED631BAFA1FB004335B0 /* Country */,
 				BD18FB1C219ACC770012C41D /* Search */,
+				8BAB8B2D299ABC5E00B8404C /* New Search */,
 				BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */,
 				BDE60ACD2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift */,
 				BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */,
@@ -7996,6 +8007,7 @@
 				BD90134F275F3346004AC104 /* ThemeSelectorView.swift in Sources */,
 				8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */,
 				46C22EE328F7497300F4173B /* DeveloperMenu.swift in Sources */,
+				8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,

@@ -22,6 +22,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Displays the new onboarding view updates
     case onboardingUpdates
 
+    /// New search
+    case newSearch
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -42,6 +45,8 @@ enum FeatureFlag: String, CaseIterable {
             return false
         case .onboardingUpdates:
             return true
+        case .newSearch:
+            return false
         }
     }
 }
