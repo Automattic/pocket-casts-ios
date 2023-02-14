@@ -99,7 +99,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 
         remoteResults.removeAll()
         localResults = filteredItems
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
