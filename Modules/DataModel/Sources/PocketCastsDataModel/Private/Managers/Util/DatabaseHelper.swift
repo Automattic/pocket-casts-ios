@@ -660,6 +660,8 @@ class DatabaseHelper {
             }
         }
 
+        #if DEBUG
+        #warning("TODO: Remove the debug check once the FeatureFlag is enabled")
         if schemaVersion < 42 {
             do {
                 try db.executeUpdate("""
@@ -688,6 +690,7 @@ class DatabaseHelper {
                 return
             }
         }
+        #endif
 
         db.commit()
     }
