@@ -651,8 +651,8 @@ class DatabaseHelper {
                 );
                 """, values: nil)
 
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode ON AutoAddCandidates (episode_uuid)", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast ON AutoAddCandidates (podcast_uuid)", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS candidate_episode ON AutoAddCandidates (episode_uuid)", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS candidate_podcast ON AutoAddCandidates (podcast_uuid)", values: nil)
 
                 schemaVersion = 41
             } catch {
