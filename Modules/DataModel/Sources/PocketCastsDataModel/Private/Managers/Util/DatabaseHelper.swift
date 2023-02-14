@@ -657,6 +657,34 @@ class DatabaseHelper {
                 schemaVersion = 41
             } catch {
                 failedAt(41)
+            }
+        }
+
+        if schemaVersion < 42 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS Bookmark (
+                        id integer,
+                        uuid varchar(40) NOT NULL,
+                        episode_uuid varchar(40) NOT NULL,
+                        podcast_uuid varchar(40),
+                        timestamp_start real NOT NULL,
+                        timestamp_end real NOT NULL,
+                        transcription text,
+                        date_added INTEGER NOT NULL,
+                        deleted int NOT NULL DEFAULT 0,
+                        PRIMARY KEY (id)
+                    );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_uuid ON Bookmark (uuid);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_episode ON Bookmark (episode_uuid);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_podcast ON Bookmark (podcast_uuid);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_deleted ON Bookmark (deleted);", values: nil)
+
+                schemaVersion = 42
+            } catch {
+                failedAt(42)
                 return
             }
         }
