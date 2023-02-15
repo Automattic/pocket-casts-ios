@@ -222,7 +222,7 @@ extension BookmarkDataManager {
                 \(Column.transcription) text,
                 \(Column.createdDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
-                PRIMARY KEY (uuid)
+                PRIMARY KEY (\(Column.uuid))
             );
         """, values: nil)
 
