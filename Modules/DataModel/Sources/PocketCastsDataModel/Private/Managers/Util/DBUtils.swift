@@ -61,7 +61,7 @@ extension Array where Element == Any? {
 
     /// Converts an array to VALUES (?, ...) for each of the items for use in an INSERT query
     var insertBindingValues: String {
-        "VALUES (\(map { _ in "?" }.columnString)"
+        "VALUES (\(map { _ in "?" }.columnString))"
     }
 }
 
