@@ -1876,8 +1876,13 @@ class PlaybackManager: ServerPlaybackDelegate {
 
 extension PlaybackManager {
     func bookmark() {
-        guard FeatureFlag.bookmarks.enabled else { return }
-        guard let episode = currentEpisode() else { return }
+        guard
+            FeatureFlag.bookmarks.enabled,
+            let episode = currentEpisode()
+        else {
+            return
+        }
+        
         let currentTime = currentTime()
 
         bookmarkManager.add(to: episode, at: currentTime)
