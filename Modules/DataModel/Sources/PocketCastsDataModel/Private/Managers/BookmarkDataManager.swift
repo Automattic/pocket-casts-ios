@@ -42,12 +42,12 @@ public struct BookmarkDataManager {
         selectBookmarks(where: [.uuid], values: [uuid], limit: 1).first
     }
 
-    /// Retrieves all the Bookmarks for the episode
+    /// Retrieves all the Bookmarks for an episode
     public func bookmarks(forEpisode episodeUuid: String) -> [Bookmark] {
         selectBookmarks(where: [.episode], values: [episodeUuid])
     }
 
-    /// Retrieves all the bookmarks for a podcast, and optionally a specific episode for that podcast
+    /// Retrieves all the bookmarks for a podcast, and optionally a specific episode of that podcast
     public func bookmarks(forPodcast podcastUuid: String, episodeUuid: String? = nil) -> [Bookmark] {
         var values = [podcastUuid]
         var whereColumns = [Column.podcast]
