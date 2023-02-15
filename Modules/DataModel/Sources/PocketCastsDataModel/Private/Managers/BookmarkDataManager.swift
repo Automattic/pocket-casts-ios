@@ -16,25 +16,32 @@ public struct BookmarkDataManager {
     ///   - start: The start time interval of the clip
     ///   - end: The end time interval of the clip
     ///   - transcription: A transcription of the clip if available
-    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) {
+    @discardableResult
+    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) -> String? {
         // Prevent adding more than 1 bookmark at the same place
-        if existingBookmark(forEpisode: episodeUuid, start: start, end: end) != nil {
-            return
+        if let existing = existingBookmark(forEpisode: episodeUuid, start: start, end: end) {
+            return existing.uuid
         }
 
-        let uuid = UUID().uuidString.lowercased()
-        let now = Date().timeIntervalSince1970
-
-        let columns = Column.allCases
-        let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+        var bookmarkUuid: String? = nil
 
         dbQueue.inDatabase { db in
             do {
+                let uuid = UUID().uuidString.lowercased()
+                let now = Date().timeIntervalSince1970
+
+                let columns = Column.insertColumns
+                let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
+
+                bookmarkUuid = uuid
             } catch {
                 FileLog.shared.addMessage("BookmarkManager.add failed: \(error)")
             }
         }
+
+        return bookmarkUuid
     }
 
     /// Retrieves a single Bookmark for the given UUID
@@ -126,8 +133,19 @@ public struct BookmarkDataManager {
         case timestampStart = "timestamp_start"
         case timestampEnd = "timestamp_end"
         case transcription
+        case deleted
 
         var description: String { rawValue }
+
+        static let insertColumns: [Column] = [
+            .uuid,
+            .createdDate,
+            .episode,
+            .podcast,
+            .timestampStart,
+            .timestampEnd,
+            .transcription
+        ]
     }
 }
 
@@ -188,5 +206,29 @@ private extension BookmarkDataManager {
         }
 
         return results
+    }
+}
+
+// MARK: - Schema Creation
+extension BookmarkDataManager {
+    static func createTable(in db: FMDatabase) throws {
+        try db.executeUpdate("""
+            CREATE TABLE IF NOT EXISTS \(Self.tableName) (
+                \(Column.uuid) varchar(40) NOT NULL,
+                \(Column.episode) varchar(40) NOT NULL,
+                \(Column.podcast) varchar(40),
+                \(Column.timestampStart) real NOT NULL,
+                \(Column.timestampEnd) real NOT NULL,
+                \(Column.transcription) text,
+                \(Column.createdDate) INTEGER NOT NULL,
+                \(Column.deleted) int NOT NULL DEFAULT 0,
+                PRIMARY KEY (\(Column.uuid))
+            );
+        """, values: nil)
+
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_uuid ON \(Self.tableName) (\(Column.uuid));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_episode ON \(Self.tableName) (\(Column.episode));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_podcast ON \(Self.tableName) (\(Column.podcast));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_deleted ON \(Self.tableName) (\(Column.deleted));", values: nil)
     }
 }
