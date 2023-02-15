@@ -69,7 +69,7 @@ private extension BookmarkManager {
             #if !os(watchOS)
             // This just plays a system sound instead.
             if let url = FileManager.default.urls(for: .libraryDirectory, in: .systemDomainMask).first {
-                let audioFile = url.appendingPathComponent("Audio/UISounds/PINSubmit_AX.caf")
+                let audioFile = url.appendingPathComponent("Audio/UISounds/jbl_confirm.caf")
                 var soundID: SystemSoundID = .zero
                 AudioServicesCreateSystemSoundID(audioFile as CFURL, &soundID)
                 AudioServicesPlaySystemSoundWithCompletion(soundID) {
