@@ -21,7 +21,19 @@ public struct BookmarkDataManager {
         var description: String { rawValue }
     }
 }
-// MARK: - DB Column Constants
 
+// MARK: - DB Column Constants
+private extension FMResultSet {
+    func object(for column: BookmarkDataManager.Column) -> Any? {
+        object(forColumn: column.rawValue)
+    }
+
+    func string(for column: BookmarkDataManager.Column) -> String? {
+        string(forColumn: column.rawValue)
+    }
+
+    func date(for column: BookmarkDataManager.Column) -> Date? {
+        date(forColumn: column.rawValue)
+    }
 }
 }
