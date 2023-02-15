@@ -36,9 +36,16 @@ private extension FMResultSet {
         date(forColumn: column.rawValue)
     }
 }
+
 // MARK: - Private
 
 private extension BookmarkDataManager {
+    /// Looks for any existing bookmarks in an episode that have the same start/end timestampss
+    func existingBookmark(forEpisode episodeUuid: String, start: TimeInterval, end: TimeInterval) -> Bookmark? {
+        selectBookmarks(where: [.episode, .timestampStart, .timestampEnd],
+                        values: [episodeUuid, start, end],
+                        limit: 1).first
+    }
 
     func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0) -> [Bookmark] {
         let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
