@@ -16,25 +16,32 @@ public struct BookmarkDataManager {
     ///   - start: The start time interval of the clip
     ///   - end: The end time interval of the clip
     ///   - transcription: A transcription of the clip if available
-    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) {
+    @discardableResult
+    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) -> String? {
         // Prevent adding more than 1 bookmark at the same place
-        if existingBookmark(forEpisode: episodeUuid, start: start, end: end) != nil {
-            return
+        if let existing = existingBookmark(forEpisode: episodeUuid, start: start, end: end) {
+            return existing.uuid
         }
 
-        let uuid = UUID().uuidString.lowercased()
-        let now = Date().timeIntervalSince1970
-
-        let columns = Column.allCases
-        let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+        var bookmarkUuid: String? = nil
 
         dbQueue.inDatabase { db in
             do {
+                let uuid = UUID().uuidString.lowercased()
+                let now = Date().timeIntervalSince1970
+
+                let columns = Column.allCases
+                let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
+
+                bookmarkUuid = uuid
             } catch {
                 FileLog.shared.addMessage("BookmarkManager.add failed: \(error)")
             }
         }
+
+        return bookmarkUuid
     }
 
     /// Retrieves a single Bookmark for the given UUID
