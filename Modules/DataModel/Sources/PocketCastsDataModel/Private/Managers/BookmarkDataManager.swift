@@ -30,7 +30,7 @@ public struct BookmarkDataManager {
                 let uuid = UUID().uuidString.lowercased()
                 let now = Date().timeIntervalSince1970
 
-                let columns = Column.allCases
+                let columns = Column.insertColumns
                 let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
@@ -206,5 +206,29 @@ private extension BookmarkDataManager {
         }
 
         return results
+    }
+}
+
+// MARK: - Schema Creation
+extension BookmarkDataManager {
+    static func createTable(in db: FMDatabase) throws {
+        try db.executeUpdate("""
+            CREATE TABLE IF NOT EXISTS \(Self.tableName) (
+                \(Column.uuid) varchar(40) NOT NULL,
+                \(Column.episode) varchar(40) NOT NULL,
+                \(Column.podcast) varchar(40),
+                \(Column.timestampStart) real NOT NULL,
+                \(Column.timestampEnd) real NOT NULL,
+                \(Column.transcription) text,
+                \(Column.createdDate) INTEGER NOT NULL,
+                \(Column.deleted) int NOT NULL DEFAULT 0,
+                PRIMARY KEY (uuid)
+            );
+        """, values: nil)
+
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_uuid ON \(Self.tableName) (\(Column.uuid));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_episode ON \(Self.tableName) (\(Column.episode));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_podcast ON \(Self.tableName) (\(Column.podcast));", values: nil)
+        try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_deleted ON \(Self.tableName) (\(Column.deleted));", values: nil)
     }
 }
