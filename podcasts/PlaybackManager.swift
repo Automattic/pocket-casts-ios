@@ -1466,11 +1466,13 @@ class PlaybackManager: ServerPlaybackDelegate {
                     strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
                 } else {
                     if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-//                        strongSelf.lastSeekTime = Date()
-//                        strongSelf.skipBack()
-
-                        // TODO: Add detecting of a setting let the user choose to not override this
-                        strongSelf.bookmark()
+                        if FeatureFlag.bookmarks.enabled {
+                            // TODO: Add detecting of a setting let the user choose to not override this
+                            strongSelf.bookmark()
+                        } else {
+                            strongSelf.lastSeekTime = Date()
+                            strongSelf.skipBack()
+                        }
                     } else {
                         FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
                     }
@@ -1874,6 +1876,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
 extension PlaybackManager {
     func bookmark() {
+        guard FeatureFlag.bookmarks.enabled else { return }
         guard let episode = currentEpisode() else { return }
         let currentTime = currentTime()
 
