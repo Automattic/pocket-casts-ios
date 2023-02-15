@@ -36,4 +36,41 @@ private extension FMResultSet {
         date(forColumn: column.rawValue)
     }
 }
+// MARK: - Private
+
+private extension BookmarkDataManager {
+
+    func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0) -> [Bookmark] {
+        let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
+
+        let selectColumns = Column.allCases.map { $0.rawValue }
+        let whereString = whereColumns.map { "\($0.rawValue) = ?" }.joined(separator: " AND ")
+
+        var results: [Bookmark] = []
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = """
+                    SELECT \(selectColumns.columnString)
+                    FROM \(Self.tableName)
+                    WHERE \(whereString)
+                    ORDER BY \(Column.createdDate) DESC
+                    \(limitQuery)
+                """
+
+                let resultSet = try db.executeQuery(query, values: values)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let bookmark = Bookmark(from: resultSet) {
+                        results.append(bookmark)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.selectBookmarks where (\(whereString) failed: \(error)")
+            }
+        }
+
+        return results
+    }
 }
