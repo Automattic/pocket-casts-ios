@@ -22,4 +22,15 @@ struct BookmarkManager {
 
         FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) from \(startTime) to \(time)")
     }
+
+    /// Retrieves all the bookmarks for a episode
+    func bookmarks(for episode: BaseEpisode) -> [Bookmark] {
+        dataManager.bookmarks(forEpisode: episode.uuid)
+    }
+
+    /// Retrieves all the bookmarks for a podcast
     func bookmarks(for podcast: Podcast) -> [Bookmark] {
+        dataManager.bookmarks(forEpisode: podcast.uuid)
+    }
+}
+
