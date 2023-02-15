@@ -8,15 +8,20 @@ public struct BookmarkDataManager {
     init(dbQueue: FMDatabaseQueue) {
         self.dbQueue = dbQueue
     }
+
+    enum Column: String, CaseIterable, CustomStringConvertible {
+        case uuid
+        case createdDate = "date_added"
+        case episode = "episode_uuid"
+        case podcast = "podcast_uuid"
+        case timestampStart = "timestamp_start"
+        case timestampEnd = "timestamp_end"
+        case transcription
+
+        var description: String { rawValue }
+    }
+}
 // MARK: - DB Column Constants
 
-private extension String {
-    static let uuid = "uuid"
-    static let createdDate = "date_added"
-    static let timestampStart = "timestamp_start"
-    static let timestampEnd = "timestamp_end"
-    static let episode = "episode_uuid"
-    static let podcast = "podcast_uuid"
-    static let transcription = "transcription"
 }
 }
