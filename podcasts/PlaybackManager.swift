@@ -1882,7 +1882,7 @@ extension PlaybackManager {
         else {
             return
         }
-        
+
         let currentTime = currentTime()
 
         bookmarkManager.add(to: episode, at: currentTime)
