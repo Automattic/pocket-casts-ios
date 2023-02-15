@@ -9,6 +9,33 @@ public struct BookmarkDataManager {
         self.dbQueue = dbQueue
     }
 
+    /// Adds a new bookmark to the database
+    /// - Parameters:
+    ///   - episodeUuid: The UUID of the episode we're adding to
+    ///   - podcastUuid: The UUID of the podcast of the episode, can be nil for user episodes
+    ///   - start: The start time interval of the clip
+    ///   - end: The end time interval of the clip
+    ///   - transcription: A transcription of the clip if available
+    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) {
+        // Prevent adding more than 1 bookmark at the same place
+        if existingBookmark(forEpisode: episodeUuid, start: start, end: end) != nil {
+            return
+        }
+
+        let uuid = UUID().uuidString.lowercased()
+        let now = Date().timeIntervalSince1970
+
+        let columns = Column.allCases
+        let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+
+        dbQueue.inDatabase { db in
+            do {
+                try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.add failed: \(error)")
+            }
+        }
+    }
     /// A bookmark that represents a time range within an episode
     public struct Bookmark {
         public let uuid: String
