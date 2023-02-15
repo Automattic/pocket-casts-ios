@@ -9,6 +9,64 @@ public struct BookmarkDataManager {
         self.dbQueue = dbQueue
     }
 
+    /// A bookmark that represents a time range within an episode
+    public struct Bookmark {
+        public let uuid: String
+        public let createdDate: Date
+        public let timeRange: TimeRange
+        public let transcription: String?
+
+        public lazy var episode: BaseEpisode? = {
+            DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+        }()
+
+        public lazy var podcast: Podcast? = {
+            guard let podcastUuid else {
+                return nil
+            }
+            return DataManager.sharedManager.findPodcast(uuid: podcastUuid)
+        }()
+
+        // Internally used
+        private let episodeUuid: String
+        private let podcastUuid: String?
+
+        init?(from resultSet: FMResultSet) {
+            guard
+                let uuid = resultSet.string(for: .uuid),
+                let createdDate = resultSet.date(for: .createdDate),
+                let episode = resultSet.string(for: .episode),
+                let timeRange = TimeRange(from: resultSet)
+            else {
+                return nil
+            }
+
+            self.uuid = uuid
+            self.createdDate = createdDate
+            self.timeRange = timeRange
+            self.episodeUuid = episode
+            self.podcastUuid = resultSet.string(for: .podcast)
+            self.transcription = resultSet.string(for: .transcription)
+        }
+
+        public struct TimeRange {
+            public let start: TimeInterval
+            public let end: TimeInterval
+
+            init?(from resultSet: FMResultSet) {
+                guard
+                    let timeStartObj = resultSet.object(for: .timestampStart) as? Double,
+                    let timeEndObj = resultSet.object(for: .timestampEnd) as? Double
+                else {
+                    return nil
+                }
+
+                start = timeStartObj
+                end = timeEndObj
+            }
+        }
+    }
+
     enum Column: String, CaseIterable, CustomStringConvertible {
         case uuid
         case createdDate = "date_added"
