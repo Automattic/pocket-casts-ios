@@ -11,7 +11,11 @@ import PocketCastsUtils
 struct BookmarkManager {
     typealias Bookmark = BookmarkDataManager.Bookmark
 
-    private let dataManager = DataManager.sharedManager.bookmarks
+    private let dataManager: BookmarkDataManager
+
+    init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks) {
+        self.dataManager = dataManager
+    }
 
     /// Plays the "bookmark created" tone
     private lazy var tonePlayer: AVAudioPlayer? = {
