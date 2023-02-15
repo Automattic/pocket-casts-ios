@@ -78,7 +78,7 @@ public struct BookmarkDataManager {
             return DataManager.sharedManager.findPodcast(uuid: podcastUuid)
         }()
 
-        // Internally used
+        // Internally used to lazily load the episode/podcast
         private let episodeUuid: String
         private let podcastUuid: String?
 
@@ -106,14 +106,14 @@ public struct BookmarkDataManager {
 
             init?(from resultSet: FMResultSet) {
                 guard
-                    let timeStartObj = resultSet.object(for: .timestampStart) as? Double,
-                    let timeEndObj = resultSet.object(for: .timestampEnd) as? Double
+                    let start = resultSet.object(for: .timestampStart) as? Double,
+                    let end = resultSet.object(for: .timestampEnd) as? Double
                 else {
                     return nil
                 }
 
-                start = timeStartObj
-                end = timeEndObj
+                self.start = start
+                self.end = end
             }
         }
     }
