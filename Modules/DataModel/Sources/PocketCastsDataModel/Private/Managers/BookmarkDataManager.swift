@@ -133,8 +133,19 @@ public struct BookmarkDataManager {
         case timestampStart = "timestamp_start"
         case timestampEnd = "timestamp_end"
         case transcription
+        case deleted
 
         var description: String { rawValue }
+
+        static let insertColumns: [Column] = [
+            .uuid,
+            .createdDate,
+            .episode,
+            .podcast,
+            .timestampStart,
+            .timestampEnd,
+            .transcription
+        ]
     }
 }
 
