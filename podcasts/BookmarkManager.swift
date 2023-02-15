@@ -1,9 +1,31 @@
+#if DEBUG
+    #if canImport(AudioToolbox)
+    import AudioToolbox
+    #endif
+#endif
+
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
 struct BookmarkManager {
+    typealias Bookmark = BookmarkDataManager.Bookmark
+
     private let dataManager = DataManager.sharedManager.bookmarks
+
+    /// Plays the "bookmark created" tone
+    private lazy var tonePlayer: AVAudioPlayer? = {
+        guard
+            let url = Bundle.main.url(forResource: "TODO", withExtension: "TODO"),
+            let player = try? AVAudioPlayer(contentsOf: url)
+        else {
+            return nil
+        }
+
+        player.prepareToPlay()
+        return player
+    }()
+
     /// How long a bookmark clip is
     /// TODO: Make configurable
     private let clipLength = 1.minute
@@ -19,6 +41,7 @@ struct BookmarkManager {
 
         dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, start: startTime, end: time)
 
+        playTone()
 
         FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) from \(startTime) to \(time)")
     }
@@ -34,3 +57,30 @@ struct BookmarkManager {
     }
 }
 
+// MARK: - Private
+private extension BookmarkManager {
+    func playTone() {
+        // TODO: This is temporary until we have the actual sound file
+        #if DEBUG
+            #if !os(watchOS)
+            // This just plays a system sound instead.
+            if let url = FileManager.default.urls(for: .libraryDirectory, in: .systemDomainMask).first {
+                let audioFile = url.appendingPathComponent("Audio/UISounds/PINSubmit_AX.caf")
+                var soundID: SystemSoundID = .zero
+                AudioServicesCreateSystemSoundID(audioFile as CFURL, &soundID)
+                AudioServicesPlaySystemSoundWithCompletion(soundID) {
+                    AudioServicesDisposeSystemSoundID(soundID)
+                    AudioServicesRemoveSystemSoundCompletion(soundID)
+                }
+            }
+            #endif
+        #else
+        // Stop playing immediately and reset to 0
+        tonePlayer?.pause()
+        tonePlayer?.currentTime = 0
+
+        // Play
+        tonePlayer?.play()
+        #endif
+    }
+}
