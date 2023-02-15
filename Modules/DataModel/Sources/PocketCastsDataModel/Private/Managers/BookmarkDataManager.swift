@@ -36,6 +36,30 @@ public struct BookmarkDataManager {
             }
         }
     }
+
+    /// Retrieves a single Bookmark for the given UUID
+    public func bookmark(for uuid: String) -> Bookmark? {
+        selectBookmarks(where: [.uuid], values: [uuid], limit: 1).first
+    }
+
+    /// Retrieves all the Bookmarks for the episode
+    public func bookmarks(forEpisode episodeUuid: String) -> [Bookmark] {
+        selectBookmarks(where: [.episode], values: [episodeUuid])
+    }
+
+    /// Retrieves all the bookmarks for a podcast, and optionally a specific episode for that podcast
+    public func bookmarks(forPodcast podcastUuid: String, episodeUuid: String? = nil) -> [Bookmark] {
+        var values = [podcastUuid]
+        var whereColumns = [Column.podcast]
+
+        if let episodeUuid {
+            whereColumns.append(.episode)
+            values.append(episodeUuid)
+        }
+
+        return selectBookmarks(where: whereColumns, values: values)
+    }
+
     /// A bookmark that represents a time range within an episode
     public struct Bookmark {
         public let uuid: String
