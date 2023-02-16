@@ -1095,7 +1095,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>multi_select_starring_episodes_singular</key>
     <string>Destacant 1 episodi.</string>
     <key>multi_select_unarchiving_episodes_plural_format</key>
-    <string>Eliminant 1 episodis dels arxivats</string>
+    <string>Eliminant %1$@ episodis dels arxivats</string>
     <key>multi_select_unarchiving_episodes_singular</key>
     <string>Eliminant 1 episodi dels arxivats</string>
     <key>multi_select_unstar</key>
