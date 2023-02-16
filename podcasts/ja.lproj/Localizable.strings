@@ -116,7 +116,7 @@
     <key>account_signed_out_alert_title</key>
     <string>ログアウトされました。</string>
     <key>account_sso_failed</key>
-    <string>Appleでのサインインに失敗しました。 もう一度お試しください。</string>
+    <string>ログインに失敗しました。 もう一度お試しください。</string>
     <key>account_title</key>
     <string>Pocket Casts アカウント</string>
     <key>account_upgraded</key>
@@ -2148,6 +2148,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソード終了時</string>
     <key>sleep_timer_time_remaining</key>
     <string>スリープタイマーがオンになるまで、あと%1$@分</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Apple で続ける</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Google で続ける</string>
     <key>sonos_connect_action</key>
     <string>接続</string>
     <key>sonos_connect_prompt</key>

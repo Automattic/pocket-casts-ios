@@ -116,7 +116,7 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <key>account_signed_out_alert_title</key>
     <string>Sei stato disconnesso.</string>
     <key>account_sso_failed</key>
-    <string>Accesso con Apple non riuscito. Riprova.</string>
+    <string>Accesso non riuscito. Riprova.</string>
     <key>account_title</key>
     <string>Account Pocket Casts</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Fine dell'episodio</string>
     <key>sleep_timer_time_remaining</key>
     <string>Autospegnimento attivo, tempo rimanente: %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continua con Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continua con Google</string>
     <key>sonos_connect_action</key>
     <string>CONNETTI</string>
     <key>sonos_connect_prompt</key>

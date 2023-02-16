@@ -116,7 +116,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>account_signed_out_alert_title</key>
     <string>Du har blivit utloggad.</string>
     <key>account_sso_failed</key>
-    <string>Inloggning med Apple misslyckades. Försök igen.</string>
+    <string>Inloggning misslyckades. Försök igen.</string>
     <key>account_title</key>
     <string>Pocket Casts-konto</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ gratis provperiod på %1$@</string>
     <string>Avsnittets slut</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Fortsätt med Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Fortsätt med Google</string>
     <key>sonos_connect_action</key>
     <string>ANSLUT</string>
     <key>sonos_connect_prompt</key>

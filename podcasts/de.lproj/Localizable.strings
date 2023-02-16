@@ -116,7 +116,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>account_signed_out_alert_title</key>
     <string>Du wurdest abgemeldet.</string>
     <key>account_sso_failed</key>
-    <string>Die Anmeldung mit Apple ist fehlgeschlagen. Bitte versuche es erneut.</string>
+    <string>Anmeldung fehlgeschlagen. Bitte versuche es erneut.</string>
     <key>account_title</key>
     <string>Pocket Casts-Konto</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ Gratis-Test für %1$@</string>
     <string>Ende der Folge</string>
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Weiter mit Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Weiter mit Google</string>
     <key>sonos_connect_action</key>
     <string>VERBINDEN</string>
     <key>sonos_connect_prompt</key>
