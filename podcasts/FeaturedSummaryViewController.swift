@@ -2,7 +2,7 @@ import PocketCastsServer
 import UIKit
 
 class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate, DiscoverSummaryProtocol, TinyPageControlDelegate {
-    @IBOutlet var featuredCollectionView: UICollectionView!
+    @IBOutlet var featuredCollectionView: ThemeableCollectionView!
     @IBOutlet var pageControl: TinyPageControl! {
         didSet {
             pageControl.delegate = self
@@ -63,6 +63,11 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     override func viewWillAppear(_ animated: Bool) {
         featuredCollectionView.reloadData()
+        featuredCollectionView.intializeAutoScrollTimer()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        featuredCollectionView.stopAutoScrollTimer()
     }
 
     @objc private func podcastStatusChanged(notificiation: Notification) {
