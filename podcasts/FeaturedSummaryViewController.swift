@@ -63,11 +63,15 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     override func viewWillAppear(_ animated: Bool) {
         featuredCollectionView.reloadData()
-        featuredCollectionView.intializeAutoScrollTimer()
+        if FeatureFlag.discoverFeaturedAutoScroll.enabled {
+            featuredCollectionView.intializeAutoScrollTimer()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        featuredCollectionView.stopAutoScrollTimer()
+        if FeatureFlag.discoverFeaturedAutoScroll.enabled {
+            featuredCollectionView.stopAutoScrollTimer()
+        }
     }
 
     @objc private func podcastStatusChanged(notificiation: Notification) {
