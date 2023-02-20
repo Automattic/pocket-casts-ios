@@ -116,7 +116,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>account_signed_out_alert_title</key>
     <string>Tu sesión se ha cerrado.</string>
     <key>account_sso_failed</key>
-    <string>No se ha podido acceder con Apple. Inténtalo de nuevo.</string>
+    <string>No se ha podido iniciar sesión. Inténtalo de nuevo.</string>
     <key>account_title</key>
     <string>Cuenta de Pocket Casts</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ prueba gratuita de %1$@</string>
     <string>Final del episodio</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador activado, quedan %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continuar con Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continuar con Google</string>
     <key>sonos_connect_action</key>
     <string>CONECTAR</string>
     <key>sonos_connect_prompt</key>

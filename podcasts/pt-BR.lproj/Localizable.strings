@@ -116,7 +116,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>account_signed_out_alert_title</key>
     <string>Você foi desconectado.</string>
     <key>account_sso_failed</key>
-    <string>Falha ao fazer login com a Apple. Tente novamente.</string>
+    <string>O login falhou. Tente novamente.</string>
     <key>account_title</key>
     <string>Conta do Pocket Casts</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ teste gratuito de %1$@</string>
     <string>Fim do episódio</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continuar com a Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continuar com o Google</string>
     <key>sonos_connect_action</key>
     <string>CONECTAR</string>
     <key>sonos_connect_prompt</key>

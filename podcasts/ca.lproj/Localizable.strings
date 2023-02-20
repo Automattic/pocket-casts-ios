@@ -116,7 +116,7 @@
     <key>account_signed_out_alert_title</key>
     <string>La teva sessió s'ha tancat.</string>
     <key>account_sso_failed</key>
-    <string>Ha fallat l'acés amb Apple. Prova-ho de nou.</string>
+    <string>Ha fallat l'accés amb Apple. Prova-ho de nou.</string>
     <key>account_title</key>
     <string>Compte del Pocket Casts</string>
     <key>account_upgraded</key>
@@ -1095,7 +1095,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>multi_select_starring_episodes_singular</key>
     <string>Destacant 1 episodi.</string>
     <key>multi_select_unarchiving_episodes_plural_format</key>
-    <string>Eliminant 1 episodis dels arxivats</string>
+    <string>Eliminant %1$@ episodis dels arxivats</string>
     <key>multi_select_unarchiving_episodes_singular</key>
     <string>Eliminant 1 episodi dels arxivats</string>
     <key>multi_select_unstar</key>
@@ -2142,6 +2142,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Final de l'episodi</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporitzador activat, queden %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Segueix amb Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Segueix amb Google</string>
     <key>sonos_connect_action</key>
     <string>CONNECTAR</string>
     <key>sonos_connect_prompt</key>

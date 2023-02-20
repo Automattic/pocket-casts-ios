@@ -116,7 +116,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>account_signed_out_alert_title</key>
     <string>Je bent uitgelogd.</string>
     <key>account_sso_failed</key>
-    <string>Aanmelden met Apple mislukt. Probeer het nog eens.</string>
+    <string>Aanmelden mislukt. Probeer het nog eens.</string>
     <key>account_title</key>
     <string>Pocket Casts-account</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Einde van de aflevering</string>
     <key>sleep_timer_time_remaining</key>
     <string>Slaaptimer aan, %1$@ resterend</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Doorgaan met Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Doorgaan met Google</string>
     <key>sonos_connect_action</key>
     <string>VERBINDEN</string>
     <key>sonos_connect_prompt</key>

@@ -116,7 +116,7 @@
     <key>account_signed_out_alert_title</key>
     <string>Вы вышли из системы.</string>
     <key>account_sso_failed</key>
-    <string>Вход через Apple не выполнен. Повторите попытку.</string>
+    <string>Вход не выполнен. Повторите попытку.</string>
     <key>account_title</key>
     <string>Учетная запись Pocket Casts</string>
     <key>account_upgraded</key>
@@ -2149,6 +2149,10 @@
     <string>Конец выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Продолжить с Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Продолжить с помощью Google</string>
     <key>sonos_connect_action</key>
     <string>ПОДКЛЮЧИТЬСЯ</string>
     <key>sonos_connect_prompt</key>
