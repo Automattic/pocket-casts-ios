@@ -29,7 +29,7 @@ struct ImportDetailsView: View {
             }
 
             // Hide button for other
-            if app.id != .other {
+            if !app.hideButton {
                 Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
                     viewModel.openApp(app)
                 }

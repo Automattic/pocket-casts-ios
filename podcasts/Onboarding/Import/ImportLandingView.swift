@@ -99,6 +99,8 @@ extension ImportViewModel.ImportApp {
             return "import-app-podcasts"
         case .other:
             return "import-app-other"
+        case .opmlFromURL:
+            return "opml_from_url"
         }
     }
 }

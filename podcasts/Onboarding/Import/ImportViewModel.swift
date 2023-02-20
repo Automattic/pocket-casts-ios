@@ -34,10 +34,11 @@ class ImportViewModel: OnboardingModel {
         .init(id: .castbox, displayName: "Castbox", steps: L10n.importInstructionsCastbox),
         .init(id: .overcast, displayName: "Overcast", steps: L10n.importInstructionsOvercast),
         .init(id: .other, displayName: "other apps", steps: L10n.importPodcastsDescription),
+        .init(id: .opmlFromURL, displayName: "URL", steps: "")
     ]
 
     enum ImportAppId: String, AnalyticsDescribable {
-        case breaker, castbox = "wazecastbox", overcast, other
+        case breaker, castbox = "wazecastbox", overcast, other, opmlFromURL
         case castro = "co.supertop.Castro-2"
         case applePodcasts = "https://pocketcasts.com/import-from-apple-podcasts"
 
@@ -55,6 +56,8 @@ class ImportViewModel: OnboardingModel {
                 return "castro"
             case .applePodcasts:
                 return "apple_podcasts"
+            case .opmlFromURL:
+                return "opml_from_url"
             }
         }
     }
@@ -82,6 +85,15 @@ class ImportViewModel: OnboardingModel {
 
             return UIApplication.shared.canOpenURL(url)
         }
+        
+        var hideButton: Bool {
+            switch id {
+            case .opmlFromURL, .other:
+                return true
+            default:
+                return false
+            }
+        }
 
         func openApp() {
             guard let url else { return }
@@ -90,7 +102,7 @@ class ImportViewModel: OnboardingModel {
         }
 
         private var url: URL? {
-            if id == .other { return nil }
+            if id == .other || id == .opmlFromURL { return nil }
 
             let string: String
             if id == .applePodcasts {
