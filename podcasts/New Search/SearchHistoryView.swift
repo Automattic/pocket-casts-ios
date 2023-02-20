@@ -11,50 +11,69 @@ struct SearchHistoryView: View {
     var body: some View {
         List {
             Section {
-                HStack(spacing: 12) {
-                    PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                        .frame(width: 48, height: 48)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Podcast title")
-                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                        Text("Podcast • Author")
-                            .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
+                            .frame(width: 48, height: 48)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Podcast title")
+                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                            Text("Podcast • Author")
+                                .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                        }
+                        Spacer()
+                        Image("close")
+                            .frame(width: 48, height: 48)
                     }
-                    Spacer()
-                    Image("close")
+                    Rectangle()
+                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                        .frame(height: 0.5)
                 }
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
                 .listSectionSeparator(.hidden)
-                .listRowSeparator(.visible)
+                .listRowSeparator(.hidden)
+                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        Image("custom_search")
+                            .frame(width: 48, height: 48)
+                        Text("Search term")
+                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                        Spacer()
+                        Image("close")
+                            .frame(width: 48, height: 48)
+                    }
+                    Rectangle()
+                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                        .frame(height: 0.5)
+                }
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+                .listRowSeparator(.hidden)
+                .listSectionSeparator(.hidden)
                 .listRowSeparatorTint(AppTheme.tableDividerColor(for: theme.activeTheme).color)
                 .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-                .zIndex(10)
-                HStack(spacing: 12) {
-                    Image("custom_search")
-                        .frame(width: 48, height: 48)
-                    Text("Search term")
-                        .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                    Spacer()
-                    Image("close")
-                }
-                .listRowSeparator(.visible)
-                .listSectionSeparator(.hidden)
-                .listRowSeparatorTint(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-                HStack(spacing: 12) {
-                    PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                        .frame(width: 48, height: 48)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Lower Cognitive Load - Pick Your Tools, Then Do Your Work")
-                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                            .lineLimit(2)
-                        Text("Episode • 1h 35min • Developer Tea")
-                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                            .lineLimit(1)
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
+                            .frame(width: 48, height: 48)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Lower Cognitive Load - Pick Your Tools, Then Do Your Work")
+                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .lineLimit(2)
+                            Text("Episode • 1h 35min • Developer Tea")
+                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .lineLimit(1)
+                        }
+                        Spacer()
+                        Image("close")
+                            .frame(width: 48, height: 48)
                     }
-                    Spacer()
-                    Image("close")
+                    Rectangle()
+                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                        .frame(height: 0.5)
                 }
-                .listRowSeparator(.visible)
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+                .listRowSeparator(.hidden)
                     .listRowSeparatorTint(AppTheme.tableDividerColor(for: theme.activeTheme).color)
                     .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
             } header: {
