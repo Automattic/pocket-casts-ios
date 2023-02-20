@@ -1,3 +1,7 @@
+7.34
+-----
+
+
 7.33
 -----
 - CarPlay: Improved speed and reduced crashing (#705)
