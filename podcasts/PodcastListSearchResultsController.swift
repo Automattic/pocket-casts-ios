@@ -3,6 +3,7 @@ import PocketCastsServer
 import UIKit
 
 class PodcastListSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SearchResultsDelegate {
+
     private static let searchCellId = "SearchCell"
 
     private var localResults = [HomeGridItem]()
@@ -135,6 +136,8 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             }
         }
     }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
 }
 
 extension PodcastListSearchResultsController: AnalyticsSourceProvider {

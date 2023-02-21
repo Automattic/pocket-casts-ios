@@ -5,6 +5,7 @@ protocol SearchResultsDelegate {
     func clearSearch()
     func performLocalSearch(searchTerm: String)
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void))
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
 class SearchResultsViewController: OnboardingHostingViewController<AnyView> {
@@ -28,5 +29,9 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
         print("remote search: \(searchTerm)")
+    }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+
     }
 }
