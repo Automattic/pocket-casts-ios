@@ -1,130 +1,24 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 struct SearchHistoryView: View {
     @EnvironmentObject var theme: Theme
+
+    private var episode: Episode {
+        let episode = Episode()
+        episode.title = "Episode title"
+        episode.duration = 3600
+        return episode
+    }
 
     init() {
         UITableViewHeaderFooterView.appearance().backgroundView = UIView()
     }
 
     var body: some View {
-        List {
-            Section {
-                ZStack {
-                    Button(action: {
-                        print("row tapped")
-                    }) {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                    .buttonStyle(ListCellStyle())
-
-                    VStack(spacing: 12) {
-                        HStack(spacing: 12) {
-                            PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                                .frame(width: 48, height: 48)
-                                .allowsHitTesting(false)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Podcast title")
-                                    .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                    .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
-                                Text("Podcast • Author")
-                                    .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                    .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
-                            }
-                            Spacer()
-                            Button(action: {
-                                print("tapped")
-                            }) {
-                                Image("close")
-                            }
-                            .buttonStyle(HighlightButtonStyle())
-                            .frame(width: 48, height: 48)
-                        }
-                        Rectangle()
-                            .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                            .frame(height: 0.5)
-                    }
-                    .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-                }
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-                VStack(spacing: 12) {
-                    HStack(spacing: 12) {
-                        PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                            .frame(width: 48, height: 48)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Podcast title")
-                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
-                            Text("Podcast • Author")
-                                .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
-                        }
-                        Spacer()
-                        Button(action: {
-                            print("tapped")
-                        }) {
-                            Image("close")
-                        }
-                        .buttonStyle(HighlightButtonStyle())
-                        .frame(width: 48, height: 48)
-                    }
-                    Rectangle()
-                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                        .frame(height: 0.5)
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-                .listSectionSeparator(.hidden)
-                .listRowSeparator(.hidden)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-
-                VStack(spacing: 12) {
-                    HStack(spacing: 12) {
-                        Image("custom_search")
-                            .frame(width: 48, height: 48)
-                        Text("Search term")
-                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                        Spacer()
-                        Image("close")
-                            .frame(width: 48, height: 48)
-                    }
-                    Rectangle()
-                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                        .frame(height: 0.5)
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listSectionSeparator(.hidden)
-                .listRowSeparatorTint(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-                VStack(spacing: 12) {
-                    HStack(spacing: 12) {
-                        PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                            .frame(width: 48, height: 48)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Lower Cognitive Load - Pick Your Tools, Then Do Your Work")
-                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                .lineLimit(2)
-                            Text("Episode • 1h 35min • Developer Tea")
-                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
-                                .lineLimit(1)
-                        }
-                        Spacer()
-                        Image("close")
-                            .frame(width: 48, height: 48)
-                    }
-                    Rectangle()
-                        .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                        .frame(height: 0.5)
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                    .listRowSeparatorTint(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                    .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-            } header: {
+        VStack {
+            List {
                 HStack {
                     Text("Recent searches")
                         .font(style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
@@ -133,8 +27,27 @@ struct SearchHistoryView: View {
                         .font(style: .footnote, weight: .bold)
                         .foregroundColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: theme.activeTheme).color)
                 }
-                .environment(\.defaultMinListHeaderHeight, 1)
-                .listRowInsets(EdgeInsets(top: -30, leading: 16, bottom: 0, trailing: 16))
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
+                .listSectionSeparator(.hidden)
+                .listRowSeparator(.hidden)
+                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+
+                Section {
+                    SearchHistoryPodcastCell(podcast: Podcast.previewPodcast())
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+
+                    SearchHistoryPodcastCell(searchTerm: "Search term")
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+
+                    SearchHistoryPodcastCell(podcast: Podcast.previewPodcast(), episode: episode)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                }
             }
         }
         .background(AppTheme.colorForStyle(.primaryUi04, themeOverride: theme.activeTheme).color)
@@ -143,27 +56,82 @@ struct SearchHistoryView: View {
     }
 }
 
+struct SearchHistoryPodcastCell: View {
+    @EnvironmentObject var theme: Theme
+
+    var podcast: Podcast?
+
+    var episode: Episode?
+
+    var searchTerm: String?
+
+    private var subtitle: String {
+        if let episode, let podcast {
+            let duration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration))
+            return "Episode • \(duration) • \(podcast.title ?? "")"
+        } else if let podcast {
+            return "Podcast • \(podcast.author ?? "")"
+        }
+
+        return ""
+    }
+
+    var body: some View {
+        ZStack {
+            Button(action: {
+                print("row tapped")
+            }) {
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .buttonStyle(ListCellButtonStyle())
+
+            VStack(spacing: 12) {
+                HStack(spacing: 12) {
+                    if let podcast {
+                        PodcastCover(podcastUuid: podcast.uuid)
+                            .frame(width: 48, height: 48)
+                            .allowsHitTesting(false)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(podcast.title ?? "")
+                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
+                                .lineLimit(2)
+                            Text(subtitle)
+                                .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                                .lineLimit(1)
+                        }
+                        .allowsHitTesting(false)
+                    } else if let searchTerm {
+                        Image("custom_search")
+                            .frame(width: 48, height: 48)
+                        Text(searchTerm)
+                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                    }
+
+                    Spacer()
+                    Button(action: {
+                        print("remove tapped")
+                    }) {
+                        Image("close")
+                    }
+                    .buttonStyle(HighlightButtonStyle())
+                    .frame(width: 48, height: 48)
+                }
+                Rectangle()
+                    .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                    .frame(height: 0.5)
+            }
+            .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+        }
+    }
+}
+
 struct SearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         SearchHistoryView()
             .environmentObject(Theme(previewTheme: .rosé))
-    }
-}
-
-struct HighlightButtonStyle: ButtonStyle {
-    @EnvironmentObject var theme: Theme
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(configuration.isPressed ? AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color : AppTheme.colorForStyle(.primaryIcon02, themeOverride: theme.activeTheme).color)
-    }
-}
-
-struct ListCellStyle: ButtonStyle {
-    @EnvironmentObject var theme: Theme
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .background(configuration.isPressed ? AppTheme.colorForStyle(.primaryUi02Active, themeOverride: theme.activeTheme).color : AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
     }
 }

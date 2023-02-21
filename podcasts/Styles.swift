@@ -256,6 +256,43 @@ struct ClickyButton: ButtonStyle {
     }
 }
 
+/// Default button style for buttons with images
+struct HighlightButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    var highlightColor: Color {
+        AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color
+    }
+
+    var defaultColor: Color {
+        AppTheme.colorForStyle(.primaryIcon02, themeOverride: theme.activeTheme).color
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(configuration.isPressed ? highlightColor : defaultColor)
+    }
+}
+
+/// Default style for buttons used as tappable cell area
+struct ListCellButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    var highlightColor: Color {
+        AppTheme.colorForStyle(.primaryUi02Active, themeOverride: theme.activeTheme).color
+    }
+
+    var defaultColor: Color {
+        AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? highlightColor : defaultColor)
+    }
+}
+
+
 // MARK: - Button Modifiers
 extension View {
     /// Adds a subtle spring effect when the `isPressed` value is changed
