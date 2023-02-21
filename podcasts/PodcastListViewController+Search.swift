@@ -111,16 +111,16 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             self.searchControllerView.alpha = 0
         }) { _ in
             self.searchControllerView.removeFromSuperview()
-            self.searchResultsControler.clearSearch()
+            self.resultsControllerDelegate.clearSearch()
         }
     }
 
     func searchWasCleared() {
-        searchResultsControler.clearSearch()
+        resultsControllerDelegate.clearSearch()
     }
 
     func searchTermChanged(_ searchTerm: String) {
-        searchResultsControler.performLocalSearch(searchTerm: searchTerm)
+        resultsControllerDelegate.performLocalSearch(searchTerm: searchTerm)
 
         debounce.call {
             if !searchTerm.trim().isEmpty {
@@ -130,6 +130,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
-        searchResultsControler.performRemoteSearch(searchTerm: searchTerm, completion: completion)
+        resultsControllerDelegate.performRemoteSearch(searchTerm: searchTerm, completion: completion)
     }
 }
