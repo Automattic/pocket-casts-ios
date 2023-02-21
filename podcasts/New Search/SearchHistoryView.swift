@@ -28,25 +28,17 @@ struct SearchHistoryView: View {
                         .buttonStyle(PrimaryButtonStyle())
                 }
                 .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-                .listSectionSeparator(.hidden)
-                .listRowSeparator(.hidden)
                 .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
 
                 Section {
                     SearchHistoryPodcastCell(podcast: Podcast.previewPodcast())
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
 
                     SearchHistoryPodcastCell(searchTerm: "Search term")
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
 
                     SearchHistoryPodcastCell(podcast: Podcast.previewPodcast(), episode: episode)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
                 }
             }
         }
@@ -85,7 +77,7 @@ struct SearchHistoryPodcastCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(SecondaryButtonStyle())
+            .buttonStyle(ListCellButtonStyle())
 
             VStack(spacing: 12) {
                 HStack(spacing: 12) {
@@ -121,7 +113,8 @@ struct SearchHistoryPodcastCell: View {
                     .frame(width: 48, height: 48)
                 }
                 Rectangle()
-                    .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                    .foregroundColor(.clear)
+//                    .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
                     .frame(height: 0.5)
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
