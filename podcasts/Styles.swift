@@ -54,8 +54,12 @@ struct HiddenListDividers: ViewModifier {
     @EnvironmentObject var theme: Theme
 
     func body(content: Content) -> some View {
-        content
-            .listRowSeparator(.hidden)
+        if #available(iOS 15.0, *) {
+            content
+                .listRowSeparator(.hidden)
+        } else {
+            content
+        }
     }
 }
 

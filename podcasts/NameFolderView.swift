@@ -22,9 +22,14 @@ struct NameFolderView: View {
                 .textStyle(SecondaryText())
                 .font(.subheadline)
                 .onChange(of: model.name, perform: model.validateFolderName)
-            TextField(L10n.folderName, text: $model.name)
-                .focusMe(state: $focusOnTextField)
-                .themedTextField()
+            if #available(iOS 15.0, *) {
+                TextField(L10n.folderName, text: $model.name)
+                    .focusMe(state: $focusOnTextField)
+                    .themedTextField()
+            } else {
+                TextField(L10n.folderName, text: $model.name)
+                    .themedTextField()
+            }
             Spacer()
             NavigationLink(destination: ColorPreviewFolderView(model: model, dismissAction: dismissAction)) {
                 Text(L10n.continue)
@@ -54,6 +59,7 @@ struct NameFolderView_Previews: PreviewProvider {
 
 // MARK: - FocusState wrapper
 
+@available(iOS 15, *)
 struct FocusModifier: ViewModifier {
     @FocusState var focused: Bool
     @Binding var state: Bool
@@ -72,6 +78,7 @@ struct FocusModifier: ViewModifier {
     }
 }
 
+@available(iOS 15, *)
 extension View {
     func focusMe(state: Binding<Bool>) -> some View {
         modifier(FocusModifier(state))

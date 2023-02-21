@@ -16,7 +16,7 @@ struct StoryLabel: View {
     }
 
     var body: some View {
-        if let attributedString {
+        if #available(iOS 15, *), let attributedString {
             applyDefaults(Text(attributedString), forHighlights: true)
         } else {
             applyDefaults(Text(text))
@@ -32,6 +32,7 @@ struct StoryLabel: View {
             .padding([.leading, .trailing], horizontalPadding)
     }
 
+    @available(iOS 15, *)
     private var attributedString: AttributedString? {
         guard let highlights else { return nil }
 

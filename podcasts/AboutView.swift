@@ -147,9 +147,15 @@ struct LogoView: View {
         ZStack {
             Circle()
                 .foregroundColor(logo.color)
-            Image(logo.logoName)
-                .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
-                .tint(logo.logoTint(onDark: theme.activeTheme.isDark))
+            if #available(iOS 15.0, *) {
+                Image(logo.logoName)
+                    .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
+                    .tint(logo.logoTint(onDark: theme.activeTheme.isDark)) // tint is only available from iOS 15 onwards
+            } else {
+                Image(logo.logoName)
+                    .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
+                    .accentColor(logo.logoTint(onDark: theme.activeTheme.isDark))
+            }
         }
         .offset(x: -logoOffset * CGFloat(index), y: index % 2 == 0 ? -logoOffset : logoOffset)
         .frame(width: logoSize, height: logoSize)

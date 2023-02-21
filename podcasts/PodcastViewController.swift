@@ -66,7 +66,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.rowHeight = UITableView.automaticDimension
             episodesTable.estimatedRowHeight = 80.0
             episodesTable.allowsMultipleSelectionDuringEditing = true
-            episodesTable.sectionHeaderTopPadding = 0
+            if #available(iOS 15.0, *) {
+                episodesTable.sectionHeaderTopPadding = 0
+            }
         }
     }
 
