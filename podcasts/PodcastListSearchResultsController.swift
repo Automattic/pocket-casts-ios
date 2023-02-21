@@ -131,7 +131,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 
                 completion()
                 self?.remoteResults = results
-                self?.searchResultsTable.reloadData()
+                self?.searchResultsTable?.reloadData()
             }
         }
     }
