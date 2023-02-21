@@ -21,7 +21,7 @@ struct SearchHistoryView: View {
             List {
                 HStack {
                     Text("Recent searches")
-                        .font(style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
+                        .font(style: .title2, weight: .bold)
                     Spacer()
                     Button("Clear all".uppercased()) {}
                         .font(style: .footnote, weight: .bold)
@@ -95,11 +95,11 @@ struct SearchHistoryPodcastCell: View {
                             .allowsHitTesting(false)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(podcast.title ?? "")
-                                .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
                                 .lineLimit(2)
                             Text(subtitle)
-                                .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                                .font(size: 14, style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
                                 .lineLimit(1)
                         }
@@ -108,7 +108,7 @@ struct SearchHistoryPodcastCell: View {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
                         Text(searchTerm)
-                            .font(style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraLarge)
+                            .font(style: .subheadline, weight: .medium)
                     }
 
                     Spacer()
