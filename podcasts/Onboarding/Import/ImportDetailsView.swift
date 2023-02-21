@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ImportDetailsView: View {
     @EnvironmentObject var theme: Theme
+    @State var opmlURLText = ""
 
     let app: ImportViewModel.ImportApp
     let viewModel: ImportViewModel
@@ -23,6 +24,16 @@ struct ImportDetailsView: View {
                         .fixedSize(horizontal: false, vertical: true)
 
                     appInstructions
+
+                    if app.hasInputText {
+                        TextField("https://...", text: $opmlURLText)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        Button(L10n.import) {
+                            viewModel.importFromURL()
+                        }
+                        .buttonStyle(RoundedButtonStyle(theme: theme))
+                        .fixedSize(horizontal: true, vertical: false)
+                    }
 
                     Spacer()
                 }.padding([.leading, .trailing], Constants.horizontalPadding)

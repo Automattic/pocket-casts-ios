@@ -1267,6 +1267,9 @@
 /* A common string used throughout the app. Often used as a toggle to enable a feature only when the user is on Wifi. */
 "only_on_wifi" = "Only On WiFi";
 
+/* Import button text */
+"import" = "Import";
+
 /* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_message" = "Unable to import podcasts from the OPML file you specified. Please check that it's valid";
 

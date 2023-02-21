@@ -85,10 +85,19 @@ class ImportViewModel: OnboardingModel {
 
             return UIApplication.shared.canOpenURL(url)
         }
-        
+
         var hideButton: Bool {
             switch id {
             case .opmlFromURL, .other:
+                return true
+            default:
+                return false
+            }
+        }
+
+        var hasInputText: Bool {
+            switch id {
+            case .opmlFromURL:
                 return true
             default:
                 return false
@@ -158,5 +167,11 @@ extension ImportViewModel {
         OnboardingFlow.shared.track(.onboardingImportOpenAppTapped, properties: ["app": app.id])
 
         app.openApp()
+    }
+}
+
+// MARK: - OPML from URL
+extension ImportViewModel {
+    func importFromURL() {
     }
 }
