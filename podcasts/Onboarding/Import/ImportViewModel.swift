@@ -34,7 +34,7 @@ class ImportViewModel: OnboardingModel {
         .init(id: .castbox, displayName: "Castbox", steps: L10n.importInstructionsCastbox),
         .init(id: .overcast, displayName: "Overcast", steps: L10n.importInstructionsOvercast),
         .init(id: .other, displayName: "other apps", steps: L10n.importPodcastsDescription),
-        .init(id: .opmlFromURL, displayName: "URL", steps: "")
+        .init(id: .opmlFromURL, displayName: "URL", steps: L10n.importOpmlFromUrl)
     ]
 
     enum ImportAppId: String, AnalyticsDescribable {
