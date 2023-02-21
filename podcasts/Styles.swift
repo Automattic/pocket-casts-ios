@@ -257,7 +257,17 @@ struct ClickyButton: ButtonStyle {
 }
 
 /// Default button style for buttons with images
-struct HighlightButtonStyle: ButtonStyle {
+struct PrimaryButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(ThemeColor.primaryIcon01(for: theme.activeTheme).color.opacity(configuration.isPressed ? 0.4 : 1))
+    }
+}
+
+/// Default button style for buttons with images
+struct SecondaryButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
 
     var highlightColor: Color {

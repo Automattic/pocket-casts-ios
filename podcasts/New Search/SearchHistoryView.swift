@@ -25,7 +25,7 @@ struct SearchHistoryView: View {
                     Spacer()
                     Button("Clear all".uppercased()) {}
                         .font(style: .footnote, weight: .bold)
-                        .foregroundColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: theme.activeTheme).color)
+                        .buttonStyle(PrimaryButtonStyle())
                 }
                 .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
                 .listSectionSeparator(.hidden)
@@ -85,7 +85,7 @@ struct SearchHistoryPodcastCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(ListCellButtonStyle())
+            .buttonStyle(SecondaryButtonStyle())
 
             VStack(spacing: 12) {
                 HStack(spacing: 12) {
@@ -117,7 +117,7 @@ struct SearchHistoryPodcastCell: View {
                     }) {
                         Image("close")
                     }
-                    .buttonStyle(HighlightButtonStyle())
+                    .buttonStyle(SecondaryButtonStyle())
                     .frame(width: 48, height: 48)
                 }
                 Rectangle()
@@ -132,6 +132,6 @@ struct SearchHistoryPodcastCell: View {
 struct SearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         SearchHistoryView()
-            .environmentObject(Theme(previewTheme: .rosé))
+            .previewWithAllThemes()
     }
 }
