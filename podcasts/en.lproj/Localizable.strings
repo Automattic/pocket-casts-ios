@@ -3557,3 +3557,6 @@
 
 /* Label of a button that lets the user login/signup with Google */
 "social_sign_in_continue_with_google" = "Continue with Google";
+
+/* Label describing the recent searches */
+"search_recent" = "Recent searches";

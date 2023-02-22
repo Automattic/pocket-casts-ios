@@ -1942,6 +1942,8 @@ internal enum L10n {
   internal static var search: String { return L10n.tr("Localizable", "search") }
   /// Search Podcasts
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
+  /// Recent searches
+  internal static var searchRecent: String { return L10n.tr("Localizable", "search_recent") }
   /// Season
   internal static var season: String { return L10n.tr("Localizable", "season") }
   /// S%1$@ E%2$@

@@ -20,7 +20,7 @@ struct SearchHistoryView: View {
         VStack {
             List {
                 HStack {
-                    Text("Recent searches")
+                    Text(L10n.searchRecent)
                         .font(style: .title2, weight: .bold)
                     Spacer()
                     Button("Clear all".uppercased()) {}
