@@ -35,6 +35,7 @@ class ThemeableCollectionView: UICollectionView, AutoScrollCollectionViewDelegat
 
    // MARK: - Auto scroll handling
     var timer: Timer?
+
     func intializeAutoScrollTimer() {
         timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrolltoNextItem), userInfo: nil, repeats: true)
        }
