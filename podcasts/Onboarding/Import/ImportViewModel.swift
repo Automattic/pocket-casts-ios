@@ -172,6 +172,31 @@ extension ImportViewModel {
 
 // MARK: - OPML from URL
 extension ImportViewModel {
-    func importFromURL() {
+    func importFromURL(_ url: URL, completion: @escaping ((Bool) -> Void)) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                print("Error downloading data: \(error?.localizedDescription ?? "Unknown error")")
+                completion(false)
+                return
+            }
+
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let fileURL = documentsDirectory.appendingPathComponent("feed.opml")
+
+            do {
+                try data.write(to: fileURL)
+                print("File downloaded to: \(fileURL)")
+                self.importPodcastsFromOPML(url: fileURL)
+            } catch {
+                print("Error saving file: \(error.localizedDescription)")
+                completion(false)
+            }
+        }
+
+        task.resume()
+    }
+
+    func importPodcastsFromOPML(url: URL) {
+        PodcastManager.shared.importPodcastsFromOpml(url)
     }
 }

@@ -1,8 +1,14 @@
 import SwiftUI
 
 struct ImportDetailsView: View {
+    enum OPMLImportResult {
+        case none
+        case success
+        case failure
+    }
     @EnvironmentObject var theme: Theme
     @State var opmlURLText = ""
+    @State var opmlImportResult: OPMLImportResult = .none
 
     let app: ImportViewModel.ImportApp
     let viewModel: ImportViewModel
@@ -28,11 +34,35 @@ struct ImportDetailsView: View {
                     if app.hasInputText {
                         TextField("https://...", text: $opmlURLText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .autocapitalization(.none)
                         Button(L10n.import) {
-                            viewModel.importFromURL()
+                            opmlImportResult = .none
+                            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
+                                opmlImportResult = .success
+                            }
+
+                            guard let url = URL(string: opmlURLText) else {
+                                opmlImportResult = .failure
+                                return
+                            }
+                            viewModel.importFromURL(url) { success in
+                                if !success {
+                                    opmlImportResult = .failure
+                                }
+                            }
                         }
                         .buttonStyle(RoundedButtonStyle(theme: theme))
                         .fixedSize(horizontal: true, vertical: false)
+
+                        switch opmlImportResult {
+                        case .none: Text("")
+                        case .success:
+                            Text(L10n.ok)
+                                .foregroundColor(Color.green)
+                        case .failure:
+                            Text(L10n.opmlImportFailedTitle)
+                                .foregroundColor(Color.red)
+                        }
                     }
 
                     Spacer()
