@@ -8,7 +8,7 @@ protocol AutoScrollCollectionViewDelegate: UICollectionView {
     func stopAutoScrollTimer()
 }
 
-class ThemeableCollectionView: UICollectionView {
+class ThemeableCollectionView: UICollectionView, AutoScrollCollectionViewDelegate {
     var style: ThemeStyle = .primaryUi04 {
         didSet {
             updateColor()
@@ -32,17 +32,9 @@ class ThemeableCollectionView: UICollectionView {
         backgroundColor = AppTheme.colorForStyle(style)
         indicatorStyle = AppTheme.indicatorStyle()
     }
-}
 
-extension ThemeableCollectionView: AutoScrollCollectionViewDelegate {
-    var timer: Timer? {
-        get {
-            return nil
-        }
-        set {
-        }
-    }
-
+   // MARK: - Auto scroll handling
+    var timer: Timer?
     func intializeAutoScrollTimer() {
         timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrolltoNextItem), userInfo: nil, repeats: true)
        }
