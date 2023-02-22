@@ -4,7 +4,7 @@ source 'https://cdn.cocoapods.org/'
 
 use_modular_headers!
 
-app_ios_deployment_target = Gem::Version.new('14.1')
+app_ios_deployment_target = Gem::Version.new('15.0')
 
 def common_pods
   pod 'JLRoutes'

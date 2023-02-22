@@ -16,7 +16,7 @@ struct HighlightedText: View {
     }
 
     var body: some View {
-        if #available(iOS 15, *), let attributedString {
+        if let attributedString {
             Text(attributedString)
                 .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         } else {
@@ -60,7 +60,6 @@ struct HighlightedText: View {
 
     // MARK: - Private
 
-    @available(iOS 15, *)
     private var attributedString: AttributedString? {
         guard !highlights.isEmpty else { return nil }
 
@@ -71,7 +70,6 @@ struct HighlightedText: View {
         return highlight(string: string)
     }
 
-    @available(iOS 15, *)
     /// Adds custom formatting to the attributed string
     private func highlight(string: AttributedString) -> AttributedString {
         var attrString = string
@@ -178,13 +176,11 @@ struct HighlightedText: View {
 }
 
 // MARK: - Custom Markdown Format Attributes
-@available(iOS 15, *)
 private enum HighlightAttribute: CodableAttributedStringKey, MarkdownDecodableAttributedStringKey {
     typealias Value = Bool
     static var name: String = "highlight"
 }
 
-@available(iOS 15, *)
 private extension AttributeScopes {
     struct HighlightTextAttributes: AttributeScope {
         let highlight: HighlightAttribute
@@ -193,7 +189,6 @@ private extension AttributeScopes {
     var highlight: HighlightTextAttributes.Type { HighlightTextAttributes.self }
 }
 
-@available(iOS 15, *)
 private extension AttributeDynamicLookup {
     subscript<T: AttributedStringKey>(dynamicMember keyPath: KeyPath<AttributeScopes.HighlightTextAttributes, T>) -> T {
         self[T.self]
