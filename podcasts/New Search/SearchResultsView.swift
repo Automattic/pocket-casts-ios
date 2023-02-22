@@ -1,11 +1,3 @@
-//
-//  SearchResultsView.swift
-//  podcasts
-//
-//  Created by Leandro Alonso on 22/02/23.
-//  Copyright © 2023 Shifty Jelly. All rights reserved.
-//
-
 import SwiftUI
 
 struct SearchResultsView: View {
