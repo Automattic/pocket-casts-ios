@@ -9,7 +9,7 @@ struct SearchView: View {
 
     var body: some View {
         if displaySearch.isSearching {
-            Text("Search results")
+            SearchResultsView()
         } else {
             SearchHistoryView()
         }
