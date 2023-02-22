@@ -23,7 +23,7 @@ struct SearchHistoryView: View {
                     Text(L10n.searchRecent)
                         .font(style: .title2, weight: .bold)
                     Spacer()
-                    Button("Clear all".uppercased()) {}
+                    Button(L10n.historyClearAll.uppercased()) {}
                         .font(style: .footnote, weight: .bold)
                         .buttonStyle(PrimaryButtonStyle())
                 }
