@@ -8,7 +8,7 @@ protocol SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
-class SearchResultsViewController: OnboardingHostingViewController<AnyView> {
+class SearchResultsViewController: UIHostingController<AnyView> {
     init() {
         super.init(rootView: AnyView(SearchHistoryView().setupDefaultEnvironment()))
     }
