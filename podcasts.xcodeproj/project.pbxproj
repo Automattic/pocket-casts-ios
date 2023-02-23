@@ -488,6 +488,9 @@
 		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */; };
 		8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26229A7D6B60076886D /* SearchHistoryCell.swift */; };
 		8B67A26529A7D6E20076886D /* ThemeableSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26429A7D6E20076886D /* ThemeableSeparatorView.swift */; };
+		8B67A26729A7D80E0076886D /* SearchEpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26629A7D80E0076886D /* SearchEpisodeCell.swift */; };
+		8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26829A7D8690076886D /* PodcastCarouselView.swift */; };
+		8B67A26B29A7D8820076886D /* ThemeableListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26A29A7D8820076886D /* ThemeableListHeader.swift */; };
 		8B68C1CF2942134300CF25C5 /* BetaMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B68C1CE2942134300CF25C5 /* BetaMenu.swift */; };
 		8B68C1D1294219EB00CF25C5 /* FeatureFlagOverrideStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B68C1D0294219EB00CF25C5 /* FeatureFlagOverrideStore.swift */; };
 		8B68C1D229421B4200CF25C5 /* FeatureFlagOverrideStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B68C1D0294219EB00CF25C5 /* FeatureFlagOverrideStore.swift */; };
@@ -2117,6 +2120,9 @@
 		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@3x.png"; sourceTree = "<group>"; };
 		8B67A26229A7D6B60076886D /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
 		8B67A26429A7D6E20076886D /* ThemeableSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableSeparatorView.swift; sourceTree = "<group>"; };
+		8B67A26629A7D80E0076886D /* SearchEpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEpisodeCell.swift; sourceTree = "<group>"; };
+		8B67A26829A7D8690076886D /* PodcastCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCarouselView.swift; sourceTree = "<group>"; };
+		8B67A26A29A7D8820076886D /* ThemeableListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableListHeader.swift; sourceTree = "<group>"; };
 		8B68C1CE2942134300CF25C5 /* BetaMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaMenu.swift; sourceTree = "<group>"; };
 		8B68C1D0294219EB00CF25C5 /* FeatureFlagOverrideStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagOverrideStore.swift; sourceTree = "<group>"; };
 		8B68C1D729421E3400CF25C5 /* FeatureFlagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagTests.swift; sourceTree = "<group>"; };
@@ -3876,6 +3882,9 @@
 			isa = PBXGroup;
 			children = (
 				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
+				8B67A26629A7D80E0076886D /* SearchEpisodeCell.swift */,
+				8B67A26829A7D8690076886D /* PodcastCarouselView.swift */,
+				8B67A26A29A7D8820076886D /* ThemeableListHeader.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -7986,6 +7995,7 @@
 				C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */,
 				40164A6E23E19C9A0043907B /* ProfileViewController+Promotion.swift in Sources */,
 				BDC8683223825933004C998F /* Interactor.swift in Sources */,
+				8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */,
 				46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */,
 				BD054A7A1E3EDEB300D9195B /* SharedConstants.swift in Sources */,
 				C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */,
@@ -8020,6 +8030,7 @@
 				4029E3E02292686C0003BEEB /* ChangeEmailViewController.swift in Sources */,
 				4011B9432164641800661A7D /* EditFilterNameCell.swift in Sources */,
 				C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */,
+				8B67A26729A7D80E0076886D /* SearchEpisodeCell.swift in Sources */,
 				BD03DF881CACD9AB005A127E /* DownloadedFilesViewController.swift in Sources */,
 				8B67A26529A7D6E20076886D /* ThemeableSeparatorView.swift in Sources */,
 				BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */,
@@ -8127,6 +8138,7 @@
 				BD6B1F011CE05159003CE958 /* AnalyticsHelper.swift in Sources */,
 				C7B3C60E2919DD1700054145 /* ContentSizeReader.swift in Sources */,
 				BD583AF421AE5F9E0048D78D /* EpisodeDateHelper.swift in Sources */,
+				8B67A26B29A7D8820076886D /* ThemeableListHeader.swift in Sources */,
 				BDC940B61BA7F5FB008CC635 /* BouncyButton.swift in Sources */,
 				409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */,
 				BD4910D02457E088005202CF /* WatchManager+Send.swift in Sources */,
