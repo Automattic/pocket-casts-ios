@@ -98,6 +98,7 @@ struct SearchHistoryPodcastCell: View {
                     } else if let searchTerm {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
+                            .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
                         Text(searchTerm)
                             .font(style: .subheadline, weight: .medium)
                     }
