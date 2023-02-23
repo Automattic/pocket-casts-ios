@@ -15,9 +15,7 @@ struct SearchResultsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                .frame(height: 1 / UIScreen.main.scale)
+            ThemeableSeparatorView()
 
             List {
                 HStack {
@@ -125,9 +123,7 @@ struct SearchResultsEpisodeCell: View {
                     .allowsHitTesting(false)
                 }
                 .padding(.trailing, 16)
-                Rectangle()
-                    .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                    .frame(height: 0.5)
+                ThemeableSeparatorView()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
         }

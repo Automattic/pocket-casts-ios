@@ -18,9 +18,7 @@ struct SearchHistoryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                .frame(height: 0.5)
+            ThemeableSeparatorView()
 
             List {
                 HStack {
@@ -124,12 +122,20 @@ struct SearchHistoryPodcastCell: View {
                     .buttonStyle(SecondaryButtonStyle())
                     .frame(width: 48, height: 48)
                 }
-                Rectangle()
-                    .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                    .frame(height: 0.5)
+                ThemeableSeparatorView()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
         }
+    }
+}
+
+struct ThemeableSeparatorView: View {
+    @EnvironmentObject var theme: Theme
+
+    var body: some View {
+        Rectangle()
+            .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+            .frame(height: 0.5)
     }
 }
 
