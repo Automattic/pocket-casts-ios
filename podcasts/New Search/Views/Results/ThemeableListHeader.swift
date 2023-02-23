@@ -22,4 +22,3 @@ struct ThemeableListHeader: View {
         .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
     }
 }
-
