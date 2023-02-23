@@ -772,6 +772,9 @@
 /* Refers to an Episode in the singular form. */
 "episode" = "Episode";
 
+/* Refers to an Episode in the plural form. */
+"episodes" = "Episodes";
+
 /* A common string used throughout the app. Display configurable options related to a number of episodes. '%1$@' is a placeholder for the number of episodes, the value will be more than one. */
 "episode_count_plural_format" = "%1$@ episodes";
 

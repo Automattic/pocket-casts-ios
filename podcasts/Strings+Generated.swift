@@ -777,6 +777,8 @@ internal enum L10n {
   internal static func episodeShorthandFormatShort(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_shorthand_format_short", String(describing: p1))
   }
+  /// Episodes
+  internal static var episodes: String { return L10n.tr("Localizable", "episodes") }
   /// Error
   internal static var error: String { return L10n.tr("Localizable", "error") }
   /// Unable to find podcast. Please contact the podcast author.

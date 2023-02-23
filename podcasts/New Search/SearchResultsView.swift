@@ -24,7 +24,7 @@ struct SearchResultsView: View {
                     PodcastsPageView()
                 }
 
-                ThemeableListHeader(title: "Episodes", actionTitle: L10n.discoverShowAll)
+                ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
 
                 Section {
                     SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
