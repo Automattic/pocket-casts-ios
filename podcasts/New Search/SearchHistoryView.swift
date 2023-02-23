@@ -21,18 +21,7 @@ struct SearchHistoryView: View {
             ThemeableSeparatorView()
 
             List {
-                HStack {
-                    Text(L10n.searchRecent)
-                        .font(style: .title2, weight: .bold)
-                    Spacer()
-                    Button(L10n.historyClearAll.uppercased()) {}
-                        .font(style: .footnote, weight: .bold)
-                        .buttonStyle(PrimaryButtonStyle())
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-                .listSectionSeparator(.hidden)
-                .listRowSeparator(.hidden)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+                ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)
 
                 Section {
                     SearchHistoryPodcastCell(podcast: Podcast.previewPodcast())
