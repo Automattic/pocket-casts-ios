@@ -128,6 +128,14 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         updateCurrentPage()
     }
 
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        featuredCollectionView.initializeAutoScrollTimer()
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        featuredCollectionView.stopAutoScrollTimer()
+    }
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
