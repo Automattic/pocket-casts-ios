@@ -59,7 +59,7 @@ struct SearchHistoryPodcastCell: View {
     private var subtitle: String {
         if let episode, let podcast {
             let duration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration))
-            return "Episode • \(duration) • \(podcast.title ?? "")"
+            return "\(L10n.episode) • \(duration) • \(podcast.title ?? "")"
         } else if let podcast {
             return "Podcast • \(podcast.author ?? "")"
         }
