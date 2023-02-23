@@ -14,10 +14,10 @@ struct SearchResultsView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Rectangle()
                 .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-                .frame(height: 0.5)
+                .frame(height: 1 / UIScreen.main.scale)
 
             List {
                 HStack {
@@ -39,6 +39,10 @@ struct SearchResultsView: View {
                             PodcastsPageView()
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                    .background(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
                 }
 
                 HStack {

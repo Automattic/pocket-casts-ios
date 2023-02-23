@@ -17,7 +17,11 @@ struct SearchHistoryView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            Rectangle()
+                .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                .frame(height: 0.5)
+
             List {
                 HStack {
                     Text(L10n.searchRecent)
