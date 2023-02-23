@@ -16,6 +16,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private var lastBackgroundedDate: Date?
 
+    /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
+    private var isWaitingForInitialPlayback = false
     private var durationObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
@@ -50,6 +52,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             handlePlaybackError("Unable to create playback item")
             return
         }
+
+        isWaitingForInitialPlayback = true
 
         player = AVPlayer(playerItem: playerItem)
 
@@ -228,6 +232,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 createAudioMix()
                 player?.currentItem?.audioMix = audioMix
             #endif
+
+            isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
