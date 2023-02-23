@@ -85,7 +85,7 @@ struct SearchHistoryPodcastCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(SecondaryButtonStyle())
+            .buttonStyle(ListCellButtonStyle())
 
             VStack(spacing: 12) {
                 HStack(spacing: 12) {
