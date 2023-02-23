@@ -532,13 +532,32 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         //
         // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
         timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
-            guard player.timeControlStatus == .paused, self?.shouldKeepPlaying == true else {
             #if !os(watchOS)
+            // We're going to be very explicit about the trigger for this to prevent triggering it when we don't want to
+
+            // Only apply the logic when playing over AirPlay
+            guard PlaybackManager.shared.playingOverAirplay(), let self else { return }
+
+            // We'll keep track of the previous statuses and compare against them in the check below
+            defer {
+                self.previousReasonForWaiting = player.reasonForWaitingToPlay
+                self.previousTimeControlStatus = player.timeControlStatus
+            }
+
+            guard
+                // Verify that we indeed want to keep playing, ie: the user hasn't manually paused
+                // And that we're waiting for the initial playback to begin
+                self.shouldKeepPlaying, self.isWaitingForInitialPlayback,
+                // Verify playback has stopped now, but we were waiting to play the audio
+                player.timeControlStatus == .paused, self.previousTimeControlStatus == .waitingToPlayAtSpecifiedRate,
+                // Verify that while we were waiting to play the reason switched to no item to play, and that currently there is no current reason
+                player.reasonForWaitingToPlay == nil, self.previousReasonForWaiting == .noItemToPlay
+            else {
                 return
             }
 
             FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
-            self?.play()
+            self.play()
             #endif
         }
 
