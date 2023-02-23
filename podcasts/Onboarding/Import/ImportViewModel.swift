@@ -88,7 +88,7 @@ class ImportViewModel: OnboardingModel {
 
         var hideButton: Bool {
             switch id {
-            case .opmlFromURL, .other:
+            case .other:
                 return true
             default:
                 return false

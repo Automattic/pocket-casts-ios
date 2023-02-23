@@ -1276,6 +1276,9 @@
 /* Title for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_title" = "OPML Import Failed";
 
+/* informing the user that the podcast import from the provided OPML URL succeeded. */
+"opml_import_succeeded_title" = "OPML Import Succeeded";
+
 /* Progress message indicating the total number of podcasts imported from an OPML file. '%1$@' serves as a placeholder for the current number of imported podcasts. '%2$@' serves as a placeholder for the total number of podcasts to import. */
 "opml_import_progress_format" = "Importing %1$@ of %2$@";
 

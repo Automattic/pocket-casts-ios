@@ -9,6 +9,7 @@ struct ImportDetailsView: View {
     @EnvironmentObject var theme: Theme
     @State var opmlURLText = ""
     @State var opmlImportResult: OPMLImportResult = .none
+    @State var isOPMLImportLoading: Bool = false
 
     let app: ImportViewModel.ImportApp
     let viewModel: ImportViewModel
@@ -35,33 +36,17 @@ struct ImportDetailsView: View {
                         TextField("https://...", text: $opmlURLText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .autocapitalization(.none)
-                        Button(L10n.import) {
-                            opmlImportResult = .none
-                            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
-                                opmlImportResult = .success
-                            }
-
-                            guard let url = URL(string: opmlURLText) else {
-                                opmlImportResult = .failure
-                                return
-                            }
-                            viewModel.importFromURL(url) { success in
-                                if !success {
-                                    opmlImportResult = .failure
-                                }
-                            }
-                        }
-                        .buttonStyle(RoundedButtonStyle(theme: theme))
-                        .fixedSize(horizontal: true, vertical: false)
-
                         switch opmlImportResult {
                         case .none: Text("")
                         case .success:
-                            Text(L10n.ok)
+                            Text(L10n.opmlImportSucceededTitle)
                                 .foregroundColor(Color.green)
                         case .failure:
                             Text(L10n.opmlImportFailedTitle)
                                 .foregroundColor(Color.red)
+                        }
+                        if isOPMLImportLoading {
+                            ProgressView(L10n.opmlImporting)
                         }
                     }
 
@@ -71,27 +56,57 @@ struct ImportDetailsView: View {
 
             // Hide button for other
             if !app.hideButton {
-                Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
-                    viewModel.openApp(app)
+                if app.id == .opmlFromURL {
+                    Button(L10n.import) {
+                        opmlImportResult = .none
+                        NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
+                            opmlImportResult = .success
+                            isOPMLImportLoading = false
+                        }
+                        NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
+                            opmlImportResult = .failure
+                            isOPMLImportLoading = false
+                        }
+
+                        guard let url = URL(string: opmlURLText) else {
+                            opmlImportResult = .failure
+                            isOPMLImportLoading = false
+                            return
+                        }
+
+                        isOPMLImportLoading = true
+                        viewModel.importFromURL(url) { success in
+                            if !success {
+                                opmlImportResult = .failure
+                                isOPMLImportLoading = false
+                            }
+                        }
+                    }
+                    .buttonStyle(RoundedButtonStyle(theme: theme))
+                    .padding([.leading, .trailing], Constants.horizontalPadding)
+                } else {
+                    Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
+                        viewModel.openApp(app)
+                    }
+                    .buttonStyle(RoundedButtonStyle(theme: theme))
+                    .padding([.leading, .trailing], Constants.horizontalPadding)
                 }
-                .buttonStyle(RoundedButtonStyle(theme: theme))
-                .padding([.leading, .trailing], Constants.horizontalPadding)
             }
         }.padding(.top, 16).padding(.bottom)
-        .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+            .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
     }
 
     @ViewBuilder
     private var appInstructions: some View {
         let lines = app.steps.split(separator: "\n").map { String($0).trim() }
         VStack(alignment: .leading, spacing: 20) {
-           ForEach(lines, id: \.self) { line in
-               Text(line)
-                   .font(style: .subheadline, maxSizeCategory: .extraExtraExtraLarge)
-                   .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                   .fixedSize(horizontal: false, vertical: true)
-           }
-       }
+            ForEach(lines, id: \.self) { line in
+                Text(line)
+                    .font(style: .subheadline, maxSizeCategory: .extraExtraExtraLarge)
+                    .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
     }
 
     private enum Constants {

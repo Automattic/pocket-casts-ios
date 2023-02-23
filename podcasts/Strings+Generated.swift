@@ -1324,6 +1324,8 @@ internal enum L10n {
   internal static func opmlImportProgressFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "opml_import_progress_format", String(describing: p1), String(describing: p2))
   }
+  /// OPML Import Succeeded
+  internal static var opmlImportSucceededTitle: String { return L10n.tr("Localizable", "opml_import_succeeded_title") }
   /// Importing Podcasts...
   internal static var opmlImporting: String { return L10n.tr("Localizable", "opml_importing") }
   /// Page %1$@ of %2$@
