@@ -3848,6 +3848,32 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		8B67A25F29A7D5780076886D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8B67A26029A7D5870076886D /* History */,
+				8B67A26129A7D58E0076886D /* Results */,
+				8B99197329A67A7100A5C81C /* SearchView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8B67A26029A7D5870076886D /* History */ = {
+			isa = PBXGroup;
+			children = (
+				8B4881E829A3AE6D00E7C016 /* SearchHistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		8B67A26129A7D58E0076886D /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
 		8B68C1CD2942132C00CF25C5 /* Beta */ = {
 			isa = PBXGroup;
 			children = (
@@ -3916,10 +3942,8 @@
 			isa = PBXGroup;
 			children = (
 				8B99197529A67A8000A5C81C /* Model */,
+				8B67A25F29A7D5780076886D /* Views */,
 				8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */,
-				8B4881E829A3AE6D00E7C016 /* SearchHistoryView.swift */,
-				8B99197329A67A7100A5C81C /* SearchView.swift */,
-				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
 			);
 			path = "New Search";
 			sourceTree = "<group>";
