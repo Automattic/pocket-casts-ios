@@ -37,11 +37,16 @@ class OpmlImporter: Operation, XMLParserDelegate {
             parser?.delegate = self
             guard let parsed = parser?.parse(), parsed, parsedUrls.count > 0 else {
                 DispatchQueue.main.sync {
-                    guard let progressWindow = self.progressWindow else { return }
-                    progressWindow.hideAlert(false)
-                    let controller = SceneHelper.rootViewController()
+                    if let progressWindow = self.progressWindow {
+                        progressWindow.hideAlert(false)
+                        let controller = SceneHelper.rootViewController()
 
-                    SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                        SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                    } else {
+                        NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                        return
+                    }
+
                     Analytics.track(.opmlImportFailed)
                 }
 
@@ -63,16 +68,16 @@ class OpmlImporter: Operation, XMLParserDelegate {
             }
 
             DispatchQueue.main.async {
-                guard let progressWindow = self.progressWindow else {
+                if let progressWindow = self.progressWindow {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
+
+                    progressWindow.hideAlert(true)
+
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                } else {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
                     return
                 }
-
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
-
-                progressWindow.hideAlert(true)
-
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
                 Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount])
             }
         }
