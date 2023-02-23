@@ -43,7 +43,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
 
                         SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
                     } else {
-                        NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                        NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportFailed)
                         return
                     }
 
