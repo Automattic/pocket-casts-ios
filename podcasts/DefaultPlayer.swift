@@ -18,6 +18,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
     private var isWaitingForInitialPlayback = false
+
+    // Keep track of the previous playback and waiting state
+    private var previousReasonForWaiting: AVPlayer.WaitingReason?
+    private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
+
     private var durationObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
