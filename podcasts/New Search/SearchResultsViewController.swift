@@ -1,8 +1,12 @@
 import Foundation
+import SwiftUI
 
-/// The new search, including episodes
-class SearchResultsViewController: UIViewController {
-    override func viewDidLoad() {
-        view.backgroundColor = .black
+class SearchResultsViewController: OnboardingHostingViewController<AnyView> {
+    init() {
+        super.init(rootView: AnyView(SearchHistoryView().setupDefaultEnvironment()))
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
