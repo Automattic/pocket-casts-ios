@@ -64,7 +64,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     override func viewWillAppear(_ animated: Bool) {
         featuredCollectionView.reloadData()
         if FeatureFlag.discoverFeaturedAutoScroll.enabled {
-            featuredCollectionView.intializeAutoScrollTimer()
+            featuredCollectionView.initializeAutoScrollTimer()
         }
     }
 

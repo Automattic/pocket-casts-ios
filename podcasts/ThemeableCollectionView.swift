@@ -3,7 +3,7 @@ import UIKit
 
 protocol AutoScrollCollectionViewDelegate: UICollectionView {
     var timer: Timer? { get set }
-    func intializeAutoScrollTimer()
+    func initializeAutoScrollTimer()
     func scrolltoNextItem()
     func stopAutoScrollTimer()
 }
