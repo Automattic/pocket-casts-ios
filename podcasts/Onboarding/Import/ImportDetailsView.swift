@@ -7,9 +7,11 @@ struct ImportDetailsView: View {
         case failure
     }
     @EnvironmentObject var theme: Theme
+    @Environment(\.presentationMode) var presentationMode
     @State var opmlURLText = ""
     @State var opmlImportResult: OPMLImportResult = .none
-    @State var isOPMLImportLoading: Bool = false
+    @State var opmlImportInProgress: Bool = false
+    @State var opmlButtonTitle: String = L10n.import
 
     let app: ImportViewModel.ImportApp
     let viewModel: ImportViewModel
@@ -86,38 +88,43 @@ struct ImportDetailsView: View {
                     .foregroundColor(Color.red)
             }
 
-            if isOPMLImportLoading {
+            if opmlImportInProgress {
                 ProgressView(L10n.opmlImporting)
             }
         }
     }
 
     private var opmlViewButton: some View {
-        Button(L10n.import) {
+        Button(action: {
+            if opmlImportResult == .success {
+                self.presentationMode.wrappedValue.dismiss()
+            }
             opmlImportResult = .none
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
                 opmlImportResult = .success
-                isOPMLImportLoading = false
+                opmlImportInProgress = false
             }
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
                 opmlImportResult = .failure
-                isOPMLImportLoading = false
+                opmlImportInProgress = false
             }
 
             guard let url = URL(string: opmlURLText) else {
                 opmlImportResult = .failure
-                isOPMLImportLoading = false
+                opmlImportInProgress = false
                 return
             }
 
-            isOPMLImportLoading = true
+            opmlImportInProgress = true
             viewModel.importFromURL(url) { success in
                 if !success {
                     opmlImportResult = .failure
-                    isOPMLImportLoading = false
+                    opmlImportInProgress = false
                 }
             }
-        }
+        }, label: {
+            Text(opmlImportResult == .success ? L10n.done : L10n.import)
+        })
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .padding([.leading, .trailing], Constants.horizontalPadding)
     }
