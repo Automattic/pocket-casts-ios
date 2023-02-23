@@ -18,43 +18,13 @@ struct SearchResultsView: View {
             ThemeableSeparatorView()
 
             List {
-                HStack {
-                    Text(L10n.podcastsPlural)
-                        .font(style: .title2, weight: .bold)
-                    Spacer()
-                    Button(L10n.discoverShowAll.uppercased()) {}
-                        .font(style: .footnote, weight: .bold)
-                        .buttonStyle(PrimaryButtonStyle())
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-                .listSectionSeparator(.hidden)
-                .listRowSeparator(.hidden)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+                ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
 
                 Section {
-                    ScrollView {
-                        LazyHStack {
-                            PodcastsPageView()
-                        }
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
-                    .background(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+                    PodcastsPageView()
                 }
 
-                HStack {
-                    Text("Episodes")
-                        .font(style: .title2, weight: .bold)
-                    Spacer()
-                    Button(L10n.discoverShowAll.uppercased()) {}
-                        .font(style: .footnote, weight: .bold)
-                        .buttonStyle(PrimaryButtonStyle())
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-                .listSectionSeparator(.hidden)
-                .listRowSeparator(.hidden)
-                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+                ThemeableListHeader(title: "Episodes", actionTitle: L10n.discoverShowAll)
 
                 Section {
                     SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
@@ -126,6 +96,9 @@ struct SearchResultsEpisodeCell: View {
                 ThemeableSeparatorView()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowSeparator(.hidden)
+            .listSectionSeparator(.hidden)
         }
     }
 }
@@ -142,20 +115,28 @@ struct PodcastsPageView: View {
 
     let size: Double = 0.48
     var body: some View {
-        TabView {
-            ForEach(0..<30) { i in
-                GeometryReader { geometry in
-                    HStack(spacing: 10) {
-                        PodcastResultCell(podcast: Podcast.previewPodcast())
+        ScrollView {
+            LazyHStack {
+                TabView {
+                    ForEach(0..<30) { i in
+                        GeometryReader { geometry in
+                            HStack(spacing: 10) {
+                                PodcastResultCell(podcast: Podcast.previewPodcast())
 
-                        PodcastResultCell(podcast: Podcast.previewPodcast())
+                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                            }
+                        }
                     }
+                    .padding(.all, 10)
                 }
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
-            .padding(.all, 10)
         }
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .listRowSeparator(.hidden)
+        .listSectionSeparator(.hidden)
+        .background(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
     }
 }
 
@@ -197,5 +178,28 @@ struct PodcastResultCell: View {
                 }
             }
         }
+    }
+}
+
+struct ThemeableListHeader: View {
+    @EnvironmentObject var theme: Theme
+
+    let title: String
+
+    let actionTitle: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(style: .title2, weight: .bold)
+            Spacer()
+            Button(actionTitle.uppercased()) {}
+                .font(style: .footnote, weight: .bold)
+                .buttonStyle(PrimaryButtonStyle())
+        }
+        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
+        .listSectionSeparator(.hidden)
+        .listRowSeparator(.hidden)
+        .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
     }
 }
