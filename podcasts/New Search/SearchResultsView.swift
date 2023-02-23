@@ -31,7 +31,7 @@ struct SearchResultsView: View {
             Section {
                 ScrollView {
                     LazyHStack {
-                        PageView()
+                        PodcastsPageView()
                     }
                 }
             }
@@ -92,7 +92,7 @@ struct SearchResultsEpisodeCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(SecondaryButtonStyle())
+            .buttonStyle(ListCellButtonStyle())
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
@@ -131,7 +131,7 @@ struct SearchResultsView_Previews: PreviewProvider {
     }
 }
 
-struct PageView: View {
+struct PodcastsPageView: View {
     @EnvironmentObject var theme: Theme
 
     let size: Double = 0.48
@@ -140,31 +140,9 @@ struct PageView: View {
             ForEach(0..<30) { i in
                 GeometryReader { geometry in
                     HStack(spacing: 10) {
-                        VStack(alignment: .leading) {
-                            PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(Podcast.previewPodcast().title ?? "")
-                                    .lineLimit(1)
-                                    .font(style: .subheadline, weight: .medium)
-                                Text(Podcast.previewPodcast().author ?? "")
-                                    .lineLimit(1)
-                                    .font(size: 14, style: .subheadline, weight: .medium)
-                                    .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
-                            }
-                        }
+                        PodcastResultCell(podcast: Podcast.previewPodcast())
 
-                        VStack(alignment: .leading) {
-                            PodcastCover(podcastUuid: Podcast.previewPodcast().uuid)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(Podcast.previewPodcast().title ?? "")
-                                    .lineLimit(1)
-                                    .font(style: .subheadline, weight: .medium)
-                                Text(Podcast.previewPodcast().author ?? "")
-                                    .lineLimit(1)
-                                    .font(size: 14, style: .subheadline, weight: .medium)
-                                    .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
-                            }
-                        }
+                        PodcastResultCell(podcast: Podcast.previewPodcast())
                     }
                 }
             }
@@ -172,5 +150,46 @@ struct PageView: View {
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    }
+}
+
+struct PodcastResultCell: View {
+    @EnvironmentObject var theme: Theme
+
+    let podcast: Podcast
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            ZStack(alignment: .bottomTrailing) {
+                Button(action: {
+                    print("podcast tapped")
+                }) {
+                    PodcastCover(podcastUuid: podcast.uuid)
+                }
+                Button(action: {
+                    print("subscribe")
+                }) {
+                    Image("discover_subscribe_dark")
+                }
+                .background(ThemeColor.veil().color)
+                .foregroundColor(ThemeColor.contrast01().color)
+                .cornerRadius(30)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 6))
+            }
+
+            Button(action: {
+                print("podcast tapped")
+            }) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(Podcast.previewPodcast().title ?? "")
+                        .lineLimit(1)
+                        .font(style: .subheadline, weight: .medium)
+                    Text(Podcast.previewPodcast().author ?? "")
+                        .lineLimit(1)
+                        .font(size: 14, style: .subheadline, weight: .medium)
+                        .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                }
+            }
+        }
     }
 }
