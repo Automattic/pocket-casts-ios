@@ -95,15 +95,6 @@ class ImportViewModel: OnboardingModel {
             }
         }
 
-        var hasInputText: Bool {
-            switch id {
-            case .opmlFromURL:
-                return true
-            default:
-                return false
-            }
-        }
-
         func openApp() {
             guard let url else { return }
 

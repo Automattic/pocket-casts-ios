@@ -32,22 +32,8 @@ struct ImportDetailsView: View {
 
                     appInstructions
 
-                    if app.hasInputText {
-                        TextField("https://...", text: $opmlURLText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .autocapitalization(.none)
-                        switch opmlImportResult {
-                        case .none: Text("")
-                        case .success:
-                            Text(L10n.opmlImportSucceededTitle)
-                                .foregroundColor(Color.green)
-                        case .failure:
-                            Text(L10n.opmlImportFailedTitle)
-                                .foregroundColor(Color.red)
-                        }
-                        if isOPMLImportLoading {
-                            ProgressView(L10n.opmlImporting)
-                        }
+                    if app.id == .opmlFromURL {
+                        opmlImportView
                     }
 
                     Spacer()
@@ -57,33 +43,7 @@ struct ImportDetailsView: View {
             // Hide button for other
             if !app.hideButton {
                 if app.id == .opmlFromURL {
-                    Button(L10n.import) {
-                        opmlImportResult = .none
-                        NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
-                            opmlImportResult = .success
-                            isOPMLImportLoading = false
-                        }
-                        NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
-                            opmlImportResult = .failure
-                            isOPMLImportLoading = false
-                        }
-
-                        guard let url = URL(string: opmlURLText) else {
-                            opmlImportResult = .failure
-                            isOPMLImportLoading = false
-                            return
-                        }
-
-                        isOPMLImportLoading = true
-                        viewModel.importFromURL(url) { success in
-                            if !success {
-                                opmlImportResult = .failure
-                                isOPMLImportLoading = false
-                            }
-                        }
-                    }
-                    .buttonStyle(RoundedButtonStyle(theme: theme))
-                    .padding([.leading, .trailing], Constants.horizontalPadding)
+                   opmlViewButton
                 } else {
                     Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
                         viewModel.openApp(app)
@@ -107,6 +67,59 @@ struct ImportDetailsView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    @ViewBuilder
+    private var opmlImportView: some View {
+        VStack {
+            TextField("https://...", text: $opmlURLText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .autocapitalization(.none)
+
+            switch opmlImportResult {
+            case .none: Text("")
+            case .success:
+                Text(L10n.opmlImportSucceededTitle)
+                    .foregroundColor(Color.green)
+            case .failure:
+                Text(L10n.opmlImportFailedTitle)
+                    .foregroundColor(Color.red)
+            }
+
+            if isOPMLImportLoading {
+                ProgressView(L10n.opmlImporting)
+            }
+        }
+    }
+
+    private var opmlViewButton: some View {
+        Button(L10n.import) {
+            opmlImportResult = .none
+            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
+                opmlImportResult = .success
+                isOPMLImportLoading = false
+            }
+            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
+                opmlImportResult = .failure
+                isOPMLImportLoading = false
+            }
+
+            guard let url = URL(string: opmlURLText) else {
+                opmlImportResult = .failure
+                isOPMLImportLoading = false
+                return
+            }
+
+            isOPMLImportLoading = true
+            viewModel.importFromURL(url) { success in
+                if !success {
+                    opmlImportResult = .failure
+                    isOPMLImportLoading = false
+                }
+            }
+        }
+        .buttonStyle(RoundedButtonStyle(theme: theme))
+        .padding([.leading, .trailing], Constants.horizontalPadding)
     }
 
     private enum Constants {
