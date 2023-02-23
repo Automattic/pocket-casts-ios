@@ -533,11 +533,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
         timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
             guard player.timeControlStatus == .paused, self?.shouldKeepPlaying == true else {
+            #if !os(watchOS)
                 return
             }
 
             FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
             self?.play()
+            #endif
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
