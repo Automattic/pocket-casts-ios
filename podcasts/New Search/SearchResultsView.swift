@@ -14,64 +14,70 @@ struct SearchResultsView: View {
     }
 
     var body: some View {
-        List {
-            HStack {
-                Text(L10n.podcastsPlural)
-                    .font(style: .title2, weight: .bold)
-                Spacer()
-                Button(L10n.discoverShowAll.uppercased()) {}
-                    .font(style: .footnote, weight: .bold)
-                    .buttonStyle(PrimaryButtonStyle())
-            }
-            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
-            .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+        VStack {
+            Rectangle()
+                .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
+                .frame(height: 0.5)
 
-            Section {
-                ScrollView {
-                    LazyHStack {
-                        PodcastsPageView()
+            List {
+                HStack {
+                    Text(L10n.podcastsPlural)
+                        .font(style: .title2, weight: .bold)
+                    Spacer()
+                    Button(L10n.discoverShowAll.uppercased()) {}
+                        .font(style: .footnote, weight: .bold)
+                        .buttonStyle(PrimaryButtonStyle())
+                }
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
+                .listSectionSeparator(.hidden)
+                .listRowSeparator(.hidden)
+                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+
+                Section {
+                    ScrollView {
+                        LazyHStack {
+                            PodcastsPageView()
+                        }
                     }
                 }
+
+                HStack {
+                    Text("Episodes")
+                        .font(style: .title2, weight: .bold)
+                    Spacer()
+                    Button(L10n.discoverShowAll.uppercased()) {}
+                        .font(style: .footnote, weight: .bold)
+                        .buttonStyle(PrimaryButtonStyle())
+                }
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
+                .listSectionSeparator(.hidden)
+                .listRowSeparator(.hidden)
+                .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+
+                Section {
+                    SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+
+                    SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+
+                    SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+
+                    SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                }
             }
-
-            HStack {
-                Text("Episodes")
-                    .font(style: .title2, weight: .bold)
-                Spacer()
-                Button(L10n.discoverShowAll.uppercased()) {}
-                    .font(style: .footnote, weight: .bold)
-                    .buttonStyle(PrimaryButtonStyle())
-            }
-            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
-            .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
-
-            Section {
-                SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listSectionSeparator(.hidden)
-
-                SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listSectionSeparator(.hidden)
-
-                SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listSectionSeparator(.hidden)
-
-                SearchResultsEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listSectionSeparator(.hidden)
-            }
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
         .applyDefaultThemeOptions()
     }
 }
