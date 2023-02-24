@@ -5,9 +5,7 @@ import PocketCastsUtils
 struct SearchEpisodeCell: View {
     @EnvironmentObject var theme: Theme
 
-    var podcast: Podcast
-
-    var episode: Episode
+    var episode: EpisodeSearchResult
 
     var body: some View {
         ZStack {
@@ -22,18 +20,18 @@ struct SearchEpisodeCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    PodcastCover(podcastUuid: podcast.uuid)
+                    PodcastCover(podcastUuid: episode.podcastUuid)
                         .frame(width: 48, height: 48)
                         .allowsHitTesting(false)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                             .font(style: .footnote, weight: .bold)
                             .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
-                        Text(podcast.title ?? "")
+                        Text(episode.title)
                             .font(style: .subheadline, weight: .medium)
                             .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
                             .lineLimit(2)
-                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
+                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
                             .font(style: .caption, weight: .semibold)
                             .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
                             .lineLimit(1)
