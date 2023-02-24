@@ -10,10 +10,13 @@ protocol SearchResultsDelegate {
 
 class SearchResults: ObservableObject {
     @Published var podcasts: [PodcastSearchResult] = []
+    @Published var episodes: [EpisodeSearchResult] = []
 }
 
 class SearchResultsViewController: UIHostingController<AnyView> {
-    let search = PodcastSearchTask()
+    let podcastSearch = PodcastSearchTask()
+    let episodeSearch = EpisodeSearchTask()
+
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
     private var searchResults = SearchResults()
 
@@ -45,15 +48,16 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
-        let test = Task.init {
-            do {
-                let results = try await search.search(term: searchTerm)
-                searchResults.podcasts = results
-            } catch let error {
-                print(error)
-            }
+        Task.init {
+            let results = try? await podcastSearch.search(term: searchTerm)
+            searchResults.podcasts = results ?? []
+            completion()
         }
-//        test.cancel()
-        completion()
+
+        Task.init {
+            let results = try! await episodeSearch.search(term: searchTerm)
+            searchResults.episodes = results
+            completion()
+        }
     }
 }
