@@ -10,12 +10,13 @@ common_params:
         repo: "automattic/pocket-casts-ios/"
   # Common environment values to use with the `env` key.
   - &common_env
-    IMAGE_ID: xcode-14
+    IMAGE_ID: xcode-14.2
 
 steps:
 
   - label: "🛠 Release Build (App Store Connect)"
     command: ".buildkite/commands/release-build.sh $BETA_RELEASE"
+    priority: 1
     env: *common_env
     plugins: *common_plugins
     notify:

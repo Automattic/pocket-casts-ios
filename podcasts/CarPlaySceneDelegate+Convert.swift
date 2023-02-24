@@ -3,7 +3,7 @@ import Foundation
 import PocketCastsDataModel
 
 extension CarPlaySceneDelegate {
-    func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool, closeListOnTap: Bool) -> [CPListItem] {
+    func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool) -> [CPListItem] {
         var items = [CPListItem]()
         for episode in episodes {
             let artwork = showArtwork ? CarPlayImageHelper.imageForEpisode(episode) : nil
@@ -28,7 +28,7 @@ extension CarPlaySceneDelegate {
             item.isPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
 
             item.handler = { [weak self] _, completion in
-                self?.episodeTapped(episode, closeListOnTap: closeListOnTap)
+                self?.episodeTapped(episode)
                 completion()
             }
 
@@ -43,7 +43,7 @@ extension CarPlaySceneDelegate {
 
         item.accessoryType = .disclosureIndicator
         item.handler = { [weak self] _, completion in
-            self?.podcastTapped(podcast, closeListOnTap: false)
+            self?.podcastTapped(podcast)
             completion()
         }
 
@@ -53,22 +53,21 @@ extension CarPlaySceneDelegate {
     func createUpNextImageItem(episodes: [BaseEpisode]) -> CPListImageRowItem {
         var images = [UIImage]()
         for episode in episodes {
-            images.append(CarPlayImageHelper.imageForEpisode(episode))
+            images.append(CarPlayImageHelper.imageForEpisode(episode, maxSize: CPListImageRowItem.maximumImageSize))
         }
 
         let item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)
         item.listImageRowHandler = { [weak self] _, index, completion in
             guard let episode = episodes[safe: index] else { return }
 
-            self?.episodeTapped(episode, closeListOnTap: false)
+            self?.episodeTapped(episode)
             completion()
         }
 
         item.handler = { [weak self] _, completion in
             guard let self = self else { return }
 
-            let upNext = self.createUpNextList(includeNowPlaying: true)
-            self.interfaceController?.pushTemplate(upNext, animated: true, completion: nil)
+            self.upNextTapped(showNowPlaying: true)
             completion()
         }
 

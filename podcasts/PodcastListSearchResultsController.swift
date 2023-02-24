@@ -91,7 +91,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
     func clearSearch() {
         localResults.removeAll()
         remoteResults.removeAll()
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performLocalSearch(searchTerm: String) {
@@ -99,7 +99,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 
         remoteResults.removeAll()
         localResults = filteredItems
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
