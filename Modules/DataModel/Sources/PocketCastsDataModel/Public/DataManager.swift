@@ -22,6 +22,8 @@ public class DataManager {
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
 
+    public let autoAddCandidates: AutoAddCandidatesDataManager
+
     private let dbQueue: FMDatabaseQueue
 
     public static let sharedManager = DataManager()
@@ -41,6 +43,8 @@ public class DataManager {
         podcastManager.setup(dbQueue: dbQueue)
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
+
+        autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {

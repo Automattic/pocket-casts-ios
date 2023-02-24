@@ -85,9 +85,6 @@ struct PlusLandingView: View {
         PlusFeature(iconName: "plus-feature-watch",
                     title: L10n.plusMarketingWatchPlaybackTitle,
                     description: L10n.plusMarketingWatchPlaybackDescription),
-        PlusFeature(iconName: "plus-feature-hide-ads",
-                    title: L10n.plusMarketingHideAdsTitle,
-                    description: L10n.plusMarketingHideAdsDescription),
         PlusFeature(iconName: "plus-feature-themes",
                     title: L10n.plusMarketingThemesIconsTitle,
                     description: L10n.plusMarketingThemesIconsDescription)

@@ -2,8 +2,9 @@ import CarPlay
 import Foundation
 import PocketCastsDataModel
 
+// MARK: - Podcasts
 extension CarPlaySceneDelegate {
-    func createPodcastsTab() -> CPTemplate {
+    var podcastTabSections: [CPListSection] {
         var podcastItems = [CPListTemplateItem]()
 
         let gridItems = HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder())
@@ -18,7 +19,7 @@ extension CarPlaySceneDelegate {
 
                 item.accessoryType = .disclosureIndicator
                 item.handler = { [weak self] _, completion in
-                    self?.folderTapped(folder, closeListOnTap: false)
+                    self?.folderTapped(folder)
                     completion()
                 }
                 podcastItems.append(item)
@@ -35,15 +36,22 @@ extension CarPlaySceneDelegate {
             podcastItems.insert(imageRowItem, at: 0)
         }
 
-        let podcastsSection = CPListSection(items: podcastItems)
-        let template = CPListTemplate(title: L10n.podcastsPlural, sections: [podcastsSection])
-        template.tabTitle = L10n.podcastsPlural
-        template.tabImage = UIImage(named: "car_tab_podcasts")
-
-        return template
+        return [CPListSection(items: podcastItems)]
     }
 
-    func createFiltersTab() -> CPTemplate {
+    func createPodcastsTab() -> CPListTemplate {
+        return CarPlayListData.template(title: L10n.podcastsPlural, emptyTitle: L10n.watchNoPodcasts, image: UIImage(named: "car_tab_podcasts")) { [weak self] in
+            guard let self else { return nil }
+
+            return self.podcastTabSections
+        }
+    }
+}
+
+// MARK: - Filters
+
+extension CarPlaySceneDelegate {
+    private var filterTabSections: [CPListSection] {
         var filterItems = [CPListItem]()
         for filter in DataManager.sharedManager.allFilters(includeDeleted: false) {
             let item = CPListItem(text: filter.playlistName, detailText: nil, image: UIImage(named: filter.iconImageNameCarPlay()))
@@ -56,46 +64,56 @@ extension CarPlaySceneDelegate {
             filterItems.append(item)
         }
 
-        let filtersSection = CPListSection(items: filterItems)
-        let template = CPListTemplate(title: L10n.filters, sections: [filtersSection])
-        template.tabTitle = L10n.filters
-        template.tabImage = UIImage(named: "car_tab_filters")
-
-        return template
+        return [CPListSection(items: filterItems)]
     }
 
-    func createDownloadsTab() -> CPTemplate {
+    func createFiltersTab() -> CPListTemplate {
+        return CarPlayListData.template(title: L10n.filters, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
+            guard let self else { return nil }
+            return self.filterTabSections
+        }
+    }
+}
+
+// MARK: - Downloads
+
+extension CarPlaySceneDelegate {
+    private var downloadTabSections: [CPListSection] {
         let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxCarplayItems)", arguments: nil)
-        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true, closeListOnTap: false)
+        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true)
 
-        let episodeSection = CPListSection(items: items)
-        let template = CPListTemplate(title: L10n.downloads, sections: [episodeSection])
-        template.tabTitle = L10n.downloads
-        template.tabImage = UIImage(named: "car_tab_downloads")
-
-        return template
+        return [CPListSection(items: items)]
     }
 
-    func createMoreTab() -> CPTemplate {
-        let listeningHistoryItem = CPListItem(text: L10n.listeningHistory, detailText: nil, image: UIImage(named: "car_more_listening_history"))
-        listeningHistoryItem.accessoryType = .disclosureIndicator
-        listeningHistoryItem.handler = { [weak self] _, completion in
-            self?.listeningHistoryTapped()
-            completion()
+    func createDownloadsTab() -> CPListTemplate {
+        return CarPlayListData.template(title: L10n.downloads, emptyTitle: L10n.downloadsNoDownloadsTitle, image: UIImage(named: "car_tab_downloads")) { [weak self] in
+            guard let self else { return nil }
+
+            return self.downloadTabSections
         }
+    }
+}
 
-        let filesItem = CPListItem(text: L10n.files, detailText: nil, image: UIImage(named: "car_more_files"))
-        filesItem.accessoryType = .disclosureIndicator
-        filesItem.handler = { [weak self] _, completion in
-            self?.filesTapped(closeListOnTap: false)
-            completion()
+// MARK: - More
+
+extension CarPlaySceneDelegate {
+    func createMoreTab() -> CPListTemplate {
+        return CarPlayListData.staticTemplate(title: L10n.carplayMore, image: UIImage(named: "car_tab_more")) {
+            let listeningHistoryItem = CPListItem(text: L10n.listeningHistory, detailText: nil, image: UIImage(named: "car_more_listening_history"))
+            listeningHistoryItem.accessoryType = .disclosureIndicator
+            listeningHistoryItem.handler = { [weak self] _, completion in
+                self?.listeningHistoryTapped()
+                completion()
+            }
+
+            let filesItem = CPListItem(text: L10n.files, detailText: nil, image: UIImage(named: "car_more_files"))
+            filesItem.accessoryType = .disclosureIndicator
+            filesItem.handler = { [weak self] _, completion in
+                self?.filesTapped()
+                completion()
+            }
+
+            return [CPListSection(items: [listeningHistoryItem, filesItem])]
         }
-
-        let mainSection = CPListSection(items: [listeningHistoryItem, filesItem])
-        let template = CPListTemplate(title: L10n.carplayMore, sections: [mainSection])
-        template.tabTitle = L10n.carplayMore
-        template.tabImage = UIImage(named: "car_tab_more")
-
-        return template
     }
 }

@@ -514,6 +514,7 @@
 		8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
+		8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */; };
 		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */; };
 		8BB1187F290C56F7009E3A39 /* CategoryPillar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */; };
@@ -756,7 +757,6 @@
 		BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */; };
 		BD42E31B1B940AFF000EA14F /* DiscoverPodcastTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */; };
 		BD43BDE72122AD0600E63165 /* skip_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BD43BDE52122AD0600E63165 /* skip_button.json */; };
-		BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */; };
 		BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */; };
 		BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */; };
 		BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */; };
@@ -1385,6 +1385,8 @@
 		C7A110F7291F65FB00887A90 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F6291F65FB00887A90 /* WelcomeView.swift */; };
 		C7A110F9291F66C700887A90 /* Confetti.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110F8291F66C700887A90 /* Confetti.swift */; };
 		C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */; };
+		C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A654022991A7C900BB84C1 /* CarPlayListData.swift */; };
+		C7A654052992971100BB84C1 /* CPInterfaceController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */; };
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7AF5789289C60B70089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
 		C7AF578A289C60C50089E435 /* FeatureFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5788289C60B70089E435 /* FeatureFlag.swift */; };
@@ -2129,6 +2131,7 @@
 		8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+eventually.swift"; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacySettingsViewController.xib; sourceTree = "<group>"; };
+		8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialLogin.swift; sourceTree = "<group>"; };
 		8BB1187E290C56F7009E3A39 /* CategoryPillar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPillar.swift; sourceTree = "<group>"; };
 		8BB11880290C5720009E3A39 /* CategoriesContrastingColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesContrastingColor.swift; sourceTree = "<group>"; };
@@ -2376,7 +2379,6 @@
 		BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverPodcastTableCell.swift; sourceTree = "<group>"; };
 		BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverPodcastTableCell.xib; sourceTree = "<group>"; };
 		BD43BDE52122AD0600E63165 /* skip_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skip_button.json; sourceTree = "<group>"; };
-		BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListHelper.swift; sourceTree = "<group>"; };
 		BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleCastManager.swift; sourceTree = "<group>"; };
 		BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUpNextItem.swift; sourceTree = "<group>"; };
 		BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastChapterParser.swift; sourceTree = "<group>"; };
@@ -2989,6 +2991,8 @@
 		C7A110F6291F65FB00887A90 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		C7A110F8291F66C700887A90 /* Confetti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confetti.swift; sourceTree = "<group>"; };
 		C7A110FE2922971100887A90 /* LoginLandingHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingHostingController.swift; sourceTree = "<group>"; };
+		C7A654022991A7C900BB84C1 /* CarPlayListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListData.swift; sourceTree = "<group>"; };
+		C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CPInterfaceController+Helpers.swift"; sourceTree = "<group>"; };
 		C7AF5788289C60B70089E435 /* FeatureFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlag.swift; sourceTree = "<group>"; };
 		C7AF5790289D87CF0089E435 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusHostingViewController.swift; sourceTree = "<group>"; };
@@ -3892,6 +3896,14 @@
 				8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8BAB8B2D299ABC5E00B8404C /* New Search */ = {
+			isa = PBXGroup;
+			children = (
+				8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */,
+			);
+			path = "New Search";
 			sourceTree = "<group>";
 		};
 		8BAD6E5F2975AF9900DB7259 /* Login */ = {
@@ -5952,7 +5964,8 @@
 				BDED9303251DC459000BF622 /* CarPlaySceneDelegate+Convert.swift */,
 				BDED930A251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift */,
 				BDED9311251DD5EB000BF622 /* CarPlayImageHelper.swift */,
-				BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */,
+				C7A654022991A7C900BB84C1 /* CarPlayListData.swift */,
+				C7A654042992971100BB84C1 /* CPInterfaceController+Helpers.swift */,
 			);
 			name = CarPlay;
 			sourceTree = "<group>";
@@ -6279,6 +6292,7 @@
 				BD98C5511BA808CF00E85D3B /* Cells */,
 				BD95ED631BAFA1FB004335B0 /* Country */,
 				BD18FB1C219ACC770012C41D /* Search */,
+				8BAB8B2D299ABC5E00B8404C /* New Search */,
 				BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */,
 				BDE60ACD2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift */,
 				BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */,
@@ -7279,6 +7293,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n$SRCROOT/scripts/build-phases/generate-credentials.sh\n";
+			showEnvVarsInLog = 0;
 		};
 		462F3AA2274EB4C3005FEB1F /* L10n */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -7603,6 +7618,7 @@
 				BD1F07F91BAAA6F0007A768D /* CategoryPodcastsViewController.swift in Sources */,
 				BD998ACA27B2408500B38857 /* CreateFolderView.swift in Sources */,
 				4067563124D7B163003684FC /* CategorySponsoredCell.swift in Sources */,
+				C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */,
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
@@ -7991,6 +8007,7 @@
 				BD90134F275F3346004AC104 /* ThemeSelectorView.swift in Sources */,
 				8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */,
 				46C22EE328F7497300F4173B /* DeveloperMenu.swift in Sources */,
+				8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
@@ -8026,6 +8043,7 @@
 				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,
 				BD92323823629FAA00C1E118 /* ShowNotesPlayerItemViewController.swift in Sources */,
+				C7A654052992971100BB84C1 /* CPInterfaceController+Helpers.swift in Sources */,
 				40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */,
 				BD35BB6C1CF697650018D63E /* AudioUtils.swift in Sources */,
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
@@ -8215,7 +8233,6 @@
 				C7A110F0291EFF7A00887A90 /* PlusPurchaseModel.swift in Sources */,
 				409C7929222369C800386495 /* UserEpisodeDetailViewController.swift in Sources */,
 				BDC8CDDA203BF8BA00D88313 /* PodcastListViewController.swift in Sources */,
-				BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */,
 				BD2F3BAB2366C96E00416633 /* NowPlayingPlayerItemViewController+Update.swift in Sources */,
 				BD965761246906C900873BB5 /* CastDevicesManager.swift in Sources */,
 				BD561031200DADA0002F2D53 /* Episode+Formatting.swift in Sources */,

@@ -1,10 +1,18 @@
+7.34
+-----
+
+
 7.33
 -----
+- CarPlay: Improved speed and reduced crashing (#705)
+- CarPlay: Tapping an episode now goes to the now playing screen (#702)
+- CarPlay: The mark as played and chapter icons now update with the dark/light mode (#700)
+- CarPlay: Fixed many issues where the UI would not refresh correctly (#699)
+- Auto Add Up Next: Fixed an issue that could cause items in Auto Add Up Next to not be added (#711)
 
 
 7.32
 -----
-- Fixed an issue where effects were not re-enabled when switching from an Airplay device back to phone output (#678)
 - When connected to CarPlay the Up Next Queue will more consistently display at the top of the podcasts list (#680)
 - Fixed an issue where the Up Next queue doesn't continue playing the next episode when connected to AirPlay (#676)
 - Show Starred for logged out users (#685)

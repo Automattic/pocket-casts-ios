@@ -37,7 +37,7 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidBegin() {
-        guard let searchView = searchResultsController.view else { return }
+        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
 
         searchView.alpha = 0
         view.addSubview(searchView)
@@ -51,15 +51,17 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
         ])
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
-            self.searchResultsController.view.alpha = 1
+            searchView.alpha = 1
         }
     }
 
     func searchDidEnd() {
+        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
+
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-            self.searchResultsController.view.alpha = 0
+            searchView.alpha = 0
         }) { _ in
-            self.searchResultsController.view.removeFromSuperview()
+            searchView.removeFromSuperview()
             self.searchResultsController.clearSearchResults()
         }
     }
