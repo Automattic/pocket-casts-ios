@@ -6,6 +6,6 @@ struct ThemeableSeparatorView: View {
     var body: some View {
         Rectangle()
             .foregroundColor(AppTheme.tableDividerColor(for: theme.activeTheme).color)
-            .frame(height: 0.5)
+            .frame(height: 1 / UIScreen.main.scale)
     }
 }

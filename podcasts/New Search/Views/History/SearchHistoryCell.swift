@@ -68,6 +68,7 @@ struct SearchHistoryCell: View {
                     .frame(width: 48, height: 48)
                 }
                 ThemeableSeparatorView()
+                    .frame(height: 1)
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
         }
