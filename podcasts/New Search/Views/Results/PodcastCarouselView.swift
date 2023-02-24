@@ -4,17 +4,19 @@ import PocketCastsDataModel
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var searchResults: SearchResults
+
     let size: Double = 0.48
     var body: some View {
         ScrollView {
             LazyHStack {
                 TabView {
-                    ForEach(0..<30) { i in
+                    ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
                         GeometryReader { geometry in
                             HStack(spacing: 10) {
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                                PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
 
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                                PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
                             }
                         }
                     }
@@ -36,7 +38,7 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
-    let podcast: Podcast
+    let podcast: PodcastSearchResult
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -61,10 +63,10 @@ struct PodcastResultCell: View {
                 print("podcast tapped")
             }) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(Podcast.previewPodcast().title ?? "")
+                    Text(podcast.title)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
-                    Text(Podcast.previewPodcast().author ?? "")
+                    Text(podcast.author)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)

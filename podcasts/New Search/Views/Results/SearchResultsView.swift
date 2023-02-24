@@ -5,6 +5,8 @@ import PocketCastsUtils
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var searchResults: SearchResults
+
     private var episode: Episode {
         let episode = Episode()
         episode.title = "Episode title"
@@ -21,7 +23,7 @@ struct SearchResultsView: View {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
 
                 Section {
-                    PodcastsCarouselView()
+                    PodcastsCarouselView(searchResults: searchResults)
                 }
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
@@ -56,7 +58,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView()
+        SearchResultsView(searchResults: SearchResults())
             .previewWithAllThemes()
     }
 }

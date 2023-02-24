@@ -8,11 +8,17 @@ protocol SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
+class SearchResults: ObservableObject {
+    @Published var podcasts: [PodcastSearchResult] = []
+}
+
 class SearchResultsViewController: UIHostingController<AnyView> {
+    let search = PodcastSearchNetwork()
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
+    private var searchResults = SearchResults()
 
     init() {
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch).setupDefaultEnvironment()))
+        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults).setupDefaultEnvironment()))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -39,6 +45,15 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
+        let test = Task.init {
+            do {
+                let results = try await search.search(term: searchTerm)
+                searchResults.podcasts = results
+            } catch let error {
+                print(error)
+            }
+        }
+//        test.cancel()
         completion()
     }
 }
