@@ -13,7 +13,7 @@ class SearchResults: ObservableObject {
 }
 
 class SearchResultsViewController: UIHostingController<AnyView> {
-    let search = PodcastSearchNetwork()
+    let search = PodcastSearchTask()
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
     private var searchResults = SearchResults()
 

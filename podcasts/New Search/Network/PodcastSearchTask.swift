@@ -7,7 +7,7 @@ struct PodcastSearchResult: Decodable {
     let author: String
 }
 
-class PodcastSearchNetwork {
+class PodcastSearchTask {
     var session = URLSession.shared
 
     func search(term: String) async throws -> [PodcastSearchResult] {
@@ -20,7 +20,6 @@ class PodcastSearchNetwork {
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
         request.httpBody = jsonData
-
 
         let (data, _) = try await session.data(for: request)
         let decoder = JSONDecoder()
