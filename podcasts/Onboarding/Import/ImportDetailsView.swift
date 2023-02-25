@@ -6,35 +6,37 @@ struct ImportDetailsView: View {
         case success
         case failure
     }
+
     @EnvironmentObject var theme: Theme
     @Environment(\.presentationMode) var presentationMode
+
     @State var opmlURLText = ""
-    @State var opmlImportResult: OPMLImportResult = .none
+    @State var OPMLURLImportResult: OPMLImportResult = .none
     @State var opmlImportInProgress: Bool = false
     @State var opmlButtonTitle: String = L10n.import
 
-    let app: ImportViewModel.ImportApp
+    let importSource: ImportViewModel.ImportSource
     let viewModel: ImportViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             ScrollViewIfNeeded {
                 VStack(alignment: .leading, spacing: 16) {
-                    Image(app.iconName)
+                    Image(importSource.iconName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 64, height: 64)
                         .cornerRadius(16)
                         .shadow(color: .black.opacity(0.2), radius: 3, x: 0, y: 1)
 
-                    Text(L10n.importInstructionsImportFrom(app.displayName))
+                    Text(L10n.importInstructionsImportFrom(importSource.displayName))
                         .font(size: 31, style: .largeTitle, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .fixedSize(horizontal: false, vertical: true)
 
                     appInstructions
 
-                    if app.id == .opmlFromURL {
+                    if importSource.id == .opmlFromURL {
                         opmlImportView
                     }
 
@@ -43,12 +45,12 @@ struct ImportDetailsView: View {
             }
 
             // Hide button for other
-            if !app.hideButton {
-                if app.id == .opmlFromURL {
+            if !importSource.hideButton {
+                if importSource.id == .opmlFromURL {
                    opmlViewButton
                 } else {
-                    Button(app.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(app.displayName)) {
-                        viewModel.openApp(app)
+                    Button(importSource.id == .applePodcasts ? L10n.importInstructionsInstallShortcut : L10n.importInstructionsOpenIn(importSource.displayName)) {
+                        viewModel.openApp(importSource)
                     }
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                     .padding([.leading, .trailing], Constants.horizontalPadding)
@@ -60,7 +62,7 @@ struct ImportDetailsView: View {
 
     @ViewBuilder
     private var appInstructions: some View {
-        let lines = app.steps.split(separator: "\n").map { String($0).trim() }
+        let lines = importSource.steps.split(separator: "\n").map { String($0).trim() }
         VStack(alignment: .leading, spacing: 20) {
             ForEach(lines, id: \.self) { line in
                 Text(line)
@@ -78,14 +80,14 @@ struct ImportDetailsView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocapitalization(.none)
 
-            switch opmlImportResult {
+            switch OPMLURLImportResult {
             case .none: Text("")
             case .success:
                 Text(L10n.opmlImportSucceededTitle)
-                    .foregroundColor(Color.green)
+                    .foregroundColor((ThemeColor.support02(for: theme.activeTheme).color))
             case .failure:
                 Text(L10n.opmlImportFailedTitle)
-                    .foregroundColor(Color.red)
+                    .foregroundColor(ThemeColor.support05(for: theme.activeTheme).color)
             }
 
             if opmlImportInProgress {
@@ -96,21 +98,21 @@ struct ImportDetailsView: View {
 
     private var opmlViewButton: some View {
         Button(action: {
-            if opmlImportResult == .success {
-                self.presentationMode.wrappedValue.dismiss()
+            if OPMLURLImportResult == .success {
+                viewModel.navigationController?.dismiss(animated: true)
             }
-            opmlImportResult = .none
+            OPMLURLImportResult = .none
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
-                opmlImportResult = .success
+                OPMLURLImportResult = .success
                 opmlImportInProgress = false
             }
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
-                opmlImportResult = .failure
+                OPMLURLImportResult = .failure
                 opmlImportInProgress = false
             }
 
             guard let url = URL(string: opmlURLText) else {
-                opmlImportResult = .failure
+                OPMLURLImportResult = .failure
                 opmlImportInProgress = false
                 return
             }
@@ -118,12 +120,12 @@ struct ImportDetailsView: View {
             opmlImportInProgress = true
             viewModel.importFromURL(url) { success in
                 if !success {
-                    opmlImportResult = .failure
+                    OPMLURLImportResult = .failure
                     opmlImportInProgress = false
                 }
             }
         }, label: {
-            Text(opmlImportResult == .success ? L10n.done : L10n.import)
+            Text(OPMLURLImportResult == .success ? L10n.done : L10n.import)
         })
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .padding([.leading, .trailing], Constants.horizontalPadding)
