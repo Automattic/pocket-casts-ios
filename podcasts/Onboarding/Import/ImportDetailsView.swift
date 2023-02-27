@@ -11,7 +11,7 @@ struct ImportDetailsView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @State var opmlURLText = ""
-    @State var OPMLURLImportResult: OPMLImportResult = .none
+    @State var opmlURLImportResult: OPMLImportResult = .none
     @State var opmlImportInProgress: Bool = false
     @State var opmlButtonTitle: String = L10n.import
 
@@ -77,10 +77,11 @@ struct ImportDetailsView: View {
     private var opmlImportView: some View {
         VStack {
             TextField("https://...", text: $opmlURLText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocapitalization(.none)
+                .requiredStyle(opmlURLImportResult == .failure)
+                .keyboardType(.URL)
 
-            switch OPMLURLImportResult {
+            switch opmlURLImportResult {
             case .none: Text("")
             case .success:
                 Text(L10n.opmlImportSucceededTitle)
@@ -98,21 +99,21 @@ struct ImportDetailsView: View {
 
     private var opmlViewButton: some View {
         Button(action: {
-            if OPMLURLImportResult == .success {
+            if opmlURLImportResult == .success {
                 viewModel.navigationController?.dismiss(animated: true)
             }
-            OPMLURLImportResult = .none
+            opmlURLImportResult = .none
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
-                OPMLURLImportResult = .success
+                opmlURLImportResult = .success
                 opmlImportInProgress = false
             }
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { notification in
-                OPMLURLImportResult = .failure
+                opmlURLImportResult = .failure
                 opmlImportInProgress = false
             }
 
             guard let url = URL(string: opmlURLText) else {
-                OPMLURLImportResult = .failure
+                opmlURLImportResult = .failure
                 opmlImportInProgress = false
                 return
             }
@@ -120,12 +121,12 @@ struct ImportDetailsView: View {
             opmlImportInProgress = true
             viewModel.importFromURL(url) { success in
                 if !success {
-                    OPMLURLImportResult = .failure
+                    opmlURLImportResult = .failure
                     opmlImportInProgress = false
                 }
             }
         }, label: {
-            Text(OPMLURLImportResult == .success ? L10n.done : L10n.import)
+            Text(opmlURLImportResult == .success ? L10n.done : L10n.import)
         })
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .padding([.leading, .trailing], Constants.horizontalPadding)
