@@ -171,8 +171,8 @@ extension ImportViewModel {
                 return
             }
 
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let fileURL = documentsDirectory.appendingPathComponent("feed.opml")
+            let temporaryDirectory = FileManager.default.temporaryDirectory
+            let fileURL = temporaryDirectory.appendingPathComponent("feed.opml")
 
             do {
                 try data.write(to: fileURL)
