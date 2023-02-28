@@ -54,7 +54,7 @@ struct PodcastResultCell: View {
                 .background(ThemeColor.veil().color)
                 .foregroundColor(ThemeColor.contrast01().color)
                 .cornerRadius(30)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 6))
+                .padding([.trailing, .bottom], 6)
             }
 
             Button(action: {
