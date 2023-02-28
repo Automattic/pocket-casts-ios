@@ -41,4 +41,9 @@ class SceneHelper {
         }
         return appDelegate.window?.rootViewController
     }
+
+    /// Returns the main window for the app from the AppDelegate
+    static var mainWindow: UIWindow? {
+        (UIApplication.shared.delegate as? AppDelegate)?.window
+    }
 }
