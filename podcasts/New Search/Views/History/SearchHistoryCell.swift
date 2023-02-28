@@ -33,11 +33,12 @@ struct SearchHistoryCell: View {
             .buttonStyle(ListCellButtonStyle())
 
             VStack(spacing: 12) {
-                HStack(spacing: 12) {
+                HStack(spacing: 0) {
                     if let podcast {
                         PodcastCover(podcastUuid: podcast.uuid)
                             .frame(width: 48, height: 48)
                             .allowsHitTesting(false)
+                            .padding(.trailing, 12)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(podcast.title ?? "")
                                 .font(style: .subheadline, weight: .medium)
@@ -53,6 +54,7 @@ struct SearchHistoryCell: View {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .padding(.trailing, 12)
                         Text(searchTerm)
                             .font(style: .subheadline, weight: .medium)
                     }
