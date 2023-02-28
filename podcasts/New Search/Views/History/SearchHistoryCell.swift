@@ -41,18 +41,18 @@ struct SearchHistoryCell: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(podcast.title ?? "")
                                 .font(style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
+                                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
                             Text(subtitle)
                                 .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
                         }
                         .allowsHitTesting(false)
                     } else if let searchTerm {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
-                            .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                         Text(searchTerm)
                             .font(style: .subheadline, weight: .medium)
                     }
