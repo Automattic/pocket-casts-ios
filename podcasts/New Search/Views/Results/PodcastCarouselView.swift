@@ -4,7 +4,6 @@ import PocketCastsDataModel
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
 
-    let size: Double = 0.48
     var body: some View {
         ScrollView {
             LazyHStack {
