@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
-class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SearchResultsDelegate {
     private static let searchCellId = "PodcastSearchCell"
     private static let searchInfoCell = "SearchInfoCell"
     private static let searchingCell = "SearchLoadingCell"
@@ -133,11 +133,13 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
 
     // MARK: - Search
 
-    func clearSearchResults() {
+    func clearSearch() {
         searchResults.removeAll()
         searchState = .notStarted
         searchResultsTable.reloadData()
     }
+
+    func performLocalSearch(searchTerm: String) {}
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         if !triggeredByTimer, searchTerm.count < 2 {

@@ -18,9 +18,13 @@ class DiscoverViewController: PCViewController {
     private var summaryViewControllers = [UIViewController]()
 
     var searchController: PCSearchBarController!
-    var searchResultsController: DiscoverPodcastSearchResultsController!
 
+    var searchResultsController: DiscoverPodcastSearchResultsController!
     lazy var newSearchResultsController = SearchResultsViewController()
+
+    var resultsControllerDelegate: SearchResultsDelegate {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsController
+    }
 
     private var loadingContent = false
 
