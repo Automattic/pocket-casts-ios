@@ -16,7 +16,7 @@ struct SearchHistoryCell: View {
             let duration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration))
             return "\(L10n.episode) • \(duration) • \(podcast.title ?? "")"
         } else if let podcast {
-            return "Podcast • \(podcast.author ?? "")"
+            return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
         }
 
         return ""
