@@ -8,6 +8,11 @@ protocol SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
+extension SearchResultsDelegate {
+    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {}
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
+}
+
 class SearchResultsViewController: UIHostingController<AnyView> {
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
 
