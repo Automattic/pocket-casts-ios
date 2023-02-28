@@ -41,7 +41,7 @@ struct SearchHistoryView: View {
                 }
             }
         }
-        .background(AppTheme.colorForStyle(.primaryUi04, themeOverride: theme.activeTheme).color)
+        .background(AppTheme.color(for: .primaryUi04, theme: theme))
         .listStyle(.plain)
         .applyDefaultThemeOptions()
     }
