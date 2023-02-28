@@ -1,24 +1,29 @@
 import UIKit
 
 class ActionIconButton: UIButton {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        centerTitleLabel()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        centerTitleLabel()
-    }
-
     override func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
         invalidateIntrinsicContentSize()
     }
 
-    override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
-        let rect = super.titleRect(forContentRect: contentRect)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if let imageView, let frame = calculatedImageFrame {
+            imageView.frame = frame
+        }
+
+        if let titleLabel, let frame = calculatedTitleFrame {
+            titleLabel.textAlignment = .center
+            titleLabel.frame = frame
+        }
+    }
+
+    private var calculatedTitleFrame: CGRect? {
+        guard let rect = titleLabel?.frame else { return nil }
+
+        let contentRect = bounds
+
         let height: CGFloat
         if let text = title(for: .normal) {
             let size = (text as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 13)])
@@ -31,8 +36,10 @@ class ActionIconButton: UIButton {
         return CGRect(x: 0, y: imageSize + 10, width: contentRect.width, height: height)
     }
 
-    override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        let rect = super.imageRect(forContentRect: contentRect)
+    private var calculatedImageFrame: CGRect? {
+        guard let rect = imageView?.frame else { return nil }
+        let contentRect = bounds
+
         return CGRect(x: contentRect.width / 2.0 - rect.width / 2.0, y: 0, width: rect.width, height: rect.height)
     }
 
@@ -40,14 +47,9 @@ class ActionIconButton: UIButton {
         let size = super.intrinsicContentSize
 
         if imageView?.image != nil {
-            let labelRect = titleRect(forContentRect: contentRect(forBounds: bounds))
-            return CGSize(width: size.width, height: labelRect.maxY)
+            return CGSize(width: size.width, height: calculatedTitleFrame?.maxY ?? 0)
         }
 
         return size
-    }
-
-    private func centerTitleLabel() {
-        titleLabel?.textAlignment = .center
     }
 }
