@@ -117,14 +117,14 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     func createStandardCloseButton(imageName: String) -> UIButton {
-        let closeButton = UIButton(type: .custom)
-        closeButton.setTitle("", for: .normal)
-        let image = UIImage(named: imageName)
-        closeButton.setImage(image, for: .normal)
-        closeButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-        closeButton.bounds = CGRect(x: 0, y: 0, width: 44, height: 44)
-        closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 22)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(named: imageName)
+        config.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 22)
+        config.titlePadding = 0
 
+        let closeButton = UIButton(configuration: config)
+        closeButton.imageView?.contentMode = .scaleAspectFit
+        closeButton.bounds = CGRect(x: 0, y: 0, width: 44, height: 44)
         return closeButton
     }
 
