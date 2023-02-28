@@ -28,14 +28,14 @@ struct SearchEpisodeCell: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                             .font(style: .footnote, weight: .bold)
-                            .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                         Text(podcast.title ?? "")
                             .font(style: .subheadline, weight: .medium)
-                            .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
+                            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                             .lineLimit(2)
                         Text(episode.displayableDuration)
                             .font(style: .caption, weight: .semibold)
-                            .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                             .lineLimit(1)
                     }
                     .allowsHitTesting(false)
