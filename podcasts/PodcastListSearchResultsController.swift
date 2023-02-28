@@ -136,8 +136,6 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
             }
         }
     }
-
-    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
 }
 
 extension PodcastListSearchResultsController: AnalyticsSourceProvider {
