@@ -101,6 +101,7 @@ struct ImportDetailsView: View {
         Button(action: {
             if opmlURLImportResult == .success {
                 viewModel.navigationController?.dismiss(animated: true)
+                return
             }
             opmlURLImportResult = .none
             NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { notification in
