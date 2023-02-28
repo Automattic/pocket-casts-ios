@@ -24,7 +24,7 @@ struct PodcastsCarouselView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
             ThemeableSeparatorView()
-                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+                .padding(.leading, 16)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .listRowSeparator(.hidden)
