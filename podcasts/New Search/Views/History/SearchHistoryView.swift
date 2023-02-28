@@ -18,7 +18,7 @@ struct SearchHistoryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ThemeableSeparatorView()
+            ThemedDivider()
 
             List {
                 ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)

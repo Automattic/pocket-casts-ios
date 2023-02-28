@@ -41,7 +41,7 @@ struct SearchEpisodeCell: View {
                     .allowsHitTesting(false)
                 }
                 .padding(.trailing, 16)
-                ThemeableSeparatorView()
+                ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
