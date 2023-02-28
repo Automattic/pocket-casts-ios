@@ -33,7 +33,7 @@ struct SearchEpisodeCell: View {
                             .font(style: .subheadline, weight: .medium)
                             .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
                             .lineLimit(2)
-                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
+                        Text(episode.displayableDuration)
                             .font(style: .caption, weight: .semibold)
                             .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
                             .lineLimit(1)
