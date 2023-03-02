@@ -10,6 +10,7 @@ struct SearchView: View {
     var body: some View {
         searchView
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
+        .ignoresSafeArea(.keyboard)
     }
 
     @ViewBuilder
