@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -296,7 +296,7 @@
                                     <rect key="frame" x="177.5" y="40" width="20" height="20"/>
                                 </activityIndicatorView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to find show notes for this episode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gye-vZ-4Rq" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="35" y="58" width="305" height="19.5"/>
+                                    <rect key="frame" x="16" y="58" width="343" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -312,9 +312,11 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="bTC-FT-bUv" firstAttribute="centerX" secondItem="XID-El-uKH" secondAttribute="centerX" id="4uS-HB-pBk"/>
+                                <constraint firstItem="Gye-vZ-4Rq" firstAttribute="leading" secondItem="XID-El-uKH" secondAttribute="leading" constant="16" id="CKA-7o-CaF"/>
                                 <constraint firstItem="Gye-vZ-4Rq" firstAttribute="top" secondItem="ytP-Wg-gNG" secondAttribute="bottom" constant="30" id="GRZ-GS-Ath"/>
-                                <constraint firstItem="Gye-vZ-4Rq" firstAttribute="centerX" secondItem="XID-El-uKH" secondAttribute="centerX" id="MvX-my-mNX"/>
+                                <constraint firstItem="Gye-vZ-4Rq" firstAttribute="centerX" secondItem="X1H-6J-Cmx" secondAttribute="centerX" id="OQb-AJ-ktF"/>
                                 <constraint firstAttribute="trailing" secondItem="i6O-79-oUy" secondAttribute="trailing" constant="18" id="PmQ-wm-sgR"/>
+                                <constraint firstAttribute="trailing" secondItem="Gye-vZ-4Rq" secondAttribute="trailing" constant="16" id="XhN-FS-LyS"/>
                                 <constraint firstItem="X1H-6J-Cmx" firstAttribute="top" secondItem="Gye-vZ-4Rq" secondAttribute="top" constant="30" id="Y1j-DO-KYY"/>
                                 <constraint firstItem="ytP-Wg-gNG" firstAttribute="leading" secondItem="XID-El-uKH" secondAttribute="leading" constant="17" id="Zro-rG-sWc"/>
                                 <constraint firstItem="ytP-Wg-gNG" firstAttribute="top" secondItem="XID-El-uKH" secondAttribute="top" constant="10" id="aLM-26-nom"/>
