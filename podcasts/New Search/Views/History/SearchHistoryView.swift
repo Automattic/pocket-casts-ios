@@ -18,7 +18,7 @@ struct SearchHistoryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ThemeableSeparatorView()
+            ThemedDivider()
 
             List {
                 ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)
@@ -41,7 +41,7 @@ struct SearchHistoryView: View {
                 }
             }
         }
-        .background(AppTheme.colorForStyle(.primaryUi04, themeOverride: theme.activeTheme).color)
+        .background(AppTheme.color(for: .primaryUi04, theme: theme))
         .listStyle(.plain)
         .applyDefaultThemeOptions()
     }

@@ -9,7 +9,7 @@ struct SearchResultsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ThemeableSeparatorView()
+            ThemedDivider()
 
             List {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)

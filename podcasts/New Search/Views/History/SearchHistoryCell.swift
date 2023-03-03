@@ -13,10 +13,9 @@ struct SearchHistoryCell: View {
 
     private var subtitle: String {
         if let episode, let podcast {
-            let duration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration))
-            return "\(L10n.episode) • \(duration) • \(podcast.title ?? "")"
+            return "\(L10n.episode) • \(episode.displayableDuration) • \(podcast.title ?? "")"
         } else if let podcast {
-            return "Podcast • \(podcast.author ?? "")"
+            return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
         }
 
         return ""
@@ -34,26 +33,28 @@ struct SearchHistoryCell: View {
             .buttonStyle(ListCellButtonStyle())
 
             VStack(spacing: 12) {
-                HStack(spacing: 12) {
+                HStack(spacing: 0) {
                     if let podcast {
                         PodcastCover(podcastUuid: podcast.uuid)
                             .frame(width: 48, height: 48)
                             .allowsHitTesting(false)
+                            .padding(.trailing, 12)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(podcast.title ?? "")
                                 .font(style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color)
+                                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
                             Text(subtitle)
                                 .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
                         }
                         .allowsHitTesting(false)
                     } else if let searchTerm {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
-                            .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .padding(.trailing, 12)
                         Text(searchTerm)
                             .font(style: .subheadline, weight: .medium)
                     }
@@ -67,7 +68,7 @@ struct SearchHistoryCell: View {
                     .buttonStyle(SecondaryButtonStyle())
                     .frame(width: 48, height: 48)
                 }
-                ThemeableSeparatorView()
+                ThemedDivider()
                     .frame(height: 1)
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))

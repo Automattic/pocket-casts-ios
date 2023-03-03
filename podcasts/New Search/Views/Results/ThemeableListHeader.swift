@@ -19,6 +19,6 @@ struct ThemeableListHeader: View {
         .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
         .listSectionSeparator(.hidden)
         .listRowSeparator(.hidden)
-        .listRowBackground(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+        .listRowBackground(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }

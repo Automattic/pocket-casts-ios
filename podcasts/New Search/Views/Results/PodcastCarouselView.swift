@@ -6,7 +6,6 @@ struct PodcastsCarouselView: View {
 
     @ObservedObject var searchResults: SearchResults
 
-    let size: Double = 0.48
     var body: some View {
         ScrollView {
             LazyHStack {
@@ -25,13 +24,13 @@ struct PodcastsCarouselView: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
-            ThemeableSeparatorView()
-                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+            ThemedDivider()
+                .padding(.leading, 16)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .listRowSeparator(.hidden)
         .listSectionSeparator(.hidden)
-        .background(AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color)
+        .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }
 
@@ -56,7 +55,7 @@ struct PodcastResultCell: View {
                 .background(ThemeColor.veil().color)
                 .foregroundColor(ThemeColor.contrast01().color)
                 .cornerRadius(30)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 6))
+                .padding([.trailing, .bottom], 6)
             }
 
             Button(action: {
@@ -69,7 +68,7 @@ struct PodcastResultCell: View {
                     Text(podcast.author)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
-                        .foregroundColor(AppTheme.colorForStyle(.primaryText02, themeOverride: theme.activeTheme).color)
+                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                 }
             }
         }

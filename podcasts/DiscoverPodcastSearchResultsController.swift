@@ -141,8 +141,6 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
 
     func performLocalSearch(searchTerm: String) {}
 
-    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) { }
-
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         if !triggeredByTimer, searchTerm.count < 2 {
             completion()

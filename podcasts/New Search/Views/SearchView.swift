@@ -10,6 +10,13 @@ struct SearchView: View {
     var searchResults: SearchResults
 
     var body: some View {
+        searchView
+        .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
+        .ignoresSafeArea(.keyboard)
+    }
+
+    @ViewBuilder
+    private var searchView: some View {
         if displaySearch.isSearching {
             SearchResultsView(searchResults: searchResults)
         } else {

@@ -8,7 +8,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
     private var failedCount = 0
 
     private let opmlFileUrl: URL
-    private let progressWindow: ShiftyLoadingAlert
+    private let progressWindow: ShiftyLoadingAlert?
 
     private var initialPodcastCount = 0
     private var importedCount = 0
@@ -22,7 +22,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
 
     private var parsedUrls = [String]()
 
-    init(opmlFile: URL, progressWindow: ShiftyLoadingAlert) {
+    init(opmlFile: URL, progressWindow: ShiftyLoadingAlert? = nil) {
         opmlFileUrl = opmlFile
         self.progressWindow = progressWindow
 
@@ -37,10 +37,16 @@ class OpmlImporter: Operation, XMLParserDelegate {
             parser?.delegate = self
             guard let parsed = parser?.parse(), parsed, parsedUrls.count > 0 else {
                 DispatchQueue.main.sync {
-                    self.progressWindow.hideAlert(false)
-                    let controller = SceneHelper.rootViewController()
+                    if let progressWindow = self.progressWindow {
+                        progressWindow.hideAlert(false)
+                        let controller = SceneHelper.rootViewController()
 
-                    SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                        SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
+                    } else {
+                        NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportFailed)
+                        return
+                    }
+
                     Analytics.track(.opmlImportFailed)
                 }
 
@@ -62,11 +68,16 @@ class OpmlImporter: Operation, XMLParserDelegate {
             }
 
             DispatchQueue.main.async {
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
+                if let progressWindow = self.progressWindow {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
 
-                self.progressWindow.hideAlert(true)
+                    progressWindow.hideAlert(true)
 
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                } else {
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+                    return
+                }
                 Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount])
             }
         }
@@ -141,7 +152,8 @@ class OpmlImporter: Operation, XMLParserDelegate {
                     }
                     self.importedCount += 1
                     DispatchQueue.main.async {
-                        self.progressWindow.title = self.progress(imported: self.importedCount, total: self.initialPodcastCount)
+                        guard let progressWindow = self.progressWindow else { return }
+                        progressWindow.title = self.progress(imported: self.importedCount, total: self.initialPodcastCount)
                     }
 
                     return
@@ -154,7 +166,8 @@ class OpmlImporter: Operation, XMLParserDelegate {
                     self.importedCount += 1
 
                     DispatchQueue.main.async {
-                        self.progressWindow.title = self.progress(imported: self.importedCount, total: self.initialPodcastCount)
+                        guard let progressWindow = self.progressWindow else { return }
+                        progressWindow.title = self.progress(imported: self.importedCount, total: self.initialPodcastCount)
                     }
 
                     addGroup.leave()
