@@ -202,8 +202,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             }
             self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
 
-            for list in self?.lists ?? [] {
-                if let listId = list.listId {
+            self?.lists.forEach {
+                if let listId = $0.listId {
                     AnalyticsHelper.listImpression(listId: listId)
                 }
             }
