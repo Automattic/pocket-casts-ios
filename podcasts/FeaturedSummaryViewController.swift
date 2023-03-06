@@ -100,7 +100,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         let podcast = podcasts[indexPath.row]
         if let delegate = delegate {
-            cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType)
+            cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
             cell.featuredView.onSubscribe = { delegate.subscribe(podcast: podcast) }
         }
 
