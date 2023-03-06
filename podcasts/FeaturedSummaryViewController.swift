@@ -10,6 +10,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     }
 
     private var podcasts = [DiscoverPodcast]()
+    private var sponsoredPodcasts = [DiscoverPodcast]()
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
@@ -183,8 +184,9 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
-                self?.podcasts.insert(sponsoredPodcastToAdd.1, at: sponsoredPodcastToAdd.0)
+                self?.podcasts.insert(sponsoredPodcastToAdd.1, safelyAt: sponsoredPodcastToAdd.0)
             }
+            self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.1 }
 
             self?.updatePageCount()
             self?.featuredCollectionView.reloadData()
