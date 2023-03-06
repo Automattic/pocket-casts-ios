@@ -37,8 +37,12 @@ class ThemeableCollectionView: UICollectionView, AutoScrollCollectionViewDelegat
     var timer: Timer?
 
     func initializeAutoScrollTimer() {
+        guard FeatureFlag.discoverFeaturedAutoScroll.enabled else {
+            return
+        }
+
         timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrolltoNextItem), userInfo: nil, repeats: true)
-       }
+    }
 
     @objc func scrolltoNextItem() {
         let nextIndex = (indexPathsForVisibleItems.last?.item ?? 0) + 1
