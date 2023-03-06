@@ -151,6 +151,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         let dispatchGroup = DispatchGroup()
 
+        var sponsoredPodcastsToAdd: [(Int, DiscoverPodcast)] = []
+
         dispatchGroup.enter()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
@@ -164,7 +166,26 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             dispatchGroup.leave()
         })
 
+        if let sponsoredPodcasts = item.sponsoredPodcasts {
+            for sponsored in sponsoredPodcasts {
+                if let source = sponsored.source, let position = sponsored.position {
+                    dispatchGroup.enter()
+                    DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+                        guard let discoverPodcast = podcastList?.podcasts?.first else { return }
+
+                        sponsoredPodcastsToAdd.append((position, discoverPodcast))
+
+                        dispatchGroup.leave()
+                    })
+                }
+            }
+        }
+
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+                self?.podcasts.insert(sponsoredPodcastToAdd.1, at: sponsoredPodcastToAdd.0)
+            }
+
             self?.updatePageCount()
             self?.featuredCollectionView.reloadData()
         }
