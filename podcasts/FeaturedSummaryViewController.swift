@@ -104,7 +104,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         if let delegate = delegate {
             cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
             cell.featuredView.onSubscribe = { [weak self] in
-                if let listId = self?.lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId, let podcastUuid = podcast.uuid {
+                if let listId = self?.listId(for: podcast), let podcastUuid = podcast.uuid {
                     AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
                 }
                 delegate.subscribe(podcast: podcast)
@@ -125,7 +125,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         guard let delegate = delegate else { return }
 
         let podcast = podcasts[indexPath.row]
-        let listId = lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
+        let listId = listId(for: podcast)
         delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: listId)
 
         if let listId = listId, let podcastUuid = podcast.uuid {
@@ -239,5 +239,11 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         pageControl.currentPage = currentPage
 
         Analytics.track(.discoverFeaturedPageChanged, properties: ["current_page": currentPage + 1, "total_pages": pageControl.numberOfPages])
+    }
+
+    // MARK: - Sponsored Podcast methods
+
+    func listId(for podcast: DiscoverPodcast) -> String? {
+        lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
     }
 }
