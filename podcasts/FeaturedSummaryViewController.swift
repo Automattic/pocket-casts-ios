@@ -11,6 +11,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     private var podcasts = [DiscoverPodcast]()
     private var sponsoredPodcasts = [DiscoverPodcast]()
+    private var lists: [PodcastCollection] = []
+
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
@@ -154,8 +156,6 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
-        var listsToTrack: [PodcastCollection] = []
-
         dispatchGroup.enter()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
@@ -173,12 +173,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             for sponsored in sponsoredPodcasts {
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
-                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { podcastList in
+                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { [weak self] podcastList in
                         guard let podcastList = podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast
 
-                        listsToTrack.append(podcastList)
+                        self?.lists.append(podcastList)
 
                         dispatchGroup.leave()
                     })
@@ -192,7 +192,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             }
             self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
 
-            for list in listsToTrack {
+            for list in self?.lists ?? [] {
                 if let listId = list.listId {
                     AnalyticsHelper.listImpression(listId: listId)
                 }
