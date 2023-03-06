@@ -125,7 +125,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         guard let delegate = delegate else { return }
 
         let podcast = podcasts[indexPath.row]
-        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId)
+        let listId = lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
+        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: listId)
+
+        if let listId = listId, let podcastUuid = podcast.uuid {
+            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
