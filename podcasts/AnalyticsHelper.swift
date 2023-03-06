@@ -378,7 +378,7 @@ private extension AnalyticsHelper {
         guard optedOut == false else { return }
 
         #if !os(watchOS)
-            Firebase.Analytics.logEvent(name, parameters: parameters)
+            Self.logEvent(name, parameters: parameters)
         #endif
     }
 
