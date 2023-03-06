@@ -125,7 +125,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         guard let delegate = delegate else { return }
 
         let podcast = podcasts[indexPath.row]
-        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: nil)
+        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
