@@ -149,6 +149,9 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             listType = delegate.replaceRegionName(string: title)
         }
 
+        let dispatchGroup = DispatchGroup()
+
+        dispatchGroup.enter()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
@@ -158,11 +161,13 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
                 if index == (strongSelf.maxFeaturedItems - 1) { break }
             }
 
-            DispatchQueue.main.async {
-                strongSelf.updatePageCount()
-                strongSelf.featuredCollectionView.reloadData()
-            }
+            dispatchGroup.leave()
         })
+
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.updatePageCount()
+            self?.featuredCollectionView.reloadData()
+        }
     }
 
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
