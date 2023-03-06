@@ -239,7 +239,6 @@ public struct DiscoverItem: Decodable {
     public var summaryStyle: String?
     public var expandedStyle: String?
     public var source: String?
-    public var sponsored: [CarouselSponsoredPodcast]
     public var expandedTopItemLabel: String?
     public var curated: Bool?
     public var regions: [String]
@@ -252,39 +251,6 @@ public struct DiscoverItem: Decodable {
         case expandedTopItemLabel = "expanded_top_item_label"
         case type, title, source, regions, curated, uuid
     }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        do {
-            sponsored = []
-            isSponsored = try container.decode(Bool.self, forKey: .isSponsored)
-        } catch DecodingError.typeMismatch {
-            // There was something for the "manage_stock" key, but it wasn't a boolean value. Try a string.
-            if let array = try container.decodeIfPresent([CarouselSponsoredPodcast].self, forKey: .isSponsored) {
-                // Can check for "parent" specifically if you want.
-                sponsored = array
-                isSponsored = true
-            }
-        } catch {
-            sponsored = []
-            isSponsored = false
-        }
-
-        uuid = try? container.decode(String.self, forKey: .uuid)
-        title = try? container.decode(String.self, forKey: .title)
-        type = try? container.decode(String.self, forKey: .type)
-        summaryStyle = try? container.decode(String.self, forKey: .summaryStyle)
-        expandedStyle = try? container.decode(String.self, forKey: .expandedStyle)
-        source = try? container.decode(String.self, forKey: .source)
-        expandedTopItemLabel = try? container.decode(String.self, forKey: .expandedTopItemLabel)
-        curated = try? container.decode(Bool.self, forKey: .curated)
-        regions = try container.decode([String].self, forKey: .regions)
-    }
-}
-
-public struct CarouselSponsoredPodcast: Decodable {
-    public var position: Int?
-    public var source: String?
 }
 
 public struct PodcastNetwork: Decodable {
