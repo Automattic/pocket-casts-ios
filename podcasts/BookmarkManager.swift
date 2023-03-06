@@ -8,7 +8,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct BookmarkManager {
+class BookmarkManager {
     typealias Bookmark = BookmarkDataManager.Bookmark
 
     private let dataManager: BookmarkDataManager
