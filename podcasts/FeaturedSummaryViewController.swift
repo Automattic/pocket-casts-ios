@@ -152,7 +152,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         let dispatchGroup = DispatchGroup()
 
-        var sponsoredPodcastsToAdd: [(Int, DiscoverPodcast)] = []
+        var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
@@ -174,7 +174,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
                     DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
                         guard let discoverPodcast = podcastList?.podcasts?.first else { return }
 
-                        sponsoredPodcastsToAdd.append((position, discoverPodcast))
+                        sponsoredPodcastsToAdd[position] = discoverPodcast
 
                         dispatchGroup.leave()
                     })
@@ -184,9 +184,9 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
-                self?.podcasts.insert(sponsoredPodcastToAdd.1, safelyAt: sponsoredPodcastToAdd.0)
+                self?.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
             }
-            self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.1 }
+            self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
 
             self?.updatePageCount()
             self?.featuredCollectionView.reloadData()
