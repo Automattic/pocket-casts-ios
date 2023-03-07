@@ -58,6 +58,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
+    private let bookmarkManager = BookmarkManager()
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -1464,8 +1466,13 @@ class PlaybackManager: ServerPlaybackDelegate {
                     strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
                 } else {
                     if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-                        strongSelf.lastSeekTime = Date()
-                        strongSelf.skipBack()
+                        if FeatureFlag.bookmarks.enabled {
+                            // TODO: Add detecting of a setting let the user choose to not override this
+                            strongSelf.bookmark()
+                        } else {
+                            strongSelf.lastSeekTime = Date()
+                            strongSelf.skipBack()
+                        }
                     } else {
                         FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
                     }
@@ -1865,4 +1872,19 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+}
+
+extension PlaybackManager {
+    func bookmark() {
+        guard
+            FeatureFlag.bookmarks.enabled,
+            let episode = currentEpisode()
+        else {
+            return
+        }
+
+        let currentTime = currentTime()
+
+        bookmarkManager.add(to: episode, at: currentTime)
+    }
 }

@@ -23,6 +23,7 @@ public class DataManager {
     private lazy var endOfYearManager = EndOfYearDataManager()
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
+    public let bookmarks: BookmarkDataManager
 
     private let dbQueue: FMDatabaseQueue
 
@@ -45,6 +46,7 @@ public class DataManager {
         upNextManager.setup(dbQueue: dbQueue)
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
+        bookmarks = BookmarkDataManager(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {

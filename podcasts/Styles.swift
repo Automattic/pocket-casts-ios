@@ -54,12 +54,8 @@ struct HiddenListDividers: ViewModifier {
     @EnvironmentObject var theme: Theme
 
     func body(content: Content) -> some View {
-        if #available(iOS 15.0, *) {
-            content
-                .listRowSeparator(.hidden)
-        } else {
-            content
-        }
+        content
+            .listRowSeparator(.hidden)
     }
 }
 
@@ -259,6 +255,53 @@ struct ClickyButton: ButtonStyle {
             .applyButtonEffect(isPressed: configuration.isPressed)
     }
 }
+
+/// Default button style for buttons with images
+struct PrimaryButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(ThemeColor.primaryIcon01(for: theme.activeTheme).color.opacity(configuration.isPressed ? 0.4 : 1))
+    }
+}
+
+/// Default button style for buttons with images
+struct SecondaryButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    var highlightColor: Color {
+        AppTheme.colorForStyle(.primaryText01, themeOverride: theme.activeTheme).color
+    }
+
+    var defaultColor: Color {
+        AppTheme.colorForStyle(.primaryIcon02, themeOverride: theme.activeTheme).color
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(configuration.isPressed ? highlightColor : defaultColor)
+    }
+}
+
+/// Default style for buttons used as tappable cell area
+struct ListCellButtonStyle: ButtonStyle {
+    @EnvironmentObject var theme: Theme
+
+    var highlightColor: Color {
+        AppTheme.colorForStyle(.primaryUi02Active, themeOverride: theme.activeTheme).color
+    }
+
+    var defaultColor: Color {
+        AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? highlightColor : defaultColor)
+    }
+}
+
 
 // MARK: - Button Modifiers
 extension View {

@@ -28,6 +28,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Bookmarks / Highlights
     case bookmarks
 
+    /// Auto scrolls Discover Featured carousel
+    case discoverFeaturedAutoScroll
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -51,6 +54,8 @@ enum FeatureFlag: String, CaseIterable {
         case .newSearch:
             return false
         case .bookmarks:
+            return false
+        case .discoverFeaturedAutoScroll:
             return false
         }
     }
