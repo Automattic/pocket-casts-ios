@@ -4,7 +4,7 @@ import Kingfisher
 
 struct PodcastCover: View {
     /// UUID of the podcast to load the cover
-    let podcastUuid: String
+    var podcastUuid: String
 
     /// Whether this is a big cover, in which shadows should be bigger
     let big: Bool
@@ -48,14 +48,16 @@ struct PodcastCover: View {
 
             ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
-        }
-        .onAppear {
-            KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
-                switch result {
-                case .success(let result):
-                    image = result.image
-                default:
-                    break
+
+            Action {
+                image = nil
+                KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
+                    switch result {
+                    case .success(let result):
+                        image = result.image
+                    default:
+                        break
+                    }
                 }
             }
         }
