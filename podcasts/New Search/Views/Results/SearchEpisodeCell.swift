@@ -11,7 +11,7 @@ struct SearchEpisodeCell: View {
     var body: some View {
         ZStack {
             Button(action: {
-                print("row tapped")
+                NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
             }) {
                 Rectangle()
                     .foregroundColor(.clear)

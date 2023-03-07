@@ -132,6 +132,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     init(episodeUuid: String, podcastUuid: String, source: EpisodeDetailViewSource) {
         viewSource = source
+        self.episodeUuid = episodeUuid
+        self.podcastUuid = podcastUuid
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
@@ -217,7 +219,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(generalEpisodeEventDidFire))
 
-//        AnalyticsHelper.episodeOpened(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
+        if let episodeUuid = episodeUuid ?? episode?.uuid,
+           let podcastUuid = podcastUuid ?? episode?.podcastUuid {
+            AnalyticsHelper.episodeOpened(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
