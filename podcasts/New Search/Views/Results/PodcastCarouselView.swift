@@ -7,6 +7,8 @@ struct PodcastsCarouselView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    @State private var tabSelection = 0
+
     var body: some View {
         ScrollView {
             LazyHStack {
@@ -16,17 +18,24 @@ struct PodcastsCarouselView: View {
                             ProgressView()
                         }
                     } else if searchResults.podcasts.count > 0 {
-                        TabView {
-                            ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
-                                GeometryReader { geometry in
-                                    HStack(spacing: 10) {
-                                        PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
+                        ZStack {
+                            Action {
+                                // Always reset the carousel when performing a new search
+                                tabSelection = 0
+                            }
 
-                                        PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                            TabView(selection: $tabSelection) {
+                                ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
+                                    GeometryReader { geometry in
+                                        HStack(spacing: 10) {
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
+
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                                        }
                                     }
                                 }
+                                .padding(.all, 10)
                             }
-                            .padding(.all, 10)
                         }
                     } else {
                         VStack(spacing: 2) {
