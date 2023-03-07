@@ -10,8 +10,31 @@ protocol SearchResultsDelegate {
 }
 
 class SearchResults: ObservableObject {
+    let podcastSearch = PodcastSearchTask()
+    let episodeSearch = EpisodeSearchTask()
+
     @Published var podcasts: [PodcastSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
+
+    func clearSearch() {
+        podcasts = []
+        episodes = []
+    }
+
+    @MainActor
+    func search(term: String) {
+        clearSearch()
+
+        Task.init {
+            let results = try? await podcastSearch.search(term: term)
+            podcasts = results ?? []
+        }
+
+        Task.init {
+            let results = try? await episodeSearch.search(term: term)
+            episodes = results ?? []
+        }
+    }
 }
 
 extension SearchResultsDelegate {
@@ -20,9 +43,6 @@ extension SearchResultsDelegate {
 }
 
 class SearchResultsViewController: UIHostingController<AnyView> {
-    let podcastSearch = PodcastSearchTask()
-    let episodeSearch = EpisodeSearchTask()
-
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
     private var searchResults = SearchResults()
 
@@ -38,7 +58,6 @@ class SearchResultsViewController: UIHostingController<AnyView> {
 extension SearchResultsViewController: SearchResultsDelegate {
     func clearSearch() {
         displaySearch.isSearching = false
-        print("clear search")
     }
 
     func performLocalSearch(searchTerm: String) {
@@ -54,16 +73,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
-        Task.init {
-            let results = try? await podcastSearch.search(term: searchTerm)
-            searchResults.podcasts = results ?? []
-            completion()
-        }
-
-        Task.init {
-            let results = try? await episodeSearch.search(term: searchTerm)
-            searchResults.episodes = results ?? []
-            completion()
-        }
+        searchResults.search(term: searchTerm)
+        completion()
     }
 }
