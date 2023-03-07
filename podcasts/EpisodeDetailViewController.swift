@@ -101,25 +101,36 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     var showNotesWebView: WKWebView!
     var safariViewController: SFSafariViewController?
 
-    var episode: Episode
-    var podcast: Podcast
+    var episode: Episode?
+    var podcast: Podcast?
+
+    var episodeUuid: String?
+    var podcastUuid: String?
 
     let viewSource: EpisodeDetailViewSource
 
     // MARK: - Init
 
     init(episodeUuid: String, source: EpisodeDetailViewSource) {
-        // it's ok to crash here, an episode card with no episode or podcast is invalid
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
-        podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
+        if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+            self.episode = episode
+            podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)
+        }
+
         viewSource = source
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
     init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource) {
-        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
+        episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
         self.podcast = podcast
+        viewSource = source
+
+        super.init(nibName: "EpisodeDetailViewController", bundle: nil)
+    }
+
+    init(episodeUuid: String, podcastUuid: String, source: EpisodeDetailViewSource) {
         viewSource = source
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
@@ -160,7 +171,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         presentationController?.delegate = self
 
         scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
-        navTitle = episode.title
+        navTitle = episode?.title
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
 
@@ -206,7 +217,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(generalEpisodeEventDidFire))
 
-        AnalyticsHelper.episodeOpened(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
+//        AnalyticsHelper.episodeOpened(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -238,7 +249,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - Event Based Updates
 
     @objc private func specificEpisodeEventDidFire(_ notification: Notification) {
-        guard let episodeUuid = notification.object as? String, episodeUuid == episode.uuid else {
+        guard let episodeUuid = notification.object as? String, episodeUuid == episode?.uuid else {
             return
         }
 
@@ -277,9 +288,13 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     private func performUpdateDisplayedData(reloadingEpisode: Bool = true) {
+        guard let episode else {
+            return
+        }
+
         if reloadingEpisode {
             guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
-            episode = updatedEpisode
+            self.episode = updatedEpisode
         }
 
         if episode.downloading() || episode.queued() || episode.waitingForWifi() {
@@ -301,7 +316,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
 
         episodeName.text = episode.displayableTitle()
-        podcastName.text = podcast.title
+        podcastName.text = podcast?.title
         if let uuid = episode.parentPodcast()?.uuid {
             podcastImage.setPodcast(uuid: uuid, size: .page)
         }
@@ -328,6 +343,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     func updateColors() {
+        guard let episode, let podcast else {
+            return
+        }
+
         episodeDate.themeOverride = themeOverride
         episodeInfo.themeOverride = themeOverride
         topDivider.themeOverride = themeOverride
@@ -370,12 +389,20 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     @objc private func starTapped(_ sender: UIButton) {
+        guard let episode else {
+            return
+        }
+
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
     }
 
     // MARK: - Sharing
 
     @objc private func shareTapped(_ sender: UIButton) {
+        guard let episode else {
+            return
+        }
+
         let shareOptions = OptionsPicker(title: nil)
 
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
@@ -400,7 +427,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     @objc private func podcastNameTapped() {
-        guard let podcast = episode.parentPodcast() else { return }
+        guard let podcast = episode?.parentPodcast() else { return }
 
         Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
 
@@ -422,6 +449,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
+        guard let episode else {
+            return
+        }
+
         let shareTime = sharePosition ? episode.playedUpTo : 0
 
         let type = shareTime == 0 ? "episode" : "current_position"
@@ -431,6 +462,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     private func shareEpisodeFile(sourceRect: CGRect) {
+        guard let episode else {
+            return
+        }
+
         let fileUrl = URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
         docController = UIDocumentInteractionController(url: fileUrl)
         docController?.name = episode.displayableTitle()
