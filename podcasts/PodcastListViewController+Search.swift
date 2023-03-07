@@ -21,6 +21,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func setupSearchBar() {
         searchController = PCSearchBarController()
+        searchResultsControler = PodcastListSearchResultsController()
+
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchController.view)
 
@@ -37,7 +39,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
 
-        searchResultsControler = PodcastListSearchResultsController()
         searchResultsControler.searchTextField = searchController.searchTextField
     }
 
