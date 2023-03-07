@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 import SwiftUI
 
 protocol SearchResultsDelegate {

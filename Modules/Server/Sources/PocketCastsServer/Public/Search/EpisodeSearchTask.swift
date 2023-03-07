@@ -1,23 +1,24 @@
 import Foundation
-import PocketCastsServer
 
-struct EpisodeSearchEnvelope: Decodable {
-    let episodes: [EpisodeSearchResult]
+public struct EpisodeSearchEnvelope: Decodable {
+    public let episodes: [EpisodeSearchResult]
 }
 
-struct EpisodeSearchResult: Decodable {
-    let uuid: String
-    let title: String
-    let publishedDate: Date
-    let duration: Double?
-    let podcastUuid: String
-    let podcastTitle: String
+public struct EpisodeSearchResult: Decodable {
+    public let uuid: String
+    public let title: String
+    public let publishedDate: Date
+    public let duration: Double?
+    public let podcastUuid: String
+    public let podcastTitle: String
 }
 
-class EpisodeSearchTask {
+public class EpisodeSearchTask {
     var session = URLSession.shared
 
-    func search(term: String) async throws -> [EpisodeSearchResult] {
+    public init() {}
+
+    public func search(term: String) async throws -> [EpisodeSearchResult] {
         let searchURL = URL(string: "https://podcast-api.pocketcasts.net/episode/search")!
         var request = URLRequest(url: searchURL)
         request.httpMethod = "POST"

@@ -1,16 +1,17 @@
 import Foundation
-import PocketCastsServer
 
-struct PodcastSearchResult: Decodable {
-    let uuid: String
-    let title: String
-    let author: String
+public struct PodcastSearchResult: Decodable {
+    public let uuid: String
+    public let title: String
+    public let author: String
 }
 
-class PodcastSearchTask {
+public class PodcastSearchTask {
     var session = URLSession.shared
 
-    func search(term: String) async throws -> [PodcastSearchResult] {
+    public init() {}
+
+    public func search(term: String) async throws -> [PodcastSearchResult] {
         let searchURL = URL(string: "\(ServerConstants.Urls.cache())discover/search")!
         var request = URLRequest(url: searchURL)
         request.httpMethod = "POST"

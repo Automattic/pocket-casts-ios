@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 
 struct PodcastsCarouselView: View {
