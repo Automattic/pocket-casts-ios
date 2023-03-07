@@ -5,22 +5,30 @@ import PocketCastsDataModel
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
 
-    @ObservedObject var searchResults: SearchResults
+    @ObservedObject var searchResults: SearchResultsModel
 
     var body: some View {
         ScrollView {
             LazyHStack {
-                TabView {
-                    ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
-                        GeometryReader { geometry in
-                            HStack(spacing: 10) {
-                                PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
+                Group {
+                    if searchResults.isSearchingForPodcasts {
+                        ZStack(alignment: .center) {
+                            ProgressView()
+                        }
+                    } else {
+                        TabView {
+                            ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
+                                GeometryReader { geometry in
+                                    HStack(spacing: 10) {
+                                        PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
 
-                                PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                                        PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                                    }
+                                }
                             }
+                            .padding(.all, 10)
                         }
                     }
-                    .padding(.all, 10)
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
