@@ -89,7 +89,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     // MARK: - PCSearchBarDelegate
 
     func searchDidBegin() {
-        guard let searchView = searchControllerView else {
+        guard let searchView = searchControllerView,
+              searchView.superview == nil else {
             return
         }
 
