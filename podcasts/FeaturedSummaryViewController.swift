@@ -22,6 +22,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private var lastLayedOutWidth = 0 as CGFloat
     private let maxFeaturedItems = 5
 
+    private var listIdImpressionTracked: [String] = []
+
     private weak var delegate: DiscoverDelegate?
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
@@ -137,6 +139,17 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         podcasts.count
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let podcast = podcasts[safe: indexPath.row],
+              let listId = listId(for: podcast),
+              !listIdImpressionTracked.contains(listId) else {
+            return
+        }
+
+        AnalyticsHelper.listImpression(listId: listId)
+        listIdImpressionTracked.append(listId)
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCurrentPage()
     }
@@ -169,8 +182,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
-            guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+            guard let discoverPodcast = podcastList?.podcasts else { return }
 
             podcastsToShow = discoverPodcast
 
@@ -197,12 +210,6 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self else {
                 return
-            }
-
-            self.lists.forEach {
-                if let listId = $0.listId {
-                    AnalyticsHelper.listImpression(listId: listId)
-                }
             }
 
             // Add featured podcasts
