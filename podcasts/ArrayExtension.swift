@@ -7,7 +7,7 @@ extension Array {
 
     @discardableResult
     mutating func insert(_ element: Element, safelyAt at: Int) -> Int {
-        let indexToInsert = at <= count ? at : count
+        let indexToInsert = Swift.min(at, count)
         insert(element, at: indexToInsert)
         return indexToInsert
     }
