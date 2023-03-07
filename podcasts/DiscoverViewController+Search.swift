@@ -37,7 +37,10 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidBegin() {
-        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
+        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view,
+              searchView.superview == nil else {
+            return
+        }
 
         searchView.alpha = 0
         view.addSubview(searchView)
