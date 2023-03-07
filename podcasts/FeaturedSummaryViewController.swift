@@ -152,17 +152,15 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         let dispatchGroup = DispatchGroup()
 
+        var podcastsToShow: [DiscoverPodcast] = []
+
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-            for (index, discoverPodcast) in discoverPodcast.enumerated() {
-                strongSelf.podcasts.append(discoverPodcast)
-
-                if index == (strongSelf.maxFeaturedItems - 1) { break }
-            }
+            podcastsToShow = discoverPodcast
 
             dispatchGroup.leave()
         })
@@ -183,13 +181,26 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
 
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
-                self?.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
+            guard let self else {
+                return
             }
-            self?.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
 
-            self?.updatePageCount()
-            self?.featuredCollectionView.reloadData()
+            // Add featured podcasts
+            for (index, discoverPodcast) in podcastsToShow.enumerated() {
+                self.podcasts.append(discoverPodcast)
+
+                if index == (self.maxFeaturedItems - 1) { break }
+            }
+
+            // Add sponsored podcasts
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+                self.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
+            }
+            self.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
+
+            // Update and reload
+            self.updatePageCount()
+            self.featuredCollectionView.reloadData()
         }
     }
 
