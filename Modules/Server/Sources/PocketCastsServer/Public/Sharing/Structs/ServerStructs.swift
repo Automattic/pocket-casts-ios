@@ -161,6 +161,12 @@ public struct PodcastInfo: Codable {
 
     public init() {}
 
+    public init(from searchResult: PodcastSearchResult) {
+        author = searchResult.author
+        title = searchResult.title
+        uuid = searchResult.uuid
+    }
+
     public enum CodingKeys: String, CodingKey {
         case shortDescription = "description"
         case iTunesId = "collection_id"

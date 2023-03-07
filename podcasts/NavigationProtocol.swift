@@ -7,6 +7,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
     func navigateToPodcast(_ podcast: Podcast)
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
+    func navigateTo(podcast searchResult: PodcastSearchResult)
 
     func navigateToFolder(_ folder: Folder)
 

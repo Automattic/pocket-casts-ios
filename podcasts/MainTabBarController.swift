@@ -170,12 +170,20 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if !switchToTab(.podcasts) { return }
+        if !switchToTab(.discover) { return }
 
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
-            navController.pushViewController(podcastController, animated: false)
+            navController.pushViewController(podcastController, animated: true)
+        }
+    }
+
+    func navigateTo(podcast searchResult: PodcastSearchResult) {
+        if let navController = selectedViewController as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            let podcastController = PodcastViewController(podcastInfo: PodcastInfo(from: searchResult), existingImage: nil)
+            navController.pushViewController(podcastController, animated: true)
         }
     }
 

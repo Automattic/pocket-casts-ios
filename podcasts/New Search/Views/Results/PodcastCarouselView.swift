@@ -72,7 +72,7 @@ struct PodcastResultCell: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-                    print("podcast tapped")
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
