@@ -81,6 +81,7 @@ struct Constants {
         static let closedNonOverlayableWindow = NSNotification.Name(rawValue: "SJClosedNonOverlayableWindow")
 
         static let opmlImportCompleted = NSNotification.Name(rawValue: "SJOpmlImportCompleted")
+        static let opmlImportFailed = NSNotification.Name(rawValue: "SJOpmlImportFailed")
 
         // watch
         static let watchAutoDownloadSettingsChanged = NSNotification.Name(rawValue: "SJWatchAutoDownloadSettingsChanged")

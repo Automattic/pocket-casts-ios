@@ -777,6 +777,8 @@ internal enum L10n {
   internal static func episodeShorthandFormatShort(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_shorthand_format_short", String(describing: p1))
   }
+  /// Episodes
+  internal static var episodes: String { return L10n.tr("Localizable", "episodes") }
   /// Error
   internal static var error: String { return L10n.tr("Localizable", "error") }
   /// Unable to find podcast. Please contact the podcast author.
@@ -1088,6 +1090,8 @@ internal enum L10n {
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary") }
+  /// Import
+  internal static var `import`: String { return L10n.tr("Localizable", "import") }
   /// We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.
   /// Note: If you previously deleted the shortcuts app you will be prompted to reinstall it.
   /// 
@@ -1139,6 +1143,8 @@ internal enum L10n {
   /// 3. Swipe down until you see Export OPML, then tap on it
   /// 4. When the dialog opens locate the Pocket Casts icon, and tap on it
   internal static var importInstructionsOvercast: String { return L10n.tr("Localizable", "import_instructions_overcast") }
+  /// Import your podcasts from an OPML file using a URL
+  internal static var importOpmlFromUrl: String { return L10n.tr("Localizable", "import_opml_from_url") }
   /// You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.
   /// 
   /// Note: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.
@@ -1320,6 +1326,8 @@ internal enum L10n {
   internal static func opmlImportProgressFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "opml_import_progress_format", String(describing: p1), String(describing: p2))
   }
+  /// OPML Import Succeeded
+  internal static var opmlImportSucceededTitle: String { return L10n.tr("Localizable", "opml_import_succeeded_title") }
   /// Importing Podcasts...
   internal static var opmlImporting: String { return L10n.tr("Localizable", "opml_importing") }
   /// Page %1$@ of %2$@
@@ -1942,6 +1950,8 @@ internal enum L10n {
   internal static var search: String { return L10n.tr("Localizable", "search") }
   /// Search Podcasts
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
+  /// Recent searches
+  internal static var searchRecent: String { return L10n.tr("Localizable", "search_recent") }
   /// Season
   internal static var season: String { return L10n.tr("Localizable", "season") }
   /// S%1$@ E%2$@

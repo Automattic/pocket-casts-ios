@@ -116,4 +116,8 @@ extension BaseEpisode {
 
         return ""
     }
+
+    var displayableDuration: String {
+        TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(duration))
+    }
 }

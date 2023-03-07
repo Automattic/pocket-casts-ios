@@ -62,17 +62,17 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
             searchView.alpha = 0
         }) { _ in
             searchView.removeFromSuperview()
-            self.searchResultsController.clearSearchResults()
+            self.resultsControllerDelegate.clearSearch()
         }
     }
 
     func searchWasCleared() {
-        searchResultsController.clearSearchResults()
+        resultsControllerDelegate.clearSearch()
     }
 
     func searchTermChanged(_ searchTerm: String) {}
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
-        searchResultsController.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
+        resultsControllerDelegate.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
     }
 }
