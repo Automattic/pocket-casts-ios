@@ -61,8 +61,8 @@ extension SearchResultsViewController: SearchResultsDelegate {
         }
 
         Task.init {
-            let results = try! await episodeSearch.search(term: searchTerm)
-            searchResults.episodes = results
+            let results = try? await episodeSearch.search(term: searchTerm)
+            searchResults.episodes = results ?? []
             completion()
         }
     }
