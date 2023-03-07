@@ -9,34 +9,6 @@ protocol SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
-class SearchResults: ObservableObject {
-    let podcastSearch = PodcastSearchTask()
-    let episodeSearch = EpisodeSearchTask()
-
-    @Published var podcasts: [PodcastSearchResult] = []
-    @Published var episodes: [EpisodeSearchResult] = []
-
-    func clearSearch() {
-        podcasts = []
-        episodes = []
-    }
-
-    @MainActor
-    func search(term: String) {
-        clearSearch()
-
-        Task.init {
-            let results = try? await podcastSearch.search(term: term)
-            podcasts = results ?? []
-        }
-
-        Task.init {
-            let results = try? await episodeSearch.search(term: term)
-            episodes = results ?? []
-        }
-    }
-}
-
 extension SearchResultsDelegate {
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {}
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {}
@@ -44,7 +16,7 @@ extension SearchResultsDelegate {
 
 class SearchResultsViewController: UIHostingController<AnyView> {
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
-    private var searchResults = SearchResults()
+    private var searchResults = SearchResultsModel()
 
     init() {
         super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults).setupDefaultEnvironment()))

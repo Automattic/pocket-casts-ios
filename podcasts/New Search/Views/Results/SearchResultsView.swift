@@ -5,7 +5,7 @@ import PocketCastsUtils
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
 
-    @ObservedObject var searchResults: SearchResults
+    @ObservedObject var searchResults: SearchResultsModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,7 +38,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(searchResults: SearchResults())
+        SearchResultsView(searchResults: SearchResultsModel())
             .previewWithAllThemes()
     }
 }

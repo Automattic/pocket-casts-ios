@@ -7,7 +7,7 @@ class SearchVisibilityModel: ObservableObject {
 struct SearchView: View {
     @ObservedObject var displaySearch: SearchVisibilityModel
 
-    var searchResults: SearchResults
+    var searchResults: SearchResultsModel
 
     var body: some View {
         searchView
@@ -27,6 +27,6 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResults())
+        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel())
     }
 }
