@@ -2,7 +2,7 @@ import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler.view
+        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler?.view
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
