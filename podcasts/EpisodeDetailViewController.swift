@@ -181,6 +181,20 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateMessageView()
         mainScrollView.contentOffset.y = -100
 
+        if episode == nil, let podcastUuid, let episodeUuid {
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false) { [weak self] added in
+
+                self?.podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+                self?.episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+
+                DispatchQueue.main.async {
+                    self?.updateDisplayedData()
+                    self?.updateColors()
+                    self?.loadShowNotes()
+                }
+            }
+        }
+
         hideErrorMessage(hide: true)
         Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
     }
