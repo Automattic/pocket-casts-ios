@@ -6,6 +6,7 @@ class SearchResultsModel: ObservableObject {
     private let episodeSearch = EpisodeSearchTask()
 
     @Published var isSearchingForPodcasts = false
+    @Published var isSearchingForEpisodes = false
 
     @Published var podcasts: [PodcastSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
@@ -27,7 +28,9 @@ class SearchResultsModel: ObservableObject {
         }
 
         Task.init {
+            isSearchingForEpisodes = true
             let results = try? await episodeSearch.search(term: term)
+            isSearchingForEpisodes = false
             episodes = results ?? []
         }
     }

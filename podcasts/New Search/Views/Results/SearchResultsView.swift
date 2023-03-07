@@ -20,13 +20,23 @@ struct SearchResultsView: View {
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
 
-                Section {
-                    ForEach(0..<searchResults.episodes.count, id: \.self) { index in
+                if searchResults.isSearchingForEpisodes {
+                    HStack(alignment: .center) {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                } else {
+                    Section {
+                        ForEach(0..<searchResults.episodes.count, id: \.self) { index in
 
-                        SearchEpisodeCell(episode: searchResults.episodes[index])
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
+                            SearchEpisodeCell(episode: searchResults.episodes[index])
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                        }
                     }
                 }
             }
