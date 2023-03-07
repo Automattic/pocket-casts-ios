@@ -15,7 +15,7 @@ struct PodcastsCarouselView: View {
                         ZStack(alignment: .center) {
                             ProgressView()
                         }
-                    } else {
+                    } else if searchResults.podcasts.count > 0 {
                         TabView {
                             ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
                                 GeometryReader { geometry in
@@ -28,6 +28,17 @@ struct PodcastsCarouselView: View {
                             }
                             .padding(.all, 10)
                         }
+                    } else {
+                        VStack(spacing: 2) {
+                            Text(L10n.discoverNoPodcastsFound)
+                                .font(style: .subheadline, weight: .medium)
+
+                            Text(L10n.discoverNoPodcastsFoundMsg)
+                                .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.all, 10)
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)

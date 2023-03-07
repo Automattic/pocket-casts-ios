@@ -541,6 +541,9 @@
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found" = "No podcasts found";
 
+/* Informational title when the episode search succeeds but returns no results. */
+"discover_no_episodes_found" = "No episodes found";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found_msg" = "Try more general or different keywords.";
 

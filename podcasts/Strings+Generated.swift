@@ -458,6 +458,8 @@ internal enum L10n {
   internal static var discoverFeaturedEpisodeErrorNotFound: String { return L10n.tr("Localizable", "discover_featured_episode_error_not_found") }
   /// FRESH PICK
   internal static var discoverFreshPick: String { return L10n.tr("Localizable", "discover_fresh_pick") }
+  /// No episodes found
+  internal static var discoverNoEpisodesFound: String { return L10n.tr("Localizable", "discover_no_episodes_found") }
   /// No podcasts found
   internal static var discoverNoPodcastsFound: String { return L10n.tr("Localizable", "discover_no_podcasts_found") }
   /// Try more general or different keywords.

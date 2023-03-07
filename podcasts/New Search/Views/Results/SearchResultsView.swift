@@ -28,7 +28,7 @@ struct SearchResultsView: View {
                     }
                     .listRowSeparator(.hidden)
                     .listSectionSeparator(.hidden)
-                } else {
+                } else if searchResults.episodes.count > 0 {
                     Section {
                         ForEach(0..<searchResults.episodes.count, id: \.self) { index in
 
@@ -38,6 +38,20 @@ struct SearchResultsView: View {
                             .listSectionSeparator(.hidden)
                         }
                     }
+                } else {
+                    VStack(spacing: 2) {
+                        Text(L10n.discoverNoEpisodesFound)
+                            .font(style: .subheadline, weight: .medium)
+
+                        Text(L10n.discoverNoPodcastsFoundMsg)
+                            .font(size: 14, style: .subheadline, weight: .medium)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.all, 10)
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
                 }
             }
             .listStyle(.plain)
