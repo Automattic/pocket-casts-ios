@@ -1,19 +1,19 @@
 import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
-    var searchControllerView: UIView {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler.view
+    var searchControllerView: UIView? {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler?.view
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
         refreshControl?.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
         refreshControl?.scrollViewDidEndDragging(scrollView)
@@ -21,6 +21,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func setupSearchBar() {
         searchController = PCSearchBarController()
+        searchResultsControler = PodcastListSearchResultsController()
+
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchController.view)
 
@@ -37,7 +39,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
 
-        searchResultsControler = PodcastListSearchResultsController()
         searchResultsControler.searchTextField = searchController.searchTextField
     }
 
@@ -88,7 +89,9 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     // MARK: - PCSearchBarDelegate
 
     func searchDidBegin() {
-        let searchView = searchControllerView
+        guard let searchView = searchControllerView else {
+            return
+        }
 
         searchView.alpha = 0
         view.addSubview(searchView)
@@ -107,10 +110,14 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
 
     func searchDidEnd() {
+        guard let searchView = searchControllerView else {
+            return
+        }
+
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-            self.searchControllerView.alpha = 0
+            searchView.alpha = 0
         }) { _ in
-            self.searchControllerView.removeFromSuperview()
+            searchView.removeFromSuperview()
             self.searchResultsControler.clearSearch()
         }
     }
