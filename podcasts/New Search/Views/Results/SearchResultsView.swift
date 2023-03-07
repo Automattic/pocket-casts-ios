@@ -7,6 +7,8 @@ struct SearchResultsView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    @State var identifier = 0
+
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
@@ -21,13 +23,15 @@ struct SearchResultsView: View {
                 ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
 
                 if searchResults.isSearchingForEpisodes {
-                    HStack(alignment: .center) {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    }
+                    ProgressView()
+                    .frame(maxWidth: .infinity)
                     .listRowSeparator(.hidden)
                     .listSectionSeparator(.hidden)
+                    // Force the list to re-render the ProgressView by changing it's id
+                    .id(identifier)
+                    .onAppear {
+                        identifier += 1
+                    }
                 } else if searchResults.episodes.count > 0 {
                     Section {
                         ForEach(0..<searchResults.episodes.count, id: \.self) { index in
