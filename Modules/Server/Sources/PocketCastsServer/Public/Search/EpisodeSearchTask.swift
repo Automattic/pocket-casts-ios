@@ -19,7 +19,7 @@ public class EpisodeSearchTask {
     public init() {}
 
     public func search(term: String) async throws -> [EpisodeSearchResult] {
-        let searchURL = URL(string: "https://podcast-api.pocketcasts.net/episode/search")!
+        let searchURL = URL(string: "\(ServerConstants.Urls.cache())episode/search")!
         var request = URLRequest(url: searchURL)
         request.httpMethod = "POST"
 
