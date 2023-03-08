@@ -76,15 +76,7 @@ struct PodcastResultCell: View {
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
-                Button(action: {
-                    print("subscribe")
-                }) {
-                    Image("discover_subscribe_dark")
-                }
-                .background(ThemeColor.veil().color)
-                .foregroundColor(ThemeColor.contrast01().color)
-                .cornerRadius(30)
-                .padding([.trailing, .bottom], 6)
+                SubscribeButtonView(podcastUuid: podcast.uuid)
             }
 
             Button(action: {
