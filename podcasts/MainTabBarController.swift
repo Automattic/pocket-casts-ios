@@ -179,7 +179,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String) {
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 

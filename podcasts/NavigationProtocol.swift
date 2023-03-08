@@ -10,7 +10,7 @@ protocol NavigationProtocol: AnyObject {
 
     func navigateToFolder(_ folder: Folder)
 
-    func navigateToEpisode(_ episodeUuid: String)
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?)
 
     func navigateToDiscover(_ animated: Bool)
 

@@ -122,7 +122,7 @@ class NavigationManager {
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
 
-            mainController?.navigateToEpisode(uuid)
+            mainController?.navigateToEpisode(uuid, podcastUuid: data[NavigationManager.podcastKey] as? String)
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
