@@ -80,7 +80,7 @@ struct PodcastResultCell: View {
             }
 
             Button(action: {
-                print("podcast tapped")
+                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
             }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(podcast.title)
