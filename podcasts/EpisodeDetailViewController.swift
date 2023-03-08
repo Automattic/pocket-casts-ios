@@ -94,6 +94,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
+    private var shareButton: UIButton?
+
+    @IBOutlet weak var episodeLoadingIndicator: ThemeLoadingIndicator!
 
     var rawShowNotes: String?
     var lastThemeRenderedNotesIn: Theme.ThemeType?
@@ -174,7 +177,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
         navTitle = episode?.title
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
+        shareButton = addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
 
         setupWebView()
@@ -308,8 +311,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     private func performUpdateDisplayedData(reloadingEpisode: Bool = true) {
         guard let episode else {
+            isLoadingEpisode()
             return
         }
+
+        finishedLoadingEpisode()
 
         if reloadingEpisode {
             guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
@@ -453,6 +459,20 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         dismiss(animated: true) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
+    }
+
+    // MARK: - Loading episode
+
+    private func isLoadingEpisode() {
+        [starButton, shareButton].forEach { $0?.isEnabled = false }
+        mainScrollView.isHidden = true
+        episodeLoadingIndicator.startAnimating()
+    }
+
+    private func finishedLoadingEpisode() {
+        [starButton, shareButton].forEach { $0?.isEnabled = true }
+        mainScrollView.isHidden = false
+        episodeLoadingIndicator.stopAnimating()
     }
 
     // MARK: - Orientation
