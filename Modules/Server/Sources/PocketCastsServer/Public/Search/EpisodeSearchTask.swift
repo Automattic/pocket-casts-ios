@@ -23,7 +23,7 @@ public class EpisodeSearchTask {
         var request = URLRequest(url: searchURL)
         request.httpMethod = "POST"
 
-        let json: [String: Any] = ["term": term.replacingOccurrences(of: " ", with: "+")]
+        let json: [String: Any] = ["term": term]
 
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
