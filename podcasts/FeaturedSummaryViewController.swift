@@ -186,11 +186,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             }
 
             // Add featured podcasts
-            for (index, discoverPodcast) in podcastsToShow.enumerated() {
-                self.podcasts.append(discoverPodcast)
-
-                if index == (self.maxFeaturedItems - 1) { break }
-            }
+            self.podcasts = Array(podcastsToShow.prefix(self.maxFeaturedItems))
 
             // Add sponsored podcasts
             for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
