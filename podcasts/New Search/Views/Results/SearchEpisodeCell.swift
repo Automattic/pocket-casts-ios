@@ -28,7 +28,7 @@ struct SearchEpisodeCell: View {
                         Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                             .font(style: .footnote, weight: .bold)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        Text(episode.podcastTitle)
+                        Text(episode.title)
                             .font(style: .subheadline, weight: .medium)
                             .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                             .lineLimit(2)
