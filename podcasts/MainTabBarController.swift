@@ -199,6 +199,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                     navController.present(nav, animated: true)
                 } else {
                     let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    episodeController.modalPresentationStyle = .formSheet
+
                     navController.present(episodeController, animated: true)
                 }
             }
