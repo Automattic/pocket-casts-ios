@@ -20,7 +20,7 @@ struct SearchResultsView: View {
                     PodcastsCarouselView(searchResults: searchResults)
                 }
 
-                ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
+                ThemeableListHeader(title: L10n.episodes, actionTitle: nil)
 
                 if searchResults.isSearchingForEpisodes {
                     ProgressView()
