@@ -95,7 +95,13 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         }
 
         searchView.alpha = 0
-        view.addSubview(searchView)
+        if FeatureFlag.newSearch.enabled {
+            addChild(newSearchResultsController)
+            view.addSubview(searchView)
+            newSearchResultsController.didMove(toParent: self)
+        } else {
+            view.addSubview(searchView)
+        }
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
