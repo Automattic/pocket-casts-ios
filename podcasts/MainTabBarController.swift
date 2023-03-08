@@ -170,8 +170,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if !switchToTab(.discover) { return }
-
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
