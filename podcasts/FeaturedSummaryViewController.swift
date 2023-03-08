@@ -157,8 +157,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
-            guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+            guard let discoverPodcast = podcastList?.podcasts else { return }
 
             podcastsToShow = discoverPodcast
 
