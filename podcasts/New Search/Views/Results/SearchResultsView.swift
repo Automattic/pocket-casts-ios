@@ -19,7 +19,7 @@ struct SearchResultsView: View {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
 
                 Section {
-                    PodcastsCarouselView(searchResults: searchResults)
+                    PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: nil)
