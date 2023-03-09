@@ -15,9 +15,10 @@ extension SearchResultsDelegate {
 
 class SearchResultsViewController: UIHostingController<AnyView> {
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
+    private var searchResults = SearchResultsModel()
 
     init() {
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch).setupDefaultEnvironment()))
+        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults).setupDefaultEnvironment()))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +29,6 @@ class SearchResultsViewController: UIHostingController<AnyView> {
 extension SearchResultsViewController: SearchResultsDelegate {
     func clearSearch() {
         displaySearch.isSearching = false
-        print("clear search")
     }
 
     func performLocalSearch(searchTerm: String) {
@@ -44,6 +44,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
+        searchResults.search(term: searchTerm)
         completion()
     }
 }

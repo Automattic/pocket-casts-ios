@@ -1,13 +1,12 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
 struct SearchEpisodeCell: View {
     @EnvironmentObject var theme: Theme
 
-    var podcast: Podcast
-
-    var episode: Episode
+    var episode: EpisodeSearchResult
 
     var body: some View {
         ZStack {
@@ -22,18 +21,18 @@ struct SearchEpisodeCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    PodcastCover(podcastUuid: podcast.uuid)
+                    PodcastCover(podcastUuid: episode.podcastUuid)
                         .frame(width: 48, height: 48)
                         .allowsHitTesting(false)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                             .font(style: .footnote, weight: .bold)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        Text(podcast.title ?? "")
+                        Text(episode.title)
                             .font(style: .subheadline, weight: .medium)
                             .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                             .lineLimit(2)
-                        Text(episode.displayableDuration)
+                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
                             .font(style: .caption, weight: .semibold)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                             .lineLimit(1)

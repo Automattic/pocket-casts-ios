@@ -1,23 +1,54 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var searchResults: SearchResultsModel
+
+    @State private var tabSelection = 0
+
     var body: some View {
         ScrollView {
             LazyHStack {
-                TabView {
-                    ForEach(0..<30) { i in
-                        GeometryReader { geometry in
-                            HStack(spacing: 10) {
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                Group {
+                    if searchResults.isSearchingForPodcasts {
+                        ZStack(alignment: .center) {
+                            ProgressView()
+                        }
+                    } else if searchResults.podcasts.count > 0 {
+                        ZStack {
+                            Action {
+                                // Always reset the carousel when performing a new search
+                                tabSelection = 0
+                            }
 
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                            TabView(selection: $tabSelection) {
+                                ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
+                                    GeometryReader { geometry in
+                                        HStack(spacing: 10) {
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
+
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                                        }
+                                    }
+                                }
+                                .padding(.all, 10)
                             }
                         }
+                    } else {
+                        VStack(spacing: 2) {
+                            Text(L10n.discoverNoPodcastsFound)
+                                .font(style: .subheadline, weight: .medium)
+
+                            Text(L10n.discoverNoPodcastsFoundMsg)
+                                .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.all, 10)
                     }
-                    .padding(.all, 10)
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -35,7 +66,7 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
-    let podcast: Podcast
+    let podcast: PodcastSearchResult
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -60,10 +91,10 @@ struct PodcastResultCell: View {
                 print("podcast tapped")
             }) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(Podcast.previewPodcast().title ?? "")
+                    Text(podcast.title)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
-                    Text(Podcast.previewPodcast().author ?? "")
+                    Text(podcast.author)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))

@@ -7,6 +7,8 @@ class SearchVisibilityModel: ObservableObject {
 struct SearchView: View {
     @ObservedObject var displaySearch: SearchVisibilityModel
 
+    var searchResults: SearchResultsModel
+
     var body: some View {
         searchView
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
@@ -16,7 +18,7 @@ struct SearchView: View {
     @ViewBuilder
     private var searchView: some View {
         if displaySearch.isSearching {
-            SearchResultsView()
+            SearchResultsView(searchResults: searchResults)
         } else {
             SearchHistoryView()
         }
@@ -25,6 +27,6 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(displaySearch: SearchVisibilityModel())
+        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel())
     }
 }

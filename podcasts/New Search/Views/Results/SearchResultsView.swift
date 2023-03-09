@@ -5,13 +5,9 @@ import PocketCastsUtils
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
 
-    private var episode: Episode {
-        let episode = Episode()
-        episode.title = "Episode title"
-        episode.duration = 3600
-        episode.publishedDate = Date()
-        return episode
-    }
+    @ObservedObject var searchResults: SearchResultsModel
+
+    @State var identifier = 0
 
     var body: some View {
         VStack(spacing: 0) {
@@ -21,29 +17,43 @@ struct SearchResultsView: View {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
 
                 Section {
-                    PodcastsCarouselView()
+                    PodcastsCarouselView(searchResults: searchResults)
                 }
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: L10n.discoverShowAll)
 
-                Section {
-                    SearchEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                if searchResults.isSearchingForEpisodes {
+                    ProgressView()
+                    .frame(maxWidth: .infinity)
                     .listRowSeparator(.hidden)
                     .listSectionSeparator(.hidden)
+                    // Force the list to re-render the ProgressView by changing it's id
+                    .id(identifier)
+                    .onAppear {
+                        identifier += 1
+                    }
+                } else if searchResults.episodes.count > 0 {
+                    Section {
+                        ForEach(0..<searchResults.episodes.count, id: \.self) { index in
 
-                    SearchEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
+                            SearchEpisodeCell(episode: searchResults.episodes[index])
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                        }
+                    }
+                } else {
+                    VStack(spacing: 2) {
+                        Text(L10n.discoverNoEpisodesFound)
+                            .font(style: .subheadline, weight: .medium)
 
-                    SearchEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
-
-                    SearchEpisodeCell(podcast: Podcast.previewPodcast(), episode: episode)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        Text(L10n.discoverNoPodcastsFoundMsg)
+                            .font(size: 14, style: .subheadline, weight: .medium)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.all, 10)
                     .listRowSeparator(.hidden)
                     .listSectionSeparator(.hidden)
                 }
@@ -56,7 +66,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView()
+        SearchResultsView(searchResults: SearchResultsModel())
             .previewWithAllThemes()
     }
 }
