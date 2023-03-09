@@ -72,23 +72,15 @@ struct PodcastResultCell: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-                    print("podcast tapped")
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
-                Button(action: {
-                    print("subscribe")
-                }) {
-                    Image("discover_subscribe_dark")
-                }
-                .background(ThemeColor.veil().color)
-                .foregroundColor(ThemeColor.contrast01().color)
-                .cornerRadius(30)
-                .padding([.trailing, .bottom], 6)
+                SubscribeButtonView(podcastUuid: podcast.uuid)
             }
 
             Button(action: {
-                print("podcast tapped")
+                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
             }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(podcast.title)

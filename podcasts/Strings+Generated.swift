@@ -450,6 +450,8 @@ internal enum L10n {
   internal static func discoverChangeRegion(_ p1: Any) -> String {
     return L10n.tr("Localizable", "discover_change_region", String(describing: p1))
   }
+  /// The episode couldn't be loaded
+  internal static var discoverEpisodeFailToLoad: String { return L10n.tr("Localizable", "discover_episode_fail_to_load") }
   /// Featured
   internal static var discoverFeatured: String { return L10n.tr("Localizable", "discover_featured") }
   /// FEATURED EPISODE

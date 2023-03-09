@@ -544,6 +544,9 @@
 /* Informational title when the episode search succeeds but returns no results. */
 "discover_no_episodes_found" = "No episodes found";
 
+/* Informational title when the episode fails to load. */
+"discover_episode_fail_to_load" = "The episode couldn't be loaded";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found_msg" = "Try more general or different keywords.";
 

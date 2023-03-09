@@ -308,9 +308,9 @@ extension View {
     /// Adds a subtle spring effect when the `isPressed` value is changed
     /// This should be used from a `ButtonStyle` and passing in `configuration.isPressed`
     ///
-    func applyButtonEffect(isPressed: Bool, enableHaptic: Bool = true) -> some View {
+    func applyButtonEffect(isPressed: Bool, enableHaptic: Bool = true, scaleEffectNumber: Double = 0.98) -> some View {
         self
-            .scaleEffect(isPressed ? 0.98 : 1.0, anchor: .center)
+            .scaleEffect(isPressed ? scaleEffectNumber : 1.0, anchor: .center)
             .animation(.interpolatingSpring(stiffness: 350, damping: 10, initialVelocity: 10), value: isPressed)
             .onChange(of: isPressed) { pressed in
                 guard enableHaptic, pressed else { return }
