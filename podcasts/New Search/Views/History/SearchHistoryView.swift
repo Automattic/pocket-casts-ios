@@ -20,7 +20,11 @@ struct SearchHistoryView: View {
 
             List {
                 if !searchHistory.entries.isEmpty {
-                    ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)
+                    ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll) {
+                        withAnimation {
+                            searchHistory.removeAll()
+                        }
+                    }
 
                     Section {
                         ForEach(searchHistory.entries, id: \.self) { entry in

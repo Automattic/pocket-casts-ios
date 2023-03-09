@@ -41,4 +41,10 @@ class SearchHistoryModel: ObservableObject {
             defaults.set(encoded, forKey: "SearchHistoryEntries")
         }
     }
+
+    func removeAll() {
+        entries = []
+
+        UserDefaults.standard.removeObject(forKey: "SearchHistoryEntries")
+    }
 }
