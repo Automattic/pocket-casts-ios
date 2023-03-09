@@ -3,16 +3,29 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
-// MARK: - Test Code Below
+// MARK: - Async Episode Loader
+
+class EpisodeLoadingModel: ObservableObject {
+    @Published var error = false
+}
 
 struct EpisodeLoadingView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var episodeLoadingModel: EpisodeLoadingModel
+
     var body: some View {
         ZStack(alignment: .center) {
-            ProgressView()
-                .tint(AppTheme.loadingActivityColor().color)
-                .scaleEffect(x: 2, y: 2, anchor: .center)
+            if !episodeLoadingModel.error {
+                ProgressView()
+                    .tint(AppTheme.loadingActivityColor().color)
+                    .scaleEffect(x: 2, y: 2, anchor: .center)
+            } else {
+                Text(L10n.discoverNoEpisodesFound)
+                    .font(size: 14, style: .subheadline, weight: .medium)
+                    .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                    .padding(10)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .applyDefaultThemeOptions()
@@ -23,11 +36,13 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
     private let episodeUuid: String
     private let podcastUuid: String
 
+    private let episodeLoadingModel = EpisodeLoadingModel()
+
     init(episodeUuid: String, podcastUuid: String) {
         self.episodeUuid = episodeUuid
         self.podcastUuid = podcastUuid
 
-        super.init(rootView: AnyView(EpisodeLoadingView().setupDefaultEnvironment()))
+        super.init(rootView: AnyView(EpisodeLoadingView(episodeLoadingModel: episodeLoadingModel).setupDefaultEnvironment()))
     }
 
     // Do a quick check to see if we need to load this episode or not
@@ -50,7 +65,7 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
         // Start the loading and print an error if it fails
         Task {
             guard await loadEpisode() == true else {
-                print("error loading")
+                episodeLoadingModel.error = true
                 return
             }
 
@@ -61,13 +76,13 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
     func loadEpisode() async -> Bool {
         await withCheckedContinuation { continuation in
             // If we're missing the podcast, then load that and the episode
-            if self.podcast == nil {
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-            }
-            // If we're missing just the episode then get that
-            else {
-                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-            }
+//            if self.podcast == nil {
+//                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
+//            }
+//            // If we're missing just the episode then get that
+//            else {
+//                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
+//            }
 
             // Verify they were added
             let success = podcast != nil && episode != nil
