@@ -31,24 +31,25 @@ class SearchHistoryModel: ObservableObject {
         entries.removeAll(where: { $0 == entry })
         entries.insert(entry, at: 0)
 
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(entries) {
-            defaults.set(encoded, forKey: "SearchHistoryEntries")
-        }
+        save()
     }
 
     func remove(entry: SearchHistoryEntry) {
         entries.removeAll(where: { $0 == entry })
 
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(entries) {
-            defaults.set(encoded, forKey: "SearchHistoryEntries")
-        }
+        save()
     }
 
     func removeAll() {
         entries = []
 
-        UserDefaults.standard.removeObject(forKey: "SearchHistoryEntries")
+        save()
+    }
+
+    private func save() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(entries) {
+            defaults.set(encoded, forKey: "SearchHistoryEntries")
+        }
     }
 }
