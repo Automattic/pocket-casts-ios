@@ -45,4 +45,14 @@ class SearchHistoryModelTests: XCTestCase {
 
         XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "foo"), SearchHistoryEntry(searchTerm: "bar")])
     }
+
+    // MARK: - Removal
+
+    func testRemoveEntry() {
+        model.add(searchTerm: "foo")
+        model.add(searchTerm: "bar")
+        model.remove(entry: SearchHistoryEntry(searchTerm: "foo"))
+
+        XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "bar")])
+    }
 }
