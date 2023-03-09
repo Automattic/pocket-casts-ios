@@ -4,8 +4,8 @@ import UIKit
 class FeaturedTableViewCell: UITableViewCell {
     @IBOutlet var featuredView: DiscoverFeaturedView!
 
-    func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool, listName: String) {
-        featuredView.populateFrom(discoverPodcast, isSubscribed: isSubscribed, listName: listName)
+    func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool, listName: String, isSponsored: Bool) {
+        featuredView.populateFrom(discoverPodcast, isSubscribed: isSubscribed, listName: listName, isSponsored: isSponsored)
     }
 
     func populateFrom(_ discoverPodcast: DiscoverPodcast, listName: String) {

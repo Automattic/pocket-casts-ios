@@ -245,6 +245,7 @@ public struct DiscoverItem: Decodable {
     public var summaryStyle: String?
     public var expandedStyle: String?
     public var source: String?
+    public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
     public var curated: Bool?
     public var regions: [String]
@@ -254,9 +255,15 @@ public struct DiscoverItem: Decodable {
         case summaryStyle = "summary_style"
         case expandedStyle = "expanded_style"
         case isSponsored = "sponsored"
+        case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
         case type, title, source, regions, curated, uuid
     }
+}
+
+public struct CarouselSponsoredPodcast: Decodable {
+    public var position: Int?
+    public var source: String?
 }
 
 public struct PodcastNetwork: Decodable {
@@ -304,7 +311,7 @@ public struct PodcastCollection: Decodable {
     }
 }
 
-public struct DiscoverPodcast: Codable {
+public struct DiscoverPodcast: Codable, Equatable {
     public var title: String?
     public var author: String?
     public var shortDescription: String?

@@ -375,11 +375,7 @@ private extension AnalyticsHelper {
     static let logger = Logger()
 
     class func bumpStat(_ name: String, parameters: [String: Any]? = nil) {
-        guard optedOut == false else { return }
-
-        #if !os(watchOS)
-            Firebase.Analytics.logEvent(name, parameters: parameters)
-        #endif
+        Self.logEvent(name, parameters: parameters)
     }
 
     class func logEvent(_ name: String, parameters: [String: Any]? = nil) {

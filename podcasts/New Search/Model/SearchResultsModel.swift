@@ -20,14 +20,14 @@ class SearchResultsModel: ObservableObject {
     func search(term: String) {
         clearSearch()
 
-        Task.init {
+        Task {
             isSearchingForPodcasts = true
             let results = try? await podcastSearch.search(term: term)
             isSearchingForPodcasts = false
             podcasts = results ?? []
         }
 
-        Task.init {
+        Task {
             isSearchingForEpisodes = true
             let results = try? await episodeSearch.search(term: term)
             isSearchingForEpisodes = false

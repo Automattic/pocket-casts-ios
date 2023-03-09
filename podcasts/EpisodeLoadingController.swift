@@ -128,8 +128,7 @@ extension EpisodeLoadingController: UIViewControllerAnimatedTransitioning, UINav
         let duration = transitionDuration(using: transitionContext)
 
         // We delay the alpha transition here because the episode controller has a weird animation effect when it first loads
-        // 1 second is probably too long of a delay
-        UIView.animate(withDuration: duration, delay: 1.0) {
+        UIView.animate(withDuration: duration, delay: 0.3) {
             fromView.view.alpha = 0
         } completion: { _ in
             transitionContext.completeTransition(true)

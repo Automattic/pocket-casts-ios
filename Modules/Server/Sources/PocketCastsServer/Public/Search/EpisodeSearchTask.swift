@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EpisodeSearchEnvelope: Decodable {
+struct EpisodeSearchEnvelope: Decodable {
     public let episodes: [EpisodeSearchResult]
 }
 
@@ -14,9 +14,11 @@ public struct EpisodeSearchResult: Codable, Hashable {
 }
 
 public class EpisodeSearchTask {
-    var session = URLSession.shared
+    private let session: URLSession
 
-    public init() {}
+    public init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     public func search(term: String) async throws -> [EpisodeSearchResult] {
         let searchURL = URL(string: "\(ServerConstants.Urls.cache())episode/search")!
@@ -25,7 +27,7 @@ public class EpisodeSearchTask {
 
         let json: [String: Any] = ["term": term]
 
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        let jsonData = try JSONSerialization.data(withJSONObject: json)
 
         request.httpBody = jsonData
 
