@@ -9,6 +9,8 @@ struct SearchView: View {
 
     var searchResults: SearchResultsModel
 
+    var searchHistory: SearchHistoryModel
+
     var body: some View {
         searchView
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
@@ -20,13 +22,14 @@ struct SearchView: View {
         if displaySearch.isSearching {
             SearchResultsView(searchResults: searchResults)
         } else {
-            SearchHistoryView()
+            SearchHistoryView(searchHistory: searchHistory)
         }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel())
+        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel(),
+        searchHistory: SearchHistoryModel())
     }
 }

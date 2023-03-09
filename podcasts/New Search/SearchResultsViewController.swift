@@ -16,10 +16,11 @@ extension SearchResultsDelegate {
 
 class SearchResultsViewController: UIHostingController<AnyView> {
     private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
-    private var searchResults = SearchResultsModel()
+    private var searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
+    private var searchResults: SearchResultsModel = SearchResultsModel()
 
     init() {
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults).setupDefaultEnvironment()))
+        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults, searchHistory: searchHistoryModel).setupDefaultEnvironment()))
     }
 
     required init?(coder aDecoder: NSCoder) {
