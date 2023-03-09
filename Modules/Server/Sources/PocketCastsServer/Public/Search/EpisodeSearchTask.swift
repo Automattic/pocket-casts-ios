@@ -14,9 +14,11 @@ public struct EpisodeSearchResult: Decodable {
 }
 
 public class EpisodeSearchTask {
-    var session = URLSession.shared
+    private let session: URLSession
 
-    public init() {}
+    public init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     public func search(term: String) async throws -> [EpisodeSearchResult] {
         let searchURL = URL(string: "\(ServerConstants.Urls.cache())episode/search")!
