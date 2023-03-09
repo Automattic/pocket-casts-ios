@@ -5,16 +5,12 @@ import PocketCastsUtils
 struct SearchHistoryCell: View {
     @EnvironmentObject var theme: Theme
 
-    var podcast: Podcast?
-
-    var episode: Episode?
-
-    var searchTerm: String?
+    var entry: SearchHistoryEntry
 
     private var subtitle: String {
-        if let episode, let podcast {
-            return "\(L10n.episode) • \(episode.displayableDuration) • \(podcast.title ?? "")"
-        } else if let podcast {
+        if let episode = entry.episode, let podcast = entry.podcast {
+            return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(podcast.title)"
+        } else if let podcast = entry.podcast {
             return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
         }
 
@@ -34,13 +30,13 @@ struct SearchHistoryCell: View {
 
             VStack(spacing: 12) {
                 HStack(spacing: 0) {
-                    if let podcast {
+                    if let podcast = entry.podcast {
                         PodcastCover(podcastUuid: podcast.uuid)
                             .frame(width: 48, height: 48)
                             .allowsHitTesting(false)
                             .padding(.trailing, 12)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(podcast.title ?? "")
+                            Text(podcast.title)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
@@ -50,7 +46,7 @@ struct SearchHistoryCell: View {
                                 .lineLimit(1)
                         }
                         .allowsHitTesting(false)
-                    } else if let searchTerm {
+                    } else if let searchTerm = entry.searchTerm {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))

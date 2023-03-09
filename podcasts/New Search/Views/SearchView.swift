@@ -20,7 +20,7 @@ struct SearchView: View {
     @ViewBuilder
     private var searchView: some View {
         if displaySearch.isSearching {
-            SearchResultsView(searchResults: searchResults)
+            SearchResultsView(searchResults: searchResults, searchHistory: searchHistory)
         } else {
             SearchHistoryView(searchHistory: searchHistory)
         }

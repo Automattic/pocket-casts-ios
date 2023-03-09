@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
-struct SearchHistoryEntry: Codable {
+struct SearchHistoryEntry: Codable, Hashable {
     var searchTerm: String?
     var episode: EpisodeSearchResult?
     var podcast: PodcastSearchResult?

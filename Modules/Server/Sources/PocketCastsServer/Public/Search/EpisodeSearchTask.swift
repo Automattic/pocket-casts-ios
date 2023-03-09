@@ -4,7 +4,7 @@ public struct EpisodeSearchEnvelope: Decodable {
     public let episodes: [EpisodeSearchResult]
 }
 
-public struct EpisodeSearchResult: Codable {
+public struct EpisodeSearchResult: Codable, Hashable {
     public let uuid: String
     public let title: String
     public let publishedDate: Date

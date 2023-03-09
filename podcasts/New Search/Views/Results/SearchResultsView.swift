@@ -7,6 +7,8 @@ struct SearchResultsView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    var searchHistory: SearchHistoryModel
+
     @State var identifier = 0
 
     var body: some View {
@@ -66,7 +68,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(searchResults: SearchResultsModel())
+        SearchResultsView(searchResults: SearchResultsModel(), searchHistory: SearchHistoryModel())
             .previewWithAllThemes()
     }
 }

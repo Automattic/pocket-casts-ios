@@ -23,20 +23,12 @@ struct SearchHistoryView: View {
                     ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)
 
                     Section {
-                        SearchHistoryCell(podcast: Podcast.previewPodcast())
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
-
-                        SearchHistoryCell(searchTerm: "Search term")
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
-
-                        SearchHistoryCell(podcast: Podcast.previewPodcast(), episode: episode)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
+                        ForEach(searchHistory.entries, id: \.self) { entry in
+                            SearchHistoryCell(entry: entry)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                        }
                     }
                 }
             }
