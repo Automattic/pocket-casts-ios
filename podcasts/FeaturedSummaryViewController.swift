@@ -11,6 +11,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     private var podcasts = [DiscoverPodcast]()
     private var sponsoredPodcasts = [DiscoverPodcast]()
+    private var lists: [PodcastCollection] = []
+
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
@@ -19,6 +21,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private var listType: String = ""
     private var lastLayedOutWidth = 0 as CGFloat
     private let maxFeaturedItems = 5
+
+    private var listIdImpressionTracked: [String] = []
 
     private weak var delegate: DiscoverDelegate?
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
@@ -97,7 +101,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         let podcast = podcasts[indexPath.row]
         if let delegate = delegate {
             cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
-            cell.featuredView.onSubscribe = { delegate.subscribe(podcast: podcast) }
+            cell.featuredView.onSubscribe = { [weak self] in
+                if let listId = self?.listId(for: podcast), let podcastUuid = podcast.uuid {
+                    AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
+                }
+                delegate.subscribe(podcast: podcast)
+            }
         }
 
         if let uuid = podcast.uuid {
@@ -114,11 +123,27 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         guard let delegate = delegate else { return }
 
         let podcast = podcasts[indexPath.row]
-        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: nil)
+        let listId = listId(for: podcast)
+        delegate.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: listId)
+
+        if let listId = listId, let podcastUuid = podcast.uuid {
+            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         podcasts.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let podcast = podcasts[safe: indexPath.row],
+              let listId = listId(for: podcast),
+              !listIdImpressionTracked.contains(listId) else {
+            return
+        }
+
+        AnalyticsHelper.listImpression(listId: listId)
+        listIdImpressionTracked.append(listId)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -165,10 +190,12 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             for sponsored in sponsoredPodcasts {
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
-                    DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
-                        guard let discoverPodcast = podcastList?.podcasts?.first else { return }
+                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { [weak self] podcastList in
+                        guard let podcastList = podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast
+
+                        self?.lists.append(podcastList)
 
                         dispatchGroup.leave()
                     })
@@ -222,5 +249,11 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         pageControl.currentPage = currentPage
 
         Analytics.track(.discoverFeaturedPageChanged, properties: ["current_page": currentPage + 1, "total_pages": pageControl.numberOfPages])
+    }
+
+    // MARK: - Sponsored Podcast methods
+
+    func listId(for podcast: DiscoverPodcast) -> String? {
+        lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
     }
 }
