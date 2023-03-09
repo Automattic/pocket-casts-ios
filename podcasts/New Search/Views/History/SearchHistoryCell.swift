@@ -33,6 +33,7 @@ struct SearchHistoryCell: View {
                 } else if let searchTerm = entry.searchTerm {
                     displaySearch.isSearching = true
                     searchResults.search(term: searchTerm)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: searchTerm)
                 }
             }) {
                 Rectangle()
