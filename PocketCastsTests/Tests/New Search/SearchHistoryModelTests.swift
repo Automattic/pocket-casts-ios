@@ -37,4 +37,12 @@ class SearchHistoryModelTests: XCTestCase {
 
         XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "doe"), SearchHistoryEntry(searchTerm: "john"), SearchHistoryEntry(searchTerm: "bar"), SearchHistoryEntry(searchTerm: "foo")])
     }
+
+    func testSameEntryIsNotAddedTwice() {
+        model.add(searchTerm: "foo")
+        model.add(searchTerm: "bar")
+        model.add(searchTerm: "foo")
+
+        XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "foo"), SearchHistoryEntry(searchTerm: "bar")])
+    }
 }
