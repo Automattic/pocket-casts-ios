@@ -27,7 +27,7 @@ class SearchHistoryModel: ObservableObject {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(entries) {
             let defaults = UserDefaults.standard
-            defaults.set(encoded, forKey: "SavedPerson")
+            defaults.set(encoded, forKey: "SearchHistoryEntries")
         }
     }
 }
