@@ -7,10 +7,11 @@ public struct PodcastSearchResult: Decodable {
 }
 
 public class PodcastSearchTask {
-    var session = URLSession.shared
+    private let session: URLSession
 
-    public init() {}
-
+    public init(session: URLSession = .shared) {
+        self.session = session
+    }
     public func search(term: String) async throws -> [PodcastSearchResult] {
         let searchURL = URL(string: "\(ServerConstants.Urls.cache())discover/search")!
         var request = URLRequest(url: searchURL)
