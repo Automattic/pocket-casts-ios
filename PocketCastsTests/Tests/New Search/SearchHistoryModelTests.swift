@@ -51,8 +51,18 @@ class SearchHistoryModelTests: XCTestCase {
     func testRemoveEntry() {
         model.add(searchTerm: "foo")
         model.add(searchTerm: "bar")
+
         model.remove(entry: SearchHistoryEntry(searchTerm: "foo"))
 
         XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "bar")])
+    }
+
+    func testRemoveAllEntries() {
+        model.add(searchTerm: "foo")
+        model.add(searchTerm: "bar")
+
+        model.removeAll()
+
+        XCTAssertTrue(model.entries.isEmpty)
     }
 }
