@@ -47,7 +47,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
         searchResults.search(term: searchTerm)
-        searchHistoryModel.add(entry: SearchHistoryEntry(searchTerm: searchTerm))
+        searchHistoryModel.add(searchTerm: searchTerm)
         completion()
     }
 }
