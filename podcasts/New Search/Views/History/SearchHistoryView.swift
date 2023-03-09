@@ -7,6 +7,10 @@ struct SearchHistoryView: View {
 
     @ObservedObject var searchHistory: SearchHistoryModel
 
+    let searchResults: SearchResultsModel
+
+    let displaySearch: SearchVisibilityModel
+
     private var episode: Episode {
         let episode = Episode()
         episode.title = "Episode title"
@@ -28,7 +32,7 @@ struct SearchHistoryView: View {
 
                     Section {
                         ForEach(searchHistory.entries, id: \.self) { entry in
-                            SearchHistoryCell(entry: entry, searchHistory: searchHistory)
+                            SearchHistoryCell(entry: entry, searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)
@@ -45,7 +49,7 @@ struct SearchHistoryView: View {
 
 struct SearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchHistoryView(searchHistory: SearchHistoryModel())
+        SearchHistoryView(searchHistory: SearchHistoryModel(), searchResults: SearchResultsModel(), displaySearch: SearchVisibilityModel())
             .previewWithAllThemes()
     }
 }

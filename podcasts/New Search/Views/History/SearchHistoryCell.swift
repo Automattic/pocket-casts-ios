@@ -9,6 +9,10 @@ struct SearchHistoryCell: View {
 
     var searchHistory: SearchHistoryModel
 
+    let searchResults: SearchResultsModel
+
+    let displaySearch: SearchVisibilityModel
+
     private var subtitle: String {
         if let episode = entry.episode {
             return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
@@ -26,8 +30,9 @@ struct SearchHistoryCell: View {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
                 } else if let podcast = entry.podcast {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                } else {
-                    
+                } else if let searchTerm = entry.searchTerm {
+                    displaySearch.isSearching = true
+                    searchResults.search(term: searchTerm)
                 }
             }) {
                 Rectangle()

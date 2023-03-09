@@ -22,7 +22,7 @@ struct SearchView: View {
         if displaySearch.isSearching {
             SearchResultsView(searchResults: searchResults, searchHistory: searchHistory)
         } else {
-            SearchHistoryView(searchHistory: searchHistory)
+            SearchHistoryView(searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
         }
     }
 }
