@@ -21,7 +21,7 @@ struct EpisodeLoadingView: View {
                     .tint(AppTheme.loadingActivityColor().color)
                     .scaleEffect(x: 2, y: 2, anchor: .center)
             } else {
-                Text(L10n.discoverNoEpisodesFound)
+                Text(L10n.discoverEpisodeFailToLoad)
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                     .padding(10)
@@ -76,13 +76,13 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
     func loadEpisode() async -> Bool {
         await withCheckedContinuation { continuation in
             // If we're missing the podcast, then load that and the episode
-//            if self.podcast == nil {
-//                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-//            }
-//            // If we're missing just the episode then get that
-//            else {
-//                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
-//            }
+            if self.podcast == nil {
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
+            }
+            // If we're missing just the episode then get that
+            else {
+                _ = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
+            }
 
             // Verify they were added
             let success = podcast != nil && episode != nil
