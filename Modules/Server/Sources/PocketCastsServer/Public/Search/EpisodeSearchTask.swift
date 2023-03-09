@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EpisodeSearchEnvelope: Decodable {
+struct EpisodeSearchEnvelope: Decodable {
     public let episodes: [EpisodeSearchResult]
 }
 
