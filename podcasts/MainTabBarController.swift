@@ -192,16 +192,23 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             // I know it looks dodgy, but the episode card won't load properly if you just dismissed another view controller. Need to figure out the actual bug...but for now:
             // (before you ask, using the completion block doesn't work above, regardless of whether animated is true or false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
-                var episodeController: EpisodeDetailViewController
+                var episodeController: UIViewController
 
-                if let podcastUuid {
-                    episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, podcastUuid: podcastUuid, source: .homeScreenWidget)
+                if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
+                    episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
+                                                                 podcastUuid: podcastUuid)
+
+                    let nav = UINavigationController(rootViewController: episodeController)
+                    nav.modalPresentationStyle = .formSheet
+                    nav.isNavigationBarHidden = true
+
+                    navController.present(nav, animated: true)
                 } else {
-                    episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
-                }
-                episodeController.modalPresentationStyle = .formSheet
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    episodeController.modalPresentationStyle = .formSheet
 
-                navController.present(episodeController, animated: true)
+                    navController.present(episodeController, animated: true)
+                }
             }
         }
     }
