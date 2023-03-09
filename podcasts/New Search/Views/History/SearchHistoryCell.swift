@@ -8,8 +8,8 @@ struct SearchHistoryCell: View {
     var entry: SearchHistoryEntry
 
     private var subtitle: String {
-        if let episode = entry.episode, let podcast = entry.podcast {
-            return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(podcast.title)"
+        if let episode = entry.episode {
+            return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
         } else if let podcast = entry.podcast {
             return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
         }
@@ -30,13 +30,14 @@ struct SearchHistoryCell: View {
 
             VStack(spacing: 12) {
                 HStack(spacing: 0) {
-                    if let podcast = entry.podcast {
-                        PodcastCover(podcastUuid: podcast.uuid)
+                    if let title = entry.podcast?.title ?? entry.episode?.title,
+                        let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
+                        PodcastCover(podcastUuid: uuid)
                             .frame(width: 48, height: 48)
                             .allowsHitTesting(false)
                             .padding(.trailing, 12)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(podcast.title)
+                            Text(title)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)

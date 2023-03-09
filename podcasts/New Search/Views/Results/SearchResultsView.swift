@@ -38,7 +38,7 @@ struct SearchResultsView: View {
                     Section {
                         ForEach(0..<searchResults.episodes.count, id: \.self) { index in
 
-                            SearchEpisodeCell(episode: searchResults.episodes[index])
+                            SearchEpisodeCell(episode: searchResults.episodes[index], searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)
