@@ -24,7 +24,7 @@ struct SearchHistoryView: View {
 
                     Section {
                         ForEach(searchHistory.entries, id: \.self) { entry in
-                            SearchHistoryCell(entry: entry)
+                            SearchHistoryCell(entry: entry, searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)

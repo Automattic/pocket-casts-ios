@@ -7,6 +7,8 @@ struct SearchHistoryCell: View {
 
     var entry: SearchHistoryEntry
 
+    var searchHistory: SearchHistoryModel
+
     private var subtitle: String {
         if let episode = entry.episode {
             return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
@@ -58,7 +60,9 @@ struct SearchHistoryCell: View {
 
                     Spacer()
                     Button(action: {
-                        print("remove tapped")
+                        withAnimation {
+                            searchHistory.remove(entry: entry)
+                        }
                     }) {
                         Image("close")
                     }
