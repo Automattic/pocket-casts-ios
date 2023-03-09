@@ -14,9 +14,9 @@ extension SearchResultsDelegate {
 }
 
 class SearchResultsViewController: UIHostingController<AnyView> {
-    private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
-    private var searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
-    private var searchResults: SearchResultsModel = SearchResultsModel()
+    private let displaySearch: SearchVisibilityModel = SearchVisibilityModel()
+    private let searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
+    private let searchResults: SearchResultsModel = SearchResultsModel()
 
     init() {
         super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults, searchHistory: searchHistoryModel).setupDefaultEnvironment()))

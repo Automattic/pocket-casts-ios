@@ -6,9 +6,8 @@ import PocketCastsUtils
 struct SearchEpisodeCell: View {
     @EnvironmentObject var theme: Theme
 
-    var episode: EpisodeSearchResult
-
-    var searchHistory: SearchHistoryModel?
+    let episode: EpisodeSearchResult
+    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         ZStack {

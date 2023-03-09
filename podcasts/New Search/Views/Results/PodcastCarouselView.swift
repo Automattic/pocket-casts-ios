@@ -69,8 +69,7 @@ struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
     let podcast: PodcastSearchResult
-
-    var searchHistory: SearchHistoryModel?
+    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         VStack(alignment: .leading) {

@@ -8,7 +8,6 @@ struct SearchHistoryView: View {
     @ObservedObject var searchHistory: SearchHistoryModel
 
     let searchResults: SearchResultsModel
-
     let displaySearch: SearchVisibilityModel
 
     private var episode: Episode {

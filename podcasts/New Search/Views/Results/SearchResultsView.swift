@@ -7,7 +7,7 @@ struct SearchResultsView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
-    var searchHistory: SearchHistoryModel
+    let searchHistory: SearchHistoryModel
 
     @State var identifier = 0
 

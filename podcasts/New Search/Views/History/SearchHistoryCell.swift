@@ -5,12 +5,9 @@ import PocketCastsUtils
 struct SearchHistoryCell: View {
     @EnvironmentObject var theme: Theme
 
-    var entry: SearchHistoryEntry
-
-    var searchHistory: SearchHistoryModel
-
+    let entry: SearchHistoryEntry
+    let searchHistory: SearchHistoryModel
     let searchResults: SearchResultsModel
-
     let displaySearch: SearchVisibilityModel
 
     private var subtitle: String {

@@ -7,9 +7,8 @@ class SearchVisibilityModel: ObservableObject {
 struct SearchView: View {
     @ObservedObject var displaySearch: SearchVisibilityModel
 
-    var searchResults: SearchResultsModel
-
-    var searchHistory: SearchHistoryModel
+    let searchResults: SearchResultsModel
+    let searchHistory: SearchHistoryModel
 
     var body: some View {
         searchView
