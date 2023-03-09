@@ -28,4 +28,13 @@ class SearchHistoryModelTests: XCTestCase {
 
         XCTAssertEqual(newModelInstance.entries.first, SearchHistoryEntry(searchTerm: "foo"))
     }
+
+    func testAddMultipleEntries() {
+        model.add(searchTerm: "foo")
+        model.add(searchTerm: "bar")
+        model.add(searchTerm: "john")
+        model.add(searchTerm: "doe")
+
+        XCTAssertEqual(model.entries, [SearchHistoryEntry(searchTerm: "doe"), SearchHistoryEntry(searchTerm: "john"), SearchHistoryEntry(searchTerm: "bar"), SearchHistoryEntry(searchTerm: "foo")])
+    }
 }
