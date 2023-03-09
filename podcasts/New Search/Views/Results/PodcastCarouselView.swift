@@ -77,7 +77,7 @@ struct PodcastResultCell: View {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                    searchHistory?.add(entry: SearchHistoryEntry(podcast: podcast))
+                    searchHistory?.add(podcast: podcast)
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
@@ -86,7 +86,7 @@ struct PodcastResultCell: View {
 
             Button(action: {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                searchHistory?.add(entry: SearchHistoryEntry(podcast: podcast))
+                searchHistory?.add(podcast: podcast)
             }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(podcast.title)

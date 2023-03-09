@@ -14,7 +14,7 @@ struct SearchEpisodeCell: View {
         ZStack {
             Button(action: {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
-                searchHistory?.add(entry: SearchHistoryEntry(episode: episode))
+                searchHistory?.add(episode: episode)
             }) {
                 Rectangle()
                     .foregroundColor(.clear)

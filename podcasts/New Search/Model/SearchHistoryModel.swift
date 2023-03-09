@@ -27,11 +27,12 @@ class SearchHistoryModel: ObservableObject {
         add(entry: SearchHistoryEntry(searchTerm: searchTerm))
     }
 
-    func add(entry: SearchHistoryEntry) {
-        entries.removeAll(where: { $0 == entry })
-        entries.insert(entry, at: 0)
+    func add(episode: EpisodeSearchResult) {
+        add(entry: SearchHistoryEntry(episode: episode))
+    }
 
-        save()
+    func add(podcast: PodcastSearchResult) {
+        add(entry: SearchHistoryEntry(podcast: podcast))
     }
 
     func remove(entry: SearchHistoryEntry) {
@@ -42,6 +43,13 @@ class SearchHistoryModel: ObservableObject {
 
     func removeAll() {
         entries = []
+
+        save()
+    }
+
+    private func add(entry: SearchHistoryEntry) {
+        entries.removeAll(where: { $0 == entry })
+        entries.insert(entry, at: 0)
 
         save()
     }
