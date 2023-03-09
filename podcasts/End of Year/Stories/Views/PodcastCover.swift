@@ -4,7 +4,7 @@ import Kingfisher
 
 struct PodcastCover: View {
     /// UUID of the podcast to load the cover
-    var podcastUuid: String
+    let podcastUuid: String
 
     /// Whether this is a big cover, in which shadows should be bigger
     let big: Bool
