@@ -19,7 +19,7 @@ public class PodcastSearchTask {
 
         let json: [String: Any] = ["term": term]
 
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        let jsonData = try JSONSerialization.data(withJSONObject: json)
 
         request.httpBody = jsonData
 
