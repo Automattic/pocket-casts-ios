@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PodcastSearchResult: Decodable {
+public struct PodcastSearchResult: Codable {
     public let uuid: String
     public let title: String
     public let author: String
