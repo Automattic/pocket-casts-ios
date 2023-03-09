@@ -65,4 +65,22 @@ class SearchHistoryModelTests: XCTestCase {
 
         XCTAssertTrue(model.entries.isEmpty)
     }
+
+    // MARK: Limit
+
+    func testAddAMaximumOf10Entries() {
+        model.add(searchTerm: "1")
+        model.add(searchTerm: "2")
+        model.add(searchTerm: "3")
+        model.add(searchTerm: "4")
+        model.add(searchTerm: "5")
+        model.add(searchTerm: "6")
+        model.add(searchTerm: "7")
+        model.add(searchTerm: "8")
+        model.add(searchTerm: "9")
+        model.add(searchTerm: "10")
+        model.add(searchTerm: "11")
+
+        XCTAssertEqual(model.entries.count, 10)
+    }
 }

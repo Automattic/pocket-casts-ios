@@ -10,7 +10,8 @@ struct SearchHistoryEntry: Codable, Hashable {
 class SearchHistoryModel: ObservableObject {
     @Published var entries: [SearchHistoryEntry] = []
 
-    let defaults: UserDefaults
+    private let defaults: UserDefaults
+    private let maxNumberOfEntries = 10
 
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
@@ -55,6 +56,7 @@ class SearchHistoryModel: ObservableObject {
     }
 
     private func save() {
+        entries = Array(entries.prefix(maxNumberOfEntries))
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(entries) {
             defaults.set(encoded, forKey: "SearchHistoryEntries")
