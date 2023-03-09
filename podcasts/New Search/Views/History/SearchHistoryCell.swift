@@ -22,7 +22,13 @@ struct SearchHistoryCell: View {
     var body: some View {
         ZStack {
             Button(action: {
-                print("row tapped")
+                if let episode = entry.episode {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+                } else if let podcast = entry.podcast {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                } else {
+                    
+                }
             }) {
                 Rectangle()
                     .foregroundColor(.clear)
