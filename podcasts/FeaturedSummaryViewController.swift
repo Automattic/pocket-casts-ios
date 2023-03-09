@@ -10,6 +10,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     }
 
     private var podcasts = [DiscoverPodcast]()
+    private var sponsoredPodcasts = [DiscoverPodcast]()
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
@@ -95,7 +96,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
         let podcast = podcasts[indexPath.row]
         if let delegate = delegate {
-            cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType)
+            cell.populateFrom(podcast, isSubscribed: delegate.isSubscribed(podcast: podcast), listName: listType, isSponsored: sponsoredPodcasts.contains(podcast))
             cell.featuredView.onSubscribe = { delegate.subscribe(podcast: podcast) }
         }
 
@@ -145,20 +146,54 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             listType = delegate.replaceRegionName(string: title)
         }
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
-            guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
+        let dispatchGroup = DispatchGroup()
 
-            for (index, discoverPodcast) in discoverPodcast.enumerated() {
-                strongSelf.podcasts.append(discoverPodcast)
+        var podcastsToShow: [DiscoverPodcast] = []
 
-                if index == (strongSelf.maxFeaturedItems - 1) { break }
-            }
+        var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
-            DispatchQueue.main.async {
-                strongSelf.updatePageCount()
-                strongSelf.featuredCollectionView.reloadData()
-            }
+        dispatchGroup.enter()
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+            guard let discoverPodcast = podcastList?.podcasts else { return }
+
+            podcastsToShow = discoverPodcast
+
+            dispatchGroup.leave()
         })
+
+        if let sponsoredPodcasts = item.sponsoredPodcasts {
+            for sponsored in sponsoredPodcasts {
+                if let source = sponsored.source, let position = sponsored.position {
+                    dispatchGroup.enter()
+                    DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+                        guard let discoverPodcast = podcastList?.podcasts?.first else { return }
+
+                        sponsoredPodcastsToAdd[position] = discoverPodcast
+
+                        dispatchGroup.leave()
+                    })
+                }
+            }
+        }
+
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self else {
+                return
+            }
+
+            // Add featured podcasts
+            self.podcasts = Array(podcastsToShow.prefix(self.maxFeaturedItems))
+
+            // Add sponsored podcasts
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+                self.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
+            }
+            self.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
+
+            // Update and reload
+            self.updatePageCount()
+            self.featuredCollectionView.reloadData()
+        }
     }
 
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
