@@ -6,14 +6,20 @@ import PocketCastsUtils
 // MARK: - Test Code Below
 
 struct EpisodeLoadingView: View {
+    @EnvironmentObject var theme: Theme
+
     var body: some View {
         ZStack(alignment: .center) {
             ProgressView()
+                .tint(AppTheme.loadingActivityColor().color)
+                .scaleEffect(x: 2, y: 2, anchor: .center)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .applyDefaultThemeOptions()
     }
 }
 
-class EpisodeLoadingController: UIHostingController<EpisodeLoadingView> {
+class EpisodeLoadingController: UIHostingController<AnyView> {
     private let episodeUuid: String
     private let podcastUuid: String
 
@@ -21,7 +27,7 @@ class EpisodeLoadingController: UIHostingController<EpisodeLoadingView> {
         self.episodeUuid = episodeUuid
         self.podcastUuid = podcastUuid
 
-        super.init(rootView: EpisodeLoadingView())
+        super.init(rootView: AnyView(EpisodeLoadingView().setupDefaultEnvironment()))
     }
 
     // Do a quick check to see if we need to load this episode or not
