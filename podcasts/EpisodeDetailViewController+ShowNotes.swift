@@ -28,9 +28,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
     }
 
     func loadShowNotes() {
-        guard let episode, !downloadingShowNotes else {
-            return
-        }
+        if downloadingShowNotes { return }
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
@@ -61,10 +59,6 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
     // MARK: - WKNavigationDelegate
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let episode else {
-            return
-        }
-
         if navigationAction.navigationType == .linkActivated {
             if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

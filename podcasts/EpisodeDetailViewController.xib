@@ -19,7 +19,6 @@
                 <outlet property="episodeChevron" destination="sEv-1n-DxV" id="CDD-a6-kNC"/>
                 <outlet property="episodeDate" destination="ytP-Wg-gNG" id="RHp-pu-2AQ"/>
                 <outlet property="episodeInfo" destination="i6O-79-oUy" id="L5o-Hb-L6r"/>
-                <outlet property="episodeLoadingIndicator" destination="JAP-Vc-YHW" id="elr-eD-chu"/>
                 <outlet property="episodeName" destination="dsg-ff-pnB" id="21O-XU-QDv"/>
                 <outlet property="failedToLoadLabel" destination="Gye-vZ-4Rq" id="7lV-t8-PgR"/>
                 <outlet property="loadingIndicator" destination="bTC-FT-bUv" id="BUh-qL-mST"/>
@@ -48,9 +47,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="JAP-Vc-YHW" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="169" y="315" width="37" height="37"/>
-                </activityIndicatorView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ffa-0D-OU4">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
@@ -347,8 +343,6 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="JAP-Vc-YHW" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="44z-2R-uGh"/>
-                <constraint firstItem="JAP-Vc-YHW" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="I3X-dD-3w1"/>
                 <constraint firstItem="Ffa-0D-OU4" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="NB8-TX-2vh"/>
                 <constraint firstItem="Ffa-0D-OU4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fba-KX-T4B"/>
                 <constraint firstItem="Ffa-0D-OU4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gTw-TD-eD0"/>

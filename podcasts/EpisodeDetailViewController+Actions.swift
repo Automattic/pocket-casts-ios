@@ -6,10 +6,6 @@ extension EpisodeDetailViewController {
     // MARK: - Button Actions
 
     @IBAction func upNextTapped(_ sender: UIButton) {
-        guard let episode else {
-            return
-        }
-
         if PlaybackManager.shared.inUpNext(episode: episode) {
             PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
         } else if PlaybackManager.shared.queue.upNextCount() < 1 {
@@ -17,12 +13,12 @@ extension EpisodeDetailViewController {
         } else {
             let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
             let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
-                PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
             }
             addToUpNextPicker.addAction(action: playNextAction)
 
             let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
-                PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
             }
             addToUpNextPicker.addAction(action: playLastAction)
 
@@ -31,10 +27,6 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func episodeStatusTapped(_ sender: Any) {
-        guard let episode else {
-            return
-        }
-
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         if episode.played() {
@@ -45,10 +37,6 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func archiveTapped(_ sender: Any) {
-        guard let episode else {
-            return
-        }
-
         if episode.archived {
             EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
         } else {
@@ -58,10 +46,6 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: UIButton) {
-        guard let episode else {
-            return
-        }
-
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             // dismiss the dialog if the user hit play
             if !PlaybackManager.shared.playing() {
@@ -76,10 +60,6 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func downloadTapped(_ sender: UIButton) {
-        guard let episode else {
-            return
-        }
-
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
             let yesAction = OptionAction(label: L10n.remove, icon: nil) {
@@ -100,12 +80,8 @@ extension EpisodeDetailViewController {
     // MARK: - UI State
 
     func updateButtonStates() {
-        guard let episode else {
-            return
-        }
-
         guard let updatedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else { return }
-        self.episode = updatedEpisode
+        episode = updatedEpisode
 
         let playbackManager = PlaybackManager.shared
 
@@ -152,10 +128,6 @@ extension EpisodeDetailViewController {
     }
 
     func updateProgress() {
-        guard let episode else {
-            return
-        }
-
         var progress: CGFloat = 0
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             let currentTime = PlaybackManager.shared.currentTime()
@@ -178,10 +150,6 @@ extension EpisodeDetailViewController {
     }
 
     func updateMessageView() {
-        guard let episode, let podcast else {
-            return
-        }
-
         if episode.playbackError() {
             setMessage(title: L10n.playbackFailed, details: episode.playbackErrorDetails ?? L10n.podcastDetailsPlaybackError, imageName: "option-alert")
         } else if episode.downloadFailed() {
@@ -210,10 +178,6 @@ extension EpisodeDetailViewController {
     // MARK: - Helpers
 
     private func deleteDownloadedFile() {
-        guard let episode else {
-            return
-        }
-
         EpisodeManager.analyticsHelper.currentSource = analyticsSource
 
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: false)
