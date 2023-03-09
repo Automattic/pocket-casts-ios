@@ -22,6 +22,7 @@ class SearchHistoryModel: ObservableObject {
     }
 
     func add(entry: SearchHistoryEntry) {
+        entries.removeAll(where: { $0 == entry })
         entries.insert(entry, at: 0)
 
         let encoder = JSONEncoder()
