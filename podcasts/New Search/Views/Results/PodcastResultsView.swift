@@ -6,6 +6,8 @@ struct PodcastResultsView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    let searchHistory: SearchHistoryModel?
+
     var body: some View {
         VStack {
             ThemedDivider()
@@ -14,7 +16,7 @@ struct PodcastResultsView: View {
                     Section {
                         ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                            SearchEpisodeCell(episode: nil, podcast: podcast, searchHistory: nil)
+                            SearchEpisodeCell(episode: nil, podcast: podcast, searchHistory: searchHistory)
                         }
                     }
                 }
@@ -26,6 +28,6 @@ struct PodcastResultsView: View {
 
 struct PodcastResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        PodcastResultsView(searchResults: SearchResultsModel())
+        PodcastResultsView(searchResults: SearchResultsModel(), searchHistory: nil)
     }
 }
