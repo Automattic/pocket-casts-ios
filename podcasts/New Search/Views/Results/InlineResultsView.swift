@@ -15,7 +15,7 @@ struct InlineResultsView: View {
         VStack {
             ThemedDivider()
             ScrollViewIfNeeded {
-                LazyVStack {
+                LazyVStack(spacing: 0) {
                     Section {
                         if showPodcasts {
                             ForEach(searchResults.podcasts, id: \.self) { podcast in
