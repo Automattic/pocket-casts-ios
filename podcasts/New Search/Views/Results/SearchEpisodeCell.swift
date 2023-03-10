@@ -60,7 +60,7 @@ struct SearchEpisodeCell: View {
 
                     if let podcast {
                         Spacer()
-                        RoundedSubscribeButtonView(podcastUuid: podcast.uuid)
+                        SubscribeButtonView(podcastUuid: podcast.uuid)
                             .frame(width: 48, height: 48)
                     }
                 }
