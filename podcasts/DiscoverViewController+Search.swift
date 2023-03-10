@@ -16,7 +16,9 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     func setupSearchBar() {
         searchController = PCSearchBarController()
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
         view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
         NSLayoutConstraint.activate([
