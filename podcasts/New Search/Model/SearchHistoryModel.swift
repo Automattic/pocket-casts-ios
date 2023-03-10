@@ -11,7 +11,7 @@ class SearchHistoryModel: ObservableObject {
     @Published var entries: [SearchHistoryEntry] = []
 
     private let defaults: UserDefaults
-    private let maxNumberOfEntries = 10
+    private let maxNumberOfEntries = 20
 
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
