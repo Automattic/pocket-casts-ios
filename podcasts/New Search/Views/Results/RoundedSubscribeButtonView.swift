@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
-struct SubscribeButtonView: View {
+struct RoundedSubscribeButtonView: View {
     @ObservedObject var model: SubscribeButtonModel
 
     init(podcastUuid: String) {
