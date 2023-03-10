@@ -33,6 +33,8 @@ struct InlineResultsView: View {
             }
             .navigationBarTitle(Text(showPodcasts ? L10n.discoverAllPodcasts : "All Episodes"))
         }
+        .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
+        .ignoresSafeArea(.keyboard)
     }
 }
 
