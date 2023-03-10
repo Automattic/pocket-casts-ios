@@ -20,12 +20,12 @@ struct InlineResultsView: View {
                         if showPodcasts {
                             ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                                SearchEpisodeCell(episode: nil, podcast: podcast, searchHistory: searchHistory)
+                                SearchResultCell(episode: nil, podcast: podcast, searchHistory: searchHistory)
                             }
                         } else {
                             ForEach(searchResults.episodes, id: \.self) { episode in
 
-                                SearchEpisodeCell(episode: episode, podcast: nil, searchHistory: searchHistory)
+                                SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
                             }
                         }
                     }

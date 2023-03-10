@@ -49,7 +49,7 @@ struct SearchResultsView: View {
                     Section {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
 
-                            SearchEpisodeCell(episode: episode, podcast: nil, searchHistory: searchHistory)
+                            SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)

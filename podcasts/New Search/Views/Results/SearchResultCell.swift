@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct SearchEpisodeCell: View {
+struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
 
     let episode: EpisodeSearchResult?
