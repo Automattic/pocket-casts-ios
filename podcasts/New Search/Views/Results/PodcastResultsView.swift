@@ -7,15 +7,19 @@ struct PodcastResultsView: View {
     @ObservedObject var searchResults: SearchResultsModel
 
     var body: some View {
-        ScrollViewIfNeeded {
-            LazyVStack {
-                Section {
-                    ForEach(searchResults.podcasts, id: \.self) { podcast in
+        VStack {
+            ThemedDivider()
+            ScrollViewIfNeeded {
+                LazyVStack {
+                    Section {
+                        ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                        SearchPodcastCell(podcast: podcast, searchHistory: nil)
+                            SearchPodcastCell(podcast: podcast, searchHistory: nil)
+                        }
                     }
                 }
             }
+            .navigationBarTitle(Text(L10n.discoverAllPodcasts))
         }
     }
 }
