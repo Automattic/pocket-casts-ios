@@ -3,24 +3,22 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 struct SubscribeButtonView: View {
-    @State var isSubscribed = false
-
-    var podcastUuid: String
+    @ObservedObject var model: SubscribeButtonModel
 
     init(podcastUuid: String) {
-        self.podcastUuid = podcastUuid
+        self.model = SubscribeButtonModel(podcastUuid: podcastUuid)
     }
 
     var body: some View {
         Button(action: {
-            if !isSubscribed {
+            if !model.isSubscribed {
                 withAnimation {
-                    isSubscribed = true
-                    subscribe()
+                    model.isSubscribed = true
+                    model.subscribe()
                 }
             }
         }) {
-            if isSubscribed {
+            if model.isSubscribed {
                 Image("discover_subscribed_dark")
             } else {
                 Image("discover_subscribe_dark")
@@ -28,13 +26,28 @@ struct SubscribeButtonView: View {
         }
         .buttonStyle(SubscribeButtonStyle())
         .onAppear {
-            isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
+            model.checkSubscriptionStatus()
         }
     }
+}
 
-    private func subscribe() {
+class SubscribeButtonModel: ObservableObject {
+    @Published var isSubscribed: Bool
+
+    let podcastUuid: String
+
+    init(podcastUuid: String) {
+        self.podcastUuid = podcastUuid
+        isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
+    }
+
+    func subscribe() {
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: true, completion: nil)
         Analytics.track(.podcastSubscribed, properties: ["source": AnalyticsSource.discover, "uuid": podcastUuid])
+    }
+
+    func checkSubscriptionStatus() {
+        isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
     }
 }
 
