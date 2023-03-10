@@ -392,6 +392,8 @@ internal enum L10n {
   internal static var deselectAll: String { return L10n.tr("Localizable", "deselect_all") }
   /// Discover
   internal static var discover: String { return L10n.tr("Localizable", "discover") }
+  /// All Episodes
+  internal static var discoverAllEpisodes: String { return L10n.tr("Localizable", "discover_all_episodes") }
   /// All Podcasts
   internal static var discoverAllPodcasts: String { return L10n.tr("Localizable", "discover_all_podcasts") }
   /// Browse By Category
