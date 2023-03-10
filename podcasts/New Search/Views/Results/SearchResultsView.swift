@@ -13,6 +13,8 @@ struct SearchResultsView: View {
 
     @State var showAllPodcasts = false
 
+    private let maxNumberOfEpisodes = 20
+
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
@@ -28,7 +30,7 @@ struct SearchResultsView: View {
                     PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
-                ThemeableListHeader(title: L10n.episodes, actionTitle: nil)
+                ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil)
 
                 if searchResults.isSearchingForEpisodes {
                     ProgressView()
@@ -42,7 +44,7 @@ struct SearchResultsView: View {
                     }
                 } else if searchResults.episodes.count > 0 {
                     Section {
-                        ForEach(searchResults.episodes, id: \.self) { episode in
+                        ForEach(searchResults.episodes.prefix(maxNumberOfEpisodes), id: \.self) { episode in
 
                             SearchEpisodeCell(episode: episode, podcast: nil, searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
