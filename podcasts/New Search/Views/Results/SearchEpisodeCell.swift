@@ -61,10 +61,9 @@ struct SearchEpisodeCell: View {
                     if let podcast {
                         Spacer()
                         SubscribeButtonView(podcastUuid: podcast.uuid)
-                            .frame(width: 48, height: 48)
                     }
                 }
-                .padding(.trailing, 16)
+                .padding(.trailing, episode != nil ? 16 : 8)
                 ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
