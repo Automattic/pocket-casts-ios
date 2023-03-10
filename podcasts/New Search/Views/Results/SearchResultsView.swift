@@ -17,7 +17,7 @@ struct SearchResultsView: View {
         VStack(spacing: 0) {
             ThemedDivider()
 
-            NavigationLink(destination: PodcastResultsView(), isActive: showAllPodcasts) { EmptyView() }
+            NavigationLink(destination: PodcastResultsView(), isActive: $showAllPodcasts) { EmptyView() }
 
             List {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
