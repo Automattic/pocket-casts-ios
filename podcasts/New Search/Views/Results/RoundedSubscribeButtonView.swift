@@ -49,13 +49,16 @@ struct SubscribeButtonView: View {
                 }
             }
         }) {
-            if model.isSubscribed {
-                Image("discover_tick")
-                    .foregroundColor(AppTheme.color(for: .support02, theme: theme))
-            } else {
-                Image("discover_add")
-                    .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+            ZStack(alignment: .center) {
+                if model.isSubscribed {
+                    Image("discover_tick")
+                        .foregroundColor(AppTheme.color(for: .support02, theme: theme))
+                } else {
+                    Image("discover_add")
+                        .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+                }
             }
+            .frame(width: 48, height: 48)
         }
         .buttonStyle(SubscribeButtonStyle())
         .onAppear {
