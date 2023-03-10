@@ -11,12 +11,18 @@ struct SearchResultsView: View {
 
     @State var identifier = 0
 
+    @State var showAllPodcasts = false
+
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
 
+            NavigationLink(destination: PodcastResultsView(), isActive: showAllPodcasts) { EmptyView() }
+
             List {
-                ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
+                ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
+                    showAllPodcasts = true
+                }
 
                 Section {
                     PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
