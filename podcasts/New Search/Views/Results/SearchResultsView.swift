@@ -30,6 +30,7 @@ struct SearchResultsView: View {
                     PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
+                // If local results are being shown, we hide the episodes header
                 if !(searchResults.isShowingLocalResultsOnly && searchResults.isSearchingForEpisodes) {
                     ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
                         showPodcasts = false
