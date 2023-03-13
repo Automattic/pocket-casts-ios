@@ -31,7 +31,7 @@ struct SearchResultsView: View {
                 }
 
                 // If local results are being shown, we hide the episodes header
-                if !(searchResults.isShowingLocalResultsOnly && searchResults.isSearchingForEpisodes) {
+                if !searchResults.isShowingLocalResultsOnly {
                     ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
                         showPodcasts = false
                         showInlineResults = true
@@ -58,7 +58,7 @@ struct SearchResultsView: View {
                             .listSectionSeparator(.hidden)
                         }
                     }
-                } else {
+                } else if !searchResults.isShowingLocalResultsOnly {
                     VStack(spacing: 2) {
                         Text(L10n.discoverNoEpisodesFound)
                             .font(style: .subheadline, weight: .medium)
