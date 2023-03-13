@@ -16,7 +16,7 @@ class SearchHistoryModel: ObservableObject {
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
 
-        if let entriesData = defaults.object(forKey: "SearchHistoryEntries") as? Data {
+        if let entriesData = defaults.data(forKey: "SearchHistoryEntries") {
             let decoder = JSONDecoder()
             if let entries = try? decoder.decode([SearchHistoryEntry].self, from: entriesData) {
                 self.entries = entries
