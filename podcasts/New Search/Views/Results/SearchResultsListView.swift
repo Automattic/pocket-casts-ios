@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
-struct InlineResultsView: View {
+struct SearchResultsListView: View {
     @EnvironmentObject var theme: Theme
 
     @ObservedObject var searchResults: SearchResultsModel
@@ -40,6 +40,6 @@ struct InlineResultsView: View {
 
 struct PodcastResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        InlineResultsView(searchResults: SearchResultsModel(), searchHistory: nil)
+        SearchResultsListView(searchResults: SearchResultsModel(), searchHistory: nil)
     }
 }

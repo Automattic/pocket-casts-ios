@@ -18,7 +18,7 @@ struct SearchResultsView: View {
         VStack(spacing: 0) {
             ThemedDivider()
 
-            NavigationLink(destination: InlineResultsView(searchResults: searchResults, searchHistory: searchHistory, showPodcasts: showPodcasts).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
+            NavigationLink(destination: SearchResultsListView(searchResults: searchResults, searchHistory: searchHistory, showPodcasts: showPodcasts).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
 
             List {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
