@@ -26,6 +26,7 @@ struct SearchHistoryView: View {
                     ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll) {
                         withAnimation {
                             searchHistory.removeAll()
+                            Analytics.track(.searchHistoryCleared)
                         }
                     }
 

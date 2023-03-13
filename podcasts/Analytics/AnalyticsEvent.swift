@@ -616,4 +616,7 @@ enum AnalyticsEvent: String {
     case cancelConfirmationViewDismissed
     case cancelConfirmationStayButtonTapped
     case cancelConfirmationCancelButtonTapped
+
+    // MARK: - Search History
+    case searchHistoryCleared
 }
