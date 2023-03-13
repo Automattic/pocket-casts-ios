@@ -21,7 +21,14 @@ class SearchResultsViewController: UIHostingController<AnyView> {
 
     init(source: AnalyticsSource) {
         searchAnalyticsHelper = SearchAnalyticsHelper(source: source)
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults, searchHistory: searchHistoryModel).setupDefaultEnvironment()))
+        super.init(rootView: AnyView(
+            SearchView(
+                displaySearch: displaySearch,
+                searchResults: searchResults,
+                searchHistory: searchHistoryModel)
+            .setupDefaultEnvironment()
+            .environmentObject(searchAnalyticsHelper))
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {

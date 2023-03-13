@@ -1,6 +1,6 @@
-import Foundation
+import SwiftUI
 
-class SearchAnalyticsHelper {
+class SearchAnalyticsHelper: ObservableObject {
     let source: AnalyticsSource
 
     init(source: AnalyticsSource) {
