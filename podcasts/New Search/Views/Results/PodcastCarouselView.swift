@@ -82,6 +82,7 @@ struct PodcastResultCell: View {
                 }) {
                     if result.isFolder == true {
                         SearchFolderPreviewWrapper(uuid: result.uuid)
+                            .modifier(NormalCoverShadow())
                     } else {
                         PodcastCover(podcastUuid: result.uuid)
                     }
