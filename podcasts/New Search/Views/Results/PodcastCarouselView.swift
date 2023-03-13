@@ -70,7 +70,7 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
-    let result: PodcastSearchResult
+    let result: PodcastFolderSearchResult
     let searchHistory: SearchHistoryModel?
 
     var body: some View {
@@ -109,7 +109,7 @@ struct PodcastResultCell: View {
     }
 }
 
-extension PodcastSearchResult {
+extension PodcastFolderSearchResult {
     func navigateTo() {
         if isFolder == true {
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: DataManager.sharedManager.findFolder(uuid: uuid) as Any])

@@ -9,7 +9,7 @@ class SearchResultsModel: ObservableObject {
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
-    @Published var podcasts: [PodcastSearchResult] = []
+    @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
@@ -44,14 +44,14 @@ class SearchResultsModel: ObservableObject {
     func searchLocally(term searchTerm: String) {
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
 
-        var results = [PodcastSearchResult?]()
+        var results = [PodcastFolderSearchResult?]()
         for podcast in allPodcasts {
             guard let title = podcast.title else { continue }
 
             if title.localizedCaseInsensitiveContains(searchTerm) {
-                results.append(PodcastSearchResult(from: podcast))
+                results.append(PodcastFolderSearchResult(from: podcast))
             } else if let author = podcast.author, author.localizedCaseInsensitiveContains(searchTerm) {
-                results.append(PodcastSearchResult(from: podcast))
+                results.append(PodcastFolderSearchResult(from: podcast))
             }
         }
 
@@ -59,7 +59,7 @@ class SearchResultsModel: ObservableObject {
             let allFolders = DataManager.sharedManager.allFolders()
             for folder in allFolders {
                 if folder.name.localizedCaseInsensitiveContains(searchTerm) {
-                    results.append(PodcastSearchResult(from: folder))
+                    results.append(PodcastFolderSearchResult(from: folder))
                 }
             }
         }
@@ -69,7 +69,7 @@ class SearchResultsModel: ObservableObject {
         isShowingLocalResultsOnly = true
     }
 
-    private func show(podcastResults: [PodcastSearchResult]) {
+    private func show(podcastResults: [PodcastFolderSearchResult]) {
         if isShowingLocalResultsOnly {
             podcasts.append(contentsOf: podcastResults.filter { !podcasts.contains($0) })
             isShowingLocalResultsOnly = false

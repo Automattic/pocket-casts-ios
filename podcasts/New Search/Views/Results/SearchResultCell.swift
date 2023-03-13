@@ -7,7 +7,7 @@ struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
 
     let episode: EpisodeSearchResult?
-    let podcast: PodcastSearchResult?
+    let podcast: PodcastFolderSearchResult?
     let searchHistory: SearchHistoryModel?
 
     var body: some View {

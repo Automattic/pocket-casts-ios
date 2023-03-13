@@ -112,7 +112,7 @@ class NavigationManager {
                 podcastInfo.iTunesId = podcastHeader.itunesId?.intValue
 
                 mainController?.navigateToPodcastInfo(podcastInfo)
-            } else if let searchResult = data[NavigationManager.podcastKey] as? PodcastSearchResult {
+            } else if let searchResult = data[NavigationManager.podcastKey] as? PodcastFolderSearchResult {
                 mainController?.navigateTo(podcast: searchResult)
             }
         } else if place == NavigationManager.folderPageKey {

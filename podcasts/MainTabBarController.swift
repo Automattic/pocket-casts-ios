@@ -177,7 +177,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateTo(podcast searchResult: PodcastSearchResult) {
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult) {
         if let navController = selectedViewController as? UINavigationController {
             let podcastController = PodcastViewController(podcastInfo: PodcastInfo(from: searchResult), existingImage: nil)
             navController.pushViewController(podcastController, animated: true)
