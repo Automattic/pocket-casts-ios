@@ -30,9 +30,11 @@ struct SearchResultsView: View {
                     PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
-                ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
-                    showPodcasts = false
-                    showInlineResults = true
+                if !(searchResults.isShowingLocalResultsOnly && searchResults.isSearchingForEpisodes) {
+                    ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
+                        showPodcasts = false
+                        showInlineResults = true
+                    }
                 }
 
                 if searchResults.isSearchingForEpisodes {
