@@ -30,6 +30,7 @@ class SearchResultsViewController: UIHostingController<AnyView> {
 extension SearchResultsViewController: SearchResultsDelegate {
     func clearSearch() {
         displaySearch.isSearching = false
+        searchResults.clearSearch()
     }
 
     func performLocalSearch(searchTerm: String) {
