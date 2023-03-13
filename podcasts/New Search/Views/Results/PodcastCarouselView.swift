@@ -27,12 +27,14 @@ struct PodcastsCarouselView: View {
                             }
 
                             TabView(selection: $tabSelection) {
-                                ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
+                                ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
                                     GeometryReader { geometry in
                                         HStack(spacing: 10) {
                                             PodcastResultCell(podcast: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
 
-                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1], searchHistory: searchHistory)
+                                            if let podcast = searchResults.podcasts[safe: (i * 2) + 1] {
+                                                PodcastResultCell(podcast: podcast, searchHistory: searchHistory)
+                                            }
                                         }
                                     }
                                 }
