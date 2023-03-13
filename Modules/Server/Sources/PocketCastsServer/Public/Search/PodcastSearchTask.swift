@@ -5,15 +5,24 @@ public struct PodcastSearchResult: Codable, Hashable {
     public let uuid: String
     public let title: String
     public let author: String
+    public let isFolder: Bool?
 
     public init?(from podcast: Podcast) {
         if let title = podcast.title, let author = podcast.author {
             self.uuid = podcast.uuid
             self.title = title
             self.author = author
+            self.isFolder = false
         } else {
             return nil
         }
+    }
+
+    public init?(from folder: Folder) {
+        self.uuid = folder.uuid
+        self.title = folder.name
+        self.author = ""
+        self.isFolder = true
     }
 }
 

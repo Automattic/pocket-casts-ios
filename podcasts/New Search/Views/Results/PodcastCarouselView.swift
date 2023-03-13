@@ -30,10 +30,10 @@ struct PodcastsCarouselView: View {
                                 ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
                                     GeometryReader { geometry in
                                         HStack(spacing: 10) {
-                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
+                                            PodcastResultCell(result: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
 
-                                            if let podcast = searchResults.podcasts[safe: (i * 2) + 1] {
-                                                PodcastResultCell(podcast: podcast, searchHistory: searchHistory)
+                                            if let result = searchResults.podcasts[safe: (i * 2) + 1] {
+                                                PodcastResultCell(result: result, searchHistory: searchHistory)
                                             }
                                         }
                                     }
@@ -70,35 +70,51 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
-    let podcast: PodcastSearchResult
+    let result: PodcastSearchResult
     let searchHistory: SearchHistoryModel?
 
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                    searchHistory?.add(podcast: podcast)
+                    result.navigateTo()
+                    searchHistory?.add(podcast: result)
                 }) {
-                    PodcastCover(podcastUuid: podcast.uuid)
+                    if result.isFolder == true {
+                        SearchFolderPreviewWrapper(uuid: result.uuid)
+                    } else {
+                        PodcastCover(podcastUuid: result.uuid)
+                    }
                 }
-                RoundedSubscribeButtonView(podcastUuid: podcast.uuid)
+                if !(result.isFolder == true) {
+                    RoundedSubscribeButtonView(podcastUuid: result.uuid)
+                }
             }
 
             Button(action: {
-                NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                searchHistory?.add(podcast: podcast)
+                result.navigateTo()
+                searchHistory?.add(podcast: result)
             }) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(podcast.title)
+                    Text(result.title)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
-                    Text(podcast.author)
+                    Text(result.author)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                 }
             }
+        }
+    }
+}
+
+extension PodcastSearchResult {
+    func navigateTo() {
+        if isFolder == true {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: DataManager.sharedManager.findFolder(uuid: uuid) as Any])
+        } else {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: self])
         }
     }
 }

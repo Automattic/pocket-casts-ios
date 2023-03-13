@@ -55,6 +55,15 @@ class SearchResultsModel: ObservableObject {
             }
         }
 
+        if SubscriptionHelper.hasActiveSubscription() {
+            let allFolders = DataManager.sharedManager.allFolders()
+            for folder in allFolders {
+                if folder.name.localizedCaseInsensitiveContains(searchTerm) {
+                    results.append(PodcastSearchResult(from: folder))
+                }
+            }
+        }
+
         self.podcasts = results.compactMap { $0 }
 
         isShowingLocalResultsOnly = true
