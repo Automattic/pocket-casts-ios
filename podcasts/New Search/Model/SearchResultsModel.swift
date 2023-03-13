@@ -12,6 +12,8 @@ class SearchResultsModel: ObservableObject {
     @Published var podcasts: [PodcastSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
 
+    var isShowingLocalResultsOnly = false
+
     func clearSearch() {
         podcasts = []
         episodes = []
@@ -19,13 +21,15 @@ class SearchResultsModel: ObservableObject {
 
     @MainActor
     func search(term: String) {
-        clearSearch()
+        if !isShowingLocalResultsOnly {
+            clearSearch()
+        }
 
         Task {
             isSearchingForPodcasts = true
             let results = try? await podcastSearch.search(term: term)
             isSearchingForPodcasts = false
-            podcasts = results ?? []
+            show(podcastResults: results ?? [])
         }
 
         Task {
@@ -52,5 +56,16 @@ class SearchResultsModel: ObservableObject {
         }
 
         self.podcasts = results.compactMap { $0 }
+
+        isShowingLocalResultsOnly = true
+    }
+
+    private func show(podcastResults: [PodcastSearchResult]) {
+        if isShowingLocalResultsOnly {
+            podcasts.append(contentsOf: podcastResults.filter { !podcasts.contains($0) })
+            isShowingLocalResultsOnly = false
+        } else {
+            podcasts = podcastResults
+        }
     }
 }
