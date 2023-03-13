@@ -12,7 +12,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
             self.uuid = podcast.uuid
             self.title = title
             self.author = author
-            self.isFolder = false
+            self.isFolder = nil
         } else {
             return nil
         }
