@@ -12,7 +12,7 @@ class SearchResultsModel: ObservableObject {
     @Published var podcasts: [PodcastSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
 
-    var isShowingLocalResultsOnly = false
+    @Published var isShowingLocalResultsOnly = false
 
     func clearSearch() {
         podcasts = []

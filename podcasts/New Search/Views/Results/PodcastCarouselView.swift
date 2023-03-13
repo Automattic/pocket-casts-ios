@@ -15,7 +15,7 @@ struct PodcastsCarouselView: View {
         ScrollView {
             LazyHStack {
                 Group {
-                    if searchResults.isSearchingForPodcasts {
+                    if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
                         ZStack(alignment: .center) {
                             ProgressView()
                         }
