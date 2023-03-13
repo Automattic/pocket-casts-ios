@@ -619,4 +619,5 @@ enum AnalyticsEvent: String {
 
     // MARK: - Search History
     case searchHistoryCleared
+    case searchHistoryItemTapped
 }
