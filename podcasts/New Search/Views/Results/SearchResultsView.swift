@@ -12,17 +12,17 @@ struct SearchResultsView: View {
     @State var identifier = 0
 
     @State var showInlineResults = false
-    @State var showPodcasts = true
+    @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
 
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
 
-            NavigationLink(destination: SearchResultsListView(searchResults: searchResults, searchHistory: searchHistory, showPodcasts: showPodcasts).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
+            NavigationLink(destination: SearchResultsListView(searchResults: searchResults, searchHistory: searchHistory, displayMode: displayMode).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
 
             List {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
-                    showPodcasts = true
+                    displayMode = .podcasts
                     showInlineResults = true
                 }
 
@@ -31,7 +31,7 @@ struct SearchResultsView: View {
                 }
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
-                    showPodcasts = false
+                    displayMode = .episodes
                     showInlineResults = true
                 }
 
