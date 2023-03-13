@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsDataModel
 
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
@@ -33,5 +34,23 @@ class SearchResultsModel: ObservableObject {
             isSearchingForEpisodes = false
             episodes = results ?? []
         }
+    }
+
+    @MainActor
+    func searchLocally(term searchTerm: String) {
+        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+
+        var results = [PodcastSearchResult?]()
+        for podcast in allPodcasts {
+            guard let title = podcast.title else { continue }
+
+            if title.localizedCaseInsensitiveContains(searchTerm) {
+                results.append(PodcastSearchResult(from: podcast))
+            } else if let author = podcast.author, author.localizedCaseInsensitiveContains(searchTerm) {
+                results.append(PodcastSearchResult(from: podcast))
+            }
+        }
+
+        self.podcasts = results.compactMap { $0 }
     }
 }

@@ -1,9 +1,20 @@
 import Foundation
+import PocketCastsDataModel
 
 public struct PodcastSearchResult: Codable, Hashable {
     public let uuid: String
     public let title: String
     public let author: String
+
+    public init?(from podcast: Podcast) {
+        if let title = podcast.title, let author = podcast.author {
+            self.uuid = podcast.uuid
+            self.title = title
+            self.author = author
+        } else {
+            return nil
+        }
+    }
 }
 
 public class PodcastSearchTask {

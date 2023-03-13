@@ -33,7 +33,8 @@ extension SearchResultsViewController: SearchResultsDelegate {
     }
 
     func performLocalSearch(searchTerm: String) {
-        print("local search: \(searchTerm)")
+        displaySearch.isSearching = true
+        searchResults.searchLocally(term: searchTerm)
     }
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
