@@ -566,6 +566,7 @@ enum AnalyticsEvent: String {
     case searchPerformed
     case searchFailed
     case searchResultTapped
+    case searchListShown
 
     // MARK: - Chromecast
 

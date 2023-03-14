@@ -50,6 +50,12 @@ class SearchAnalyticsHelper: ObservableObject {
         let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
         Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
     }
+
+    // MARK: - Search list results
+
+    func trackListShown() {
+        Analytics.track(.searchListShown, properties: ["source": source])
+    }
 }
 
 private extension SearchHistoryEntry {

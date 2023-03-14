@@ -3,6 +3,7 @@ import PocketCastsServer
 
 struct InlineResultsView: View {
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     @ObservedObject var searchResults: SearchResultsModel
 
@@ -35,6 +36,9 @@ struct InlineResultsView: View {
         }
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
+        .onAppear {
+            searchAnalyticsHelper.trackListShown()
+        }
     }
 }
 
