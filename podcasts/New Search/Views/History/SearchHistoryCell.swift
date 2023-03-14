@@ -87,6 +87,7 @@ struct SearchHistoryCell: View {
                     Button(action: {
                         withAnimation {
                             searchHistory.remove(entry: entry)
+                            searchAnalyticsHelper.historyItemDeleted(entry)
                         }
                     }) {
                         Image("close")

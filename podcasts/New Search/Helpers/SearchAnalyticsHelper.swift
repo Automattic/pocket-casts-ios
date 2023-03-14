@@ -17,6 +17,11 @@ class SearchAnalyticsHelper: ObservableObject {
         let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
         Analytics.track(.searchHistoryItemTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
     }
+
+    func historyItemDeleted(_ entry: SearchHistoryEntry) {
+        let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
+        Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
+    }
 }
 
 private extension SearchHistoryEntry {
