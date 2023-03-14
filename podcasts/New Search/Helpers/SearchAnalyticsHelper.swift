@@ -53,8 +53,8 @@ class SearchAnalyticsHelper: ObservableObject {
 
     // MARK: - Search list results
 
-    func trackListShown() {
-        Analytics.track(.searchListShown, properties: ["source": source])
+    func trackListShown(_ displaying: SearchResultsListView.DisplayMode) {
+        Analytics.track(.searchListShown, properties: ["source": source, "displaying": displaying])
     }
 }
 
