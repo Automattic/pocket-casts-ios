@@ -1,7 +1,12 @@
 import SwiftUI
 import PocketCastsServer
 
-struct InlineResultsView: View {
+struct SearchResultsListView: View {
+    enum DisplayMode {
+        case podcasts
+        case episodes
+    }
+
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
@@ -9,8 +14,7 @@ struct InlineResultsView: View {
 
     let searchHistory: SearchHistoryModel?
 
-    /// If this view should show podcasts or episodes
-    var showPodcasts = true
+    var displayMode: DisplayMode
 
     var body: some View {
         VStack {
@@ -18,12 +22,14 @@ struct InlineResultsView: View {
             ScrollViewIfNeeded {
                 LazyVStack(spacing: 0) {
                     Section {
-                        if showPodcasts {
+                        switch displayMode {
+                        case .podcasts:
                             ForEach(searchResults.podcasts, id: \.self) { podcast in
 
                                 SearchResultCell(episode: nil, podcast: podcast, searchHistory: searchHistory)
                             }
-                        } else {
+
+                        case .episodes:
                             ForEach(searchResults.episodes, id: \.self) { episode in
 
                                 SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
@@ -32,7 +38,7 @@ struct InlineResultsView: View {
                     }
                 }
             }
-            .navigationBarTitle(Text(showPodcasts ? L10n.discoverAllPodcasts : "All Episodes"))
+            .navigationBarTitle(Text(displayMode == .podcasts ? L10n.discoverAllPodcasts : L10n.discoverAllEpisodes))
         }
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
@@ -44,6 +50,6 @@ struct InlineResultsView: View {
 
 struct PodcastResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        InlineResultsView(searchResults: SearchResultsModel(), searchHistory: nil)
+        SearchResultsListView(searchResults: SearchResultsModel(), searchHistory: nil, displayMode: .podcasts)
     }
 }

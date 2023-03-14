@@ -150,6 +150,8 @@ struct Constants {
         static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
         static let top5PodcastsListLink = "top5PodcastsListLink"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
+
+        static let searchHistoryEntried = "SearchHistoryEntries"
     }
 
     enum Values {
