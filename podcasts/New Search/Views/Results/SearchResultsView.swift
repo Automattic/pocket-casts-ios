@@ -4,6 +4,7 @@ import PocketCastsUtils
 
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     @ObservedObject var searchResults: SearchResultsModel
 
@@ -18,7 +19,7 @@ struct SearchResultsView: View {
         VStack(spacing: 0) {
             ThemedDivider()
 
-            NavigationLink(destination: InlineResultsView(searchResults: searchResults, searchHistory: searchHistory, showPodcasts: showPodcasts).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
+            NavigationLink(destination: InlineResultsView(searchResults: searchResults, searchHistory: searchHistory, showPodcasts: showPodcasts).setupDefaultEnvironment().environmentObject(searchAnalyticsHelper), isActive: $showInlineResults) { EmptyView() }
 
             List {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
