@@ -6,12 +6,14 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public let title: String
     public let author: String
     public let isFolder: Bool?
+    public var isLocal: Bool?
 
     public init?(from podcast: Podcast) {
         if let title = podcast.title, let author = podcast.author {
             self.uuid = podcast.uuid
             self.title = title
             self.author = author
+            self.isLocal = true
             self.isFolder = nil
         } else {
             return nil
@@ -23,6 +25,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.title = folder.name
         self.author = ""
         self.isFolder = true
+        self.isLocal = true
     }
 }
 

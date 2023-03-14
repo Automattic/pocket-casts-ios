@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 class SearchAnalyticsHelper: ObservableObject {
     let source: AnalyticsSource
@@ -23,6 +24,19 @@ class SearchAnalyticsHelper: ObservableObject {
 
     func trackFailed() {
         Analytics.track(.searchFailed, properties: ["source": source])
+    }
+
+    func trackResultTapped(_ searchResult: Any) {
+        var type = "unknown"
+        var uuid = ""
+        if let folderOrPodcast = searchResult as? PodcastFolderSearchResult {
+            type = folderOrPodcast.type
+            uuid = folderOrPodcast.uuid
+        } else if let episode = searchResult as? EpisodeSearchResult {
+            type = "episode"
+            uuid = episode.uuid
+        }
+        Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": uuid, "result_type": type])
     }
 
     // MARK: - Search History
@@ -52,6 +66,18 @@ private extension SearchHistoryEntry {
             return "episode"
         } else {
             return "search_term"
+        }
+    }
+}
+
+private extension PodcastFolderSearchResult {
+    var type: String {
+        if isFolder == true {
+            return "folder"
+        } else if isLocal == true {
+            return "podcast_local_result"
+        } else {
+            return "podcast"
         }
     }
 }
