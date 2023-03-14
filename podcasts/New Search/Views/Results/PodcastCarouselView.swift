@@ -34,6 +34,9 @@ struct PodcastsCarouselView: View {
 
                                             if let result = searchResults.podcasts[safe: (i * 2) + 1] {
                                                 PodcastResultCell(result: result, searchHistory: searchHistory)
+                                            } else {
+                                                Rectangle()
+                                                    .opacity(0)
                                             }
                                         }
                                     }
@@ -84,9 +87,11 @@ struct PodcastResultCell: View {
                 }) {
                     if result.isFolder == true {
                         SearchFolderPreviewWrapper(uuid: result.uuid)
+                            .aspectRatio(1, contentMode: .fit)
                             .modifier(NormalCoverShadow())
                     } else {
                         PodcastCover(podcastUuid: result.uuid)
+                            .aspectRatio(1, contentMode: .fit)
                     }
                 }
                 if !(result.isFolder == true) {
