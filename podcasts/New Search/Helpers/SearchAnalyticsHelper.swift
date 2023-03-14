@@ -73,7 +73,7 @@ private extension PodcastFolderSearchResult {
         } else if isLocal == true {
             return "podcast_local_result"
         } else {
-            return "podcast"
+            return "podcast_remote_result"
         }
     }
 }
