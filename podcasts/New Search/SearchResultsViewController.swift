@@ -34,6 +34,11 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchAnalyticsHelper.trackShown()
+    }
 }
 
 extension SearchResultsViewController: SearchResultsDelegate {

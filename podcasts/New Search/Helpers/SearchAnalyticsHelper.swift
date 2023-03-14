@@ -7,6 +7,12 @@ class SearchAnalyticsHelper: ObservableObject {
         self.source = source
     }
 
+    // MARK: - Search
+
+    func trackShown() {
+        Analytics.track(.searchShown, properties: ["source": source])
+    }
+
     // MARK: - Search History
 
     func trackHistoryCleared() {
