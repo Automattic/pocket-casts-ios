@@ -143,7 +143,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         resultsControllerDelegate.performLocalSearch(searchTerm: searchTerm)
 
         debounce.call {
-            if !searchTerm.trim().isEmpty {
+            if !searchTerm.trim().isEmpty && !FeatureFlag.newSearch.enabled {
                 Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
             }
         }

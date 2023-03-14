@@ -16,11 +16,12 @@ extension SearchResultsDelegate {
 class SearchResultsViewController: UIHostingController<AnyView> {
     private let displaySearch: SearchVisibilityModel = SearchVisibilityModel()
     private let searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
-    private let searchResults: SearchResultsModel = SearchResultsModel()
+    private let searchResults: SearchResultsModel
     private let searchAnalyticsHelper: SearchAnalyticsHelper
 
     init(source: AnalyticsSource) {
         searchAnalyticsHelper = SearchAnalyticsHelper(source: source)
+        self.searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
         super.init(rootView: AnyView(
             SearchView(
                 displaySearch: displaySearch,

@@ -17,6 +17,10 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchDismissed, properties: ["source": source])
     }
 
+    func trackSearchPerformed() {
+        Analytics.track(.searchPerformed, properties: ["source": source])
+    }
+
     // MARK: - Search History
 
     func trackHistoryCleared() {
