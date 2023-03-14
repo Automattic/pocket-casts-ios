@@ -13,6 +13,10 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchShown, properties: ["source": source])
     }
 
+    func trackDismissed() {
+        Analytics.track(.searchDismissed, properties: ["source": source])
+    }
+
     // MARK: - Search History
 
     func trackHistoryCleared() {
