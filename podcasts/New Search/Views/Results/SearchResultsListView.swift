@@ -21,9 +21,9 @@ struct SearchResultsListView: View {
     var displayMode: DisplayMode
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ThemedDivider()
-            ScrollViewIfNeeded {
+            ScrollView {
                 LazyVStack(spacing: 0) {
                     Section {
                         switch displayMode {
