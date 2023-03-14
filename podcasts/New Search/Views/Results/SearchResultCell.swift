@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     let episode: EpisodeSearchResult?
     let podcast: PodcastFolderSearchResult?
@@ -16,9 +17,11 @@ struct SearchResultCell: View {
                 if let episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
                     searchHistory?.add(episode: episode)
+                    searchAnalyticsHelper.trackResultTapped(episode)
                 } else if let podcast {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
                     searchHistory?.add(podcast: podcast)
+                    searchAnalyticsHelper.trackResultTapped(podcast)
                 }
             }) {
                 Rectangle()
