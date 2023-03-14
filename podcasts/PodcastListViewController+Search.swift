@@ -133,6 +133,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
                 self.searchResultsControler.clearSearch()
             }
         }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
     }
 
     func searchWasCleared() {

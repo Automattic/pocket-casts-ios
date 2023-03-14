@@ -40,11 +40,6 @@ class SearchResultsViewController: UIHostingController<AnyView> {
         super.viewDidAppear(animated)
         searchAnalyticsHelper.trackShown()
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        searchAnalyticsHelper.trackDismissed()
-    }
 }
 
 extension SearchResultsViewController: SearchResultsDelegate {

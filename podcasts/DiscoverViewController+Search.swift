@@ -75,6 +75,8 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
             searchView.removeFromSuperview()
             self.resultsControllerDelegate.clearSearch()
         }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.discover])
     }
 
     func searchWasCleared() {
