@@ -39,16 +39,26 @@ class SearchResultsModel: ObservableObject {
 
         Task {
             isSearchingForPodcasts = true
-            let results = try? await podcastSearch.search(term: term)
+            do {
+                let results = try await podcastSearch.search(term: term)
+                show(podcastResults: results)
+            } catch {
+                analyticsHelper.trackFailed()
+            }
+
             isSearchingForPodcasts = false
-            show(podcastResults: results ?? [])
         }
 
         Task {
             isSearchingForEpisodes = true
-            let results = try? await episodeSearch.search(term: term)
+            do {
+                let results = try await episodeSearch.search(term: term)
+                episodes = results
+            } catch {
+                analyticsHelper.trackFailed()
+            }
+
             isSearchingForEpisodes = false
-            episodes = results ?? []
         }
 
         analyticsHelper.trackSearchPerformed()
