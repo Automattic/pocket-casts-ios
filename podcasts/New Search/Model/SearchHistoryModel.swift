@@ -16,12 +16,9 @@ class SearchHistoryModel: ObservableObject {
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
 
-        if let entriesData = defaults.object(forKey: "SearchHistoryEntries") as? Data {
-            let decoder = JSONDecoder()
-            if let entries = try? decoder.decode([SearchHistoryEntry].self, from: entriesData) {
-                self.entries = entries
-            }
-        }
+        self.entries = userDefaults.data(forKey: "SearchHistoryEntries").flatMap {
+            try? JSONDecoder().decode([SearchHistoryEntry].self, from: $0)
+        } ?? []
     }
 
     func add(searchTerm: String) {
@@ -59,7 +56,7 @@ class SearchHistoryModel: ObservableObject {
         entries = Array(entries.prefix(maxNumberOfEntries))
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(entries) {
-            defaults.set(encoded, forKey: "SearchHistoryEntries")
+            defaults.set(encoded, forKey: Constants.UserDefaults.searchHistoryEntried)
         }
     }
 }
