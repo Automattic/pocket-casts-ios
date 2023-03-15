@@ -60,7 +60,7 @@ class SearchAnalyticsHelper: ObservableObject {
 
 private extension SearchHistoryEntry {
     var type: String {
-        if podcast?.isFolder == true {
+        if podcast?.kind == .folder {
             return "folder"
         } else if podcast != nil {
             return "podcast"
@@ -74,7 +74,7 @@ private extension SearchHistoryEntry {
 
 private extension PodcastFolderSearchResult {
     var type: String {
-        if isFolder == true {
+        if kind == .folder {
             return "folder"
         } else if isLocal == true {
             return "podcast_local_result"
