@@ -4,10 +4,8 @@ import PocketCastsDataModel
 
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
-
-    @ObservedObject var searchResults: SearchResultsModel
-
-    var searchHistory: SearchHistoryModel?
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     @State private var tabSelection = 0
 
@@ -29,7 +27,7 @@ struct PodcastsCarouselView: View {
                             ScrollView(.horizontal) {
                                 LazyHStack(spacing: 0) {
                                     ForEach(searchResults.podcasts, id: \.self) { podcast in
-                                            PodcastResultCell(result: podcast, searchHistory: searchHistory)
+                                            PodcastResultCell(result: podcast)
                                             .padding(10)
                                             .frame(width: UIScreen.main.bounds.width / 4)
                                     }
@@ -46,10 +44,10 @@ struct PodcastsCarouselView: View {
                                     ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
                                         GeometryReader { geometry in
                                             HStack(spacing: 10) {
-                                                PodcastResultCell(result: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
+                                                PodcastResultCell(result: searchResults.podcasts[(i * 2)])
 
                                                 if let result = searchResults.podcasts[safe: (i * 2) + 1] {
-                                                    PodcastResultCell(result: result, searchHistory: searchHistory)
+                                                    PodcastResultCell(result: result)
                                                 } else {
                                                     Rectangle()
                                                         .opacity(0)
@@ -80,9 +78,6 @@ struct PodcastsCarouselView: View {
             ThemedDivider()
                 .padding(.leading, 16)
         }
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .listRowSeparator(.hidden)
-        .listSectionSeparator(.hidden)
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }
@@ -90,16 +85,16 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     let result: PodcastFolderSearchResult
-    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
                     result.navigateTo()
-                    searchHistory?.add(podcast: result)
+                    searchHistory.add(podcast: result)
                     searchAnalyticsHelper.trackResultTapped(result)
                 }) {
                     switch result.kind {
@@ -119,7 +114,7 @@ struct PodcastResultCell: View {
 
             Button(action: {
                 result.navigateTo()
-                searchHistory?.add(podcast: result)
+                searchHistory.add(podcast: result)
                 searchAnalyticsHelper.trackResultTapped(result)
             }) {
                 VStack(alignment: .leading, spacing: 2) {

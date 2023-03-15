@@ -17,7 +17,7 @@ struct SearchResultsView: View {
         VStack(spacing: 0) {
             ThemedDivider()
 
-            NavigationLink(destination: SearchResultsListView(searchResults: searchResults, searchHistory: searchHistory, displayMode: displayMode).setupDefaultEnvironment().environmentObject(searchAnalyticsHelper), isActive: $showInlineResults) { EmptyView() }
+            NavigationLink(destination: SearchResultsListView(displayMode: displayMode).setupDefaultEnvironment().environmentObject(searchAnalyticsHelper).environmentObject(searchResults).environmentObject(searchHistory), isActive: $showInlineResults) { EmptyView() }
 
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -26,7 +26,7 @@ struct SearchResultsView: View {
                         showInlineResults = true
                     }
 
-                    PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
+                    PodcastsCarouselView()
 
                     // If local results are being shown, we hide the episodes header
                     if !searchResults.isShowingLocalResultsOnly {
@@ -48,7 +48,7 @@ struct SearchResultsView: View {
                     } else if searchResults.episodes.count > 0 {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
 
-                            SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
+                            SearchResultCell(episode: episode, podcast: nil)
                         }
                     } else if !searchResults.isShowingLocalResultsOnly {
                         VStack(spacing: 2) {

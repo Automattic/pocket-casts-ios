@@ -13,10 +13,8 @@ struct SearchResultsListView: View {
 
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
-
-    @ObservedObject var searchResults: SearchResultsModel
-
-    let searchHistory: SearchHistoryModel?
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     var displayMode: DisplayMode
 
@@ -30,13 +28,13 @@ struct SearchResultsListView: View {
                         case .podcasts:
                             ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                                SearchResultCell(episode: nil, podcast: podcast, searchHistory: searchHistory)
+                                SearchResultCell(episode: nil, podcast: podcast)
                             }
 
                         case .episodes:
                             ForEach(searchResults.episodes, id: \.self) { episode in
 
-                                SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
+                                SearchResultCell(episode: episode, podcast: nil)
                             }
                         }
                     }
@@ -54,6 +52,6 @@ struct SearchResultsListView: View {
 
 struct PodcastResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsListView(searchResults: SearchResultsModel(), searchHistory: nil, displayMode: .podcasts)
+        SearchResultsListView(displayMode: .podcasts)
     }
 }

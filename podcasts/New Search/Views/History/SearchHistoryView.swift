@@ -31,7 +31,7 @@ struct SearchHistoryView: View {
                         }
 
                         ForEach(searchHistory.entries, id: \.self) { entry in
-                            SearchHistoryCell(entry: entry, searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
+                            SearchHistoryCell(entry: entry)
                         }
                     }
                 }
