@@ -14,11 +14,12 @@ extension SearchResultsDelegate {
 }
 
 class SearchResultsViewController: UIHostingController<AnyView> {
-    private var displaySearch: SearchVisibilityModel = SearchVisibilityModel()
-    private var searchResults = SearchResultsModel()
+    private let displaySearch: SearchVisibilityModel = SearchVisibilityModel()
+    private let searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
+    private let searchResults: SearchResultsModel = SearchResultsModel()
 
     init() {
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults).setupDefaultEnvironment()))
+        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults, searchHistory: searchHistoryModel).setupDefaultEnvironment()))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -45,6 +46,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
         searchResults.search(term: searchTerm)
+        searchHistoryModel.add(searchTerm: searchTerm)
         completion()
     }
 }

@@ -7,6 +7,8 @@ struct SearchResultsView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    let searchHistory: SearchHistoryModel
+
     @State var identifier = 0
 
     var body: some View {
@@ -17,7 +19,7 @@ struct SearchResultsView: View {
                 ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
 
                 Section {
-                    PodcastsCarouselView(searchResults: searchResults)
+                    PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
                 ThemeableListHeader(title: L10n.episodes, actionTitle: nil)
@@ -34,9 +36,9 @@ struct SearchResultsView: View {
                     }
                 } else if searchResults.episodes.count > 0 {
                     Section {
-                        ForEach(0..<searchResults.episodes.count, id: \.self) { index in
+                        ForEach(searchResults.episodes, id: \.self) { episode in
 
-                            SearchEpisodeCell(episode: searchResults.episodes[index])
+                            SearchEpisodeCell(episode: episode, searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)
@@ -66,7 +68,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(searchResults: SearchResultsModel())
+        SearchResultsView(searchResults: SearchResultsModel(), searchHistory: SearchHistoryModel())
             .previewWithAllThemes()
     }
 }

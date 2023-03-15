@@ -7,6 +7,8 @@ struct PodcastsCarouselView: View {
 
     @ObservedObject var searchResults: SearchResultsModel
 
+    var searchHistory: SearchHistoryModel?
+
     @State private var tabSelection = 0
 
     var body: some View {
@@ -28,9 +30,9 @@ struct PodcastsCarouselView: View {
                                 ForEach(0..<(searchResults.podcasts.count/2), id: \.self) { i in
                                     GeometryReader { geometry in
                                         HStack(spacing: 10) {
-                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2)])
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
 
-                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1])
+                                            PodcastResultCell(podcast: searchResults.podcasts[(i * 2) + 1], searchHistory: searchHistory)
                                         }
                                     }
                                 }
@@ -67,12 +69,14 @@ struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
     let podcast: PodcastSearchResult
+    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                    searchHistory?.add(podcast: podcast)
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
@@ -81,6 +85,7 @@ struct PodcastResultCell: View {
 
             Button(action: {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                searchHistory?.add(podcast: podcast)
             }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(podcast.title)

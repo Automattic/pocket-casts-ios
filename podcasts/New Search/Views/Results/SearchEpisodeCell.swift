@@ -6,12 +6,14 @@ import PocketCastsUtils
 struct SearchEpisodeCell: View {
     @EnvironmentObject var theme: Theme
 
-    var episode: EpisodeSearchResult
+    let episode: EpisodeSearchResult
+    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         ZStack {
             Button(action: {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+                searchHistory?.add(episode: episode)
             }) {
                 Rectangle()
                     .foregroundColor(.clear)

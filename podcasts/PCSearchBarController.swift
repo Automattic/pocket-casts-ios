@@ -56,10 +56,19 @@ class PCSearchBarController: UIViewController {
 
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
     }
 
     @objc private func themeDidChange() {
         updateColors()
+    }
+
+    @objc private func searchRequest(notification: Notification) {
+        if let searchTerm = notification.object as? String {
+            searchTextField.text = searchTerm
+            clearSearchBtn.isHidden = false
+            view.endEditing(true)
+        }
     }
 
     private func updateColors() {
