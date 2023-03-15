@@ -14,10 +14,10 @@ struct SearchHistoryCell: View {
         if let episode = entry.episode {
             return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
         } else if let podcast = entry.podcast {
-            if podcast.kind == .folder {
+            switch podcast.kind {
+            case .folder:
                 return L10n.folder
-            }
-            else {
+            case .podcast:
                 return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
             }
         }
