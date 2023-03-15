@@ -39,6 +39,12 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchAnalyticsHelper.trackShown()
+        UIScrollView.appearance().keyboardDismissMode = .onDrag
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIScrollView.appearance().keyboardDismissMode = .none
     }
 }
 
