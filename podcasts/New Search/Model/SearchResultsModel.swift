@@ -16,15 +16,9 @@ class SearchResultsModel: ObservableObject {
 
     @Published var isShowingLocalResultsOnly = false
 
-    init(analyticsHelper: SearchAnalyticsHelper) {
+    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
     }
-
-    #if DEBUG
-    init() {
-        self.analyticsHelper = SearchAnalyticsHelper(source: .discover)
-    }
-    #endif
 
     func clearSearch() {
         podcasts = []
