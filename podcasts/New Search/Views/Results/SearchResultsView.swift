@@ -11,18 +11,29 @@ struct SearchResultsView: View {
 
     @State var identifier = 0
 
+    @State var showInlineResults = false
+    @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
+
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
 
+            NavigationLink(destination: SearchResultsListView(searchResults: searchResults, searchHistory: searchHistory, displayMode: displayMode).setupDefaultEnvironment(), isActive: $showInlineResults) { EmptyView() }
+
             List {
-                ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll)
+                ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
+                    displayMode = .podcasts
+                    showInlineResults = true
+                }
 
                 Section {
                     PodcastsCarouselView(searchResults: searchResults, searchHistory: searchHistory)
                 }
 
-                ThemeableListHeader(title: L10n.episodes, actionTitle: nil)
+                ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
+                    displayMode = .episodes
+                    showInlineResults = true
+                }
 
                 if searchResults.isSearchingForEpisodes {
                     ProgressView()
@@ -36,9 +47,9 @@ struct SearchResultsView: View {
                     }
                 } else if searchResults.episodes.count > 0 {
                     Section {
-                        ForEach(searchResults.episodes, id: \.self) { episode in
+                        ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
 
-                            SearchEpisodeCell(episode: episode, searchHistory: searchHistory)
+                            SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowSeparator(.hidden)
                             .listSectionSeparator(.hidden)
@@ -63,6 +74,10 @@ struct SearchResultsView: View {
             .listStyle(.plain)
         }
         .applyDefaultThemeOptions()
+    }
+
+    enum Constants {
+        static let maxNumberOfEpisodes = 20
     }
 }
 

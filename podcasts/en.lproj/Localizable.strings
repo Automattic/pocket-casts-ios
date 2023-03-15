@@ -703,6 +703,12 @@
 /* Title used for promotional purposes to highlight trending podcasts. */
 "discover_trending" = "Trending";
 
+/* Title used when displaying all podcasts from a search. */
+"discover_all_podcasts" = "All Podcasts";
+
+/* Title used when displaying all episodes from a search. */
+"discover_all_episodes" = "All Episodes";
+
 /* A common string used throughout the app. Confirmation text. */
 "done" = "Done";
 

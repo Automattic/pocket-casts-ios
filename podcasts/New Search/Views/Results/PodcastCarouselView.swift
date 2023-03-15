@@ -80,7 +80,7 @@ struct PodcastResultCell: View {
                 }) {
                     PodcastCover(podcastUuid: podcast.uuid)
                 }
-                SubscribeButtonView(podcastUuid: podcast.uuid)
+                RoundedSubscribeButtonView(podcastUuid: podcast.uuid)
             }
 
             Button(action: {
