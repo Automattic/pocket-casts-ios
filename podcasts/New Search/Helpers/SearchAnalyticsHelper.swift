@@ -22,17 +22,8 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchFailed, properties: ["source": source])
     }
 
-    func trackResultTapped(_ searchResult: Any) {
-        var type = "unknown"
-        var uuid = ""
-        if let folderOrPodcast = searchResult as? PodcastFolderSearchResult {
-            type = folderOrPodcast.type
-            uuid = folderOrPodcast.uuid
-        } else if let episode = searchResult as? EpisodeSearchResult {
-            type = "episode"
-            uuid = episode.uuid
-        }
-        Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": uuid, "result_type": type])
+    func trackResultTapped(_ searchResult: AnalyticsSearchResultItem) {
+        Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": searchResult.uuid, "result_type": searchResult])
     }
 
     // MARK: - Search History
@@ -74,6 +65,28 @@ private extension SearchHistoryEntry {
 
 private extension PodcastFolderSearchResult {
     var type: String {
+        if kind == .folder {
+            return "folder"
+        } else if isLocal == true {
+            return "podcast_local_result"
+        } else {
+            return "podcast_remote_result"
+        }
+    }
+}
+
+protocol AnalyticsSearchResultItem: AnalyticsDescribable {
+    var uuid: String { get }
+}
+
+extension EpisodeSearchResult: AnalyticsSearchResultItem {
+    var analyticsDescription: String {
+        "episode"
+    }
+}
+
+extension PodcastFolderSearchResult: AnalyticsSearchResultItem {
+    var analyticsDescription: String {
         if kind == .folder {
             return "folder"
         } else if isLocal == true {
