@@ -66,6 +66,8 @@ class SearchResultsModel: ObservableObject {
 
     @MainActor
     func searchLocally(term searchTerm: String) {
+        clearSearch()
+
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
 
         var results = [PodcastFolderSearchResult?]()

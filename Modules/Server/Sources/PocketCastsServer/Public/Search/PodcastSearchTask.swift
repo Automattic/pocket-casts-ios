@@ -5,8 +5,17 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public let uuid: String
     public let title: String
     public let author: String
-    public let isFolder: Bool?
+    public let kind: Kind
     public var isLocal: Bool?
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.uuid = try container.decode(String.self, forKey: .uuid)
+        self.title = try container.decode(String.self, forKey: .title)
+        self.author = try container.decode(String.self, forKey: .author)
+        self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
+        self.isLocal = try container.decode(Bool.self, forKey: .isLocal)
+    }
 
     public init?(from podcast: Podcast) {
         if let title = podcast.title, let author = podcast.author {
@@ -14,7 +23,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
             self.title = title
             self.author = author
             self.isLocal = true
-            self.isFolder = nil
+            self.kind = .podcast
         } else {
             return nil
         }
@@ -24,8 +33,12 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.uuid = folder.uuid
         self.title = folder.name
         self.author = ""
-        self.isFolder = true
         self.isLocal = true
+        self.kind = .folder
+    }
+
+    public enum Kind: Codable {
+        case podcast, folder
     }
 }
 
