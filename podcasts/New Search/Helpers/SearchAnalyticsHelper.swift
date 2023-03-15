@@ -32,46 +32,18 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchHistoryCleared, properties: ["source": source])
     }
 
-    func historyItemTapped(_ entry: SearchHistoryEntry) {
-        let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
-        Analytics.track(.searchHistoryItemTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
+    func historyItemTapped(_ entry: AnalyticsSearchResultItem) {
+        Analytics.track(.searchHistoryItemTapped, properties: ["source": source, "uuid": entry.uuid, "type": entry])
     }
 
-    func historyItemDeleted(_ entry: SearchHistoryEntry) {
-        let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
-        Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
+    func historyItemDeleted(_ entry: AnalyticsSearchResultItem) {
+        Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": entry.uuid, "type": entry])
     }
 
     // MARK: - Search list results
 
     func trackListShown(_ displaying: SearchResultsListView.DisplayMode) {
         Analytics.track(.searchListShown, properties: ["source": source, "displaying": displaying])
-    }
-}
-
-private extension SearchHistoryEntry {
-    var type: String {
-        if podcast?.kind == .folder {
-            return "folder"
-        } else if podcast != nil {
-            return "podcast"
-        } else if episode != nil {
-            return "episode"
-        } else {
-            return "search_term"
-        }
-    }
-}
-
-private extension PodcastFolderSearchResult {
-    var type: String {
-        if kind == .folder {
-            return "folder"
-        } else if isLocal == true {
-            return "podcast_local_result"
-        } else {
-            return "podcast_remote_result"
-        }
     }
 }
 
@@ -94,5 +66,15 @@ extension PodcastFolderSearchResult: AnalyticsSearchResultItem {
         } else {
             return "podcast_remote_result"
         }
+    }
+}
+
+extension SearchHistoryEntry: AnalyticsSearchResultItem {
+    var uuid: String {
+        podcast?.uuid ?? episode?.uuid ?? ""
+    }
+
+    var analyticsDescription: String {
+        podcast?.analyticsDescription ?? episode?.analyticsDescription ?? "search_term"
     }
 }
