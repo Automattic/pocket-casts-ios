@@ -4,7 +4,7 @@ import PocketCastsServer
 struct SearchHistoryEntry: Codable, Hashable {
     var searchTerm: String?
     var episode: EpisodeSearchResult?
-    var podcast: PodcastSearchResult?
+    var podcast: PodcastFolderSearchResult?
 }
 
 class SearchHistoryModel: ObservableObject {
@@ -29,7 +29,7 @@ class SearchHistoryModel: ObservableObject {
         add(entry: SearchHistoryEntry(episode: episode))
     }
 
-    func add(podcast: PodcastSearchResult) {
+    func add(podcast: PodcastFolderSearchResult) {
         add(entry: SearchHistoryEntry(podcast: podcast))
     }
 

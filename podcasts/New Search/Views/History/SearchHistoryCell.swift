@@ -14,7 +14,12 @@ struct SearchHistoryCell: View {
         if let episode = entry.episode {
             return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
         } else if let podcast = entry.podcast {
-            return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
+            switch podcast.kind {
+            case .folder:
+                return L10n.folder
+            case .podcast:
+                return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
+            }
         }
 
         return ""
@@ -26,7 +31,7 @@ struct SearchHistoryCell: View {
                 if let episode = entry.episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
                 } else if let podcast = entry.podcast {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+                    podcast.navigateTo()
                 } else if let searchTerm = entry.searchTerm {
                     displaySearch.isSearching = true
                     searchResults.search(term: searchTerm)
@@ -43,10 +48,19 @@ struct SearchHistoryCell: View {
                 HStack(spacing: 0) {
                     if let title = entry.podcast?.title ?? entry.episode?.title,
                         let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
-                        PodcastCover(podcastUuid: uuid)
-                            .frame(width: 48, height: 48)
-                            .allowsHitTesting(false)
-                            .padding(.trailing, 12)
+                        if entry.podcast?.kind == .folder {
+                            SearchFolderPreviewWrapper(uuid: uuid)
+                                .modifier(NormalCoverShadow())
+                                .frame(width: 48, height: 48)
+                                .allowsHitTesting(false)
+                                .padding(.trailing, 12)
+                        } else {
+                            PodcastCover(podcastUuid: uuid)
+                                .frame(width: 48, height: 48)
+                                .allowsHitTesting(false)
+                                .padding(.trailing, 12)
+                        }
+
                         VStack(alignment: .leading, spacing: 2) {
                             Text(title)
                                 .font(style: .subheadline, weight: .medium)

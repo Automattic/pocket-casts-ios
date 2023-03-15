@@ -161,7 +161,7 @@ public struct PodcastInfo: Codable {
 
     public init() {}
 
-    public init(from searchResult: PodcastSearchResult) {
+    public init(from searchResult: PodcastFolderSearchResult) {
         author = searchResult.author
         title = searchResult.title
         uuid = searchResult.uuid

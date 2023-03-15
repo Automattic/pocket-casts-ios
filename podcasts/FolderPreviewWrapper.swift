@@ -19,3 +19,19 @@ struct FolderPreviewWrapper: UIViewRepresentable {
         }
     }
 }
+
+struct SearchFolderPreviewWrapper: UIViewRepresentable {
+    @State var uuid: String
+
+    func makeUIView(context: Context) -> FolderPreviewView {
+        FolderPreviewView()
+    }
+
+    func updateUIView(_ folderView: FolderPreviewView, context: Context) {
+        folderView.showFolderName = false
+
+        if let folder = DataManager.sharedManager.findFolder(uuid: uuid) {
+            folderView.populateFrom(folder: folder)
+        }
+    }
+}
