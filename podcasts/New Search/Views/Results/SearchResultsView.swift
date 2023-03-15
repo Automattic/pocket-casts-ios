@@ -41,8 +41,7 @@ struct SearchResultsView: View {
                     if searchResults.isSearchingForEpisodes {
                         ProgressView()
                         .frame(maxWidth: .infinity)
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
+                        .tint(AppTheme.loadingActivityColor().color)
                         // Force the list to re-render the ProgressView by changing it's id
                         .id(identifier)
                         .onAppear {
@@ -52,9 +51,6 @@ struct SearchResultsView: View {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
 
                             SearchResultCell(episode: episode, podcast: nil, searchHistory: searchHistory)
-                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .listRowSeparator(.hidden)
-                            .listSectionSeparator(.hidden)
                         }
                     } else if !searchResults.isShowingLocalResultsOnly {
                         VStack(spacing: 2) {
@@ -68,12 +64,11 @@ struct SearchResultsView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.all, 10)
-                        .listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
                     }
                 }
             }
         }
+        .background(AppTheme.color(for: .primaryUi02, theme: theme))
         .applyDefaultThemeOptions()
     }
 

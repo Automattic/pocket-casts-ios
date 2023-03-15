@@ -18,6 +18,7 @@ struct PodcastsCarouselView: View {
                     if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
                         ZStack(alignment: .center) {
                             ProgressView()
+                                .tint(AppTheme.loadingActivityColor().color)
                         }
                     } else if searchResults.podcasts.count > 0 {
                         ZStack {
