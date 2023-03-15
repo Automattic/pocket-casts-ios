@@ -24,7 +24,9 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         searchResultsControler = PodcastListSearchResultsController()
 
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
         view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
         NSLayoutConstraint.activate([
@@ -125,7 +127,11 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             searchView.alpha = 0
         }) { _ in
             searchView.removeFromSuperview()
-            self.searchResultsControler.clearSearch()
+            if FeatureFlag.newSearch.enabled {
+                self.newSearchResultsController.clearSearch()
+            } else {
+                self.searchResultsControler.clearSearch()
+            }
         }
     }
 

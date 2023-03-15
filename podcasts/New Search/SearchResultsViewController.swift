@@ -30,16 +30,17 @@ class SearchResultsViewController: UIHostingController<AnyView> {
 extension SearchResultsViewController: SearchResultsDelegate {
     func clearSearch() {
         displaySearch.isSearching = false
+        searchResults.clearSearch()
     }
 
     func performLocalSearch(searchTerm: String) {
-        displaySearch.isSearching = true
         print("local search: \(searchTerm)")
     }
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
-        print("remote search: \(searchTerm)")
+        searchResults.search(term: searchTerm)
+        searchHistoryModel.add(searchTerm: searchTerm)
         completion()
     }
 

@@ -51,6 +51,8 @@ class PCSearchBarController: UIViewController {
 
     weak var searchDelegate: PCSearchBarDelegate?
 
+    private var isVisible = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,12 +61,22 @@ class PCSearchBarController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isVisible = false
+    }
+
     @objc private func themeDidChange() {
         updateColors()
     }
 
     @objc private func searchRequest(notification: Notification) {
-        if let searchTerm = notification.object as? String {
+        if isVisible, let searchTerm = notification.object as? String {
             searchTextField.text = searchTerm
             clearSearchBtn.isHidden = false
             view.endEditing(true)
