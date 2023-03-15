@@ -43,7 +43,7 @@ class PCSearchBarController: UIViewController {
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
-    var placeholderText = L10n.search
+    var placeholderText = L10n.searchLabel
 
     var backgroundColorOverride: UIColor?
 
