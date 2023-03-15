@@ -9,13 +9,24 @@ struct SearchView: View {
 
     @ObservedObject var displaySearch: SearchVisibilityModel
 
+    @State var isMiniPlayerVisible: Bool = false
+
     let searchResults: SearchResultsModel
     let searchHistory: SearchHistoryModel
 
     var body: some View {
         searchView
-        .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
+        .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
+        .onAppear {
+            isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in
+            isMiniPlayerVisible = true
+        })
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear), perform: { _ in
+            isMiniPlayerVisible = false
+        })
     }
 
     @ViewBuilder
