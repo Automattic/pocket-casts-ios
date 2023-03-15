@@ -6,13 +6,11 @@ class SearchVisibilityModel: ObservableObject {
 
 struct SearchView: View {
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
-
-    @ObservedObject var displaySearch: SearchVisibilityModel
+    @EnvironmentObject var displaySearch: SearchVisibilityModel
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     @State var isMiniPlayerVisible: Bool = false
-
-    let searchResults: SearchResultsModel
-    let searchHistory: SearchHistoryModel
 
     var body: some View {
         searchView
@@ -32,16 +30,15 @@ struct SearchView: View {
     @ViewBuilder
     private var searchView: some View {
         if displaySearch.isSearching {
-            SearchResultsView(searchResults: searchResults, searchHistory: searchHistory)
+            SearchResultsView()
         } else {
-            SearchHistoryView(searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
+            SearchHistoryView()
         }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel(),
-                   searchHistory: SearchHistoryModel())
+        SearchView()
     }
 }

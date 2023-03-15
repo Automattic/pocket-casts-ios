@@ -5,10 +5,8 @@ import PocketCastsUtils
 struct SearchResultsView: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
-
-    @ObservedObject var searchResults: SearchResultsModel
-
-    let searchHistory: SearchHistoryModel
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     @State var identifier = 0
 
@@ -79,7 +77,7 @@ struct SearchResultsView: View {
 
 struct SearchResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultsView(searchResults: SearchResultsModel(), searchHistory: SearchHistoryModel())
+        SearchResultsView()
             .previewWithAllThemes()
     }
 }
