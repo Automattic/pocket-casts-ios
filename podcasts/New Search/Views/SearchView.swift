@@ -10,21 +10,10 @@ struct SearchView: View {
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    @State var isMiniPlayerVisible: Bool = false
-
     var body: some View {
         searchView
-        .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
-        .onAppear {
-            isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in
-            isMiniPlayerVisible = true
-        })
-        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear), perform: { _ in
-            isMiniPlayerVisible = false
-        })
+        .modifier(MiniPlayerPadding())
     }
 
     @ViewBuilder
@@ -40,5 +29,23 @@ struct SearchView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView()
+    }
+}
+
+/// Apply a bottom padding whenever the mini player is visible
+struct MiniPlayerPadding: ViewModifier {
+    @State var isMiniPlayerVisible: Bool = false
+
+    func body(content: Content) -> some View {
+        content
+            .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0).onAppear {
+                isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in
+                isMiniPlayerVisible = true
+            })
+            .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear), perform: { _ in
+                isMiniPlayerVisible = false
+            })
     }
 }
