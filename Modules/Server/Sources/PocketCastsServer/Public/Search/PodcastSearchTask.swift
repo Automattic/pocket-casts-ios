@@ -14,7 +14,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.title = try container.decode(String.self, forKey: .title)
         self.author = try container.decode(String.self, forKey: .author)
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
-        self.isLocal = try container.decode(Bool.self, forKey: .isLocal)
+        self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
     }
 
     public init?(from podcast: Podcast) {
