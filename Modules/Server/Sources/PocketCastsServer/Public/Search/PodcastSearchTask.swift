@@ -12,7 +12,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.uuid = try container.decode(String.self, forKey: .uuid)
         self.title = try container.decode(String.self, forKey: .title)
         self.author = try container.decode(String.self, forKey: .author)
-        self.kind = .podcast
+        self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
     }
 
     public init?(from podcast: Podcast) {
