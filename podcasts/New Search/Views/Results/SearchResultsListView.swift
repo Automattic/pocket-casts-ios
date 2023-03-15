@@ -42,11 +42,12 @@ struct SearchResultsListView: View {
             }
             .navigationBarTitle(Text(displayMode == .podcasts ? L10n.discoverAllPodcasts : L10n.discoverAllEpisodes))
         }
-        .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
         .onAppear {
             searchAnalyticsHelper.trackListShown(displayMode)
         }
+        .modifier(MiniPlayerPadding())
+        .applyDefaultThemeOptions()
     }
 }
 

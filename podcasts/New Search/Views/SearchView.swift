@@ -14,6 +14,7 @@ struct SearchView: View {
         searchView
         .ignoresSafeArea(.keyboard)
         .modifier(MiniPlayerPadding())
+        .applyDefaultThemeOptions()
     }
 
     @ViewBuilder
@@ -38,7 +39,7 @@ struct MiniPlayerPadding: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0).onAppear {
+            .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset - 2 : 0).onAppear {
                 isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
             }
             .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in
