@@ -85,16 +85,17 @@ struct PodcastResultCell: View {
                     searchHistory?.add(podcast: result)
                     searchAnalyticsHelper.trackResultTapped(result)
                 }) {
-                    if result.isFolder == true {
+                    switch result.kind {
+                    case .folder:
                         SearchFolderPreviewWrapper(uuid: result.uuid)
                             .aspectRatio(1, contentMode: .fit)
                             .modifier(NormalCoverShadow())
-                    } else {
+                    case .podcast:
                         PodcastCover(podcastUuid: result.uuid)
                             .aspectRatio(1, contentMode: .fit)
                     }
                 }
-                if !(result.isFolder == true) {
+                if result.kind == .podcast {
                     RoundedSubscribeButtonView(podcastUuid: result.uuid)
                 }
             }
@@ -120,9 +121,10 @@ struct PodcastResultCell: View {
 
 extension PodcastFolderSearchResult {
     func navigateTo() {
-        if isFolder == true {
+        switch kind {
+        case .folder:
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: DataManager.sharedManager.findFolder(uuid: uuid) as Any])
-        } else {
+        case .podcast:
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: self])
         }
     }

@@ -22,17 +22,8 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchFailed, properties: ["source": source])
     }
 
-    func trackResultTapped(_ searchResult: Any) {
-        var type = "unknown"
-        var uuid = ""
-        if let folderOrPodcast = searchResult as? PodcastFolderSearchResult {
-            type = folderOrPodcast.type
-            uuid = folderOrPodcast.uuid
-        } else if let episode = searchResult as? EpisodeSearchResult {
-            type = "episode"
-            uuid = episode.uuid
-        }
-        Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": uuid, "result_type": type])
+    func trackResultTapped(_ searchResult: AnalyticsSearchResultItem) {
+        Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": searchResult.uuid, "result_type": searchResult])
     }
 
     // MARK: - Search History
@@ -41,14 +32,12 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchHistoryCleared, properties: ["source": source])
     }
 
-    func historyItemTapped(_ entry: SearchHistoryEntry) {
-        let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
-        Analytics.track(.searchHistoryItemTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
+    func historyItemTapped(_ entry: AnalyticsSearchResultItem) {
+        Analytics.track(.searchHistoryItemTapped, properties: ["source": source, "uuid": entry.uuid, "type": entry])
     }
 
-    func historyItemDeleted(_ entry: SearchHistoryEntry) {
-        let uuid = entry.podcast?.uuid ?? entry.episode?.uuid ?? ""
-        Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": uuid, "type": entry.type])
+    func historyItemDeleted(_ entry: AnalyticsSearchResultItem) {
+        Analytics.track(.searchHistoryItemDeleteButtonTapped, properties: ["source": source, "uuid": entry.uuid, "type": entry])
     }
 
     // MARK: - Search list results
@@ -58,28 +47,34 @@ class SearchAnalyticsHelper: ObservableObject {
     }
 }
 
-private extension SearchHistoryEntry {
-    var type: String {
-        if podcast?.isFolder == true {
-            return "folder"
-        } else if podcast != nil {
-            return "podcast"
-        } else if episode != nil {
-            return "episode"
-        } else {
-            return "search_term"
-        }
+protocol AnalyticsSearchResultItem: AnalyticsDescribable {
+    var uuid: String { get }
+}
+
+extension EpisodeSearchResult: AnalyticsSearchResultItem {
+    var analyticsDescription: String {
+        "episode"
     }
 }
 
-private extension PodcastFolderSearchResult {
-    var type: String {
-        if isFolder == true {
+extension PodcastFolderSearchResult: AnalyticsSearchResultItem {
+    var analyticsDescription: String {
+        if kind == .folder {
             return "folder"
         } else if isLocal == true {
             return "podcast_local_result"
         } else {
             return "podcast_remote_result"
         }
+    }
+}
+
+extension SearchHistoryEntry: AnalyticsSearchResultItem {
+    var uuid: String {
+        podcast?.uuid ?? episode?.uuid ?? ""
+    }
+
+    var analyticsDescription: String {
+        podcast?.analyticsDescription ?? episode?.analyticsDescription ?? "search_term"
     }
 }
