@@ -11,6 +11,10 @@ struct PodcastsCarouselView: View {
 
     @State private var tabSelection = 0
 
+    private var height: CGFloat? {
+        UIDevice.current.isiPad() ? nil : UIScreen.main.bounds.height * 0.3
+    }
+
     var body: some View {
         ScrollView {
             LazyHStack {
@@ -21,28 +25,40 @@ struct PodcastsCarouselView: View {
                                 .tint(AppTheme.loadingActivityColor().color)
                         }
                     } else if searchResults.podcasts.count > 0 {
-                        ZStack {
-                            Action {
-                                // Always reset the carousel when performing a new search
-                                tabSelection = 0
+                        if UIDevice.current.isiPad() {
+                            ScrollView(.horizontal) {
+                                LazyHStack(spacing: 0) {
+                                    ForEach(searchResults.podcasts, id: \.self) { podcast in
+                                            PodcastResultCell(result: podcast, searchHistory: searchHistory)
+                                            .padding(10)
+                                            .frame(width: UIScreen.main.bounds.width / 4)
+                                    }
+                                }
                             }
+                        } else {
+                            ZStack {
+                                Action {
+                                    // Always reset the carousel when performing a new search
+                                    tabSelection = 0
+                                }
 
-                            TabView(selection: $tabSelection) {
-                                ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
-                                    GeometryReader { geometry in
-                                        HStack(spacing: 10) {
-                                            PodcastResultCell(result: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
+                                TabView(selection: $tabSelection) {
+                                    ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
+                                        GeometryReader { geometry in
+                                            HStack(spacing: 10) {
+                                                PodcastResultCell(result: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
 
-                                            if let result = searchResults.podcasts[safe: (i * 2) + 1] {
-                                                PodcastResultCell(result: result, searchHistory: searchHistory)
-                                            } else {
-                                                Rectangle()
-                                                    .opacity(0)
+                                                if let result = searchResults.podcasts[safe: (i * 2) + 1] {
+                                                    PodcastResultCell(result: result, searchHistory: searchHistory)
+                                                } else {
+                                                    Rectangle()
+                                                        .opacity(0)
+                                                }
                                             }
                                         }
                                     }
+                                    .padding(.all, 10)
                                 }
-                                .padding(.all, 10)
                             }
                         }
                     } else {
@@ -58,7 +74,7 @@ struct PodcastsCarouselView: View {
                         .padding(.all, 10)
                     }
                 }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
+                .frame(width: UIScreen.main.bounds.width, height: height)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
             ThemedDivider()
