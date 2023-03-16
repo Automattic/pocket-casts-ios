@@ -127,6 +127,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             searchView.alpha = 0
         }) { _ in
             searchView.removeFromSuperview()
+
             if FeatureFlag.newSearch.enabled {
                 self.newSearchResultsController.clearSearch()
             } else {

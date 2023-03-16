@@ -682,6 +682,8 @@ Folge dauerte
     <string>FOLGE %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>FLG. %1$@</string>
+    <key>episodes</key>
+    <string>Folgen</string>
     <key>error</key>
     <string>Fehler</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Tippe im Menü auf „Nach Pocket Casts kopieren“</string>
     <key>how_to_upload_summary</key>
     <string>Und schon bist du fertig. Ändere gewünschte Details, speichere deine Änderungen und schon kannst du die Datei abspielen!</string>
+    <key>import</key>
+    <string>Importieren</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Wir können deine Podcasts aus Apple Podcasts importieren, indem wir die integrierte App „Kurzbefehle“ verwenden.
 Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst du aufgefordert, sie erneut zu installieren.
@@ -998,6 +1002,8 @@ Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst 
 2. Tippe auf das Zahnrad-Icon in der oberen Ecke der App
 3. Wische nach unten zur Option „Export OPML“ (OPML exportieren) und tippe darauf
 4. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
+    <key>import_opml_from_url</key>
+    <string>Importiere deine Podcasts von einer OPML-Datei mithilfe einer URL</string>
     <key>import_podcasts_description</key>
     <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
@@ -1147,6 +1153,8 @@ Podcasts mit</string>
     <string>OPML-Import fehlgeschlagen</string>
     <key>opml_import_progress_format</key>
     <string>Importiere %1$@ von %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML-Import erfolgreich</string>
     <key>opml_importing</key>
     <string>Podcasts werden importiert …</string>
     <key>page_control_page_progress_format</key>
@@ -1669,6 +1677,8 @@ Gratis-Test für %1$@</string>
     <string>Suche</string>
     <key>search_podcasts</key>
     <string>Podcasts durchsuchen</string>
+    <key>search_recent</key>
+    <string>Aktuelle Suchen</string>
     <key>season</key>
     <string>Staffel</string>
     <key>season_episode_shorthand_format</key>

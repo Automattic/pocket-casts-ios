@@ -682,6 +682,8 @@ que você ouviu foi
     <string>EPISÓDIO %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episodes</key>
+    <string>Episódios</string>
     <key>error</key>
     <string>Erro</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
+    <key>import</key>
+    <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>É possível importar seus podcasts do Apple Podcasts usando o aplicativo Atalhos integrado.
 Observação: se você excluiu o aplicativo de atalhos, será solicitado que você o reinstale.
@@ -998,6 +1002,8 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 2. Toque no ícone de engrenagem na parte superior do aplicativo
 3. Deslize para baixo e toque em Export OPML
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
+    <key>import_opml_from_url</key>
+    <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
     <key>import_podcasts_description</key>
     <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
 
@@ -1147,6 +1153,8 @@ podcasts com você</string>
     <string>Falha na importação de OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importando %1$@ de %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importação de OPML bem-sucedida</string>
     <key>opml_importing</key>
     <string>Importando podcasts...</string>
     <key>page_control_page_progress_format</key>
@@ -1669,6 +1677,8 @@ teste gratuito de %1$@</string>
     <string>Pesquisar</string>
     <key>search_podcasts</key>
     <string>Pesquisar podcasts</string>
+    <key>search_recent</key>
+    <string>Pesquisas recentes</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>

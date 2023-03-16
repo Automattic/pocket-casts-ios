@@ -682,6 +682,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>第 %1$@ 集</string>
     <key>episode_shorthand_format_short</key>
     <string>第 %1$@ 集</string>
+    <key>episodes</key>
+    <string>節目內容</string>
     <key>error</key>
     <string>錯誤</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中點選「複製到 Pocket Casts」</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
+    <key>import</key>
+    <string>匯入</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>我們可以使用內建的「捷徑」應用程式，從 Apple Podcasts 匯入你的Podcast 節目。
 注意：如果你之前刪除了捷徑應用程式，系統會提示你重新安裝。
@@ -998,6 +1002,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
 2. 點選應用程式上角的小齒輪圖示
 3. 向下滑動，看見「匯出 OPML」選項時點選該選項
 4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_opml_from_url</key>
+    <string>使用 URL 從 OPML 檔案匯入你的 Podcast</string>
     <key>import_podcasts_description</key>
     <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
 
@@ -1147,6 +1153,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>OPML 匯入失敗</string>
     <key>opml_import_progress_format</key>
     <string>正在匯入 %1$@ 個 Podcast 節目，共 %2$@ 個</string>
+    <key>opml_import_succeeded_title</key>
+    <string>已成功匯入 OPML</string>
     <key>opml_importing</key>
     <string>正在匯入 Podcast 節目...</string>
     <key>page_control_page_progress_format</key>
@@ -1669,6 +1677,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>搜尋</string>
     <key>search_podcasts</key>
     <string>搜尋 Podcast</string>
+    <key>search_recent</key>
+    <string>最近搜尋的內容</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>

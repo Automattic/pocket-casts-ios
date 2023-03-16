@@ -682,6 +682,8 @@ waar je naar hebt geluisterd was
     <string>AFLEVERING %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>AFL. %1$@</string>
+    <key>episodes</key>
+    <string>Afleveringen</string>
     <key>error</key>
     <string>Fout</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>import</key>
+    <string>Importeren</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>We kunnen je podcasts importeren van Apple Podcasts met de geïntegreerde Shortcuts-app.
 Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnieuw te installeren.
@@ -998,6 +1002,8 @@ Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnie
 2. Tik op het tandwieltje in de bovenhoek van de app
 3. Veeg omlaag tot je OPML exporteren ziet en tik erop
 4. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
+    <key>import_opml_from_url</key>
+    <string>Importeer je podcasts vanuit een OPML-bestand met een URL</string>
     <key>import_podcasts_description</key>
     <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
@@ -1147,6 +1153,8 @@ podcasts mee</string>
     <string>OPML-import mislukt</string>
     <key>opml_import_progress_format</key>
     <string>%1$@ van %2$@ importeren</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importeren van OPML gelukt</string>
     <key>opml_importing</key>
     <string>Podcasts worden geïmporteerd...</string>
     <key>page_control_page_progress_format</key>
@@ -1669,6 +1677,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Zoeken</string>
     <key>search_podcasts</key>
     <string>Podcasts zoeken</string>
+    <key>search_recent</key>
+    <string>Recente zoekopdrachten</string>
     <key>season</key>
     <string>Seizoen</string>
     <key>season_episode_shorthand_format</key>

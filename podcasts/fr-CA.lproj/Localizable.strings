@@ -682,6 +682,8 @@ que vous avez écouté était
     <string>ÉPISODE %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>Épisode %1$@</string>
+    <key>episodes</key>
+    <string>Épisodes</string>
     <key>error</key>
     <string>Erreur</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts ».</string>
     <key>how_to_upload_summary</key>
     <string>Voilà! C’est fait. Changez les renseignements de votre choix, appuyez sur Enregistrer et écoutez des balados!</string>
+    <key>import</key>
+    <string>Importer</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Nous pouvons importer vos podcasts depuis Apple Podcasts grâce à l’application Raccourcis intégrée.
 Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une invitation pour la réinstaller.
@@ -998,6 +1002,8 @@ Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une
 2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
 3. Faites défiler l’écran jusqu’à « Export OPML » (Exportation OPML), puis appuyez dessus.
 4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
+    <key>import_opml_from_url</key>
+    <string>Importez vos podcasts à partir d’un fichier OPML en utilisant une URL.</string>
     <key>import_podcasts_description</key>
     <string>Vous pouvez importer vos abonnements à des balados dans Pocket Casts en utilisant le format OPML, largement répandu. Exportez le fichier d’une autre application et choisissez de l’ouvrir dans Pocket Casts.
 
@@ -1147,6 +1153,8 @@ podcasts partout avec</string>
     <string>Échec de l’importation du fichier OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importation %1$@ de %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importation OPML réussie</string>
     <key>opml_importing</key>
     <string>Importation des balados...</string>
     <key>page_control_page_progress_format</key>
@@ -1669,6 +1677,8 @@ essai gratuit de %1$@</string>
     <string>Rechercher</string>
     <key>search_podcasts</key>
     <string>Rechercher des balados</string>
+    <key>search_recent</key>
+    <string>Recherches récentes</string>
     <key>season</key>
     <string>Saison</string>
     <key>season_episode_shorthand_format</key>

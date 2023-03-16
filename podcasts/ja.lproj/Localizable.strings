@@ -682,6 +682,8 @@
     <string>エピソード%1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>エピソード%1$@</string>
+    <key>episodes</key>
+    <string>エピソード</string>
     <key>error</key>
     <string>エラー</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +953,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>import</key>
+    <string>インポート</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>内蔵のショートカットアプリを使用して Apple Podcasts からポッドキャストをインポートできます。
 注: 以前にショートカットアプリを削除した場合、再度インストールするようメッセージが表示されます。
@@ -998,6 +1002,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
 2. アプリの上隅にある歯車アイコンをタップします
 3.  「OPML をエクスポート」が表示されるまで下にスワイプしてタップします
 4. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
+    <key>import_opml_from_url</key>
+    <string>URL を使用して OPML ファイルからポッドキャストをインポートします</string>
     <key>import_podcasts_description</key>
     <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストのサブスクリプションを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
 
@@ -1147,6 +1153,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>OPML インポートに失敗</string>
     <key>opml_import_progress_format</key>
     <string>%1$@ / %2$@をインポートしています</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML をインポートできました</string>
     <key>opml_importing</key>
     <string>ポッドキャストをインポートしています...</string>
     <key>page_control_page_progress_format</key>
@@ -1668,6 +1676,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>検索</string>
     <key>search_podcasts</key>
     <string>ポッドキャストを検索</string>
+    <key>search_recent</key>
+    <string>最近の検索</string>
     <key>season</key>
     <string>シーズン</string>
     <key>season_episode_shorthand_format</key>
