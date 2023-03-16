@@ -17,7 +17,7 @@ struct PodcastsCarouselView: View {
         ScrollView {
             LazyHStack {
                 Group {
-                    if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
+                    if (searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly) || (searchResults.isShowingLocalResultsOnly && searchResults.podcasts.isEmpty) {
                         ZStack(alignment: .center) {
                             ProgressView()
                                 .tint(AppTheme.loadingActivityColor().color)
@@ -61,7 +61,7 @@ struct PodcastsCarouselView: View {
                                 }
                             }
                         }
-                    } else {
+                    } else if !searchResults.isShowingLocalResultsOnly {
                         VStack(spacing: 2) {
                             Text(L10n.discoverNoPodcastsFound)
                                 .font(style: .subheadline, weight: .medium)
