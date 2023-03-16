@@ -8,6 +8,8 @@ struct SearchHistoryEntry: Codable, Hashable {
 }
 
 class SearchHistoryModel: ObservableObject {
+    static let shared = SearchHistoryModel()
+
     @Published var entries: [SearchHistoryEntry] = []
 
     private let defaults: UserDefaults
