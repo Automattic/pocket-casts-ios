@@ -15,6 +15,7 @@ class SearchResultsModel: ObservableObject {
     @Published var episodes: [EpisodeSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
+    @Published var resultsContainLocalPodcasts = false
 
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
@@ -23,6 +24,7 @@ class SearchResultsModel: ObservableObject {
     func clearSearch() {
         podcasts = []
         episodes = []
+        resultsContainLocalPodcasts = false
     }
 
     @MainActor
@@ -86,6 +88,7 @@ class SearchResultsModel: ObservableObject {
 
         self.podcasts = results.compactMap { $0 }
 
+        resultsContainLocalPodcasts = true
         isShowingLocalResultsOnly = true
     }
 

@@ -37,7 +37,9 @@ struct PodcastsCarouselView: View {
                             ZStack {
                                 Action {
                                     // Always reset the carousel when performing a new search
-                                    tabSelection = 0
+                                    if !searchResults.resultsContainLocalPodcasts {
+                                        tabSelection = 0
+                                    }
                                 }
 
                                 TabView(selection: $tabSelection) {
