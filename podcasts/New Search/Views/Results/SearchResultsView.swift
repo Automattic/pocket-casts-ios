@@ -48,7 +48,7 @@ struct SearchResultsView: View {
                     } else if searchResults.episodes.count > 0 {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
 
-                            SearchResultCell(episode: episode, podcast: nil)
+                            SearchResultCell(episode: episode, result: nil)
                         }
                     } else if !searchResults.isShowingLocalResultsOnly {
                         VStack(spacing: 2) {

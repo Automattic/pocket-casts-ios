@@ -28,13 +28,13 @@ struct SearchResultsListView: View {
                         case .podcasts:
                             ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                                SearchResultCell(episode: nil, podcast: podcast)
+                                SearchResultCell(episode: nil, result: podcast)
                             }
 
                         case .episodes:
                             ForEach(searchResults.episodes, id: \.self) { episode in
 
-                                SearchResultCell(episode: episode, podcast: nil)
+                                SearchResultCell(episode: episode, result: nil)
                             }
                         }
                     }
