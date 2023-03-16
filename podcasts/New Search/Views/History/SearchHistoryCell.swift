@@ -4,6 +4,7 @@ import PocketCastsUtils
 
 struct SearchHistoryCell: View {
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     let entry: SearchHistoryEntry
     let searchHistory: SearchHistoryModel
@@ -37,6 +38,7 @@ struct SearchHistoryCell: View {
                     searchResults.search(term: searchTerm)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: searchTerm)
                 }
+                searchAnalyticsHelper.historyItemTapped(entry)
             }) {
                 Rectangle()
                     .foregroundColor(.clear)
@@ -85,6 +87,7 @@ struct SearchHistoryCell: View {
                     Button(action: {
                         withAnimation {
                             searchHistory.remove(entry: entry)
+                            searchAnalyticsHelper.historyItemDeleted(entry)
                         }
                     }) {
                         Image("close")

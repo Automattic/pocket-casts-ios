@@ -69,6 +69,7 @@ struct PodcastsCarouselView: View {
 
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     let result: PodcastFolderSearchResult
     let searchHistory: SearchHistoryModel?
@@ -79,6 +80,7 @@ struct PodcastResultCell: View {
                 Button(action: {
                     result.navigateTo()
                     searchHistory?.add(podcast: result)
+                    searchAnalyticsHelper.trackResultTapped(result)
                 }) {
                     switch result.kind {
                     case .folder:
@@ -96,6 +98,7 @@ struct PodcastResultCell: View {
             Button(action: {
                 result.navigateTo()
                 searchHistory?.add(podcast: result)
+                searchAnalyticsHelper.trackResultTapped(result)
             }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(result.title)

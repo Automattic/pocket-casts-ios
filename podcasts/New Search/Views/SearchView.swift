@@ -5,6 +5,8 @@ class SearchVisibilityModel: ObservableObject {
 }
 
 struct SearchView: View {
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
+
     @ObservedObject var displaySearch: SearchVisibilityModel
 
     let searchResults: SearchResultsModel
@@ -29,6 +31,6 @@ struct SearchView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel(),
-        searchHistory: SearchHistoryModel())
+                   searchHistory: SearchHistoryModel())
     }
 }

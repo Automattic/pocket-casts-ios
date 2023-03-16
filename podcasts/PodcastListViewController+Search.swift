@@ -134,6 +134,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
                 self.searchResultsControler.clearSearch()
             }
         }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
     }
 
     func searchWasCleared() {
@@ -144,7 +146,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         resultsControllerDelegate.performLocalSearch(searchTerm: searchTerm)
 
         debounce.call {
-            if !searchTerm.trim().isEmpty {
+            if !searchTerm.trim().isEmpty && !FeatureFlag.newSearch.enabled {
                 Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
             }
         }

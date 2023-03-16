@@ -2,12 +2,17 @@ import SwiftUI
 import PocketCastsServer
 
 struct SearchResultsListView: View {
-    enum DisplayMode {
+    enum DisplayMode: String, AnalyticsDescribable {
         case podcasts
         case episodes
+
+        var analyticsDescription: String {
+            rawValue
+        }
     }
 
     @EnvironmentObject var theme: Theme
+    @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
 
     @ObservedObject var searchResults: SearchResultsModel
 
@@ -41,6 +46,9 @@ struct SearchResultsListView: View {
         }
         .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
+        .onAppear {
+            searchAnalyticsHelper.trackListShown(displayMode)
+        }
     }
 }
 

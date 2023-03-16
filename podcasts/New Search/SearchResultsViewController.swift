@@ -16,14 +16,29 @@ extension SearchResultsDelegate {
 class SearchResultsViewController: UIHostingController<AnyView> {
     private let displaySearch: SearchVisibilityModel = SearchVisibilityModel()
     private let searchHistoryModel: SearchHistoryModel = SearchHistoryModel()
-    private let searchResults: SearchResultsModel = SearchResultsModel()
+    private let searchResults: SearchResultsModel
+    private let searchAnalyticsHelper: SearchAnalyticsHelper
 
-    init() {
-        super.init(rootView: AnyView(SearchView(displaySearch: displaySearch, searchResults: searchResults, searchHistory: searchHistoryModel).setupDefaultEnvironment()))
+    init(source: AnalyticsSource) {
+        searchAnalyticsHelper = SearchAnalyticsHelper(source: source)
+        self.searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
+        super.init(rootView: AnyView(
+            SearchView(
+                displaySearch: displaySearch,
+                searchResults: searchResults,
+                searchHistory: searchHistoryModel)
+            .setupDefaultEnvironment()
+            .environmentObject(searchAnalyticsHelper))
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchAnalyticsHelper.trackShown()
     }
 }
 

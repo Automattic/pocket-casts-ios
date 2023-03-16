@@ -6,6 +6,8 @@ class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let episodeSearch = EpisodeSearchTask()
 
+    private let analyticsHelper: SearchAnalyticsHelper
+
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
@@ -13,6 +15,10 @@ class SearchResultsModel: ObservableObject {
     @Published var episodes: [EpisodeSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
+
+    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
+        self.analyticsHelper = analyticsHelper
+    }
 
     func clearSearch() {
         podcasts = []
@@ -27,17 +33,29 @@ class SearchResultsModel: ObservableObject {
 
         Task {
             isSearchingForPodcasts = true
-            let results = try? await podcastSearch.search(term: term)
+            do {
+                let results = try await podcastSearch.search(term: term)
+                show(podcastResults: results)
+            } catch {
+                analyticsHelper.trackFailed(error)
+            }
+
             isSearchingForPodcasts = false
-            show(podcastResults: results ?? [])
         }
 
         Task {
             isSearchingForEpisodes = true
-            let results = try? await episodeSearch.search(term: term)
+            do {
+                let results = try await episodeSearch.search(term: term)
+                episodes = results
+            } catch {
+                analyticsHelper.trackFailed(error)
+            }
+
             isSearchingForEpisodes = false
-            episodes = results ?? []
         }
+
+        analyticsHelper.trackSearchPerformed()
     }
 
     @MainActor
