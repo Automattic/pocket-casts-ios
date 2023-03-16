@@ -23,20 +23,25 @@ struct SearchResultsListView: View {
             ThemedDivider()
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    Section {
-                        switch displayMode {
-                        case .podcasts:
-                            ForEach(searchResults.podcasts, id: \.self) { podcast in
+                    switch displayMode {
+                    case .podcasts:
+                        ForEach(searchResults.podcasts, id: \.self) { podcast in
 
-                                SearchResultCell(episode: nil, result: podcast)
-                            }
-
-                        case .episodes:
-                            ForEach(searchResults.episodes, id: \.self) { episode in
-
-                                SearchResultCell(episode: episode, result: nil)
-                            }
+                            SearchResultCell(episode: nil, result: podcast)
                         }
+
+                    case .episodes:
+                        ForEach(searchResults.episodes, id: \.self) { episode in
+
+                            SearchResultCell(episode: episode, result: nil)
+                        }
+                    }
+
+                    if displayMode == .podcasts && searchResults.isSearchingForPodcasts || displayMode == .episodes && searchResults.isSearchingForEpisodes {
+                        ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .tint(AppTheme.loadingActivityColor().color)
+                        .padding(10)
                     }
                 }
             }
