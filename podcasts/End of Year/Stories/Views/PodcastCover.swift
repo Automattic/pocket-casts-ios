@@ -48,14 +48,16 @@ struct PodcastCover: View {
 
             ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
-        }
-        .onAppear {
-            KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
-                switch result {
-                case .success(let result):
-                    image = result.image
-                default:
-                    break
+
+            Action {
+                image = nil
+                KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
+                    switch result {
+                    case .success(let result):
+                        image = result.image
+                    default:
+                        break
+                    }
                 }
             }
         }

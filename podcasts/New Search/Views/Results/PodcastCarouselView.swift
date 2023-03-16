@@ -1,23 +1,58 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var searchResults: SearchResultsModel
+
+    var searchHistory: SearchHistoryModel?
+
+    @State private var tabSelection = 0
+
     var body: some View {
         ScrollView {
             LazyHStack {
-                TabView {
-                    ForEach(0..<30) { i in
-                        GeometryReader { geometry in
-                            HStack(spacing: 10) {
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                Group {
+                    if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
+                        ZStack(alignment: .center) {
+                            ProgressView()
+                        }
+                    } else if searchResults.podcasts.count > 0 {
+                        ZStack {
+                            Action {
+                                // Always reset the carousel when performing a new search
+                                tabSelection = 0
+                            }
 
-                                PodcastResultCell(podcast: Podcast.previewPodcast())
+                            TabView(selection: $tabSelection) {
+                                ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
+                                    GeometryReader { geometry in
+                                        HStack(spacing: 10) {
+                                            PodcastResultCell(result: searchResults.podcasts[(i * 2)], searchHistory: searchHistory)
+
+                                            if let result = searchResults.podcasts[safe: (i * 2) + 1] {
+                                                PodcastResultCell(result: result, searchHistory: searchHistory)
+                                            }
+                                        }
+                                    }
+                                }
+                                .padding(.all, 10)
                             }
                         }
+                    } else {
+                        VStack(spacing: 2) {
+                            Text(L10n.discoverNoPodcastsFound)
+                                .font(style: .subheadline, weight: .medium)
+
+                            Text(L10n.discoverNoPodcastsFoundMsg)
+                                .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.all, 10)
                     }
-                    .padding(.all, 10)
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -35,40 +70,54 @@ struct PodcastsCarouselView: View {
 struct PodcastResultCell: View {
     @EnvironmentObject var theme: Theme
 
-    let podcast: Podcast
+    let result: PodcastFolderSearchResult
+    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-                    print("podcast tapped")
+                    result.navigateTo()
+                    searchHistory?.add(podcast: result)
                 }) {
-                    PodcastCover(podcastUuid: podcast.uuid)
+                    switch result.kind {
+                    case .folder:
+                        SearchFolderPreviewWrapper(uuid: result.uuid)
+                            .modifier(NormalCoverShadow())
+                    case .podcast:
+                        PodcastCover(podcastUuid: result.uuid)
+                    }
                 }
-                Button(action: {
-                    print("subscribe")
-                }) {
-                    Image("discover_subscribe_dark")
+                if result.kind == .podcast {
+                    RoundedSubscribeButtonView(podcastUuid: result.uuid)
                 }
-                .background(ThemeColor.veil().color)
-                .foregroundColor(ThemeColor.contrast01().color)
-                .cornerRadius(30)
-                .padding([.trailing, .bottom], 6)
             }
 
             Button(action: {
-                print("podcast tapped")
+                result.navigateTo()
+                searchHistory?.add(podcast: result)
             }) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(Podcast.previewPodcast().title ?? "")
+                    Text(result.title)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
-                    Text(Podcast.previewPodcast().author ?? "")
+                    Text(result.author)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                 }
             }
+        }
+    }
+}
+
+extension PodcastFolderSearchResult {
+    func navigateTo() {
+        switch kind {
+        case .folder:
+            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: DataManager.sharedManager.findFolder(uuid: uuid) as Any])
+        case .podcast:
+            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: self])
         }
     }
 }

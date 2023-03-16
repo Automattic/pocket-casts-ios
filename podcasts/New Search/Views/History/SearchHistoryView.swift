@@ -5,6 +5,11 @@ import PocketCastsUtils
 struct SearchHistoryView: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject var searchHistory: SearchHistoryModel
+
+    let searchResults: SearchResultsModel
+    let displaySearch: SearchVisibilityModel
+
     private var episode: Episode {
         let episode = Episode()
         episode.title = "Episode title"
@@ -12,32 +17,26 @@ struct SearchHistoryView: View {
         return episode
     }
 
-    init() {
-        UITableViewHeaderFooterView.appearance().backgroundView = UIView()
-    }
-
     var body: some View {
         VStack(spacing: 0) {
             ThemedDivider()
 
             List {
-                ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll)
+                if !searchHistory.entries.isEmpty {
+                    ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll) {
+                        withAnimation {
+                            searchHistory.removeAll()
+                        }
+                    }
 
-                Section {
-                    SearchHistoryCell(podcast: Podcast.previewPodcast())
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
-
-                    SearchHistoryCell(searchTerm: "Search term")
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
-
-                    SearchHistoryCell(podcast: Podcast.previewPodcast(), episode: episode)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listRowSeparator(.hidden)
-                    .listSectionSeparator(.hidden)
+                    Section {
+                        ForEach(searchHistory.entries, id: \.self) { entry in
+                            SearchHistoryCell(entry: entry, searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                        }
+                    }
                 }
             }
         }
@@ -49,7 +48,7 @@ struct SearchHistoryView: View {
 
 struct SearchHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchHistoryView()
+        SearchHistoryView(searchHistory: SearchHistoryModel(), searchResults: SearchResultsModel(), displaySearch: SearchVisibilityModel())
             .previewWithAllThemes()
     }
 }

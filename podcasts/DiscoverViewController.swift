@@ -47,9 +47,9 @@ class DiscoverViewController: PCViewController {
 
         title = L10n.discover
 
-        setupSearchBar()
         handleThemeChanged()
         reloadData()
+        setupSearchBar()
 
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))

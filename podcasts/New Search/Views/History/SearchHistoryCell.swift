@@ -5,17 +5,21 @@ import PocketCastsUtils
 struct SearchHistoryCell: View {
     @EnvironmentObject var theme: Theme
 
-    var podcast: Podcast?
-
-    var episode: Episode?
-
-    var searchTerm: String?
+    let entry: SearchHistoryEntry
+    let searchHistory: SearchHistoryModel
+    let searchResults: SearchResultsModel
+    let displaySearch: SearchVisibilityModel
 
     private var subtitle: String {
-        if let episode, let podcast {
-            return "\(L10n.episode) • \(episode.displayableDuration) • \(podcast.title ?? "")"
-        } else if let podcast {
-            return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
+        if let episode = entry.episode {
+            return "\(L10n.episode) • \(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0))) • \(episode.podcastTitle)"
+        } else if let podcast = entry.podcast {
+            switch podcast.kind {
+            case .folder:
+                return L10n.folder
+            case .podcast:
+                return [L10n.podcastSingular, podcast.author].compactMap { $0 }.joined(separator: " • ")
+            }
         }
 
         return ""
@@ -24,7 +28,15 @@ struct SearchHistoryCell: View {
     var body: some View {
         ZStack {
             Button(action: {
-                print("row tapped")
+                if let episode = entry.episode {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+                } else if let podcast = entry.podcast {
+                    podcast.navigateTo()
+                } else if let searchTerm = entry.searchTerm {
+                    displaySearch.isSearching = true
+                    searchResults.search(term: searchTerm)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: searchTerm)
+                }
             }) {
                 Rectangle()
                     .foregroundColor(.clear)
@@ -34,13 +46,23 @@ struct SearchHistoryCell: View {
 
             VStack(spacing: 12) {
                 HStack(spacing: 0) {
-                    if let podcast {
-                        PodcastCover(podcastUuid: podcast.uuid)
-                            .frame(width: 48, height: 48)
-                            .allowsHitTesting(false)
-                            .padding(.trailing, 12)
+                    if let title = entry.podcast?.title ?? entry.episode?.title,
+                        let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
+                        if entry.podcast?.kind == .folder {
+                            SearchFolderPreviewWrapper(uuid: uuid)
+                                .modifier(NormalCoverShadow())
+                                .frame(width: 48, height: 48)
+                                .allowsHitTesting(false)
+                                .padding(.trailing, 12)
+                        } else {
+                            PodcastCover(podcastUuid: uuid)
+                                .frame(width: 48, height: 48)
+                                .allowsHitTesting(false)
+                                .padding(.trailing, 12)
+                        }
+
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(podcast.title ?? "")
+                            Text(title)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
@@ -50,7 +72,7 @@ struct SearchHistoryCell: View {
                                 .lineLimit(1)
                         }
                         .allowsHitTesting(false)
-                    } else if let searchTerm {
+                    } else if let searchTerm = entry.searchTerm {
                         Image("custom_search")
                             .frame(width: 48, height: 48)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
@@ -61,7 +83,9 @@ struct SearchHistoryCell: View {
 
                     Spacer()
                     Button(action: {
-                        print("remove tapped")
+                        withAnimation {
+                            searchHistory.remove(entry: entry)
+                        }
                     }) {
                         Image("close")
                     }

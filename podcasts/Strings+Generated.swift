@@ -392,6 +392,10 @@ internal enum L10n {
   internal static var deselectAll: String { return L10n.tr("Localizable", "deselect_all") }
   /// Discover
   internal static var discover: String { return L10n.tr("Localizable", "discover") }
+  /// All Episodes
+  internal static var discoverAllEpisodes: String { return L10n.tr("Localizable", "discover_all_episodes") }
+  /// All Podcasts
+  internal static var discoverAllPodcasts: String { return L10n.tr("Localizable", "discover_all_podcasts") }
   /// Browse By Category
   internal static var discoverBrowseByCategory: String { return L10n.tr("Localizable", "discover_browse_by_category") }
   /// Arts
@@ -450,6 +454,8 @@ internal enum L10n {
   internal static func discoverChangeRegion(_ p1: Any) -> String {
     return L10n.tr("Localizable", "discover_change_region", String(describing: p1))
   }
+  /// The episode couldn't be loaded
+  internal static var discoverEpisodeFailToLoad: String { return L10n.tr("Localizable", "discover_episode_fail_to_load") }
   /// Featured
   internal static var discoverFeatured: String { return L10n.tr("Localizable", "discover_featured") }
   /// FEATURED EPISODE
@@ -458,6 +464,8 @@ internal enum L10n {
   internal static var discoverFeaturedEpisodeErrorNotFound: String { return L10n.tr("Localizable", "discover_featured_episode_error_not_found") }
   /// FRESH PICK
   internal static var discoverFreshPick: String { return L10n.tr("Localizable", "discover_fresh_pick") }
+  /// No episodes found
+  internal static var discoverNoEpisodesFound: String { return L10n.tr("Localizable", "discover_no_episodes_found") }
   /// No podcasts found
   internal static var discoverNoPodcastsFound: String { return L10n.tr("Localizable", "discover_no_podcasts_found") }
   /// Try more general or different keywords.

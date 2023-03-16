@@ -170,26 +170,42 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if !switchToTab(.podcasts) { return }
-
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
-            navController.pushViewController(podcastController, animated: false)
+            navController.pushViewController(podcastController, animated: true)
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String) {
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult) {
+        if let navController = selectedViewController as? UINavigationController {
+            let podcastController = PodcastViewController(podcastInfo: PodcastInfo(from: searchResult), existingImage: nil)
+            navController.pushViewController(podcastController, animated: true)
+        }
+    }
+
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 
             // I know it looks dodgy, but the episode card won't load properly if you just dismissed another view controller. Need to figure out the actual bug...but for now:
             // (before you ask, using the completion block doesn't work above, regardless of whether animated is true or false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
-                episodeController.modalPresentationStyle = .formSheet
+                if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
+                    let episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
+                                                                 podcastUuid: podcastUuid)
 
-                navController.present(episodeController, animated: true)
+                    let nav = UINavigationController(rootViewController: episodeController)
+                    nav.modalPresentationStyle = .formSheet
+                    nav.isNavigationBarHidden = true
+
+                    navController.present(nav, animated: true)
+                } else {
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    episodeController.modalPresentationStyle = .formSheet
+
+                    navController.present(episodeController, animated: true)
+                }
             }
         }
     }
