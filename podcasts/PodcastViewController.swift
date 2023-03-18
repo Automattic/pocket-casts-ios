@@ -35,6 +35,8 @@ protocol PodcastActionsDelegate: AnyObject {
     func didActivateSearch()
 
     func enableMultiSelect()
+
+    func rating() -> PodcastRating?
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -49,6 +51,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var searchController: EpisodeListSearchController?
 
     var cellHeights: [IndexPath: CGFloat] = [:]
+
+    var podcastRating: PodcastRating? = nil
+    private var podcastRatingState: UpdateRatingState = .waiting
 
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
@@ -898,5 +903,54 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
+    }
+}
+
+// MARK: - Ratings
+extension PodcastViewController {
+    func rating() -> PodcastRating? {
+        // Don't do anything if we have no UUID yet
+        guard let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first else {
+            return nil
+        }
+
+        switch podcastRatingState {
+        case .loading, .noRating:
+            return nil
+
+        case .hasRating:
+            return podcastRating
+
+        case .waiting:
+            fetchPodcastRating(uuid: uuid)
+            return nil
+        }
+    }
+}
+
+private extension PodcastViewController {
+    func fetchPodcastRating(uuid: String) {
+        guard podcastRatingState == .waiting else { return }
+
+        podcastRatingState = .loading
+
+        Task {
+            guard let result = try? await RetrievePodcastRatingTask().retrieve(for: uuid) else {
+                podcastRatingState = .noRating
+                return
+            }
+
+            podcastRatingState = .hasRating
+            podcastRating = result
+        }
+    }
+
+    @MainActor
+    func reloadHeader() {
+        episodesTable.reloadData()
+    }
+
+    private enum UpdateRatingState {
+        case waiting, loading, noRating, hasRating
     }
 }
