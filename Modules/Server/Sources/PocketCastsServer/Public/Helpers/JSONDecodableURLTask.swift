@@ -12,7 +12,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
         self.session = session
         self.decoder = decoder
     }
-    
+
     public func get(urlString: String, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) async throws -> Response? {
         let url = try URL(throwing: urlString)
 

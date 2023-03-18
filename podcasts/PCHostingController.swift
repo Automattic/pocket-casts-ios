@@ -3,7 +3,7 @@ import UIKit
 
 /// Allows for applying view modifiers to a SwiftUI View while also passing it into
 /// the hosting controller without needing to use AnyView
-/// 
+///
 /// Usage: See ThemedHostingController
 class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHostingController<ModifedHostingController.Wrapper> where Content: View {
     init(rootView: Content, modifier: Modifier) {
