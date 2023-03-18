@@ -1,7 +1,6 @@
 import SwiftUI
 import UIKit
 
-class PCHostingController<Content>: UIHostingController<Content> where Content: View {
 /// Allows for applying view modifiers to a SwiftUI View while also passing it into
 /// the hosting controller without needing to use AnyView
 /// 
@@ -45,6 +44,7 @@ class ThemedHostingController<Content>: ModifedHostingController<Content, Themed
     }
 }
 
+class PCHostingController<Content>: ThemedHostingController<Content> where Content: View {
     override func viewDidLoad() {
         super.viewDidLoad()
 
