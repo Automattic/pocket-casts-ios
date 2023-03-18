@@ -44,11 +44,7 @@ struct StarRatingView: View {
             return Constants.filled
         }
 
-        if index > stars {
-            return Constants.empty
-        }
-
-        if half < 0.5 {
+        if index > stars || half < 0.5 {
             return Constants.empty
         }
 
