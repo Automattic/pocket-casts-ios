@@ -2,6 +2,29 @@ import SwiftUI
 import UIKit
 
 class PCHostingController<Content>: UIHostingController<Content> where Content: View {
+/// Allows for applying view modifiers to a SwiftUI View while also passing it into
+/// the hosting controller without needing to use AnyView
+/// 
+/// Usage: See ThemedHostingController
+class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHostingController<ModifedHostingController.Wrapper> where Content: View {
+    init(rootView: Content, modifier: Modifier) {
+        super.init(rootView: .init(content: rootView, modifier: modifier))
+    }
+
+    struct Wrapper: View {
+        let content: Content
+        let modifier: Modifier
+
+        var body: some View {
+            content.modifier(modifier)
+        }
+    }
+
+    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
