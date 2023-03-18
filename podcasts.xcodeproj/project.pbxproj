@@ -1374,6 +1374,7 @@
 		C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C722245A2936C8FA006B3B55 /* StoryLogoView.swift */; };
 		C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
 		C7252863299B353A00A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
+		C7297F3329C56CB700E48063 /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7297F3229C56CB700E48063 /* StarRatingView.swift */; };
 		C72CED2D289DA14F0017883A /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
 		C72CED2F289DA1650017883A /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
 		C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
@@ -1381,6 +1382,7 @@
 		C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */; };
 		C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */; };
 		C734A88E2938308F005E5B98 /* CommonStoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C734A88D2938308F005E5B98 /* CommonStoryViews.swift */; };
+		C73CCBC929C590100075EFFD /* View+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73CCBC829C590100075EFFD /* View+UIView.swift */; };
 		C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */; };
 		C73FD2D6292C209F00E5E2E7 /* LoginLandingCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FD2D5292C209F00E5E2E7 /* LoginLandingCoverImage.swift */; };
 		C741D9D228AD3D6C006CFBE7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
@@ -2997,12 +2999,14 @@
 		C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
 		C722245A2936C8FA006B3B55 /* StoryLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryLogoView.swift; sourceTree = "<group>"; };
 		C725285E299B315000A582C3 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
+		C7297F3229C56CB700E48063 /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		C72CED2E289DA1650017883A /* String+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Analytics.swift"; sourceTree = "<group>"; };
 		C72CED31289DA1900017883A /* TracksAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksAdapter.swift; sourceTree = "<group>"; };
 		C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Analytics.swift"; sourceTree = "<group>"; };
 		C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseModal.swift; sourceTree = "<group>"; };
 		C734A88D2938308F005E5B98 /* CommonStoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStoryViews.swift; sourceTree = "<group>"; };
+		C73CCBC829C590100075EFFD /* View+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+UIView.swift"; sourceTree = "<group>"; };
 		C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Previews.swift"; sourceTree = "<group>"; };
 		C73FD2D5292C209F00E5E2E7 /* LoginLandingCoverImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingCoverImage.swift; sourceTree = "<group>"; };
 		C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalytics.swift; sourceTree = "<group>"; };
@@ -6243,6 +6247,8 @@
 				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
 				C7A110F8291F66C700887A90 /* Confetti.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
+				C7297F3229C56CB700E48063 /* StarRatingView.swift */,
+				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -8002,6 +8008,7 @@
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
 				BD874EFB1C9A637200F5B2A5 /* NotificationsViewController.swift in Sources */,
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
+				C7297F3329C56CB700E48063 /* StarRatingView.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
 				8B2E055428F891F900C2DBDE /* EndOfYearCard.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
@@ -8043,6 +8050,7 @@
 				BDED9304251DC459000BF622 /* CarPlaySceneDelegate+Convert.swift in Sources */,
 				BD9D923C21342CC50070D4FD /* ListEpisode.swift in Sources */,
 				BDF4D30F2175AA830086463E /* StarredViewController+Table.swift in Sources */,
+				C73CCBC929C590100075EFFD /* View+UIView.swift in Sources */,
 				C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDE292E423680D6100A4EEAE /* EffectsViewController.swift in Sources */,
 				BD907DAE21537B51004D7C02 /* SiriSettingsViewController.swift in Sources */,
