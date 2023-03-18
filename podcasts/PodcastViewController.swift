@@ -909,8 +909,8 @@ private extension PodcastViewController {
 // MARK: - Ratings
 extension PodcastViewController {
     func rating() -> PodcastRating? {
-        // Don't do anything if we have no UUID yet
-        guard let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first else {
+        // Don't do anything if we have no UUID yet or the flag isn't enabled
+        guard FeatureFlag.showRatings.enabled, let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first else {
             return nil
         }
 
