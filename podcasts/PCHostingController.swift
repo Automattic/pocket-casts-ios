@@ -98,7 +98,7 @@ struct ThemedEnvironment: ViewModifier {
 }
 
 extension View {
-     func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
-         self.modifier(ThemedEnvironment(theme: theme))
+    func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
+        self.modifier(ThemedEnvironment(theme: theme))
     }
 }
