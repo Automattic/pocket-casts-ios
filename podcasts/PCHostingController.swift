@@ -25,6 +25,26 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
     }
 }
 
+/// Allows easy use of SwiftUI Views by setting the Theme environment object on them
+/// Usage of this is:
+/// class MyCoolController: ThemedHostingController<MyThemedView> {
+///     init(customValue: String) {
+///         super.init(rootView: MyThemedView())
+///         or if you alread have a theme...
+///         super.init(rootView: MyThemedView(), theme: theme)
+///     }
+/// }
+class ThemedHostingController<Content>: ModifedHostingController<Content, ThemedEnvironment> where Content: View {
+
+    init(rootView: Content, theme: Theme = Theme.sharedTheme) {
+        super.init(rootView: rootView, modifier: ThemedEnvironment(theme: theme))
+    }
+
+    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,8 +90,15 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
     }
 }
 
+struct ThemedEnvironment: ViewModifier {
+    let theme: Theme
+    func body(content: Content) -> some View {
+        content.environmentObject(theme)
+    }
+}
+
 extension View {
-    func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
-        self.environmentObject(theme)
+     func setupDefaultEnvironment(theme: Theme = Theme.sharedTheme) -> some View {
+         self.modifier(ThemedEnvironment(theme: theme))
     }
 }
