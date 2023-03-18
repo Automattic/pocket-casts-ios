@@ -23,14 +23,13 @@ struct StarRatingView: View {
         }
     }
 
-    @ViewBuilder
     private var stars: some View {
         // truncate the floating points off without rounding
         let stars = Int(rating)
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
 
-        HStack(spacing: 0) {
+        return HStack(spacing: 0) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
                 image(for: index, stars: stars, half: half)
                     .resizable()
@@ -52,8 +51,10 @@ struct StarRatingView: View {
     }
 
     private enum Constants {
+        /// How many total stars we want to show
         static let maxStars = 5
 
+        // Star Images
         static let filled = Image(systemName: "star.fill")
         static let empty = Image(systemName: "star")
         static let half = Image(systemName: "star.fill.left")
