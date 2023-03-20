@@ -17,6 +17,8 @@ class SearchResultsModel: ObservableObject {
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
 
+    @Published var hideEpisodes = false
+
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
     }
@@ -45,16 +47,21 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = false
         }
 
-        Task {
-            isSearchingForEpisodes = true
-            do {
-                let results = try await episodeSearch.search(term: term)
-                episodes = results
-            } catch {
-                analyticsHelper.trackFailed()
-            }
+        if !term.startsWith(string: "http") {
+            hideEpisodes = false
+            Task {
+                isSearchingForEpisodes = true
+                do {
+                    let results = try await episodeSearch.search(term: term)
+                    episodes = results
+                } catch {
+                    analyticsHelper.trackFailed()
+                }
 
-            isSearchingForEpisodes = false
+                isSearchingForEpisodes = false
+            }
+        } else {
+            hideEpisodes = true
         }
 
         analyticsHelper.trackSearchPerformed()

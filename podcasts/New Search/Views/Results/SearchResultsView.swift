@@ -28,41 +28,44 @@ struct SearchResultsView: View {
 
                     PodcastsCarouselView()
 
-                    // If local results are being shown, we hide the episodes header
-                    if !searchResults.isShowingLocalResultsOnly {
-                        ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
-                            displayMode = .episodes
-                            showInlineResults = true
+                    if !searchResults.hideEpisodes {
+                        // If local results are being shown, we hide the episodes header
+                        if !searchResults.isShowingLocalResultsOnly {
+                            ThemeableListHeader(title: L10n.episodes, actionTitle: searchResults.episodes.count > 20 ? L10n.discoverShowAll : nil) {
+                                displayMode = .episodes
+                                showInlineResults = true
+                            }
+                        }
+
+                        if searchResults.isSearchingForEpisodes {
+                            ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .tint(AppTheme.loadingActivityColor().color)
+                            // Force the list to re-render the ProgressView by changing it's id
+                            .id(identifier)
+                            .onAppear {
+                                identifier += 1
+                            }
+                        } else if searchResults.episodes.count > 0 {
+                            ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
+
+                                SearchResultCell(episode: episode, result: nil)
+                            }
+                        } else if !searchResults.isShowingLocalResultsOnly {
+                            VStack(spacing: 2) {
+                                Text(L10n.discoverNoEpisodesFound)
+                                    .font(style: .subheadline, weight: .medium)
+
+                                Text(L10n.discoverNoPodcastsFoundMsg)
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                                    .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.all, 10)
                         }
                     }
 
-                    if searchResults.isSearchingForEpisodes {
-                        ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .tint(AppTheme.loadingActivityColor().color)
-                        // Force the list to re-render the ProgressView by changing it's id
-                        .id(identifier)
-                        .onAppear {
-                            identifier += 1
-                        }
-                    } else if searchResults.episodes.count > 0 {
-                        ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-
-                            SearchResultCell(episode: episode, result: nil)
-                        }
-                    } else if !searchResults.isShowingLocalResultsOnly {
-                        VStack(spacing: 2) {
-                            Text(L10n.discoverNoEpisodesFound)
-                                .font(style: .subheadline, weight: .medium)
-
-                            Text(L10n.discoverNoPodcastsFoundMsg)
-                                .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .multilineTextAlignment(.center)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.all, 10)
-                    }
                 }
             }
         }
