@@ -7,17 +7,19 @@ extension UIApplication {
 }
 
 public struct DismissKeyboardOnScroll: ViewModifier {
-    var gesture = DragGesture().onChanged { _ in
-        UIApplication.shared.endEditing(true)
-    }
-    public func body(content: Content) -> some View {
-        if #available(iOS 16.0, *) {
-            content
-                .scrollDismissesKeyboard(.interactively)
-        } else {
-            content
-                .highPriorityGesture(gesture)
+    var gesture = DragGesture().onChanged { value in
+        let velocity = CGSize(
+            width: value.predictedEndLocation.x - value.location.x,
+            height: value.predictedEndLocation.y - value.location.y
+        )
+
+        if abs(velocity.height) > 30 {
+            UIApplication.shared.endEditing(true)
         }
     }
-}
 
+    public func body(content: Content) -> some View {
+        content
+            .highPriorityGesture(gesture)
+    }
+}

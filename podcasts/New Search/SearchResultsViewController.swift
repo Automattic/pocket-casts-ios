@@ -35,17 +35,6 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        searchAnalyticsHelper.trackShown()
-        UIScrollView.appearance().keyboardDismissMode = .onDrag
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        UIScrollView.appearance().keyboardDismissMode = .none
-    }
 }
 
 extension SearchResultsViewController: SearchResultsDelegate {
