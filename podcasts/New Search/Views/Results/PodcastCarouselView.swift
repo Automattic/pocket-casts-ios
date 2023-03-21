@@ -41,21 +41,20 @@ struct PodcastsCarouselView: View {
                                 }
 
                                 TabView(selection: $tabSelection) {
-                                    ForEach(0..<max(1, searchResults.podcasts.count/2), id: \.self) { i in
-                                        GeometryReader { geometry in
-                                            HStack(spacing: 10) {
-                                                PodcastResultCell(result: searchResults.podcasts[(i * 2)])
-
-                                                if let result = searchResults.podcasts[safe: (i * 2) + 1] {
-                                                    PodcastResultCell(result: result)
-                                                } else {
-                                                    Rectangle()
-                                                        .opacity(0)
-                                                }
+                                    let podcastsPerPage = 2
+                                    let pages = searchResults.podcasts.chunked(into: podcastsPerPage)
+                                    ForEach(pages, id: \.self) { page in
+                                        HStack(spacing: 10) {
+                                            ForEach(page, id: \.self) { podcast in
+                                                PodcastResultCell(result: podcast)
                                             }
-                                        }
+
+                                            if page.count < podcastsPerPage {
+                                                Rectangle()
+                                                    .opacity(0)
+                                            }
+                                        }.padding(10)
                                     }
-                                    .padding(.all, 10)
                                 }
                             }
                         }
@@ -93,30 +92,34 @@ struct PodcastResultCell: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-                    result.navigateTo()
-                    searchHistory.add(podcast: result)
-                    searchAnalyticsHelper.trackResultTapped(result)
+
                 }) {
-                    switch result.kind {
-                    case .folder:
-                        SearchFolderPreviewWrapper(uuid: result.uuid)
-                            .aspectRatio(1, contentMode: .fit)
-                            .modifier(NormalCoverShadow())
-                    case .podcast:
-                        PodcastCover(podcastUuid: result.uuid)
-                            .aspectRatio(1, contentMode: .fit)
+                    Group {
+                        switch result.kind {
+                        case .folder:
+                            SearchFolderPreviewWrapper(uuid: result.uuid)
+                                .aspectRatio(1, contentMode: .fit)
+                                .modifier(NormalCoverShadow())
+                        case .podcast:
+                            PodcastCover(podcastUuid: result.uuid)
+                                .aspectRatio(1, contentMode: .fit)
+                        }
                     }
+                    .gesture(TapGesture().onEnded { _ in
+                        // This action is here instead of button action
+                        // to avoid conflicts with the dismiss keyboard code
+                        result.navigateTo()
+                        searchHistory.add(podcast: result)
+                        searchAnalyticsHelper.trackResultTapped(result)
+                    })
                 }
+
                 if result.kind == .podcast {
                     RoundedSubscribeButtonView(podcastUuid: result.uuid)
                 }
             }
 
-            Button(action: {
-                result.navigateTo()
-                searchHistory.add(podcast: result)
-                searchAnalyticsHelper.trackResultTapped(result)
-            }) {
+            Button(action: { }) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(result.title)
                         .lineLimit(1)
@@ -126,6 +129,13 @@ struct PodcastResultCell: View {
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                 }
+                .gesture(TapGesture().onEnded { _ in
+                    // This action is here instead of button action
+                    // to avoid conflicts with the dismiss keyboard code
+                    result.navigateTo()
+                    searchHistory.add(podcast: result)
+                    searchAnalyticsHelper.trackResultTapped(result)
+                })
             }
         }
     }
