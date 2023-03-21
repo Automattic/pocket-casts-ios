@@ -42,6 +42,7 @@ struct MiniPlayerPadding: ViewModifier {
             .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset - 2 : 0).onAppear {
                 isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
             }
+            .ignoresSafeArea(.keyboard)
             .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear), perform: { _ in
                 isMiniPlayerVisible = true
             })
