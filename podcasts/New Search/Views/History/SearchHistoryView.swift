@@ -17,29 +17,20 @@ struct SearchHistoryView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            ThemedDivider()
-
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    if !searchHistory.entries.isEmpty {
-                        ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll) {
-                            withAnimation {
-                                searchHistory.removeAll()
-                                searchAnalyticsHelper.trackHistoryCleared()
-                            }
-                        }
-
-                        ForEach(searchHistory.entries, id: \.self) { entry in
-                            SearchHistoryCell(entry: entry)
-                        }
+        SearchListView {
+            if !searchHistory.entries.isEmpty {
+                ThemeableListHeader(title: L10n.searchRecent, actionTitle: L10n.historyClearAll) {
+                    withAnimation {
+                        searchHistory.removeAll()
+                        searchAnalyticsHelper.trackHistoryCleared()
                     }
                 }
+
+                ForEach(searchHistory.entries, id: \.self) { entry in
+                    SearchHistoryCell(entry: entry)
+                }
             }
-            .modifier(DismissKeyboardOnScroll())
         }
-        .background(AppTheme.color(for: .primaryUi02, theme: theme))
-        .applyDefaultThemeOptions()
     }
 }
 
