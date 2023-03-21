@@ -65,6 +65,7 @@ struct SearchResultsView: View {
                     }
                 }
             }
+            .modifier(DismissKeyboardOnScroll())
         }
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
         .applyDefaultThemeOptions()
