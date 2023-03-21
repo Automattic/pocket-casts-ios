@@ -460,6 +460,8 @@
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
+		8B208A5329C933D300AEF951 /* MiniPlayerPaddingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */; };
+		8B208A5529C933F800AEF951 /* DismissKeyboardOnScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */; };
 		8B23193F2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */; };
 		8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2319402902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift */; };
 		8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2319422902CF170001C3DE /* EndOfYearManagerMock.swift */; };
@@ -2098,6 +2100,8 @@
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsListView.swift; sourceTree = "<group>"; };
+		8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerPaddingModifier.swift; sourceTree = "<group>"; };
+		8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboardOnScroll.swift; sourceTree = "<group>"; };
 		8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearStoriesBuilder.swift; sourceTree = "<group>"; };
 		8B2319402902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearStoriesBuilderTests.swift; sourceTree = "<group>"; };
 		8B2319422902CF170001C3DE /* EndOfYearManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearManagerMock.swift; sourceTree = "<group>"; };
@@ -6243,6 +6247,8 @@
 				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
 				C7A110F8291F66C700887A90 /* Confetti.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
+				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
+				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -7926,6 +7932,7 @@
 				8B68C1D1294219EB00CF25C5 /* FeatureFlagOverrideStore.swift in Sources */,
 				BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */,
 				BD8032D52123F0AF00BFBB03 /* SleepTimerButton.swift in Sources */,
+				8B208A5329C933D300AEF951 /* MiniPlayerPaddingModifier.swift in Sources */,
 				BD1F97821FD7C64600F89CCD /* PlaylistViewController+TableData.swift in Sources */,
 				408971AD2512EE1F00783253 /* PodcastBundleCountView.swift in Sources */,
 				BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */,
@@ -8311,6 +8318,7 @@
 				4051A5812281B38100C13C12 /* NewsletterCell.swift in Sources */,
 				408426352134CBE60076D82E /* SmallListCell.swift in Sources */,
 				BDED042421474365003A51E0 /* FloatingVideoView.swift in Sources */,
+				8B208A5529C933F800AEF951 /* DismissKeyboardOnScroll.swift in Sources */,
 				BDF15A4E1B54E8F0000EC323 /* Constants.swift in Sources */,
 				BDDA14D5219AF8D50066441E /* DiscoverViewController+Search.swift in Sources */,
 				C7A110F2291F1EC300887A90 /* HTMLTextView.swift in Sources */,
