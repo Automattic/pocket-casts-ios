@@ -112,6 +112,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                         self.multiSelectHeaderView.isHidden = false
                         self.view.bringSubviewToFront(self.multiSelectHeaderView)
+
+                        // Adjusts multiSelectHeaderView based on screen width
+                        self.multiSelectHeaderViewConstraint.constant = self.screenWidth < 380.0 ? 65.0 : 90.0
                     }
                 } else {
                     self.multiSelectHeaderView.isHidden = true
@@ -148,6 +151,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var multiSelectAllBtn: UIButton!
     @IBOutlet var multiSelectHeaderView: ThemeableView!
     private let operationQueue = OperationQueue()
+
+    // Constraint to adjust multiSelectHeader based on device size
+    @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+    private let screenWidth = UIScreen.main.bounds.width
 
     static let headerSection = 0
     static let allEpisodesSection = 1
