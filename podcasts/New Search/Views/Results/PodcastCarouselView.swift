@@ -9,12 +9,27 @@ struct PodcastsCarouselView: View {
 
     @State private var tabSelection = 0
 
+    private var podcastCellWidth: CGFloat {
+        UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1
+    }
+
     var body: some View {
         Group {
             if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
                 ZStack(alignment: .center) {
                     ProgressView()
                         .tint(AppTheme.loadingActivityColor().color)
+
+                    ScrollView(.horizontal) {
+                        if let podcast = PodcastFolderSearchResult(from: Podcast.previewPodcast()) {
+                            LazyHStack(spacing: 0) {
+                                PodcastResultCell(result: podcast)
+                                    .padding(10)
+                                    .frame(width: podcastCellWidth)
+                                    .opacity(0)
+                            }
+                        }
+                    }
                 }
             } else if searchResults.podcasts.count > 0 {
                 ScrollView(.horizontal) {
@@ -22,7 +37,7 @@ struct PodcastsCarouselView: View {
                         ForEach(searchResults.podcasts, id: \.self) { podcast in
                                 PodcastResultCell(result: podcast)
                                 .padding(10)
-                                .frame(width: UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1)
+                                .frame(width: podcastCellWidth)
                         }
                     }
                 }
