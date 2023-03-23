@@ -9,74 +9,40 @@ struct PodcastsCarouselView: View {
 
     @State private var tabSelection = 0
 
-    private var height: CGFloat? {
-        UIDevice.current.isiPad() ? nil : UIScreen.main.bounds.height * 0.3
-    }
-
     var body: some View {
-        ScrollView {
-            LazyHStack {
-                Group {
-                    if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
-                        ZStack(alignment: .center) {
-                            ProgressView()
-                                .tint(AppTheme.loadingActivityColor().color)
+        Group {
+            if searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly {
+                ZStack(alignment: .center) {
+                    ProgressView()
+                        .tint(AppTheme.loadingActivityColor().color)
+                }
+            } else if searchResults.podcasts.count > 0 {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 0) {
+                        ForEach(searchResults.podcasts, id: \.self) { podcast in
+                                PodcastResultCell(result: podcast)
+                                .padding(10)
+                                .frame(width: UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1)
                         }
-                    } else if searchResults.podcasts.count > 0 {
-                        if UIDevice.current.isiPad() {
-                            ScrollView(.horizontal) {
-                                LazyHStack(spacing: 0) {
-                                    ForEach(searchResults.podcasts, id: \.self) { podcast in
-                                            PodcastResultCell(result: podcast)
-                                            .padding(10)
-                                            .frame(width: UIScreen.main.bounds.width / 4)
-                                    }
-                                }
-                            }
-                        } else {
-                            ZStack {
-                                Action {
-                                    // Always reset the carousel when performing a new search
-                                    tabSelection = 0
-                                }
-
-                                TabView(selection: $tabSelection) {
-                                    let podcastsPerPage = 2
-                                    let pages = searchResults.podcasts.chunked(into: podcastsPerPage)
-                                    ForEach(pages, id: \.self) { page in
-                                        HStack(spacing: 10) {
-                                            ForEach(page, id: \.self) { podcast in
-                                                PodcastResultCell(result: podcast)
-                                            }
-
-                                            if page.count < podcastsPerPage {
-                                                Rectangle()
-                                                    .opacity(0)
-                                            }
-                                        }.padding(10)
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        VStack(spacing: 2) {
-                            Text(L10n.discoverNoPodcastsFound)
-                                .font(style: .subheadline, weight: .medium)
-
-                            Text(L10n.discoverNoPodcastsFoundMsg)
-                                .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .multilineTextAlignment(.center)
-                        }
-                        .padding(.all, 10)
                     }
                 }
-                .frame(width: UIScreen.main.bounds.width, height: height)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            } else {
+                VStack(spacing: 2) {
+                    Text(L10n.discoverNoPodcastsFound)
+                        .font(style: .subheadline, weight: .medium)
+
+                    Text(L10n.discoverNoPodcastsFoundMsg)
+                        .font(size: 14, style: .subheadline, weight: .medium)
+                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.all, 10)
             }
+
             ThemedDivider()
                 .padding(.leading, 16)
         }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }
