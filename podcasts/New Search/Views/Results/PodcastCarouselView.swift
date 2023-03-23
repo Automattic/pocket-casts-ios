@@ -7,8 +7,6 @@ struct PodcastsCarouselView: View {
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    @State private var tabSelection = 0
-
     private var podcastCellWidth: CGFloat {
         UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1
     }
