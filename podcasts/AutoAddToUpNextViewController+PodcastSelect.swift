@@ -3,9 +3,23 @@ import PocketCastsDataModel
 
 extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
     func bulkSelectionChange(selected: Bool) {
-        let setting = selected ? AutoAddToUpNextSetting.addLast.rawValue : AutoAddToUpNextSetting.off.rawValue
-        DataManager.sharedManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: setting)
+        var setting = Int32()
+
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+
+        if selected {
+            // Checks for existing AutoAddToUpNextSetting value before assigning a default value
+            allPodcasts.forEach {podcast in
+                if podcast.autoAddToUpNext == 0 {
+                    let status = AutoAddToUpNextSetting.addLast.rawValue
+                    DataManager.sharedManager.saveAutoAddToUpNext(podcastUuid: podcast.uuid, autoAddToUpNext: status)
+                }
+            }
+        } else {
+            setting = AutoAddToUpNextSetting.off.rawValue
+            DataManager.sharedManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: setting)
+        }
+
         allPodcasts.forEach { NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: $0.uuid) }
 
         reloadDownloadedPodcasts()
