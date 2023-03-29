@@ -39,6 +39,7 @@ struct SearchResultCell: View {
                     } else if let result {
                         SearchFolderPreviewWrapper(uuid: result.uuid)
                             .frame(width: 48, height: 48)
+                            .cornerRadius(4)
                             .allowsHitTesting(false)
                     }
 
