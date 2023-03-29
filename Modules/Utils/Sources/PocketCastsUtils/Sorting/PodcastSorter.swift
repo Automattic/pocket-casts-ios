@@ -8,8 +8,9 @@ public enum PodcastSorter {
      - Returns true when title1 is alphabetically before title2, false otherwise
      */
     public static func titleSort(title1: String, title2: String) -> Bool {
-        let convertedTitle1 = title1.trimmingThePrefix()
-        let convertedTitle2 = title2.trimmingThePrefix()
+
+        let convertedTitle1 = title1.trimmingThePrefix().convertToPinyinIfNeeded()
+        let convertedTitle2 = title2.trimmingThePrefix().convertToPinyinIfNeeded()
 
         return convertedTitle1.localizedLowercase.compare(convertedTitle2.localizedLowercase) == .orderedAscending
     }
@@ -42,5 +43,26 @@ private extension String {
         }
 
         return String(self[range.upperBound...])
+    }
+}
+
+/**
+ Converts Chinese characters to their Pinyin equivalent
+ - Returns Pinyin string
+ */
+extension String {
+    func convertToPinyinIfNeeded() -> String {
+        let range = NSRange(location: 0, length: self.utf16.count)
+        let regex = try! NSRegularExpression(pattern: "[\\u4e00-\\u9fff]+")
+        let hasChineseCharacter = regex.firstMatch(in: self, options: [], range: range) != nil
+
+        if hasChineseCharacter {
+            let mutableString = NSMutableString(string: self) as CFMutableString
+            CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
+            CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
+            return mutableString as String
+        } else {
+            return self
+        }
     }
 }

@@ -16,7 +16,12 @@ class PodcastSorterTests: XCTestCase {
             // emoji sorting
             ["B title", "🔚 A title"],
             ["🔥 A title", "🔥 B title"],
-            ["🔚 A title", "🔥 A title"]
+            ["🔚 A title", "🔥 A title"],
+            // Chinese to pinyin sorting: 昂 = áng, 奥 = ào, 备 = bèi
+            ["昂 áng title", "B title"],
+            ["昂 áng title", "奥 ào title"],
+            ["奥 ào title", "备 bèi title"],
+            ["B title", "备 bèi title"]
         ]
 
         tests.forEach {
