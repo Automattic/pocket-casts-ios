@@ -11,9 +11,14 @@ struct PodcastsCarouselView: View {
         UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1
     }
 
+    // Only show activity indicator when not searching for local podcasts
+    private var shouldShowLoadingActivity: Bool {
+        (searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly) || (searchResults.isShowingLocalResultsOnly && searchResults.podcasts.isEmpty)
+    }
+
     var body: some View {
         Group {
-            if (searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly) || (searchResults.isShowingLocalResultsOnly && searchResults.podcasts.isEmpty) {
+            if shouldShowLoadingActivity {
                 ZStack(alignment: .center) {
                     ProgressView()
                         .tint(AppTheme.loadingActivityColor().color)
