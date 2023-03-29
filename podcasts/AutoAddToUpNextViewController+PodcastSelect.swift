@@ -9,12 +9,11 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
 
         if selected {
             // Checks for existing AutoAddToUpNextSetting value before assigning a default value
-            allPodcasts.forEach {podcast in
-                if podcast.autoAddToUpNext == 0 {
-                    let status = AutoAddToUpNextSetting.addLast.rawValue
-                    DataManager.sharedManager.saveAutoAddToUpNext(podcastUuid: podcast.uuid, autoAddToUpNext: status)
-                }
+            let podcasts = allPodcasts.filter {
+                $0.isSubscribed() && $0.autoAddToUpNext == AutoAddToUpNextSetting.off.rawValue
             }
+
+            DataManager.sharedManager.updateAutoAddToUpNext(to: .addLast, for: podcasts)
         } else {
             setting = AutoAddToUpNextSetting.off.rawValue
             DataManager.sharedManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: setting)
