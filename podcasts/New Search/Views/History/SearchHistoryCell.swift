@@ -5,11 +5,11 @@ import PocketCastsUtils
 struct SearchHistoryCell: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
+    @EnvironmentObject var searchHistory: SearchHistoryModel
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var displaySearch: SearchVisibilityModel
 
     let entry: SearchHistoryEntry
-    let searchHistory: SearchHistoryModel
-    let searchResults: SearchResultsModel
-    let displaySearch: SearchVisibilityModel
 
     private var subtitle: String {
         if let episode = entry.episode {

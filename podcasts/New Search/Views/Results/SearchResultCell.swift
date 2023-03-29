@@ -6,21 +6,21 @@ import PocketCastsUtils
 struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     let episode: EpisodeSearchResult?
     let podcast: PodcastFolderSearchResult?
-    let searchHistory: SearchHistoryModel?
 
     var body: some View {
         ZStack {
             Button(action: {
                 if let episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
-                    searchHistory?.add(episode: episode)
+                    searchHistory.add(episode: episode)
                     searchAnalyticsHelper.trackResultTapped(episode)
                 } else if let podcast {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                    searchHistory?.add(podcast: podcast)
+                    searchHistory.add(podcast: podcast)
                     searchAnalyticsHelper.trackResultTapped(podcast)
                 }
             }) {
@@ -70,9 +70,6 @@ struct SearchResultCell: View {
                 ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .listRowSeparator(.hidden)
-            .listSectionSeparator(.hidden)
         }
     }
 }

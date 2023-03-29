@@ -1956,6 +1956,8 @@ internal enum L10n {
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
   /// Search
   internal static var search: String { return L10n.tr("Localizable", "search") }
+  /// Search podcasts or add RSS URL
+  internal static var searchLabel: String { return L10n.tr("Localizable", "search_label") }
   /// Search Podcasts
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
   /// Recent searches
