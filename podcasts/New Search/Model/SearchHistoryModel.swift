@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsDataModel
 
 struct SearchHistoryEntry: Codable, Hashable {
     var searchTerm: String?
@@ -21,6 +22,42 @@ class SearchHistoryModel: ObservableObject {
         self.entries = userDefaults.data(forKey: "SearchHistoryEntries").flatMap {
             try? JSONDecoder().decode([SearchHistoryEntry].self, from: $0)
         } ?? []
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFolders), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFolders), name: Constants.Notifications.folderChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(folderDeleted), name: Constants.Notifications.folderDeleted, object: nil)
+
+        updateFolders()
+    }
+
+    @objc private func updateFolders() {
+        guard SubscriptionHelper.hasActiveSubscription() else {
+            // User is not subscribed anymore, remove all folders from search history
+            entries = entries.filter { $0.podcast?.kind != .folder }
+            save()
+            return
+        }
+
+        // A folder was changed, update all folders inside the search history
+        entries = entries.compactMap { entry in
+            if entry.podcast?.kind == .folder, let uuid = entry.podcast?.uuid {
+                if let folder = DataManager.sharedManager.findFolder(uuid: uuid) {
+                    return SearchHistoryEntry(podcast: PodcastFolderSearchResult(from: folder))
+                } else {
+                    return nil
+                }
+            }
+
+            return entry
+        }
+        save()
+    }
+
+    @objc private func folderDeleted(_ notification: NSNotification) {
+        if let uuid = notification.object as? String {
+            entries = entries.filter { $0.podcast?.uuid != uuid }
+            save()
+        }
     }
 
     func add(searchTerm: String) {
