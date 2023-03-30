@@ -52,6 +52,10 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public enum Kind: Codable {
         case podcast, folder
     }
+
+    static public func ==(lhs: PodcastFolderSearchResult, rhs: PodcastFolderSearchResult) -> Bool {
+        lhs.kind == rhs.kind && lhs.uuid == rhs.uuid
+    }
 }
 
 public class PodcastSearchTask {
