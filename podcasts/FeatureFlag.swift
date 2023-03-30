@@ -56,7 +56,7 @@ enum FeatureFlag: String, CaseIterable {
         case .bookmarks:
             return false
         case .discoverFeaturedAutoScroll:
-            return false
+            return true
         }
     }
 }
