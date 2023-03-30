@@ -6,7 +6,10 @@ struct PodcastsSearchEnvelope: Decodable {
 }
 
 struct PodcastsSearchEnvelopeResult: Decodable {
+    /// Podcast returned when the user searches directly for a URL
     let podcast: PodcastFolderSearchResult?
+
+    /// Regular search results based on a search term
     let searchResults: [PodcastFolderSearchResult]
 }
 
