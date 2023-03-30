@@ -8,6 +8,7 @@ class NavigationManager {
 
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
+    static let popToRootViewController = "popToRootViewController"
 
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
@@ -119,7 +120,7 @@ class NavigationManager {
             guard let data = data else { return }
 
             if let folder = data[NavigationManager.folderKey] as? Folder {
-                mainController?.navigateToFolder(folder)
+                mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true)
             }
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }

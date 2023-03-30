@@ -141,10 +141,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToFolder(_ folder: Folder) {
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool = true) {
         guard let navController = selectedViewController as? UINavigationController else { return }
 
-        navController.popToRootViewController(animated: false)
+        if popToRootViewController {
+            navController.popToRootViewController(animated: false)
+        }
+
         let folderController = FolderViewController(folder: folder)
         navController.pushViewController(folderController, animated: true)
     }

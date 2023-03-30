@@ -270,6 +270,20 @@ public class MainServerHandler {
         searchQueue.addOperation(searchOperation)
     }
 
+    func podcastSearchQuery(searchTerm: String) -> PodcastSearchQuery? {
+        guard let uniqueId = ServerConfig.shared.syncDelegate?.uniqueAppId() else {
+            return nil
+        }
+
+        var baseQuery: BaseRequest = PodcastSearchQuery()
+        addStandardParams(baseRequest: &baseQuery, uniqueId: uniqueId)
+
+        var searchQuery = baseQuery as! PodcastSearchQuery
+        searchQuery.q = searchTerm
+
+        return searchQuery
+    }
+
     public func refreshPodcastFeed(podcast: Podcast, completion: @escaping (Bool) -> Void) {
         guard let uniqueId = ServerConfig.shared.syncDelegate?.uniqueAppId() else {
             completion(false)

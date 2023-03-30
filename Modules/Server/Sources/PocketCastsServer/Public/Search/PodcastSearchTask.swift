@@ -1,6 +1,18 @@
 import Foundation
 import PocketCastsDataModel
 
+struct PodcastsSearchEnvelope: Decodable {
+    let result: PodcastsSearchEnvelopeResult
+}
+
+struct PodcastsSearchEnvelopeResult: Decodable {
+    /// Podcast returned when the user searches directly for a URL
+    let podcast: PodcastFolderSearchResult?
+
+    /// Regular search results based on a search term
+    let searchResults: [PodcastFolderSearchResult]
+}
+
 public struct PodcastFolderSearchResult: Codable, Hashable {
     public let uuid: String
     public let title: String
@@ -49,18 +61,17 @@ public class PodcastSearchTask {
         self.session = session
     }
     public func search(term: String) async throws -> [PodcastFolderSearchResult] {
-        let searchURL = URL(string: "\(ServerConstants.Urls.cache())discover/search")!
-        var request = URLRequest(url: searchURL)
-        request.httpMethod = "POST"
+        let url = ServerHelper.asUrl(ServerConstants.Urls.main() + "podcasts/search")
+        let request = ServerHelper.createJsonRequest(url: url, params: MainServerHandler.shared.podcastSearchQuery(searchTerm: term)!, timeout: 10, cachePolicy: .reloadIgnoringCacheData)
 
-        let json: [String: Any] = ["term": term]
-
-        let jsonData = try JSONSerialization.data(withJSONObject: json)
-
-        request.httpBody = jsonData
-
-        let (data, _) = try await session.data(for: request)
+        let (data, _) = try await session.data(for: request!)
         let decoder = JSONDecoder()
-        return try decoder.decode([PodcastFolderSearchResult].self, from: data)
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let envelope = try decoder.decode(PodcastsSearchEnvelope.self, from: data)
+        if let podcast = envelope.result.podcast {
+            return [podcast]
+        } else {
+            return envelope.result.searchResults
+        }
     }
 }
