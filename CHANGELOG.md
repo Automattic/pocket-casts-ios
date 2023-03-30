@@ -1,8 +1,11 @@
+7.36
+-----
+- Updated sort order for Chinese podcast titles from Unicode-based to pinyin (#775)
+- Fixed and issue where the multi-selection header would overlap the search bar on certain devices depending on their screen size (#785)
+
 7.35
 -----
 
-
-7.34
 -----
 - Added import OPML from url option (#737)
 
