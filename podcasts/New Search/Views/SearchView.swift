@@ -6,31 +6,29 @@ class SearchVisibilityModel: ObservableObject {
 
 struct SearchView: View {
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
-
-    @ObservedObject var displaySearch: SearchVisibilityModel
-
-    let searchResults: SearchResultsModel
-    let searchHistory: SearchHistoryModel
+    @EnvironmentObject var displaySearch: SearchVisibilityModel
+    @EnvironmentObject var searchResults: SearchResultsModel
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     var body: some View {
         searchView
-        .padding(.bottom, (PlaybackManager.shared.currentEpisode() != nil) ? Constants.Values.miniPlayerOffset : 0)
         .ignoresSafeArea(.keyboard)
+        .modifier(MiniPlayerPadding())
+        .applyDefaultThemeOptions()
     }
 
     @ViewBuilder
     private var searchView: some View {
         if displaySearch.isSearching {
-            SearchResultsView(searchResults: searchResults, searchHistory: searchHistory)
+            SearchResultsView()
         } else {
-            SearchHistoryView(searchHistory: searchHistory, searchResults: searchResults, displaySearch: displaySearch)
+            SearchHistoryView()
         }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(displaySearch: SearchVisibilityModel(), searchResults: SearchResultsModel(),
-                   searchHistory: SearchHistoryModel())
+        SearchView()
     }
 }

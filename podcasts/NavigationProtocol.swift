@@ -9,7 +9,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
     func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
-    func navigateToFolder(_ folder: Folder)
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
 
     func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?)
 
