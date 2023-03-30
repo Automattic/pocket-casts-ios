@@ -359,6 +359,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Avmarkera alla</string>
     <key>discover</key>
     <string>Upptäck</string>
+    <key>discover_all_episodes</key>
+    <string>Alla avsnitt</string>
+    <key>discover_all_podcasts</key>
+    <string>Alla podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Bläddra efter kategori</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>TV och film</string>
     <key>discover_change_region</key>
     <string>Ändra region, för närvarande %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Det gick inte att ladda avsnittet</string>
     <key>discover_featured</key>
     <string>Utvalt</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Den utvalda podcasten/det utvalda avsnittet hittades inte. Se till att du är ansluten till internet och försök igen.</string>
     <key>discover_fresh_pick</key>
     <string>UTVALD</string>
+    <key>discover_no_episodes_found</key>
+    <string>Inga avsnitt hittades</string>
     <key>discover_no_podcasts_found</key>
     <string>Inga podcasts hittades</string>
     <key>discover_no_podcasts_found_msg</key>

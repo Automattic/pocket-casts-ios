@@ -359,6 +359,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Desmarcar tudo</string>
     <key>discover</key>
     <string>Explorar</string>
+    <key>discover_all_episodes</key>
+    <string>Todos os episódios</string>
+    <key>discover_all_podcasts</key>
+    <string>Todos os podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Navegar por categoria</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>TV e cinema</string>
     <key>discover_change_region</key>
     <string>Mudar região (atualmente %1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>Em destaque</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Episódio ou podcast destacado não encontrado. Confirme se você está conectado à internet e tente novamente.</string>
     <key>discover_fresh_pick</key>
     <string>NOVO</string>
+    <key>discover_no_episodes_found</key>
+    <string>Nenhum episódio encontrado</string>
     <key>discover_no_podcasts_found</key>
     <string>Nenhum podcast encontrado</string>
     <key>discover_no_podcasts_found_msg</key>

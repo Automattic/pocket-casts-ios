@@ -359,6 +359,10 @@
     <string>取消全选</string>
     <key>discover</key>
     <string>发现</string>
+    <key>discover_all_episodes</key>
+    <string>所有剧集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有播客</string>
     <key>discover_browse_by_category</key>
     <string>按类型浏览</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@
     <string>电视和电影</string>
     <key>discover_change_region</key>
     <string>更改区域，当前为 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>特色</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@
     <string>未找到精选播客和剧集。 请确保您已连接至互联网并重试。</string>
     <key>discover_fresh_pick</key>
     <string>新鲜精选</string>
+    <key>discover_no_episodes_found</key>
+    <string>未找到剧集</string>
     <key>discover_no_podcasts_found</key>
     <string>未找到播客</string>
     <key>discover_no_podcasts_found_msg</key>

@@ -359,6 +359,10 @@
     <string>すべて選択解除</string>
     <key>discover</key>
     <string>ディスカバー</string>
+    <key>discover_all_episodes</key>
+    <string>すべてのエピソード</string>
+    <key>discover_all_podcasts</key>
+    <string>すべてのポッドキャスト</string>
     <key>discover_browse_by_category</key>
     <string>カテゴリー別に参照</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@
     <string>TV / 映画</string>
     <key>discover_change_region</key>
     <string>リージョンを変更 (現在は%1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>エピソードを読み込めませんでした</string>
     <key>discover_featured</key>
     <string>おすすめ</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@
     <string>そのポッドキャストまたはエピソードが見つかりません。 インターネットに接続されていることを確認してから、もう一度お試しください。</string>
     <key>discover_fresh_pick</key>
     <string>最新セレクション</string>
+    <key>discover_no_episodes_found</key>
+    <string>エピソードがありません</string>
     <key>discover_no_podcasts_found</key>
     <string>ポッドキャストが見つかりません</string>
     <key>discover_no_podcasts_found_msg</key>

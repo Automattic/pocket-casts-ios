@@ -359,6 +359,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Alle abwählen</string>
     <key>discover</key>
     <string>Entdecken</string>
+    <key>discover_all_episodes</key>
+    <string>Alle Folgen</string>
+    <key>discover_all_podcasts</key>
+    <string>Alle Podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Nach Kategorie durchsuchen</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>TV und Film</string>
     <key>discover_change_region</key>
     <string>Region ändern (aktuell: %1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Die Folge konnte nicht geladen werden</string>
     <key>discover_featured</key>
     <string>Empfohlen</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Empfohlener Podcast oder empfohlene Folge nicht gefunden Stelle sicher, dass du mit dem Internet verbunden bist, und versuche es erneut.</string>
     <key>discover_fresh_pick</key>
     <string>BRANDNEU</string>
+    <key>discover_no_episodes_found</key>
+    <string>Keine Folgen gefunden</string>
     <key>discover_no_podcasts_found</key>
     <string>Keine Podcasts gefunden</string>
     <key>discover_no_podcasts_found_msg</key>
