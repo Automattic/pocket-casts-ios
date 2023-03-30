@@ -4,7 +4,6 @@ import SwiftUI
 protocol SearchResultsDelegate {
     func clearSearch()
     func performLocalSearch(searchTerm: String)
-    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void))
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void))
 }
 
@@ -48,17 +47,14 @@ extension SearchResultsViewController: SearchResultsDelegate {
         searchResults.searchLocally(term: searchTerm)
     }
 
-    func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
-        displaySearch.isSearching = true
-        searchResults.search(term: searchTerm)
-        searchHistoryModel.add(searchTerm: searchTerm)
-        completion()
-    }
-
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
         searchResults.search(term: searchTerm)
-        searchHistoryModel.add(searchTerm: searchTerm)
+
+        if !triggeredByTimer {
+            searchHistoryModel.add(searchTerm: searchTerm)
+        }
+
         completion()
     }
 }
