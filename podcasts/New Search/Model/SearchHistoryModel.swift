@@ -33,7 +33,13 @@ class SearchHistoryModel: ObservableObject {
     @objc private func updateFolders() {
         guard SubscriptionHelper.hasActiveSubscription() else {
             // User is not subscribed anymore, remove all folders from search history
-            entries = entries.filter { $0.podcast?.kind != .folder }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {
+                    return
+                }
+
+                self.entries = self.entries.filter { $0.podcast?.kind != .folder }
+            }
             save()
             return
         }
