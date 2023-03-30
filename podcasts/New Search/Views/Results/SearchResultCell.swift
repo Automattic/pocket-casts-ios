@@ -61,7 +61,7 @@ struct SearchResultCell: View {
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(result.author)
+                            Text(result.kind == .folder ? L10n.folder : result.author)
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
