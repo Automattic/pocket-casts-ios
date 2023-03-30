@@ -5,7 +5,9 @@
 
 7.35
 -----
+- Discover: Top carousel now scrolls automatically (#790)
 
+7.34
 -----
 - Added import OPML from url option (#737)
 

@@ -359,6 +359,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>取消全選</string>
     <key>discover</key>
     <string>探索</string>
+    <key>discover_all_episodes</key>
+    <string>所有單集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有 Podcast</string>
     <key>discover_browse_by_category</key>
     <string>依分類瀏覽</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>電視和電影</string>
     <key>discover_change_region</key>
     <string>變更區域，目前為 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>無法載入該單集</string>
     <key>discover_featured</key>
     <string>精選內容</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>找不到精選 Podcast 或集數。 請確認你已連線至網際網路，然後再試一次。</string>
     <key>discover_fresh_pick</key>
     <string>精選內容</string>
+    <key>discover_no_episodes_found</key>
+    <string>找不到任何單集</string>
     <key>discover_no_podcasts_found</key>
     <string>找不到任何 Podcast 節目</string>
     <key>discover_no_podcasts_found_msg</key>
