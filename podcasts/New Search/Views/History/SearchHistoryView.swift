@@ -9,13 +9,6 @@ struct SearchHistoryView: View {
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var displaySearch: SearchVisibilityModel
 
-    private var episode: Episode {
-        let episode = Episode()
-        episode.title = "Episode title"
-        episode.duration = 3600
-        return episode
-    }
-
     var body: some View {
         SearchListView {
             if !searchHistory.entries.isEmpty {

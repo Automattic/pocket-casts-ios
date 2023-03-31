@@ -39,6 +39,7 @@ struct SearchHistoryCell: View {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: searchTerm)
                 }
                 searchAnalyticsHelper.historyItemTapped(entry)
+                searchHistory.moveEntryToTop(entry)
             }) {
                 Rectangle()
                     .foregroundColor(.clear)

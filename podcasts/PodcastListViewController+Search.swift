@@ -153,6 +153,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
-        resultsControllerDelegate.performRemoteSearch(searchTerm: searchTerm, completion: completion)
+        resultsControllerDelegate.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
     }
 }
