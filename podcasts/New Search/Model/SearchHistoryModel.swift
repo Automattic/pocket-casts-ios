@@ -36,7 +36,7 @@ class SearchHistoryModel: ObservableObject {
         // Listen for folder and subscription changes
         Publishers.Merge(
             notificationCenter.publisher(for: ServerNotifications.subscriptionStatusChanged),
-            notificationCenter.publisher(for: Constants.Notifications.folderChanged)
+            notificationCenter.publisher(for: Constants.Notifications.folderEdited)
         )
         .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
         .sink { [weak self] _ in
