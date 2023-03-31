@@ -113,10 +113,12 @@ class SearchHistoryModel: ObservableObject {
     }
 
     private func save() {
-        entries = Array(entries.prefix(maxNumberOfEntries))
+        let updatedEntries = Array(entries.prefix(maxNumberOfEntries))
+
         let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(entries) {
+        if let encoded = try? encoder.encode(updatedEntries) {
             defaults.set(encoded, forKey: Constants.UserDefaults.searchHistoryEntried)
+            entries = updatedEntries
         }
     }
 }
