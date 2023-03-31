@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import Combine
 
 struct SearchHistoryEntry: Codable, Hashable {
     var searchTerm: String?
@@ -16,6 +17,8 @@ class SearchHistoryModel: ObservableObject {
     private let defaults: UserDefaults
     private let maxNumberOfEntries = 20
 
+    private var notifications = Set<AnyCancellable>()
+
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
 
@@ -23,23 +26,38 @@ class SearchHistoryModel: ObservableObject {
             try? JSONDecoder().decode([SearchHistoryEntry].self, from: $0)
         } ?? []
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFolders), name: ServerNotifications.subscriptionStatusChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFolders), name: Constants.Notifications.folderChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(folderDeleted), name: Constants.Notifications.folderDeleted, object: nil)
-
+        addNotificationObservers()
         updateFolders()
     }
 
-    @objc private func updateFolders() {
+    private func addNotificationObservers() {
+        let notificationCenter = NotificationCenter.default
+
+        // Listen for folder and subscription changes
+        Publishers.Merge(
+            notificationCenter.publisher(for: ServerNotifications.subscriptionStatusChanged),
+            notificationCenter.publisher(for: Constants.Notifications.folderChanged)
+        )
+        .receive(on: RunLoop.main)
+        .sink { [weak self] _ in
+            self?.updateFolders()
+        }
+        .store(in: &notifications)
+
+        // Listen for folder deletion changes
+        notificationCenter.publisher(for: Constants.Notifications.folderDeleted)
+            .receive(on: RunLoop.main)
+            .compactMap { $0.object as? String }
+            .sink { [weak self] uuid in
+                self?.folderDeleted(uuid)
+            }
+            .store(in: &notifications)
+    }
+
+    private func updateFolders() {
         guard SubscriptionHelper.hasActiveSubscription() else {
             // User is not subscribed anymore, remove all folders from search history
-            DispatchQueue.main.async { [weak self] in
-                guard let self else {
-                    return
-                }
-
-                self.entries = self.entries.filter { $0.podcast?.kind != .folder }
-            }
+            entries = entries.filter { $0.podcast?.kind != .folder }
             save()
             return
         }
@@ -56,14 +74,13 @@ class SearchHistoryModel: ObservableObject {
 
             return entry
         }
+
         save()
     }
 
-    @objc private func folderDeleted(_ notification: NSNotification) {
-        if let uuid = notification.object as? String {
-            entries = entries.filter { $0.podcast?.uuid != uuid }
-            save()
-        }
+    private func folderDeleted(_ uuid: String) {
+        entries = entries.filter { $0.podcast?.uuid != uuid }
+        save()
     }
 
     func add(searchTerm: String) {
