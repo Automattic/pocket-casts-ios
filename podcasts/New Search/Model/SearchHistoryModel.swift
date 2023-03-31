@@ -93,6 +93,10 @@ class SearchHistoryModel: ObservableObject {
         add(entry: SearchHistoryEntry(podcast: podcast))
     }
 
+    func moveEntryToTop(_ entry: SearchHistoryEntry) {
+        add(entry: entry)
+    }
+
     func remove(entry: SearchHistoryEntry) {
         entries.removeAll(where: { $0 == entry })
 
