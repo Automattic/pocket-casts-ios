@@ -38,7 +38,7 @@ class SearchHistoryModel: ObservableObject {
             notificationCenter.publisher(for: ServerNotifications.subscriptionStatusChanged),
             notificationCenter.publisher(for: Constants.Notifications.folderChanged)
         )
-        .receive(on: RunLoop.main)
+        .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
         .sink { [weak self] _ in
             self?.updateFolders()
         }
