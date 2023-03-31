@@ -2,6 +2,7 @@
 -----
 - Updated sort order for Chinese podcast titles from Unicode-based to pinyin (#775)
 - Fixed and issue where the multi-selection header would overlap the search bar on certain devices depending on their screen size (#785)
+- Search: improved the search with a new design and added the ability to search for episodes (#796)
 
 7.35
 -----
