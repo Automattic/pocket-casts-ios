@@ -151,7 +151,7 @@ struct Constants {
         static let top5PodcastsListLink = "top5PodcastsListLink"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
-        static let searchHistoryEntried = "SearchHistoryEntries"
+        static let searchHistoryEntries = "SearchHistoryEntries"
     }
 
     enum Values {

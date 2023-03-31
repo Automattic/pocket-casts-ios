@@ -22,7 +22,7 @@ class SearchHistoryModel: ObservableObject {
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.defaults = userDefaults
 
-        self.entries = userDefaults.data(forKey: "SearchHistoryEntries").flatMap {
+        self.entries = userDefaults.data(forKey: Constants.UserDefaults.searchHistoryEntries).flatMap {
             try? JSONDecoder().decode([SearchHistoryEntry].self, from: $0)
         } ?? []
 
@@ -117,7 +117,7 @@ class SearchHistoryModel: ObservableObject {
 
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(updatedEntries) {
-            defaults.set(encoded, forKey: Constants.UserDefaults.searchHistoryEntried)
+            defaults.set(encoded, forKey: Constants.UserDefaults.searchHistoryEntries)
             entries = updatedEntries
         }
     }
