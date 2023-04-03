@@ -87,8 +87,11 @@ struct Constants {
         static let watchAutoDownloadSettingsChanged = NSNotification.Name(rawValue: "SJWatchAutoDownloadSettingsChanged")
 
         // folders
+        /// This is triggered many times whenever a folder is changed
         static let folderChanged = NSNotification.Name(rawValue: "SJFolderChanged")
         static let folderDeleted = NSNotification.Name(rawValue: "SJFolderDeleted")
+        /// This is triggered just once after a folder finishes editing
+        static let folderEdited = NSNotification.Name(rawValue: "SJFolderEdited")
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
@@ -151,7 +154,7 @@ struct Constants {
         static let top5PodcastsListLink = "top5PodcastsListLink"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
-        static let searchHistoryEntried = "SearchHistoryEntries"
+        static let searchHistoryEntries = "SearchHistoryEntries"
     }
 
     enum Values {

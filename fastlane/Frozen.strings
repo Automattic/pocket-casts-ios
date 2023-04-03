@@ -545,6 +545,12 @@
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found" = "No podcasts found";
 
+/* Informational title when the episode search succeeds but returns no results. */
+"discover_no_episodes_found" = "No episodes found";
+
+/* Informational title when the episode fails to load. */
+"discover_episode_fail_to_load" = "The episode couldn't be loaded";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found_msg" = "Try more general or different keywords.";
 
@@ -700,6 +706,12 @@
 
 /* Title used for promotional purposes to highlight trending podcasts. */
 "discover_trending" = "Trending";
+
+/* Title used when displaying all podcasts from a search. */
+"discover_all_podcasts" = "All Podcasts";
+
+/* Title used when displaying all episodes from a search. */
+"discover_all_episodes" = "All Episodes";
 
 /* A common string used throughout the app. Confirmation text. */
 "done" = "Done";
@@ -1997,6 +2009,9 @@
 
 /* A common string used throughout the app. Prompt to retry the recent request. */
 "retry" = "Retry";
+
+/* The label of the search button in Discover. Explaining the user can search or directly add a RSS URL. */
+"search_label" = "Search podcasts or add RSS URL";
 
 /* A common string used throughout the app. Placeholder text used in search boxes. */
 "search" = "Search";

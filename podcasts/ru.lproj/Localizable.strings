@@ -359,6 +359,10 @@
     <string>ОЧИСТИТЬ ВСЕ</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_episodes</key>
+    <string>Все выпуски</string>
+    <key>discover_all_podcasts</key>
+    <string>Все подкасты</string>
     <key>discover_browse_by_category</key>
     <string>Искать в категории</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@
     <string>ТВ и фильмы</string>
     <key>discover_change_region</key>
     <string>Измените регион, сейчас %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Не удалось загрузить выпуск</string>
     <key>discover_featured</key>
     <string>Рекомендуется</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@
     <string>Запрошенный подкаст или выпуск не найден. Проверьте интернет-соединение и повторите попытку.</string>
     <key>discover_fresh_pick</key>
     <string>НОВИНКА</string>
+    <key>discover_no_episodes_found</key>
+    <string>Выпуски не найдены</string>
     <key>discover_no_podcasts_found</key>
     <string>Подкасты не найдены</string>
     <key>discover_no_podcasts_found_msg</key>

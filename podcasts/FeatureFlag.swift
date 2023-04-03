@@ -55,11 +55,11 @@ enum FeatureFlag: String, CaseIterable {
         case .onboardingUpdates:
             return true
         case .newSearch:
-            return false
+            return true
         case .bookmarks:
             return false
         case .discoverFeaturedAutoScroll:
-            return false
+            return true
         case .showRatings:
             return false
         }

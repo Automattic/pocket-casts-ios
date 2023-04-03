@@ -15,6 +15,9 @@ class SearchResultsModel: ObservableObject {
     @Published var episodes: [EpisodeSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
+    @Published var resultsContainLocalPodcasts = false
+
+    @Published var hideEpisodes = false
 
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
@@ -23,6 +26,7 @@ class SearchResultsModel: ObservableObject {
     func clearSearch() {
         podcasts = []
         episodes = []
+        resultsContainLocalPodcasts = false
     }
 
     @MainActor
@@ -43,16 +47,21 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = false
         }
 
-        Task {
-            isSearchingForEpisodes = true
-            do {
-                let results = try await episodeSearch.search(term: term)
-                episodes = results
-            } catch {
-                analyticsHelper.trackFailed(error)
-            }
+        if !term.startsWith(string: "http") {
+            hideEpisodes = false
+            Task {
+                isSearchingForEpisodes = true
+                do {
+                    let results = try await episodeSearch.search(term: term)
+                    episodes = results
+                } catch {
+                    analyticsHelper.trackFailed(error)
+                }
 
-            isSearchingForEpisodes = false
+                isSearchingForEpisodes = false
+            }
+        } else {
+            hideEpisodes = true
         }
 
         analyticsHelper.trackSearchPerformed()
@@ -86,6 +95,7 @@ class SearchResultsModel: ObservableObject {
 
         self.podcasts = results.compactMap { $0 }
 
+        resultsContainLocalPodcasts = true
         isShowingLocalResultsOnly = true
     }
 

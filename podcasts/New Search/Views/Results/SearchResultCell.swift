@@ -6,22 +6,22 @@ import PocketCastsUtils
 struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
+    @EnvironmentObject var searchHistory: SearchHistoryModel
 
     let episode: EpisodeSearchResult?
-    let podcast: PodcastFolderSearchResult?
-    let searchHistory: SearchHistoryModel?
+    let result: PodcastFolderSearchResult?
 
     var body: some View {
         ZStack {
             Button(action: {
                 if let episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
-                    searchHistory?.add(episode: episode)
+                    searchHistory.add(episode: episode)
                     searchAnalyticsHelper.trackResultTapped(episode)
-                } else if let podcast {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-                    searchHistory?.add(podcast: podcast)
-                    searchAnalyticsHelper.trackResultTapped(podcast)
+                } else if let result {
+                    result.navigateTo()
+                    searchHistory.add(podcast: result)
+                    searchAnalyticsHelper.trackResultTapped(result)
                 }
             }) {
                 Rectangle()
@@ -32,9 +32,17 @@ struct SearchResultCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    PodcastCover(podcastUuid: episode?.podcastUuid ?? podcast?.uuid ?? "")
-                        .frame(width: 48, height: 48)
-                        .allowsHitTesting(false)
+                    if result?.kind == .podcast || episode != nil {
+                        PodcastCover(podcastUuid: episode?.podcastUuid ?? result?.uuid ?? "")
+                            .frame(width: 48, height: 48)
+                            .allowsHitTesting(false)
+                    } else if let result {
+                        SearchFolderPreviewWrapper(uuid: result.uuid)
+                            .frame(width: 48, height: 48)
+                            .cornerRadius(4)
+                            .allowsHitTesting(false)
+                    }
+
                     VStack(alignment: .leading, spacing: 2) {
                         if let episode {
                             Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
@@ -48,12 +56,12 @@ struct SearchResultCell: View {
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
-                        } else if let podcast {
-                            Text(podcast.title)
+                        } else if let result {
+                            Text(result.title)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(podcast.author)
+                            Text(result.kind == .folder ? L10n.folder : result.author)
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
@@ -61,18 +69,15 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
 
-                    if let podcast {
+                    if let result, result.kind == .podcast {
                         Spacer()
-                        SubscribeButtonView(podcastUuid: podcast.uuid)
+                        SubscribeButtonView(podcastUuid: result.uuid)
                     }
                 }
                 .padding(.trailing, episode != nil ? 16 : 8)
                 ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .listRowSeparator(.hidden)
-            .listSectionSeparator(.hidden)
         }
     }
 }
