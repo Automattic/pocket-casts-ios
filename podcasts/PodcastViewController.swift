@@ -1,3 +1,4 @@
+import Combine
 import DifferenceKit
 import PocketCastsDataModel
 import PocketCastsServer
@@ -52,8 +53,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     var cellHeights: [IndexPath: CGFloat] = [:]
 
-    var podcastRating: PodcastRating? = nil
-    private var podcastRatingState: UpdateRatingState = .waiting
+    private var ratingStateListener = Set<AnyCancellable>()
+    private var ratingViewModel = PodcastRatingViewModel()
 
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
@@ -241,6 +242,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         super.viewWillAppear(animated)
 
         updateColors()
+        updateRatingIfNeeded()
     }
 
     private var hasAppearedAlready = false
@@ -909,48 +911,38 @@ private extension PodcastViewController {
 // MARK: - Ratings
 extension PodcastViewController {
     func rating() -> PodcastRating? {
-        // Don't do anything if we have no UUID yet or the flag isn't enabled
-        guard FeatureFlag.showRatings.enabled, let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first else {
-            return nil
-        }
-
-        switch podcastRatingState {
-        case .loading, .noRating:
-            return nil
-
-        case .hasRating:
-            return podcastRating
-
-        case .waiting:
-            fetchPodcastRating(uuid: uuid)
+        switch ratingViewModel.state {
+        case .rating(let rating):
+            return rating
+        default:
             return nil
         }
     }
 }
 
 private extension PodcastViewController {
-    func fetchPodcastRating(uuid: String) {
-        guard podcastRatingState == .waiting else { return }
-
-        podcastRatingState = .loading
-
-        Task {
-            guard let result = try? await RetrievePodcastRatingTask().retrieve(for: uuid) else {
-                podcastRatingState = .noRating
-                return
-            }
-
-            podcastRatingState = .hasRating
-            podcastRating = result
-        }
-    }
-
     @MainActor
     func reloadHeader() {
         episodesTable.reloadData()
     }
 
-    private enum UpdateRatingState {
-        case waiting, loading, noRating, hasRating
+    func updateRatingIfNeeded() {
+        guard
+            FeatureFlag.showRatings.enabled,
+            let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first
+        else {
+            return
+        }
+
+        ratingViewModel.$state
+            // Only update once we get the success state
+            .first(where: {
+                if case .rating = $0 { return true }
+                return false
+            }).sink { [weak self] _ in
+                self?.reloadHeader()
+            }.store(in: &ratingStateListener)
+
+        ratingViewModel.update(uuid: uuid)
     }
 }
