@@ -50,9 +50,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     var cellHeights: [IndexPath: CGFloat] = [:]
 
-    private var ratingStateListener = Set<AnyCancellable>()
-    private var ratingViewModel = PodcastRatingViewModel()
-
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
     lazy var isoFormatter: ISO8601DateFormatter = {
