@@ -30,7 +30,9 @@ struct StarRatingView: View {
     @ViewBuilder
     private func ratingView(rating: PodcastRating?) -> some View {
         starsView(rating: rating?.average ?? 0)
-        labelView(total: rating?.total)
+        if viewModel.showTotal {
+            labelView(total: rating?.total)
+        }
     }
 
     @ViewBuilder
