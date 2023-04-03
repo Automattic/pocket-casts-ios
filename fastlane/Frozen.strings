@@ -2010,6 +2010,9 @@
 /* A common string used throughout the app. Prompt to retry the recent request. */
 "retry" = "Retry";
 
+/* The label of the search button in Discover. Explaining the user can search or directly add a RSS URL. */
+"search_label" = "Search podcasts or add RSS URL";
+
 /* A common string used throughout the app. Placeholder text used in search boxes. */
 "search" = "Search";
 
