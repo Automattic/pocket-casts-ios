@@ -4,7 +4,10 @@ import PocketCastsUtils
 struct StarRatingView: View {
     @EnvironmentObject var theme: Theme
 
+    /// The rating value between 0.0 and 5.0
     let rating: Double
+
+    /// The total number of ratings to display, or nil if this should be hidden
     let total: Int?
 
     var body: some View {
