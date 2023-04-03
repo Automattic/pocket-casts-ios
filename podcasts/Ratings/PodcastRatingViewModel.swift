@@ -1,14 +1,19 @@
+import SwiftUI
 import PocketCastsServer
 
 class PodcastRatingViewModel: ObservableObject {
-    @Published var state: RatingState = .needsReload
+    @Published var rating: PodcastRating? = nil
+
+    /// Whether we should display the total ratings or not
+    var showTotal: Bool = true
+
+    private var state: LoadingState = .waiting
 
     /// Updates the rating for the podcast.
     ///
-    /// Changes are published on `self.state`.
     func update(uuid: String) {
         // Don't update if we have already finished or are currently updating
-        guard case .needsReload = state else { return }
+        guard state == .waiting else { return }
 
         state = .loading
 
@@ -17,18 +22,14 @@ class PodcastRatingViewModel: ObservableObject {
 
             // Publish on main thread only
             await MainActor.run {
-                state = rating.map { .rating($0) } ?? .none
+                self.rating = rating
             }
+
+            state = .done
         }
     }
 
-    /// Represents the rating status for this podcast:
-    ///
-    /// - `needsReload`: The rating state is not known and needs to be reloaded from the server.
-    /// - `loading`: The rating is being reloaded from the server
-    /// - `none`: This podcast does not have a rating
-    /// - `rating`: The podcast has a rating, and is provided as a `PodcastRating` value
-    enum RatingState {
-        case needsReload, loading, none, rating(PodcastRating)
+    private enum LoadingState {
+        case waiting, loading, done
     }
 }
