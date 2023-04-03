@@ -232,30 +232,38 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             layoutIfNeeded()
         }
 
-        showRatingIfNeeded()
+        if FeatureFlag.showRatings.enabled {
+            ratingViewModel.update(uuid: podcast.uuid)
+            self.addRatingIfNeeded()
+        }
     }
 
-    private var ratingView: UIView? = nil
+    private lazy var ratingViewModel: PodcastRatingViewModel = {
+        PodcastRatingViewModel()
+    }()
 
-    private func showRatingIfNeeded() {
-        self.ratingView?.removeFromSuperview()
+    private lazy var ratingView: UIView = {
+        let view = StarRatingView(viewModel: ratingViewModel)
+            .frame(height: 16)
+            .padding(.top, 10)
+            .themedUIView
 
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    private func addRatingIfNeeded() {
+        // Only add the rating if it hasn't been added already
         guard
-            let rating = delegate?.rating(),
-            let afterView = podcastCategory,
-            let index = extraContentStackView.arrangedSubviews.firstIndex(of: afterView)
+            ratingView.superview == nil,
+            let index = podcastCategory.flatMap({
+                extraContentStackView.arrangedSubviews.firstIndex(of: $0)
+            })
         else {
             return
         }
 
-        let ratingView = StarRatingView(rating: rating.average, total: rating.total)
-        let view = ratingView.frame(height: 16).padding(.top, 10).themedUIView
-
-        view.backgroundColor = .clear
-
-        extraContentStackView.insertArrangedSubview(view, at: index+1)
-
-        self.ratingView = view
+        extraContentStackView.insertArrangedSubview(ratingView, at: index+1)
     }
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -321,7 +329,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
 
-        ratingView?.isHidden = !expanded || delegate?.rating() == nil
+        if FeatureFlag.showRatings.enabled {
+            ratingView.isHidden = !expanded
+        }
     }
 
     private func setupButtons() {
