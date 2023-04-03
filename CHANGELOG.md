@@ -1,3 +1,7 @@
+7.37
+-----
+
+
 7.36
 -----
 - Updated sort order for Chinese podcast titles from Unicode-based to pinyin (#775)
