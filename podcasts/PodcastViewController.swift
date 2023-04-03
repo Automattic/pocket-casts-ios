@@ -36,8 +36,6 @@ protocol PodcastActionsDelegate: AnyObject {
     func didActivateSearch()
 
     func enableMultiSelect()
-
-    func rating() -> PodcastRating?
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -242,7 +240,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         super.viewWillAppear(animated)
 
         updateColors()
-        updateRatingIfNeeded()
     }
 
     private var hasAppearedAlready = false
@@ -905,44 +902,5 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
-    }
-}
-
-// MARK: - Ratings
-extension PodcastViewController {
-    func rating() -> PodcastRating? {
-        switch ratingViewModel.state {
-        case .rating(let rating):
-            return rating
-        default:
-            return nil
-        }
-    }
-}
-
-private extension PodcastViewController {
-    @MainActor
-    func reloadHeader() {
-        episodesTable.reloadData()
-    }
-
-    func updateRatingIfNeeded() {
-        guard
-            FeatureFlag.showRatings.enabled,
-            let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first
-        else {
-            return
-        }
-
-        ratingViewModel.$state
-            // Only update once we get the success state
-            .first(where: {
-                if case .rating = $0 { return true }
-                return false
-            }).sink { [weak self] _ in
-                self?.reloadHeader()
-            }.store(in: &ratingStateListener)
-
-        ratingViewModel.update(uuid: uuid)
     }
 }
