@@ -53,6 +53,7 @@ struct SearchHistoryCell: View {
                         let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
                         if entry.podcast?.kind == .folder {
                             SearchFolderPreviewWrapper(uuid: uuid)
+                                .cornerRadius(4)
                                 .shadow(radius: 3, x: 0, y: 1)
                                 .frame(width: 56, height: 56)
                                 .allowsHitTesting(false)

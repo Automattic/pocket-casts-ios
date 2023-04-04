@@ -33,13 +33,16 @@ struct SearchResultCell: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
                     if result?.kind == .podcast || episode != nil {
-                        PodcastCover(podcastUuid: episode?.podcastUuid ?? result?.uuid ?? "")
+                        PodcastImage(uuid: episode?.podcastUuid ?? result?.uuid ?? "")
                             .frame(width: 56, height: 56)
+                            .cornerRadius(4)
+                            .shadow(radius: 3, x: 0, y: 1)
                             .allowsHitTesting(false)
                     } else if let result {
                         SearchFolderPreviewWrapper(uuid: result.uuid)
                             .frame(width: 56, height: 56)
                             .cornerRadius(4)
+                            .shadow(radius: 3, x: 0, y: 1)
                             .allowsHitTesting(false)
                     }
 
