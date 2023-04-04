@@ -233,17 +233,17 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         if FeatureFlag.showRatings.enabled {
-            ratingViewModel.update(uuid: podcast.uuid)
-            self.addRatingIfNeeded()
+            delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+            addRatingIfNeeded()
         }
     }
 
-    private lazy var ratingViewModel: PodcastRatingViewModel = {
-        PodcastRatingViewModel()
-    }()
+    private lazy var ratingView: UIView? = {
+        guard let viewModel = self.delegate?.podcastRatingViewModel else {
+            return nil
+        }
 
-    private lazy var ratingView: UIView = {
-        let view = StarRatingView(viewModel: ratingViewModel)
+        let view = StarRatingView(viewModel: viewModel)
             .frame(height: 16)
             .padding(.top, 10)
             .themedUIView
@@ -255,7 +255,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     private func addRatingIfNeeded() {
         // Only add the rating if it hasn't been added already
         guard
-            ratingView.superview == nil,
+            let ratingView, ratingView.superview == nil,
             let index = podcastCategory.flatMap({
                 extraContentStackView.arrangedSubviews.firstIndex(of: $0)
             })
@@ -329,9 +329,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
 
-        if FeatureFlag.showRatings.enabled {
-            ratingView.isHidden = !expanded
-        }
+        ratingView?.isHidden = !expanded && FeatureFlag.showRatings.enabled
     }
 
     private func setupButtons() {
