@@ -54,12 +54,12 @@ struct SearchHistoryCell: View {
                         if entry.podcast?.kind == .folder {
                             SearchFolderPreviewWrapper(uuid: uuid)
                                 .modifier(NormalCoverShadow())
-                                .frame(width: 48, height: 48)
+                                .frame(width: 56, height: 56)
                                 .allowsHitTesting(false)
                                 .padding(.trailing, 12)
                         } else {
                             PodcastCover(podcastUuid: uuid)
-                                .frame(width: 48, height: 48)
+                                .frame(width: 56, height: 56)
                                 .allowsHitTesting(false)
                                 .padding(.trailing, 12)
                         }
