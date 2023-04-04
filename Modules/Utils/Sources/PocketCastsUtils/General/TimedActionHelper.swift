@@ -33,7 +33,7 @@ public class TimedActionHelper {
             DispatchQueue.main.sync { [weak self] in
                 guard let self else { return }
 
-                self.timer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(timerFired), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: time, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: false)
             }
         }
     }

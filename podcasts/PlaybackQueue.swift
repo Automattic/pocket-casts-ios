@@ -375,7 +375,7 @@ class PlaybackQueue: NSObject {
             DispatchQueue.main.sync { [weak self] () in
                 guard let self else { return }
 
-                self.syncTimer = Timer.scheduledTimer(timeInterval: self.syncTimerDelay, target: self, selector: #selector(syncTimerFired), userInfo: nil, repeats: false)
+                self.syncTimer = Timer.scheduledTimer(timeInterval: self.syncTimerDelay, target: self, selector: #selector(self.syncTimerFired), userInfo: nil, repeats: false)
             }
         }
     }
