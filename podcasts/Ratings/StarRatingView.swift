@@ -10,8 +10,10 @@ struct StarRatingView: View {
     private var startDate: Date = .now
 
     /// Only animate in if there's a rating and enough time has passed since appearing
+    /// If the value is being loaded from cache it will display async but faster than
+    /// if it was loaded fro the server, so this avoids a weird fade that could happen
     private var shouldAnimate: Bool {
-        viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeToAnimate
+        viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeBeforeAnimating
     }
 
     init(viewModel: PodcastRatingViewModel) {
@@ -21,7 +23,7 @@ struct StarRatingView: View {
     var body: some View {
         HStack(alignment: .center) {
             ratingView(rating: viewModel.rating)
-                .animation(.easeIn, value: shouldAnimate)
+                .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
 
             Spacer()
         }.onTapGesture {
@@ -83,6 +85,7 @@ struct StarRatingView: View {
         static let empty = Image(systemName: "star")
         static let half = Image(systemName: "star.fill.left")
 
-        static let minTimeToAnimate: TimeInterval = 0.2
+        static let minTimeBeforeAnimating: TimeInterval = 0.2
+        static let animationDuration: TimeInterval = 0.1
     }
 }
