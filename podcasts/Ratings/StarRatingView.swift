@@ -24,6 +24,8 @@ struct StarRatingView: View {
                 .animation(.easeIn, value: shouldAnimate)
 
             Spacer()
+        }.onTapGesture {
+            viewModel.didTapRating()
         }
     }
 
