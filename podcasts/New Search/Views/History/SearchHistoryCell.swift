@@ -53,15 +53,17 @@ struct SearchHistoryCell: View {
                         let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
                         if entry.podcast?.kind == .folder {
                             SearchFolderPreviewWrapper(uuid: uuid)
-                                .modifier(NormalCoverShadow())
+                                .shadow(radius: 3, x: 0, y: 1)
                                 .frame(width: 56, height: 56)
                                 .allowsHitTesting(false)
                                 .padding(.trailing, 12)
                         } else {
-                            PodcastCover(podcastUuid: uuid)
+                            PodcastImage(uuid: uuid)
+                                .cornerRadius(4)
                                 .frame(width: 56, height: 56)
                                 .allowsHitTesting(false)
                                 .padding(.trailing, 12)
+                                .shadow(radius: 3, x: 0, y: 1)
                         }
 
                         VStack(alignment: .leading, spacing: 2) {
