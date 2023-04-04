@@ -74,10 +74,10 @@ struct SearchResultCell: View {
                         SubscribeButtonView(podcastUuid: result.uuid)
                     }
                 }
-                .padding(.trailing, episode != nil ? 16 : 8)
+                .padding(.trailing, 8)
                 ThemedDivider()
             }
-            .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+            .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
         }
     }
 }

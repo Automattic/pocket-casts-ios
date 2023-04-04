@@ -58,7 +58,7 @@ struct PodcastsCarouselView: View {
             }
 
             ThemedDivider()
-                .padding(.leading, 16)
+                .padding(.leading, 8)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
