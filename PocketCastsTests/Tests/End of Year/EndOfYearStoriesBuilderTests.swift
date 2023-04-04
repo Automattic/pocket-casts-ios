@@ -186,7 +186,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         Settings.hasSyncedAll2022Episodes = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
-        let stories = await builder.build()
+        _ = await builder.build()
 
         XCTAssertTrue(syncCalled)
     }
@@ -199,7 +199,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         Settings.hasSyncedAll2022Episodes = true
 
         endOfYearManager.isFullListeningHistoryToReturn = false
-        let stories = await builder.build()
+        _ = await builder.build()
 
         XCTAssertFalse(syncCalled)
     }
