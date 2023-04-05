@@ -93,8 +93,15 @@ extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
 
-        let view = PlusLandingView(viewModel: viewModel)
-        let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
+        var controller: PlusHostingViewController<AnyView>
+        if FeatureFlag.patron.enabled {
+            let view = UpgradeLandingView()
+            controller = PlusHostingViewController(rootView: AnyView(view.setupDefaultEnvironment()))
+        } else {
+            let view = PlusLandingView(viewModel: viewModel)
+            controller = PlusHostingViewController(rootView: AnyView(view.setupDefaultEnvironment()))
+        }
+
         controller.viewModel = viewModel
         controller.navBarIsHidden = true
 
