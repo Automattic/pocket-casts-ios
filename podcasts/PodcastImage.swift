@@ -1,18 +1,17 @@
 import SwiftUI
 import Kingfisher
-import PocketCastsServer
 
 struct PodcastImage: View {
     let uuid: String
-    let size: Int
+    let size: PodcastThumbnailSize
 
-    init(uuid: String, size: Int = 280) {
+    init(uuid: String, size: PodcastThumbnailSize = .list) {
         self.uuid = uuid
         self.size = size
     }
 
     var body: some View {
-        KFImage(ServerHelper.imageUrl(podcastUuid: uuid, size: size))
+        KFImage(ImageManager.sharedManager.podcastUrl(imageSize: size, uuid: uuid))
             .resizable()
             .aspectRatio(1, contentMode: .fit)
             .accessibilityHidden(true)

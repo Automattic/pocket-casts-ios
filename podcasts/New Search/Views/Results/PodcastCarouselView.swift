@@ -85,7 +85,7 @@ struct PodcastResultCell: View {
                                 .aspectRatio(1, contentMode: .fit)
                                 .modifier(NormalCoverShadow())
                         case .podcast:
-                            PodcastImage(uuid: result.uuid)
+                            PodcastImage(uuid: result.uuid, size: .grid)
                                 .cornerRadius(8)
                                 .shadow(radius: 6, x: 0, y: 2)
                                 .aspectRatio(1, contentMode: .fit)
