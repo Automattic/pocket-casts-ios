@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -51,21 +52,8 @@ struct SearchHistoryCell: View {
                 HStack(spacing: 0) {
                     if let title = entry.podcast?.title ?? entry.episode?.title,
                         let uuid = entry.podcast?.uuid ?? entry.episode?.podcastUuid {
-                        if entry.podcast?.kind == .folder {
-                            SearchFolderPreviewWrapper(uuid: uuid)
-                                .cornerRadius(4)
-                                .shadow(radius: 3, x: 0, y: 1)
-                                .frame(width: 56, height: 56)
-                                .allowsHitTesting(false)
-                                .padding(.trailing, 12)
-                        } else {
-                            PodcastImage(uuid: uuid)
-                                .cornerRadius(4)
-                                .frame(width: 56, height: 56)
-                                .allowsHitTesting(false)
-                                .padding(.trailing, 12)
-                                .shadow(radius: 3, x: 0, y: 1)
-                        }
+                        SearchEntryImage(uuid: uuid, kind: entry.podcast?.kind)
+                            .padding(.trailing, 12)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(title)
@@ -103,6 +91,28 @@ struct SearchHistoryCell: View {
                     .frame(height: 1)
             }
             .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
+        }
+    }
+}
+
+struct SearchEntryImage: View {
+    let uuid: String
+    let kind: PodcastFolderSearchResult.Kind?
+
+    var body: some View {
+        image
+            .frame(width: 56, height: 56)
+            .cornerRadius(4)
+            .shadow(radius: 3, x: 0, y: 1)
+            .allowsHitTesting(false)
+    }
+
+    @ViewBuilder
+    private var image: some View {
+        if kind == .folder {
+            SearchFolderPreviewWrapper(uuid: uuid)
+        } else {
+            PodcastImage(uuid: uuid)
         }
     }
 }
