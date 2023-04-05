@@ -68,7 +68,7 @@ struct SearchHistoryCell: View {
                         .allowsHitTesting(false)
                     } else if let searchTerm = entry.searchTerm {
                         Image("search")
-                            .frame(width: 48, height: 48)
+                            .frame(width: 56, height: 56)
                             .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                             .padding(.trailing, 12)
                         Text(searchTerm)
