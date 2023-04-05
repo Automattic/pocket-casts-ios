@@ -127,7 +127,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func showInSafariViewController(urlString: String) {
         guard let url = URL(string: urlString) else { return }
 
-        let safariViewController = SFSafariViewController.controller(with: url)
+        let safariViewController = SFSafariViewController(with: url)
         topController().present(safariViewController, animated: true, completion: nil)
     }
 

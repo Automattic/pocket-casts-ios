@@ -200,7 +200,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             if URLHelper.isValidScheme(url.scheme) {
-                safariViewController = SFSafariViewController.controller(with: url)
+                safariViewController = SFSafariViewController(with: url)
                 safariViewController?.delegate = self
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)

@@ -64,7 +64,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
                 safariViewController = navigationAction.request.url.flatMap {
-                    SFSafariViewController.controller(with: $0)
+                    SFSafariViewController(with: $0)
                 }
 
                 safariViewController?.delegate = self

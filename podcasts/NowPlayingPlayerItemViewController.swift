@@ -244,7 +244,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            present(SFSafariViewController.controller(with: url), animated: true)
+            present(SFSafariViewController(with: url), animated: true)
         }
     }
 
