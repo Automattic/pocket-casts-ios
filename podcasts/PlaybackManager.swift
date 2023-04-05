@@ -1220,9 +1220,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             updateTimer = Timer.scheduledTimer(timeInterval: updateTimerInterval, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
         } else {
             DispatchQueue.main.sync { [weak self] in
-                guard let strongSelf = self else { return }
+                guard let self else { return }
 
-                strongSelf.updateTimer = Timer.scheduledTimer(timeInterval: strongSelf.updateTimerInterval, target: strongSelf, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
+                self.updateTimer = Timer.scheduledTimer(timeInterval: self.updateTimerInterval, target: self, selector: #selector(self.progressTimerFired), userInfo: nil, repeats: true)
             }
         }
     }

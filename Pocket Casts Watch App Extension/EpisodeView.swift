@@ -94,8 +94,8 @@ struct EpisodeView: View {
                 }
             }
 
-            if viewModel.supportsPodcastNavigation, let podcast = viewModel.parentPodcast, let viewModel = PodcastEpisodeListViewModel(podcast: podcast) {
-                NavigationLink(destination: PodcastEpisodeListView(viewModel: viewModel)) {
+            if viewModel.supportsPodcastNavigation, let podcast = viewModel.parentPodcast {
+                NavigationLink(destination: PodcastEpisodeListView(viewModel: .init(podcast: podcast))) {
                     EpisodeActionView(iconName: "episode_goto", title: L10n.goToPodcast)
                 }
             }
