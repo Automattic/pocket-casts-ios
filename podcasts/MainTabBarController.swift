@@ -127,9 +127,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func showInSafariViewController(urlString: String) {
         guard let url = URL(string: urlString) else { return }
 
-        let config = SFSafariViewController.Configuration()
-        config.entersReaderIfAvailable = true
-        let safariViewController = SFSafariViewController(url: url, configuration: config)
+        let safariViewController = SFSafariViewController(with: url)
         topController().present(safariViewController, animated: true, completion: nil)
     }
 
@@ -173,11 +171,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if let navController = selectedViewController as? UINavigationController {
+        appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
+            guard let navController = self?.selectedViewController as? UINavigationController else {
+                return
+            }
+
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
             navController.pushViewController(podcastController, animated: true)
-        }
+        })
     }
 
     func navigateTo(podcast searchResult: PodcastFolderSearchResult) {

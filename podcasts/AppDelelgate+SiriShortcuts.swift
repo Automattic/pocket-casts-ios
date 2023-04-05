@@ -18,10 +18,21 @@ extension AppDelegate {
                 JLRoutes.routeURL(url)
             }
         } else if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            guard let incomingURL = userActivity.webpageURL, let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true), let path = components.path, let controller = SceneHelper.rootViewController(), path != "/get" else { return }
+            guard
+                let incomingURL = userActivity.webpageURL,
+                let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
+                let path = components.path,
+                let controller = SceneHelper.rootViewController(),
+                path != "/get"
+            else { return }
 
-            FileLog.shared.addMessage("Opening universal link, path: \(path)")
-            openSharePath("social/share/show\(path)", controller: controller, onErrorOpen: incomingURL)
+            // Also pass any query params from the share URL to the server to allow support for episode position handling
+            // Ex: ?t=123
+            let query = components.query.map { "?\($0)" } ?? ""
+            let sharePath = "\(path)\(query)"
+
+            FileLog.shared.addMessage("Opening universal link, path: \(sharePath)")
+            openSharePath("social/share/show\(sharePath)", controller: controller, onErrorOpen: incomingURL)
         }
 
         guard let intent = userActivity.interaction?.intent else { return }
