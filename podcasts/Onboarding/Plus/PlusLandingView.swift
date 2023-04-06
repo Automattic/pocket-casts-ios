@@ -139,7 +139,7 @@ private struct PlusFeature: Identifiable, Equatable {
 }
 
 // MARK: - Internal Views
-private struct PlusLabel: View {
+struct PlusLabel: View {
     enum PlusLabelStyle {
         case title
         case subtitle
