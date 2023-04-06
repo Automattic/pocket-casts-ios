@@ -20,6 +20,6 @@ public struct DismissKeyboardOnScroll: ViewModifier {
 
     public func body(content: Content) -> some View {
         content
-            .highPriorityGesture(gesture)
+            .simultaneousGesture(gesture)
     }
 }
