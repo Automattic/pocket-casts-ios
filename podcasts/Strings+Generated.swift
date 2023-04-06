@@ -1511,6 +1511,8 @@ internal enum L10n {
   }
   /// Cloud Storage
   internal static var plusFeatureCloudStorage: String { return L10n.tr("Localizable", "plus_feature_cloud_storage") }
+  /// The undying gratitude of everyone here at Pocket Casts
+  internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// Standalone Watch Playback

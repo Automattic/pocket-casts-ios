@@ -1639,6 +1639,9 @@
 /* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
 "plus_feature_cloud_storage" = "Cloud Storage";
 
+/* Message about our gratitude when an user subscribe to Plus */
+"plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
