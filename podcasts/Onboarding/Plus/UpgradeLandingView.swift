@@ -10,12 +10,29 @@ struct UpgradeLandingView: View {
                 VStack {
                     PlusLabel(L10n.plusMarketingTitle, for: .title2)
 
-                    HStack {
-                        Text("Yearly")
-                            .foregroundColor(.white)
-                        Text("Monthly")
-                            .foregroundColor(.white)
+                    HStack(spacing: 0) {
+                        ZStack {
+                            Text("Yearly")
+                                .font(style: .subheadline, weight: .medium)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                        }
+                        .background(.white)
+                        .cornerRadius(24)
+                        .padding(.all, 4)
+
+                        ZStack {
+                            Text("Monthly")
+                                .font(style: .subheadline, weight: .medium)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                        }
+                        .cornerRadius(24)
+                        .padding(.all, 4)
                     }
+                    .background(.white.opacity(0.16))
+                    .cornerRadius(24)
 
                     VStack {
                         VStack(alignment: .leading) {
