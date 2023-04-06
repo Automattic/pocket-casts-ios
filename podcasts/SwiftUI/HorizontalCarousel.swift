@@ -100,9 +100,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             HStack(spacing: spacing) {
                 ForEach(items) { item in
                     content(item)
-                    // Update each items width according to the calculated width above
-                    // We apply the spacing again to apply the trailing spacing
-                        .frame(width: itemWidth - spacing)
+                        // Update each items width according to the calculated width above
+                        // We apply the spacing again to apply the trailing spacing
                 }
             }
             // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
@@ -124,7 +123,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         // Inform the listening of index changes while we're dragging
                         index = calculateIndex(value.translation, itemWidth: itemWidth)
                     }
-                // Keep track of the gesture's offset so we can "scroll"
+                    // Keep track of the gesture's offset so we can "scroll"
                     .updating($gestureOffset, body: { value, state, _ in
                         state = value.translation.width
                     })
@@ -137,10 +136,9 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
         let offset = (-translation.width / itemWidth).rounded()
 
         return (visibleIndex + Int(offset))
-        // Keep the next page within the page bounds
+            // Keep the next page within the page bounds
             .clamped(to: 0..<maxPages)
-        // Prevent the next page from being more than page item away
-            .clamped(to: visibleIndex-1..<visibleIndex+1)
+            // Prevent the next page from being more than page item away
     }
 
 
