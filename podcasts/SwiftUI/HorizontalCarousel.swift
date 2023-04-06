@@ -58,7 +58,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     var body: some View {
         GeometryReader { proxy in
             let baseWidth = proxy.size.width - spacing
-            
+
             let peekAmount: Double = {
                 guard maxPages > 1 else {
                     return 0
@@ -100,8 +100,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             HStack(spacing: spacing) {
                 ForEach(items) { item in
                     content(item)
-                        // Update each items width according to the calculated width above
-                        // We apply the spacing again to apply the trailing spacing
+                    // Update each items width according to the calculated width above
+                    // We apply the spacing again to apply the trailing spacing
                         .frame(width: itemWidth - spacing)
                 }
             }
@@ -109,10 +109,10 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             // to make the entire thing spring around. To add more springyness up the damping
             .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
             .offset(x: offsetX)
-            .gesture(
+            .highPriorityGesture(
                 DragGesture()
-                    // When the gesture is done, we use the predictedEnd calculate the next page based on the
-                    // gestures momentum
+                // When the gesture is done, we use the predictedEnd calculate the next page based on the
+                // gestures momentum
                     .onEnded { value in
                         let endIndex = calculateIndex(value.predictedEndTranslation, itemWidth: itemWidth)
 
@@ -124,7 +124,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         // Inform the listening of index changes while we're dragging
                         index = calculateIndex(value.translation, itemWidth: itemWidth)
                     }
-                    // Keep track of the gesture's offset so we can "scroll"
+                // Keep track of the gesture's offset so we can "scroll"
                     .updating($gestureOffset, body: { value, state, _ in
                         state = value.translation.width
                     })
@@ -137,9 +137,9 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
         let offset = (-translation.width / itemWidth).rounded()
 
         return (visibleIndex + Int(offset))
-            // Keep the next page within the page bounds
+        // Keep the next page within the page bounds
             .clamped(to: 0..<maxPages)
-            // Prevent the next page from being more than page item away
+        // Prevent the next page from being more than page item away
             .clamped(to: visibleIndex-1..<visibleIndex+1)
     }
 
