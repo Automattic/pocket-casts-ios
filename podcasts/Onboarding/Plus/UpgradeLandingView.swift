@@ -32,19 +32,83 @@ struct UpgradeLandingView: View {
                             .background(.black)
                             .cornerRadius(800)
 
-                            Text("$39.99 /year")
+                            HStack() {
+                                Text("$39.99")
+                                    .font(style: .largeTitle, weight: .bold)
+                                Text("/year")
+                                    .font(style: .headline, weight: .bold)
+                                    .opacity(0.6)
+                                    .padding(.top, 6)
+                            }
                             Text("Take your podcasting experience to the next level with exclusive access to features and customization options.")
+                                .font(style: .caption2, weight: .semibold)
+                                .opacity(0.64)
 
-                            Text("Desktop apps")
-                            Text("Folders")
-                            Text("10GB cloud storage")
-                            Text("Apple Watch playback")
-                            Text("Extra themes & icons")
-                            Text("The undying gratitude of everyone here at Pocket Casts")
+                            HStack(spacing: 16) {
+                                Image("plus-feature-desktop")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("Desktop apps")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
+                            HStack(spacing: 16) {
+                                Image("plus-feature-folders")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("Folders")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
+                            HStack(spacing: 16) {
+                                Image("plus-feature-cloud")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("10GB cloud storage")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
+                            HStack(spacing: 16) {
+                                Image("plus-feature-watch")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("Apple Watch playback")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
+                            HStack(spacing: 16) {
+                                Image("plus-feature-extra")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("Extra themes & icons")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
+                            HStack(alignment: .top, spacing: 16) {
+                                Image("plus-feature-love")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.black)
+                                    .frame(width: 16, height: 16)
+                                Text("The undying gratitude of everyone here at Pocket Casts")
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                            }
 
                             Button("Subscribe to Plus") {
 
                             }
+                            .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: Color(hex: "FFD846")))
                         }
                         .padding()
 

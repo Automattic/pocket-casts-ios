@@ -2,9 +2,11 @@ import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
+    let background: any View
 
-    init(isLoading: Bool = false) {
+    init(isLoading: Bool = false, background: any View = Color.plusGradient) {
         self.isLoading = isLoading
+        self.background = background
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -13,7 +15,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding()
 
-            .background(Color.plusGradient)
+            .background(AnyView(background))
             .foregroundColor(Color.plusButtonFilledTextColor)
 
             .cornerRadius(ViewConstants.buttonCornerRadius)
