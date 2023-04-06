@@ -139,6 +139,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             // Keep the next page within the page bounds
             .clamped(to: 0..<maxPages)
             // Prevent the next page from being more than page item away
+            .clamped(to: visibleIndex-itemsToDisplay..<visibleIndex+itemsToDisplay)
     }
 
 
