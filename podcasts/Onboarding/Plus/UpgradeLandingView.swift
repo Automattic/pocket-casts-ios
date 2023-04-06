@@ -16,7 +16,7 @@ struct UpgradeLandingView: View {
                     UpgradeRoundedSegmentedControl()
                         .padding(.bottom, 24)
 
-                    UpgradeCard(tier: PlusTier())
+                    UpgradeCard(tier: PatronTier())
                 }
             }
         }
@@ -37,7 +37,7 @@ struct TierFeature: Hashable {
 }
 
 struct PlusTier: UpgradeTier {
-    let iconName = "plus_gold"
+    let iconName = "plusGold"
     let title = "Plus"
     let price = "$39.99"
     let description = L10n.accountDetailsPlusTitle
@@ -47,6 +47,21 @@ struct PlusTier: UpgradeTier {
         TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
         TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
         TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
+        TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+    ]
+}
+
+struct PatronTier: UpgradeTier {
+    let iconName = "patron-heart"
+    let title = "Patron"
+    let price = "$99.99"
+    let description = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available."
+    let features = [
+        TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
+        TierFeature(iconName: "patron-early-access", title: "Early access to features"),
+        TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+        TierFeature(iconName: "patron-badge", title: "Supporters profile badge"),
+        TierFeature(iconName: "patron-icons", title: "Special Pocket Casts app icons"),
         TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     ]
 }

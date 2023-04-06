@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "patron-everything.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
