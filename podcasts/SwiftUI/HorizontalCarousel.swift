@@ -102,6 +102,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                     content(item)
                         // Update each items width according to the calculated width above
                         // We apply the spacing again to apply the trailing spacing
+                        .frame(width: max(0, itemWidth - spacing))
                 }
             }
             // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
