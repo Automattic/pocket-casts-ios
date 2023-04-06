@@ -624,4 +624,7 @@ enum AnalyticsEvent: String {
     case searchHistoryCleared
     case searchHistoryItemTapped
     case searchHistoryItemDeleteButtonTapped
+
+    // MARK: - Ratings
+    case ratingStarsTapped
 }
