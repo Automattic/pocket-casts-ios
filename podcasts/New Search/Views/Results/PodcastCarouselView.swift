@@ -35,15 +35,15 @@ struct PodcastsCarouselView: View {
                     }
                 }
             } else if searchResults.podcasts.count > 0 {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 0) {
-                        ForEach(searchResults.podcasts, id: \.self) { podcast in
-                                PodcastResultCell(result: podcast)
-                                .padding(10)
-                                .frame(width: podcastCellWidth)
-                        }
-                    }
+                HorizontalCarousel(items: searchResults.podcasts) { podcast in
+                    PodcastResultCell(result: podcast)
                 }
+                .carouselPeekAmount(.constant(20))
+                .carouselItemSpacing(10)
+                .carouselItemsToDisplay(UIDevice.current.isiPad() ? 4 : 2)
+                .aspectRatio(UIDevice.current.isiPad() ? 4 : 1.75, contentMode: .fit)
+                .padding(.bottom, 10)
+
             } else if !searchResults.isShowingLocalResultsOnly {
                 VStack(spacing: 2) {
                     Text(L10n.discoverNoPodcastsFound)
@@ -60,7 +60,6 @@ struct PodcastsCarouselView: View {
             ThemedDivider()
                 .padding(.leading, 8)
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }
