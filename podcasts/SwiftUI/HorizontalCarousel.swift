@@ -60,10 +60,6 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             let baseWidth = proxy.size.width - spacing
 
             let peekAmount: Double = {
-                guard maxPages > 1 else {
-                    return 0
-                }
-
                 switch self.peekAmount {
                 case let .constant(value):
                     return value
