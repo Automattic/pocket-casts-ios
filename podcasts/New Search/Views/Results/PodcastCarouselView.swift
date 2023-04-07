@@ -49,8 +49,32 @@ struct PodcastsCarouselView: View {
                     }
                 }
             } else if searchResults.podcasts.count > 0 {
-                HorizontalCarousel(items: searchResults.podcasts) { podcast in
+                let fillerPodcast = Podcast.previewPodcast()
+
+                // If needed, fill the results with filler podcasts to make sure the sizing and positioning is consistent
+                let results: [PodcastFolderSearchResult] = {
+                    let results = searchResults.podcasts
+                    let minCount = carouselItemsToDisplay + 1 // + 1 to have a fake peeking item
+
+                    guard results.count < minCount else {
+                        return results
+                    }
+
+                    let diff = minCount - results.count
+
+                    let filler = PodcastFolderSearchResult(from: fillerPodcast).flatMap {
+                        Array(repeating: $0, count: diff)
+                    } ?? []
+
+                    return results + filler
+                }()
+
+                HorizontalCarousel(items: results) { podcast in
+                    let isFiller = podcast.uuid == fillerPodcast.uuid
+
                     PodcastResultCell(result: podcast)
+                        .opacity(isFiller ? 0 : 1)
+                        .allowsHitTesting(isFiller ? false : true)
                 }
                 .carouselPeekAmount(.constant(20))
                 .carouselItemSpacing(16)
