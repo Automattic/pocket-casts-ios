@@ -1642,6 +1642,9 @@
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
 
+/* Label of a button to subscribe to Patron. Do not translate "Plus". */
+"plus_subscribe_to" = "Subscribe to Plus";
+
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 

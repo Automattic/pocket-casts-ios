@@ -70,6 +70,8 @@ struct UpgradeTier: Identifiable {
     let title: String
     let price: String
     let description: String
+    let buttonLabel: String
+    let buttonColor: Color
     let features: [TierFeature]
 
     var id: String {
@@ -88,7 +90,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", price: "$39.99", description: L10n.accountDetailsPlusTitle, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", price: "$39.99", description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -99,7 +101,7 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: L10n.patronDescription, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), features: [
             TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
@@ -190,10 +192,10 @@ struct UpgradeCard: View {
                 }
                 .padding(.bottom, 24)
 
-                Button("Subscribe to Plus") {
+                Button(tier.buttonLabel) {
 
                 }
-                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: Color(hex: "FFD846")))
+                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: tier.buttonColor))
             }
             .padding(.all, 24)
 
