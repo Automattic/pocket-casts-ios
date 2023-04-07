@@ -99,12 +99,12 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.", features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: L10n.patronDescription, features: [
             TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
-            TierFeature(iconName: "patron-early-access", title: "Early access to features"),
+            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
-            TierFeature(iconName: "patron-badge", title: "Supporters profile badge"),
-            TierFeature(iconName: "patron-icons", title: "Special Pocket Casts app icons"),
+            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
+            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ])
