@@ -53,10 +53,14 @@ struct PodcastsCarouselView: View {
                     PodcastResultCell(result: podcast)
                 }
                 .carouselPeekAmount(.constant(20))
-                .carouselItemSpacing(10)
-                .carouselItemsToDisplay(UIDevice.current.isiPad() ? 4 : 2)
-                .aspectRatio(UIDevice.current.isiPad() ? 4 : 1.75, contentMode: .fit)
-                .padding(.bottom, 10)
+                .carouselItemSpacing(16)
+                .carouselItemsToDisplay(carouselItemsToDisplay)
+
+                // Apply an aspect ratio to the carousel to auto adjust the height
+                // while maintaining the correct ratios for the items inside
+                .aspectRatio(Double(carouselItemsToDisplay) - Carousel.aspectRatio, contentMode: .fit)
+                .padding(.bottom, UIDevice.current.isiPad() ? 10 : 0)
+                .padding(.leading, 8)
 
             } else if !searchResults.isShowingLocalResultsOnly {
                 VStack(spacing: 2) {
