@@ -54,7 +54,7 @@ struct SearchResultCell: View {
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(result.kind == .folder ? L10n.folder : result.author)
+                            Text(result.kind == .folder ? L10n.folder : result.authorToDisplay)
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
@@ -72,5 +72,11 @@ struct SearchResultCell: View {
             }
             .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
         }
+    }
+}
+
+extension PodcastFolderSearchResult {
+    var authorToDisplay: String {
+        author ?? ""
     }
 }

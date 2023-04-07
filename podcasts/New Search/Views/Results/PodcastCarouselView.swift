@@ -110,7 +110,7 @@ struct PodcastResultCell: View {
                     Text(result.title)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
-                    Text(result.author)
+                    Text(result.authorToDisplay)
                         .lineLimit(1)
                         .font(size: 14, style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
