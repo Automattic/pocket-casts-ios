@@ -101,6 +101,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         .frame(width: max(0, itemWidth - spacing))
                 }
             }
+            .frame(minWidth: proxy.size.width, alignment: .leading)
+
             // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
             // to make the entire thing spring around. To add more springyness up the damping
             .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
