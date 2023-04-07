@@ -83,7 +83,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
                 // If we're displaying the last item, then adjust the offset so we show the peek on the leading side
                 if isLast {
-                    x += peekAmount
+                    x += peekAmount + spacing
                 }
 
                 // Apply the gesture offset so the view updates
