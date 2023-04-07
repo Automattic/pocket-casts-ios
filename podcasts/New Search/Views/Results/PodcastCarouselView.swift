@@ -62,6 +62,9 @@ struct PodcastsCarouselView: View {
                 .padding(.bottom, UIDevice.current.isiPad() ? 10 : 0)
                 .padding(.leading, 8)
 
+                // Set the id of the carousel to make sure the we reset the position when the search changes
+                .id(searchResults.podcasts.map { $0.id })
+
             } else if !searchResults.isShowingLocalResultsOnly {
                 VStack(spacing: 2) {
                     Text(L10n.discoverNoPodcastsFound)
