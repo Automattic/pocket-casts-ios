@@ -107,11 +107,13 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             // to make the entire thing spring around. To add more springyness up the damping
             .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
             .offset(x: offsetX)
+
+            // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
                 DragGesture()
-                // When the gesture is done, we use the predictedEnd calculate the next page based on the
-                // gestures momentum
                     .onEnded { value in
+                        // When the gesture is done, we use the predictedEnd calculate the next page based on the
+                        // gestures momentum
                         let endIndex = calculateIndex(value.predictedEndTranslation, itemWidth: itemWidth)
 
                         // We're done animating so snap to the next index
@@ -122,8 +124,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         // Inform the listening of index changes while we're dragging
                         index = calculateIndex(value.translation, itemWidth: itemWidth)
                     }
-                    // Keep track of the gesture's offset so we can "scroll"
                     .updating($gestureOffset, body: { value, state, _ in
+                        // Keep track of the gesture's offset so we can "scroll"
                         state = value.translation.width
                     })
             )
