@@ -31,6 +31,8 @@ struct UpgradeLandingView: View {
 
 
                             PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(2)
                                 .padding(.bottom, 16)
                                 .padding(.horizontal, 32)
 
