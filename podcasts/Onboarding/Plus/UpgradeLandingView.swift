@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct UpgradeLandingView: View {
+    let tiers: [UpgradeTier] = [.plus, .patron]
     var body: some View {
         ZStack {
 
@@ -16,54 +17,62 @@ struct UpgradeLandingView: View {
                     UpgradeRoundedSegmentedControl()
                         .padding(.bottom, 24)
 
-                    UpgradeCard(tier: PatronTier())
+                    HorizontalCarousel(items: tiers) {
+                        UpgradeCard(tier: $0)
+                    }
+                    .carouselPeekAmount(.constant(20))
+                    .carouselItemSpacing(30)
                 }
             }
         }
     }
 }
 
-protocol UpgradeTier {
-    var iconName: String { get }
-    var title: String { get }
-    var price: String { get }
-    var description: String { get }
-    var features: [TierFeature] { get }
-}
-
-struct TierFeature: Hashable {
+struct UpgradeTier: Identifiable {
+    let tier: Tier
     let iconName: String
     let title: String
+    let price: String
+    let description: String
+    let features: [TierFeature]
+
+    var id: String {
+        tier.rawValue
+    }
+
+    enum Tier: String {
+        case plus, patron
+    }
+
+    struct TierFeature: Hashable {
+        let iconName: String
+        let title: String
+    }
 }
 
-struct PlusTier: UpgradeTier {
-    let iconName = "plusGold"
-    let title = "Plus"
-    let price = "$39.99"
-    let description = L10n.accountDetailsPlusTitle
-    let features = [
-        TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
-        TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
-        TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
-        TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-        TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-        TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-    ]
-}
+extension UpgradeTier {
+    static var plus: UpgradeTier {
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", price: "$39.99", description: L10n.accountDetailsPlusTitle, features: [
+            TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
+            TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
+            TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
+            TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        ])
+    }
 
-struct PatronTier: UpgradeTier {
-    let iconName = "patron-heart"
-    let title = "Patron"
-    let price = "$99.99"
-    let description = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available."
-    let features = [
-        TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
-        TierFeature(iconName: "patron-early-access", title: "Early access to features"),
-        TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
-        TierFeature(iconName: "patron-badge", title: "Supporters profile badge"),
-        TierFeature(iconName: "patron-icons", title: "Special Pocket Casts app icons"),
-        TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-    ]
+    static var patron: UpgradeTier {
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.", features: [
+            TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
+            TierFeature(iconName: "patron-early-access", title: "Early access to features"),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            TierFeature(iconName: "patron-badge", title: "Supporters profile badge"),
+            TierFeature(iconName: "patron-icons", title: "Special Pocket Casts app icons"),
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+
+        ])
+    }
 }
 
 struct UpgradeRoundedSegmentedControl: View {
@@ -155,8 +164,6 @@ struct UpgradeCard: View {
         }
         .background(.white)
         .cornerRadius(24)
-        .padding(.leading, 40)
-        .padding(.trailing, 40)
         .shadow(color: .black.opacity(0.01), radius: 10, x: 0, y: 24)
         .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 14)
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
