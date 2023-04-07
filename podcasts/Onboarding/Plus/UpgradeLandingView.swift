@@ -2,22 +2,25 @@ import SwiftUI
 
 struct UpgradeLandingView: View {
     let tiers: [UpgradeTier] = [.plus, .patron]
+
+    @State var currentPage: Int = 0
+
     var body: some View {
         ZStack {
 
-            LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: currentPage == 0 ? "D4B43A" : "9583F8"), Color(hex: currentPage == 0 ? "FFDE64" : "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
 
             ScrollViewIfNeeded {
                 VStack(spacing: 0) {
-                    PlusLabel(L10n.plusMarketingTitle, for: .title2)
+                    PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
                         .padding(.bottom, 16)
                         .padding(.horizontal, 32)
 
                     UpgradeRoundedSegmentedControl()
                         .padding(.bottom, 24)
 
-                    FeaturesCarousel(tiers: tiers)
+                    FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
                 }
             }
         }
@@ -25,6 +28,8 @@ struct UpgradeLandingView: View {
 }
 
 struct FeaturesCarousel: View {
+    let currentIndex: Binding<Int>
+
     let tiers: [UpgradeTier]
 
     @State var calculatedCardHeight: CGFloat?
@@ -33,7 +38,7 @@ struct FeaturesCarousel: View {
         // Store the calculated card heights
         var cardHeights: [CGFloat] = []
 
-        HorizontalCarousel(items: tiers) {
+        HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
             UpgradeCard(tier: $0)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
