@@ -8,37 +8,38 @@ struct UpgradeLandingView: View {
     @State private var currentPage: Int = 0
 
     var body: some View {
-        ZStack {
+        VStack {
+            topBar
 
-            if currentPage == 0 {
-                tiers[0].background
-                    .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
-                    .ignoresSafeArea()
-            } else {
-                tiers[1].background
-                    .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
-                    .ignoresSafeArea()
-            }
+            ZStack {
+
+                if currentPage == 0 {
+                    tiers[0].background
+                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                        .ignoresSafeArea()
+                } else {
+                    tiers[1].background
+                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                        .ignoresSafeArea()
+                }
+
+                VStack(spacing: 0) {
+                    ScrollViewIfNeeded {
+                        VStack(spacing: 0) {
 
 
-            VStack(spacing: 0) {
-                topBar
+                            PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
+                                .padding(.bottom, 16)
+                                .padding(.horizontal, 32)
 
-                ScrollViewIfNeeded {
-                    VStack(spacing: 0) {
+                            UpgradeRoundedSegmentedControl()
+                                .padding(.bottom, 24)
 
+                            FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
 
-                        PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
-                            .padding(.bottom, 16)
-                            .padding(.horizontal, 32)
-
-                        UpgradeRoundedSegmentedControl()
-                            .padding(.bottom, 24)
-
-                        FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
-
-                        PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
-                        .padding(.top, 27)
+                            PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
+                            .padding(.top, 27)
+                        }
                     }
                 }
             }
@@ -56,7 +57,6 @@ struct UpgradeLandingView: View {
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
             .padding(.trailing)
-            .padding(.top)
         }
     }
 }
