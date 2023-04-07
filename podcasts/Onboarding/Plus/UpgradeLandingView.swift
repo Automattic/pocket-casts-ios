@@ -7,6 +7,8 @@ struct UpgradeLandingView: View {
 
     @State private var currentPage: Int = 0
 
+    @State private var displayPrice: DisplayPrice = .yearly
+
     var body: some View {
         VStack {
             topBar
@@ -32,10 +34,10 @@ struct UpgradeLandingView: View {
                                 .padding(.bottom, 16)
                                 .padding(.horizontal, 32)
 
-                            UpgradeRoundedSegmentedControl()
+                            UpgradeRoundedSegmentedControl(selected: $displayPrice)
                                 .padding(.bottom, 24)
 
-                            FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
+                            FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
                             PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
                             .padding(.top, 27)
@@ -59,10 +61,16 @@ struct UpgradeLandingView: View {
             .padding(.trailing)
         }
     }
+
+    enum DisplayPrice {
+        case yearly, monthly
+    }
 }
 
 struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
+
+    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
 
     let tiers: [UpgradeTier]
 
@@ -73,7 +81,7 @@ struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0)
+            UpgradeCard(tier: $0, currentPrice: currentPrice)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
@@ -158,26 +166,28 @@ extension UpgradeTier {
 }
 
 struct UpgradeRoundedSegmentedControl: View {
+    @Binding private var selected: UpgradeLandingView.DisplayPrice
+
+    init(selected: Binding<UpgradeLandingView.DisplayPrice>) {
+        self._selected = selected
+    }
+
     var body: some View {
         HStack(spacing: 0) {
-            ZStack {
-                Text(L10n.yearly)
-                    .font(style: .subheadline, weight: .medium)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+            Button(L10n.yearly) {
+                withAnimation {
+                    selected = .yearly
+                }
             }
-            .background(.white)
-            .cornerRadius(24)
+            .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .yearly))
             .padding(.all, 4)
 
-            ZStack {
-                Text(L10n.monthly)
-                    .font(style: .subheadline, weight: .medium)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+            Button(L10n.monthly) {
+                withAnimation {
+                    selected = .monthly
+                }
             }
-            .cornerRadius(24)
+            .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .monthly))
             .padding(.all, 4)
         }
         .background(.white.opacity(0.16))
@@ -185,10 +195,33 @@ struct UpgradeRoundedSegmentedControl: View {
     }
 }
 
+struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
+    let isSelected: Bool
+
+    init(isSelected: Bool = true) {
+        self.isSelected = isSelected
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(
+                isSelected ? .white : configuration.isPressed ? .white.opacity(0.1) : .clear
+            )
+            .font(style: .subheadline, weight: .medium)
+            .foregroundColor(isSelected ? .black : .white)
+            .cornerRadius(100)
+            .contentShape(Rectangle())
+    }
+}
+
 struct UpgradeCard: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
 
     let tier: UpgradeTier
+
+    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
 
     var body: some View {
         VStack() {
@@ -208,9 +241,9 @@ struct UpgradeCard: View {
                 .padding(.bottom, 10)
 
                 HStack() {
-                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == tier.yearlyIdentifier })?.rawPrice ?? "?")
+                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == (currentPrice.wrappedValue == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?")
                         .font(style: .largeTitle, weight: .bold)
-                    Text("/\(L10n.year)")
+                    Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
                         .font(style: .headline, weight: .bold)
                         .opacity(0.6)
                         .padding(.top, 6)
