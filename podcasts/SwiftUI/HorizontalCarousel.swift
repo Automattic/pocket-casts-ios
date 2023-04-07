@@ -83,7 +83,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                 let isLast = visibleIndex == maxPages
 
                 // Add the leading padding and calculate the current item offset
-                var x = spacing + (CGFloat(visibleIndex) * -itemWidth)
+                var x = (CGFloat(visibleIndex) * -itemWidth)
 
                 // If we're displaying the last item, then adjust the offset so we show the peek on the leading side
                 if isLast {
