@@ -92,13 +92,17 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                 return x
             }()
 
+            let visibleFrame = proxy.frame(in: .global)
+
             // The actual carousel
             HStack(spacing: spacing) {
                 ForEach(items) { item in
-                    content(item)
-                        // Update each items width according to the calculated width above
-                        // We apply the spacing again to apply the trailing spacing
-                        .frame(width: max(0, itemWidth - spacing))
+                    // Lazy load the content to improve performance
+                    LazyLoadingView(visibleFrame: visibleFrame) {
+                        content(item)
+                    }
+                    // Update each items width according to the calculated width above
+                    .frame(width: max(0, itemWidth - spacing))
                 }
             }
             .frame(minWidth: proxy.size.width, alignment: .leading)
