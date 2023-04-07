@@ -10,7 +10,7 @@ struct UpgradeLandingView: View {
     @State private var displayPrice: DisplayPrice = .yearly
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             topBar
 
             ZStack {
@@ -52,12 +52,13 @@ struct UpgradeLandingView: View {
     }
 
     var topBar: some View {
-        HStack {
-            Spacer()
+        HStack(spacing: 0) {
+            Rectangle()
+                .foregroundColor(.clear)
+                .frame(height: 44)
             Button(L10n.eoyNotNow) {
                 viewModel.dismissTapped()
             }
-            .frame(height: 44)
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
             .padding(.trailing)
