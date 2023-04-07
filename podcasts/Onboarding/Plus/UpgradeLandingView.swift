@@ -1,9 +1,11 @@
 import SwiftUI
 
 struct UpgradeLandingView: View {
-    let tiers: [UpgradeTier] = [.plus, .patron]
+    @EnvironmentObject var viewModel: PlusLandingViewModel
 
-    @State var currentPage: Int = 0
+    private let tiers: [UpgradeTier] = [.plus, .patron]
+
+    @State private var currentPage: Int = 0
 
     var body: some View {
         ZStack {
@@ -19,23 +21,43 @@ struct UpgradeLandingView: View {
             }
 
 
-            ScrollViewIfNeeded {
-                VStack(spacing: 0) {
-                    PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
-                        .padding(.bottom, 16)
-                        .padding(.horizontal, 32)
+            VStack(spacing: 0) {
+                topBar
 
-                    UpgradeRoundedSegmentedControl()
-                        .padding(.bottom, 24)
+                ScrollViewIfNeeded {
+                    VStack(spacing: 0) {
 
-                    FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
 
-                    PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
-                    .padding(.top, 27)
+                        PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
+                            .padding(.bottom, 16)
+                            .padding(.horizontal, 32)
+
+                        UpgradeRoundedSegmentedControl()
+                            .padding(.bottom, 24)
+
+                        FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
+
+                        PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
+                        .padding(.top, 27)
+                    }
                 }
             }
         }
         .background(Color(hex: "121212"))
+    }
+
+    var topBar: some View {
+        HStack {
+            Spacer()
+            Button(L10n.eoyNotNow) {
+                viewModel.dismissTapped()
+            }
+            .frame(height: 44)
+            .foregroundColor(.white)
+            .font(style: .body, weight: .medium)
+            .padding(.trailing)
+            .padding(.top)
+        }
     }
 }
 
@@ -163,6 +185,8 @@ struct UpgradeRoundedSegmentedControl: View {
 }
 
 struct UpgradeCard: View {
+    @EnvironmentObject var viewModel: PlusLandingViewModel
+
     let tier: UpgradeTier
 
     var body: some View {
@@ -214,7 +238,7 @@ struct UpgradeCard: View {
                 .padding(.bottom, 24)
 
                 Button(tier.buttonLabel) {
-
+                    viewModel.unlockTapped()
                 }
                 .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: tier.buttonColor, foregroundColor: tier.buttonForegroundColor))
             }
@@ -250,6 +274,6 @@ struct PageIndicator: View {
 
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
-        UpgradeLandingView()
+        UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
     }
 }
