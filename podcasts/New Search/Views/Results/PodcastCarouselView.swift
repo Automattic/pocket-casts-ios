@@ -58,7 +58,7 @@ struct PodcastsCarouselView: View {
             }
 
             ThemedDivider()
-                .padding(.leading, 16)
+                .padding(.leading, 8)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
@@ -85,7 +85,9 @@ struct PodcastResultCell: View {
                                 .aspectRatio(1, contentMode: .fit)
                                 .modifier(NormalCoverShadow())
                         case .podcast:
-                            PodcastCover(podcastUuid: result.uuid)
+                            PodcastImage(uuid: result.uuid, size: .grid)
+                                .cornerRadius(8)
+                                .shadow(radius: 6, x: 0, y: 2)
                                 .aspectRatio(1, contentMode: .fit)
                         }
                     }

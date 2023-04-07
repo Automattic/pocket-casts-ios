@@ -32,15 +32,8 @@ struct SearchResultCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    if result?.kind == .podcast || episode != nil {
-                        PodcastCover(podcastUuid: episode?.podcastUuid ?? result?.uuid ?? "")
-                            .frame(width: 48, height: 48)
-                            .allowsHitTesting(false)
-                    } else if let result {
-                        SearchFolderPreviewWrapper(uuid: result.uuid)
-                            .frame(width: 48, height: 48)
-                            .cornerRadius(4)
-                            .allowsHitTesting(false)
+                    (episode?.podcastUuid ?? result?.uuid).map {
+                        SearchEntryImage(uuid: $0, kind: result?.kind)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
@@ -74,10 +67,10 @@ struct SearchResultCell: View {
                         SubscribeButtonView(podcastUuid: result.uuid)
                     }
                 }
-                .padding(.trailing, episode != nil ? 16 : 8)
+                .padding(.trailing, 8)
                 ThemedDivider()
             }
-            .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 0))
+            .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
         }
     }
 }

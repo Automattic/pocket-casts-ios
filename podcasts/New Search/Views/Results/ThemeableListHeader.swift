@@ -28,7 +28,7 @@ struct ThemeableListHeader: View {
                 .buttonStyle(PrimaryButtonStyle())
             }
         }
-        .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 12))
+        .padding(EdgeInsets(top: 12, leading: 8, bottom: 12, trailing: 8))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }

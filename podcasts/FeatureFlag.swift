@@ -34,6 +34,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Patron
     case patron
 
+    /// Displaying podcast ratings
+    case showRatings
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -61,6 +64,8 @@ enum FeatureFlag: String, CaseIterable {
         case .discoverFeaturedAutoScroll:
             return true
         case .patron:
+            return false
+        case .showRatings:
             return false
         }
     }
