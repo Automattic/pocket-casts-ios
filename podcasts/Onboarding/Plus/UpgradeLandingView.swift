@@ -9,11 +9,11 @@ struct UpgradeLandingView: View {
         ZStack {
 
             if currentPage == 0 {
-                LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                tiers[0].background
                     .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
                     .ignoresSafeArea()
             } else {
-                LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                tiers[1].background
                     .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
                     .ignoresSafeArea()
             }
@@ -30,14 +30,7 @@ struct UpgradeLandingView: View {
 
                     FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
 
-                    HStack {
-                        ForEach(0 ..< tiers.count, id: \.self) { tierIndex in
-                            Circle()
-                                .frame(width: 8, height: 8)
-                                .foregroundColor(.white)
-                                .opacity(tierIndex == currentPage ? 1 : 0.5)
-                        }
-                    }
+                    PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
                     .padding(.top, 27)
                 }
             }
@@ -98,6 +91,7 @@ struct UpgradeTier: Identifiable {
     let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
+    let background: AnyView
 
     var id: String {
         tier.rawValue
@@ -122,7 +116,8 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-        ])
+        ],
+        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
     }
 
     static var patron: UpgradeTier {
@@ -134,7 +129,8 @@ extension UpgradeTier {
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
-        ])
+        ],
+        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
     }
 }
 
@@ -232,6 +228,23 @@ struct UpgradeCard: View {
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
         .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
         .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
+    }
+}
+
+struct PageIndicator: View {
+    let numberOfItems: Int
+
+    let currentPage: Int
+
+    var body: some View {
+        HStack {
+            ForEach(0 ..< numberOfItems, id: \.self) { itemIndex in
+                Circle()
+                    .frame(width: 8, height: 8)
+                    .foregroundColor(.white)
+                    .opacity(itemIndex == currentPage ? 1 : 0.5)
+            }
+        }
     }
 }
 
