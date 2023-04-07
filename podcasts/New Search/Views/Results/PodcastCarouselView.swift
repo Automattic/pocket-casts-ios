@@ -1,19 +1,33 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import Combine
 
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    private var podcastCellWidth: CGFloat {
-        UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1
-    }
+    /// Keep track of whether we're in landscape mode when on iPad
+    @State private var isLandscape = false
 
     // Only show activity indicator when not searching for local podcasts
     private var shouldShowLoadingActivity: Bool {
         (searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly) || (searchResults.isShowingLocalResultsOnly && searchResults.podcasts.isEmpty)
+    }
+
+    /// Calculate how many items we want to show in the carousel at a time
+    /// On iPad we show more, and adjust for landscape orientation as well
+    private var carouselItemsToDisplay: Int {
+        guard UIDevice.current.isiPad() else {
+            return Carousel.items
+        }
+
+        return isLandscape ? Carousel.iPadLandscapeItems : Carousel.iPadPortaitItems
+    }
+
+    private var podcastCellWidth: CGFloat {
+        UIScreen.main.bounds.width / Double(carouselItemsToDisplay)
     }
 
     var body: some View {
@@ -61,6 +75,27 @@ struct PodcastsCarouselView: View {
                 .padding(.leading, 8)
         }
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
+        .onReceive(UIDevice.orientationDidChangeNotification.publisher(), perform: { _ in
+            isLandscape = UIDevice.current.orientation.isLandscape
+        })
+        .onAppear {
+            guard UIDevice.current.isiPad() else { return }
+
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        }
+        .onDisappear {
+            guard UIDevice.current.isiPad() else { return }
+
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        }
+    }
+
+    private enum Carousel {
+        static let items = 2
+        static let iPadPortaitItems = 4
+        static let iPadLandscapeItems = 6
+
+        static let aspectRatio = 0.2
     }
 }
 
