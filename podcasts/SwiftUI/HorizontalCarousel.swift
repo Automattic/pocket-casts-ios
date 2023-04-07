@@ -162,6 +162,44 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     }
 }
 
+/// Uses a lightweight view to calcuate the size and origin of the expected view
+/// and once it overlaps with the visible frame we load the content
+///
+/// This allows the carousel to lazily load the content but without using a LazyHStack which causes problems
+/// with the gesture animations
+///
+private struct LazyLoadingView<Content: View>: View {
+    let visibleFrame: CGRect
+    let content: () -> Content
+
+    @State private var isVisible = false
+
+    var body: some View {
+        if isVisible {
+            content()
+        } else {
+            visibilityChecker
+        }
+    }
+
+    private var visibilityChecker: some View {
+        Color.clear
+            .background (
+                GeometryReader { proxy in
+                    Action {
+                        var frame = visibleFrame
+
+                        // Expand the visible frame by 2 to load items that are currently off screen but may appear next
+                        frame.size.width *= 2
+
+                        // Calculate if this view is visible or not
+                        isVisible = frame.intersects(proxy.frame(in: .global))
+                    }
+                }
+            )
+    }
+}
+
 // MARK: - Preview
 
 struct HorizontalCarousel_Preview: PreviewProvider {
