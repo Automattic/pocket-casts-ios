@@ -8,8 +8,16 @@ struct UpgradeLandingView: View {
     var body: some View {
         ZStack {
 
-            LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: currentPage == 0 ? "D4B43A" : "9583F8"), Color(hex: currentPage == 0 ? "FFDE64" : "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            if currentPage == 0 {
+                LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                    .ignoresSafeArea()
+            } else {
+                LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                    .ignoresSafeArea()
+            }
+
 
             ScrollViewIfNeeded {
                 VStack(spacing: 0) {
@@ -21,9 +29,20 @@ struct UpgradeLandingView: View {
                         .padding(.bottom, 24)
 
                     FeaturesCarousel(currentIndex: $currentPage.animation(), tiers: tiers)
+
+                    HStack {
+                        ForEach(0 ..< tiers.count, id: \.self) { tierIndex in
+                            Circle()
+                                .frame(width: 8, height: 8)
+                                .foregroundColor(.white)
+                                .opacity(tierIndex == currentPage ? 1 : 0.5)
+                        }
+                    }
+                    .padding(.top, 27)
                 }
             }
         }
+        .background(Color(hex: "121212"))
     }
 }
 
