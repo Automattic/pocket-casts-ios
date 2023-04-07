@@ -24,10 +24,12 @@ class PlusPricingInfoModel: ObservableObject {
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
+            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
             let trial = purchaseHandler.localizedFreeTrialDuration(product)
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
+                                              rawPrice: rawPrice,
                                               freeTrialDuration: trial)
             pricing.append(info)
         }
@@ -48,6 +50,7 @@ class PlusPricingInfoModel: ObservableObject {
     struct PlusProductPricingInfo: Identifiable {
         let identifier: Constants.IapProducts
         let price: String
+        let rawPrice: String
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }

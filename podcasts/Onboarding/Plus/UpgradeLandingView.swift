@@ -107,7 +107,8 @@ struct UpgradeTier: Identifiable {
     let tier: Tier
     let iconName: String
     let title: String
-    let price: String
+    let yearlyIdentifier: String
+    let monthlyIdentifier: String
     let description: String
     let buttonLabel: String
     let buttonColor: Color
@@ -131,7 +132,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", price: "$39.99", description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", yearlyIdentifier: Constants.IapProducts.yearly.rawValue, monthlyIdentifier: Constants.IapProducts.monthly.rawValue, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -143,7 +144,7 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", price: "$99.99", description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", yearlyIdentifier: "com.pocketcasts.patron.yearly", monthlyIdentifier: "com.pocketcasts.patron.monthly", description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
@@ -207,7 +208,7 @@ struct UpgradeCard: View {
                 .padding(.bottom, 10)
 
                 HStack() {
-                    Text(tier.price)
+                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == tier.yearlyIdentifier })?.rawPrice ?? "?")
                         .font(style: .largeTitle, weight: .bold)
                     Text("/\(L10n.year)")
                         .font(style: .headline, weight: .bold)
