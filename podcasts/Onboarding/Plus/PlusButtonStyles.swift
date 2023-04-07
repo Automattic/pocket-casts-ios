@@ -3,10 +3,12 @@ import SwiftUI
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
     let background: any View
+    let foregroundColor: Color
 
-    init(isLoading: Bool = false, background: any View = Color.plusGradient) {
+    init(isLoading: Bool = false, background: any View = Color.plusGradient, foregroundColor: Color = .plusButtonFilledTextColor) {
         self.isLoading = isLoading
         self.background = background
+        self.foregroundColor = foregroundColor
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -16,7 +18,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
             .padding()
 
             .background(AnyView(background))
-            .foregroundColor(Color.plusButtonFilledTextColor)
+            .foregroundColor(foregroundColor)
 
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
@@ -25,11 +27,11 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
                 ZStack {
                     if isLoading {
                         Rectangle()
-                            .overlay(Color.plusGradient)
+                            .overlay(AnyView(background))
                             .cornerRadius(ViewConstants.buttonCornerRadius)
 
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: Color.plusButtonFilledTextColor))
+                            .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
                     }
                 }
             )
