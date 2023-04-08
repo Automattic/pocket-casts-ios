@@ -57,7 +57,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let baseWidth = proxy.size.width - spacing
+            let baseWidth = proxy.size.width
 
             let peekAmount: Double = {
                 switch self.peekAmount {
@@ -83,7 +83,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
                 // If we're displaying the last item, then adjust the offset so we show the peek on the leading side
                 if isLast {
-                    x += peekAmount + spacing
+                    x += peekAmount
                 }
 
                 // Apply the gesture offset so the view updates
@@ -231,6 +231,9 @@ struct HorizontalCarousel_Preview: PreviewProvider {
             VStack {
                 Spacer()
 
+                Text("🎠 HorizontalCarousel.swift")
+                    .font(.title)
+                    .fontWeight(.bold)
                 VStack {
                     HStack {
                         Text("Peek Type")
@@ -286,6 +289,7 @@ struct HorizontalCarousel_Preview: PreviewProvider {
                     isConstant ? .constant(peek) : .percent(peek)
                 )
                 .frame(height: 200)
+                .padding(.leading, 20)
 
                 Spacer()
             }
