@@ -19,6 +19,8 @@ class SearchResultsModel: ObservableObject {
 
     @Published var hideEpisodes = false
 
+    private var tasksInProgress: [Task<(), Never>] = []
+
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
     }
@@ -35,7 +37,9 @@ class SearchResultsModel: ObservableObject {
             clearSearch()
         }
 
-        Task {
+        cancelOnGoingSearches()
+
+        let podcastSearchTask = Task {
             isSearchingForPodcasts = true
             do {
                 let results = try await podcastSearch.search(term: term)
@@ -46,10 +50,11 @@ class SearchResultsModel: ObservableObject {
 
             isSearchingForPodcasts = false
         }
+        tasksInProgress.append(podcastSearchTask)
 
         if !term.startsWith(string: "http") {
             hideEpisodes = false
-            Task {
+            let episodeSearchTask = Task {
                 isSearchingForEpisodes = true
                 do {
                     let results = try await episodeSearch.search(term: term)
@@ -60,6 +65,7 @@ class SearchResultsModel: ObservableObject {
 
                 isSearchingForEpisodes = false
             }
+            tasksInProgress.append(episodeSearchTask)
         } else {
             hideEpisodes = true
         }
@@ -106,5 +112,10 @@ class SearchResultsModel: ObservableObject {
         } else {
             podcasts = podcastResults
         }
+    }
+
+    private func cancelOnGoingSearches() {
+        tasksInProgress.forEach { $0.cancel() }
+        tasksInProgress = []
     }
 }
