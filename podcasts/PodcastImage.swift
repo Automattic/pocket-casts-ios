@@ -12,6 +12,12 @@ struct PodcastImage: View {
 
     var body: some View {
         KFImage(ImageManager.sharedManager.podcastUrl(imageSize: size, uuid: uuid))
+            .placeholder { _ in
+                if let placeholder = ImageManager.sharedManager.placeHolderImage(size) {
+                    Image(uiImage: placeholder)
+                        .resizable()
+                }
+            }
             .resizable()
             .aspectRatio(1, contentMode: .fit)
             .accessibilityHidden(true)
