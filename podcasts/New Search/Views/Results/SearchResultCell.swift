@@ -50,7 +50,7 @@ struct SearchResultCell: View {
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
                         } else if let result {
-                            Text(result.title)
+                            Text(result.title ?? "")
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)

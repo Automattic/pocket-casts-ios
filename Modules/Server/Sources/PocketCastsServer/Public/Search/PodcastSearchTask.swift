@@ -15,7 +15,7 @@ struct PodcastsSearchEnvelopeResult: Decodable {
 
 public struct PodcastFolderSearchResult: Codable, Hashable {
     public let uuid: String
-    public let title: String
+    public let title: String?
     public let author: String?
     public let kind: Kind
     public var isLocal: Bool?
