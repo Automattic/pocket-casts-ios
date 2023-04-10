@@ -111,11 +111,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = false
-            let safariViewController = SFSafariViewController(url: url, configuration: config)
-
-            present(safariViewController, animated: true, completion: nil)
+            present(SFSafariViewController(with: url), animated: true, completion: nil)
         }
     }
 }

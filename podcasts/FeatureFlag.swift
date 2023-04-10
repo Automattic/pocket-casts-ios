@@ -31,6 +31,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Auto scrolls Discover Featured carousel
     case discoverFeaturedAutoScroll
 
+    /// Displaying podcast ratings
+    case showRatings
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -57,6 +60,8 @@ enum FeatureFlag: String, CaseIterable {
             return false
         case .discoverFeaturedAutoScroll:
             return true
+        case .showRatings:
+            return false
         }
     }
 }

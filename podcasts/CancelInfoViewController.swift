@@ -83,10 +83,7 @@ class CancelInfoViewController: UIViewController, SFSafariViewControllerDelegate
 
     @IBAction func showMeTapped(_ sender: Any) {
         if let url = URL(string: ServerConstants.Urls.cancelSubscription) {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = false
-
-            safariViewController = SFSafariViewController(url: url, configuration: config)
+            safariViewController = SFSafariViewController(with: url)
             safariViewController?.delegate = self
             if let vc = safariViewController {
                 present(vc, animated: true)

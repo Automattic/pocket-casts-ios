@@ -35,6 +35,8 @@ protocol PodcastActionsDelegate: AnyObject {
     func didActivateSearch()
 
     func enableMultiSelect()
+
+    var podcastRatingViewModel: PodcastRatingViewModel { get }
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -49,6 +51,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var searchController: EpisodeListSearchController?
 
     var cellHeights: [IndexPath: CGFloat] = [:]
+
+    var podcastRatingViewModel = PodcastRatingViewModel()
 
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
