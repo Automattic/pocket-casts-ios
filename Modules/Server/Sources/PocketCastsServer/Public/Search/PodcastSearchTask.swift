@@ -30,15 +30,11 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     }
 
     public init?(from podcast: Podcast) {
-        if let title = podcast.title {
-            self.uuid = podcast.uuid
-            self.title = title
-            self.author = podcast.author
-            self.isLocal = true
-            self.kind = .podcast
-        } else {
-            return nil
-        }
+        self.uuid = podcast.uuid
+        self.title = podcast.title
+        self.author = podcast.author
+        self.isLocal = true
+        self.kind = .podcast
     }
 
     public init?(from folder: Folder) {
