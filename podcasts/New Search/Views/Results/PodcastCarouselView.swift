@@ -88,7 +88,7 @@ struct PodcastsCarouselView: View {
                 // Apply an aspect ratio to the carousel to auto adjust the height
                 // while maintaining the correct ratios for the items inside
                 .aspectRatio(Double(carouselItemsToDisplay) - Carousel.aspectRatio, contentMode: .fit)
-                .padding(.bottom, UIDevice.current.isiPad() ? 10 : 0)
+                .padding(.bottom, 10)
                 .padding(.leading, 8)
 
                 // Set the id of the carousel to make sure the we reset the position when the search changes
