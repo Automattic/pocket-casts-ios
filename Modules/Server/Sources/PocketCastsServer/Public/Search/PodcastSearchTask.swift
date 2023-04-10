@@ -71,7 +71,7 @@ public class PodcastSearchTask {
         let (data, _) = try await session.data(for: request!)
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let envelope = try! decoder.decode(PodcastsSearchEnvelope.self, from: data)
+        let envelope = try decoder.decode(PodcastsSearchEnvelope.self, from: data)
         if let podcast = envelope.result.podcast {
             return [podcast]
         } else {
