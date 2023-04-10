@@ -58,6 +58,12 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     }
 }
 
+extension PodcastFolderSearchResult: Identifiable {
+    public var id: String {
+        uuid
+    }
+}
+
 public class PodcastSearchTask {
     private let session: URLSession
 

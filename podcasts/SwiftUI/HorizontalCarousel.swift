@@ -57,13 +57,9 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let baseWidth = proxy.size.width - spacing
+            let baseWidth = proxy.size.width
 
             let peekAmount: Double = {
-                guard maxPages > 1 else {
-                    return 0
-                }
-
                 switch self.peekAmount {
                 case let .constant(value):
                     return value
@@ -83,7 +79,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                 let isLast = visibleIndex == maxPages
 
                 // Add the leading padding and calculate the current item offset
-                var x = spacing + (CGFloat(visibleIndex) * -itemWidth)
+                var x = (CGFloat(visibleIndex) * -itemWidth)
 
                 // If we're displaying the last item, then adjust the offset so we show the peek on the leading side
                 if isLast {
@@ -96,24 +92,32 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                 return x
             }()
 
+            let visibleFrame = proxy.frame(in: .global)
+
             // The actual carousel
             HStack(spacing: spacing) {
                 ForEach(items) { item in
-                    content(item)
+                    // Lazy load the content to improve performance
+                    LazyLoadingView(visibleFrame: visibleFrame) {
+                        content(item)
+                    }
                     // Update each items width according to the calculated width above
-                    // We apply the spacing again to apply the trailing spacing
-                        .frame(width: itemWidth - spacing)
+                    .frame(width: max(0, itemWidth - spacing))
                 }
             }
+            .frame(minWidth: proxy.size.width, alignment: .leading)
+
             // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
             // to make the entire thing spring around. To add more springyness up the damping
             .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
             .offset(x: offsetX)
+
+            // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
                 DragGesture()
-                // When the gesture is done, we use the predictedEnd calculate the next page based on the
-                // gestures momentum
                     .onEnded { value in
+                        // When the gesture is done, we use the predictedEnd calculate the next page based on the
+                        // gestures momentum
                         let endIndex = calculateIndex(value.predictedEndTranslation, itemWidth: itemWidth)
 
                         // We're done animating so snap to the next index
@@ -124,8 +128,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         // Inform the listening of index changes while we're dragging
                         index = calculateIndex(value.translation, itemWidth: itemWidth)
                     }
-                // Keep track of the gesture's offset so we can "scroll"
                     .updating($gestureOffset, body: { value, state, _ in
+                        // Keep track of the gesture's offset so we can "scroll"
                         state = value.translation.width
                     })
             )
@@ -137,10 +141,10 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
         let offset = (-translation.width / itemWidth).rounded()
 
         return (visibleIndex + Int(offset))
-        // Keep the next page within the page bounds
+            // Keep the next page within the page bounds
             .clamped(to: 0..<maxPages)
-        // Prevent the next page from being more than page item away
-            .clamped(to: visibleIndex-1..<visibleIndex+1)
+            // Prevent the next page from being more than page item away
+            .clamped(to: visibleIndex-itemsToDisplay..<visibleIndex+itemsToDisplay)
     }
 
 
@@ -159,6 +163,44 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
         /// A value between 0 and 1
         /// Ex: 0.1 will have the peek take up 10% of the total carousel width
         case percent(Double)
+    }
+}
+
+/// Uses a lightweight view to calcuate the size and origin of the expected view
+/// and once it overlaps with the visible frame we load the content
+///
+/// This allows the carousel to lazily load the content but without using a LazyHStack which causes problems
+/// with the gesture animations
+///
+private struct LazyLoadingView<Content: View>: View {
+    let visibleFrame: CGRect
+    let content: () -> Content
+
+    @State private var isVisible = false
+
+    var body: some View {
+        if isVisible {
+            content()
+        } else {
+            visibilityChecker
+        }
+    }
+
+    private var visibilityChecker: some View {
+        Color.clear
+            .background (
+                GeometryReader { proxy in
+                    Action {
+                        var frame = visibleFrame
+
+                        // Expand the visible frame by 2 to load items that are currently off screen but may appear next
+                        frame.size.width *= 2
+
+                        // Calculate if this view is visible or not
+                        isVisible = frame.intersects(proxy.frame(in: .global))
+                    }
+                }
+            )
     }
 }
 
@@ -189,6 +231,9 @@ struct HorizontalCarousel_Preview: PreviewProvider {
             VStack {
                 Spacer()
 
+                Text("🎠 HorizontalCarousel.swift")
+                    .font(.title)
+                    .fontWeight(.bold)
                 VStack {
                     HStack {
                         Text("Peek Type")
@@ -244,6 +289,7 @@ struct HorizontalCarousel_Preview: PreviewProvider {
                     isConstant ? .constant(peek) : .percent(peek)
                 )
                 .frame(height: 200)
+                .padding(.leading, 20)
 
                 Spacer()
             }

@@ -1,19 +1,38 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import Combine
 
 struct PodcastsCarouselView: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    private var podcastCellWidth: CGFloat {
-        UIDevice.current.isiPad() ? UIScreen.main.bounds.width / 4.3 : UIScreen.main.bounds.width / 2.1
-    }
+    /// Keep track of whether we're in landscape mode when on iPad
+    @State private var isLandscape = false
 
     // Only show activity indicator when not searching for local podcasts
     private var shouldShowLoadingActivity: Bool {
         (searchResults.isSearchingForPodcasts && !searchResults.isShowingLocalResultsOnly) || (searchResults.isShowingLocalResultsOnly && searchResults.podcasts.isEmpty)
+    }
+
+    /// Calculate how many items we want to show in the carousel at a time
+    /// On iPad we show more, and adjust for landscape orientation as well
+    private var carouselItemsToDisplay: Int {
+        guard UIDevice.current.isiPad() else {
+            return Carousel.items
+        }
+
+        return isLandscape ? Carousel.iPadLandscapeItems : Carousel.iPadPortaitItems
+    }
+
+    private var podcastCellWidth: CGFloat {
+        UIScreen.main.bounds.width / Double(carouselItemsToDisplay)
+    }
+
+    init() {
+        // Get the initial landscape value from the scene since UIDevice may not have the value yet
+        _isLandscape = State(initialValue: SceneHelper.foregroundActiveAppScene()?.interfaceOrientation.isLandscape ?? false)
     }
 
     var body: some View {
@@ -35,15 +54,46 @@ struct PodcastsCarouselView: View {
                     }
                 }
             } else if searchResults.podcasts.count > 0 {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 0) {
-                        ForEach(searchResults.podcasts, id: \.self) { podcast in
-                                PodcastResultCell(result: podcast)
-                                .padding(10)
-                                .frame(width: podcastCellWidth)
-                        }
+                let fillerPodcast = Podcast.previewPodcast()
+
+                // If needed, fill the results with filler podcasts to make sure the sizing and positioning is consistent
+                let results: [PodcastFolderSearchResult] = {
+                    let results = searchResults.podcasts
+                    let minCount = carouselItemsToDisplay + 1 // + 1 to have a fake peeking item
+
+                    guard results.count < minCount else {
+                        return results
                     }
+
+                    let diff = minCount - results.count
+
+                    let filler = PodcastFolderSearchResult(from: fillerPodcast).flatMap {
+                        Array(repeating: $0, count: diff)
+                    } ?? []
+
+                    return results + filler
+                }()
+
+                HorizontalCarousel(items: results) { podcast in
+                    let isFiller = podcast.uuid == fillerPodcast.uuid
+
+                    PodcastResultCell(result: podcast)
+                        .opacity(isFiller ? 0 : 1)
+                        .allowsHitTesting(isFiller ? false : true)
                 }
+                .carouselPeekAmount(.constant(20))
+                .carouselItemSpacing(16)
+                .carouselItemsToDisplay(carouselItemsToDisplay)
+
+                // Apply an aspect ratio to the carousel to auto adjust the height
+                // while maintaining the correct ratios for the items inside
+                .aspectRatio(Double(carouselItemsToDisplay) - Carousel.aspectRatio, contentMode: .fit)
+                .padding(.bottom, 10)
+                .padding(.leading, 8)
+
+                // Set the id of the carousel to make sure the we reset the position when the search changes
+                .id(searchResults.podcasts.map { $0.id })
+
             } else if !searchResults.isShowingLocalResultsOnly {
                 VStack(spacing: 2) {
                     Text(L10n.discoverNoPodcastsFound)
@@ -60,8 +110,28 @@ struct PodcastsCarouselView: View {
             ThemedDivider()
                 .padding(.leading, 8)
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .background(AppTheme.color(for: .primaryUi02, theme: theme))
+        .onReceive(UIDevice.orientationDidChangeNotification.publisher(), perform: { _ in
+            isLandscape = UIDevice.current.orientation.isLandscape
+        })
+        .onAppear {
+            guard UIDevice.current.isiPad() else { return }
+
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        }
+        .onDisappear {
+            guard UIDevice.current.isiPad() else { return }
+
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        }
+    }
+
+    private enum Carousel {
+        static let items = 2
+        static let iPadPortaitItems = 4
+        static let iPadLandscapeItems = 6
+
+        static let aspectRatio = 0.2
     }
 }
 
