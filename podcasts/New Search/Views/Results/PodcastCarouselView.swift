@@ -107,7 +107,7 @@ struct PodcastResultCell: View {
 
             Button(action: { }) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(result.title ?? "")
+                    Text(result.titleToDisplay)
                         .lineLimit(1)
                         .font(style: .subheadline, weight: .medium)
                     Text(result.authorToDisplay)

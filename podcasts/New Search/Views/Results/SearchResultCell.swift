@@ -50,7 +50,7 @@ struct SearchResultCell: View {
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
                         } else if let result {
-                            Text(result.title ?? "")
+                            Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
@@ -76,6 +76,10 @@ struct SearchResultCell: View {
 }
 
 extension PodcastFolderSearchResult {
+    var titleToDisplay: String {
+        title ?? ""
+    }
+
     var authorToDisplay: String {
         author ?? ""
     }
