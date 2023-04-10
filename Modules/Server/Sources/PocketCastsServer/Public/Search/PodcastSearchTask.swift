@@ -23,7 +23,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.uuid = try container.decode(String.self, forKey: .uuid)
-        self.title = try container.decode(String.self, forKey: .title)
+        self.title = try? container.decode(String.self, forKey: .title)
         self.author = try? container.decode(String.self, forKey: .author)
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
         self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
