@@ -15,30 +15,26 @@ struct PodcastsSearchEnvelopeResult: Decodable {
 
 public struct PodcastFolderSearchResult: Codable, Hashable {
     public let uuid: String
-    public let title: String
-    public let author: String
+    public let title: String?
+    public let author: String?
     public let kind: Kind
     public var isLocal: Bool?
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.uuid = try container.decode(String.self, forKey: .uuid)
-        self.title = try container.decode(String.self, forKey: .title)
-        self.author = try container.decode(String.self, forKey: .author)
+        self.title = try? container.decode(String.self, forKey: .title)
+        self.author = try? container.decode(String.self, forKey: .author)
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
         self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
     }
 
     public init?(from podcast: Podcast) {
-        if let title = podcast.title, let author = podcast.author {
-            self.uuid = podcast.uuid
-            self.title = title
-            self.author = author
-            self.isLocal = true
-            self.kind = .podcast
-        } else {
-            return nil
-        }
+        self.uuid = podcast.uuid
+        self.title = podcast.title
+        self.author = podcast.author
+        self.isLocal = true
+        self.kind = .podcast
     }
 
     public init?(from folder: Folder) {
