@@ -1645,6 +1645,9 @@
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
+/* Label of a button to skip subscring to any plan */
+"plus_skip" = "Skip";
+
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 

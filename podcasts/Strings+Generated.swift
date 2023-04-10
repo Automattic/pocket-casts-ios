@@ -1612,6 +1612,8 @@ internal enum L10n {
   internal static var plusRequiredFeature: String { return L10n.tr("Localizable", "plus_required_feature") }
   /// Select Payment Frequency
   internal static var plusSelectPaymentFrequency: String { return L10n.tr("Localizable", "plus_select_payment_frequency") }
+  /// Skip
+  internal static var plusSkip: String { return L10n.tr("Localizable", "plus_skip") }
   /// Subscribe to Plus
   internal static var plusSubscribeTo: String { return L10n.tr("Localizable", "plus_subscribe_to") }
   /// Your subscription is managed by the Apple App Store

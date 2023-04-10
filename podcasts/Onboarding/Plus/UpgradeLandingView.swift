@@ -56,7 +56,7 @@ struct UpgradeLandingView: View {
             Rectangle()
                 .foregroundColor(.clear)
                 .frame(height: 44)
-            Button(L10n.eoyNotNow) {
+            Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
                 viewModel.dismissTapped()
             }
             .foregroundColor(.white)
@@ -110,7 +110,7 @@ struct FeaturesCarousel: View {
 
     private enum Constants {
         static let peekAmount: Double = 20
-        static let spacing: Double = 30
+        static let spacing: Double = UIDevice.current.isiPad() ? 150 : 30
     }
 }
 
