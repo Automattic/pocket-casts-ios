@@ -87,9 +87,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         }
 
         switch identifier {
-        case .yearly:
+        case .yearly, .patronYearly:
             return L10n.plusYearlyFrequencyPricingFormat(price)
-        case .monthly:
+        case .monthly, .patronMonthly:
             return L10n.plusMonthlyFrequencyPricingFormat(price)
         }
     }

@@ -229,12 +229,14 @@ struct Constants {
         enum IapProducts: String {
             case yearly = "com.pocketcasts.plus.yearly"
             case monthly = "com.pocketcasts.plus.monthly"
+            case patronYearly = "com.pocketcasts.patron.yearly"
+            case patronMonthly = "com.pocketcasts.patron.monthly"
 
             var renewalPrompt: String {
                 switch self {
-                case .yearly:
+                case .yearly, .patronYearly:
                     return L10n.accountPaymentRenewsYearly
-                case .monthly:
+                case .monthly, .patronMonthly:
                     return L10n.accountPaymentRenewsMonthly
                 }
             }
