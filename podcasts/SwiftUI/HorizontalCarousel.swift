@@ -4,6 +4,7 @@ import SwiftUI
 /// - `carouselItemsToDisplay` to change how many of the `items` will be displayed per page
 /// - `carouselItemSpacing` to adjust the spacing between the items
 /// - `carouselPeekAmount` to control how much (if any) of the next item on the next page should display
+/// - `carouselSwipeAnimation` to change the swipe/page change animation
 /// Add the `currentIndex` binding to be notified when the page changes
 struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     /// Binding for the currently selected index
