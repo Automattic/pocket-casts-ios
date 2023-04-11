@@ -13,6 +13,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     private var itemsToDisplay = 1
     private var spacing: Double = 0
     private var peekAmount: PeekAmount = .constant(10)
+    private var swipeAnimation: Animation = .interpolatingSpring(stiffness: 350, damping: 30)
 
     private let items: [T]
     private let content: (T) -> Content
@@ -47,6 +48,13 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     func carouselPeekAmount(_ value: PeekAmount) -> Self {
         update { carousel in
             carousel.peekAmount = value
+        }
+    }
+
+    /// Update the animation that occurs when swiping between pages
+    func carouselSwipeAnimation(_ value: Animation) -> Self {
+        update { carousel in
+            carousel.swipeAnimation = value
         }
     }
 
@@ -107,10 +115,9 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             }
             .frame(minWidth: proxy.size.width, alignment: .leading)
 
-            // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
-            // to make the entire thing spring around. To add more springyness up the damping
-            .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
-            .offset(x: offsetX)
+            // Animate the swiping / page changes
+            .animation(swipeAnimation, value: gestureOffset)
+            .animation(swipeAnimation, value: visibleIndex)
 
             // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
