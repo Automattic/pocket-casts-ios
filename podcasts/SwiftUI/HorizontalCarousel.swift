@@ -119,6 +119,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             .animation(swipeAnimation, value: gestureOffset)
             .animation(swipeAnimation, value: visibleIndex)
 
+            .offset(x: dampenOffset(offsetX))
+
             // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
                 DragGesture()
@@ -154,6 +156,17 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             .clamped(to: visibleIndex-itemsToDisplay..<visibleIndex+itemsToDisplay)
     }
 
+    /// Dampens the offset for the first and last pages
+    private func dampenOffset(_ offset: Double) -> Double {
+        guard visibleIndex == 0 || visibleIndex == maxPages else {
+            return offset
+        }
+
+        // Scale the gesture offset down for the first and last items
+        let adjustedOffset = offset - (gestureOffset * 0.7)
+
+        return visibleIndex == 0 ? min(offset, adjustedOffset) : max(offset, adjustedOffset)
+    }
 
     /// Passes a mutable version of self to the block and returns the modified version
     private func update(_ block: (inout Self) -> Void) -> Self {
