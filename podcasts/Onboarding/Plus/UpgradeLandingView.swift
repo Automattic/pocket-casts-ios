@@ -70,6 +70,8 @@ struct UpgradeLandingView: View {
     }
 }
 
+// MARK: - Feature Carousel
+
 struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
@@ -113,6 +115,8 @@ struct FeaturesCarousel: View {
         static let spacing: Double = UIDevice.current.isiPad() ? 150 : 30
     }
 }
+
+// MARK: - Available plans
 
 struct UpgradeTier: Identifiable {
     let tier: Tier
@@ -168,6 +172,8 @@ extension UpgradeTier {
     }
 }
 
+// MARK: - Segmented Control
+
 struct UpgradeRoundedSegmentedControl: View {
     @Binding private var selected: UpgradeLandingView.DisplayPrice
 
@@ -218,6 +224,8 @@ struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
             .contentShape(Rectangle())
     }
 }
+
+// MARK: - Upgrade card
 
 struct UpgradeCard: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
