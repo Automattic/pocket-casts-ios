@@ -159,7 +159,7 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", yearlyIdentifier: "com.pocketcasts.patron.yearly", monthlyIdentifier: "com.pocketcasts.patron.monthly", description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", yearlyIdentifier: Constants.IapProducts.patronYearly.rawValue, monthlyIdentifier: Constants.IapProducts.patronMonthly.rawValue, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
