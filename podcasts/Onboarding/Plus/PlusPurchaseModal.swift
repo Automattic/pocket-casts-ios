@@ -2,6 +2,19 @@ import SwiftUI
 import PocketCastsServer
 
 struct PlusPurchaseModal: View {
+    enum Plan {
+        case plus, patron
+
+        var products: [Constants.IapProducts] {
+            switch self {
+            case .plus:
+                return [.yearly, .monthly]
+            case .patron:
+                return [.patronYearly, .patronMonthly]
+            }
+        }
+    }
+
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
 
@@ -12,16 +25,22 @@ struct PlusPurchaseModal: View {
         coordinator.pricingInfo
     }
 
-
     /// Whether or not all products have free trials, in this case we'll show the free trial label
     /// above the products and not inline
     let showGlobalTrial: Bool
-    init(coordinator: PlusPurchaseModel) {
+
+    private var planToPurchase: Plan
+
+    private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
+
+    init(coordinator: PlusPurchaseModel, planToPurchase: Plan) {
         self.coordinator = coordinator
-        let firstProduct = coordinator.pricingInfo.products.first
 
-        self.showGlobalTrial = coordinator.pricingInfo.products.allSatisfy { $0.freeTrialDuration != nil }
+        self.products = planToPurchase.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }
+        self.planToPurchase = planToPurchase
+        self.showGlobalTrial = products.allSatisfy { $0.freeTrialDuration != nil }
 
+        let firstProduct = products.first
         _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
         _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
     }
@@ -40,7 +59,7 @@ struct PlusPurchaseModal: View {
             }
 
             VStack(spacing: 16) {
-                ForEach(pricingInfo.products) { product in
+                ForEach(products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         ZStack(alignment: .center) {
@@ -193,7 +212,7 @@ private struct Label: View {
 // MARK: - Preview
 struct PlusPurchaseOptions_Previews: PreviewProvider {
     static var previews: some View {
-        PlusPurchaseModal(coordinator: PlusPurchaseModel())
+        PlusPurchaseModal(coordinator: PlusPurchaseModel(), planToPurchase: .plus)
             .setupDefaultEnvironment()
     }
 }
