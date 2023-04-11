@@ -2,13 +2,19 @@ import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
-    let background: any View
-    let foregroundColor: Color
+    let plan: PlusPurchaseModal.Plan
 
-    init(isLoading: Bool = false, background: any View = Color.plusGradient, foregroundColor: Color = .plusButtonFilledTextColor) {
+    private var background: any View {
+        plan == .plus ? Color.plusGradient : Color(hex: "6046F5")
+    }
+
+    private var foregroundColor: Color {
+        plan == .plus ? .plusButtonFilledTextColor : .white
+    }
+
+    init(isLoading: Bool = false, plan: PlusPurchaseModal.Plan) {
         self.isLoading = isLoading
-        self.background = background
-        self.foregroundColor = foregroundColor
+        self.plan = plan
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -41,9 +47,23 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
 struct PlusGradientStrokeButton: ButtonStyle {
     let isSelectable: Bool
     let isSelected: Bool
+    let plan: PlusPurchaseModal.Plan
 
-    init(isSelectable: Bool = false, isSelected: Bool = true) {
+    private var foregroundColor: Color {
+        plan == .plus ? Color.plusGradientColor1 : Color(hex: "AFA2FA")
+    }
+
+    private var overlay: LinearGradient {
+        plan == .plus ? Color.plusGradient : Color.patronGradient
+    }
+
+    private var selectedImageName: String {
+        plan == .plus ? "icon-plus-button-selected" : "icon-patron-button-selected"
+    }
+
+    init(isSelectable: Bool = false, plan: PlusPurchaseModal.Plan, isSelected: Bool = true) {
         self.isSelectable = isSelectable
+        self.plan = plan
         self.isSelected = isSelected
     }
 
@@ -54,8 +74,8 @@ struct PlusGradientStrokeButton: ButtonStyle {
             .padding()
 
             // Overlay the gradient, or just set the color if not selected
-            .foregroundColor(isSelected ? Color.plusGradientColor1 : Color.plusButtonUnselectedColor)
-            .gradientOverlay(isSelected ? Color.plusGradient : nil)
+            .foregroundColor(isSelected ? foregroundColor : Color.plusButtonUnselectedColor)
+            .gradientOverlay(isSelected ? overlay : nil)
 
             // Stroke Overlay + Image if needed
             .overlay(
@@ -65,11 +85,11 @@ struct PlusGradientStrokeButton: ButtonStyle {
                         if isSelectable {
                             HStack {
                                 Spacer()
-                                Image("icon-plus-button-selected").padding(.trailing)
+                                Image(selectedImageName).padding(.trailing)
                             }
                         }
 
-                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusGradient, lineWidth: ViewConstants.buttonStrokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(overlay, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
                         RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusButtonUnselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
@@ -88,9 +108,16 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
 struct PlusFreeTrialLabel: View {
     let text: String
+    let plan: PlusPurchaseModal.Plan
     let isSelected: Bool
-    init(_ text: String, isSelected: Bool = true) {
+
+    private var color: LinearGradient {
+        plan == .plus ? Color.plusGradient : Color.patronGradient
+    }
+
+    init(_ text: String, plan: PlusPurchaseModal.Plan, isSelected: Bool = true) {
         self.text = text
+        self.plan = plan
         self.isSelected = isSelected
     }
 
@@ -101,7 +128,7 @@ struct PlusFreeTrialLabel: View {
             .padding([.top, .bottom], 4)
             .padding([.leading, .trailing], 13)
             .background(
-                Color.plusGradient.cornerRadius(4)
+                color.cornerRadius(4)
             )
             .foregroundColor(Color.plusButtonFilledTextColor)
             .grayscale(isSelected ? 0 : 1)
@@ -119,6 +146,10 @@ extension Color {
     static let plusGradient = LinearGradient(stops: [
         Gradient.Stop(color: .plusGradientColor1, location: 0.0822),
         Gradient.Stop(color: .plusGradientColor2, location: 0.9209)
+    ], startPoint: .topLeading, endPoint: .topTrailing)
+
+    static let patronGradient = LinearGradient(stops: [
+        Gradient.Stop(color: Color(hex: "AFA2FA"), location: 1)
     ], startPoint: .topLeading, endPoint: .topTrailing)
 
     static let plusGradientColor1 = Color(hex: "FED745")

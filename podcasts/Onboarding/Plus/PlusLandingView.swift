@@ -58,11 +58,11 @@ struct PlusLandingView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Button(L10n.plusButtonTitleUnlockAll) {
                             viewModel.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading, plan: .plus))
 
                         Button(L10n.eoyNotNow) {
                             viewModel.dismissTapped()
-                        }.buttonStyle(PlusGradientStrokeButton())
+                        }.buttonStyle(PlusGradientStrokeButton(plan: .plus))
                     }
                 }
                 .padding(ViewConfig.padding.viewReducedTop)
