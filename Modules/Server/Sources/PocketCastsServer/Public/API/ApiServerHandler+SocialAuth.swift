@@ -75,7 +75,7 @@ public extension ApiServerHandler {
             return nil
         }
 
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + (scope == .mobile ? "user/token" : "user/exchange_sonos"))
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/token")
 
         var data = Api_UserTokenRequest()
         data.refreshToken = identityToken
