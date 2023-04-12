@@ -246,20 +246,25 @@ struct Constants {
             case plus, patron
 
             var products: [Constants.IapProducts] {
+                return [yearly, monthly]
+            }
+
+            var yearly: Constants.IapProducts {
                 switch self {
                 case .plus:
-                    return [.yearly, .monthly]
+                    return .yearly
                 case .patron:
-                    return [.patronYearly, .patronMonthly]
+                    return .patronYearly
                 }
             }
 
-            var yearlyIdentifier: String? {
-                products.first(where: { $0.rawValue.contains("yearly") })?.rawValue
-            }
-
-            var monthlyIdentifier: String? {
-                products.first(where: { $0.rawValue.contains("month") })?.rawValue
+            var monthly: Constants.IapProducts {
+                switch self {
+                case .plus:
+                    return .monthly
+                case .patron:
+                    return .patronMonthly
+                }
             }
         }
     #endif

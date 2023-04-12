@@ -251,7 +251,7 @@ struct UpgradeCard: View {
                 .padding(.bottom, 10)
 
                 HStack() {
-                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == (currentPrice.wrappedValue == .yearly ? tier.plan.yearlyIdentifier : tier.plan.monthlyIdentifier) })?.rawPrice ?? "?")
+                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier == (currentPrice.wrappedValue == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?")
                         .font(style: .largeTitle, weight: .bold)
                     Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
                         .font(style: .headline, weight: .bold)
