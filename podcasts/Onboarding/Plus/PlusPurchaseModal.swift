@@ -49,7 +49,7 @@ struct PlusPurchaseModal: View {
         VStack(alignment: .center, spacing: 0) {
             ModalTopPill()
 
-            Label(L10n.plusPurchasePromoTitle, for: .title)
+            Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)

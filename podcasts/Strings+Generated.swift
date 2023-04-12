@@ -1403,6 +1403,8 @@ internal enum L10n {
   internal static var patronFeatureProfileBadge: String { return L10n.tr("Localizable", "patron_feature_profile_badge") }
   /// Special Pocket Casts app icons
   internal static var patronFeatureProfileIcons: String { return L10n.tr("Localizable", "patron_feature_profile_icons") }
+  /// Become a Patron member and unlock all Pocket Casts features
+  internal static var patronPurchasePromoTitle: String { return L10n.tr("Localizable", "patron_purchase_promo_title") }
   /// Subscribe to Patron
   internal static var patronSubscribeTo: String { return L10n.tr("Localizable", "patron_subscribe_to") }
   /// Pause
