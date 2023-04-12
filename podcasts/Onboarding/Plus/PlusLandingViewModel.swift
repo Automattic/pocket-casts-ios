@@ -15,7 +15,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped() {
+    func unlockTapped(plan: PlusPurchaseModal.Plan = .plus) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -24,7 +24,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        loadPricesAndContinue()
+        loadPricesAndContinue(plan: plan)
     }
 
     func didAppear() {
@@ -35,7 +35,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         // Don't continually show when the user dismisses
         continueUpgrade = false
 
-        self.loadPricesAndContinue()
+        self.loadPricesAndContinue(plan: .plus)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -56,11 +56,11 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func loadPricesAndContinue() {
+    private func loadPricesAndContinue(plan: PlusPurchaseModal.Plan) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal()
+                self.showModal(plan: plan)
             case .failed:
                 self.showError()
             default:
@@ -77,10 +77,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal() {
+    func showModal(plan: PlusPurchaseModal.Plan) {
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseModel.make(in: navigationController)
+        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan)
         controller.presentModally(in: navigationController)
     }
 
