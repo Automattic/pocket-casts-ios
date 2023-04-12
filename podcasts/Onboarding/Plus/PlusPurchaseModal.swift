@@ -20,7 +20,7 @@ struct PlusPurchaseModal: View {
 
     private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
 
-    init(coordinator: PlusPurchaseModel, planToPurchase: Constants.Plan) {
+    init(coordinator: PlusPurchaseModel, planToPurchase: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice = .yearly) {
         self.coordinator = coordinator
 
         self.products = planToPurchase.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }
@@ -28,7 +28,7 @@ struct PlusPurchaseModal: View {
         self.showGlobalTrial = products.allSatisfy { $0.freeTrialDuration != nil }
 
         let firstProduct = products.first
-        _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
+        _selectedOption = State(initialValue: selectedPrice == .yearly ? planToPurchase.yearly : planToPurchase.monthly)
         _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
     }
 

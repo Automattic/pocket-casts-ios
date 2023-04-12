@@ -282,7 +282,7 @@ struct UpgradeCard: View {
                 .padding(.bottom, 24)
 
                 Button(tier.buttonLabel) {
-                    viewModel.unlockTapped(plan: tier.plan)
+                    viewModel.unlockTapped(plan: tier.plan, selectedPrice: currentPrice.wrappedValue)
                 }
                 .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: tier.plan))
             }

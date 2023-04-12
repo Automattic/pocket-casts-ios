@@ -15,7 +15,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped(plan: Constants.Plan = .plus) {
+    func unlockTapped(plan: Constants.Plan = .plus, selectedPrice: UpgradeLandingView.DisplayPrice) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -24,7 +24,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        loadPricesAndContinue(plan: plan)
+        loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
     }
 
     func didAppear() {
@@ -35,7 +35,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         // Don't continually show when the user dismisses
         continueUpgrade = false
 
-        self.loadPricesAndContinue(plan: .plus)
+        self.loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -56,11 +56,11 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func loadPricesAndContinue(plan: Constants.Plan) {
+    private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal(plan: plan)
+                self.showModal(plan: plan, selectedPrice: selectedPrice)
             case .failed:
                 self.showError()
             default:
@@ -77,10 +77,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal(plan: Constants.Plan) {
+    func showModal(plan: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice) {
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan)
+        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan, selectedPrice: selectedPrice)
         controller.presentModally(in: navigationController)
     }
 

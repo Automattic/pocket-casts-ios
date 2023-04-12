@@ -58,13 +58,13 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: Constants.Plan) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: viewModel, planToPurchase: plan).setupDefaultEnvironment()
+        let modal = PlusPurchaseModal(coordinator: viewModel, planToPurchase: plan, selectedPrice: selectedPrice).setupDefaultEnvironment()
         let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
         controller.viewModel = viewModel
 
