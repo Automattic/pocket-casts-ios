@@ -4,6 +4,7 @@ import SwiftUI
 /// - `carouselItemsToDisplay` to change how many of the `items` will be displayed per page
 /// - `carouselItemSpacing` to adjust the spacing between the items
 /// - `carouselPeekAmount` to control how much (if any) of the next item on the next page should display
+/// - `carouselSwipeAnimation` to change the swipe/page change animation
 /// Add the `currentIndex` binding to be notified when the page changes
 struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     /// Binding for the currently selected index
@@ -13,6 +14,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     private var itemsToDisplay = 1
     private var spacing: Double = 0
     private var peekAmount: PeekAmount = .constant(10)
+    private var swipeAnimation: Animation = .interpolatingSpring(stiffness: 350, damping: 30)
 
     private let items: [T]
     private let content: (T) -> Content
@@ -47,6 +49,13 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     func carouselPeekAmount(_ value: PeekAmount) -> Self {
         update { carousel in
             carousel.peekAmount = value
+        }
+    }
+
+    /// Update the animation that occurs when swiping between pages
+    func carouselSwipeAnimation(_ value: Animation) -> Self {
+        update { carousel in
+            carousel.swipeAnimation = value
         }
     }
 
@@ -107,10 +116,11 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             }
             .frame(minWidth: proxy.size.width, alignment: .leading)
 
-            // Apply a little spring animation while gesturing so it doesn't feel so ... boring ... but not too much
-            // to make the entire thing spring around. To add more springyness up the damping
-            .animation(.interpolatingSpring(stiffness: 350, damping: 30, initialVelocity: 10), value: gestureOffset)
-            .offset(x: offsetX)
+            // Animate the swiping / page changes
+            .animation(swipeAnimation, value: gestureOffset)
+            .animation(swipeAnimation, value: visibleIndex)
+
+            .offset(x: dampenOffset(offsetX))
 
             // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
@@ -147,6 +157,17 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
             .clamped(to: visibleIndex-itemsToDisplay..<visibleIndex+itemsToDisplay)
     }
 
+    /// Dampens the offset for the first and last pages
+    private func dampenOffset(_ offset: Double) -> Double {
+        guard visibleIndex == 0 || visibleIndex == maxPages else {
+            return offset
+        }
+
+        // Scale the gesture offset down for the first and last items
+        let adjustedOffset = offset - (gestureOffset * 0.7)
+
+        return visibleIndex == 0 ? min(offset, adjustedOffset) : max(offset, adjustedOffset)
+    }
 
     /// Passes a mutable version of self to the block and returns the modified version
     private func update(_ block: (inout Self) -> Void) -> Self {
