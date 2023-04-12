@@ -55,7 +55,7 @@ struct PlusPurchaseModal: View {
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
             if showGlobalTrial, let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration, plan: .patron)
+                PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan)
             }
 
             VStack(spacing: 16) {
@@ -68,12 +68,12 @@ struct PlusPurchaseModal: View {
                                 freeTrialDuration = product.freeTrialDuration
                             }
                             .disabled(coordinator.state == .failed)
-                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: .patron, isSelected: selectedOption == product.identifier))
+                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
                             .overlay(
                                 ZStack(alignment: .center) {
                                     if !showGlobalTrial, let freeTrialDuration = product.freeTrialDuration {
                                         GeometryReader { proxy in
-                                            PlusFreeTrialLabel(freeTrialDuration, plan: .patron, isSelected: selectedOption == product.identifier)
+                                            PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
                                         }
                                     }
@@ -111,7 +111,7 @@ struct PlusPurchaseModal: View {
                 Button(subscribeButton) {
                     guard !isLoading else { return }
                     coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: .patron)).disabled(isLoading)
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
                 TermsView(text: Config.termsHTML)
             }.padding(.top, 23)
