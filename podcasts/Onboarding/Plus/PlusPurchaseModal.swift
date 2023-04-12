@@ -2,19 +2,6 @@ import SwiftUI
 import PocketCastsServer
 
 struct PlusPurchaseModal: View {
-    enum Plan {
-        case plus, patron
-
-        var products: [Constants.IapProducts] {
-            switch self {
-            case .plus:
-                return [.yearly, .monthly]
-            case .patron:
-                return [.patronYearly, .patronMonthly]
-            }
-        }
-    }
-
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
 
@@ -29,11 +16,11 @@ struct PlusPurchaseModal: View {
     /// above the products and not inline
     let showGlobalTrial: Bool
 
-    private var planToPurchase: Plan
+    private var planToPurchase: Constants.Plan
 
     private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
 
-    init(coordinator: PlusPurchaseModel, planToPurchase: Plan) {
+    init(coordinator: PlusPurchaseModel, planToPurchase: Constants.Plan) {
         self.coordinator = coordinator
 
         self.products = planToPurchase.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }

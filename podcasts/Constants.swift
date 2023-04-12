@@ -241,6 +241,27 @@ struct Constants {
                 }
             }
         }
+
+        enum Plan {
+            case plus, patron
+
+            var products: [Constants.IapProducts] {
+                switch self {
+                case .plus:
+                    return [.yearly, .monthly]
+                case .patron:
+                    return [.patronYearly, .patronMonthly]
+                }
+            }
+
+            var yearlyIdentifier: String? {
+                products.first(where: { $0.rawValue.contains("yearly") })?.rawValue
+            }
+
+            var monthlyIdentifier: String? {
+                products.first(where: { $0.rawValue.contains("month") })?.rawValue
+            }
+        }
     #endif
 
     enum RemoteParams {

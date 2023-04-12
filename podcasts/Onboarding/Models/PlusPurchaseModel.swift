@@ -10,7 +10,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
     private var purchasedProduct: Constants.IapProducts?
 
-    var plan: PlusPurchaseModal.Plan = .plus
+    var plan: Constants.Plan = .plus
 
     override init(purchaseHandler: IapHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
@@ -58,7 +58,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: PlusPurchaseModal.Plan) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Constants.Plan) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan

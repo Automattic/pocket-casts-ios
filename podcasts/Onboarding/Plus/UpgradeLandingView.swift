@@ -122,7 +122,7 @@ struct UpgradeTier: Identifiable {
     let tier: Tier
     let iconName: String
     let title: String
-    let plan: PlusPurchaseModal.Plan
+    let plan: Constants.Plan
     let description: String
     let buttonLabel: String
     let buttonColor: Color
@@ -319,15 +319,5 @@ struct PageIndicator: View {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
-    }
-}
-
-extension PlusPurchaseModal.Plan {
-    var yearlyIdentifier: String? {
-        products.first(where: { $0.rawValue.contains("yearly") })?.rawValue
-    }
-
-    var monthlyIdentifier: String? {
-        products.first(where: { $0.rawValue.contains("month") })?.rawValue
     }
 }

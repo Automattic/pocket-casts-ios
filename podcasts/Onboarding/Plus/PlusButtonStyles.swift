@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
-    let plan: PlusPurchaseModal.Plan
+    let plan: Constants.Plan
 
     private var background: any View {
         plan == .plus ? Color.plusGradient : Color(hex: "6046F5")
@@ -12,7 +12,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
         plan == .plus ? .plusButtonFilledTextColor : .white
     }
 
-    init(isLoading: Bool = false, plan: PlusPurchaseModal.Plan) {
+    init(isLoading: Bool = false, plan: Constants.Plan) {
         self.isLoading = isLoading
         self.plan = plan
     }
@@ -47,7 +47,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
 struct PlusGradientStrokeButton: ButtonStyle {
     let isSelectable: Bool
     let isSelected: Bool
-    let plan: PlusPurchaseModal.Plan
+    let plan: Constants.Plan
 
     private var foregroundColor: Color {
         plan == .plus ? Color.plusGradientColor1 : Color(hex: "AFA2FA")
@@ -61,7 +61,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
         plan == .plus ? "icon-plus-button-selected" : "icon-patron-button-selected"
     }
 
-    init(isSelectable: Bool = false, plan: PlusPurchaseModal.Plan, isSelected: Bool = true) {
+    init(isSelectable: Bool = false, plan: Constants.Plan, isSelected: Bool = true) {
         self.isSelectable = isSelectable
         self.plan = plan
         self.isSelected = isSelected
@@ -108,14 +108,14 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
 struct PlusFreeTrialLabel: View {
     let text: String
-    let plan: PlusPurchaseModal.Plan
+    let plan: Constants.Plan
     let isSelected: Bool
 
     private var color: LinearGradient {
         plan == .plus ? Color.plusGradient : Color.patronGradient
     }
 
-    init(_ text: String, plan: PlusPurchaseModal.Plan, isSelected: Bool = true) {
+    init(_ text: String, plan: Constants.Plan, isSelected: Bool = true) {
         self.text = text
         self.plan = plan
         self.isSelected = isSelected

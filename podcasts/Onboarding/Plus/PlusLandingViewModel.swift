@@ -15,7 +15,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped(plan: PlusPurchaseModal.Plan = .plus) {
+    func unlockTapped(plan: Constants.Plan = .plus) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -56,7 +56,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func loadPricesAndContinue(plan: PlusPurchaseModal.Plan) {
+    private func loadPricesAndContinue(plan: Constants.Plan) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
@@ -77,7 +77,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal(plan: PlusPurchaseModal.Plan) {
+    func showModal(plan: Constants.Plan) {
         guard let navigationController else { return }
 
         let controller = PlusPurchaseModel.make(in: navigationController, plan: plan)
