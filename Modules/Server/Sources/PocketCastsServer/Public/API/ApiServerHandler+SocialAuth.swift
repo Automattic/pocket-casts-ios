@@ -75,6 +75,7 @@ public extension ApiServerHandler {
         var data = Api_UserTokenRequest()
         data.refreshToken = identityToken
         data.grantType = "refresh_token"
+        data.scope = "mobile"
 
         return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
 
