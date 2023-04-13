@@ -157,7 +157,7 @@ extension UpgradeTier {
 
     static var patron: UpgradeTier {
         UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
-            TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
+            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),

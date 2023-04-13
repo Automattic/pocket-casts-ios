@@ -1651,6 +1651,9 @@
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 
+/* Description of a Patron feature that gives user everything in Plus. */
+"patron_feature_everything_in_plus" = "Everything in Plus";
+
 /* Description of a Patron feature that gives user early access to new features. */
 "patron_feature_early_access" = "Early access to features";
 
