@@ -29,7 +29,6 @@ struct UpgradeLandingView: View {
                     ScrollViewIfNeeded {
                         VStack(spacing: 0) {
 
-
                             let title = currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout
                             PlusLabel(title, for: .title2)
                                 .transition(.opacity)
