@@ -247,8 +247,7 @@ struct UpgradeCard: View {
                         .foregroundColor(.white)
                         .font(style: .subheadline, weight: .medium)
                         .padding(.trailing, 8)
-                        .padding(.top, 2)
-                        .padding(.bottom, 2)
+                        .padding(.vertical, 2)
                 }
                 .background(.black)
                 .cornerRadius(800)
