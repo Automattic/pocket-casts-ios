@@ -156,7 +156,7 @@ platform :ios do
   end
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
-  lane :configure_code_signing do
+  lane :configure_code_signing do |options|
     match(
       type: 'appstore',
       team_id: TEAM_ID,
@@ -169,7 +169,7 @@ platform :ios do
       google_cloud_bucket_name: 'a8c-fastlane-match',
       google_cloud_keys_file: File.join(SECRETS_FOLDER, 'google_cloud_keys.json'),
 
-      readonly: true
+      readonly: options.fetch(:readonly, true)
     )
   end
 
