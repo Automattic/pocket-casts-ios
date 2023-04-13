@@ -23,7 +23,6 @@ struct UpgradeLandingView: View {
                     tier.background
                         .opacity(selectedTier.id == tier.id ? 1 : 0)
                         .ignoresSafeArea()
-                        .clipped()
                 }
 
                 ScrollViewIfNeeded {
