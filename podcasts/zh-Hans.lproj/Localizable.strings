@@ -1683,6 +1683,8 @@
     <string>重试</string>
     <key>search</key>
     <string>搜索</string>
+    <key>search_label</key>
+    <string>搜索播客或添加 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜索播客</string>
     <key>search_recent</key>
