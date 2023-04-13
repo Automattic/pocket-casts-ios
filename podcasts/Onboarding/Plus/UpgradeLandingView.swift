@@ -268,6 +268,7 @@ struct UpgradeCard: View {
 
                 Text(tier.description)
                     .font(style: .caption2, weight: .semibold)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(.black)
                     .opacity(0.64)
                     .padding(.bottom, 16)
