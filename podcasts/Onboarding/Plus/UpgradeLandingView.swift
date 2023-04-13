@@ -253,7 +253,7 @@ struct UpgradeCard: View {
                 .padding(.bottom, 10)
 
                 HStack {
-                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == (currentPrice.wrappedValue == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?")
+                    Text(viewModel.price(for: tier, frequency: currentPrice.wrappedValue))
                         .font(style: .largeTitle, weight: .bold)
                         .foregroundColor(.black)
                     Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")

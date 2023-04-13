@@ -56,6 +56,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func price(for tier: UpgradeTier, frequency: UpgradeLandingView.DisplayPrice) -> String {
+        pricingInfo.products.first(where: { $0.identifier.rawValue == (frequency == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?"
+    }
+
     private func loadPricesAndContinue() {
         loadPrices {
             switch self.priceAvailability {
