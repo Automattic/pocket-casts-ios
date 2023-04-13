@@ -51,7 +51,7 @@ struct UpgradeLandingView: View {
                 }
             }
         }
-        .background(Color(hex: "121212"))
+        .background(Color.plusBackgroundColor)
     }
 
     var topBar: some View {
