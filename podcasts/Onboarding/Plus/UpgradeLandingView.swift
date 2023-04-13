@@ -5,6 +5,10 @@ struct UpgradeLandingView: View {
 
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
+    private var selectedTier: UpgradeTier {
+        tiers[currentPage]
+    }
+
     @State private var currentPage: Int = 0
 
     @State private var displayPrice: DisplayPrice = .yearly
@@ -15,53 +19,46 @@ struct UpgradeLandingView: View {
 
             ZStack {
 
-                if currentPage == 0 {
-                    tiers[0].background
-                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
-                        .ignoresSafeArea()
-                } else {
-                    tiers[1].background
-                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                ForEach(tiers) { tier in
+                    tier.background
+                        .opacity(selectedTier.id == tier.id ? 1 : 0)
                         .ignoresSafeArea()
                 }
 
-                VStack(spacing: 0) {
-                    ScrollViewIfNeeded {
-                        VStack(spacing: 0) {
+                ScrollViewIfNeeded {
+                    VStack(spacing: 0) {
 
+                        PlusLabel(selectedTier.header, for: .title2)
+                            .transition(.opacity)
+                            .id("plus_title" + selectedTier.header)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(2)
+                            .padding(.bottom, 16)
+                            .padding(.horizontal, 32)
 
-                            PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
-                                .minimumScaleFactor(0.5)
-                                .lineLimit(2)
-                                .padding(.bottom, 16)
-                                .padding(.horizontal, 32)
+                        UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                            .padding(.bottom, 24)
 
-                            UpgradeRoundedSegmentedControl(selected: $displayPrice)
-                                .padding(.bottom, 24)
+                        FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                            FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
-
-                            PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
-                            .padding(.top, 27)
-                        }
+                        PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                        .padding(.top, 27)
                     }
                 }
             }
         }
-        .background(Color(hex: "121212"))
+        .background(Color.plusBackgroundColor)
     }
 
     var topBar: some View {
         HStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(height: 44)
+            Spacer()
             Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
                 viewModel.dismissTapped()
             }
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
-            .padding(.trailing)
+            .padding()
         }
     }
 
@@ -72,7 +69,7 @@ struct UpgradeLandingView: View {
 
 // MARK: - Feature Carousel
 
-struct FeaturesCarousel: View {
+private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
     let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
@@ -123,12 +120,13 @@ struct UpgradeTier: Identifiable {
     let iconName: String
     let title: String
     let plan: Constants.Plan
+    let header: String
     let description: String
     let buttonLabel: String
     let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
-    let background: AnyView
+    let background: LinearGradient
 
     var id: String {
         tier.rawValue
@@ -146,7 +144,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -154,11 +152,11 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
         ],
-        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
+        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
@@ -167,7 +165,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
-        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
+        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 }
 
@@ -188,7 +186,7 @@ struct UpgradeRoundedSegmentedControl: View {
                 }
             }
             .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .yearly))
-            .padding(.all, 4)
+            .padding(4)
 
             Button(L10n.monthly) {
                 withAnimation {
@@ -196,7 +194,7 @@ struct UpgradeRoundedSegmentedControl: View {
                 }
             }
             .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .monthly))
-            .padding(.all, 4)
+            .padding(4)
         }
         .background(.white.opacity(0.16))
         .cornerRadius(24)
@@ -234,7 +232,7 @@ struct UpgradeCard: View {
     let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
 
     var body: some View {
-        VStack() {
+        VStack {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 4) {
                     Image(tier.iconName)
@@ -243,18 +241,19 @@ struct UpgradeCard: View {
                         .foregroundColor(.white)
                         .font(style: .subheadline, weight: .medium)
                         .padding(.trailing, 8)
-                        .padding(.top, 2)
-                        .padding(.bottom, 2)
+                        .padding(.vertical, 2)
                 }
                 .background(.black)
-                .cornerRadius(800)
+                .cornerRadius(24)
                 .padding(.bottom, 10)
 
-                HStack() {
-                    Text(viewModel.pricingInfo.products.first(where: { $0.identifier == (currentPrice.wrappedValue == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?")
+                HStack {
+                    Text(viewModel.price(for: tier, frequency: currentPrice.wrappedValue))
                         .font(style: .largeTitle, weight: .bold)
+                        .foregroundColor(.black)
                     Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
                         .font(style: .headline, weight: .bold)
+                        .foregroundColor(.black)
                         .opacity(0.6)
                         .padding(.top, 6)
                 }
@@ -262,6 +261,8 @@ struct UpgradeCard: View {
 
                 Text(tier.description)
                     .font(style: .caption2, weight: .semibold)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .foregroundColor(.black)
                     .opacity(0.64)
                     .padding(.bottom, 16)
 
@@ -276,6 +277,8 @@ struct UpgradeCard: View {
                                 .frame(width: 16, height: 16)
                             Text(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(.black)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }
@@ -286,7 +289,7 @@ struct UpgradeCard: View {
                 }
                 .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: tier.plan))
             }
-            .padding(.all, 24)
+            .padding(24)
 
         }
         .background(.white)
@@ -296,23 +299,6 @@ struct UpgradeCard: View {
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
         .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
         .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
-    }
-}
-
-struct PageIndicator: View {
-    let numberOfItems: Int
-
-    let currentPage: Int
-
-    var body: some View {
-        HStack {
-            ForEach(0 ..< numberOfItems, id: \.self) { itemIndex in
-                Circle()
-                    .frame(width: 8, height: 8)
-                    .foregroundColor(.white)
-                    .opacity(itemIndex == currentPage ? 1 : 0.5)
-            }
-        }
     }
 }
 
