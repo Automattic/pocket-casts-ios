@@ -1683,6 +1683,8 @@ Gratis-Test für %1$@</string>
     <string>Erneut versuchen</string>
     <key>search</key>
     <string>Suche</string>
+    <key>search_label</key>
+    <string>Podcasts suchen oder RSS-URL hinzufügen</string>
     <key>search_podcasts</key>
     <string>Podcasts durchsuchen</string>
     <key>search_recent</key>

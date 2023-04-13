@@ -1682,6 +1682,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>再試行</string>
     <key>search</key>
     <string>検索</string>
+    <key>search_label</key>
+    <string>ポッドキャストを検索または RSS の URL を追加</string>
     <key>search_podcasts</key>
     <string>ポッドキャストを検索</string>
     <key>search_recent</key>

@@ -1683,6 +1683,8 @@ prueba gratuita de %1$@</string>
     <string>Reintentar</string>
     <key>search</key>
     <string>Buscar</string>
+    <key>search_label</key>
+    <string>Busca pódcast o añade la URL del RSS</string>
     <key>search_podcasts</key>
     <string>Buscar podcasts</string>
     <key>search_recent</key>

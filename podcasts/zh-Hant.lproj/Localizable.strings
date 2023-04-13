@@ -1683,6 +1683,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>重試</string>
     <key>search</key>
     <string>搜尋</string>
+    <key>search_label</key>
+    <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜尋 Podcast</string>
     <key>search_recent</key>

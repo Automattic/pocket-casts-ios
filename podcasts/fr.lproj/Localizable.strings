@@ -1683,6 +1683,8 @@ essai gratuit de %1$@</string>
     <string>Réessayer</string>
     <key>search</key>
     <string>Recherche</string>
+    <key>search_label</key>
+    <string>Rechercher des podcasts ou ajouter l’URL RSS</string>
     <key>search_podcasts</key>
     <string>Rechercher des podcasts</string>
     <key>search_recent</key>

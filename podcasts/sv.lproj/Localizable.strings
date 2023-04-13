@@ -1683,6 +1683,8 @@ gratis provperiod på %1$@</string>
     <string>Försök igen</string>
     <key>search</key>
     <string>Sök</string>
+    <key>search_label</key>
+    <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
     <string>Sök podcasts</string>
     <key>search_recent</key>

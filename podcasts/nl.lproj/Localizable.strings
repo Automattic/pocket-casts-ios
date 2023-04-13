@@ -1683,6 +1683,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Opnieuw proberen</string>
     <key>search</key>
     <string>Zoeken</string>
+    <key>search_label</key>
+    <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
     <string>Podcasts zoeken</string>
     <key>search_recent</key>
