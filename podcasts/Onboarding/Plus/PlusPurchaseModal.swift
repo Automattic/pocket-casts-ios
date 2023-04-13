@@ -21,7 +21,7 @@ struct PlusPurchaseModal: View {
     init(coordinator: PlusPurchaseModel, selectedPrice: UpgradeLandingView.DisplayPrice = .yearly) {
         self.coordinator = coordinator
 
-        self.products = coordinator.plan.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }
+        self.products = coordinator.pricingInfo.products.filter { coordinator.plan.products.contains($0.identifier) }
         self.showGlobalTrial = products.allSatisfy { $0.freeTrialDuration != nil }
 
         let firstProduct = products.first
