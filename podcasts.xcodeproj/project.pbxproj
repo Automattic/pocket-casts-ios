@@ -443,6 +443,7 @@
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
 		8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0125672912A7AB00EC427A /* StoryShareableText.swift */; };
 		8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
+		8B087FCB29DE08460027EAE5 /* UpgradeLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */; };
 		8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */; };
 		8B0EEDE2290065C100075772 /* ListenedCategoriesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */; };
 		8B0EEDE429006C9B00075772 /* TopListenedCategoriesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDE329006C9B00075772 /* TopListenedCategoriesStory.swift */; };
@@ -461,6 +462,7 @@
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
+		8B205C8129E84B6B0069BAF9 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */; };
 		8B208A5329C933D300AEF951 /* MiniPlayerPaddingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */; };
 		8B208A5529C933F800AEF951 /* DismissKeyboardOnScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */; };
 		8B23193F2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */; };
@@ -2091,6 +2093,7 @@
 		8229174E612BC7BAC6F63274 /* Pods-Pocket Casts Watch App Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts Watch App Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts Watch App Extension/Pods-Pocket Casts Watch App Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
 		8B087FC829DC976F0027EAE5 /* PodcastImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImage.swift; sourceTree = "<group>"; };
+		8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeLandingView.swift; sourceTree = "<group>"; };
 		8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningTimeStory.swift; sourceTree = "<group>"; };
 		8B0EEDE1290065C000075772 /* ListenedCategoriesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenedCategoriesStory.swift; sourceTree = "<group>"; };
 		8B0EEDE329006C9B00075772 /* TopListenedCategoriesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListenedCategoriesStory.swift; sourceTree = "<group>"; };
@@ -2108,6 +2111,7 @@
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsListView.swift; sourceTree = "<group>"; };
+		8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerPaddingModifier.swift; sourceTree = "<group>"; };
 		8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboardOnScroll.swift; sourceTree = "<group>"; };
 		8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearStoriesBuilder.swift; sourceTree = "<group>"; };
@@ -6269,6 +6273,7 @@
 				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
 				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
 				C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */,
+				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -6340,6 +6345,7 @@
 				C7B3C61A291AD05600054145 /* PlusLandingView.swift */,
 				C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */,
 				C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */,
+				8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */,
 			);
 			path = Plus;
 			sourceTree = "<group>";
@@ -7930,6 +7936,7 @@
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
 				C7FF7717291D50880082A464 /* Motion.swift in Sources */,
 				BD83DE0C2068B8E000012C06 /* MiniPlayerViewController+Gestures.swift in Sources */,
+				8B087FCB29DE08460027EAE5 /* UpgradeLandingView.swift in Sources */,
 				C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */,
 				BDC8CDDE203C02F600D88313 /* PodcastListViewController+Search.swift in Sources */,
 				BD27B8C72756F4C9007A0EA7 /* Styles.swift in Sources */,
@@ -7967,6 +7974,7 @@
 				8B208A5329C933D300AEF951 /* MiniPlayerPaddingModifier.swift in Sources */,
 				BD1F97821FD7C64600F89CCD /* PlaylistViewController+TableData.swift in Sources */,
 				408971AD2512EE1F00783253 /* PodcastBundleCountView.swift in Sources */,
+				8B205C8129E84B6B0069BAF9 /* PageIndicatorView.swift in Sources */,
 				BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */,
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,

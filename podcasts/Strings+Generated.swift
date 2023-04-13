@@ -1393,6 +1393,18 @@ internal enum L10n {
   }
   /// Unsubscribing from all these podcasts will delete any downloaded files they have, are you sure?
   internal static var paidPodcastUnsubscribeMsg: String { return L10n.tr("Localizable", "paid_podcast_unsubscribe_msg") }
+  /// Believe in what we’re doing and want to show your support?
+  internal static var patronCallout: String { return L10n.tr("Localizable", "patron_callout") }
+  /// Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.
+  internal static var patronDescription: String { return L10n.tr("Localizable", "patron_description") }
+  /// Early access to features
+  internal static var patronFeatureEarlyAccess: String { return L10n.tr("Localizable", "patron_feature_early_access") }
+  /// Supporters profile badge
+  internal static var patronFeatureProfileBadge: String { return L10n.tr("Localizable", "patron_feature_profile_badge") }
+  /// Special Pocket Casts app icons
+  internal static var patronFeatureProfileIcons: String { return L10n.tr("Localizable", "patron_feature_profile_icons") }
+  /// Subscribe to Patron
+  internal static var patronSubscribeTo: String { return L10n.tr("Localizable", "patron_subscribe_to") }
   /// Pause
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
   /// Phone
@@ -1511,6 +1523,8 @@ internal enum L10n {
   }
   /// Cloud Storage
   internal static var plusFeatureCloudStorage: String { return L10n.tr("Localizable", "plus_feature_cloud_storage") }
+  /// The undying gratitude of everyone here at Pocket Casts
+  internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// Standalone Watch Playback
@@ -1598,6 +1612,10 @@ internal enum L10n {
   internal static var plusRequiredFeature: String { return L10n.tr("Localizable", "plus_required_feature") }
   /// Select Payment Frequency
   internal static var plusSelectPaymentFrequency: String { return L10n.tr("Localizable", "plus_select_payment_frequency") }
+  /// Skip
+  internal static var plusSkip: String { return L10n.tr("Localizable", "plus_skip") }
+  /// Subscribe to Plus
+  internal static var plusSubscribeTo: String { return L10n.tr("Localizable", "plus_subscribe_to") }
   /// Your subscription is managed by the Apple App Store
   internal static var plusSubscriptionApple: String { return L10n.tr("Localizable", "plus_subscription_apple") }
   /// To cancel your subscription, you’ll need to cancel via Settings.

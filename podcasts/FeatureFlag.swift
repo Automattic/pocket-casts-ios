@@ -31,6 +31,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Auto scrolls Discover Featured carousel
     case discoverFeaturedAutoScroll
 
+    /// Patron
+    case patron
+
     /// Displaying podcast ratings
     case showRatings
 
@@ -60,6 +63,8 @@ enum FeatureFlag: String, CaseIterable {
             return false
         case .discoverFeaturedAutoScroll:
             return true
+        case .patron:
+            return false
         case .showRatings:
             return false
         }

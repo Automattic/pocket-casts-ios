@@ -56,6 +56,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func price(for tier: UpgradeTier, frequency: UpgradeLandingView.DisplayPrice) -> String {
+        pricingInfo.products.first(where: { $0.identifier.rawValue == (frequency == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?"
+    }
+
     private func loadPricesAndContinue() {
         loadPrices {
             switch self.priceAvailability {
@@ -93,8 +97,9 @@ extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
 
-        let view = PlusLandingView(viewModel: viewModel)
-        let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
+        let view = Self.view(with: viewModel)
+        let controller = PlusHostingViewController(rootView: view)
+
         controller.viewModel = viewModel
         controller.navBarIsHidden = true
 
@@ -103,5 +108,17 @@ extension PlusLandingViewModel {
         viewModel.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
+    }
+
+    @ViewBuilder
+    private static func view(with viewModel: PlusLandingViewModel) -> some View {
+        if FeatureFlag.patron.enabled {
+            UpgradeLandingView()
+                .environmentObject(viewModel)
+                .setupDefaultEnvironment()
+        } else {
+            PlusLandingView(viewModel: viewModel)
+                .setupDefaultEnvironment()
+        }
     }
 }

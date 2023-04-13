@@ -1639,6 +1639,33 @@
 /* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
 "plus_feature_cloud_storage" = "Cloud Storage";
 
+/* Message about our gratitude when an user subscribe to Plus */
+"plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
+/* Label of a button to subscribe to Patron. Do not translate "Plus". */
+"plus_subscribe_to" = "Subscribe to Plus";
+
+/* Label of a button to skip subscring to any plan */
+"plus_skip" = "Skip";
+
+/* Description of the Patron plan. Do not translate "Patron". */
+"patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
+
+/* Description of a Patron feature that gives user early access to new features. */
+"patron_feature_early_access" = "Early access to features";
+
+/* Description of a Patron feature that gives user a badge on their profile image. */
+"patron_feature_profile_badge" = "Supporters profile badge";
+
+/* Description of a Patron feature that gives users special app icons. */
+"patron_feature_profile_icons" = "Special Pocket Casts app icons";
+
+/* Label of a button to subscribe to Patron. Do not translate "Patron". */
+"patron_subscribe_to" = "Subscribe to Patron";
+
+/* Label of a title explaining why to subscribe to Patron. */
+"patron_callout" = "Believe in what we’re doing and want to show your support?";
+
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
