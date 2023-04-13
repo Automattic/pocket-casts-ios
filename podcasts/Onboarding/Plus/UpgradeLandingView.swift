@@ -42,7 +42,7 @@ struct UpgradeLandingView: View {
 
                         FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                        PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
+                        PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .padding(.top, 27)
                     }
                 }
@@ -301,23 +301,6 @@ struct UpgradeCard: View {
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
         .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
         .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
-    }
-}
-
-struct PageIndicator: View {
-    let numberOfItems: Int
-
-    let currentPage: Int
-
-    var body: some View {
-        HStack {
-            ForEach(0 ..< numberOfItems, id: \.self) { itemIndex in
-                Circle()
-                    .frame(width: 8, height: 8)
-                    .foregroundColor(.white)
-                    .opacity(itemIndex == currentPage ? 1 : 0.5)
-            }
-        }
     }
 }
 
