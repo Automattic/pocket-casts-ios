@@ -1,6 +1,6 @@
 7.37
 -----
-
+- Login: added capability to sign into Pocket Casts using Google and Apple accounts
 
 7.36
 -----
