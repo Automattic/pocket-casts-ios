@@ -191,7 +191,7 @@ struct UpgradeRoundedSegmentedControl: View {
                 }
             }
             .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .yearly))
-            .padding(.all, 4)
+            .padding(4)
 
             Button(L10n.monthly) {
                 withAnimation {
@@ -199,7 +199,7 @@ struct UpgradeRoundedSegmentedControl: View {
                 }
             }
             .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .monthly))
-            .padding(.all, 4)
+            .padding(4)
         }
         .background(.white.opacity(0.16))
         .cornerRadius(24)
@@ -237,7 +237,7 @@ struct UpgradeCard: View {
     let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
 
     var body: some View {
-        VStack() {
+        VStack {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 4) {
                     Image(tier.iconName)
@@ -249,10 +249,10 @@ struct UpgradeCard: View {
                         .padding(.vertical, 2)
                 }
                 .background(.black)
-                .cornerRadius(800)
+                .cornerRadius(24)
                 .padding(.bottom, 10)
 
-                HStack() {
+                HStack {
                     Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == (currentPrice.wrappedValue == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?")
                         .font(style: .largeTitle, weight: .bold)
                         .foregroundColor(.black)
@@ -294,7 +294,7 @@ struct UpgradeCard: View {
                 }
                 .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: tier.buttonColor, foregroundColor: tier.buttonForegroundColor))
             }
-            .padding(.all, 24)
+            .padding(24)
 
         }
         .background(.white)
