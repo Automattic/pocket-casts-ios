@@ -25,27 +25,25 @@ struct UpgradeLandingView: View {
                         .ignoresSafeArea()
                 }
 
-                VStack(spacing: 0) {
-                    ScrollViewIfNeeded {
-                        VStack(spacing: 0) {
+                ScrollViewIfNeeded {
+                    VStack(spacing: 0) {
 
-                            let title = currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout
-                            PlusLabel(title, for: .title2)
-                                .transition(.opacity)
-                                .id("plus_title" + title)
-                                .minimumScaleFactor(0.5)
-                                .lineLimit(2)
-                                .padding(.bottom, 16)
-                                .padding(.horizontal, 32)
+                        let title = currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout
+                        PlusLabel(title, for: .title2)
+                            .transition(.opacity)
+                            .id("plus_title" + title)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(2)
+                            .padding(.bottom, 16)
+                            .padding(.horizontal, 32)
 
-                            UpgradeRoundedSegmentedControl(selected: $displayPrice)
-                                .padding(.bottom, 24)
+                        UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                            .padding(.bottom, 24)
 
-                            FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                        FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                            PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
-                            .padding(.top, 27)
-                        }
+                        PageIndicator(numberOfItems: tiers.count, currentPage: currentPage)
+                        .padding(.top, 27)
                     }
                 }
             }
