@@ -75,7 +75,7 @@ struct UpgradeLandingView: View {
 
 // MARK: - Feature Carousel
 
-struct FeaturesCarousel: View {
+private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
     let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
