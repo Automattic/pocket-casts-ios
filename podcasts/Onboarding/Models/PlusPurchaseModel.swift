@@ -58,7 +58,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan

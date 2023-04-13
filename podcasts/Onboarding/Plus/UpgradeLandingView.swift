@@ -11,7 +11,7 @@ struct UpgradeLandingView: View {
 
     @State private var currentPage: Int = 0
 
-    @State private var displayPrice: DisplayPrice = .yearly
+    @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
     var body: some View {
         VStack(spacing: 0) {
@@ -61,10 +61,6 @@ struct UpgradeLandingView: View {
             .padding()
         }
     }
-
-    enum DisplayPrice {
-        case yearly, monthly
-    }
 }
 
 // MARK: - Feature Carousel
@@ -72,7 +68,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
+    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
 
     let tiers: [UpgradeTier]
 
@@ -172,9 +168,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: UpgradeLandingView.DisplayPrice
+    @Binding private var selected: PlusPricingInfoModel.DisplayPrice
 
-    init(selected: Binding<UpgradeLandingView.DisplayPrice>) {
+    init(selected: Binding<PlusPricingInfoModel.DisplayPrice>) {
         self._selected = selected
     }
 
@@ -229,7 +225,7 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
+    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
 
     var body: some View {
         VStack {
