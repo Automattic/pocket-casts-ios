@@ -127,7 +127,7 @@ struct UpgradeTier: Identifiable {
     let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
-    let background: AnyView
+    let background: LinearGradient
 
     var id: String {
         tier.rawValue
@@ -153,7 +153,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
         ],
-        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
+        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 
     static var patron: UpgradeTier {
@@ -166,7 +166,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
-        background: AnyView(LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing)))
+        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 }
 
