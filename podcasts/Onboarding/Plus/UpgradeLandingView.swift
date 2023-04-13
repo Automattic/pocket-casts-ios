@@ -30,7 +30,10 @@ struct UpgradeLandingView: View {
                         VStack(spacing: 0) {
 
 
-                            PlusLabel(currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout, for: .title2)
+                            let title = currentPage == 0 ? L10n.plusMarketingTitle : L10n.patronCallout
+                            PlusLabel(title, for: .title2)
+                                .transition(.opacity)
+                                .id("plus_title" + title)
                                 .minimumScaleFactor(0.5)
                                 .lineLimit(2)
                                 .padding(.bottom, 16)
