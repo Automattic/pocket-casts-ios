@@ -57,7 +57,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func price(for tier: UpgradeTier, frequency: UpgradeLandingView.DisplayPrice) -> String {
-        pricingInfo.products.first(where: { $0.identifier.rawValue == (frequency == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?"
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?"
     }
 
     private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice) {

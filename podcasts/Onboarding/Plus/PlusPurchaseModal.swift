@@ -16,19 +16,16 @@ struct PlusPurchaseModal: View {
     /// above the products and not inline
     let showGlobalTrial: Bool
 
-    private var planToPurchase: Constants.Plan
-
     private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
 
-    init(coordinator: PlusPurchaseModel, planToPurchase: Constants.Plan, selectedPrice: UpgradeLandingView.DisplayPrice = .yearly) {
+    init(coordinator: PlusPurchaseModel, selectedPrice: UpgradeLandingView.DisplayPrice = .yearly) {
         self.coordinator = coordinator
 
-        self.products = planToPurchase.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }
-        self.planToPurchase = planToPurchase
+        self.products = coordinator.plan.products.compactMap { product in coordinator.pricingInfo.products.first(where: { $0.identifier == product }) }
         self.showGlobalTrial = products.allSatisfy { $0.freeTrialDuration != nil }
 
         let firstProduct = products.first
-        _selectedOption = State(initialValue: selectedPrice == .yearly ? planToPurchase.yearly : planToPurchase.monthly)
+        _selectedOption = State(initialValue: selectedPrice == .yearly ? coordinator.plan.yearly : coordinator.plan.monthly)
         _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
     }
 
@@ -199,7 +196,7 @@ private struct Label: View {
 // MARK: - Preview
 struct PlusPurchaseOptions_Previews: PreviewProvider {
     static var previews: some View {
-        PlusPurchaseModal(coordinator: PlusPurchaseModel(), planToPurchase: .plus)
+        PlusPurchaseModal(coordinator: PlusPurchaseModel())
             .setupDefaultEnvironment()
     }
 }
