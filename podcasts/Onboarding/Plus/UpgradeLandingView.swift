@@ -56,15 +56,13 @@ struct UpgradeLandingView: View {
 
     var topBar: some View {
         HStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(height: 44)
+            Spacer()
             Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
                 viewModel.dismissTapped()
             }
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
-            .padding(.trailing)
+            .padding()
         }
     }
 
