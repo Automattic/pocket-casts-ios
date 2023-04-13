@@ -95,7 +95,7 @@ extension PlusLandingViewModel {
 
         var controller: PlusHostingViewController<AnyView>
         if FeatureFlag.patron.enabled {
-            let view = UpgradeLandingView().environmentObject(viewModel).environment(\.colorScheme, .light)
+            let view = UpgradeLandingView().environmentObject(viewModel)
             controller = PlusHostingViewController(rootView: AnyView(view.setupDefaultEnvironment()))
         } else {
             let view = PlusLandingView(viewModel: viewModel)

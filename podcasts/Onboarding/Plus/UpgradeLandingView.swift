@@ -254,8 +254,10 @@ struct UpgradeCard: View {
                 HStack() {
                     Text(viewModel.pricingInfo.products.first(where: { $0.identifier.rawValue == (currentPrice.wrappedValue == .yearly ? tier.yearlyIdentifier : tier.monthlyIdentifier) })?.rawPrice ?? "?")
                         .font(style: .largeTitle, weight: .bold)
+                        .foregroundColor(.black)
                     Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
                         .font(style: .headline, weight: .bold)
+                        .foregroundColor(.black)
                         .opacity(0.6)
                         .padding(.top, 6)
                 }
@@ -263,6 +265,7 @@ struct UpgradeCard: View {
 
                 Text(tier.description)
                     .font(style: .caption2, weight: .semibold)
+                    .foregroundColor(.black)
                     .opacity(0.64)
                     .padding(.bottom, 16)
 
@@ -277,6 +280,8 @@ struct UpgradeCard: View {
                                 .frame(width: 16, height: 16)
                             Text(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(.black)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }
