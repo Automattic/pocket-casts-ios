@@ -1651,6 +1651,9 @@
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 
+/* Description of a Patron feature that gives user everything in Plus. */
+"patron_feature_everything_in_plus" = "Everything in Plus";
+
 /* Description of a Patron feature that gives user early access to new features. */
 "patron_feature_early_access" = "Early access to features";
 
@@ -3365,6 +3368,9 @@
 
 /* The title of the purchase promo */
 "plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
+
+/* The title of the purchase promo for Patron. Do not translate Patron. */
+"patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
 
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
 "purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";

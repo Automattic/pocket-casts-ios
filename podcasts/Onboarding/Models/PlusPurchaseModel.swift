@@ -10,6 +10,8 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
     private var purchasedProduct: Constants.IapProducts?
 
+    var plan: Constants.Plan = .plus
+
     override init(purchaseHandler: IapHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
@@ -56,12 +58,13 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
+        viewModel.plan = plan
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
+        let modal = PlusPurchaseModal(coordinator: viewModel, selectedPrice: selectedPrice).setupDefaultEnvironment()
         let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
         controller.viewModel = viewModel
 
@@ -146,11 +149,11 @@ private extension PlusPurchaseModel {
         let frequency: SubscriptionFrequency
         switch purchasedProduct {
 
-        case .yearly:
+        case .yearly, .patronYearly:
             frequency = .yearly
             dateComponent.year = 1
 
-        case .monthly:
+        case .monthly, .patronMonthly:
             dateComponent.month = 1
             frequency = .monthly
         }

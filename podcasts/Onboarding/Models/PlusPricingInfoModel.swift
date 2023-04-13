@@ -19,7 +19,12 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly]
+        var products: [Constants.IapProducts]
+        if FeatureFlag.patron.enabled {
+            products = [.yearly, .monthly, .patronYearly, .patronMonthly]
+        } else {
+            products = [.yearly, .monthly]
+        }
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
@@ -58,6 +63,10 @@ class PlusPricingInfoModel: ObservableObject {
 
     enum PriceAvailablity {
         case unknown, available, loading, failed
+    }
+
+    enum DisplayPrice {
+        case yearly, monthly
     }
 }
 

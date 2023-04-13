@@ -20,7 +20,7 @@ struct OnboardingFlow {
             flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
 
         case .plusAccountUpgrade:
-            flowController = PlusPurchaseModel.make(in: controller)
+            flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
 
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, fromUpgrade: true)

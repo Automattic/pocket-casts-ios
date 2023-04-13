@@ -11,7 +11,7 @@ struct UpgradeLandingView: View {
 
     @State private var currentPage: Int = 0
 
-    @State private var displayPrice: DisplayPrice = .yearly
+    @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
     var body: some View {
         VStack(spacing: 0) {
@@ -61,10 +61,6 @@ struct UpgradeLandingView: View {
             .padding()
         }
     }
-
-    enum DisplayPrice {
-        case yearly, monthly
-    }
 }
 
 // MARK: - Feature Carousel
@@ -72,7 +68,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
+    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
 
     let tiers: [UpgradeTier]
 
@@ -119,9 +115,8 @@ struct UpgradeTier: Identifiable {
     let tier: Tier
     let iconName: String
     let title: String
+    let plan: Constants.Plan
     let header: String
-    let yearlyIdentifier: String
-    let monthlyIdentifier: String
     let description: String
     let buttonLabel: String
     let buttonColor: Color
@@ -145,7 +140,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", header: L10n.plusMarketingTitle, yearlyIdentifier: Constants.IapProducts.yearly.rawValue, monthlyIdentifier: Constants.IapProducts.monthly.rawValue, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -157,8 +152,8 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", header: L10n.patronCallout, yearlyIdentifier: "com.pocketcasts.patron.yearly", monthlyIdentifier: "com.pocketcasts.patron.monthly", description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color(hex: "6046F5"), buttonForegroundColor: .white, features: [
-            TierFeature(iconName: "patron-everything", title: "Everything in Plus"),
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color.patronBackgroundColor, buttonForegroundColor: .white, features: [
+            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
@@ -173,9 +168,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: UpgradeLandingView.DisplayPrice
+    @Binding private var selected: PlusPricingInfoModel.DisplayPrice
 
-    init(selected: Binding<UpgradeLandingView.DisplayPrice>) {
+    init(selected: Binding<PlusPricingInfoModel.DisplayPrice>) {
         self._selected = selected
     }
 
@@ -230,7 +225,7 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<UpgradeLandingView.DisplayPrice>
+    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
 
     var body: some View {
         VStack {
@@ -286,9 +281,9 @@ struct UpgradeCard: View {
                 .padding(.bottom, 24)
 
                 Button(tier.buttonLabel) {
-                    viewModel.unlockTapped()
+                    viewModel.unlockTapped(plan: tier.plan, selectedPrice: currentPrice.wrappedValue)
                 }
-                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, background: tier.buttonColor, foregroundColor: tier.buttonForegroundColor))
+                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: tier.plan))
             }
             .padding(24)
 

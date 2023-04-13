@@ -1399,10 +1399,14 @@ internal enum L10n {
   internal static var patronDescription: String { return L10n.tr("Localizable", "patron_description") }
   /// Early access to features
   internal static var patronFeatureEarlyAccess: String { return L10n.tr("Localizable", "patron_feature_early_access") }
+  /// Everything in Plus
+  internal static var patronFeatureEverythingInPlus: String { return L10n.tr("Localizable", "patron_feature_everything_in_plus") }
   /// Supporters profile badge
   internal static var patronFeatureProfileBadge: String { return L10n.tr("Localizable", "patron_feature_profile_badge") }
   /// Special Pocket Casts app icons
   internal static var patronFeatureProfileIcons: String { return L10n.tr("Localizable", "patron_feature_profile_icons") }
+  /// Become a Patron member and unlock all Pocket Casts features
+  internal static var patronPurchasePromoTitle: String { return L10n.tr("Localizable", "patron_purchase_promo_title") }
   /// Subscribe to Patron
   internal static var patronSubscribeTo: String { return L10n.tr("Localizable", "patron_subscribe_to") }
   /// Pause
