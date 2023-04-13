@@ -5,7 +5,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
     let plan: Constants.Plan
 
     private var background: any View {
-        plan == .plus ? Color.plusGradient : Color(hex: "6046F5")
+        plan == .plus ? Color.plusGradient : Color.patronBackgroundColor
     }
 
     private var foregroundColor: Color {
@@ -157,6 +157,8 @@ extension Color {
 
     static let plusButtonUnselectedColor = Color.white
     static let plusButtonFilledTextColor = Color.black
+
+    static let patronBackgroundColor = Color(hex: "6046F5")
 
     static let plusBackgroundColor = Color(hex: "121212")
     static let plusLeftCircleColor = Color(hex: "ffd845")
