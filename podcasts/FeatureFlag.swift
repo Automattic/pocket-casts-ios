@@ -51,7 +51,7 @@ enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             return false
         case .signInWithApple:
-            return false
+            return true
         case .onboardingUpdates:
             return true
         case .newSearch:

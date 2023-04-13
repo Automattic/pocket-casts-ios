@@ -81,7 +81,7 @@ private extension SonosLinkController {
         }
 
         Task {
-            let token = try? await AuthenticationHelper.refreshLogin(scope: .sonos)
+            let token = await ApiServerHandler.shared.exchangeSonosToken()
 
             DispatchQueue.main.async { [weak self] in
                 guard let token = token else {

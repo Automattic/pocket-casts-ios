@@ -107,4 +107,20 @@ public class ApiServerHandler {
             apiQueue.addOperation(deleteOperation)
         }
     }
+
+    /// Swaps the current auth token with one scoped for use in Sonos connections
+    /// - Returns: The auth token or nil if it failed for any reason
+    public func exchangeSonosToken() async -> String? {
+        let token = await withCheckedContinuation { continuation in
+            let task = ExchangeSonosTask()
+
+            task.completion = { token in
+                continuation.resume(returning: token)
+            }
+
+            apiQueue.addOperation(task)
+        }
+
+        return token
+    }
 }
