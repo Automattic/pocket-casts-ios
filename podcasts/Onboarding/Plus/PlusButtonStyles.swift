@@ -9,7 +9,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
     }
 
     private var foregroundColor: Color {
-        plan == .plus ? .plusButtonFilledTextColor : .white
+        plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
     }
 
     init(isLoading: Bool = false, plan: Constants.Plan) {
@@ -50,7 +50,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
     let plan: Constants.Plan
 
     private var foregroundColor: Color {
-        plan == .plus ? Color.plusGradientColor1 : Color(hex: "AFA2FA")
+        plan == .plus ? Color.plusGradientColor1 : Color.patronGradientColor1
     }
 
     private var overlay: LinearGradient {
@@ -149,14 +149,17 @@ extension Color {
     ], startPoint: .topLeading, endPoint: .topTrailing)
 
     static let patronGradient = LinearGradient(stops: [
-        Gradient.Stop(color: Color(hex: "AFA2FA"), location: 1)
+        Gradient.Stop(color: .patronGradientColor1, location: 1)
     ], startPoint: .topLeading, endPoint: .topTrailing)
 
     static let plusGradientColor1 = Color(hex: "FED745")
     static let plusGradientColor2 = Color(hex: "FEB525")
 
+    static let patronGradientColor1 = Color(hex: "AFA2FA")
+
     static let plusButtonUnselectedColor = Color.white
     static let plusButtonFilledTextColor = Color.black
+    static let patronButtonFilledTextColor = Color.white
 
     static let patronBackgroundColor = Color(hex: "6046F5")
 
