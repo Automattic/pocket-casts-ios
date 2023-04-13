@@ -19,13 +19,9 @@ struct UpgradeLandingView: View {
 
             ZStack {
 
-                if currentPage == 0 {
-                    tiers[0].background
-                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
-                        .ignoresSafeArea()
-                } else {
-                    tiers[1].background
-                        .transition(.opacity.animation(currentPage == 0 ? .easeIn : .easeOut))
+                ForEach(tiers) { tier in
+                    tier.background
+                        .opacity(selectedTier.id == tier.id ? 1 : 0)
                         .ignoresSafeArea()
                 }
 
