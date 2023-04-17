@@ -138,7 +138,8 @@ platform :ios do
 
     gym(
       scheme: 'pocketcasts',
-      include_bitcode: false      clean: true
+      include_bitcode: false,
+      clean: true
     )
     clean_build_artifacts
     sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
