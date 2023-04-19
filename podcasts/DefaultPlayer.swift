@@ -33,6 +33,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playFailedObserver: NSObjectProtocol?
     private var playStalledObserver: NSObjectProtocol?
 
+    private var episodeUuid: String?
+
     #if !os(watchOS)
         private var peakLimiter: AudioUnit?
         private var highPassFilter: AudioUnit?
@@ -61,6 +63,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         isWaitingForInitialPlayback = true
 
         player = AVPlayer(playerItem: playerItem)
+
+        episodeUuid = episode.uuid
 
         configurePlayer(videoPodcast: episode.videoPodcast())
     }
@@ -226,6 +230,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+            loadEmbeddedImage()
+
             for track in tracks {
                 if track.mediaType == AVMediaType.audio {
                     assetTrack = track
@@ -662,5 +668,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
+    }
+
+    func loadEmbeddedImage() {
+        let playerItem = player?.currentItem
+        if let asset = playerItem?.asset, let episodeUuid {
+            StreamingEpisodeArtwork.shared.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
+        }
     }
 }
