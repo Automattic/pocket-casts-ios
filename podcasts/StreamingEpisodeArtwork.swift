@@ -5,12 +5,16 @@ import Kingfisher
 class StreamingEpisodeArtwork {
     static let shared = StreamingEpisodeArtwork()
 
-    /// Extract a UIImage from a given asset
+    /// Extract a UIImage from a given asset if embedded artwork option is enabled.
     /// If an image is extracted, `episodeEmbeddedArtworkLoaded` notification is triggered
     /// - Parameters:
     ///   - asset: an AVAsset
     ///   - episodeUuid: the UUID of the current playing episode
     func loadEmbeddedImage(asset: AVAsset, episodeUuid: String) {
+        guard Settings.loadEmbeddedImages, !EmbeddedArtworkCache.shared.isCache(episodeUuid: episodeUuid) else {
+            return
+        }
+
         // If it's already loaded and cached, do nothing
         let metadata = asset.metadata
         for item in metadata {
