@@ -6,7 +6,7 @@
 # Nodes with values to reuse in the pipeline.
 common_params:
   - &common_plugins
-    - automattic/a8c-ci-toolkit#2.13.0
+    - automattic/a8c-ci-toolkit#2.15.1
     - automattic/git-s3-cache#1.1.4:
         bucket: a8c-repo-mirrors
         repo: automattic/pocket-casts-ios/
