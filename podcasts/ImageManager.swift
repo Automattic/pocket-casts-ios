@@ -115,7 +115,7 @@ class ImageManager {
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
-        if loadEmbeddedImageIfRequired(in: episode, into: imageView, completion: nil) {
+        if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
         }
 
@@ -183,7 +183,7 @@ class ImageManager {
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
-        if loadEmbeddedImageIfRequired(in: episode, into: nil, completion: { image in
+        if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
         }) {
             return
@@ -208,7 +208,7 @@ class ImageManager {
         }
     }
 
-    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView?, completion: ((UIImage?) -> Void)?) -> Bool {
+    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) -> Bool {
         // if the user has opted to use embedded artwork, try to load that
         guard Settings.loadEmbeddedImages else {
             return false
