@@ -11,7 +11,7 @@ class StreamingEpisodeArtwork {
     ///   - asset: an AVAsset
     ///   - episodeUuid: the UUID of the current playing episode
     func loadEmbeddedImage(asset: AVAsset, episodeUuid: String) {
-        guard Settings.loadEmbeddedImages, !EmbeddedArtworkCache.shared.isCache(episodeUuid: episodeUuid) else {
+        guard Settings.loadEmbeddedImages, !EmbeddedArtworkCache.shared.isCached(episodeUuid: episodeUuid) else {
             return
         }
 
@@ -59,7 +59,7 @@ class EmbeddedArtworkCache {
         subscribedPodcastsCache.retrieveImage(forKey: episodeUuid, options: .none, completionHandler: completionHandler)
     }
 
-    func isCache(episodeUuid: String) -> Bool {
+    func isCached(episodeUuid: String) -> Bool {
         subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 }

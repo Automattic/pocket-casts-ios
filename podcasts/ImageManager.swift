@@ -226,7 +226,7 @@ class ImageManager {
             }
         }
 
-        if EmbeddedArtworkCache.shared.isCache(episodeUuid: episode.uuid) {
+        if EmbeddedArtworkCache.shared.isCached(episodeUuid: episode.uuid) {
             EmbeddedArtworkCache.shared.get(for: episode.uuid) { result in
                 switch result {
                 case .success(let imageCache):
