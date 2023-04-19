@@ -24,7 +24,6 @@ class StreamingEpisodeArtwork {
             return
         }
 
-        // If it's already loaded and cached, do nothing
         let metadata = asset.metadata
         for item in metadata {
             if let key = item.commonKey?.rawValue, key == "artwork" {
