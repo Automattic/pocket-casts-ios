@@ -776,6 +776,14 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Embedded Artwork
+
+    static var loadEmbeddedImages: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

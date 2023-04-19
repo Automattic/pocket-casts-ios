@@ -210,7 +210,7 @@ class ImageManager {
 
     private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView?, completion: ((UIImage?) -> Void)?) -> Bool {
         // if the user has opted to use embedded artwork, try to load that
-        guard UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages) else {
+        guard Settings.loadEmbeddedImages else {
             return false
         }
 
