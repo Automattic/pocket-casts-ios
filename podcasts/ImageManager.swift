@@ -115,8 +115,7 @@ class ImageManager {
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
-            imageView.image = image
+        if loadEmbeddedImageIfRequired(in: episode, into: imageView, completion: nil) {
             return
         }
 
@@ -184,8 +183,9 @@ class ImageManager {
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
+        if loadEmbeddedImageIfRequired(in: episode, into: nil, completion: { image in
             completionHandler(image)
+        }) {
             return
         }
 
@@ -208,17 +208,39 @@ class ImageManager {
         }
     }
 
-    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode) -> UIImage? {
-        // if the user has opted to use embedded artwork, try to load that however loading episode artwork can be an expensive operation, so check to see if it's previously failed for this episode
-        if UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages), episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
+    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView?, completion: ((UIImage?) -> Void)?) -> Bool {
+        // if the user has opted to use embedded artwork, try to load that
+        guard UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages) else {
+            return false
+        }
+
+        // loading episode artwork from downloaded files can be an expensive operation, so check to see if it's previously failed for this episode
+        if episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
             if let embeddedImage = SJMediaMetadataHelper.embeddedImageForFile(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)) {
-                return embeddedImage
+                imageView?.image = embeddedImage
+                completion?(embeddedImage)
+                return true
             } else {
                 failedEmbeddedLookups.append(episode.uuid)
+                return false
             }
         }
 
-        return nil
+        if EmbeddedArtworkCache.shared.isCache(episodeUuid: episode.uuid) {
+            EmbeddedArtworkCache.shared.get(for: episode.uuid) { result in
+                switch result {
+                case .success(let imageCache):
+                    imageView?.image = imageCache.image
+                    completion?(imageCache.image)
+                default:
+                    break
+                }
+            }
+
+            return true
+        }
+
+        return false
     }
 
     // MARK: - UserEpisode Images
