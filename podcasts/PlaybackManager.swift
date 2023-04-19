@@ -77,6 +77,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidDownload(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: Constants.Notifications.episodeEmbeddedArtworkLoaded, object: nil)
 
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
         DispatchQueue.global().async {
@@ -1352,7 +1353,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         chapterManager.parseChapters(episode: episode, duration: duration())
     }
 
-    private func updateAllNowPlayingData() {
+    @objc private func updateAllNowPlayingData() {
         guard let episode = currentEpisode() else {
             #if os(watchOS)
                 WatchNowPlayingHelper.clearNowPlayingInfo()
