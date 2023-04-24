@@ -43,12 +43,17 @@ struct UpgradeLandingView: View {
 
                         PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .padding(.top, 27)
-
-                        Button(selectedTier.buttonLabel) {
-                            viewModel.unlockTapped(plan: selectedTier.plan, selectedPrice: displayPrice)
-                        }
-                        .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
                     }
+                }
+
+                VStack {
+                    Spacer()
+
+                    Button(selectedTier.buttonLabel) {
+                        viewModel.unlockTapped(plan: selectedTier.plan, selectedPrice: displayPrice)
+                    }
+                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
+                    .padding(.horizontal, 20)
                 }
             }
         }
