@@ -112,6 +112,7 @@ private struct FeaturesCarousel: View {
         .carouselPeekAmount(.constant(Constants.peekAmount))
         .carouselItemSpacing(Constants.spacing)
         .frame(height: calculatedCardHeight)
+        .padding(.leading, 30)
     }
 
     private enum Constants {
