@@ -251,26 +251,7 @@ struct UpgradeCard: View {
                 }
                 .background(.black)
                 .cornerRadius(24)
-                .padding(.bottom, 10)
-
-                HStack {
-                    Text(viewModel.price(for: tier, frequency: currentPrice.wrappedValue))
-                        .font(style: .largeTitle, weight: .bold)
-                        .foregroundColor(.black)
-                    Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
-                        .font(style: .headline, weight: .bold)
-                        .foregroundColor(.black)
-                        .opacity(0.6)
-                        .padding(.top, 6)
-                }
-                .padding(.bottom, 8)
-
-                Text(tier.description)
-                    .font(style: .caption2, weight: .semibold)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundColor(.black)
-                    .opacity(0.64)
-                    .padding(.bottom, 16)
+                .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
