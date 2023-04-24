@@ -18,6 +18,10 @@ struct UpgradeLandingView: View {
 
     @State private var loadingPrices = true
 
+    private var selectedProduct: Constants.IapProducts {
+        displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
+    }
+
     /// If this device has a small screen
     private var isSmallScreen: Bool {
         UIScreen.main.bounds.height <= 667
@@ -78,7 +82,7 @@ struct UpgradeLandingView: View {
                     )
                     let isLoading = (purchaseModel.state == .purchasing)
                     Button(action: {
-                        purchaseModel.purchase(product: selectedTier.plan.yearly)
+                        purchaseModel.purchase(product: selectedProduct)
                     }, label: {
                         VStack {
                             Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
