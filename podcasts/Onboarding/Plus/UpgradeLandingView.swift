@@ -14,6 +14,18 @@ struct UpgradeLandingView: View {
 
     @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
+    @State private var loadingPrices = true
+
+    /// If this device has a small screen
+    private var isSmallScreen: Bool {
+        UIScreen.main.bounds.height <= 667
+    }
+
+    /// If this device has a bottom safe area
+    private var hasBottomSafeArea: Bool {
+        (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0) > 0
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             topBar
@@ -44,6 +56,10 @@ struct UpgradeLandingView: View {
 
                         PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .padding(.top, 27)
+
+                        if isSmallScreen {
+                            Spacer()
+                        }
                     }
                 }
 
@@ -58,9 +74,12 @@ struct UpgradeLandingView: View {
                             Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
                                 .font(style: .subheadline)
                         }
+                        .transition(.opacity)
+                        .id("plus_price" + selectedTier.title)
                     })
                     .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
                     .padding(.horizontal, 20)
+                    .padding(.bottom, hasBottomSafeArea ? 0 : 16)
                 }
             }
         }
