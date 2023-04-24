@@ -273,11 +273,11 @@ struct UpgradeCard: View {
                     Group {
                         Text("By continuing, you agree to ") + Text("[Privacy Policy](https://support.pocketcasts.com/article/privacy-policy/)").underline() + Text(" and ") + Text("[Terms and Conditions](https://support.pocketcasts.com/article/terms-of-use/)").underline()
                     }
-                    .font(style: .footnote)
+                    .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
                     .tint(.black)
                     .opacity(0.64)
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 0)
             }
             .padding(24)
 
