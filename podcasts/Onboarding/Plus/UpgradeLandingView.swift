@@ -4,7 +4,7 @@ import PocketCastsServer
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
 
-    private var purchaseModel: PlusPurchaseModel
+    @ObservedObject private var purchaseModel: PlusPurchaseModel
 
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
@@ -72,6 +72,7 @@ struct UpgradeLandingView: View {
                 VStack {
                     Spacer()
 
+                    let isLoading = (purchaseModel.state == .purchasing)
                     Button(action: {
                         purchaseModel.purchase(product: selectedTier.plan.yearly)
                     }, label: {
@@ -83,7 +84,7 @@ struct UpgradeLandingView: View {
                         .transition(.opacity)
                         .id("plus_price" + selectedTier.title)
                     })
-                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
+                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
                     .padding(.horizontal, 20)
                     .padding(.bottom, hasBottomSafeArea ? 0 : 16)
                 }
