@@ -72,6 +72,10 @@ struct UpgradeLandingView: View {
                 VStack {
                     Spacer()
 
+                    let hasError = Binding<Bool>(
+                        get: { self.purchaseModel.state == .failed },
+                        set: { _ in }
+                    )
                     let isLoading = (purchaseModel.state == .purchasing)
                     Button(action: {
                         purchaseModel.purchase(product: selectedTier.plan.yearly)
@@ -87,6 +91,11 @@ struct UpgradeLandingView: View {
                     .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
                     .padding(.horizontal, 20)
                     .padding(.bottom, hasBottomSafeArea ? 0 : 16)
+                    .alert(isPresented: hasError) {
+                        Alert(
+                            title: Text(L10n.plusPurchaseFailed)
+                        )
+                    }
                 }
             }
         }
