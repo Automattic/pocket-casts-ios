@@ -43,6 +43,11 @@ struct UpgradeLandingView: View {
 
                         PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .padding(.top, 27)
+
+                        Button(selectedTier.buttonLabel) {
+                            viewModel.unlockTapped(plan: selectedTier.plan, selectedPrice: displayPrice)
+                        }
+                        .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
                     }
                 }
             }
@@ -279,11 +284,6 @@ struct UpgradeCard: View {
                     }
                 }
                 .padding(.bottom, 24)
-
-                Button(tier.buttonLabel) {
-                    viewModel.unlockTapped(plan: tier.plan, selectedPrice: currentPrice.wrappedValue)
-                }
-                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: tier.plan))
             }
             .padding(24)
 
