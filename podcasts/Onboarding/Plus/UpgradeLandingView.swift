@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
@@ -268,6 +269,13 @@ struct UpgradeCard: View {
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
+
+                    Group {
+                        Text("By continuing, you agree to ") + Text("[Privacy Policy](https://support.pocketcasts.com/article/privacy-policy/)").underline() + Text(" and ") + Text("[Terms and Conditions](https://support.pocketcasts.com/article/terms-of-use/)").underline()
+                    }
+                    .font(style: .footnote)
+                    .tint(.black)
+                    .opacity(0.64)
                 }
                 .padding(.bottom, 24)
             }
