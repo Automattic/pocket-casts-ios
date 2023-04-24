@@ -60,6 +60,30 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?"
     }
 
+    func purchaseTitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
+        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+            return ""
+        }
+
+        if let _ = product.freeTrialDuration {
+            return L10n.plusStartMyFreeTrial
+        } else {
+            return tier.buttonLabel
+        }
+    }
+
+    func purchaseSubtitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
+        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+            return ""
+        }
+
+        if let freeTrialDuration = product.freeTrialDuration {
+            return L10n.plusStartTrialDurationPrice(freeTrialDuration, product.price)
+        } else {
+            return product.price
+        }
+    }
+
     private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
         loadPrices {
             switch self.priceAvailability {

@@ -1648,6 +1648,12 @@
 /* Label of a button to skip subscring to any plan */
 "plus_skip" = "Skip";
 
+/* Label of a button prompting the user to start free trial */
+"plus_start_my_free_trial" = "Start my free trial";
+
+/* Sublabel of a button informing the trial duration and the price after. Eg.: "Try 1 month, then $99.99 per year" */
+"plus_start_trial_duration_price" = "Try %1$@, then %2$@";
+
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 

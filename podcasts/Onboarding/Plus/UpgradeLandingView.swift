@@ -50,9 +50,15 @@ struct UpgradeLandingView: View {
                 VStack {
                     Spacer()
 
-                    Button(selectedTier.buttonLabel) {
+                    Button(action: {
                         viewModel.unlockTapped(plan: selectedTier.plan, selectedPrice: displayPrice)
-                    }
+                    }, label: {
+                        VStack {
+                            Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                            Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                                .font(style: .subheadline)
+                        }
+                    })
                     .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: selectedTier.plan))
                     .padding(.horizontal, 20)
                 }
