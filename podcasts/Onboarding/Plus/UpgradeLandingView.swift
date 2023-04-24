@@ -37,68 +37,70 @@ struct UpgradeLandingView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            topBar
+        ZStack {
+            ForEach(tiers) { tier in
+                tier.background
+                    .opacity(selectedTier.id == tier.id ? 1 : 0)
+                    .ignoresSafeArea()
+            }
 
-            ZStack {
+            VStack(spacing: 0) {
+                topBar
 
-                ForEach(tiers) { tier in
-                    tier.background
-                        .opacity(selectedTier.id == tier.id ? 1 : 0)
-                        .ignoresSafeArea()
-                }
+                ZStack {
 
-                ScrollViewIfNeeded {
-                    VStack(spacing: 0) {
+                    ScrollViewIfNeeded {
+                        VStack(spacing: 0) {
 
-                        PlusLabel(selectedTier.header, for: .title2)
-                            .transition(.opacity)
-                            .id("plus_title" + selectedTier.header)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(2)
-                            .padding(.bottom, 16)
-                            .padding(.horizontal, 32)
+                            PlusLabel(selectedTier.header, for: .title2)
+                                .transition(.opacity)
+                                .id("plus_title" + selectedTier.header)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(2)
+                                .padding(.bottom, 16)
+                                .padding(.horizontal, 32)
 
-                        UpgradeRoundedSegmentedControl(selected: $displayPrice)
-                            .padding(.bottom, 24)
+                            UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                .padding(.bottom, 24)
 
-                        FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                            FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                        PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                        .padding(.top, 27)
+                            PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                            .padding(.top, 27)
 
-                        if isSmallScreen {
-                            Spacer()
+                            if isSmallScreen {
+                                Spacer()
+                            }
                         }
                     }
-                }
 
-                VStack {
-                    Spacer()
+                    VStack {
+                        Spacer()
 
-                    let hasError = Binding<Bool>(
-                        get: { self.purchaseModel.state == .failed },
-                        set: { _ in }
-                    )
-                    let isLoading = (purchaseModel.state == .purchasing)
-                    Button(action: {
-                        purchaseModel.purchase(product: selectedProduct)
-                    }, label: {
-                        VStack {
-                            Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                            Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                                .font(style: .subheadline)
-                        }
-                        .transition(.opacity)
-                        .id("plus_price" + selectedTier.title)
-                    })
-                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, hasBottomSafeArea ? 0 : 16)
-                    .alert(isPresented: hasError) {
-                        Alert(
-                            title: Text(L10n.plusPurchaseFailed)
+                        let hasError = Binding<Bool>(
+                            get: { self.purchaseModel.state == .failed },
+                            set: { _ in }
                         )
+                        let isLoading = (purchaseModel.state == .purchasing)
+                        Button(action: {
+                            purchaseModel.purchase(product: selectedProduct)
+                        }, label: {
+                            VStack {
+                                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                                    .font(style: .subheadline)
+                            }
+                            .transition(.opacity)
+                            .id("plus_price" + selectedTier.title)
+                        })
+                        .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, hasBottomSafeArea ? 0 : 16)
+                        .alert(isPresented: hasError) {
+                            Alert(
+                                title: Text(L10n.plusPurchaseFailed)
+                            )
+                        }
                     }
                 }
             }
@@ -179,7 +181,7 @@ struct UpgradeTier: Identifiable {
     let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
-    let background: LinearGradient
+    let background: RadialGradient
 
     var id: String {
         tier.rawValue
@@ -205,7 +207,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
         ],
-        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
     static var patron: UpgradeTier {
@@ -218,7 +220,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
-        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 }
 
