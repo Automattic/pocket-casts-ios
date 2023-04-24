@@ -93,7 +93,7 @@ struct UpgradeLandingView: View {
                             .transition(.opacity)
                             .id("plus_price" + selectedTier.title)
                         })
-                        .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
+                        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
                         .padding(.horizontal, 20)
                         .padding(.bottom, hasBottomSafeArea ? 0 : 16)
                         .alert(isPresented: hasError) {
@@ -178,7 +178,6 @@ struct UpgradeTier: Identifiable {
     let header: String
     let description: String
     let buttonLabel: String
-    let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
     let background: RadialGradient
@@ -199,7 +198,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -211,7 +210,7 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color.patronBackgroundColor, buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
