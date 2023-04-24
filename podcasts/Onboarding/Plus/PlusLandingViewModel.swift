@@ -116,8 +116,9 @@ private extension PlusLandingViewModel {
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
+        let purchaseModel = FeatureFlag.patron.enabled ? PlusPurchaseModel() : nil
 
-        let view = Self.view(with: viewModel)
+        let view = Self.view(with: viewModel, purchaseModel: purchaseModel)
         let controller = PlusHostingViewController(rootView: view)
 
         controller.viewModel = viewModel
@@ -126,14 +127,15 @@ extension PlusLandingViewModel {
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
+        purchaseModel?.parentController = navController
 
         return (navigationController == nil) ? navController : controller
     }
 
     @ViewBuilder
-    private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        if FeatureFlag.patron.enabled {
-            UpgradeLandingView()
+    private static func view(with viewModel: PlusLandingViewModel, purchaseModel: PlusPurchaseModel? = nil) -> some View {
+        if FeatureFlag.patron.enabled, let purchaseModel {
+            UpgradeLandingView(purchaseModel: purchaseModel)
                 .environmentObject(viewModel)
                 .setupDefaultEnvironment()
         } else {

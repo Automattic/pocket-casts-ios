@@ -117,8 +117,7 @@ private extension PlusPurchaseModel {
         let navigationController = parentController as? UINavigationController
         let controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
 
-        // Dismiss the current flow
-        parentController.dismiss(animated: true, completion: {
+        let presentNextBlock: () -> Void = {
             guard let navigationController else {
                 // Present the welcome flow
                 parentController.present(controller, animated: true)
@@ -127,7 +126,14 @@ private extension PlusPurchaseModel {
 
             // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
-        })
+        }
+
+        // Dismiss the current flow
+        if FeatureFlag.patron.enabled {
+            presentNextBlock()
+        } else {
+            parentController.dismiss(animated: true, completion: presentNextBlock)
+        }
     }
 }
 
