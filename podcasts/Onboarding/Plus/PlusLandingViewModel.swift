@@ -56,13 +56,9 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func price(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?"
-    }
-
     func purchaseTitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
         guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
-            return ""
+            return L10n.loading
         }
 
         if let _ = product.freeTrialDuration {
