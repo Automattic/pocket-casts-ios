@@ -81,7 +81,7 @@ struct UpgradeLandingView: View {
                             get: { self.purchaseModel.state == .failed },
                             set: { _ in }
                         )
-                        let isLoading = (purchaseModel.state == .purchasing)
+                        let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
                         Button(action: {
                             purchaseModel.purchase(product: selectedProduct)
                         }, label: {
@@ -106,6 +106,10 @@ struct UpgradeLandingView: View {
             }
         }
         .background(Color.plusBackgroundColor)
+        .onAppear {
+            // Ensure prices are loaded
+            viewModel.loadPrices { }
+        }
     }
 
     var topBar: some View {
