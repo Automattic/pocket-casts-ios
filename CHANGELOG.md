@@ -1,6 +1,6 @@
 7.38
 -----
-
+- Embedded artwork: extract embedded artwork from episodes that are being streamed (#829)
 
 7.37
 -----
