@@ -347,10 +347,13 @@ struct UpgradeCard: View {
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 
-        Text(purchaseTerms[safe: 0] ?? "") +
-        Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
-        Text(purchaseTerms[safe: 2] ?? "") +
-        Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        Group {
+            Text(purchaseTerms[safe: 0] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(purchaseTerms[safe: 2] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        }
+        .foregroundColor(.black)
     }
 }
 
