@@ -319,12 +319,10 @@ struct UpgradeCard: View {
                         }
                     }
 
-                    Group {
-                        termsAndConditions
-                    }
-                    .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                    .tint(.black)
-                    .opacity(0.64)
+                    termsAndConditions
+                        .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
+                        .tint(.black)
+                        .opacity(0.64)
                 }
                 .padding(.bottom, 0)
             }
