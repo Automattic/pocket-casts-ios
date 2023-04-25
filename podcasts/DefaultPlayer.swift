@@ -671,9 +671,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     func loadEmbeddedImage() {
-        let playerItem = player?.currentItem
-        if let asset = playerItem?.asset, let episodeUuid {
-            StreamingEpisodeArtwork.shared.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
+        guard let asset = player?.currentItem?.asset, let episodeUuid else {
+            return
         }
+
+        StreamingEpisodeArtwork.shared.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
     }
 }
