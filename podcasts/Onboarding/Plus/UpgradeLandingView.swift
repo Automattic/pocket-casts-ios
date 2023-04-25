@@ -343,7 +343,14 @@ struct UpgradeCard: View {
     @ViewBuilder
     var termsAndConditions: some View {
         let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-        Text(purchaseTerms[safe: 0] ?? "") + Text("[\(purchaseTerms[safe: 1] ?? "")](https://support.pocketcasts.com/article/privacy-policy/)").underline() + Text(purchaseTerms[safe: 2] ?? "") + Text("[\(purchaseTerms[safe: 3] ?? "")](https://support.pocketcasts.com/article/terms-of-use/)").underline()
+
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        Text(purchaseTerms[safe: 0] ?? "") +
+        Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+        Text(purchaseTerms[safe: 2] ?? "") +
+        Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
     }
 }
 
