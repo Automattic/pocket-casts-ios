@@ -24,20 +24,13 @@ class StreamingEpisodeArtwork {
             return
         }
 
-        let metadata = asset.metadata
-        for item in metadata {
-            if let key = item.commonKey?.rawValue, key == "artwork" {
-                if let imageData = item.value as? Data {
-                    let image = UIImage(data: imageData)
+        let artworkItems = AVMetadataItem.metadataItems(from: asset.commonMetadata, filteredByIdentifier: .commonIdentifierArtwork)
+        let image = artworkItems.compactMap { $0.dataValue.flatMap { UIImage(data: $0) } }.first
 
-                    if let image {
-                        set(for: episodeUuid, image: image) {
-                            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
-                        }
-                    }
+        guard let image else { return }
 
-                }
-            }
+        set(for: episodeUuid, image: image) {
+            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
 
