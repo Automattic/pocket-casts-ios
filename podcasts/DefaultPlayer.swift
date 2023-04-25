@@ -675,6 +675,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
+        #if !os(watchOS)
         StreamingEpisodeArtwork.shared.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
+        #endif
     }
 }

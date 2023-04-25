@@ -5,15 +5,6 @@ import Kingfisher
 class StreamingEpisodeArtwork {
     static let shared = StreamingEpisodeArtwork()
 
-    private lazy var subscribedPodcastsCache: ImageCache = {
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
-        let url = URL(fileURLWithPath: path)
-        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365)
-        return subscribedPodcastsCache
-    }()
-
     /// Extract a UIImage from a given asset if embedded artwork option is enabled.
     /// If an image is extracted, `episodeEmbeddedArtworkLoaded` notification is triggered
     /// - Parameters:
@@ -34,16 +25,12 @@ class StreamingEpisodeArtwork {
         }
     }
 
-    func get(for episodeUuid: String, completionHandler: ((Result<ImageCacheResult, KingfisherError>) -> Void)?) {
-        subscribedPodcastsCache.retrieveImage(forKey: episodeUuid, options: .none, completionHandler: completionHandler)
-    }
-
     func isCached(episodeUuid: String) -> Bool {
-        subscribedPodcastsCache.isCached(forKey: episodeUuid)
+        ImageManager.sharedManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 
     private func set(for episodeUuid: String, image: UIImage, completion: (() -> Void)?) {
-        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+        ImageManager.sharedManager.subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
             completion?()
         }
     }

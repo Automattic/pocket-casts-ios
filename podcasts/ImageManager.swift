@@ -14,7 +14,14 @@ class ImageManager {
     private var searchImageCache = ImageCache(name: "generalImageCache")
 
     // subscribed image cache, these we want to store for a longer period of time
-    private var subscribedPodcastsCache: ImageCache
+    lazy var subscribedPodcastsCache: ImageCache = {
+        let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
+        let url = URL(fileURLWithPath: path)
+        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork dissapear
+        return subscribedPodcastsCache
+    }()
 
     // user episode image cache
     private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
@@ -28,12 +35,6 @@ class ImageManager {
     private var failedEmbeddedLookups = [] as [String]
 
     init() {
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
-        let url = URL(fileURLWithPath: path)
-        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork dissapear
-
         networkImageCache.diskStorage.config.expiration = .days(56) // 8 weeks
 
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
@@ -226,8 +227,8 @@ class ImageManager {
             }
         }
 
-        if StreamingEpisodeArtwork.shared.isCached(episodeUuid: episode.uuid) {
-            StreamingEpisodeArtwork.shared.get(for: episode.uuid) { result in
+        if subscribedPodcastsCache.isCached(forKey: episode.uuid) {
+            subscribedPodcastsCache.retrieveImage(forKey: episode.uuid, options: .none) { result in
                 switch result {
                 case .success(let imageCache):
                     imageView?.image = imageCache.image
