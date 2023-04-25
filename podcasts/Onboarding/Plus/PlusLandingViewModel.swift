@@ -61,7 +61,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
             return L10n.loading
         }
 
-        if let _ = product.freeTrialDuration {
+        if product.freeTrialDuration != nil {
             return L10n.plusStartMyFreeTrial
         } else {
             return tier.buttonLabel
