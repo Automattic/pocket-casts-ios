@@ -322,7 +322,7 @@ struct UpgradeCard: View {
                     }
 
                     Group {
-                        Text("By continuing, you agree to ") + Text("[Privacy Policy](https://support.pocketcasts.com/article/privacy-policy/)").underline() + Text(" and ") + Text("[Terms and Conditions](https://support.pocketcasts.com/article/terms-of-use/)").underline()
+                        termsAndConditions
                     }
                     .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
                     .tint(.black)
@@ -340,6 +340,12 @@ struct UpgradeCard: View {
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
         .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
         .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
+    }
+
+    @ViewBuilder
+    var termsAndConditions: some View {
+        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
+        Text(purchaseTerms[safe: 0] ?? "") + Text("[\(purchaseTerms[safe: 1] ?? "")](https://support.pocketcasts.com/article/privacy-policy/)").underline() + Text(purchaseTerms[safe: 2] ?? "") + Text("[\(purchaseTerms[safe: 3] ?? "")](https://support.pocketcasts.com/article/terms-of-use/)").underline()
     }
 }
 
