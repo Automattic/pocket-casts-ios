@@ -143,7 +143,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addCustomObserver(Constants.Notifications.podcastImageReCacheRequired, selector: #selector(updateRequired))
 
-        addCustomObserver(Constants.Notifications.episodeEmbeddedArtworkLoaded, selector: #selector(updateRequired))
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(updateRequired))
 
         addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextListChanged))
         addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(upNextListChanged))

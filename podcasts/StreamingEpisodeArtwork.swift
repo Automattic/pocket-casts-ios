@@ -32,7 +32,7 @@ class StreamingEpisodeArtwork {
 
                     if let image {
                         set(for: episodeUuid, image: image) {
-                            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeEmbeddedArtworkLoaded)
+                            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
                         }
                     }
 
