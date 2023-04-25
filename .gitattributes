@@ -1,3 +1,4 @@
 CHANGELOG.md merge=union
-podcasts/Strings+Generated.swift linguist-generated
 *.pbxproj merge=union
+
+podcasts/Strings+Generated.swift linguist-generated
