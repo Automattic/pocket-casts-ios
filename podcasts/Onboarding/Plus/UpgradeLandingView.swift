@@ -4,7 +4,7 @@ import PocketCastsServer
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
 
-    @ObservedObject private var purchaseModel: PlusPurchaseModel
+    @EnvironmentObject private var purchaseModel: PlusPurchaseModel
 
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
@@ -28,10 +28,6 @@ struct UpgradeLandingView: View {
     /// If this device has a bottom safe area
     private var hasBottomSafeArea: Bool {
         !UIDevice.current.isiPad() && (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0) > 0
-    }
-
-    init(purchaseModel: PlusPurchaseModel) {
-        self.purchaseModel = purchaseModel
     }
 
     var body: some View {
@@ -357,6 +353,7 @@ struct UpgradeCard: View {
 
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
-        UpgradeLandingView(purchaseModel: PlusPurchaseModel()).environmentObject(PlusLandingViewModel(source: .login))
+        UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
+            .environmentObject(PlusPurchaseModel())
     }
 }

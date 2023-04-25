@@ -135,8 +135,9 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel, purchaseModel: PlusPurchaseModel? = nil) -> some View {
         if FeatureFlag.patron.enabled, let purchaseModel {
-            UpgradeLandingView(purchaseModel: purchaseModel)
+            UpgradeLandingView()
                 .environmentObject(viewModel)
+                .environmentObject(purchaseModel)
                 .setupDefaultEnvironment()
         } else {
             PlusLandingView(viewModel: viewModel)
