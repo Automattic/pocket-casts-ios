@@ -168,7 +168,7 @@ private struct FeaturesCarousel: View {
 
     private enum Constants {
         static let peekAmount: Double = 20
-        static let spacing: Double = UIDevice.current.isiPad() ? 150 : 30
+        static let spacing: Double = 30
     }
 }
 
