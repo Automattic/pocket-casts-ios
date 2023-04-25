@@ -16,8 +16,6 @@ struct UpgradeLandingView: View {
 
     @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
-    @State private var loadingPrices = true
-
     private var selectedProduct: Constants.IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
