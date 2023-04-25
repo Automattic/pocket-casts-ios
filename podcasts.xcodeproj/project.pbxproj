@@ -520,7 +520,6 @@
 		8B7298F829144EEC0059C077 /* PodcastCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7298F729144EEC0059C077 /* PodcastCover.swift */; };
 		8B738F3128F5CBE0004E7526 /* StoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B738F3028F5CBE0004E7526 /* StoriesView.swift */; };
 		8B87C47C29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* StreamingEpisodeArtwork.swift */; };
-		8B87C47D29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* StreamingEpisodeArtwork.swift */; };
 		8B938E2B29BFB4F2008997B9 /* SearchAnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B938E2A29BFB4F2008997B9 /* SearchAnalyticsHelper.swift */; };
 		8B99197429A67A7100A5C81C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B99197329A67A7100A5C81C /* SearchView.swift */; };
 		8B99197729A686BA00A5C81C /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B99197629A686BA00A5C81C /* SearchResultsView.swift */; };
@@ -8535,7 +8534,6 @@
 				BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */,
 				BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */,
 				BDE48A1C2410D07300ECA6CA /* PlaybackProtocol.swift in Sources */,
-				8B87C47D29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */,
 				46666F0627D1289F00A141AA /* EpisodeAction.swift in Sources */,
 				40F8344C245028BE009FF284 /* WatchSyncManager+Autodownload.swift in Sources */,
 				46A2763D27C6ADAD0053557E /* SwiftUI+Constants.swift in Sources */,
