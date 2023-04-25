@@ -29,7 +29,7 @@ struct UpgradeLandingView: View {
 
     /// If this device has a bottom safe area
     private var hasBottomSafeArea: Bool {
-        (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0) > 0
+        !UIDevice.current.isiPad() && (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0) > 0
     }
 
     init(purchaseModel: PlusPurchaseModel) {
