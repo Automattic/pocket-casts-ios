@@ -36,6 +36,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var episodeUuid: String?
 
     #if !os(watchOS)
+        private lazy var streamingArtwork: StreamingEpisodeArtwork = {
+            StreamingEpisodeArtwork()
+        }()
+
         private var peakLimiter: AudioUnit?
         private var highPassFilter: AudioUnit?
         private var sampleCount: Float64 = 0
@@ -671,12 +675,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     func loadEmbeddedImage() {
+        #if !os(watchOS)
         guard let asset = player?.currentItem?.asset, let episodeUuid else {
             return
         }
 
-        #if !os(watchOS)
-        StreamingEpisodeArtwork.shared.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
+        streamingArtwork.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
         #endif
     }
 }

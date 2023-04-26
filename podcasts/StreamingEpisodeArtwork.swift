@@ -3,7 +3,11 @@ import Kingfisher
 
 /// Extracts artwork from a streaming episode (if there's any)
 class StreamingEpisodeArtwork {
-    static let shared = StreamingEpisodeArtwork()
+    private let imageManager: ImageManager
+
+    init(imageManager: ImageManager = .sharedManager) {
+        self.imageManager = imageManager
+    }
 
     /// Extract a UIImage from a given asset if embedded artwork option is enabled.
     /// If an image is extracted, `episodeEmbeddedArtworkLoaded` notification is triggered
@@ -26,11 +30,11 @@ class StreamingEpisodeArtwork {
     }
 
     func isCached(episodeUuid: String) -> Bool {
-        ImageManager.sharedManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
+        imageManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 
     private func set(for episodeUuid: String, image: UIImage, completion: (() -> Void)?) {
-        ImageManager.sharedManager.subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+        imageManager.subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
             completion?()
         }
     }
