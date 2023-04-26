@@ -1198,6 +1198,22 @@
     <string>Лента только для спонсоров</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>При отмене подписки на все эти подкасты все скачанные файлы будут удалены, продолжить?</string>
+    <key>patron_callout</key>
+    <string>Нравится то, что мы делаем, и хочется нас поддержать?</string>
+    <key>patron_description</key>
+    <string>Станьте пользователем Patron в Pocket Casts и помогите нам развивать лучшую платформу для подкастов.</string>
+    <key>patron_feature_early_access</key>
+    <string>Ранний доступ к новым возможностям</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Все возможности Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Значок профиля для спонсоров</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Специальные значки приложения Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Станьте пользователем Patron и получите доступ ко всем возможностям Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Подписаться на Patron</string>
     <key>pause</key>
     <string>Пауза</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@
     <string>Истекает %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Облачное хранилище</string>
+    <key>plus_feature_gratitude</key>
+    <string>Бесконечная благодарность от всей команды Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Дополнительные темы и значки приложения</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@
     <string>Для работы этой функции требуется Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Выбрать срок оплаты</string>
+    <key>plus_skip</key>
+    <string>Пропустить</string>
+    <key>plus_subscribe_to</key>
+    <string>Подписаться на Plus</string>
     <key>plus_subscription_apple</key>
     <string>Ваша подписка управляется магазином Apple App Store</string>
     <key>plus_subscription_apple_details</key>

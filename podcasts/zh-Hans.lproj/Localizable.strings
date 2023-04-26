@@ -1198,6 +1198,22 @@
     <string>仅支持者源</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>取消订阅所有这些播客将删除其所有的下载文件，是否确定？</string>
+    <key>patron_callout</key>
+    <string>相信我们的所作所为，并想要表达您的支持？</string>
+    <key>patron_description</key>
+    <string>成为 Pocket Casts Patron，并帮助我们继续提供更好的播客体验。</string>
+    <key>patron_feature_early_access</key>
+    <string>抢先体验功能</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus 中的所有内容</string>
+    <key>patron_feature_profile_badge</key>
+    <string>支持者个人资料徽章</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特殊的 Pocket Casts 应用图标</string>
+    <key>patron_purchase_promo_title</key>
+    <string>成为 Patron 会员并解锁所有 Pocket Casts 功能</string>
+    <key>patron_subscribe_to</key>
+    <string>订阅 Patron</string>
     <key>pause</key>
     <string>暂停</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@
     <string>到期日期：%1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>云存储</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts 的每个人都对您感激不尽</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主题和应用程序图标</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@
     <string>此功能需要使用 Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>选择付款频率</string>
+    <key>plus_skip</key>
+    <string>跳过</string>
+    <key>plus_subscribe_to</key>
+    <string>订阅 Plus</string>
     <key>plus_subscription_apple</key>
     <string>您的订阅由 Apple App Store 管理</string>
     <key>plus_subscription_apple_details</key>

@@ -1198,6 +1198,22 @@ UPPDATERINGAR</string>
     <string>Supporterexklusivt flöde</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Om du säger upp din prenumeration på alla dessa podcasts kommer alla nedladdningsfiler för dem att tas bort. Är du säker?</string>
+    <key>patron_callout</key>
+    <string>Tror du på vad vi gör och vill visa ditt stöd?</string>
+    <key>patron_description</key>
+    <string>Bli en Pocket Casts Patron och hjälp oss att fortsätta att leverera den bästa möjliga podcastupplevelsen.</string>
+    <key>patron_feature_early_access</key>
+    <string>Tidig åtkomst till funktioner</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Allt i Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Supporterprofilmärke</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Särskilda Pocket Casts-appikoner</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Bli Patron-medlem och lås upp alla Pocket Casts-funktioner</string>
+    <key>patron_subscribe_to</key>
+    <string>Prenumerera på Patron</string>
     <key>pause</key>
     <string>Pause</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ UPPDATERINGAR</string>
     <string>Löper ut %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Molnet</string>
+    <key>plus_feature_gratitude</key>
+    <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra ikoner för teman och appar</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Denna funktion kräver Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Välj betalningsfrekvens</string>
+    <key>plus_skip</key>
+    <string>Hoppa över</string>
+    <key>plus_subscribe_to</key>
+    <string>Prenumerera på Plus</string>
     <key>plus_subscription_apple</key>
     <string>Din prenumeration hanteras av Apple App Store</string>
     <key>plus_subscription_apple_details</key>

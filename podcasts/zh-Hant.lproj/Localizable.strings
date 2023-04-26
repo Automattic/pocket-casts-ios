@@ -1198,6 +1198,22 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>支持者專屬摘要</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>取消訂閱這些 Podcast 節目將刪除這些節目中包含的任何已下載檔案，你確定嗎？</string>
+    <key>patron_callout</key>
+    <string>肯定我們的服務，並想表達支持嗎？</string>
+    <key>patron_description</key>
+    <string>成為 Pocket Casts Patron，協助我們繼續提供最優質的 Podcast 使用體驗。</string>
+    <key>patron_feature_early_access</key>
+    <string>搶先使用新功能</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus 的所有功能</string>
+    <key>patron_feature_profile_badge</key>
+    <string>支持者個人檔案徽章</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特殊 Pocket Casts 應用程式圖示</string>
+    <key>patron_purchase_promo_title</key>
+    <string>成為 Patron 會員並解鎖所有 Pocket Casts 功能</string>
+    <key>patron_subscribe_to</key>
+    <string>訂閱 Patron</string>
     <key>pause</key>
     <string>暫停</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>於 %1$@ 到期</string>
     <key>plus_feature_cloud_storage</key>
     <string>雲端儲存空間</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主題和應用程式圖示</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>此功能需要 Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>選取付款頻率</string>
+    <key>plus_skip</key>
+    <string>略過</string>
+    <key>plus_subscribe_to</key>
+    <string>訂閱 Plus</string>
     <key>plus_subscription_apple</key>
     <string>你的訂閱是由 Apple App Store 管理</string>
     <key>plus_subscription_apple_details</key>
