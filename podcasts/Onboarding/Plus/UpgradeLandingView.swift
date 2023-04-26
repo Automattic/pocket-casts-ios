@@ -16,6 +16,10 @@ struct UpgradeLandingView: View {
 
     @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
+    @State private var shouldShowBottomGradient = false
+
+    @State private var purchaseButtonHeight: CGFloat = 0
+
     private var selectedProduct: Constants.IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
@@ -27,7 +31,11 @@ struct UpgradeLandingView: View {
 
     /// If this device has a bottom safe area
     private var hasBottomSafeArea: Bool {
-        !UIDevice.current.isiPad() && (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0) > 0
+        !UIDevice.current.isiPad() && safeAreaBottomHeight > 0
+    }
+
+    private var safeAreaBottomHeight: CGFloat {
+        (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0)
     }
 
     var body: some View {
@@ -65,20 +73,48 @@ struct UpgradeLandingView: View {
 
                                 Spacer()
 
-                                // Add an invisible purchase button to take into account if the content needs to scroll
-                                purchaseButton
+                                // Add an invisible rectangle to fill the purchase button size, so scroll and vertical centering works fine
+                                Rectangle()
+                                    .frame(height: purchaseButtonHeight)
                                     .opacity(0)
                                     .disabled(true)
                             }
                             .frame(minHeight: reader.size.height)
+                            .modifier(ViewHeightKey())
+                        }
+                        .onPreferenceChange(ViewHeightKey.self) {
+                            if $0 > reader.size.height {
+                                shouldShowBottomGradient = true
+                            }
                         }
                     }
+                }
+
+                if shouldShowBottomGradient {
+                    ZStack {
+                        VStack(spacing: 0) {
+                            Spacer()
+
+                            LinearGradient(colors: [.black.opacity(0), .black], startPoint: .top, endPoint: .bottom)
+                                .opacity(0.8)
+                                .allowsHitTesting(false)
+                                .frame(height: purchaseButtonHeight + safeAreaBottomHeight + 10)
+                        }
+                    }
+                    .ignoresSafeArea()
                 }
 
                 VStack(spacing: 0) {
                     Spacer()
 
                     purchaseButton
+                        .overlay {
+                            GeometryReader { reader in
+                                Action {
+                                    purchaseButtonHeight = reader.size.height
+                                }
+                            }
+                        }
                 }
             }
 
@@ -362,6 +398,23 @@ struct UpgradeCard: View {
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
         .foregroundColor(.black)
+    }
+}
+
+// MARK: - View Height
+
+private struct ViewHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat { 0 }
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = value + nextValue()
+    }
+}
+
+extension ViewHeightKey: ViewModifier {
+    func body(content: Content) -> some View {
+        return content.background(GeometryReader { proxy in
+            Color.clear.preference(key: Self.self, value: proxy.size.height)
+        })
     }
 }
 
