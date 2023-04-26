@@ -14,7 +14,14 @@ class ImageManager {
     private var searchImageCache = ImageCache(name: "generalImageCache")
 
     // subscribed image cache, these we want to store for a longer period of time
-    private var subscribedPodcastsCache: ImageCache
+    lazy var subscribedPodcastsCache: ImageCache = {
+        let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
+        let url = URL(fileURLWithPath: path)
+        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork dissapear
+        return subscribedPodcastsCache
+    }()
 
     // user episode image cache
     private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
@@ -28,12 +35,6 @@ class ImageManager {
     private var failedEmbeddedLookups = [] as [String]
 
     init() {
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
-        let url = URL(fileURLWithPath: path)
-        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork dissapear
-
         networkImageCache.diskStorage.config.expiration = .days(56) // 8 weeks
 
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
@@ -115,8 +116,7 @@ class ImageManager {
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
-            imageView.image = image
+        if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
         }
 
@@ -184,8 +184,9 @@ class ImageManager {
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
+        if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
+        }) {
             return
         }
 
@@ -208,17 +209,39 @@ class ImageManager {
         }
     }
 
-    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode) -> UIImage? {
-        // if the user has opted to use embedded artwork, try to load that however loading episode artwork can be an expensive operation, so check to see if it's previously failed for this episode
-        if UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages), episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
+    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) -> Bool {
+        // if the user has opted to use embedded artwork, try to load that
+        guard Settings.loadEmbeddedImages else {
+            return false
+        }
+
+        // loading episode artwork from downloaded files can be an expensive operation, so check to see if it's previously failed for this episode
+        if episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
             if let embeddedImage = SJMediaMetadataHelper.embeddedImageForFile(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)) {
-                return embeddedImage
+                imageView?.image = embeddedImage
+                completion?(embeddedImage)
+                return true
             } else {
                 failedEmbeddedLookups.append(episode.uuid)
+                return false
             }
         }
 
-        return nil
+        if subscribedPodcastsCache.isCached(forKey: episode.uuid) {
+            subscribedPodcastsCache.retrieveImage(forKey: episode.uuid, options: .none) { result in
+                switch result {
+                case .success(let imageCache):
+                    imageView?.image = imageCache.image
+                    completion?(imageCache.image)
+                default:
+                    break
+                }
+            }
+
+            return true
+        }
+
+        return false
     }
 
     // MARK: - UserEpisode Images
