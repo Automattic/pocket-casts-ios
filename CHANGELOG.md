@@ -1,6 +1,7 @@
 7.38
 -----
-
+- Chapters that are hidden will no longer appear
+- Chapter titles/images now display while scrubbing in the player
 
 7.37
 -----
@@ -54,8 +55,6 @@
 
 7.29
 -----
-- Correctly displays hidden chapters
-- Update chapter titles and images when scrubbing through the podcast
 - Fixed Edit Folder screen layout (#53)
 - Fixed an issue where episodes wouldn't resume downloading on next launch if the app was force quit (#472)
 - Fixed an issue where the podcast artwork wasn't appearin in the Now Playing Siri suggestions (#579)
