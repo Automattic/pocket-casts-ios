@@ -1198,6 +1198,22 @@ ACTUALIZACIONES</string>
     <string>Feed solo para seguidores</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Al darte de baja de todos estos podcasts se borrarán los archivos descargados que tengan, ¿seguro que quieres continuar?</string>
+    <key>patron_callout</key>
+    <string>¿Confías en nuestro trabajo y quieres mostrarnos tu apoyo?</string>
+    <key>patron_description</key>
+    <string>Conviértete en miembro Patron de Pocket Casts y ayúdanos a continuar ofreciendo la mejor experiencia de pódcast posible.</string>
+    <key>patron_feature_early_access</key>
+    <string>Acceso anticipado a las funciones</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Todas las funciones con Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Insignia de perfil de miembro de pago</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Iconos especiales de la aplicación Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Conviértete en miembro Patron y disfruta de todas las funciones de Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Suscribirse a Patron</string>
     <key>pause</key>
     <string>Pausa</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ ACTUALIZACIONES</string>
     <string>Caduca %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Almacenamiento en la nube</string>
+    <key>plus_feature_gratitude</key>
+    <string>El eterno agradecimiento del equipo de Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Más temas e iconos de la aplicación</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Consigue aplicaciones para ordenador, trae tus propios archivos y adórnalo todo
     <string>Esta función requiere Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Seleccionar frecuencia de pago</string>
+    <key>plus_skip</key>
+    <string>Omitir</string>
+    <key>plus_subscribe_to</key>
+    <string>Suscribirse a Plus</string>
     <key>plus_subscription_apple</key>
     <string>La suscripción se gestiona a través del App Store de Apple </string>
     <key>plus_subscription_apple_details</key>
