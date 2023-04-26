@@ -92,12 +92,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    @IBOutlet var bgImage: UIImageView! {
-        didSet {
-            bgImage.kf.setImage(with: ServerHelper.asUrl(ServerConstants.Urls.image() + "trending/640/trending_bg.jpg"), placeholder: nil, options: [.transition(.fade(Constants.Animation.defaultAnimationTime))])
-        }
-    }
-
     @IBOutlet var plusInfoView: PlusLockedInfoView! {
         didSet {
             plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
@@ -135,7 +129,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         navigationItem.title = L10n.profile
 
-        profileTable.tableHeaderView = headerView
         profileTable.tableFooterView = footerView
 
         updateDisplayedData()
@@ -464,8 +457,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         18
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        headerView
+    }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        1
+        UITableView.automaticDimension
     }
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
