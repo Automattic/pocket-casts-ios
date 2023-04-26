@@ -16,7 +16,7 @@ struct UpgradeLandingView: View {
 
     @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
-    @State private var shouldShowBottomGradient = false
+    @State private var contentIsScrollable = false
 
     @State private var purchaseButtonHeight: CGFloat = 0
 
@@ -68,8 +68,10 @@ struct UpgradeLandingView: View {
 
                                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                                PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                                    .padding(.top, 27)
+                                if !isSmallScreen && !contentIsScrollable {
+                                    PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                                        .padding(.top, 27)
+                                }
 
                                 Spacer()
 
@@ -84,13 +86,13 @@ struct UpgradeLandingView: View {
                         }
                         .onPreferenceChange(ViewHeightKey.self) {
                             if $0 > reader.size.height {
-                                shouldShowBottomGradient = true
+                                contentIsScrollable = true
                             }
                         }
                     }
                 }
 
-                if shouldShowBottomGradient {
+                if contentIsScrollable {
                     ZStack {
                         VStack(spacing: 0) {
                             Spacer()
