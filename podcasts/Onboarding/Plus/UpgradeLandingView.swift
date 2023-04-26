@@ -38,54 +38,50 @@ struct UpgradeLandingView: View {
                     .ignoresSafeArea()
             }
 
-            VStack(spacing: 0) {
-                topBar
+            ZStack {
+                VStack(spacing: 0) {
+                    topBar
 
-                Spacer()
+                    GeometryReader { reader in
+                        ScrollView {
+                            VStack(spacing: 0) {
+                                Spacer()
 
-                PlusLabel(selectedTier.header, for: .title2)
-                    .transition(.opacity)
-                    .id("plus_title" + selectedTier.header)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(2)
-                    .padding(.bottom, 16)
-                    .padding(.horizontal, 32)
+                                PlusLabel(selectedTier.header, for: .title2)
+                                    .transition(.opacity)
+                                    .id("plus_title" + selectedTier.header)
+                                    .minimumScaleFactor(0.5)
+                                    .lineLimit(2)
+                                    .padding(.bottom, 16)
+                                    .padding(.horizontal, 32)
 
-                UpgradeRoundedSegmentedControl(selected: $displayPrice)
-                    .padding(.bottom, 24)
+                                UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                    .padding(.bottom, 24)
 
-                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                .padding(.top, 27)
+                                PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                                    .padding(.top, 27)
 
-                Spacer()
+                                Spacer()
 
-                let hasError = Binding<Bool>(
-                    get: { self.purchaseModel.state == .failed },
-                    set: { _ in }
-                )
-                let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
-                Button(action: {
-                    purchaseModel.purchase(product: selectedProduct)
-                }, label: {
-                    VStack {
-                        Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                        Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                            .font(style: .subheadline)
+                                // Add an invisible purchase button to take into account if the content needs to scroll
+                                purchaseButton
+                                    .opacity(0)
+                                    .disabled(true)
+                            }
+                            .frame(minHeight: reader.size.height)
+                        }
                     }
-                    .transition(.opacity)
-                    .id("plus_price" + selectedTier.title)
-                })
-                .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
-                .padding(.horizontal, 20)
-                .padding(.bottom, hasBottomSafeArea ? 0 : 16)
-                .alert(isPresented: hasError) {
-                    Alert(
-                        title: Text(L10n.plusPurchaseFailed)
-                    )
+                }
+
+                VStack(spacing: 0) {
+                    Spacer()
+
+                    purchaseButton
                 }
             }
+
         }
         .background(Color.plusBackgroundColor)
         .onAppear {
@@ -103,6 +99,34 @@ struct UpgradeLandingView: View {
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
             .padding()
+        }
+    }
+
+    @ViewBuilder
+    var purchaseButton: some View {
+        let hasError = Binding<Bool>(
+            get: { self.purchaseModel.state == .failed },
+            set: { _ in }
+        )
+        let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        Button(action: {
+            purchaseModel.purchase(product: selectedProduct)
+        }, label: {
+            VStack {
+                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                    .font(style: .subheadline)
+            }
+            .transition(.opacity)
+            .id("plus_price" + selectedTier.title)
+        })
+        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
+        .padding(.horizontal, 20)
+        .padding(.bottom, hasBottomSafeArea ? 0 : 16)
+        .alert(isPresented: hasError) {
+            Alert(
+                title: Text(L10n.plusPurchaseFailed)
+            )
         }
     }
 }
@@ -289,38 +313,28 @@ struct UpgradeCard: View {
                 .cornerRadius(24)
                 .padding(.bottom, 16)
 
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 12) {
-                        ForEach(tier.features, id: \.self) { feature in
-                            HStack(spacing: 16) {
-                                Image(feature.iconName)
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.black)
-                                    .frame(width: 16, height: 16)
-                                Text(feature.title)
-                                    .font(size: 14, style: .subheadline, weight: .medium)
-                                    .foregroundColor(.black)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(tier.features, id: \.self) { feature in
+                        HStack(spacing: 16) {
+                            Image(feature.iconName)
+                                .renderingMode(.template)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.black)
+                                .frame(width: 16, height: 16)
+                            Text(feature.title)
+                                .font(size: 14, style: .subheadline, weight: .medium)
+                                .foregroundColor(.black)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
+                    }
 
-                        termsAndConditions
-                            .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                            .tint(.black)
-                            .opacity(0.64)
-                    }.overlay(
-                        // Calculate the height of the card after it's been laid out
-                        GeometryReader { proxy in
-                            Action {
-                                calculatedCardHeight = proxy.size.height
-                            }
-                        }
-                    )
+                    termsAndConditions
+                        .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
+                        .tint(.black)
+                        .opacity(0.64)
                 }
                 .padding(.bottom, 0)
-                .frame(maxHeight: calculatedCardHeight)
             }
             .padding(24)
 
