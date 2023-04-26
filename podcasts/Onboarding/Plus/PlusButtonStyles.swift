@@ -1,5 +1,49 @@
 import SwiftUI
 
+struct PlusOpaqueButtonStyle: ButtonStyle {
+    let isLoading: Bool
+    let plan: Constants.Plan
+
+    private var background: Color {
+        plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
+    }
+
+    private var foregroundColor: Color {
+        plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
+    }
+
+    init(isLoading: Bool = false, plan: Constants.Plan) {
+        self.isLoading = isLoading
+        self.plan = plan
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .applyButtonFont()
+            .frame(maxWidth: .infinity)
+            .padding()
+
+            .background(AnyView(background))
+            .foregroundColor(foregroundColor)
+
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .applyButtonEffect(isPressed: configuration.isPressed)
+            .contentShape(Rectangle())
+            .overlay(
+                ZStack {
+                    if isLoading {
+                        Rectangle()
+                            .overlay(AnyView(background))
+                            .cornerRadius(ViewConstants.buttonCornerRadius)
+
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
+                    }
+                }
+            )
+    }
+}
+
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
     let plan: Constants.Plan
@@ -166,4 +210,5 @@ extension Color {
     static let plusBackgroundColor = Color(hex: "121212")
     static let plusLeftCircleColor = Color(hex: "ffd845")
     static let plusRightCircleColor = Color(hex: "ffb626")
+    static let plusBackgroundColor2 = Color(hex: "FFD846")
 }

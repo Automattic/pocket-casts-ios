@@ -27,6 +27,18 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
     }
 
+    func unlockTapped(ifLoggedIn: () -> Void) {
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+
+        guard SyncManager.isUserLoggedIn() else {
+            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            navigationController?.pushViewController(controller, animated: true)
+            return
+        }
+
+        ifLoggedIn()
+    }
+
     func didAppear() {
         OnboardingFlow.shared.track(.plusPromotionShown)
 
@@ -56,8 +68,28 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func price(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?"
+    func purchaseTitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
+        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+            return L10n.loading
+        }
+
+        if product.freeTrialDuration != nil {
+            return L10n.plusStartMyFreeTrial
+        } else {
+            return tier.buttonLabel
+        }
+    }
+
+    func purchaseSubtitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
+        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+            return ""
+        }
+
+        if let freeTrialDuration = product.freeTrialDuration {
+            return L10n.plusStartTrialDurationPrice(freeTrialDuration, product.price)
+        } else {
+            return product.price
+        }
     }
 
     private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
@@ -96,8 +128,9 @@ private extension PlusLandingViewModel {
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
+        let purchaseModel = FeatureFlag.patron.enabled ? PlusPurchaseModel() : nil
 
-        let view = Self.view(with: viewModel)
+        let view = Self.view(with: viewModel, purchaseModel: purchaseModel)
         let controller = PlusHostingViewController(rootView: view)
 
         controller.viewModel = viewModel
@@ -106,15 +139,17 @@ extension PlusLandingViewModel {
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
+        purchaseModel?.parentController = navController
 
         return (navigationController == nil) ? navController : controller
     }
 
     @ViewBuilder
-    private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        if FeatureFlag.patron.enabled {
+    private static func view(with viewModel: PlusLandingViewModel, purchaseModel: PlusPurchaseModel? = nil) -> some View {
+        if FeatureFlag.patron.enabled, let purchaseModel {
             UpgradeLandingView()
                 .environmentObject(viewModel)
+                .environmentObject(purchaseModel)
                 .setupDefaultEnvironment()
         } else {
             PlusLandingView(viewModel: viewModel)

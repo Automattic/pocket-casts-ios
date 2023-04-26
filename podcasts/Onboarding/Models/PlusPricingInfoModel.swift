@@ -7,7 +7,7 @@ class PlusPricingInfoModel: ObservableObject {
     let purchaseHandler: IapHelper
 
     // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
+    @Published var pricingInfo: PlusPricingInfo
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
@@ -75,6 +75,7 @@ extension PlusPricingInfoModel {
     func loadPrices(_ completion: @escaping () -> Void) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
+            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
             completion()
             return
         }
@@ -83,9 +84,13 @@ extension PlusPricingInfoModel {
 
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
 
             self.priceAvailability = .available
+            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
             completion()
         }
 
