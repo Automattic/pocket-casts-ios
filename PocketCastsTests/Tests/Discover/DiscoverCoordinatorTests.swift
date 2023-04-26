@@ -12,18 +12,18 @@ final class DiscoverCoordinatorTests: XCTestCase {
         coordinator = DiscoverCoordinator(subscriptionData: subscriptionData)
     }
 
-    func testDoesNotDisplayWithPaidPlatforms() {
+    func testDoesDisplayWithPaidPlatforms() {
         let item = DiscoverItem.make(isSponsored: true)
         subscriptionData.mockHasActiveSubscription = true
 
         subscriptionData.mocksubscriptionPlatform = .iOS
-        XCTAssertFalse(coordinator.shouldDisplay(item))
+        XCTAssertTrue(coordinator.shouldDisplay(item))
 
         subscriptionData.mocksubscriptionPlatform = .web
-        XCTAssertFalse(coordinator.shouldDisplay(item))
+        XCTAssertTrue(coordinator.shouldDisplay(item))
 
         subscriptionData.mocksubscriptionPlatform = .android
-        XCTAssertFalse(coordinator.shouldDisplay(item))
+        XCTAssertTrue(coordinator.shouldDisplay(item))
     }
 
     func testDisplaysWithoutActiveSubscription() {

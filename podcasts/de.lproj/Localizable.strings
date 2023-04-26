@@ -116,7 +116,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>account_signed_out_alert_title</key>
     <string>Du wurdest abgemeldet.</string>
     <key>account_sso_failed</key>
-    <string>Die Anmeldung mit Apple ist fehlgeschlagen. Bitte versuche es erneut.</string>
+    <string>Anmeldung fehlgeschlagen. Bitte versuche es erneut.</string>
     <key>account_title</key>
     <string>Pocket Casts-Konto</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Alle abwählen</string>
     <key>discover</key>
     <string>Entdecken</string>
+    <key>discover_all_episodes</key>
+    <string>Alle Folgen</string>
+    <key>discover_all_podcasts</key>
+    <string>Alle Podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Nach Kategorie durchsuchen</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>TV und Film</string>
     <key>discover_change_region</key>
     <string>Region ändern (aktuell: %1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Die Folge konnte nicht geladen werden</string>
     <key>discover_featured</key>
     <string>Empfohlen</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Empfohlener Podcast oder empfohlene Folge nicht gefunden Stelle sicher, dass du mit dem Internet verbunden bist, und versuche es erneut.</string>
     <key>discover_fresh_pick</key>
     <string>BRANDNEU</string>
+    <key>discover_no_episodes_found</key>
+    <string>Keine Folgen gefunden</string>
     <key>discover_no_podcasts_found</key>
     <string>Keine Podcasts gefunden</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ Folge dauerte
     <string>FOLGE %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>FLG. %1$@</string>
+    <key>episodes</key>
+    <string>Folgen</string>
     <key>error</key>
     <string>Fehler</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Tippe im Menü auf „Nach Pocket Casts kopieren“</string>
     <key>how_to_upload_summary</key>
     <string>Und schon bist du fertig. Ändere gewünschte Details, speichere deine Änderungen und schon kannst du die Datei abspielen!</string>
+    <key>import</key>
+    <string>Importieren</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Wir können deine Podcasts aus Apple Podcasts importieren, indem wir die integrierte App „Kurzbefehle“ verwenden.
 Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst du aufgefordert, sie erneut zu installieren.
@@ -998,6 +1010,8 @@ Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst 
 2. Tippe auf das Zahnrad-Icon in der oberen Ecke der App
 3. Wische nach unten zur Option „Export OPML“ (OPML exportieren) und tippe darauf
 4. Wenn das Dialogfeld geöffnet wird, suche das Pocket Casts-Icon und tippe darauf</string>
+    <key>import_opml_from_url</key>
+    <string>Importiere deine Podcasts von einer OPML-Datei mithilfe einer URL</string>
     <key>import_podcasts_description</key>
     <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
@@ -1147,6 +1161,8 @@ Podcasts mit</string>
     <string>OPML-Import fehlgeschlagen</string>
     <key>opml_import_progress_format</key>
     <string>Importiere %1$@ von %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML-Import erfolgreich</string>
     <key>opml_importing</key>
     <string>Podcasts werden importiert …</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@ Gratis-Test für %1$@</string>
     <string>Erneut versuchen</string>
     <key>search</key>
     <string>Suche</string>
+    <key>search_label</key>
+    <string>Podcasts suchen oder RSS-URL hinzufügen</string>
     <key>search_podcasts</key>
     <string>Podcasts durchsuchen</string>
+    <key>search_recent</key>
+    <string>Aktuelle Suchen</string>
     <key>season</key>
     <string>Staffel</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ Gratis-Test für %1$@</string>
     <string>Ende der Folge</string>
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Weiter mit Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Weiter mit Google</string>
     <key>sonos_connect_action</key>
     <string>VERBINDEN</string>
     <key>sonos_connect_prompt</key>

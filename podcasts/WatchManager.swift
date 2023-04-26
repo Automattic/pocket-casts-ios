@@ -327,7 +327,17 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleLoginDetailsRequest() -> [String: Any] {
-        let response = [WatchConstants.Messages.LoginDetailsResponse.username: ServerSettings.syncingEmail() ?? "", WatchConstants.Messages.LoginDetailsResponse.password: ServerSettings.syncingPassword() ?? ""]
+        var response = [
+            WatchConstants.Messages.LoginDetailsResponse.username: ServerSettings.syncingEmail() ?? ""
+        ]
+
+        if let password = ServerSettings.syncingPassword() {
+            response[WatchConstants.Messages.LoginDetailsResponse.password] = password
+        }
+        else if let refreshToken = ServerSettings.refreshToken {
+            response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] = refreshToken
+        }
+
         Settings.clearLoginDetailsUpdated()
         return response
     }

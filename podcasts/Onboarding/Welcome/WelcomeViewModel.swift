@@ -3,7 +3,7 @@ import SwiftUI
 import PocketCastsServer
 
 class WelcomeViewModel: ObservableObject, OnboardingModel {
-    var navigationController: UINavigationController?
+    weak var navigationController: UINavigationController?
     let displayType: DisplayType
     let sections: [WelcomeSection] = [.importPodcasts, .discover]
 

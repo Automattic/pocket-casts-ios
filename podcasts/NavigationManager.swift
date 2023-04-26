@@ -8,6 +8,7 @@ class NavigationManager {
 
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
+    static let popToRootViewController = "popToRootViewController"
 
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
@@ -52,7 +53,6 @@ class NavigationManager {
 
     static let settingsAppearanceKey = "appearancePage"
     static let settingsProfileKey = "profilePage"
-    static let signInPage = "signInPage"
 
     static let endOfYearStories = "endOfYearStories"
     static let onboardingFlow = "onboardingFlow"
@@ -113,17 +113,19 @@ class NavigationManager {
                 podcastInfo.iTunesId = podcastHeader.itunesId?.intValue
 
                 mainController?.navigateToPodcastInfo(podcastInfo)
+            } else if let searchResult = data[NavigationManager.podcastKey] as? PodcastFolderSearchResult {
+                mainController?.navigateTo(podcast: searchResult)
             }
         } else if place == NavigationManager.folderPageKey {
             guard let data = data else { return }
 
             if let folder = data[NavigationManager.folderKey] as? Folder {
-                mainController?.navigateToFolder(folder)
+                mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true)
             }
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
 
-            mainController?.navigateToEpisode(uuid)
+            mainController?.navigateToEpisode(uuid, podcastUuid: data[NavigationManager.podcastKey] as? String)
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
@@ -161,8 +163,6 @@ class NavigationManager {
             mainController?.showSettingsAppearance()
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
-        } else if place == NavigationManager.signInPage {
-            mainController?.showSignInPage()
         } else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
             if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {

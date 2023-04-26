@@ -57,12 +57,12 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button(L10n.plusButtonTitleUnlockAll) {
-                            viewModel.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
+                            viewModel.unlockTapped(selectedPrice: .yearly)
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading, plan: .plus))
 
                         Button(L10n.eoyNotNow) {
                             viewModel.dismissTapped()
-                        }.buttonStyle(PlusGradientStrokeButton())
+                        }.buttonStyle(PlusGradientStrokeButton(plan: .plus))
                     }
                 }
                 .padding(ViewConfig.padding.viewReducedTop)
@@ -85,9 +85,6 @@ struct PlusLandingView: View {
         PlusFeature(iconName: "plus-feature-watch",
                     title: L10n.plusMarketingWatchPlaybackTitle,
                     description: L10n.plusMarketingWatchPlaybackDescription),
-        PlusFeature(iconName: "plus-feature-hide-ads",
-                    title: L10n.plusMarketingHideAdsTitle,
-                    description: L10n.plusMarketingHideAdsDescription),
         PlusFeature(iconName: "plus-feature-themes",
                     title: L10n.plusMarketingThemesIconsTitle,
                     description: L10n.plusMarketingThemesIconsDescription)
@@ -142,9 +139,10 @@ private struct PlusFeature: Identifiable, Equatable {
 }
 
 // MARK: - Internal Views
-private struct PlusLabel: View {
+struct PlusLabel: View {
     enum PlusLabelStyle {
         case title
+        case title2
         case subtitle
         case featureTitle
         case featureDescription
@@ -172,6 +170,8 @@ private struct PlusLabel: View {
             switch labelStyle {
             case .title:
                 return content.font(size: 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
+            case .title2:
+                return content.font(style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .subtitle:
                 return content.font(size: 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
             case .featureTitle:

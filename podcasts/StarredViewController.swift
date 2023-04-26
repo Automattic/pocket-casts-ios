@@ -88,7 +88,11 @@ class StarredViewController: PCViewController {
         refreshQueue.maxConcurrentOperationCount = 1
         title = L10n.statusStarred
         setupNavBar()
-        refreshEpisodesFromServer(animated: false)
+        if SyncManager.isUserLoggedIn() {
+            refreshEpisodesFromServer(animated: false)
+        } else {
+            refreshEpisodesFromDatabase(animated: false)
+        }
         addEventObservers()
         Analytics.track(.starredShown)
     }

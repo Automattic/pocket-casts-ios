@@ -229,6 +229,7 @@ public enum WatchConstants {
         enum LoginDetailsResponse {
             public static let username = "username"
             public static let password = "password"
+            public static let refreshToken = "refreshToken"
         }
     }
 }

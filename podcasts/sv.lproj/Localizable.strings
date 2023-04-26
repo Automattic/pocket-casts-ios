@@ -116,7 +116,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>account_signed_out_alert_title</key>
     <string>Du har blivit utloggad.</string>
     <key>account_sso_failed</key>
-    <string>Inloggning med Apple misslyckades. Försök igen.</string>
+    <string>Inloggning misslyckades. Försök igen.</string>
     <key>account_title</key>
     <string>Pocket Casts-konto</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Avmarkera alla</string>
     <key>discover</key>
     <string>Upptäck</string>
+    <key>discover_all_episodes</key>
+    <string>Alla avsnitt</string>
+    <key>discover_all_podcasts</key>
+    <string>Alla podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Bläddra efter kategori</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>TV och film</string>
     <key>discover_change_region</key>
     <string>Ändra region, för närvarande %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Det gick inte att ladda avsnittet</string>
     <key>discover_featured</key>
     <string>Utvalt</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Den utvalda podcasten/det utvalda avsnittet hittades inte. Se till att du är ansluten till internet och försök igen.</string>
     <key>discover_fresh_pick</key>
     <string>UTVALD</string>
+    <key>discover_no_episodes_found</key>
+    <string>Inga avsnitt hittades</string>
     <key>discover_no_podcasts_found</key>
     <string>Inga podcasts hittades</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ du lyssnade på var
     <string>AVSNITT %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>Avsnitt %1$@</string>
+    <key>episodes</key>
+    <string>Avsnitt</string>
     <key>error</key>
     <string>Fel</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>import</key>
+    <string>Importera</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Vi kan importera dina podcasts från Apple Podcasts genom att använda den inbyggda appen Genvägar.
 Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att installera den igen.
@@ -998,6 +1010,8 @@ Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att 
 2. Tryck på kugghjulsikonen i det övre hörnet av appen
 3. Svep nedåt tills du ser alternativet Exportera OPML och klicka sedan på det
 4. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
+    <key>import_opml_from_url</key>
+    <string>Importera dina podcasts från en OPML-fil med hjälp av en URL</string>
     <key>import_podcasts_description</key>
     <string>Du kan importera alla dina prenumerationer till Pocket Casts via en OPML-fil som i stor utsträckning stöds av många podcast applikationer. Exportera filen från din andra app och välj Öppna i Pocket Casts.
 
@@ -1147,6 +1161,8 @@ podcasts med dig</string>
     <string>OPML-importen misslyckades</string>
     <key>opml_import_progress_format</key>
     <string>Importerar %1$@ av %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML-importen har genomförts</string>
     <key>opml_importing</key>
     <string>Importerar podcasts …</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@ gratis provperiod på %1$@</string>
     <string>Försök igen</string>
     <key>search</key>
     <string>Sök</string>
+    <key>search_label</key>
+    <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
     <string>Sök podcasts</string>
+    <key>search_recent</key>
+    <string>Senaste sökningar</string>
     <key>season</key>
     <string>Säsong</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ gratis provperiod på %1$@</string>
     <string>Avsnittets slut</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Fortsätt med Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Fortsätt med Google</string>
     <key>sonos_connect_action</key>
     <string>ANSLUT</string>
     <key>sonos_connect_prompt</key>

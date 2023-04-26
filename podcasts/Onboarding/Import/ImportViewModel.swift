@@ -3,12 +3,12 @@ import SwiftUI
 
 class ImportViewModel: OnboardingModel {
     var navigationController: UINavigationController?
-    let installedApps: [ImportApp]
+    let availableSources: [ImportSource]
 
     var showSubtitle: Bool = true
 
     init() {
-        self.installedApps = supportedApps.filter { $0.isInstalled }
+        self.availableSources = supportedSources.filter { $0.isSourceAvailable }
     }
 
     func didAppear() {
@@ -27,17 +27,18 @@ class ImportViewModel: OnboardingModel {
     }
 
     // MARK: - Import apps
-    private let supportedApps: [ImportApp] = [
+    let supportedSources: [ImportSource] = [
         .init(id: .applePodcasts, displayName: "Apple Podcasts", steps: L10n.importInstructionsApplePodcastsSteps),
         .init(id: .breaker, displayName: "Breaker", steps: L10n.importInstructionsBreaker),
         .init(id: .castro, displayName: "Castro", steps: L10n.importInstructionsCastro),
         .init(id: .castbox, displayName: "Castbox", steps: L10n.importInstructionsCastbox),
         .init(id: .overcast, displayName: "Overcast", steps: L10n.importInstructionsOvercast),
         .init(id: .other, displayName: "other apps", steps: L10n.importPodcastsDescription),
+        .init(id: .opmlFromURL, displayName: "URL", steps: L10n.importOpmlFromUrl)
     ]
 
-    enum ImportAppId: String, AnalyticsDescribable {
-        case breaker, castbox = "wazecastbox", overcast, other
+    enum ImportSourceId: String, AnalyticsDescribable {
+        case breaker, castbox = "wazecastbox", overcast, other, opmlFromURL
         case castro = "co.supertop.Castro-2"
         case applePodcasts = "https://pocketcasts.com/import-from-apple-podcasts"
 
@@ -55,24 +56,26 @@ class ImportViewModel: OnboardingModel {
                 return "castro"
             case .applePodcasts:
                 return "apple_podcasts"
+            case .opmlFromURL:
+                return "opml_from_url"
             }
         }
     }
 
-    struct ImportApp: Identifiable, CustomDebugStringConvertible {
-        let id: ImportAppId
+    struct ImportSource: Identifiable, CustomDebugStringConvertible {
+        let id: ImportSourceId
         let displayName: String
         let steps: String
 
-        var isInstalled: Bool {
+        var isSourceAvailable: Bool {
             #if targetEnvironment(simulator)
             return true
             #endif
 
-            // Always installed
+            // Always available - Others and opml from url are always available
             // Note: Even if Apple podcasts has been uninstalled by the user, the system will always report
             // that it's installed.
-            if [.other, .applePodcasts].contains(id) {
+            if [.other, .applePodcasts, .opmlFromURL].contains(id) {
                 return true
             }
 
@@ -83,6 +86,15 @@ class ImportViewModel: OnboardingModel {
             return UIApplication.shared.canOpenURL(url)
         }
 
+        var hideButton: Bool {
+            switch id {
+            case .other:
+                return true
+            default:
+                return false
+            }
+        }
+
         func openApp() {
             guard let url else { return }
 
@@ -90,7 +102,7 @@ class ImportViewModel: OnboardingModel {
         }
 
         private var url: URL? {
-            if id == .other { return nil }
+            if id == .other || id == .opmlFromURL { return nil }
 
             let string: String
             if id == .applePodcasts {
@@ -103,7 +115,7 @@ class ImportViewModel: OnboardingModel {
         }
 
         var debugDescription: String {
-            return "\(displayName): \(isInstalled ? "Yes" : "No")"
+            return "\(displayName): \(isSourceAvailable ? "Yes" : "No")"
         }
     }
 }
@@ -129,11 +141,11 @@ extension ImportViewModel {
 
 // MARK: - Landing View
 extension ImportViewModel {
-    func didSelect(_ app: ImportApp) {
+    func didSelect(_ importsource: ImportSource) {
         guard let navigationController else { return }
-        OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": app.id])
+        OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": importsource.id])
 
-        let controller = UIHostingController(rootView: ImportDetailsView(app: app, viewModel: self).setupDefaultEnvironment())
+        let controller = UIHostingController(rootView: ImportDetailsView(importSource: importsource, viewModel: self).setupDefaultEnvironment())
 
         navigationController.pushViewController(controller, animated: true)
     }
@@ -142,9 +154,40 @@ extension ImportViewModel {
 
 // MARK: - Details
 extension ImportViewModel {
-    func openApp(_ app: ImportApp) {
+    func openApp(_ app: ImportSource) {
         OnboardingFlow.shared.track(.onboardingImportOpenAppTapped, properties: ["app": app.id])
 
         app.openApp()
+    }
+}
+
+// MARK: - OPML from URL
+extension ImportViewModel {
+    func importFromURL(_ url: URL, completion: @escaping ((Bool) -> Void)) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                print("Error downloading data: \(error?.localizedDescription ?? "Unknown error")")
+                completion(false)
+                return
+            }
+
+            let temporaryDirectory = FileManager.default.temporaryDirectory
+            let fileURL = temporaryDirectory.appendingPathComponent("feed.opml")
+
+            do {
+                try data.write(to: fileURL)
+                print("File downloaded to: \(fileURL)")
+                self.importPodcastsFromOPML(url: fileURL)
+            } catch {
+                print("Error saving file: \(error.localizedDescription)")
+                completion(false)
+            }
+        }
+
+        task.resume()
+    }
+
+    func importPodcastsFromOPML(url: URL) {
+        PodcastManager.shared.importPodcastsFromOpml(url)
     }
 }

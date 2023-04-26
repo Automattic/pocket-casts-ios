@@ -4,15 +4,21 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension CarPlaySceneDelegate {
+    func upNextTapped(showNowPlaying: Bool) {
+        pushEpisodeList(title: L10n.upNext, emptyTitle: L10n.upNextEmptyTitle, showArtwork: true) { () -> [BaseEpisode] in
+            PlaybackManager.shared.queue.allEpisodes(includeNowPlaying: showNowPlaying)
+        }
+    }
+
     func filterTapped(_ filter: EpisodeFilter) {
-        pushEpisodeList(title: filter.playlistName, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
+        pushEpisodeList(title: filter.playlistName, emptyTitle: L10n.episodeFilterNoEpisodesTitle, showArtwork: true) { () -> [BaseEpisode] in
             let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxCarplayItems)
             return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
-    func podcastTapped(_ podcast: Podcast, closeListOnTap: Bool) {
-        pushEpisodeList(title: podcast.title ?? L10n.podcastSingular, showArtwork: false, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
+    func podcastTapped(_ podcast: Podcast, emptyTitle: String = L10n.watchNoEpisodes) {
+        pushEpisodeList(title: podcast.title ?? L10n.podcastSingular, emptyTitle: emptyTitle, showArtwork: false) { () -> [BaseEpisode] in
             var query = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: nil, completion: nil).createEpisodesQuery()
             query += " LIMIT \(Constants.Limits.maxCarplayItems)"
 
@@ -20,39 +26,42 @@ extension CarPlaySceneDelegate {
         }
     }
 
-    func folderTapped(_ folder: Folder, closeListOnTap: Bool) {
-        pushPodcastList(title: folder.name, closeListOnTap: closeListOnTap) {
+    func folderTapped(_ folder: Folder) {
+        pushPodcastList(title: folder.name, emptyTitle: L10n.folderEmptyTitle) {
             DataManager.sharedManager.allPodcastsInFolder(folder: folder)
-        }
-
-        if closeListOnTap {
-            interfaceController?.popTemplateIgnoringException()
         }
     }
 
-    func episodeTapped(_ episode: BaseEpisode, closeListOnTap: Bool) {
+    func episodeTapped(_ episode: BaseEpisode) {
         AnalyticsPlaybackHelper.shared.currentSource = .carPlay
 
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
-            PlaybackManager.shared.playPause()
-        } else {
-            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+        defer {
+            interfaceController?.showNowPlaying()
         }
 
-        if closeListOnTap {
-            interfaceController?.popTemplateIgnoringException()
+        // Don't change the playing state if the user taps the actively playing episode
+        // Just push to the now playing view and allow further action from there.
+        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
+
+        // If the episode is the currently playing one but isn't actively being played, then start playing it
+        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            PlaybackManager.shared.play()
+            return
         }
+
+        // Anything else, load the episode and start playing it
+        PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
 
     func listeningHistoryTapped() {
-        pushEpisodeList(title: L10n.listeningHistory, showArtwork: true, closeListOnTap: false) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.listeningHistory, emptyTitle: L10n.watchNoPodcasts, showArtwork: true) { () -> [BaseEpisode] in
             let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(Constants.Limits.maxCarplayItems)"
             return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
-    func filesTapped(closeListOnTap: Bool) {
-        pushEpisodeList(title: L10n.files, showArtwork: true, closeListOnTap: closeListOnTap) { () -> [BaseEpisode] in
+    func filesTapped() {
+        pushEpisodeList(title: L10n.files, emptyTitle: L10n.fileUploadNoFilesTitle, showArtwork: true) { () -> [BaseEpisode] in
             let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
             return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
         }
@@ -85,8 +94,7 @@ extension CarPlaySceneDelegate {
 
         let mainSection = CPListSection(items: chapterItems)
         let listTemplate = CPListTemplate(title: L10n.chapters, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     func speedTapped() {
@@ -109,7 +117,7 @@ extension CarPlaySceneDelegate {
         let mainSection = CPListSection(items: speedItems)
         let listTemplate = CPListTemplate(title: L10n.carplayPlaybackSpeed, sections: [mainSection])
 
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
+        interfaceController?.push(listTemplate)
     }
 
     private func addSpeed(_ speed: Double, to itemList: inout [CPListItem], currentSpeed: Double) {
@@ -128,40 +136,32 @@ extension CarPlaySceneDelegate {
         itemList.append(item)
     }
 
-    private func pushEpisodeList(title: String, showArtwork: Bool, closeListOnTap: Bool, episodeLoader: @escaping (() -> [BaseEpisode])) {
-        let episodes = episodeLoader()
-        let episodeItems = convertToListItems(episodes: episodes, showArtwork: showArtwork, closeListOnTap: closeListOnTap)
+    private func pushEpisodeList(title: String, emptyTitle: String, showArtwork: Bool, episodeLoader: @escaping (() -> [BaseEpisode])) {
+        let listTemplate = CarPlayListData.template(title: title, emptyTitle: emptyTitle) { [weak self] in
+            guard let self else { return nil }
 
-        let mainSection = CPListSection(items: episodeItems)
-        let listTemplate = CPListTemplate(title: title, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
-        currentList = CarPlayListHelper(list: listTemplate, episodeLoader: episodeLoader, showsArtwork: showArtwork, closeListOnTap: closeListOnTap)
-    }
-
-    private func pushPodcastList(title: String, closeListOnTap: Bool, podcastLoader: @escaping (() -> [Podcast])) {
-        let podcasts = podcastLoader()
-        var podcastItems = [CPListItem]()
-        for podcast in podcasts {
-            let item = convertPodcastToListItem(podcast)
-            podcastItems.append(item)
+            let episodes = episodeLoader()
+            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork)
+            return [CPListSection(items: episodeItems)]
         }
 
-        let mainSection = CPListSection(items: podcastItems)
-        let listTemplate = CPListTemplate(title: title, sections: [mainSection])
-
-        interfaceController?.pushTemplate(listTemplate, animated: true, completion: nil)
-        currentList = nil
+        interfaceController?.push(listTemplate)
     }
-}
 
-extension CPInterfaceController {
-    // popTemplate will throw an exception if no completion handler is present and a template can't be popped, so to work around that we have this method which captures the error and prints it since we don't particularly care
-    func popTemplateIgnoringException() {
-        popTemplate(animated: true) { _, error in
-            if let error = error {
-                print(error)
+    private func pushPodcastList(title: String, emptyTitle: String, podcastLoader: @escaping (() -> [Podcast])) {
+        let listTemplate = CarPlayListData.template(title: title, emptyTitle: emptyTitle) { [weak self] in
+            guard let self else { return nil }
+
+            let podcasts = podcastLoader()
+            var podcastItems = [CPListItem]()
+            for podcast in podcasts {
+                let item = self.convertPodcastToListItem(podcast)
+                podcastItems.append(item)
             }
+
+            return [CPListSection(items: podcastItems)]
         }
+
+        interfaceController?.push(listTemplate)
     }
 }

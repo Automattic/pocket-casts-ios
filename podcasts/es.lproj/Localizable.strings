@@ -116,7 +116,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>account_signed_out_alert_title</key>
     <string>Tu sesión se ha cerrado.</string>
     <key>account_sso_failed</key>
-    <string>No se ha podido acceder con Apple. Inténtalo de nuevo.</string>
+    <string>No se ha podido iniciar sesión. Inténtalo de nuevo.</string>
     <key>account_title</key>
     <string>Cuenta de Pocket Casts</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Anular todas las selecciones</string>
     <key>discover</key>
     <string>Descubrir</string>
+    <key>discover_all_episodes</key>
+    <string>Todos los episodios</string>
+    <key>discover_all_podcasts</key>
+    <string>Todos los pódcast</string>
     <key>discover_browse_by_category</key>
     <string>Buscar por categoría</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Cine y televisión</string>
     <key>discover_change_region</key>
     <string>Cambiar región, actualmente %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>No se ha podido cargar el episodio</string>
     <key>discover_featured</key>
     <string>Destacado</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No se ha encontrado el pódcast o episodio destacado. Comprueba que estás conectado a Internet e inténtalo de nuevo.</string>
     <key>discover_fresh_pick</key>
     <string>NUEVO PODCAST</string>
+    <key>discover_no_episodes_found</key>
+    <string>No se ha encontrado ningún episodio</string>
     <key>discover_no_podcasts_found</key>
     <string>No se han encontrado podcasts</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ que has escuchado dura
     <string>EPISODIO %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP. %1$@</string>
+    <key>episodes</key>
+    <string>Episodios</string>
     <key>error</key>
     <string>Error</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>En el menú, toca Copiar a Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Ya está, terminado. Cambia los datos que quieras, pulsa guardar y ya puedes reproducirlos.</string>
+    <key>import</key>
+    <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Podemos importar tus pódcast desde Apple Podcasts mediante la aplicación Atajos incorporada.
 Nota: En caso de que hayas eliminado la aplicación Atajos, se te pedirá que la vuelvas a instalar.
@@ -998,6 +1010,8 @@ Nota: En caso de que hayas eliminado la aplicación Atajos, se te pedirá que la
 2. Toca el icono de engranaje que aparece en la esquina superior de la aplicación.
 3. Deslízate hacia abajo hasta que veas la opción Exportar OPML y toca sobre ella.
 4. Cuando se abra el dialogo, busca el icono de Pocket Casts y tócalo.</string>
+    <key>import_opml_from_url</key>
+    <string>Importa tus pódcast desde un archivo OPML a través de una URL.</string>
     <key>import_podcasts_description</key>
     <string>Puedes importar las suscripciones de podcasts a Pocket Casts con el formato OPML, que se admite en muchas aplicaciones. Exporta el archivo en la otra aplicación y elige abrirlo en Pocket Casts.
 
@@ -1147,6 +1161,8 @@ pódcast contigo</string>
     <string>Se ha producido un error al importar OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importando %1$@ de %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importación de OPML realizada correctamente</string>
     <key>opml_importing</key>
     <string>Importando podcasts…</string>
     <key>page_control_page_progress_format</key>
@@ -1191,7 +1207,7 @@ ACTUALIZACIONES</string>
     <key>play_all</key>
     <string>Reproducir todo</string>
     <key>play_last</key>
-    <string>Reproducir más reciente</string>
+    <string>Reproducir al final</string>
     <key>play_next</key>
     <string>Reproducir siguiente</string>
     <key>playback_effect_trim_silence_max</key>
@@ -1667,8 +1683,12 @@ prueba gratuita de %1$@</string>
     <string>Reintentar</string>
     <key>search</key>
     <string>Buscar</string>
+    <key>search_label</key>
+    <string>Busca pódcast o añade la URL del RSS</string>
     <key>search_podcasts</key>
     <string>Buscar podcasts</string>
+    <key>search_recent</key>
+    <string>Búsquedas recientes</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ prueba gratuita de %1$@</string>
     <string>Final del episodio</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador activado, quedan %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continuar con Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continuar con Google</string>
     <key>sonos_connect_action</key>
     <string>CONECTAR</string>
     <key>sonos_connect_prompt</key>

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "patron-early-access.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -7,10 +7,11 @@ protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
     func navigateToPodcast(_ podcast: Podcast)
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
-    func navigateToFolder(_ folder: Folder)
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
 
-    func navigateToEpisode(_ episodeUuid: String)
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?)
 
     func navigateToDiscover(_ animated: Bool)
 
@@ -31,7 +32,6 @@ protocol NavigationProtocol: AnyObject {
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
 
-    func showSignInPage()
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)
     func showSupporterBundleDetails(bundleUuid: String?)

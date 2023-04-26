@@ -33,11 +33,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
-                    let config = SFSafariViewController.Configuration()
-                    config.entersReaderIfAvailable = true
-
-                    let vc = SFSafariViewController(url: url, configuration: config)
-                    self.present(vc, animated: true)
+                    self.present(SFSafariViewController(with: url), animated: true)
                 }
             }
 

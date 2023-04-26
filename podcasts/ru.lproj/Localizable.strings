@@ -116,7 +116,7 @@
     <key>account_signed_out_alert_title</key>
     <string>Вы вышли из системы.</string>
     <key>account_sso_failed</key>
-    <string>Вход через Apple не выполнен. Повторите попытку.</string>
+    <string>Вход не выполнен. Повторите попытку.</string>
     <key>account_title</key>
     <string>Учетная запись Pocket Casts</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@
     <string>ОЧИСТИТЬ ВСЕ</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_episodes</key>
+    <string>Все выпуски</string>
+    <key>discover_all_podcasts</key>
+    <string>Все подкасты</string>
     <key>discover_browse_by_category</key>
     <string>Искать в категории</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@
     <string>ТВ и фильмы</string>
     <key>discover_change_region</key>
     <string>Измените регион, сейчас %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Не удалось загрузить выпуск</string>
     <key>discover_featured</key>
     <string>Рекомендуется</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@
     <string>Запрошенный подкаст или выпуск не найден. Проверьте интернет-соединение и повторите попытку.</string>
     <key>discover_fresh_pick</key>
     <string>НОВИНКА</string>
+    <key>discover_no_episodes_found</key>
+    <string>Выпуски не найдены</string>
     <key>discover_no_podcasts_found</key>
     <string>Подкасты не найдены</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@
     <string>ВЫПУСК %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>ВЫП %1$@</string>
+    <key>episodes</key>
+    <string>Выпуски</string>
     <key>error</key>
     <string>Ошибка</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>import</key>
+    <string>Импорт</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Можно импортировать подкасты из Apple Podcasts с помощью встроенного приложения "Шорткаты".
 Примечание. Если вы удалили приложение "Шорткаты", появится запрос на его повторную установку.
@@ -998,6 +1010,8 @@
 2. Нажмите значок шестерёнки в верхней части экрана приложения.
 3. Прокрутите экран вниз, найдите опцию "Экспорт OPML" и выберите её.
 4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
+    <key>import_opml_from_url</key>
+    <string>Импортируйте подкасты из файла OPML с помощью URL-адреса</string>
     <key>import_podcasts_description</key>
     <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
@@ -1147,6 +1161,8 @@
     <string>Не удалось импортировать OPML</string>
     <key>opml_import_progress_format</key>
     <string>Импорт подкастов: %1$@ из %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Файлы OPML импортированы</string>
     <key>opml_importing</key>
     <string>Импорт подкастов...</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@
     <string>Повторить попытку</string>
     <key>search</key>
     <string>Поиск</string>
+    <key>search_label</key>
+    <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
     <string>Поиск подкастов</string>
+    <key>search_recent</key>
+    <string>Последний поиск</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@
     <string>Конец выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Продолжить с Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Продолжить с помощью Google</string>
     <key>sonos_connect_action</key>
     <string>ПОДКЛЮЧИТЬСЯ</string>
     <key>sonos_connect_prompt</key>

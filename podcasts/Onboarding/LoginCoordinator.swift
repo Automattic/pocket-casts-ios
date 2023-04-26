@@ -3,12 +3,20 @@ import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
 
-class LoginCoordinator: OnboardingModel {
-    var navigationController: UINavigationController? = nil
+class LoginCoordinator: NSObject, OnboardingModel {
+    weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var presentedFromUpgrade: Bool = false
 
-    init() {
+    private var socialLogin: SocialLogin?
+    private var socialAuthProvider: SocialAuthProvider?
+
+    private var progressAlert: ShiftyLoadingAlert?
+
+    /// Used to determine which screen after login to show to the user
+    private var newAccountCreated = false
+
+    override init() {
         let maxCount = bundledImages.count
         let bundledImages = bundledImages
 
@@ -44,6 +52,7 @@ class LoginCoordinator: OnboardingModel {
     }
 
     func loginTapped() {
+        socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         let controller = SyncSigninViewController()
         controller.delegate = self
@@ -51,6 +60,7 @@ class LoginCoordinator: OnboardingModel {
     }
 
     func signUpTapped() {
+        socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
         let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
         controller.delegate = self
@@ -81,20 +91,79 @@ class LoginCoordinator: OnboardingModel {
 
 // MARK: - Social Buttons
 extension LoginCoordinator {
-    func signInWithAppleTapped() { }
-    func signInWithGoogleTapped() { }
+    @MainActor
+    func signIn(with provider: SocialAuthProvider) {
+        guard let navigationController else {
+            return
+        }
+
+        socialAuthProvider = provider
+
+        Analytics.track(.ssoStarted, properties: ["source": provider])
+
+        socialLogin = SocialLoginFactory.provider(for: provider, from: navigationController)
+
+        Task {
+            progressAlert = SyncLoadingAlert()
+            do {
+                // First get token
+                try await self.socialLogin?.getToken()
+
+                // If token is returned, perform login on our servers
+                await withUnsafeContinuation { continuation in
+                    progressAlert?.showAlert(navigationController, hasProgress: false) {
+                        continuation.resume()
+                    }
+                }
+
+                let response = try await self.socialLogin?.login()
+                newAccountCreated = response?.isNewAccount ?? false
+
+                if !newAccountCreated {
+                    Analytics.track(.userSignedIn, properties: ["source": provider])
+                }
+
+                listenToSync()
+            } catch {
+                progressAlert?.hideAlert(false) {
+                    self.showError(error)
+                }
+            }
+        }
+    }
 }
 
 extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
+    private func listenToSync() {
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.podcastRefreshFailed, object: nil)
+    }
+
+    @objc private func syncCompleted() {
+         DispatchQueue.main.async {
+             self.progressAlert?.hideAlert(false)
+             self.progressAlert = nil
+
+             if self.newAccountCreated {
+                 self.handleAccountCreated()
+             } else {
+                 self.signingProcessCompleted()
+             }
+         }
+     }
+
     func signingProcessCompleted() {
-        let shouldDismiss = SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade
+        // Due to connection issues this might be called even if the user didn't actually
+        // signed in. So we make sure the user is actually logged in.
+        guard SyncManager.isUserLoggedIn() else {
+            return
+        }
+
+        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
 
         if shouldDismiss {
-            navigationController?.dismiss(animated: true) {
-                DispatchQueue.main.async {
-                    OnboardingFlow.shared.reset()
-                }
-            }
+            handleDismiss()
             return
         }
 
@@ -102,7 +171,31 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     func handleAccountCreated() {
+        Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider ?? "password"])
+
+        if OnboardingFlow.shared.currentFlow.shouldDismiss {
+            handleDismiss()
+            return
+        }
+
         goToPlus(from: .accountCreated)
+    }
+
+    private func handleDismiss() {
+        navigationController?.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                OnboardingFlow.shared.reset()
+            }
+        }
+    }
+
+    func showError(_ error: Error) {
+        guard (error as? SocialLoginError) != .canceled else {
+            return
+        }
+
+        Analytics.track(.userSignInFailed, properties: ["source": socialAuthProvider ?? "password", "error_code": (error as NSError).code])
+        SJUIUtils.showAlert(title: L10n.accountSsoFailed, message: nil, from: navigationController)
     }
 
     private func goToPlus(from source: PlusLandingViewModel.Source) {

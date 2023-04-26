@@ -90,7 +90,7 @@
     <key>account_details_listened_for</key>
     <string>Ouviu por %1$@</string>
     <key>account_details_plus_title</key>
-    <string>Leve sua experiência de criação de podcasts para um outro nível com acesso exclusivo a funcionalidades e opções de personalização.</string>
+    <string>Leve sua experiência em podcasts para um outro nível com acesso exclusivo a funcionalidades e opções de personalização.</string>
     <key>account_login</key>
     <string>Fazer login</string>
     <key>account_payment_renews_monthly</key>
@@ -116,7 +116,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>account_signed_out_alert_title</key>
     <string>Você foi desconectado.</string>
     <key>account_sso_failed</key>
-    <string>Falha ao fazer login com a Apple. Tente novamente.</string>
+    <string>O login falhou. Tente novamente.</string>
     <key>account_title</key>
     <string>Conta do Pocket Casts</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Desmarcar tudo</string>
     <key>discover</key>
     <string>Explorar</string>
+    <key>discover_all_episodes</key>
+    <string>Todos os episódios</string>
+    <key>discover_all_podcasts</key>
+    <string>Todos os podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Navegar por categoria</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>TV e cinema</string>
     <key>discover_change_region</key>
     <string>Mudar região (atualmente %1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>Em destaque</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Episódio ou podcast destacado não encontrado. Confirme se você está conectado à internet e tente novamente.</string>
     <key>discover_fresh_pick</key>
     <string>NOVO</string>
+    <key>discover_no_episodes_found</key>
+    <string>Nenhum episódio encontrado</string>
     <key>discover_no_podcasts_found</key>
     <string>Nenhum podcast encontrado</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ que você ouviu foi
     <string>EPISÓDIO %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episodes</key>
+    <string>Episódios</string>
     <key>error</key>
     <string>Erro</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
+    <key>import</key>
+    <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>É possível importar seus podcasts do Apple Podcasts usando o aplicativo Atalhos integrado.
 Observação: se você excluiu o aplicativo de atalhos, será solicitado que você o reinstale.
@@ -998,6 +1010,8 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 2. Toque no ícone de engrenagem na parte superior do aplicativo
 3. Deslize para baixo e toque em Export OPML
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
+    <key>import_opml_from_url</key>
+    <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
     <key>import_podcasts_description</key>
     <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
 
@@ -1147,6 +1161,8 @@ podcasts com você</string>
     <string>Falha na importação de OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importando %1$@ de %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importação de OPML bem-sucedida</string>
     <key>opml_importing</key>
     <string>Importando podcasts...</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@ teste gratuito de %1$@</string>
     <string>Tentar novamente</string>
     <key>search</key>
     <string>Pesquisar</string>
+    <key>search_label</key>
+    <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
     <string>Pesquisar podcasts</string>
+    <key>search_recent</key>
+    <string>Pesquisas recentes</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ teste gratuito de %1$@</string>
     <string>Fim do episódio</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continuar com a Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continuar com o Google</string>
     <key>sonos_connect_action</key>
     <string>CONECTAR</string>
     <key>sonos_connect_prompt</key>

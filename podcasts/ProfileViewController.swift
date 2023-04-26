@@ -470,11 +470,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
         var data: [[ProfileViewController.TableRow]]
-        if !SyncManager.isUserLoggedIn() {
-            data = [[.allStats, .downloaded, .uploadedFiles, .listeningHistory]]
-        } else {
-            data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
-        }
+        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)

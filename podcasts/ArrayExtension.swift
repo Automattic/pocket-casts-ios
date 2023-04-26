@@ -4,4 +4,11 @@ extension Array {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
+
+    @discardableResult
+    mutating func insert(_ element: Element, safelyAt at: Int) -> Int {
+        let indexToInsert = Swift.min(at, count)
+        insert(element, at: indexToInsert)
+        return indexToInsert
+    }
 }

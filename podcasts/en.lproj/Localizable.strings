@@ -116,7 +116,7 @@
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
 /* Error message for when the account registration request has failed. */
-"account_sso_failed" = "Sign in with Apple failed. Please try again.";
+"account_sso_failed" = "Sign in failed. Please try again.";
 
 /* Title for the account screen for the user's Pocket Casts Account. 'Pocket Casts' refers to the app name and is treated as a proper noun so it shouldn't be localized. */
 "account_title" = "Pocket Casts Account";
@@ -541,6 +541,12 @@
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found" = "No podcasts found";
 
+/* Informational title when the episode search succeeds but returns no results. */
+"discover_no_episodes_found" = "No episodes found";
+
+/* Informational title when the episode fails to load. */
+"discover_episode_fail_to_load" = "The episode couldn't be loaded";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found_msg" = "Try more general or different keywords.";
 
@@ -697,6 +703,12 @@
 /* Title used for promotional purposes to highlight trending podcasts. */
 "discover_trending" = "Trending";
 
+/* Title used when displaying all podcasts from a search. */
+"discover_all_podcasts" = "All Podcasts";
+
+/* Title used when displaying all episodes from a search. */
+"discover_all_episodes" = "All Episodes";
+
 /* A common string used throughout the app. Confirmation text. */
 "done" = "Done";
 
@@ -771,6 +783,9 @@
 
 /* Refers to an Episode in the singular form. */
 "episode" = "Episode";
+
+/* Refers to an Episode in the plural form. */
+"episodes" = "Episodes";
 
 /* A common string used throughout the app. Display configurable options related to a number of episodes. '%1$@' is a placeholder for the number of episodes, the value will be more than one. */
 "episode_count_plural_format" = "%1$@ episodes";
@@ -1093,6 +1108,9 @@
 /* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
 "import_podcasts_description" = "You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
 
+/* Description for importing opml from URL*/
+"import_opml_from_url" = "Import your podcasts from an OPML file using a URL";
+
 /* Title for the section that provides information on how to import podcasts to Pocket Casts */
 "import_podcasts_title" = "IMPORT TO POCKET CASTS";
 
@@ -1264,11 +1282,17 @@
 /* A common string used throughout the app. Often used as a toggle to enable a feature only when the user is on Wifi. */
 "only_on_wifi" = "Only On WiFi";
 
+/* Import button text */
+"import" = "Import";
+
 /* Message for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_message" = "Unable to import podcasts from the OPML file you specified. Please check that it's valid";
 
 /* Title for the dialog box informing the user that the podcast import from the provided OPML file has failed. */
 "opml_import_failed_title" = "OPML Import Failed";
+
+/* informing the user that the podcast import from the provided OPML URL succeeded. */
+"opml_import_succeeded_title" = "OPML Import Succeeded";
 
 /* Progress message indicating the total number of podcasts imported from an OPML file. '%1$@' serves as a placeholder for the current number of imported podcasts. '%2$@' serves as a placeholder for the total number of podcasts to import. */
 "opml_import_progress_format" = "Importing %1$@ of %2$@";
@@ -1614,6 +1638,36 @@
 
 /* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
 "plus_feature_cloud_storage" = "Cloud Storage";
+
+/* Message about our gratitude when an user subscribe to Plus */
+"plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
+/* Label of a button to subscribe to Patron. Do not translate "Plus". */
+"plus_subscribe_to" = "Subscribe to Plus";
+
+/* Label of a button to skip subscring to any plan */
+"plus_skip" = "Skip";
+
+/* Description of the Patron plan. Do not translate "Patron". */
+"patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
+
+/* Description of a Patron feature that gives user everything in Plus. */
+"patron_feature_everything_in_plus" = "Everything in Plus";
+
+/* Description of a Patron feature that gives user early access to new features. */
+"patron_feature_early_access" = "Early access to features";
+
+/* Description of a Patron feature that gives user a badge on their profile image. */
+"patron_feature_profile_badge" = "Supporters profile badge";
+
+/* Description of a Patron feature that gives users special app icons. */
+"patron_feature_profile_icons" = "Special Pocket Casts app icons";
+
+/* Label of a button to subscribe to Patron. Do not translate "Patron". */
+"patron_subscribe_to" = "Subscribe to Patron";
+
+/* Label of a title explaining why to subscribe to Patron. */
+"patron_callout" = "Believe in what we’re doing and want to show your support?";
 
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
@@ -1981,6 +2035,9 @@
 
 /* A common string used throughout the app. Prompt to retry the recent request. */
 "retry" = "Retry";
+
+/* The label of the search button in Discover. Explaining the user can search or directly add a RSS URL. */
+"search_label" = "Search podcasts or add RSS URL";
 
 /* A common string used throughout the app. Placeholder text used in search boxes. */
 "search" = "Search";
@@ -3312,6 +3369,9 @@
 /* The title of the purchase promo */
 "plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
 
+/* The title of the purchase promo for Patron. Do not translate Patron. */
+"patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
+
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
 "purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
 
@@ -3551,3 +3611,12 @@
 
 /* Button title that lets the user contine the cancellation process */
 "cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
+
+/* Label of a button that lets the user login/signup with Apple */
+"social_sign_in_continue_with_apple" = "Continue with Apple";
+
+/* Label of a button that lets the user login/signup with Google */
+"social_sign_in_continue_with_google" = "Continue with Google";
+
+/* Label describing the recent searches */
+"search_recent" = "Recent searches";

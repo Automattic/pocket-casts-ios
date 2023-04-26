@@ -320,7 +320,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         navigationController?.navigationBar.isHidden = false
         if episodeToEdit == nil {
             if let destinationUrl = destinationUrl {
-                do { try FileManager.default.removeItem(at: destinationUrl) } catch {}
+                StorageManager.removeItem(at: destinationUrl)
             }
             dismiss(animated: true, completion: nil)
         } else {

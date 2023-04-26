@@ -88,6 +88,22 @@ class PlayerCell: SwipeTableViewCell {
         overrideUserInterfaceStyle = .dark
     }
 
+    override func addSubview(_ view: UIView) {
+        super.addSubview(view)
+
+        // The handle view (`UITableViewCellReorderControl`) is a subclass of UIControl
+        // Add a gesture on it to detect when we're about to reorder
+        guard (view as? UIControl) != nil, view.gestureRecognizers == nil else {
+            return
+        }
+
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didTouchHandle))
+        gesture.minimumPressDuration = 0.1
+        gesture.cancelsTouchesInView = false
+
+        view.addGestureRecognizer(gesture)
+    }
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -104,7 +120,6 @@ class PlayerCell: SwipeTableViewCell {
         updateDownloadStatus()
 
         EpisodeDateHelper.setDate(episode: episode, on: dayName, tintColor: ThemeColor.primaryText01(for: themeOverride))
-
         accessibilityLabel = labelForAccessibility(episode: episode)
     }
 
@@ -243,6 +258,19 @@ class PlayerCell: SwipeTableViewCell {
             if !show {
                 setHighlightedState(false)
             }
+        }
+    }
+}
+
+// MARK: - Handle Tap Detection
+private extension PlayerCell {
+    @objc func didTouchHandle(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            NotificationCenter.default.post(name: .tableViewReorderWillBegin, object: nil)
+        case .ended, .cancelled:
+            NotificationCenter.default.post(name: .tableViewReorderDidEnd, object: nil)
+        default: break
         }
     }
 }

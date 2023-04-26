@@ -262,8 +262,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         NotificationCenter.postOnMainThread(notification: .userSignedIn)
-
-        Analytics.track(.userAccountCreated)
     }
 
     // MARK: - UITextField Methods

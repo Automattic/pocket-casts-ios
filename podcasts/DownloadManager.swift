@@ -79,32 +79,51 @@ class DownloadManager: NSObject, FilePathProtocol {
         if let cachePath = paths.first as NSString? {
             tempDownloadFolder = cachePath.appendingPathComponent("temp_download")
 
-            let fileManager = FileManager.default
+            let fileManager = StorageManager.self
 
-            do {
-                try fileManager.createDirectory(atPath: tempDownloadFolder, withIntermediateDirectories: true, attributes: nil)
-                try fileManager.createDirectory(atPath: podcastsDirectory, withIntermediateDirectories: true, attributes: nil)
-                #if !os(watchOS)
-                    SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: podcastsDirectory))
-                #endif
-                try fileManager.createDirectory(atPath: streamingBufferDirectory, withIntermediateDirectories: true, attributes: nil)
-                #if !os(watchOS)
-                    SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
-                #endif
-            } catch {}
+            fileManager.createDirectory(atPath: tempDownloadFolder, withIntermediateDirectories: true)
+            fileManager.createDirectory(atPath: podcastsDirectory, withIntermediateDirectories: true)
+            #if !os(watchOS)
+                SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: podcastsDirectory))
+            #endif
+            fileManager.createDirectory(atPath: streamingBufferDirectory, withIntermediateDirectories: true)
+            #if !os(watchOS)
+                SJCommonUtils.setDontBackupFlag(URL(fileURLWithPath: streamingBufferDirectory))
+            #endif
+        }
+    }
+
+    func updateProtectionPermissionsForAllExistingFiles() async {
+        // Update the root permissions for the directory
+        let folders = [
+            tempDownloadFolder,
+            podcastsDirectory,
+            streamingBufferDirectory
+        ]
+
+        for folder in folders {
+            let url = URL(fileURLWithPath: folder)
+            StorageManager.updateFileProtectionToDefault(for: url)
+        }
+
+        // Update all the downloaded files existing protections
+        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), paths.count > 0 else {
+            return
+        }
+
+        for path in paths {
+            let url = URL(fileURLWithPath: podcastsDirectory + "/" + path)
+            StorageManager.updateFileProtectionToDefault(for: url)
         }
     }
 
     func addLocalFile(url: URL, uuid: String) -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
-        let fileManager = FileManager.default
         do {
-            do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
-            try fileManager.moveItem(at: url, to: destinationUrl)
-            return destinationUrl
-        } catch {
-            return nil
-        }
+            try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
+        } catch { return nil }
+
+        return destinationUrl
     }
 
     func queueForLaterDownload(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
@@ -149,11 +168,8 @@ class DownloadManager: NSObject, FilePathProtocol {
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
             let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
             let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
-            let fileManager = FileManager.default
             do {
-                do { try fileManager.removeItem(at: destinationUrl) } catch {} // this one will throw if the file doesn't exist, which is perfectly fine
-
-                try fileManager.moveItem(at: sourceUrl, to: destinationUrl)
+                try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
 
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)

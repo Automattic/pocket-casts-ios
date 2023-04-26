@@ -2,38 +2,16 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class SonosLinkController: PCViewController, SyncSigninDelegate {
-    private let accountBtnTag = 1
-    private let signinBtnTag = 2
-
+class SonosLinkController: PCViewController {
     @IBOutlet var sonosImage: UIImageView! {
         didSet {
             sonosImage.image = Theme.isDarkTheme() ? UIImage(named: "sonos-dark") : UIImage(named: "sonos-light")
         }
     }
 
-    @IBOutlet var connectBtn: ShiftyRoundButton! {
-        didSet {
-            connectBtn.buttonTapped = { [weak self] in
-                if SyncManager.isUserLoggedIn() {
-                    self?.connectWithSonos()
-                } else {
-                    self?.signIntoPocketCasts(signInMode: true)
-                }
-            }
-        }
-    }
-
-    @IBOutlet var createBtn: ShiftyRoundButton! {
-        didSet {
-            createBtn.buttonTitle = L10n.createAccount
-            createBtn.buttonTapped = { [weak self] in
-                self?.signIntoPocketCasts(signInMode: false)
-            }
-        }
-    }
-
-    @IBOutlet var mainMessage: UILabel!
+    @IBOutlet weak var titleLabel: ThemeableLabel!
+    @IBOutlet var connectBtn: ThemeableRoundedButton!
+    @IBOutlet var mainMessage: ThemeableLabel!
 
     var callbackUri = ""
 
@@ -41,65 +19,89 @@ class SonosLinkController: PCViewController, SyncSigninDelegate {
         super.viewDidLoad()
 
         title = L10n.sonosConnectPrompt
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(SonosLinkController.cancelTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
+
+        titleLabel.style = .primaryText01
+        titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+
+        mainMessage.style = .primaryText02
+        mainMessage.font = .systemFont(ofSize: 18)
+
+        connectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { _ in
+            self.updateConnectButton()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if SyncManager.isUserLoggedIn() {
-            mainMessage.text = L10n.sonosConnectionPrivacyNotice
-            connectBtn.buttonTitle = L10n.sonosConnectAction
-            createBtn.isHidden = true
-        } else {
-            mainMessage.text = L10n.sonosConnectionSignInPrompt
-            connectBtn.buttonTitle = L10n.signIn.localizedUppercase
-            createBtn.isHidden = false
-        }
+        updateConnectButton()
     }
 
-    func connectWithSonos() {
-        connectBtn.buttonTitle = L10n.sonosConnecting
-        guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
-            connectBtn.buttonTitle = L10n.retry.localizedUppercase
+    @IBAction func connect(_ sender: Any) {
+        guard SyncManager.isUserLoggedIn() else {
+            signIntoPocketCasts()
             return
         }
 
-        ApiServerHandler.shared.obtainToken(username: email, password: password, scope: "sonos") { token, _, _ in
-            DispatchQueue.main.async { [weak self] in
-                guard let token = token else {
-                    self?.connectBtn.buttonTitle = L10n.retry.localizedUppercase
-                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
-
-                    return
-                }
-
-                guard let strongSelf = self else { return }
-
-                let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-                if let url = URL(string: fullUrl) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    strongSelf.connectBtn.buttonTitle = L10n.retry.localizedUppercase
-                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAppMissing, from: self)
-                }
-            }
-        }
-    }
-
-    func signIntoPocketCasts(signInMode: Bool) {
-        let signinPage = SyncSigninViewController()
-        signinPage.delegate = self
-        navigationController?.pushViewController(signinPage, animated: true)
+        connectWithSonos()
     }
 
     @objc func cancelTapped() {
         dismiss(animated: true, completion: nil)
     }
+}
 
-    // MARK: - Sign In Delegate
+private extension SonosLinkController {
+    func updateConnectButtonTitle(_ title: String) {
+        connectBtn.setTitle(title, for: .normal)
+    }
 
-    func signingProcessCompleted() {
-        navigationController?.popViewController(animated: true)
+    func updateConnectButton() {
+        if SyncManager.isUserLoggedIn() {
+            mainMessage.text = L10n.sonosConnectionPrivacyNotice
+            updateConnectButtonTitle(L10n.sonosConnectAction)
+        } else {
+            mainMessage.text = L10n.sonosConnectionSignInPrompt
+            updateConnectButtonTitle(L10n.continue.localizedUppercase)
+        }
+    }
+
+    func signIntoPocketCasts() {
+        let controller = OnboardingFlow.shared.begin(flow: .sonosLink)
+        navigationController?.present(controller, animated: true)
+    }
+
+    func connectWithSonos() {
+        guard ServerSettings.syncingEmail() != nil else {
+            updateConnectButtonTitle(L10n.retry.localizedUppercase)
+            return
+        }
+
+        Task {
+            let token = await ApiServerHandler.shared.exchangeSonosToken()
+
+            DispatchQueue.main.async { [weak self] in
+                guard let token = token else {
+                    self?.updateConnectButtonTitle(L10n.retry.localizedUppercase)
+                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
+                    return
+                }
+
+                FileLog.shared.addMessage("Sync Token refreshed source: Sonos")
+                guard let strongSelf = self else { return }
+
+                let fullUrl = strongSelf.callbackUri + "&code=" + token.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                if let url = URL(string: fullUrl) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    strongSelf.dismiss(animated: true)
+                } else {
+                    strongSelf.updateConnectButtonTitle(L10n.retry.localizedUppercase)
+                    SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAppMissing, from: self)
+                }
+            }
+        }
     }
 }

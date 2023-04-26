@@ -116,7 +116,7 @@
     <key>account_signed_out_alert_title</key>
     <string>您已退出。</string>
     <key>account_sso_failed</key>
-    <string>通过 Apple 登录失败。 请重试。</string>
+    <string>登录失败。 请重试。</string>
     <key>account_title</key>
     <string>Pocket Casts 账户</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@
     <string>取消全选</string>
     <key>discover</key>
     <string>发现</string>
+    <key>discover_all_episodes</key>
+    <string>所有剧集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有播客</string>
     <key>discover_browse_by_category</key>
     <string>按类型浏览</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@
     <string>电视和电影</string>
     <key>discover_change_region</key>
     <string>更改区域，当前为 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>特色</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@
     <string>未找到精选播客和剧集。 请确保您已连接至互联网并重试。</string>
     <key>discover_fresh_pick</key>
     <string>新鲜精选</string>
+    <key>discover_no_episodes_found</key>
+    <string>未找到剧集</string>
     <key>discover_no_podcasts_found</key>
     <string>未找到播客</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@
     <string>第 %1$@ 集</string>
     <key>episode_shorthand_format_short</key>
     <string>第 %1$@ 集</string>
+    <key>episodes</key>
+    <string>剧集</string>
     <key>error</key>
     <string>错误</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>import</key>
+    <string>导入</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>我们可以通过使用内置的 Shortcuts 应用，从 Apple Podcasts 导入播客。
 注意：如果您之前删除了 Shortcuts 应用，系统将提示您重新安装此应用。
@@ -998,6 +1010,8 @@
 2. 点击应用顶部角落的齿轮图标
 3. 向下滑动直到您看到”导出 OPML“，然后点击此选项
 4. 在对话框打开后，找到 Pocket Casts 图标，然后点击此图标</string>
+    <key>import_opml_from_url</key>
+    <string>使用 URL 从 OPML 文件导入播客</string>
     <key>import_podcasts_description</key>
     <string>您可以使用广受支持的 OPML 格式将播客订阅导入到 Pocket casts。 从另一个应用程序导出文件并选择在 Pocket casts 中打开。
 
@@ -1147,6 +1161,8 @@
     <string>OPML 导入失败</string>
     <key>opml_import_progress_format</key>
     <string>正在导入 %1$@ 个，共 %2$@ 个</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML 导入已成功</string>
     <key>opml_importing</key>
     <string>正在导入播客...</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@
     <string>重试</string>
     <key>search</key>
     <string>搜索</string>
+    <key>search_label</key>
+    <string>搜索播客或添加 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜索播客</string>
+    <key>search_recent</key>
+    <string>最近搜索</string>
     <key>season</key>
     <string>季</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@
     <string>剧集结束</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠计时器打开，剩余 %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>继续使用 Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>继续使用 Google</string>
     <key>sonos_connect_action</key>
     <string>连接</string>
     <key>sonos_connect_prompt</key>

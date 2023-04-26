@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "PocketCastsDataModel",
     platforms: [
-        .iOS(.v14), .watchOS(.v7)
+        .iOS(.v15), .watchOS(.v7)
     ],
     products: [
         .library(

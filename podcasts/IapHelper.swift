@@ -7,7 +7,9 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
 
-    private let productIdentifiers: [Constants.IapProducts] = [.monthly, .yearly]
+    private var productIdentifiers: [Constants.IapProducts] {
+        FeatureFlag.patron.enabled ? [.monthly, .yearly, .patronMonthly, .patronYearly] : [.monthly, .yearly]
+    }
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
@@ -87,9 +89,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         }
 
         switch identifier {
-        case .yearly:
+        case .yearly, .patronYearly:
             return L10n.plusYearlyFrequencyPricingFormat(price)
-        case .monthly:
+        case .monthly, .patronMonthly:
             return L10n.plusMonthlyFrequencyPricingFormat(price)
         }
     }

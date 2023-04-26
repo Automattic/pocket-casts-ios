@@ -4,7 +4,11 @@ import SwiftUI
 struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
-    @State var compactView: Bool = false
+    var compactView: Bool {
+        typeSize >= .xxLarge
+    }
+
+    @Environment(\.dynamicTypeSize) var typeSize
 
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
@@ -45,10 +49,6 @@ struct EpisodeView: View {
 
     @ViewBuilder
     static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
-        if #available(iOS 15, *) {
-            CompactWhenNecessaryEpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-        } else {
-            EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-        }
+        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
 }

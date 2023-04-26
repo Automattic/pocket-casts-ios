@@ -116,7 +116,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>account_signed_out_alert_title</key>
     <string>You've been signed out.</string>
     <key>account_sso_failed</key>
-    <string>無法透過 Apple 登入。 請再試一次。</string>
+    <string>登入失敗。 請再試一次。</string>
     <key>account_title</key>
     <string>Pocket Casts 帳號</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>取消全選</string>
     <key>discover</key>
     <string>探索</string>
+    <key>discover_all_episodes</key>
+    <string>所有單集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有 Podcast</string>
     <key>discover_browse_by_category</key>
     <string>依分類瀏覽</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>電視和電影</string>
     <key>discover_change_region</key>
     <string>變更區域，目前為 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>無法載入該單集</string>
     <key>discover_featured</key>
     <string>精選內容</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>找不到精選 Podcast 或集數。 請確認你已連線至網際網路，然後再試一次。</string>
     <key>discover_fresh_pick</key>
     <string>精選內容</string>
+    <key>discover_no_episodes_found</key>
+    <string>找不到任何單集</string>
     <key>discover_no_podcasts_found</key>
     <string>找不到任何 Podcast 節目</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>第 %1$@ 集</string>
     <key>episode_shorthand_format_short</key>
     <string>第 %1$@ 集</string>
+    <key>episodes</key>
+    <string>節目內容</string>
     <key>error</key>
     <string>錯誤</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中點選「複製到 Pocket Casts」</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
+    <key>import</key>
+    <string>匯入</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>我們可以使用內建的「捷徑」應用程式，從 Apple Podcasts 匯入你的Podcast 節目。
 注意：如果你之前刪除了捷徑應用程式，系統會提示你重新安裝。
@@ -998,6 +1010,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
 2. 點選應用程式上角的小齒輪圖示
 3. 向下滑動，看見「匯出 OPML」選項時點選該選項
 4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_opml_from_url</key>
+    <string>使用 URL 從 OPML 檔案匯入你的 Podcast</string>
     <key>import_podcasts_description</key>
     <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
 
@@ -1147,6 +1161,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>OPML 匯入失敗</string>
     <key>opml_import_progress_format</key>
     <string>正在匯入 %1$@ 個 Podcast 節目，共 %2$@ 個</string>
+    <key>opml_import_succeeded_title</key>
+    <string>已成功匯入 OPML</string>
     <key>opml_importing</key>
     <string>正在匯入 Podcast 節目...</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>重試</string>
     <key>search</key>
     <string>搜尋</string>
+    <key>search_label</key>
+    <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜尋 Podcast</string>
+    <key>search_recent</key>
+    <string>最近搜尋的內容</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>本集結束</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠計時器已啟動，剩餘 %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>繼續使用 Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>繼續使用 Google</string>
     <key>sonos_connect_action</key>
     <string>連線</string>
     <key>sonos_connect_prompt</key>

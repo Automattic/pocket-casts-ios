@@ -16,10 +16,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private var lastBackgroundedDate: Date?
 
+    /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
+    private var isWaitingForInitialPlayback = false
+
+    // Keep track of the previous playback and waiting state
+    private var previousReasonForWaiting: AVPlayer.WaitingReason?
+    private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
+
     private var durationObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
     private var playerItemStatusObserver: NSKeyValueObservation?
+    private var timeControlStatusObserver: NSKeyValueObservation?
 
     private var playToEndObserver: NSObjectProtocol?
     private var playFailedObserver: NSObjectProtocol?
@@ -49,6 +57,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             handlePlaybackError("Unable to create playback item")
             return
         }
+
+        isWaitingForInitialPlayback = true
 
         player = AVPlayer(playerItem: playerItem)
 
@@ -83,7 +93,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         return 0
     }
 
-    func play(completion: (() -> Void)?) {
+    func play(completion: (() -> Void)? = nil) {
         startBackgroundTask()
 
         shouldKeepPlaying = true
@@ -227,6 +237,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 createAudioMix()
                 player?.currentItem?.audioMix = audioMix
             #endif
+
+            isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
@@ -515,10 +527,44 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             PlaybackManager.shared.playerDidCalculateDuration()
         }
 
-        rateObserver = player?.observe(\.rate) { [weak self] _, _ in
+        // Listen for changes to the timeControlStatus to determine if the system has decided to pause the playback
+        // and if we need to try playing again. This seems to only happen when streaming on AirPlay for some reason.
+        //
+        // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
+        timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
+            #if !os(watchOS)
+            // We're going to be very explicit about the trigger for this to prevent triggering it when we don't want to
+
+            // Only apply the logic when playing over AirPlay
+            guard PlaybackManager.shared.playingOverAirplay(), let self else { return }
+
+            // We'll keep track of the previous statuses and compare against them in the check below
+            defer {
+                self.previousReasonForWaiting = player.reasonForWaitingToPlay
+                self.previousTimeControlStatus = player.timeControlStatus
+            }
+
+            guard
+                // Verify that we indeed want to keep playing, ie: the user hasn't manually paused
+                // And that we're waiting for the initial playback to begin
+                self.shouldKeepPlaying, self.isWaitingForInitialPlayback,
+                // Verify playback has stopped now, but we were waiting to play the audio
+                player.timeControlStatus == .paused, self.previousTimeControlStatus == .waitingToPlayAtSpecifiedRate,
+                // Verify that while we were waiting to play the reason switched to no item to play, and that currently there is no current reason
+                player.reasonForWaitingToPlay == nil, self.previousReasonForWaiting == .noItemToPlay
+            else {
+                return
+            }
+
+            FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
+            self.play()
+            #endif
+        }
+
+        rateObserver = player?.observe(\.rate) { [weak self] player, _ in
             guard let self = self else { return }
 
-            if let rate = self.player?.rate, rate == 1 {
+            if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
                 // the easiest way to repeat this is to play a video at 2x, and press pause once it's in picture in picture mode
                 let requiredSpeed = PlaybackManager.shared.effects().playbackSpeed
@@ -527,7 +573,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 }
             }
 
-            if let lastBackgroundedDate = self.lastBackgroundedDate, let player = self.player {
+            if let lastBackgroundedDate = self.lastBackgroundedDate {
                 let timeintervalSinceBackground = fabs(lastBackgroundedDate.timeIntervalSinceNow)
                 // we were backgrounded in the last 2 seconds, then the rate has changed, sounds like iOS is pausing video
                 if player.rate <= 0, self.shouldKeepPlaying, timeintervalSinceBackground > 0, timeintervalSinceBackground < 2 {
@@ -589,6 +635,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         rateObserver = nil
         playerStatusObserver = nil
         playerItemStatusObserver = nil
+        timeControlStatusObserver = nil
 
         if let endObserver = playToEndObserver {
             NotificationCenter.default.removeObserver(endObserver)

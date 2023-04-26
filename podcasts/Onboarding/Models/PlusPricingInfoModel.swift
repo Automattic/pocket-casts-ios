@@ -19,15 +19,22 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly]
+        var products: [Constants.IapProducts]
+        if FeatureFlag.patron.enabled {
+            products = [.yearly, .monthly, .patronYearly, .patronMonthly]
+        } else {
+            products = [.yearly, .monthly]
+        }
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
+            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
             let trial = purchaseHandler.localizedFreeTrialDuration(product)
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
+                                              rawPrice: rawPrice,
                                               freeTrialDuration: trial)
             pricing.append(info)
         }
@@ -48,6 +55,7 @@ class PlusPricingInfoModel: ObservableObject {
     struct PlusProductPricingInfo: Identifiable {
         let identifier: Constants.IapProducts
         let price: String
+        let rawPrice: String
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }
@@ -55,6 +63,10 @@ class PlusPricingInfoModel: ObservableObject {
 
     enum PriceAvailablity {
         case unknown, available, loading, failed
+    }
+
+    enum DisplayPrice {
+        case yearly, monthly
     }
 }
 

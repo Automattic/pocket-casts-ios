@@ -3,7 +3,7 @@ import PocketCastsServer
 import SwiftUI
 
 class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
-    var navigationController: UINavigationController? = nil
+    weak var navigationController: UINavigationController? = nil
 
     var continueUpgrade: Bool
     let source: Source
@@ -15,7 +15,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped() {
+    func unlockTapped(plan: Constants.Plan = .plus, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -24,7 +24,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        loadPricesAndContinue()
+        loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
     }
 
     func didAppear() {
@@ -35,7 +35,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         // Don't continually show when the user dismisses
         continueUpgrade = false
 
-        self.loadPricesAndContinue()
+        self.loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
     }
 
     func didDismiss(type: OnboardingDismissType) {
@@ -56,11 +56,15 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func loadPricesAndContinue() {
+    func price(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) })?.rawPrice ?? "?"
+    }
+
+    private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal()
+                self.showModal(plan: plan, selectedPrice: selectedPrice)
             case .failed:
                 self.showError()
             default:
@@ -77,10 +81,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal() {
+    func showModal(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseModel.make(in: navigationController)
+        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan, selectedPrice: selectedPrice)
         controller.presentModally(in: navigationController)
     }
 
@@ -93,8 +97,9 @@ extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
 
-        let view = PlusLandingView(viewModel: viewModel)
-        let controller = PlusHostingViewController(rootView: view.setupDefaultEnvironment())
+        let view = Self.view(with: viewModel)
+        let controller = PlusHostingViewController(rootView: view)
+
         controller.viewModel = viewModel
         controller.navBarIsHidden = true
 
@@ -103,5 +108,17 @@ extension PlusLandingViewModel {
         viewModel.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
+    }
+
+    @ViewBuilder
+    private static func view(with viewModel: PlusLandingViewModel) -> some View {
+        if FeatureFlag.patron.enabled {
+            UpgradeLandingView()
+                .environmentObject(viewModel)
+                .setupDefaultEnvironment()
+        } else {
+            PlusLandingView(viewModel: viewModel)
+                .setupDefaultEnvironment()
+        }
     }
 }

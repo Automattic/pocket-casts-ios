@@ -116,7 +116,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>account_signed_out_alert_title</key>
     <string>You've been signed out.</string>
     <key>account_sso_failed</key>
-    <string>Impossible de vous connecter avec Apple. Veuillez réessayer.</string>
+    <string>La connexion a échoué. Veuillez réessayer.</string>
     <key>account_title</key>
     <string>Compte Pocket Casts</string>
     <key>account_upgraded</key>
@@ -359,6 +359,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Tout désélectionner</string>
     <key>discover</key>
     <string>Découvrir</string>
+    <key>discover_all_episodes</key>
+    <string>Tous les épisodes</string>
+    <key>discover_all_podcasts</key>
+    <string>Tous les podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Parcourir par catégorie</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +419,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>TV et films</string>
     <key>discover_change_region</key>
     <string>Changer la région, actuellement %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Impossible de charger l’épisode</string>
     <key>discover_featured</key>
     <string>À la Une</string>
     <key>discover_featured_episode</key>
@@ -423,6 +429,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Le podcast ou l’épisode que vous avez cherché est introuvable. Vérifiez que vous êtes bien connecté à Internet et réessayez.</string>
     <key>discover_fresh_pick</key>
     <string>NOUVELLE SÉLECTION</string>
+    <key>discover_no_episodes_found</key>
+    <string>Aucun épisode trouvé</string>
     <key>discover_no_podcasts_found</key>
     <string>Aucun podcast trouvé</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +690,8 @@ que vous avez écouté était
     <string>ÉPISODE %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episodes</key>
+    <string>Épisodes</string>
     <key>error</key>
     <string>Erreur</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +961,8 @@ Partagez-les avec Pocket Casts, ils apparaîtront ici</string>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
+    <key>import</key>
+    <string>Importer</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Nous pouvons importer vos podcasts depuis Apple Podcasts grâce à l’application Raccourcis intégrée.
 Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une invitation pour la réinstaller.
@@ -998,6 +1010,8 @@ Remarque : si vous avez supprimé l’application Raccourcis, vous recevrez une
 2. Appuyez sur l’icône en forme d’engrenage dans le coin supérieur de l’application.
 3. Faites défiler l’écran jusqu’à « Export OPML » (Exportation OPML), puis appuyez dessus.
 4. Une fois la boîte de dialogue ouverte, recherchez l’icône Pocket Casts, puis appuyez dessus.</string>
+    <key>import_opml_from_url</key>
+    <string>Importez vos podcasts à partir d’un fichier OPML en utilisant une URL.</string>
     <key>import_podcasts_description</key>
     <string>Vous pouvez importer vos abonnements à des podcasts dans Pocket Casts en utilisant le format OPML largement pris en charge. Exportez le fichier depuis une autre application et choisissez Ouvrir dans Pocket Casts.
 
@@ -1147,6 +1161,8 @@ podcasts partout avec</string>
     <string>Échec de l’importation OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importation de %1$@ sur %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importation OPML réussie</string>
     <key>opml_importing</key>
     <string>Importation de podcasts...</string>
     <key>page_control_page_progress_format</key>
@@ -1667,8 +1683,12 @@ essai gratuit de %1$@</string>
     <string>Réessayer</string>
     <key>search</key>
     <string>Recherche</string>
+    <key>search_label</key>
+    <string>Rechercher des podcasts ou ajouter l’URL RSS</string>
     <key>search_podcasts</key>
     <string>Rechercher des podcasts</string>
+    <key>search_recent</key>
+    <string>Recherches récentes</string>
     <key>season</key>
     <string>Saison</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2169,10 @@ essai gratuit de %1$@</string>
     <string>Fin de l’épisode</string>
     <key>sleep_timer_time_remaining</key>
     <string>Mise en veille activée, temps restant : %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Continuer avec Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Continuer avec Google</string>
     <key>sonos_connect_action</key>
     <string>CONNECTER</string>
     <key>sonos_connect_prompt</key>

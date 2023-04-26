@@ -1,6 +1,2 @@
-- Fixed an issue where the close button was rendered as a solid white circle when the Dark Contrast theme was active (#552)
-- Updated the import process in Settings (#641)
-- Updated the Now Playing metadata to put podcast author in the Artist fields to fix Siri responses and Siri Suggestions (#48)
-- Fixed shownotes not always scrolling back to the beginning when new episode is loaded (#651)
-- Fixed an issue where logged out users were incorrectly prompted to sign in when starring episodes on the Now Playing screen (#653)
+- Login: added capability to sign into Pocket Casts using Google and Apple accounts
 

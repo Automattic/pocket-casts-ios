@@ -2,7 +2,8 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
-class PodcastListSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class PodcastListSearchResultsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SearchResultsDelegate {
+
     private static let searchCellId = "SearchCell"
 
     private var localResults = [HomeGridItem]()
@@ -91,7 +92,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
     func clearSearch() {
         localResults.removeAll()
         remoteResults.removeAll()
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performLocalSearch(searchTerm: String) {
@@ -99,7 +100,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 
         remoteResults.removeAll()
         localResults = filteredItems
-        searchResultsTable.reloadData()
+        searchResultsTable?.reloadData()
     }
 
     func performRemoteSearch(searchTerm: String, completion: @escaping (() -> Void)) {
@@ -131,7 +132,7 @@ class PodcastListSearchResultsController: UIViewController, UITableViewDelegate,
 
                 completion()
                 self?.remoteResults = results
-                self?.searchResultsTable.reloadData()
+                self?.searchResultsTable?.reloadData()
             }
         }
     }

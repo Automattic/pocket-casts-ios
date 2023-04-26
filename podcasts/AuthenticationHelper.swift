@@ -2,66 +2,80 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+#if !os(watchOS)
 import AuthenticationServices
-
-enum AuthenticationSource: String {
-    case password = "password"
-    case ssoApple = "sso_apple"
-}
+#endif
 
 class AuthenticationHelper {
-    static func validateLogin(_ appleIDCredential: ASAuthorizationAppleIDCredential) async throws {
-        let response = try await ApiServerHandler.shared.validateLogin(identityToken: appleIDCredential.identityToken)
-        handleSuccessfulSignIn(response, .ssoApple)
-        if let identityToken = appleIDCredential.identityToken {
-            ServerSettings.appleAuthIdentityToken = String(data: identityToken, encoding: .utf8)
-            ServerSettings.appleAuthUserID = appleIDCredential.user
+
+    @discardableResult
+    static func refreshLogin(scope: AuthenticationScope = .mobile) async throws -> String? {
+        if let username = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword(), !password.isEmpty {
+            return try await validateLogin(username: username, password: password, scope: scope).token
         }
+        else if let token = ServerSettings.refreshToken {
+            return try await validateLogin(identityToken: token, scope: scope).token
+        }
+
+        return nil
     }
 
-    static func validateAppleSSOCredentials() {
-        guard ServerSettings.appleAuthUserID != nil else {
-            // No need to Check if we don't have a user ID
-            return
+    // MARK: Password
+
+    static func validateLogin(username: String, password: String, scope: AuthenticationScope) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(username: username, password: password, scope: scope.rawValue)
+        handleSuccessfulSignIn(response)
+
+        // If the server didn't return a new email, and the call was successful, then reset the email to the one used to
+        // validate the login
+        if ServerSettings.syncingEmail() == nil {
+            ServerSettings.setSyncingEmail(email: username)
         }
-        Task {
-            let state = try await ApiServerHandler.shared.ssoCredentialState()
-            FileLog.shared.addMessage("Validated Apple SSO token state: \(state.loggingValue)")
-            switch state {
-            case .revoked, .transferred:
-                handleSSOTokenRevoked()
-            default:
-                break
-            }
-        }
+
+        ServerSettings.saveSyncingPassword(password)
+
+        return response
     }
 
-    static func observeAppleSSOEvents() {
-        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: .main) { _ in
-            handleSSOTokenRevoked()
-        }
+    // MARK: Apple SSO
+
+    static func validateLogin(identityToken: String, scope: AuthenticationScope = .mobile)  async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, scope: scope)
+        handleSuccessfulSignIn(response)
+
+        ServerSettings.refreshToken = response.refreshToken
+
+        return response
     }
 
-    private static func handleSSOTokenRevoked() {
-        FileLog.shared.addMessage("Apple SSO token has been revoked. Signing user out.")
-        SyncManager.signout()
+    static func validateLogin(identityToken: String, provider: SocialAuthProvider)  async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, provider: provider)
+        handleSuccessfulSignIn(response)
+
+        return response
     }
 
-    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse, _ source: AuthenticationSource) {
+    // MARK: Common
+
+    private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {
         SyncManager.clearTokensFromKeyChain()
 
         ServerSettings.userId = response.uuid
         ServerSettings.syncingV2Token = response.token
+        ServerSettings.refreshToken = response.refreshToken
 
         // we've signed in, set all our existing podcasts to be non synced
         DataManager.sharedManager.markAllPodcastsUnsynced()
 
         SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
-        ServerSettings.setSyncingEmail(email: response.email)
 
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-        Analytics.track(.userSignedIn, properties: ["source": source.rawValue])
+        // This check may not be necessary in the long run see: https://github.com/Automattic/pocket-casts-ios/issues/412
+        if let email = response.email, !email.isEmpty {
+            ServerSettings.setSyncingEmail(email: response.email)
+        }
+
+        NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.setPromotionFinishedAcknowledged(true)

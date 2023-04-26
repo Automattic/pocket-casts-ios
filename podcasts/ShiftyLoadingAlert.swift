@@ -60,7 +60,7 @@ class ShiftyLoadingAlert {
         }
     }
 
-    func hideAlert(_ animated: Bool) {
-        alertController!.dismiss(animated: animated, completion: nil)
+    func hideAlert(_ animated: Bool, completion: (() -> Void)? = nil) {
+        alertController!.dismiss(animated: animated, completion: completion)
     }
 }

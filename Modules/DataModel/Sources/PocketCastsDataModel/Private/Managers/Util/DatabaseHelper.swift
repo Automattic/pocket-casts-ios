@@ -641,6 +641,39 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 41 {
+            do {
+                try db.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS AutoAddCandidates (
+                    id INTEGER PRIMARY KEY,
+                    episode_uuid varchar(40) NOT NULL,
+                    podcast_uuid varchar(40) NOT NULL
+                );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS candidate_episode ON AutoAddCandidates (episode_uuid)", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS candidate_podcast ON AutoAddCandidates (podcast_uuid)", values: nil)
+
+                schemaVersion = 41
+            } catch {
+                failedAt(41)
+            }
+        }
+
+        #if DEBUG
+        #warning("TODO: Remove the debug check once the FeatureFlag is enabled")
+        if schemaVersion < 999 {
+            do {
+                try BookmarkDataManager.createTable(in: db)
+
+                schemaVersion = 42
+            } catch {
+                failedAt(42)
+                return
+            }
+        }
+        #endif
+
         db.commit()
     }
 }

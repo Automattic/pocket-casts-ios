@@ -2,14 +2,14 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/bash-cache#2.12.0
-    - automattic/git-s3-cache#v1.1.3:
+    - automattic/a8c-ci-toolkit#2.15.1
+    - automattic/git-s3-cache#1.1.4:
         bucket: a8c-repo-mirrors
         repo: automattic/pocket-casts-ios/
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
-    IMAGE_ID: xcode-14
+    IMAGE_ID: xcode-14.2
   # Common agents values to use with the `agents` key.
   - &common_agents
     queue: mac

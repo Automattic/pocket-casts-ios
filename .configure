@@ -1,7 +1,7 @@
 {
   "project_name": "pocketcasts-ios",
   "branch": "trunk",
-  "pinned_hash": "77bd4fff0e373f39d6cc53973e4ab3df810541c9",
+  "pinned_hash": "953f945276a887a9595e23cb55a809080a574947",
   "files_to_copy": [
     {
       "file": "iOS/app_store_connect_fastlane_api_key.json",
@@ -26,6 +26,11 @@
     {
       "file": "iOS/pocket-casts/GoogleService-Info.plist",
       "destination": "~/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist",
+      "encrypt": true
+    },
+    {
+      "file": "iOS/pocket-casts/GoogleSignIn.txt",
+      "destination": "~/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt",
       "encrypt": true
     }
   ],

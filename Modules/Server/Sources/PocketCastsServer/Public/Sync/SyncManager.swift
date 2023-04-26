@@ -5,7 +5,7 @@ import UIKit
 
 public class SyncManager {
     public class func isUserLoggedIn() -> Bool {
-        if let email = ServerSettings.syncingEmail(), email.count > 0 {
+        if let email = ServerSettings.syncingEmail(), !email.isEmpty {
             return true
         }
         return false
@@ -61,7 +61,7 @@ public class SyncManager {
         KeychainHelper.removeKey(ServerConstants.Values.syncingEmailKey)
         KeychainHelper.removeKey(ServerConstants.Values.syncingPasswordKey)
         KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
-        KeychainHelper.removeKey(ServerConstants.Values.appleAuthIdentityTokenKey)
+        KeychainHelper.removeKey(ServerConstants.Values.refreshTokenKey)
         KeychainHelper.removeKey(ServerConstants.Values.appleAuthUserIDKey)
     }
 

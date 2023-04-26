@@ -25,7 +25,7 @@ struct PlusAccountUpgradePrompt: View {
             Label(L10n.accountDetailsPlusTitle, for: .title)
 
             if let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration)
+                PlusFreeTrialLabel(freeTrialDuration, plan: .plus)
                     .padding(.top, 16)
             }
 
@@ -46,7 +46,7 @@ struct PlusAccountUpgradePrompt: View {
 
             Button(L10n.plusMarketingUpgradeButton) {
                 viewModel.upgradeTapped()
-            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading)).padding(.top, 30)
+            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading, plan: .plus)).padding(.top, 30)
         }.padding().background (
             ProportionalValueFrameCalculator {
                 PlusPromptBackgroundView()
@@ -59,7 +59,6 @@ struct PlusAccountUpgradePrompt: View {
         PlusMiniFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
         PlusMiniFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())),
         PlusMiniFeature(iconName: "plus-feature-folders", title: L10n.folders),
-        PlusMiniFeature(iconName: "plus-feature-hide-ads", title: L10n.plusMarketingHideAdsTitle),
         PlusMiniFeature(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
     ]
 }

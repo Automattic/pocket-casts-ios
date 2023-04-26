@@ -1,6 +1,16 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+
+/**
+ * The Watch app and the iOS app don't share SIWA credentials, so if we try to do an "Credentials State" check from SIWA
+ * from the watch, it will fail regardless. So, instead we will rely on the server to validate the identity token and fail there if needed. If not, then the watch will check the login state next time the user is connected to the main app on their phone.
+ *
+ * We will still do the credential state check in the main app since it's recommended by Apple.
+ *
+ */
+
+#if !os(watchOS)
 import AuthenticationServices
 
 public extension ASAuthorizationAppleIDProvider.CredentialState {
@@ -19,62 +29,87 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
         }
     }
 }
+#endif
+
+public enum AuthenticationScope: String {
+    case mobile
+    case sonos
+}
 
 public extension ApiServerHandler {
-    func validateLogin(identityToken: Data?) async throws -> AuthenticationResponse {
+    func validateLogin(identityToken: String?, scope: AuthenticationScope = .mobile) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
-              let token = String(data: identityToken, encoding: .utf8),
-              let request = tokenRequest(identityToken: token)
+              let request = tokenRequest(identityToken: identityToken, scope: scope)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
             throw APIError.UNKNOWN
         }
 
-        return try await obtainToken(request: request)
+        return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
-    func refreshIdentityToken() async throws -> String? {
+    func validateLogin(identityToken: String, provider: SocialAuthProvider) async throws -> AuthenticationResponse {
+        guard let request = tokenRequest(identityToken: identityToken, provider: provider)
+        else {
+            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via SSO")
+            throw APIError.UNKNOWN
+        }
+
+        return try await obtainToken(request: request, usingRefreshToken: true)
+    }
+
+    func refreshIdentityToken() async throws -> AuthenticationResponse {
         guard
-            let identityToken = ServerSettings.appleAuthIdentityToken,
+            let identityToken = ServerSettings.refreshToken,
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         else {
             FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")
             throw APIError.UNKNOWN
         }
 
-        if try await hasValidSSOToken() {
-            let response = try await obtainToken(request: request)
-            return response.token
-        } else {
+        return try await obtainToken(request: request, usingRefreshToken: true)
+    }
+
+    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds, scope: AuthenticationScope = .mobile) -> URLRequest? {
+        guard let identityToken else {
             return nil
         }
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/token")
+
+        var data = Api_UserTokenRequest()
+        data.refreshToken = identityToken
+        data.grantType = "refresh_token"
+        data.scope = scope.rawValue
+
+        return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
+
     }
 
-    func ssoCredentialState() async throws -> ASAuthorizationAppleIDProvider.CredentialState {
-        guard let userID = ServerSettings.appleAuthUserID else { return .notFound }
-        return try await ASAuthorizationAppleIDProvider().credentialState(forUserID: userID)
-    }
-
-    func hasValidSSOToken() async throws -> Bool {
-        let tokenState = try await ssoCredentialState()
-        FileLog.shared.addMessage("Validated Apple SSO token state: \(tokenState.loggingValue)")
-
-        switch tokenState {
-        case .authorized:
-            return true
-        default:
-            FileLog.shared.addMessage("Apple SSO token has been revoked")
-            return false
+    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds, provider: SocialAuthProvider) -> URLRequest? {
+        guard let identityToken else {
+            return nil
         }
+
+        var data = Api_TokenLoginRequest()
+        data.idToken = identityToken
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + provider.endpointURL)
+
+        return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
     }
+}
 
-    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/login_apple")
-        guard let identityToken = identityToken,
-              var request = ServerHelper.createEmptyProtoRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
-        else { return nil }
+public enum SocialAuthProvider: CaseIterable {
+    case apple
+    case google
 
-        request.setValue("Bearer \(identityToken)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
-        return request
+    var endpointURL: String {
+        switch self {
+        case .apple:
+            return "user/login_apple"
+        case .google:
+            return "user/login_google"
+        }
     }
 }
