@@ -1198,6 +1198,22 @@ UPDATES</string>
     <string>Feed alleen voor ondersteuners</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Door je uit te schrijven voor al deze podcasts worden alle gedownloade bestanden die ze bevatten verwijderd. Weet je het zeker?</string>
+    <key>patron_callout</key>
+    <string>Geloof je in wat we doen en wil je ons steunen?</string>
+    <key>patron_description</key>
+    <string>Word een Pocket Casts Patron en help ons de best mogelijke podcast-ervaring te kunnen blijven leveren.</string>
+    <key>patron_feature_early_access</key>
+    <string>Vroegtijdige toegang tot functies</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Alles in Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Profielbadge voor ondersteuners</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Speciale app-pictogrammen voor Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Word Patron-lid en profiteer van alle Pocket Casts-functies</string>
+    <key>patron_subscribe_to</key>
+    <string>Abonneren op Patron</string>
     <key>pause</key>
     <string>Pauzeren</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ UPDATES</string>
     <string>Verloopt %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Opslag in de cloud</string>
+    <key>plus_feature_gratitude</key>
+    <string>De eeuwige dank van iedereen bij Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra thema's en app-pictogrammen</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Voor deze functie is Pocket Casts plus vereist</string>
     <key>plus_select_payment_frequency</key>
     <string>Selecteer betaalfrequentie</string>
+    <key>plus_skip</key>
+    <string>Overslaan</string>
+    <key>plus_subscribe_to</key>
+    <string>Abonneren op Plus</string>
     <key>plus_subscription_apple</key>
     <string>Je abonnement wordt beheerd door de Apple App Store</string>
     <key>plus_subscription_apple_details</key>

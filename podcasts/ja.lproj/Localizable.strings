@@ -1198,6 +1198,22 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サポーター限定フィード</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>これらすべてのポッドキャストのフォローを解除すると、ダウンロードされたファイルは削除されます。よろしいですか ?</string>
+    <key>patron_callout</key>
+    <string>Pocket Casts のサービスにご賛同いただける皆さまのサポートをお待ちしています。</string>
+    <key>patron_description</key>
+    <string>優れたポッドキャスト体験を継続的に提供するには、Pocket Casts サポーターのご支援が必要です。</string>
+    <key>patron_feature_early_access</key>
+    <string>機能への早期アクセス</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus の全機能</string>
+    <key>patron_feature_profile_badge</key>
+    <string>サポーターのプロフィールバッジ</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特別な Pocket Casts アプリのアイコン</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Patron のメンバーになると、すべての Pocket Casts 機能を利用できるようになります</string>
+    <key>patron_subscribe_to</key>
+    <string>Patron に登録</string>
     <key>pause</key>
     <string>一時停止</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>plus_feature_cloud_storage</key>
     <string>クラウドストレージ</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
     <key>plus_feature_themes_icons</key>
     <string>追加のテーマとアプリアイコン</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>この機能は Pocket Casts Plus が必要です</string>
     <key>plus_select_payment_frequency</key>
     <string>支払頻度を選択</string>
+    <key>plus_skip</key>
+    <string>スキップ</string>
+    <key>plus_subscribe_to</key>
+    <string>Plus に登録</string>
     <key>plus_subscription_apple</key>
     <string>サブスクリプションは Apple App Store によって管理されます</string>
     <key>plus_subscription_apple_details</key>

@@ -1198,6 +1198,22 @@ MISES À JOUR</string>
     <string>Flux pour les partisans uniquement</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>En vous désabonnant de tous ces balados, tous les fichiers téléchargés de ceux-ci seront supprimés? Voulez-vous vraiment vous désabonner?</string>
+    <key>patron_callout</key>
+    <string>Vous croyez en ce que nous faisons et souhaitez nous témoigner votre soutien ?</string>
+    <key>patron_description</key>
+    <string>Devenez parrain de Pocket Casts afin de nous aider à continuer d’offrir une qualité d’écoute optimale sur nos podcasts.</string>
+    <key>patron_feature_early_access</key>
+    <string>Accès en avant-première aux fonctionnalités</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Tous les avantages de Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Badge de profil de sponsor</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Icônes d’applications spéciales Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Devenez parrain et profitez de toutes les fonctionnalités de Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>S’abonner au programme de parrainage</string>
     <key>pause</key>
     <string>Suspendre</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ MISES À JOUR</string>
     <string>Expire le %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Stockage infonuagique</string>
+    <key>plus_feature_gratitude</key>
+    <string>L’infinie gratitude de tous les membres de Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Thèmes et icônes supplémentaires</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Obtenez des applications de bureau, apportez vos propres fichiers et donnez un c
     <string>Cette fonctionnalité nécessite Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Sélectionner la fréquence de paiement</string>
+    <key>plus_skip</key>
+    <string>Ignorer</string>
+    <key>plus_subscribe_to</key>
+    <string>S’abonner à Plus</string>
     <key>plus_subscription_apple</key>
     <string>Votre abonnement est géré par l’App Store d’Apple.</string>
     <key>plus_subscription_apple_details</key>

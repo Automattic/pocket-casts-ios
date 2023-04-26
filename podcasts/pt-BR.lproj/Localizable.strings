@@ -1198,6 +1198,22 @@ ATUALIZAÇÕES</string>
     <string>Feed somente para apoiadores</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Cancelar a assinatura destes podcasts excluirá todos os arquivos baixados deles. Tem certeza de que quer continuar?</string>
+    <key>patron_callout</key>
+    <string>Acredita no nosso trabalho e quer mostrar seu apoio?</string>
+    <key>patron_description</key>
+    <string>Torne-se um apoiador do Pocket Casts e ajude-nos a continuar oferecendo a melhor experiência de podcast disponível.</string>
+    <key>patron_feature_early_access</key>
+    <string>Acesso antecipado a funcionalidades</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Tudo no Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Selo do perfil de apoiadores</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Ícones especiais do aplicativo do Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Seja um membro do Patron e aproveite todas as funcionalidades do Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Assinar o Patron</string>
     <key>pause</key>
     <string>Pausar</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ ATUALIZAÇÕES</string>
     <string>Expira em %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Armazenamento em nuvem</string>
+    <key>plus_feature_gratitude</key>
+    <string>A eterna gratidão de todos aqui no Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Ícones de aplicativo e temas extras</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Obtenha apps para desktop, carregue seus próprios arquivos e personalize a plat
     <string>Esta funcionalidade exige o Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Selecione a frequência de pagamento</string>
+    <key>plus_skip</key>
+    <string>Pular</string>
+    <key>plus_subscribe_to</key>
+    <string>Assinar o Plus</string>
     <key>plus_subscription_apple</key>
     <string>Sua assinatura é gerenciada pela Apple App Store</string>
     <key>plus_subscription_apple_details</key>
