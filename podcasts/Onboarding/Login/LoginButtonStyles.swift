@@ -26,7 +26,9 @@ struct SocialButtonStyle: ButtonStyle {
                     RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                         .stroke(strokeColor, style: StrokeStyle(lineWidth: 3))
                 }
-            ).cornerRadius(ViewConstants.buttonCornerRadius)
+            )
+            .cornerRadius(ViewConstants.buttonCornerRadius)
+            .contentShape(Rectangle())
             .applyButtonEffect(isPressed: configuration.isPressed)
     }
 }
