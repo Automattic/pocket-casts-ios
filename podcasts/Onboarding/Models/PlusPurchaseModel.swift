@@ -33,6 +33,10 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         }
     }
 
+    func reset() {
+        state = .ready
+    }
+
     // MARK: - Triggers the purchase process
     func purchase(product: Constants.IapProducts) {
         guard purchaseHandler.buyProduct(identifier: product.rawValue) else {

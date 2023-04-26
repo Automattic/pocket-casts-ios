@@ -27,6 +27,18 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
     }
 
+    func unlockTapped(ifLoggedIn: () -> Void) {
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+
+        guard SyncManager.isUserLoggedIn() else {
+            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            navigationController?.pushViewController(controller, animated: true)
+            return
+        }
+
+        ifLoggedIn()
+    }
+
     func didAppear() {
         OnboardingFlow.shared.track(.plusPromotionShown)
 

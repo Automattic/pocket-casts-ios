@@ -146,7 +146,9 @@ struct UpgradeLandingView: View {
         )
         let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
         Button(action: {
-            purchaseModel.purchase(product: selectedProduct)
+            viewModel.unlockTapped {
+                purchaseModel.purchase(product: selectedProduct)
+            }
         }, label: {
             VStack {
                 Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
@@ -161,7 +163,10 @@ struct UpgradeLandingView: View {
         .padding(.bottom, hasBottomSafeArea ? 0 : 16)
         .alert(isPresented: hasError) {
             Alert(
-                title: Text(L10n.plusPurchaseFailed)
+                title: Text(L10n.plusPurchaseFailed),
+                dismissButton: .default(Text(L10n.ok)) {
+                    purchaseModel.reset()
+                }
             )
         }
     }
