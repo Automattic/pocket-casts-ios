@@ -11,6 +11,10 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     @Published var currentPage: Int = 0
     @Published var displayPrice: DisplayPrice = .yearly
 
+    var hasAnyPreviouslySelectedPriceAndIsLoggedIn: Bool {
+        Self.previousSelectedPage != nil && Self.previousSelectedPrice != nil && SyncManager.isUserLoggedIn()
+    }
+
     static var previousSelectedPrice: DisplayPrice?
     static var previousSelectedPage: Int?
 

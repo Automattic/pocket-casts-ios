@@ -121,6 +121,10 @@ struct UpgradeLandingView: View {
         .onAppear {
             // Ensure prices are loaded
             viewModel.loadPrices { }
+
+            if viewModel.hasAnyPreviouslySelectedPriceAndIsLoggedIn {
+                purchaseModel.purchase(product: selectedProduct)
+            }
         }
     }
 
