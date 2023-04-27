@@ -1198,6 +1198,22 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Exklusiver Feed für Unterstützer</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Wenn du diese Podcasts nicht mehr abonnierst, werden alle dazugehörigen Dateien gelöscht. Bist du dir sicher?</string>
+    <key>patron_callout</key>
+    <string>Du glaubst an unser Können und möchtest deine Unterstützung zeigen?</string>
+    <key>patron_description</key>
+    <string>Werde ein Pocket Casts Patron und hilf uns dabei, weiterhin das beste verfügbare Podcast-Erlebnis bereitzustellen.</string>
+    <key>patron_feature_early_access</key>
+    <string>Frühzeitiger Zugriff auf Funktionen</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Alles in Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Profil-Badge für Unterstützer</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Spezielle Pocket Casts-App-Icons</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Werde Patron-Mitglied und profitiere von allen Pocket Casts-Funktionen</string>
+    <key>patron_subscribe_to</key>
+    <string>Patron abonnieren</string>
     <key>pause</key>
     <string>Pause</string>
     <key>phone</key>
@@ -1302,6 +1318,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Läuft ab am: %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Cloud-Speicher</string>
+    <key>plus_feature_gratitude</key>
+    <string>Die unendliche Dankbarkeit von allen bei Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Zusätzliche Themes und App-Icons</string>
     <key>plus_feature_watch_app</key>
@@ -1383,6 +1401,10 @@ Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das D
     <string>Für diese Funktion ist Pocket Casts Plus erforderlich</string>
     <key>plus_select_payment_frequency</key>
     <string>Zahlungshäufigkeit auswählen</string>
+    <key>plus_skip</key>
+    <string>Überspringen</string>
+    <key>plus_subscribe_to</key>
+    <string>Plus abonnieren</string>
     <key>plus_subscription_apple</key>
     <string>Dein Abonnement wird über den App Store von Apple verwaltet</string>
     <key>plus_subscription_apple_details</key>
