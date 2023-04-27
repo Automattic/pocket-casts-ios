@@ -9,19 +9,15 @@ struct UpgradeLandingView: View {
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
     private var selectedTier: UpgradeTier {
-        tiers[currentPage]
+        tiers[viewModel.currentPage]
     }
-
-    @State private var currentPage: Int = 0
-
-    @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
 
     @State private var contentIsScrollable = false
 
     @State private var purchaseButtonHeight: CGFloat = 0
 
     private var selectedProduct: Constants.IapProducts {
-        displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
+        viewModel.displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
     /// If this device has a small screen
@@ -63,13 +59,13 @@ struct UpgradeLandingView: View {
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
 
-                                UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                UpgradeRoundedSegmentedControl(selected: $viewModel.displayPrice)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $viewModel.currentPage.animation(), currentPrice: $viewModel.displayPrice, tiers: tiers)
 
                                 if !isSmallScreen && !contentIsScrollable {
-                                    PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                                    PageIndicatorView(numberOfItems: tiers.count, currentPage: viewModel.currentPage)
                                         .padding(.top, 27)
                                 }
 
@@ -151,10 +147,13 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped {
                 purchaseModel.purchase(product: selectedProduct)
             }
+
+            PlusLandingViewModel.previousSelectedPrice = viewModel.displayPrice
+            PlusLandingViewModel.previousSelectedPage = viewModel.currentPage
         }, label: {
             VStack {
-                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $viewModel.displayPrice.wrappedValue))
+                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $viewModel.displayPrice.wrappedValue))
                     .font(style: .subheadline)
             }
             .transition(.opacity)

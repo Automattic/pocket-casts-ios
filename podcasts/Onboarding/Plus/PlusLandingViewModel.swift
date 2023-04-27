@@ -8,9 +8,21 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     var continueUpgrade: Bool
     let source: Source
 
+    @Published var currentPage: Int = 0
+    @Published var displayPrice: DisplayPrice = .yearly
+
+    static var previousSelectedPrice: DisplayPrice?
+    static var previousSelectedPage: Int?
+
     init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
         self.continueUpgrade = continueUpgrade
         self.source = source
+
+        if let previousSelectedPage = Self.previousSelectedPage,
+           let previousSelectedPrice = Self.previousSelectedPrice {
+            self.currentPage = previousSelectedPage
+            self.displayPrice = previousSelectedPrice
+        }
 
         super.init(purchaseHandler: purchaseHandler)
     }
@@ -47,7 +59,9 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         // Don't continually show when the user dismisses
         continueUpgrade = false
 
-        self.loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
+        if !FeatureFlag.patron.enabled {
+            loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
+        }
     }
 
     func didDismiss(type: OnboardingDismissType) {
