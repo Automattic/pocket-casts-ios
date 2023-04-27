@@ -10,6 +10,12 @@ class AnimatedImageButton: UIView {
         }
     }
 
+    @IBInspectable var textColor = UIColor.white.withAlphaComponent(0.5) {
+        didSet {
+            textLayer.foregroundColor = textColor.cgColor
+        }
+    }
+
     @IBInspectable var buttonTitle: String = "" {
         didSet {
             textLayer.string = buttonTitle

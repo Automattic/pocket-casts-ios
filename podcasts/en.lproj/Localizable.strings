@@ -2612,6 +2612,9 @@
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
+/* Title for the options for the user to configure their account. */
+"account" = "Account";
+
 /* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
 "share" = "Share";
 

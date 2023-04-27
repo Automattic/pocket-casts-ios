@@ -72,6 +72,8 @@ internal enum L10n {
   internal static var accessibilitySignIn: String { return L10n.tr("Localizable", "accessibility_sign_in") }
   /// Sort and Options
   internal static var accessibilitySortAndOptions: String { return L10n.tr("Localizable", "accessibility_sort_and_options") }
+  /// Account
+  internal static var account: String { return L10n.tr("Localizable", "account") }
   /// Change Email
   internal static var accountChangeEmail: String { return L10n.tr("Localizable", "account_change_email") }
   /// Almost There!

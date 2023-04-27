@@ -8,48 +8,73 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var refreshControl: PCRefreshControl?
 
-    @IBOutlet var emailAddress: UILabel!
+    @IBOutlet weak var accountButton: AnimatedImageButton! {
+        didSet {
+            accountButton.mainColor = ThemeColor.primaryText02()
+            accountButton.textColor = ThemeColor.primaryText01()
+            accountButton.buttonTitle = SyncManager.isUserLoggedIn() ? L10n.account : L10n.setupAccount
+
+            accountButton.buttonTapped = { [weak self] in
+                self?.profileTapped()
+            }
+        }
+    }
+
+    @IBOutlet var emailAddress: UILabel! {
+        didSet {
+            emailAddress.font = .font(with: .body, weight: .semibold)
+        }
+    }
 
     @IBOutlet var profileStatusView: ProfileProgressCircleView! {
         didSet {
             profileStatusView.style = .primaryUi02
+
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
+            profileStatusView.addGestureRecognizer(tapGesture)
         }
     }
 
     @IBOutlet var podcastCount: ThemeableLabel! {
         didSet {
             podcastCount.style = .primaryText01
+            podcastCount.font = .font(with: .body, weight: .bold)
         }
     }
 
     @IBOutlet var timeListened: ThemeableLabel! {
         didSet {
             timeListened.style = .primaryText01
+            timeListened.font = .font(with: .body, weight: .bold)
         }
     }
 
     @IBOutlet var timeListenedUnits: ThemeableLabel! {
         didSet {
             timeListenedUnits.style = .primaryText01
+            timeListenedUnits.font = .font(with: .caption2, weight: .semibold)
         }
     }
 
     @IBOutlet var hoursSaved: ThemeableLabel! {
         didSet {
             hoursSaved.style = .primaryText01
+            hoursSaved.font = .font(with: .body, weight: .bold)
         }
     }
 
     @IBOutlet var hoursSavedUnits: ThemeableLabel! {
         didSet {
             hoursSavedUnits.style = .primaryText01
+            hoursSavedUnits.font = .font(with: .caption2, weight: .semibold)
         }
     }
 
     @IBOutlet var podcastsLabel: ThemeableLabel! {
         didSet {
             podcastsLabel.style = .primaryText01
-            podcastsLabel.text = L10n.podcastsPlural
+            podcastsLabel.text = L10n.podcastsPlural.uppercased()
+            podcastsLabel.font = .font(with: .caption2, weight: .semibold)
         }
     }
 
@@ -164,6 +189,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateRefreshFooterColors() {
+        accountButton.mainColor = ThemeColor.primaryText02()
+        accountButton.textColor = ThemeColor.primaryText01()
         refreshBtn.mainColor = ThemeColor.primaryText02()
         lastRefreshTime.textColor = ThemeColor.primaryText02()
         alertIcon.tintColor = ThemeColor.primaryIcon02()
@@ -353,6 +380,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 unitLabel.text = valueType == .listened ? L10n.minutesListened : L10n.minutesSaved
             }
         }
+
+        unitLabel.text = unitLabel.text?.uppercased()
     }
 
     // MARK: - UITableView
