@@ -215,7 +215,10 @@ private struct LazyLoadingView<Content: View>: View {
                     Action {
                         var frame = visibleFrame
 
-                        // Expand the visible frame by 2 to load items that are currently off screen but may appear next
+                        // Take into account items that can be displayed before the current frame
+                        frame.origin.x = max(0, frame.origin.x - frame.size.width)
+
+                        // Expand the visible frame by 2 to load items that are currently off screen but may appear next or before
                         frame.size.width *= 2
 
                         // Calculate if this view is visible or not
