@@ -143,7 +143,7 @@ extension PlusLandingViewModel {
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
         viewModel.parentController = navController
-        
+
         return (navigationController == nil) ? navController : controller
     }
 
