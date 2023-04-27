@@ -8,27 +8,9 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     var continuePurchasing: Constants.ProductInfo? = nil
     let source: Source
 
-    @Published var currentPage: Int = 0
-    @Published var displayPrice: DisplayPrice = .yearly
-
-    var hasAnyPreviouslySelectedPriceAndIsLoggedIn: Bool {
-        Self.previousSelectedPage != nil && Self.previousSelectedPrice != nil && SyncManager.isUserLoggedIn()
-    }
-
-    static var previousSelectedPrice: DisplayPrice?
-    static var previousSelectedPage: Int?
-
-    init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
-        self.continueUpgrade = continueUpgrade
     init(source: Source, continuePurchasing: Constants.ProductInfo? = nil, purchaseHandler: IapHelper = .shared) {
         self.continuePurchasing = continuePurchasing
         self.source = source
-
-        if let previousSelectedPage = Self.previousSelectedPage,
-           let previousSelectedPrice = Self.previousSelectedPrice {
-            self.currentPage = previousSelectedPage
-            self.displayPrice = previousSelectedPrice
-        }
 
         super.init(purchaseHandler: purchaseHandler)
     }
