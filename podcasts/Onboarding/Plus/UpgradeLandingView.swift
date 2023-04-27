@@ -4,8 +4,6 @@ import PocketCastsServer
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
 
-    @EnvironmentObject private var purchaseModel: PlusPurchaseModel
-
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
     private var selectedTier: UpgradeTier {
@@ -141,15 +139,12 @@ struct UpgradeLandingView: View {
     @ViewBuilder
     var purchaseButton: some View {
         let hasError = Binding<Bool>(
-            get: { self.purchaseModel.state == .failed },
+            get: { self.viewModel.state == .failed },
             set: { _ in }
         )
-        let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
         Button(action: {
-            viewModel.unlockTapped {
-                purchaseModel.purchase(product: selectedProduct)
-            }
-
+            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
         }, label: {
             VStack {
                 Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
@@ -166,7 +161,7 @@ struct UpgradeLandingView: View {
             Alert(
                 title: Text(L10n.plusPurchaseFailed),
                 dismissButton: .default(Text(L10n.ok)) {
-                    purchaseModel.reset()
+                    viewModel.reset()
                 }
             )
         }
