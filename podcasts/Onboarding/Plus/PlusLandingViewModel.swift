@@ -5,7 +5,7 @@ import SwiftUI
 class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
 
-    var continueUpgrade: Bool
+    var continuePurchasing: Constants.ProductInfo? = nil
     let source: Source
 
     @Published var currentPage: Int = 0
@@ -20,6 +20,8 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 
     init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
         self.continueUpgrade = continueUpgrade
+    init(source: Source, continuePurchasing: Constants.ProductInfo? = nil, purchaseHandler: IapHelper = .shared) {
+        self.continuePurchasing = continuePurchasing
         self.source = source
 
         if let previousSelectedPage = Self.previousSelectedPage,

@@ -23,7 +23,7 @@ struct OnboardingFlow {
             flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
         case .initialOnboarding, .loggedOut: fallthrough
         default:
