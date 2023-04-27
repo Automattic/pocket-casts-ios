@@ -144,6 +144,10 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         state = value.translation.width
                     })
             )
+            // Update the internal visible index if the selection index changes
+            .onChange(of: index) { newValue in
+                visibleIndex = newValue
+            }
         }
     }
 
