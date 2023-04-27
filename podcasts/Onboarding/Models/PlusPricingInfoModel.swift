@@ -68,11 +68,11 @@ class PlusPricingInfoModel: ObservableObject {
 
 // MARK: - Price Loading
 extension PlusPricingInfoModel {
-    func loadPrices(_ completion: @escaping () -> Void) {
+    func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
             pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion()
+            completion?()
             return
         }
 
@@ -87,12 +87,12 @@ extension PlusPricingInfoModel {
 
             self.priceAvailability = .available
             self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion()
+            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
             self.priceAvailability = .failed
-            completion()
+            completion?()
         }
 
         purchaseHandler.requestProductInfo()

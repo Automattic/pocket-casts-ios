@@ -120,7 +120,15 @@ struct UpgradeLandingView: View {
         .background(Color.plusBackgroundColor)
         .onAppear {
             // Ensure prices are loaded
-            viewModel.loadPrices { }
+            viewModel.loadPrices()
+
+            // Switch to the previously selected options if available
+            if let continuePurchasing = viewModel.continuePurchasing {
+                let index = tiers.firstIndex(where: { $0.plan == continuePurchasing.plan }) ?? 0
+
+                displayPrice = continuePurchasing.frequency
+                currentPage = index
+            }
         }
     }
 
