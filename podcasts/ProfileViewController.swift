@@ -8,26 +8,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var refreshControl: PCRefreshControl?
 
-    @IBOutlet var signedInView: ThemeableView! {
-        didSet {
-            signedInView.style = .primaryUi02
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-            signedInView.addGestureRecognizer(tapGesture)
-        }
-    }
-
     @IBOutlet var emailAddress: UILabel!
-    @IBOutlet var signInStatus: ThemeableLabel! {
-        didSet {
-            signInStatus.style = .primaryText02
-        }
-    }
-
-    @IBOutlet var disclosureImage: UIImageView! {
-        didSet {
-            disclosureImage.tintColor = ThemeColor.primaryIcon02()
-        }
-    }
 
     @IBOutlet var profileStatusView: ProfileProgressCircleView! {
         didSet {
@@ -37,37 +18,37 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var podcastCount: ThemeableLabel! {
         didSet {
-            podcastCount.style = .contrast01
+            podcastCount.style = .primaryText01
         }
     }
 
     @IBOutlet var timeListened: ThemeableLabel! {
         didSet {
-            timeListened.style = .contrast01
+            timeListened.style = .primaryText01
         }
     }
 
     @IBOutlet var timeListenedUnits: ThemeableLabel! {
         didSet {
-            timeListenedUnits.style = .contrast03
+            timeListenedUnits.style = .primaryText01
         }
     }
 
     @IBOutlet var hoursSaved: ThemeableLabel! {
         didSet {
-            hoursSaved.style = .contrast01
+            hoursSaved.style = .primaryText01
         }
     }
 
     @IBOutlet var hoursSavedUnits: ThemeableLabel! {
         didSet {
-            hoursSavedUnits.style = .contrast03
+            hoursSavedUnits.style = .primaryText01
         }
     }
 
     @IBOutlet var podcastsLabel: ThemeableLabel! {
         didSet {
-            podcastsLabel.style = .contrast03
+            podcastsLabel.style = .primaryText01
             podcastsLabel.text = L10n.podcastsPlural
         }
     }
@@ -180,7 +161,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
-        disclosureImage.tintColor = ThemeColor.primaryIcon02()
     }
 
     private func updateRefreshFooterColors() {
@@ -275,25 +255,25 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 }
 
                 if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
-                    signInStatus.text = L10n.pocketCastsPlus.uppercased()
-                    signInStatus.textColor = ThemeColor.primaryText02()
+//                    signInStatus.text = L10n.pocketCastsPlus.uppercased()
+//                    signInStatus.textColor = ThemeColor.primaryText02()
                 } else {
                     if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
                         let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
-                        signInStatus.text = L10n.plusSubscriptionExpiration(time)
+//                        signInStatus.text = L10n.plusSubscriptionExpiration(time)
                     } else {
-                        signInStatus.text = L10n.pocketCastsPlus.uppercased()
+//                        signInStatus.text = L10n.pocketCastsPlus.uppercased()
                     }
-                    signInStatus.textColor = AppTheme.pcPlusRed()
+//                    signInStatus.textColor = AppTheme.pcPlusRed()
                 }
             } else {
-                signInStatus.text = L10n.signedInAs
-                signInStatus.textColor = ThemeColor.primaryText02()
+//                signInStatus.text = L10n.signedInAs
+//                signInStatus.textColor = ThemeColor.primaryText02()
                 profileStatusView.isSubscribed = false
             }
         } else {
-            signInStatus.text = L10n.signedOut.localizedUppercase
-            signInStatus.textColor = ThemeColor.primaryText02()
+//            signInStatus.text = L10n.signedOut.localizedUppercase
+//            signInStatus.textColor = ThemeColor.primaryText02()
             emailAddress.text = L10n.setupAccount
             profileStatusView.isSubscribed = false
             let totalListeningTime = StatsManager.shared.totalListeningTime()
@@ -301,8 +281,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
         }
 
-        signedInView.accessibilityLabel = signInStatus.text
-        signedInView.accessibilityHint = L10n.accessibilitySignIn
+//        signedInView.accessibilityLabel = signInStatus.text
+//        signedInView.accessibilityHint = L10n.accessibilitySignIn
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
