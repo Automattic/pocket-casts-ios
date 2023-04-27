@@ -27,6 +27,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
     init(currentIndex: Binding<Int>? = .constant(0), items: [T], @ViewBuilder content: @escaping (T) -> Content) {
         self._index = currentIndex ?? .constant(0)
+        self.visibleIndex = currentIndex?.wrappedValue ?? 0
         self.items = items
         self.content = content
     }
@@ -244,6 +245,7 @@ struct HorizontalCarousel_Preview: PreviewProvider {
         @State var spacing: CGFloat = 20
         @State var items: CGFloat = 1
         @State var isConstant: Bool = true
+        @State var currentIndex: Int = 2
 
         var body: some View {
             let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink]
@@ -299,7 +301,7 @@ struct HorizontalCarousel_Preview: PreviewProvider {
                     }
                 }.padding()
 
-                HorizontalCarousel(items: pages) { item in
+                HorizontalCarousel(currentIndex: $currentIndex, items: pages) { item in
                     Rectangle()
                         .cornerRadius(5)
                         .foregroundColor(item.color)
