@@ -80,7 +80,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         }
     }
 
-    func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+    private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 
@@ -132,9 +132,8 @@ private extension PlusLandingViewModel {
 extension PlusLandingViewModel {
     static func make(in navigationController: UINavigationController? = nil, from source: Source, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, continuePurchasing: continuePurchasing)
-        let purchaseModel = FeatureFlag.patron.enabled ? PlusPurchaseModel() : nil
 
-        let view = Self.view(with: viewModel, purchaseModel: purchaseModel)
+        let view = Self.view(with: viewModel)
         let controller = PlusHostingViewController(rootView: view)
 
         controller.viewModel = viewModel
@@ -143,17 +142,16 @@ extension PlusLandingViewModel {
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
-        purchaseModel?.parentController = navController
-
+        viewModel.parentController = navController
+        
         return (navigationController == nil) ? navController : controller
     }
 
     @ViewBuilder
-    private static func view(with viewModel: PlusLandingViewModel, purchaseModel: PlusPurchaseModel? = nil) -> some View {
-        if FeatureFlag.patron.enabled, let purchaseModel {
+    private static func view(with viewModel: PlusLandingViewModel) -> some View {
+        if FeatureFlag.patron.enabled {
             UpgradeLandingView()
                 .environmentObject(viewModel)
-                .environmentObject(purchaseModel)
                 .setupDefaultEnvironment()
         } else {
             PlusLandingView(viewModel: viewModel)
