@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
+class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
     var continuePurchasing: Constants.ProductInfo? = nil
@@ -40,6 +40,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     func didAppear() {
+    override func didAppear() {
         OnboardingFlow.shared.track(.plusPromotionShown)
 
         guard continueUpgrade else { return }
@@ -52,7 +53,7 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         }
     }
 
-    func didDismiss(type: OnboardingDismissType) {
+    override func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
         OnboardingFlow.shared.track(.plusPromotionDismissed)
