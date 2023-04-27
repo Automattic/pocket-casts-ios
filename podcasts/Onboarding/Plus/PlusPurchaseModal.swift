@@ -18,7 +18,7 @@ struct PlusPurchaseModal: View {
 
     private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
 
-    init(coordinator: PlusPurchaseModel, selectedPrice: PlusPricingInfoModel.DisplayPrice = .yearly) {
+    init(coordinator: PlusPurchaseModel, selectedPrice: Constants.PlanFrequency = .yearly) {
         self.coordinator = coordinator
 
         self.products = coordinator.pricingInfo.products.filter { coordinator.plan.products.contains($0.identifier) }

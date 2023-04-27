@@ -173,7 +173,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
 
     let tiers: [UpgradeTier]
 
@@ -203,13 +203,13 @@ private struct FeaturesCarousel: View {
                     }
                 )
         }
-        .carouselPeekAmount(.constant(Constants.peekAmount))
-        .carouselItemSpacing(Constants.spacing)
+        .carouselPeekAmount(.constant(ViewConstants.peekAmount))
+        .carouselItemSpacing(ViewConstants.spacing)
         .frame(height: calculatedCardHeight)
         .padding(.leading, 30)
     }
 
-    private enum Constants {
+    private enum ViewConstants {
         static let peekAmount: Double = 20
         static let spacing: Double = 30
     }
@@ -273,9 +273,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: PlusPricingInfoModel.DisplayPrice
+    @Binding private var selected: Constants.PlanFrequency
 
-    init(selected: Binding<PlusPricingInfoModel.DisplayPrice>) {
+    init(selected: Binding<Constants.PlanFrequency>) {
         self._selected = selected
     }
 
@@ -330,7 +330,7 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
 
     @State var calculatedCardHeight: CGFloat?
 
@@ -422,6 +422,5 @@ extension ViewHeightKey: ViewModifier {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
-            .environmentObject(PlusPurchaseModel())
     }
 }

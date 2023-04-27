@@ -202,7 +202,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         // Update the flow to make sure the correct analytics source is passed on
         OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
 
-        let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
+        let controller = PlusLandingViewModel.make(in: navigationController,
+                                                   from: source,
+                                                   continuePurchasing: continuePurchasing)
         navigationController?.setViewControllers([controller], animated: true)
     }
 }

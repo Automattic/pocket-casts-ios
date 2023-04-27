@@ -15,42 +15,27 @@ class PlusLandingViewModel: PlusPurchaseModel {
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped(plan: Constants.Plan = .plus, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    func unlockTapped(_ product: Constants.ProductInfo) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
             navigationController?.pushViewController(controller, animated: true)
             return
         }
 
-        loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
+        loadPricesAndContinue(product: product)
     }
 
-    func unlockTapped(ifLoggedIn: () -> Void) {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
-
-        guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
-            navigationController?.pushViewController(controller, animated: true)
-            return
-        }
-
-        ifLoggedIn()
-    }
-
-    func didAppear() {
     override func didAppear() {
         OnboardingFlow.shared.track(.plusPromotionShown)
 
-        guard continueUpgrade else { return }
+        guard let continuePurchasing else { return }
 
         // Don't continually show when the user dismisses
-        continueUpgrade = false
+        self.continuePurchasing = nil
 
-        if !FeatureFlag.patron.enabled {
-            loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
-        }
+        loadPricesAndContinue(product: continuePurchasing)
     }
 
     override func didDismiss(type: OnboardingDismissType) {
@@ -71,8 +56,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func purchaseTitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+    func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
+        guard let product = product(for: tier.plan, frequency: frequency) else {
             return L10n.loading
         }
 
@@ -83,8 +68,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
         }
     }
 
-    func purchaseSubtitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+    func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
+        guard let product = product(for: tier.plan, frequency: frequency) else {
             return ""
         }
 
@@ -95,11 +80,15 @@ class PlusLandingViewModel: PlusPurchaseModel {
         }
     }
 
-    private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
+    }
+
+    private func loadPricesAndContinue(product: Constants.ProductInfo) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal(plan: plan, selectedPrice: selectedPrice)
+                self.showModal(product: product)
             case .failed:
                 self.showError()
             default:
@@ -116,10 +105,22 @@ class PlusLandingViewModel: PlusPurchaseModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    func showModal(product: Constants.ProductInfo) {
+        if FeatureFlag.patron.enabled {
+            guard let product = self.product(for: product.plan, frequency: product.frequency) else {
+                state = .failed
+                return
+            }
+
+            purchase(product: product.identifier)
+            return
+        }
+
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan, selectedPrice: selectedPrice)
+        let controller = PlusPurchaseModel.make(in: navigationController,
+                                                plan: product.plan,
+                                                selectedPrice: product.frequency)
         controller.presentModally(in: navigationController)
     }
 
@@ -129,8 +130,8 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
-        let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
+        let viewModel = PlusLandingViewModel(source: source, continuePurchasing: continuePurchasing)
         let purchaseModel = FeatureFlag.patron.enabled ? PlusPurchaseModel() : nil
 
         let view = Self.view(with: viewModel, purchaseModel: purchaseModel)

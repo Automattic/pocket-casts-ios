@@ -64,10 +64,6 @@ class PlusPricingInfoModel: ObservableObject {
     enum PriceAvailablity {
         case unknown, available, loading, failed
     }
-
-    enum DisplayPrice {
-        case yearly, monthly
-    }
 }
 
 // MARK: - Price Loading
