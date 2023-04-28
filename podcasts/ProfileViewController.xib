@@ -170,13 +170,13 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MlB-ib-JyZ">
-                                <rect key="frame" x="74.5" y="264" width="321" height="68"/>
+                                <rect key="frame" x="0.0" y="264" width="470" height="68"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SFz-ev-NE0">
-                                        <rect key="frame" x="0.0" y="0.0" width="107" height="68"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="156.5" height="68"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Sp-eo-CnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="39.5" y="10" width="28" height="20.5"/>
+                                                <rect key="frame" x="64.5" y="10" width="28" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -185,7 +185,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcasts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25m-yY-ZUn" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="29.5" y="35.5" width="48.5" height="13.5"/>
+                                                <rect key="frame" x="54" y="35.5" width="48.5" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -205,10 +205,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvy-F9-sTu">
-                                        <rect key="frame" x="107" y="0.0" width="107" height="68"/>
+                                        <rect key="frame" x="156.5" y="0.0" width="157" height="68"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gib-T8-GCO" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="43.5" y="10" width="20.5" height="20.5"/>
+                                                <rect key="frame" x="68.5" y="10" width="20.5" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -217,7 +217,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours Listened" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRV-Rz-HlB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="2" y="35.5" width="103" height="13.5"/>
+                                                <rect key="frame" x="2" y="35.5" width="153" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -238,10 +238,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JSx-7X-wLg">
-                                        <rect key="frame" x="214" y="0.0" width="107" height="68"/>
+                                        <rect key="frame" x="313.5" y="0.0" width="156.5" height="68"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l06-nc-WbX" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="48.5" y="10" width="10.5" height="20.5"/>
+                                                <rect key="frame" x="73" y="10" width="10.5" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -250,7 +250,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seconds Saved" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpD-Q7-0rE" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="2" y="35.5" width="103" height="13.5"/>
+                                                <rect key="frame" x="2" y="35.5" width="152.5" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -277,6 +277,9 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="MlB-ib-JyZ" firstAttribute="width" secondItem="Ajb-Ph-hSH" secondAttribute="width" id="1d7-9C-Q24"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
