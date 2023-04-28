@@ -267,6 +267,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateDisplayedData() {
         if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
             emailAddress.text = email
+            emailAddress.isHidden = false
 
             let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
             let savedTime = StatsManager.shared.totalSkippedTimeInclusive() + StatsManager.shared.timeSavedVariableSpeedInclusive() + StatsManager.shared.timeSavedDynamicSpeedInclusive() + StatsManager.shared.totalAutoSkippedTimeInclusive()
@@ -281,35 +282,22 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                     profileStatusView.secondsTillExpiry = expiryTime
                 }
 
-                if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
-//                    signInStatus.text = L10n.pocketCastsPlus.uppercased()
-//                    signInStatus.textColor = ThemeColor.primaryText02()
-                } else {
+                if !(SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown) {
                     if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
                         let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
-//                        signInStatus.text = L10n.plusSubscriptionExpiration(time)
-                    } else {
-//                        signInStatus.text = L10n.pocketCastsPlus.uppercased()
                     }
-//                    signInStatus.textColor = AppTheme.pcPlusRed()
                 }
             } else {
-//                signInStatus.text = L10n.signedInAs
-//                signInStatus.textColor = ThemeColor.primaryText02()
                 profileStatusView.isSubscribed = false
             }
         } else {
-//            signInStatus.text = L10n.signedOut.localizedUppercase
-//            signInStatus.textColor = ThemeColor.primaryText02()
-            emailAddress.text = L10n.setupAccount
+            emailAddress.isHidden = true
             profileStatusView.isSubscribed = false
             let totalListeningTime = StatsManager.shared.totalListeningTime()
             let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
             updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
         }
 
-//        signedInView.accessibilityLabel = signInStatus.text
-//        signedInView.accessibilityHint = L10n.accessibilitySignIn
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
