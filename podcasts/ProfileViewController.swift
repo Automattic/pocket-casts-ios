@@ -78,9 +78,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    @IBOutlet var podcastCountView: UIView!
-    @IBOutlet var timeListenedView: UIView!
-    @IBOutlet var timeSavedView: UIView!
+    @IBOutlet var podcastCountView: UIStackView!
+    @IBOutlet var timeListenedView: UIStackView!
+    @IBOutlet var timeSavedView: UIStackView!
 
     @IBOutlet var headerView: UIView!
 

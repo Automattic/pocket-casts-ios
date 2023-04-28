@@ -21,15 +21,15 @@
                 <outlet property="lastRefreshTime" destination="VB8-yk-sc5" id="TNW-Qn-8ZM"/>
                 <outlet property="plusInfoView" destination="HPJ-89-MbZ" id="98u-FG-OHC"/>
                 <outlet property="podcastCount" destination="2Sp-eo-CnB" id="g6s-Af-kSc"/>
-                <outlet property="podcastCountView" destination="SFz-ev-NE0" id="1zn-7E-EhW"/>
+                <outlet property="podcastCountView" destination="AR5-Yo-g5a" id="Uyj-KG-nML"/>
                 <outlet property="podcastsLabel" destination="25m-yY-ZUn" id="a5w-fi-n7r"/>
                 <outlet property="profileStatusView" destination="Tbb-vO-uG1" id="YpV-Xv-cBM"/>
                 <outlet property="profileTable" destination="O6Y-M5-xeo" id="H0S-9j-I26"/>
                 <outlet property="refreshBtn" destination="p8e-4a-Gv8" id="RyB-fn-9Ka"/>
                 <outlet property="timeListened" destination="Gib-T8-GCO" id="318-lo-9Nr"/>
                 <outlet property="timeListenedUnits" destination="qRV-Rz-HlB" id="yBE-Nw-fdk"/>
-                <outlet property="timeListenedView" destination="Hvy-F9-sTu" id="BlF-Gi-eeW"/>
-                <outlet property="timeSavedView" destination="JSx-7X-wLg" id="Nzb-sb-mWF"/>
+                <outlet property="timeListenedView" destination="Gv8-Yr-WQx" id="iVK-to-i8Q"/>
+                <outlet property="timeSavedView" destination="BCI-cZ-UiQ" id="Dcc-tl-tbX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -150,12 +150,12 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mysuperlongemailaddressisreallylong@longplacename.com.au" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rz4-2L-dax" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="20.5" y="120" width="429.5" height="72"/>
+                                <rect key="frame" x="20.5" y="120" width="429.5" height="101"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iS9-9S-ZqI" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="163" y="208" width="144" height="40"/>
+                                <rect key="frame" x="163" y="237" width="144" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="40" id="yxr-J9-WsM"/>
                                 </constraints>
@@ -170,13 +170,13 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MlB-ib-JyZ">
-                                <rect key="frame" x="0.0" y="264" width="470" height="68"/>
+                                <rect key="frame" x="0.0" y="293" width="470" height="39"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SFz-ev-NE0">
-                                        <rect key="frame" x="0.0" y="0.0" width="156.5" height="68"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AR5-Yo-g5a">
+                                        <rect key="frame" x="0.0" y="0.0" width="156.5" height="39"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Sp-eo-CnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="64.5" y="10" width="28" height="20.5"/>
+                                                <rect key="frame" x="64.5" y="0.0" width="28" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -185,7 +185,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcasts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25m-yY-ZUn" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="54" y="35.5" width="48.5" height="13.5"/>
+                                                <rect key="frame" x="54" y="25.5" width="48.5" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -194,21 +194,12 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstItem="2Sp-eo-CnB" firstAttribute="centerX" secondItem="SFz-ev-NE0" secondAttribute="centerX" id="0PJ-oK-ONk"/>
-                                            <constraint firstItem="25m-yY-ZUn" firstAttribute="top" secondItem="2Sp-eo-CnB" secondAttribute="bottom" constant="5" id="KIM-0l-QRp"/>
-                                            <constraint firstItem="25m-yY-ZUn" firstAttribute="centerX" secondItem="SFz-ev-NE0" secondAttribute="centerX" id="RlL-hk-hTE"/>
-                                            <constraint firstItem="2Sp-eo-CnB" firstAttribute="top" secondItem="SFz-ev-NE0" secondAttribute="top" constant="10" id="lOl-Rs-riR"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvy-F9-sTu">
-                                        <rect key="frame" x="156.5" y="0.0" width="157" height="68"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Gv8-Yr-WQx">
+                                        <rect key="frame" x="156.5" y="0.0" width="157" height="39"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gib-T8-GCO" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="68.5" y="10" width="20.5" height="20.5"/>
+                                                <rect key="frame" x="68.5" y="0.0" width="20.5" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -217,7 +208,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours Listened" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRV-Rz-HlB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="2" y="35.5" width="153" height="13.5"/>
+                                                <rect key="frame" x="39" y="25.5" width="79.5" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -226,22 +217,12 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstItem="Gib-T8-GCO" firstAttribute="centerX" secondItem="Hvy-F9-sTu" secondAttribute="centerX" id="7aM-2D-LJE"/>
-                                            <constraint firstItem="qRV-Rz-HlB" firstAttribute="top" secondItem="Gib-T8-GCO" secondAttribute="bottom" constant="5" id="Sur-8u-KzZ"/>
-                                            <constraint firstItem="Gib-T8-GCO" firstAttribute="top" secondItem="Hvy-F9-sTu" secondAttribute="top" constant="10" id="TDe-Hm-oAu"/>
-                                            <constraint firstAttribute="trailing" secondItem="qRV-Rz-HlB" secondAttribute="trailing" constant="2" id="hgu-hL-VzZ"/>
-                                            <constraint firstItem="qRV-Rz-HlB" firstAttribute="leading" secondItem="Hvy-F9-sTu" secondAttribute="leading" constant="2" id="vST-Rw-6mZ"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JSx-7X-wLg">
-                                        <rect key="frame" x="313.5" y="0.0" width="156.5" height="68"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BCI-cZ-UiQ">
+                                        <rect key="frame" x="313.5" y="0.0" width="156.5" height="39"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l06-nc-WbX" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="73" y="10" width="10.5" height="20.5"/>
+                                                <rect key="frame" x="73" y="0.0" width="10.5" height="20.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -250,7 +231,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seconds Saved" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpD-Q7-0rE" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="2" y="35.5" width="152.5" height="13.5"/>
+                                                <rect key="frame" x="38" y="25.5" width="80.5" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
@@ -259,22 +240,8 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstItem="l06-nc-WbX" firstAttribute="centerX" secondItem="JSx-7X-wLg" secondAttribute="centerX" id="Ejq-zZ-BR7"/>
-                                            <constraint firstItem="KpD-Q7-0rE" firstAttribute="top" secondItem="l06-nc-WbX" secondAttribute="bottom" constant="5" id="GHH-cU-uTe"/>
-                                            <constraint firstItem="l06-nc-WbX" firstAttribute="top" secondItem="JSx-7X-wLg" secondAttribute="top" constant="10" id="RNP-pQ-Ihp"/>
-                                            <constraint firstAttribute="trailing" secondItem="KpD-Q7-0rE" secondAttribute="trailing" constant="2" id="och-W5-66h"/>
-                                            <constraint firstItem="KpD-Q7-0rE" firstAttribute="centerX" secondItem="JSx-7X-wLg" secondAttribute="centerX" id="qLI-Ss-9cD"/>
-                                            <constraint firstItem="KpD-Q7-0rE" firstAttribute="leading" secondItem="JSx-7X-wLg" secondAttribute="leading" constant="2" id="rZ1-tL-1TP"/>
-                                        </constraints>
-                                    </view>
+                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="999" constant="68" id="gez-3r-Q31"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <constraints>
