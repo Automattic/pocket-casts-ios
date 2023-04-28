@@ -139,7 +139,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ajb-Ph-hSH">
-                        <rect key="frame" x="0.0" y="0.0" width="470" height="332"/>
+                        <rect key="frame" x="0.0" y="16" width="470" height="316"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tbb-vO-uG1" customClass="ProfileProgressCircleView" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="183" y="0.0" width="104" height="104"/>
@@ -150,12 +150,12 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mysuperlongemailaddressisreallylong@longplacename.com.au" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rz4-2L-dax" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="20.5" y="120" width="429.5" height="101"/>
+                                <rect key="frame" x="20.5" y="120" width="429.5" height="85"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iS9-9S-ZqI" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="163" y="237" width="144" height="40"/>
+                                <rect key="frame" x="163" y="221" width="144" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="40" id="yxr-J9-WsM"/>
                                 </constraints>
@@ -170,7 +170,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MlB-ib-JyZ">
-                                <rect key="frame" x="0.0" y="293" width="470" height="39"/>
+                                <rect key="frame" x="0.0" y="277" width="470" height="39"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AR5-Yo-g5a">
                                         <rect key="frame" x="0.0" y="0.0" width="156.5" height="39"/>
@@ -252,7 +252,7 @@
                 <constraints>
                     <constraint firstItem="Ajb-Ph-hSH" firstAttribute="leading" secondItem="33S-ea-G3l" secondAttribute="leading" id="F0o-Nf-umJ"/>
                     <constraint firstAttribute="bottom" secondItem="Ajb-Ph-hSH" secondAttribute="bottom" priority="999" constant="16" id="WQb-Ty-T2a"/>
-                    <constraint firstItem="Ajb-Ph-hSH" firstAttribute="top" secondItem="33S-ea-G3l" secondAttribute="top" id="k4G-e1-ThM"/>
+                    <constraint firstItem="Ajb-Ph-hSH" firstAttribute="top" secondItem="33S-ea-G3l" secondAttribute="top" constant="16" id="k4G-e1-ThM"/>
                     <constraint firstAttribute="trailing" secondItem="Ajb-Ph-hSH" secondAttribute="trailing" id="un0-Vr-YnM"/>
                 </constraints>
             </tableViewCellContentView>
