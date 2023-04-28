@@ -285,6 +285,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 if !(SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown) {
                     if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
                         let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
+                        emailAddress.text = L10n.plusSubscriptionExpiration(time)
                     }
                 }
             } else {
