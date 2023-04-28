@@ -29,7 +29,12 @@ private extension PlusAccountPromptViewModel {
         guard let parentController else { return }
         let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
 
-        controller.presentModally(in: parentController)
+        guard FeatureFlag.patron.enabled else {
+            controller.presentModally(in: parentController)
+            return
+        }
+
+        parentController.present(controller, animated: true)
     }
 
     func showError() {

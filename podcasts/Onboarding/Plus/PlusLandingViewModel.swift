@@ -2,55 +2,43 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
+class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
-    var continueUpgrade: Bool
+    var continuePurchasing: Constants.ProductInfo? = nil
     let source: Source
 
-    init(source: Source, continueUpgrade: Bool = false, purchaseHandler: IapHelper = .shared) {
-        self.continueUpgrade = continueUpgrade
+    init(source: Source, continuePurchasing: Constants.ProductInfo? = nil, purchaseHandler: IapHelper = .shared) {
+        self.continuePurchasing = continuePurchasing
         self.source = source
 
         super.init(purchaseHandler: purchaseHandler)
     }
 
-    func unlockTapped(plan: Constants.Plan = .plus, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    func unlockTapped(_ product: Constants.ProductInfo) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
             navigationController?.pushViewController(controller, animated: true)
             return
         }
 
-        loadPricesAndContinue(plan: plan, selectedPrice: selectedPrice)
+        loadPricesAndContinue(product: product)
     }
 
-    func unlockTapped(ifLoggedIn: () -> Void) {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
-
-        guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
-            navigationController?.pushViewController(controller, animated: true)
-            return
-        }
-
-        ifLoggedIn()
-    }
-
-    func didAppear() {
+    override func didAppear() {
         OnboardingFlow.shared.track(.plusPromotionShown)
 
-        guard continueUpgrade else { return }
+        guard let continuePurchasing else { return }
 
         // Don't continually show when the user dismisses
-        continueUpgrade = false
+        self.continuePurchasing = nil
 
-        self.loadPricesAndContinue(plan: .plus, selectedPrice: .yearly)
+        loadPricesAndContinue(product: continuePurchasing)
     }
 
-    func didDismiss(type: OnboardingDismissType) {
+    override func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
         OnboardingFlow.shared.track(.plusPromotionDismissed)
@@ -68,8 +56,8 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func purchaseTitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+    func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
+        guard let product = product(for: tier.plan, frequency: frequency) else {
             return L10n.loading
         }
 
@@ -80,8 +68,8 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         }
     }
 
-    func purchaseSubtitle(for tier: UpgradeTier, frequency: PlusPricingInfoModel.DisplayPrice) -> String {
-        guard let product = pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? tier.plan.yearly : tier.plan.monthly) }) else {
+    func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
+        guard let product = product(for: tier.plan, frequency: frequency) else {
             return ""
         }
 
@@ -92,11 +80,15 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
         }
     }
 
-    private func loadPricesAndContinue(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
+    }
+
+    private func loadPricesAndContinue(product: Constants.ProductInfo) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal(plan: plan, selectedPrice: selectedPrice)
+                self.showModal(product: product)
             case .failed:
                 self.showError()
             default:
@@ -113,10 +105,22 @@ class PlusLandingViewModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 private extension PlusLandingViewModel {
-    func showModal(plan: Constants.Plan, selectedPrice: PlusPricingInfoModel.DisplayPrice) {
+    func showModal(product: Constants.ProductInfo) {
+        if FeatureFlag.patron.enabled {
+            guard let product = self.product(for: product.plan, frequency: product.frequency) else {
+                state = .failed
+                return
+            }
+
+            purchase(product: product.identifier)
+            return
+        }
+
         guard let navigationController else { return }
 
-        let controller = PlusPurchaseModel.make(in: navigationController, plan: plan, selectedPrice: selectedPrice)
+        let controller = PlusPurchaseModel.make(in: navigationController,
+                                                plan: product.plan,
+                                                selectedPrice: product.frequency)
         controller.presentModally(in: navigationController)
     }
 
@@ -126,11 +130,10 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, continueUpgrade: Bool = false) -> UIViewController {
-        let viewModel = PlusLandingViewModel(source: source, continueUpgrade: continueUpgrade)
-        let purchaseModel = FeatureFlag.patron.enabled ? PlusPurchaseModel() : nil
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
+        let viewModel = PlusLandingViewModel(source: source, continuePurchasing: continuePurchasing)
 
-        let view = Self.view(with: viewModel, purchaseModel: purchaseModel)
+        let view = Self.view(with: viewModel)
         let controller = PlusHostingViewController(rootView: view)
 
         controller.viewModel = viewModel
@@ -139,17 +142,16 @@ extension PlusLandingViewModel {
         // Create our own nav controller if we're not already going in one
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
-        purchaseModel?.parentController = navController
+        viewModel.parentController = navController
 
         return (navigationController == nil) ? navController : controller
     }
 
     @ViewBuilder
-    private static func view(with viewModel: PlusLandingViewModel, purchaseModel: PlusPurchaseModel? = nil) -> some View {
-        if FeatureFlag.patron.enabled, let purchaseModel {
+    private static func view(with viewModel: PlusLandingViewModel) -> some View {
+        if FeatureFlag.patron.enabled {
             UpgradeLandingView()
                 .environmentObject(viewModel)
-                .environmentObject(purchaseModel)
                 .setupDefaultEnvironment()
         } else {
             PlusLandingView(viewModel: viewModel)

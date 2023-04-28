@@ -57,7 +57,7 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button(L10n.plusButtonTitleUnlockAll) {
-                            viewModel.unlockTapped(selectedPrice: .yearly)
+                            viewModel.unlockTapped(.init(plan: .plus, frequency: .yearly))
                         }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading, plan: .plus))
 
                         Button(L10n.eoyNotNow) {

@@ -4,21 +4,17 @@ import PocketCastsServer
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
 
-    @EnvironmentObject private var purchaseModel: PlusPurchaseModel
-
     private let tiers: [UpgradeTier] = [.plus, .patron]
 
     private var selectedTier: UpgradeTier {
         tiers[currentPage]
     }
 
-    @State private var currentPage: Int = 0
-
-    @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
-
     @State private var contentIsScrollable = false
 
     @State private var purchaseButtonHeight: CGFloat = 0
+    @State private var currentPage: Int = 0
+    @State private var displayPrice: Constants.PlanFrequency = .yearly
 
     private var selectedProduct: Constants.IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
@@ -124,7 +120,15 @@ struct UpgradeLandingView: View {
         .background(Color.plusBackgroundColor)
         .onAppear {
             // Ensure prices are loaded
-            viewModel.loadPrices { }
+            viewModel.loadPrices()
+
+            // Switch to the previously selected options if available
+            if let continuePurchasing = viewModel.continuePurchasing {
+                let index = tiers.firstIndex(where: { $0.plan == continuePurchasing.plan }) ?? 0
+
+                displayPrice = continuePurchasing.frequency
+                currentPage = index
+            }
         }
     }
 
@@ -143,14 +147,12 @@ struct UpgradeLandingView: View {
     @ViewBuilder
     var purchaseButton: some View {
         let hasError = Binding<Bool>(
-            get: { self.purchaseModel.state == .failed },
+            get: { self.viewModel.state == .failed },
             set: { _ in }
         )
-        let isLoading = (purchaseModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
         Button(action: {
-            viewModel.unlockTapped {
-                purchaseModel.purchase(product: selectedProduct)
-            }
+            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
         }, label: {
             VStack {
                 Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
@@ -167,7 +169,7 @@ struct UpgradeLandingView: View {
             Alert(
                 title: Text(L10n.plusPurchaseFailed),
                 dismissButton: .default(Text(L10n.ok)) {
-                    purchaseModel.reset()
+                    viewModel.reset()
                 }
             )
         }
@@ -179,7 +181,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
 
     let tiers: [UpgradeTier]
 
@@ -209,13 +211,13 @@ private struct FeaturesCarousel: View {
                     }
                 )
         }
-        .carouselPeekAmount(.constant(Constants.peekAmount))
-        .carouselItemSpacing(Constants.spacing)
+        .carouselPeekAmount(.constant(ViewConstants.peekAmount))
+        .carouselItemSpacing(ViewConstants.spacing)
         .frame(height: calculatedCardHeight)
         .padding(.leading, 30)
     }
 
-    private enum Constants {
+    private enum ViewConstants {
         static let peekAmount: Double = 20
         static let spacing: Double = 30
     }
@@ -279,9 +281,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: PlusPricingInfoModel.DisplayPrice
+    @Binding private var selected: Constants.PlanFrequency
 
-    init(selected: Binding<PlusPricingInfoModel.DisplayPrice>) {
+    init(selected: Binding<Constants.PlanFrequency>) {
         self._selected = selected
     }
 
@@ -336,7 +338,7 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
 
     @State var calculatedCardHeight: CGFloat?
 
@@ -428,6 +430,5 @@ extension ViewHeightKey: ViewModifier {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
-            .environmentObject(PlusPurchaseModel())
     }
 }

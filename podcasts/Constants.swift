@@ -267,6 +267,15 @@ struct Constants {
                 }
             }
         }
+
+        enum PlanFrequency {
+            case yearly, monthly
+        }
+
+        struct ProductInfo {
+            let plan: Plan
+            let frequency: PlanFrequency
+        }
     #endif
 
     enum RemoteParams {
