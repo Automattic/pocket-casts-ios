@@ -80,7 +80,7 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8e-4a-Gv8" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="126" y="17" width="127" height="40"/>
+                            <rect key="frame" x="125.66666666666666" y="17" width="127.66666666666666" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="pLP-KQ-QGL"/>
                             </constraints>
@@ -102,7 +102,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J4q-H0-via" userLabel="Bottom Padding View">
-                            <rect key="frame" x="69.5" y="238" width="240" height="20"/>
+                            <rect key="frame" x="69.666666666666686" y="238" width="240" height="20"/>
                             <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" notEnabled="YES"/>
                             </accessibility>
@@ -145,7 +145,7 @@
                                 <rect key="frame" x="183" y="0.0" width="104" height="104"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="104" id="0nS-XO-Uup"/>
+                                    <constraint firstAttribute="height" priority="999" constant="104" id="0nS-XO-Uup"/>
                                     <constraint firstAttribute="width" constant="104" id="bTo-Vf-vr6"/>
                                 </constraints>
                             </view>
@@ -157,7 +157,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iS9-9S-ZqI" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="163" y="208" width="144" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="yxr-J9-WsM"/>
+                                    <constraint firstAttribute="height" priority="999" constant="40" id="yxr-J9-WsM"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="mainColor">
@@ -273,7 +273,7 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="68" id="gez-3r-Q31"/>
+                                    <constraint firstAttribute="height" priority="999" constant="68" id="gez-3r-Q31"/>
                                 </constraints>
                             </stackView>
                         </subviews>
