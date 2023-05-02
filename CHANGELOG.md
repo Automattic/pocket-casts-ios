@@ -1,3 +1,7 @@
+7.39
+-----
+
+
 7.38
 -----
 - Chapters that are hidden will no longer appear
