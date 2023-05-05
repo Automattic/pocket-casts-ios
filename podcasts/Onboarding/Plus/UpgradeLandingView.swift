@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct UpgradeLandingView: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
@@ -9,45 +10,126 @@ struct UpgradeLandingView: View {
         tiers[currentPage]
     }
 
-    @State private var currentPage: Int = 0
+    @State private var contentIsScrollable = false
 
-    @State private var displayPrice: PlusPricingInfoModel.DisplayPrice = .yearly
+    @State private var purchaseButtonHeight: CGFloat = 0
+    @State private var currentPage: Int = 0
+    @State private var displayPrice: Constants.PlanFrequency = .yearly
+
+    private var selectedProduct: Constants.IapProducts {
+        displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
+    }
+
+    /// If this device has a small screen
+    private var isSmallScreen: Bool {
+        UIScreen.main.bounds.height <= 667
+    }
+
+    /// If this device has a bottom safe area
+    private var hasBottomSafeArea: Bool {
+        !UIDevice.current.isiPad() && safeAreaBottomHeight > 0
+    }
+
+    private var safeAreaBottomHeight: CGFloat {
+        (SceneHelper.connectedScene()?.windows.first(where: \.isKeyWindow)?.safeAreaInsets.bottom ?? 0)
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
-            topBar
+        ZStack {
+            ForEach(tiers) { tier in
+                tier.background
+                    .opacity(selectedTier.id == tier.id ? 1 : 0)
+                    .ignoresSafeArea()
+            }
 
             ZStack {
+                VStack(spacing: 0) {
+                    topBar
 
-                ForEach(tiers) { tier in
-                    tier.background
-                        .opacity(selectedTier.id == tier.id ? 1 : 0)
-                        .ignoresSafeArea()
-                }
+                    GeometryReader { reader in
+                        ScrollView {
+                            VStack(spacing: 0) {
+                                Spacer()
 
-                ScrollViewIfNeeded {
-                    VStack(spacing: 0) {
+                                PlusLabel(selectedTier.header, for: .title2)
+                                    .transition(.opacity)
+                                    .id("plus_title" + selectedTier.header)
+                                    .minimumScaleFactor(0.5)
+                                    .lineLimit(2)
+                                    .padding(.bottom, 16)
+                                    .padding(.horizontal, 32)
 
-                        PlusLabel(selectedTier.header, for: .title2)
-                            .transition(.opacity)
-                            .id("plus_title" + selectedTier.header)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(2)
-                            .padding(.bottom, 16)
-                            .padding(.horizontal, 32)
+                                UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                    .padding(.bottom, 24)
 
-                        UpgradeRoundedSegmentedControl(selected: $displayPrice)
-                            .padding(.bottom, 24)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                        FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                if !isSmallScreen && !contentIsScrollable {
+                                    PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                                        .padding(.top, 27)
+                                }
 
-                        PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                        .padding(.top, 27)
+                                Spacer()
+
+                                // Add an invisible rectangle to fill the purchase button size, so scroll and vertical centering works fine
+                                Rectangle()
+                                    .frame(height: purchaseButtonHeight)
+                                    .opacity(0)
+                                    .disabled(true)
+                            }
+                            .frame(minHeight: reader.size.height)
+                            .modifier(ViewHeightKey())
+                        }
+                        .onPreferenceChange(ViewHeightKey.self) {
+                            if $0 > reader.size.height {
+                                contentIsScrollable = true
+                            }
+                        }
                     }
                 }
+
+                if contentIsScrollable {
+                    ZStack {
+                        VStack(spacing: 0) {
+                            Spacer()
+
+                            LinearGradient(colors: [.black.opacity(0), .black], startPoint: .top, endPoint: .bottom)
+                                .opacity(0.8)
+                                .allowsHitTesting(false)
+                                .frame(height: purchaseButtonHeight + safeAreaBottomHeight + 10)
+                        }
+                    }
+                    .ignoresSafeArea()
+                }
+
+                VStack(spacing: 0) {
+                    Spacer()
+
+                    purchaseButton
+                        .overlay {
+                            GeometryReader { reader in
+                                Action {
+                                    purchaseButtonHeight = reader.size.height
+                                }
+                            }
+                        }
+                }
             }
+
         }
         .background(Color.plusBackgroundColor)
+        .onAppear {
+            // Ensure prices are loaded
+            viewModel.loadPrices()
+
+            // Switch to the previously selected options if available
+            if let continuePurchasing = viewModel.continuePurchasing {
+                let index = tiers.firstIndex(where: { $0.plan == continuePurchasing.plan }) ?? 0
+
+                displayPrice = continuePurchasing.frequency
+                currentPage = index
+            }
+        }
     }
 
     var topBar: some View {
@@ -61,6 +143,37 @@ struct UpgradeLandingView: View {
             .padding()
         }
     }
+
+    @ViewBuilder
+    var purchaseButton: some View {
+        let hasError = Binding<Bool>(
+            get: { self.viewModel.state == .failed },
+            set: { _ in }
+        )
+        let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        Button(action: {
+            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
+        }, label: {
+            VStack {
+                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                    .font(style: .subheadline)
+            }
+            .transition(.opacity)
+            .id("plus_price" + selectedTier.title)
+        })
+        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
+        .padding(.horizontal, 20)
+        .padding(.bottom, hasBottomSafeArea ? 0 : 16)
+        .alert(isPresented: hasError) {
+            Alert(
+                title: Text(L10n.plusPurchaseFailed),
+                dismissButton: .default(Text(L10n.ok)) {
+                    viewModel.reset()
+                }
+            )
+        }
+    }
 }
 
 // MARK: - Feature Carousel
@@ -68,7 +181,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
 
     let tiers: [UpgradeTier]
 
@@ -98,14 +211,15 @@ private struct FeaturesCarousel: View {
                     }
                 )
         }
-        .carouselPeekAmount(.constant(Constants.peekAmount))
-        .carouselItemSpacing(Constants.spacing)
+        .carouselPeekAmount(.constant(ViewConstants.peekAmount))
+        .carouselItemSpacing(ViewConstants.spacing)
         .frame(height: calculatedCardHeight)
+        .padding(.leading, 30)
     }
 
-    private enum Constants {
+    private enum ViewConstants {
         static let peekAmount: Double = 20
-        static let spacing: Double = UIDevice.current.isiPad() ? 150 : 30
+        static let spacing: Double = 30
     }
 }
 
@@ -119,10 +233,9 @@ struct UpgradeTier: Identifiable {
     let header: String
     let description: String
     let buttonLabel: String
-    let buttonColor: Color
     let buttonForegroundColor: Color
     let features: [TierFeature]
-    let background: LinearGradient
+    let background: RadialGradient
 
     var id: String {
         tier.rawValue
@@ -140,7 +253,7 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonColor: Color(hex: "FFD846"), buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
@@ -148,11 +261,11 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
         ],
-        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "D4B43A"), Color(hex: "FFDE64")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonColor: Color.patronBackgroundColor, buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
@@ -161,16 +274,16 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
-        background: LinearGradient(gradient: Gradient(colors: [Color(hex: "121212"), Color(hex: "121212"), Color(hex: "9583F8"), Color(hex: "503ACC")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 }
 
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: PlusPricingInfoModel.DisplayPrice
+    @Binding private var selected: Constants.PlanFrequency
 
-    init(selected: Binding<PlusPricingInfoModel.DisplayPrice>) {
+    init(selected: Binding<Constants.PlanFrequency>) {
         self._selected = selected
     }
 
@@ -225,7 +338,9 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<PlusPricingInfoModel.DisplayPrice>
+    let currentPrice: Binding<Constants.PlanFrequency>
+
+    @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
         VStack {
@@ -241,26 +356,7 @@ struct UpgradeCard: View {
                 }
                 .background(.black)
                 .cornerRadius(24)
-                .padding(.bottom, 10)
-
-                HStack {
-                    Text(viewModel.price(for: tier, frequency: currentPrice.wrappedValue))
-                        .font(style: .largeTitle, weight: .bold)
-                        .foregroundColor(.black)
-                    Text("/\(currentPrice.wrappedValue == .yearly ? L10n.year : L10n.month)")
-                        .font(style: .headline, weight: .bold)
-                        .foregroundColor(.black)
-                        .opacity(0.6)
-                        .padding(.top, 6)
-                }
-                .padding(.bottom, 8)
-
-                Text(tier.description)
-                    .font(style: .caption2, weight: .semibold)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundColor(.black)
-                    .opacity(0.64)
-                    .padding(.bottom, 16)
+                .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
@@ -277,13 +373,13 @@ struct UpgradeCard: View {
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
-                }
-                .padding(.bottom, 24)
 
-                Button(tier.buttonLabel) {
-                    viewModel.unlockTapped(plan: tier.plan, selectedPrice: currentPrice.wrappedValue)
+                    termsAndConditions
+                        .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
+                        .tint(.black)
+                        .opacity(0.64)
                 }
-                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: tier.plan))
+                .padding(.bottom, 0)
             }
             .padding(24)
 
@@ -295,6 +391,39 @@ struct UpgradeCard: View {
         .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
         .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
         .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
+    }
+
+    @ViewBuilder
+    var termsAndConditions: some View {
+        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
+
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        Group {
+            Text(purchaseTerms[safe: 0] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(purchaseTerms[safe: 2] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        }
+        .foregroundColor(.black)
+    }
+}
+
+// MARK: - View Height
+
+private struct ViewHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat { 0 }
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = value + nextValue()
+    }
+}
+
+extension ViewHeightKey: ViewModifier {
+    func body(content: Content) -> some View {
+        return content.background(GeometryReader { proxy in
+            Color.clear.preference(key: Self.self, value: proxy.size.height)
+        })
     }
 }
 

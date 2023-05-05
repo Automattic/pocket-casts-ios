@@ -7,7 +7,7 @@ class PlusPricingInfoModel: ObservableObject {
     let purchaseHandler: IapHelper
 
     // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
+    @Published var pricingInfo: PlusPricingInfo
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
@@ -64,18 +64,15 @@ class PlusPricingInfoModel: ObservableObject {
     enum PriceAvailablity {
         case unknown, available, loading, failed
     }
-
-    enum DisplayPrice {
-        case yearly, monthly
-    }
 }
 
 // MARK: - Price Loading
 extension PlusPricingInfoModel {
-    func loadPrices(_ completion: @escaping () -> Void) {
+    func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            completion()
+            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
             return
         }
 
@@ -83,15 +80,19 @@ extension PlusPricingInfoModel {
 
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
 
             self.priceAvailability = .available
-            completion()
+            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
             self.priceAvailability = .failed
-            completion()
+            completion?()
         }
 
         purchaseHandler.requestProductInfo()

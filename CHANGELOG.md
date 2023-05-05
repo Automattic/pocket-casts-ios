@@ -1,5 +1,11 @@
+7.39
+-----
+
+
 7.38
 -----
+- Chapters that are hidden will no longer appear
+- Chapter titles/images now display while scrubbing in the player
 - Embedded artwork: extract embedded artwork from episodes that are being streamed (#829)
 
 7.37

@@ -1620,6 +1620,12 @@ internal enum L10n {
   internal static var plusSelectPaymentFrequency: String { return L10n.tr("Localizable", "plus_select_payment_frequency") }
   /// Skip
   internal static var plusSkip: String { return L10n.tr("Localizable", "plus_skip") }
+  /// Start my free trial
+  internal static var plusStartMyFreeTrial: String { return L10n.tr("Localizable", "plus_start_my_free_trial") }
+  /// Try %1$@, then %2$@
+  internal static func plusStartTrialDurationPrice(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "plus_start_trial_duration_price", String(describing: p1), String(describing: p2))
+  }
   /// Subscribe to Plus
   internal static var plusSubscribeTo: String { return L10n.tr("Localizable", "plus_subscribe_to") }
   /// Your subscription is managed by the Apple App Store

@@ -20,10 +20,16 @@ struct OnboardingFlow {
             flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
 
         case .plusAccountUpgrade:
-            flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
+            if FeatureFlag.patron.enabled {
+                // Only the upsell flow needs an unknown source
+                self.source = source ?? "unknown"
+                flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
+            } else {
+                flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
+            }
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
         case .initialOnboarding, .loggedOut: fallthrough
         default:

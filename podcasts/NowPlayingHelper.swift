@@ -4,13 +4,13 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class NowPlayingHelper {
-    class func updateNowPlayingInfo(for episode: BaseEpisode, currentChapter: ChapterInfo?, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+    class func updateNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
         guard let currNowPlaying = MPNowPlayingInfoCenter.default().nowPlayingInfo else {
-            setAllNowPlayingInfo(for: episode, currentChapter: currentChapter, duration: duration, upTo: upTo, playbackRate: playbackRate)
+            setAllNowPlayingInfo(for: episode, currentChapters: currentChapters, duration: duration, upTo: upTo, playbackRate: playbackRate)
             return
         }
 
-        let title = NowPlayingHelper.titleForNowPlayingInfo(episode: episode, currentChapter: currentChapter)
+        let title = NowPlayingHelper.titleForNowPlayingInfo(episode: episode, currentChapters: currentChapters)
         // there's a lot of weird edge case bugs with Apple's now playing implementation, so this method gets called every time progress
         // is saved to the DB, currently every updatesPerSave seconds. it looks at what's in their at the moment, and if it's not the current episode
         // sets all the data, otherwise is just updates the progress
@@ -19,12 +19,12 @@ class NowPlayingHelper {
             let nowPlayingInfo = NowPlayingHelper.addUpToInformationToNowPlaying(currNowPlaying as [String: AnyObject], duration: duration, upTo: upTo, playbackRate: playbackRate)
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
         } else {
-            setAllNowPlayingInfo(for: episode, currentChapter: currentChapter, duration: duration, upTo: upTo, playbackRate: playbackRate)
+            setAllNowPlayingInfo(for: episode, currentChapters: currentChapters, duration: duration, upTo: upTo, playbackRate: playbackRate)
         }
     }
 
-    class func setAllNowPlayingInfo(for episode: BaseEpisode, currentChapter: ChapterInfo?, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
-        let playingInfo = nowPlayingInfo(for: episode, currentChapter: currentChapter)
+    class func setAllNowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters, duration: TimeInterval, upTo: TimeInterval, playbackRate: Double?) {
+        let playingInfo = nowPlayingInfo(for: episode, currentChapters: currentChapters)
         var nowPlayingInfoWithProgress = NowPlayingHelper.addUpToInformationToNowPlaying(playingInfo, duration: duration, upTo: upTo, playbackRate: playbackRate)
 
         let size = ImageManager.sizeFor(imageSize: .page)
@@ -44,9 +44,9 @@ class NowPlayingHelper {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
 
-    private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapter: ChapterInfo? = nil) -> String {
-        if let currentChapter = currentChapter, currentChapter.title.count > 0, Settings.publishChapterTitlesEnabled() {
-            return currentChapter.title
+    private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
+        if currentChapters.title.count > 0, Settings.publishChapterTitlesEnabled() {
+            return currentChapters.title
         }
 
         if let podcastEpisode = episode as? Episode, podcastEpisode.episodeNumber > 0 {
@@ -57,7 +57,7 @@ class NowPlayingHelper {
         return episode.displayableTitle()
     }
 
-    private class func nowPlayingInfo(for episode: BaseEpisode, currentChapter: ChapterInfo? = nil) -> [String: AnyObject] {
+    private class func nowPlayingInfo(for episode: BaseEpisode, currentChapters: Chapters) -> [String: AnyObject] {
         var nowPlayingInfo = [String: AnyObject]()
 
         nowPlayingInfo[MPMediaItemPropertyMediaType] = NSNumber(value: MPMediaType.podcast.rawValue)
@@ -68,7 +68,7 @@ class NowPlayingHelper {
         nowPlayingInfo[MPMediaItemPropertyDiscCount] = NSNumber(value: 1)
         nowPlayingInfo[MPMediaItemPropertyDiscNumber] = NSNumber(value: 1)
 
-        let episodeTitle = titleForNowPlayingInfo(episode: episode, currentChapter: currentChapter)
+        let episodeTitle = titleForNowPlayingInfo(episode: episode, currentChapters: currentChapters)
         if episodeTitle.count > 0 {
             nowPlayingInfo[MPMediaItemPropertyTitle] = episodeTitle as NSString
         }
