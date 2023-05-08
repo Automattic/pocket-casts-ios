@@ -15,6 +15,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     private var spacing: Double = 0
     private var peekAmount: PeekAmount = .constant(10)
     private var swipeAnimation: Animation = .interpolatingSpring(stiffness: 350, damping: 30)
+    private var scrollEnabled: Bool = true
 
     private let items: [T]
     private let content: (T) -> Content
@@ -57,6 +58,13 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     func carouselSwipeAnimation(_ value: Animation) -> Self {
         update { carousel in
             carousel.swipeAnimation = value
+        }
+    }
+
+    /// Update the animation that occurs when swiping between pages
+    func carouselScrollEnabled(_ value: Bool) -> Self {
+        update { carousel in
+            carousel.scrollEnabled = value
         }
     }
 
@@ -143,7 +151,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
                         // Keep track of the gesture's offset so we can "scroll"
                         state = value.translation.width
                     })
-            )
+                , including: scrollEnabled ? .all : .subviews)
             // Update the internal visible index if the selection index changes
             .onChange(of: index) { newValue in
                 visibleIndex = newValue
