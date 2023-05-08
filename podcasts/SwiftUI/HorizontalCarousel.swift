@@ -133,7 +133,8 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
 
             // Use a highPriorityGesture to give this priority when enclosed in another view with gestures
             .highPriorityGesture(
-                DragGesture()
+                // set a minimum distance to prevent issues when contained in other scroll views
+                DragGesture(minimumDistance: 20)
                     .onEnded { value in
                         // When the gesture is done, we use the predictedEnd calculate the next page based on the
                         // gestures momentum
