@@ -10,8 +10,8 @@ struct ProfileHeaderView: View {
     /// Update the UI depending on the size of the screen
     @Environment(\.horizontalSizeClass) private var sizeClass
 
-    private var isShowingHorizontally: Bool {
-        sizeClass == .regular
+    private var isShowingVertically: Bool {
+        sizeClass == .compact
     }
 
     var body: some View {
@@ -53,7 +53,7 @@ struct ProfileHeaderView: View {
     /// Shows the display name, email, and account button
     @ViewBuilder
     private func profileInfo() -> some View {
-        let alignment: HorizontalAlignment = isShowingHorizontally ? .center : .leading
+        let alignment: HorizontalAlignment = isShowingVertically ? .center : .leading
 
         VStack(alignment: alignment, spacing: Constants.spacing) {
             ProfileInfoLabels(profile: viewModel.profile, alignment: alignment, spacing: Constants.spacing)
@@ -124,7 +124,7 @@ struct ProfileHeaderView: View {
     @ViewBuilder
     /// Wraps the content in an HStack on wide screens like iPad, and a VStack on compact ones like iPhone
     private func contentWrapper<Content: View>(size: CGSize, @ViewBuilder _ content: @escaping () -> Content) -> some View {
-        if !isShowingHorizontally {
+        if isShowingVertically {
             VStack(spacing: Constants.spacing) {
                 content()
             }
