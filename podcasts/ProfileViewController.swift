@@ -8,82 +8,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var refreshControl: PCRefreshControl?
 
-    @IBOutlet weak var accountButton: AnimatedImageButton! {
-        didSet {
-            accountButton.mainColor = ThemeColor.primaryText02()
-            accountButton.textColor = ThemeColor.primaryText01()
-            accountButton.buttonTitle = SyncManager.isUserLoggedIn() ? L10n.account : L10n.setupAccount
-
-            accountButton.buttonTapped = { [weak self] in
-                self?.profileTapped()
-            }
-        }
-    }
-
-    @IBOutlet var emailAddress: UILabel! {
-        didSet {
-            emailAddress.font = .font(with: .body, weight: .semibold)
-        }
-    }
-
-    @IBOutlet var profileStatusView: ProfileProgressCircleView! {
-        didSet {
-            profileStatusView.style = .primaryUi02
-
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-            profileStatusView.addGestureRecognizer(tapGesture)
-        }
-    }
-
-    @IBOutlet var podcastCount: ThemeableLabel! {
-        didSet {
-            podcastCount.style = .primaryText01
-            podcastCount.font = .font(with: .body, weight: .bold)
-        }
-    }
-
-    @IBOutlet var timeListened: ThemeableLabel! {
-        didSet {
-            timeListened.style = .primaryText01
-            timeListened.font = .font(with: .body, weight: .bold)
-        }
-    }
-
-    @IBOutlet var timeListenedUnits: ThemeableLabel! {
-        didSet {
-            timeListenedUnits.style = .primaryText01
-            timeListenedUnits.font = .font(with: .caption2, weight: .semibold)
-        }
-    }
-
-    @IBOutlet var hoursSaved: ThemeableLabel! {
-        didSet {
-            hoursSaved.style = .primaryText01
-            hoursSaved.font = .font(with: .body, weight: .bold)
-        }
-    }
-
-    @IBOutlet var hoursSavedUnits: ThemeableLabel! {
-        didSet {
-            hoursSavedUnits.style = .primaryText01
-            hoursSavedUnits.font = .font(with: .caption2, weight: .semibold)
-        }
-    }
-
-    @IBOutlet var podcastsLabel: ThemeableLabel! {
-        didSet {
-            podcastsLabel.style = .primaryText01
-            podcastsLabel.text = L10n.podcastsPlural.uppercased()
-            podcastsLabel.font = .font(with: .caption2, weight: .semibold)
-        }
-    }
-
-    @IBOutlet var podcastCountView: UIStackView!
-    @IBOutlet var timeListenedView: UIStackView!
-    @IBOutlet var timeSavedView: UIStackView!
-
-    @IBOutlet var headerView: UIView!
-
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
     @IBOutlet var lastRefreshTime: UILabel!
@@ -185,7 +109,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(handleDataChangedNotification))
-        addCustomObserver(Notification.Name.userLoginDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.userLoginDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -210,8 +135,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateRefreshFooterColors() {
-        accountButton.mainColor = ThemeColor.primaryText02()
-        accountButton.textColor = ThemeColor.primaryText01()
         refreshBtn.mainColor = ThemeColor.primaryText02()
         lastRefreshTime.textColor = ThemeColor.primaryText02()
         alertIcon.tintColor = ThemeColor.primaryIcon02()
@@ -230,16 +153,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
-    }
-
-    @objc func profileTapped() {
-        Analytics.track(.profileAccountButtonTapped)
-
-        if SyncManager.isUserLoggedIn() {
-            showAccountController()
-        } else {
-            showProfileSetupController()
-        }
     }
 
     func showProfileSetupController() {
@@ -286,39 +199,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateDisplayedData() {
-        if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
-            emailAddress.text = email
-            emailAddress.isHidden = false
-
-            let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
-            let savedTime = StatsManager.shared.totalSkippedTimeInclusive() + StatsManager.shared.timeSavedVariableSpeedInclusive() + StatsManager.shared.timeSavedDynamicSpeedInclusive() + StatsManager.shared.totalAutoSkippedTimeInclusive()
-            updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
-
-            if SubscriptionHelper.hasActiveSubscription() {
-                profileStatusView.isSubscribed = true
-
-                var hideExpiryCountdown = true
-                if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry() {
-                    hideExpiryCountdown = expiryTime > Constants.Limits.maxSubscriptionExpirySeconds
-                    profileStatusView.secondsTillExpiry = expiryTime
-                }
-
-                if !(SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown) {
-                    if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
-                        let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
-                        emailAddress.text = L10n.plusSubscriptionExpiration(time)
-                    }
-                }
-            } else {
-                profileStatusView.isSubscribed = false
-            }
-        } else {
-            emailAddress.isHidden = true
-            profileStatusView.isSubscribed = false
-            let totalListeningTime = StatsManager.shared.totalListeningTime()
-            let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
-            updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
-        }
         // Update the new header's data
         headerViewModel.update()
 
@@ -347,53 +227,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             lastRefreshTime.text = L10n.refreshPreviousRun(L10n.timeFormatNever)
             alertIcon.isHidden = false
         }
-    }
-
-    private func updateTimes(listenedTime: TimeInterval, savedTime: TimeInterval) {
-        let pcastCount = DataManager.sharedManager.podcastCount()
-        podcastCount.text = "\(pcastCount)"
-        podcastCountView.accessibilityLabel = L10n.podcastCount(pcastCount)
-
-        updateTimeStat(valueLabel: timeListened, unitLabel: timeListenedUnits, value: listenedTime, valueType: .listened)
-        timeListenedView.accessibilityLabel = timeListened.text! + timeListenedUnits.text!
-
-        updateTimeStat(valueLabel: hoursSaved, unitLabel: hoursSavedUnits, value: savedTime, valueType: .saved)
-        timeSavedView.accessibilityLabel = hoursSaved.text! + hoursSavedUnits.text!
-    }
-
-    private func updateTimeStat(valueLabel: UILabel, unitLabel: UILabel, value: TimeInterval, valueType: StatValueType) {
-        let days = Int(safeDouble: value / 86400)
-        let hours = Int(safeDouble: value / 3600) - (days * 24)
-        let mins = Int(safeDouble: value / 60) - (hours * 60) - (days * 24 * 60)
-        let secs = Int(safeDouble: value.truncatingRemainder(dividingBy: 60))
-
-        if mins < 1, hours < 1, days < 1 {
-            valueLabel.text = "\(secs)"
-            unitLabel.text = valueType == .listened ? L10n.secondsListened : L10n.secondsSaved
-        } else if days > 0 {
-            valueLabel.text = "\(days)"
-            if days == 1 {
-                unitLabel.text = valueType == .listened ? L10n.dayListened : L10n.daySaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.daysListened : L10n.daysSaved
-            }
-        } else if hours > 0 {
-            valueLabel.text = "\(hours)"
-            if hours == 1 {
-                unitLabel.text = valueType == .listened ? L10n.hourListened : L10n.hourSaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.hoursListened : L10n.hoursSaved
-            }
-        } else if mins > 0 {
-            valueLabel.text = "\(mins)"
-            if mins == 1 {
-                unitLabel.text = valueType == .listened ? L10n.minuteListened : L10n.minuteSaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.minutesListened : L10n.minutesSaved
-            }
-        }
-
-        unitLabel.text = unitLabel.text?.uppercased()
     }
 
     // MARK: - UITableView
