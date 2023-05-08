@@ -124,7 +124,7 @@ struct ProfileHeaderView: View {
     @ViewBuilder
     /// Wraps the content in an HStack on wide screens like iPad, and a VStack on compact ones like iPhone
     private func contentWrapper<Content: View>(size: CGSize, @ViewBuilder _ content: @escaping () -> Content) -> some View {
-        if isShowingHorizontally {
+        if !isShowingHorizontally {
             VStack(spacing: Constants.spacing) {
                 content()
             }
@@ -223,10 +223,6 @@ struct ProfileHeaderView_Previews: PreviewProvider {
     }
 
     struct PreviewContent: View {
-        @Environment(\.horizontalSizeClass) private var sizeClass
-        @State private var contentSize: CGSize? = nil
-        @ObservedObject private var viewModel = ProfileHeaderViewModel()
-
         var body: some View {
             VStack {
                 ProfileHeaderView(viewModel: .init())
