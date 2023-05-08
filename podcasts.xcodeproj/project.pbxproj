@@ -1373,6 +1373,8 @@
 		C7080C082922DB5F00D7A432 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */; };
 		C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */; };
 		C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */; };
+		C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */; };
+		C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04C829243F7D00F2858A /* ImportViewModel.swift */; };
 		C71C04CB2924403000F2858A /* ImportLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04CA2924403000F2858A /* ImportLandingView.swift */; };
 		C71C04CD2924403800F2858A /* ImportDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04CC2924403800F2858A /* ImportDetailsView.swift */; };
@@ -3012,6 +3014,8 @@
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusAccountUpgradePrompt.swift; sourceTree = "<group>"; };
 		C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptViewModel.swift; sourceTree = "<group>"; };
+		C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+AppColors.swift"; sourceTree = "<group>"; };
+		C715EE0E2A0497DB0054A082 /* Theme+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+Color.swift"; sourceTree = "<group>"; };
 		C71C04C829243F7D00F2858A /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
 		C71C04CA2924403000F2858A /* ImportLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLandingView.swift; sourceTree = "<group>"; };
 		C71C04CC2924403800F2858A /* ImportDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDetailsView.swift; sourceTree = "<group>"; };
@@ -4299,8 +4303,10 @@
 		BD27B8C12756F1B5007A0EA7 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				BD27B8C42756F486007A0EA7 /* UIColor+SwiftUI.swift */,
 				BD27B8C62756F4C9007A0EA7 /* Styles.swift */,
+				C715EE0E2A0497DB0054A082 /* Theme+Color.swift */,
+				C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */,
+				BD27B8C42756F486007A0EA7 /* UIColor+SwiftUI.swift */,
 			);
 			name = SwiftUI;
 			sourceTree = "<group>";
@@ -8126,6 +8132,7 @@
 				BD907DAE21537B51004D7C02 /* SiriSettingsViewController.swift in Sources */,
 				400A3EF222702E20007361C7 /* TermsViewController.swift in Sources */,
 				409C7917220D33E500386495 /* AddCustomViewController.swift in Sources */,
+				C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */,
 				C7A110F9291F66C700887A90 /* Confetti.swift in Sources */,
 				BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */,
 				BD585C1D204785EF00AC842C /* AppDelegate.swift in Sources */,
@@ -8336,6 +8343,7 @@
 				BDEBD3A91BA0108800AD038F /* BufferedAudio.swift in Sources */,
 				402772D721B6105D00769811 /* PodcastManager+Delete.swift in Sources */,
 				403B5B02217D5F1500821A54 /* TitleViewWithCollapseButton.swift in Sources */,
+				C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */,
 				4084262B2134CBCD0076D82E /* LargeListSummaryViewController.swift in Sources */,
 				BDF0D4B523EBF1190034129E /* MNAVChapterReader.m in Sources */,
 				BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */,
