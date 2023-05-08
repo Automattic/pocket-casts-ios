@@ -125,6 +125,27 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
+    // MARK: - Profile Header
+    private lazy var headerViewModel: ProfileHeaderViewModel = {
+        let viewModel = ProfileHeaderViewModel(navigationController: navigationController)
+
+        // Listen for view size changes and update the header view cell if needed
+        viewModel.viewContentSizeChanged = { [weak self] in
+            self?.profileTable.reloadData()
+        }
+
+        return viewModel
+    }()
+
+    private lazy var headerView: UIView = {
+        let headerView = ProfileHeaderView(viewModel: headerViewModel)
+
+        let view = headerView.themedUIView
+        view.backgroundColor = .clear
+
+        return view
+    }()
+
     // MARK: - View Events
 
     override func viewDidLoad() {
@@ -298,6 +319,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
             updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
         }
+        // Update the new header's data
+        headerViewModel.update()
 
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
@@ -460,7 +483,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        UITableView.automaticDimension
+        return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
     }
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
