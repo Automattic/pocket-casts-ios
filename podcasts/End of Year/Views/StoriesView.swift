@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
@@ -60,7 +61,8 @@ struct StoriesView: View {
             Spacer()
 
             VStack(spacing: 15) {
-                CircularProgressView()
+                let progress = SyncYearListeningProgress.shared.progress
+                CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
                     .foregroundColor(.white)
