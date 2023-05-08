@@ -185,6 +185,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
+            self.refreshControl?.endRefreshing(true)
             self.refreshBtn.stopAnimatingImage()
             self.updateLastRefreshDetails()
         }
