@@ -134,10 +134,11 @@ struct ProfileHeaderView: View {
 
                 HStack(spacing: Constants.spacing) {
                     content()
-                }.frame(maxWidth: UIDevice.current.isiPad() ? size.width * 0.75 : nil)
+                }
 
                 Spacer()
             }
+            .frame(maxWidth: .infinity)
         }
     }
 
