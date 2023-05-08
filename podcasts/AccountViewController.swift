@@ -72,6 +72,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     }
 
     @IBOutlet var oldUpgradeView: ThemeableView!
+    lazy var headerViewModel: AccountHeaderViewModel = {
+        let viewModel = AccountHeaderViewModel()
 
     @IBOutlet var upgradeSeperatorView: ThemeableView! {
         didSet {
@@ -85,6 +87,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             noInternetView.layer.cornerRadius = 8
             noInternetView.layer.borderColor = AppTheme.colorForStyle(.primaryUi06).cgColor
             noInternetView.layer.borderWidth = 1
+        viewModel.viewContentSizeChanged = { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 
@@ -93,18 +97,24 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             noInternetLabel.style = .primaryText02
         }
     }
+        return viewModel
+    }()
 
     @IBOutlet var plusLogo: ThemeableImageView! {
         didSet {
             plusLogo.imageNameFunc = AppTheme.pcPlusLogoHorizontalImageName
         }
     }
+    lazy var updatedHeaderContentView: UIView = {
+        let headerView = AccountHeaderView(viewModel: headerViewModel)
 
     @IBOutlet var priceLabel: ThemeableLabel! {
         didSet {
             priceLabel.style = .primaryText01
         }
     }
+        let view = headerView.themedUIView
+        view.backgroundColor = .clear
 
     @IBOutlet var upgradeButton: ThemeableRoundedButton!
 
@@ -131,6 +141,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         guard FeatureFlag.onboardingUpdates.enabled else { return }
         oldUpgradeView.removeFromSuperview()
     }
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,13 +152,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsFailed), name: ServerNotifications.iapProductsFailed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusChanged), name: ServerNotifications.subscriptionStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
-        tableView.tableHeaderView = headerView
 
-        NSLayoutConstraint.activate([
-            headerView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
-            headerView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
-        ])
+        tableView.tableHeaderView = updatedHeaderContentView
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +188,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         if let email = ServerSettings.syncingEmail() {
             emailLabel.text = email
         }
+        headerViewModel.update()
 
         // Only accounts created with username/password can change email/password
         var accountOptions: [TableRow]
@@ -348,6 +356,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             upgradeButton.isHidden = true
             noInternetView.isHidden = false
         #endif
+        updateDisplayedData()
     }
 
     private func updateTableRows(newRows: [[TableRow]]) {
@@ -391,6 +400,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             if let email = ServerSettings.syncingEmail() {
                 self.emailLabel.text = email
             }
+            self.headerViewModel.update()
         }
     }
 }
