@@ -3030,6 +3030,7 @@
 		C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionProfileImage.swift; sourceTree = "<group>"; };
+		C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountHeaderViewModel.swift; sourceTree = "<group>"; };
 		C713D4F32A04C90500A78468 /* SubscriptionBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionBadge.swift; sourceTree = "<group>"; };
 		C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+AppColors.swift"; sourceTree = "<group>"; };
 		C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeGeometryReader.swift; sourceTree = "<group>"; };
@@ -6349,6 +6350,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C799373C2A0963420010DC64 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		C799373D2A0963500010DC64 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -7953,6 +7962,7 @@
 				4053A827249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift in Sources */,
 				BD1EBD6E1CB7770B004F83D6 /* AppearanceViewController.swift in Sources */,
 				BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */,
+				C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
 				407B21E72231F6A300B4E492 /* UploadedSettingsViewController.swift in Sources */,
 				BD339C5C2149E35600E655F9 /* VideoViewController+Controls.swift in Sources */,
