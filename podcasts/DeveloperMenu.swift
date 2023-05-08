@@ -24,7 +24,7 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Set to No Subscription") {
+                Button("Set to No Plus") {
                     SubscriptionHelper.setSubscriptionPaid(Int(0))
                     SubscriptionHelper.setSubscriptionPlatform(Int(0))
                     SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
@@ -76,7 +76,11 @@ struct DeveloperMenu: View {
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
                     }
+                    Text("Expiring in 2 days")
+                        .font(Font.footnote)
+                }
 
+                VStack(alignment: .leading, spacing: 5) {
                     Button("Set to Active but Cancelled: Patron") {
                         SubscriptionHelper.setSubscriptionPaid(Int(1))
                         SubscriptionHelper.setSubscriptionPlatform(Int(1))
@@ -106,6 +110,11 @@ struct DeveloperMenu: View {
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
                     }
+                    Text("Cancelled subscription, but has passed expiration date")
+                        .font(Font.footnote)
+                }
+
+                VStack(alignment: .leading, spacing: 5) {
                     Button("Set to Cancelled and Expired: Patron") {
                         SubscriptionHelper.setSubscriptionPaid(Int(0))
                         SubscriptionHelper.setSubscriptionPlatform(Int(1))
