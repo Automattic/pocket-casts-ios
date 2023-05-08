@@ -1376,6 +1376,7 @@
 		C70A444F2A097C3C00F4D77E /* Theme+Plus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */; };
 		C713D4F42A04C90500A78468 /* ProfileDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */; };
 		C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4ED2A04C90400A78468 /* ProfileImage.swift */; };
+		C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */; };
 		C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */; };
 		C713D4F82A04C90500A78468 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */; };
 		C713D4F92A04C90500A78468 /* SubscriptionProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */; };
@@ -3027,6 +3028,7 @@
 		C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Plus.swift"; sourceTree = "<group>"; };
 		C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDataViewModel.swift; sourceTree = "<group>"; };
 		C713D4ED2A04C90400A78468 /* ProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
+		C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountHeaderView.swift; sourceTree = "<group>"; };
 		C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionProfileImage.swift; sourceTree = "<group>"; };
@@ -6353,6 +6355,7 @@
 		C799373C2A0963420010DC64 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */,
 				C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */,
 			);
 			path = Account;
@@ -8359,6 +8362,7 @@
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				C7F87F112913242C00C15980 /* UIFont+FontStyle.swift in Sources */,
 				400A3EEE226FF12B007361C7 /* SelectPaymentFreqViewController.swift in Sources */,
+				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
 				8B0EEDEA2900990D00075772 /* LongestEpisodeStory.swift in Sources */,
 				BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */,
 				4006E31123A88AE600174DEB /* ExpandedCollectionViewController.swift in Sources */,
