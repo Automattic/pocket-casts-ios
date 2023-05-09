@@ -4,6 +4,13 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
     var source: Source = .unknown
 
+    override init(purchaseHandler: IapHelper = .shared) {
+        super.init(purchaseHandler: purchaseHandler)
+
+        // Load prices on init
+        loadPrices()
+    }
+
     func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
         loadPrices {
             switch self.priceAvailability {
