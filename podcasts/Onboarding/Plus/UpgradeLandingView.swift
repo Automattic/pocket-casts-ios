@@ -124,10 +124,12 @@ struct UpgradeLandingView: View {
             viewModel.loadPrices()
 
             // Switch to the previously selected options if available
-            if let continuePurchasing = viewModel.continuePurchasing {
-                let index = tiers.firstIndex(where: { $0.plan == continuePurchasing.plan }) ?? 0
+            let displayProduct = [viewModel.continuePurchasing, viewModel.displayProduct].compactMap { $0 }.first
 
-                displayPrice = continuePurchasing.frequency
+            if let displayProduct {
+                let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
+
+                displayPrice = displayProduct.frequency
                 currentPage = index
             }
         }
