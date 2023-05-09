@@ -32,8 +32,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 }
 
 private extension PlusAccountPromptViewModel {
-        guard let parentController else { return }
     func showModal(for product: PlusProductPricingInfo? = nil) {
+        guard let parentController else { return }
+
         let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
 
         guard FeatureFlag.patron.enabled else {
