@@ -227,7 +227,7 @@ private struct FeaturesCarousel: View {
 // MARK: - Available plans
 
 struct UpgradeTier: Identifiable {
-    let tier: Tier
+    let tier: SubscriptionType
     let iconName: String
     let title: String
     let plan: Constants.Plan
@@ -238,12 +238,8 @@ struct UpgradeTier: Identifiable {
     let features: [TierFeature]
     let background: RadialGradient
 
-    var id: String {
+    var id: Int {
         tier.rawValue
-    }
-
-    enum Tier: String {
-        case plus, patron
     }
 
     struct TierFeature: Hashable {
