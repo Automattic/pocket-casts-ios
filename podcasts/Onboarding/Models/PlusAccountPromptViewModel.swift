@@ -8,7 +8,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal()
+                self.showModal(for: product)
             case .failed:
                 self.showError()
             default:
@@ -25,8 +25,8 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 }
 
 private extension PlusAccountPromptViewModel {
-    func showModal() {
         guard let parentController else { return }
+    func showModal(for product: PlusProductPricingInfo? = nil) {
         let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
 
         guard FeatureFlag.patron.enabled else {
