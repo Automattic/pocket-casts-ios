@@ -20,7 +20,7 @@ public enum SubscriptionFrequency: Int {
 }
 
 public enum SubscriptionType: Int {
-    case none = 0, plus = 1, supporter = 2
+    case none = 0, plus = 1, supporter = 2, patron = 3
 }
 
 public enum UpdateStatus: Int {

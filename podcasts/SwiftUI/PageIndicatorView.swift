@@ -10,7 +10,6 @@ struct PageIndicatorView: View {
             ForEach(0 ..< numberOfItems, id: \.self) { itemIndex in
                 Circle()
                     .frame(width: 8, height: 8)
-                    .foregroundColor(.white)
                     .opacity(itemIndex == currentPage ? 1 : 0.5)
             }
         }

@@ -66,6 +66,7 @@ struct UpgradeLandingView: View {
 
                                 if !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                                        .foregroundColor(.white)
                                         .padding(.top, 27)
                                 }
 

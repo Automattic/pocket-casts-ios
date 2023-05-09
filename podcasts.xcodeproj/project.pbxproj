@@ -1374,6 +1374,7 @@
 		C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */; };
 		C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */; };
 		C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */; };
+		C713D4FF2A0519BE00A78468 /* ContentSizeGeometryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */; };
 		C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04C829243F7D00F2858A /* ImportViewModel.swift */; };
 		C71C04CB2924403000F2858A /* ImportLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C04CA2924403000F2858A /* ImportLandingView.swift */; };
@@ -3015,6 +3016,7 @@
 		C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusAccountUpgradePrompt.swift; sourceTree = "<group>"; };
 		C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptViewModel.swift; sourceTree = "<group>"; };
 		C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+AppColors.swift"; sourceTree = "<group>"; };
+		C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeGeometryReader.swift; sourceTree = "<group>"; };
 		C715EE0E2A0497DB0054A082 /* Theme+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+Color.swift"; sourceTree = "<group>"; };
 		C71C04C829243F7D00F2858A /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
 		C71C04CA2924403000F2858A /* ImportLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLandingView.swift; sourceTree = "<group>"; };
@@ -6287,6 +6289,7 @@
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
+				C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */,
 				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
 				C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */,
 				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
