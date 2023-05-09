@@ -351,18 +351,8 @@ struct UpgradeCard: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 4) {
-                    Image(tier.iconName)
-                        .padding(.leading, 8)
-                    Text(tier.title)
-                        .foregroundColor(.white)
-                        .font(style: .subheadline, weight: .medium)
-                        .padding(.trailing, 8)
-                        .padding(.vertical, 2)
-                }
-                .background(.black)
-                .cornerRadius(24)
-                .padding(.bottom, 16)
+                SubscriptionBadge(type: tier.tier)
+                    .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
