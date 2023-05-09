@@ -150,7 +150,7 @@ struct PlusAccountUpgradePrompt: View {
     }
 }
 
-private extension Constants.IapProducts {
+extension Constants.IapProducts {
     var subscriptionType: SubscriptionType {
         switch self {
         case .monthly, .yearly:
@@ -168,6 +168,19 @@ private extension Constants.IapProducts {
             return .patron
         }
     }
+
+    var frequency: Constants.PlanFrequency {
+        switch self {
+        case .monthly, .patronMonthly:
+            return .monthly
+        case .yearly, .patronYearly:
+            return .yearly
+        }
+    }
+
+    var productInfo: Constants.ProductInfo {
+        .init(plan: plan, frequency: frequency)
+    }
 }
 
 struct PlusAccountUpgradePrompt_Previews: PreviewProvider {
@@ -176,4 +189,3 @@ struct PlusAccountUpgradePrompt_Previews: PreviewProvider {
             .setupDefaultEnvironment()
     }
 }
-
