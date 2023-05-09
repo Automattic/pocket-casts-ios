@@ -15,6 +15,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
         self.source = source
 
         super.init(purchaseHandler: purchaseHandler)
+
+        self.loadPrices()
     }
 
     func unlockTapped(_ product: Constants.ProductInfo) {
@@ -157,8 +159,7 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         if FeatureFlag.patron.enabled {
-            UpgradeLandingView()
-                .environmentObject(viewModel)
+            UpgradeLandingView(viewModel: viewModel)
                 .setupDefaultEnvironment()
         } else {
             PlusLandingView(viewModel: viewModel)

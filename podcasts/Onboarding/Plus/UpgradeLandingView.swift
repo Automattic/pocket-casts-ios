@@ -2,9 +2,7 @@ import SwiftUI
 import PocketCastsServer
 
 struct UpgradeLandingView: View {
-    @EnvironmentObject var viewModel: PlusLandingViewModel
-
-    private let tiers: [UpgradeTier] = [.plus, .patron]
+    @ObservedObject var viewModel: PlusLandingViewModel
 
     private var selectedTier: UpgradeTier {
         tiers[currentPage]
