@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// A GeometryReader wrapper view that calculates the size of the content and adjusts the
+/// `ContentSizeGeometryReader` is a wrapper around a `GeometryReader` that adjusts itself to the size of its content,
+/// rather than taking up all the available space by default.
 ///
+/// Using .frame(maxWidth: .infinity) or .frame(maxHeight: .infinity) on the content view will expand the GeometryReader
+/// in a specific direction.
 ///
-/// The contentSizeUpdated to be informed of the new content size outside of SwiftUI
-///
-/// This can be used to dynamically change the height of a SwiftUI view that's being used in UIKit
-/// or use a GeometryReader without it taking up all the available space
+/// Set the `contentSizeUpdated` property to be informed of changes to the content size.
 ///
 struct ContentSizeGeometryReader<Content: View>: View {
     let content: (GeometryProxy) -> Content
@@ -40,7 +40,7 @@ struct ContentHeightView_Previews: PreviewProvider {
             ZStack {
                 GeometryReader { proxy in
                     VStack {
-                        Text("The geometry read is bound to \(String(describing: proxy.size))")
+                        Text("The GeometryReader is bound to \(String(describing: proxy.size))")
 
                         Rectangle()
                             .frame(width: 200, height: 200)
@@ -50,7 +50,7 @@ struct ContentHeightView_Previews: PreviewProvider {
 
                 ContentSizeGeometryReader { proxy in
                     VStack {
-                        Text("The geometry read is bound to \(String(describing: proxy.size))")
+                        Text("The GeometryReader is bound to \(String(describing: proxy.size))")
                             .fixedSize(horizontal: false, vertical: true)
                         Rectangle()
                             .frame(width: 200, height: 200)
