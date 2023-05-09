@@ -426,6 +426,6 @@ extension ViewHeightKey: ViewModifier {
 
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
-        UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
+        UpgradeLandingView(viewModel: PlusLandingViewModel(source: .login))
     }
 }
