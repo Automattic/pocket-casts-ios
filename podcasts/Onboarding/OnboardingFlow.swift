@@ -53,12 +53,6 @@ struct OnboardingFlow {
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
 
-    /// Updates the current flow
-    /// Any `track` events will use this new flow
-    mutating func updateFlow(_ flow: Flow) {
-        self.currentFlow = flow
-    }
-
     /// Updates the source passed for analytics
     /// Any `track` events will use this new source
     mutating func updateAnalyticsSource(_ source: String) {
