@@ -12,13 +12,13 @@ struct AccountHeaderView: View {
                 .frame(width: Constants.imageSize, height: Constants.imageSize)
 
             ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
-                .padding(.top, 5)
+                .padding(.top, Constants.padding.labelsTop)
 
             VStack {
                 // Subscription badge
                 viewModel.subscription.map {
                     SubscriptionBadge(type: $0.type)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, Constants.padding.badgeBottom)
                 }
 
                 // Subscription details labels
@@ -107,9 +107,9 @@ struct AccountHeaderView: View {
                 content(proxy)
                     .frame(maxWidth: .infinity)
             }
-            .padding(.top, 30)
-            .padding(.bottom, 20)
-            .padding(.horizontal, 16)
+            .padding(.top, Constants.padding.top)
+            .padding(.bottom, Constants.padding.bottom)
+            .padding(.horizontal, Constants.padding.horizontal)
         } contentSizeUpdated: { size in
             viewModel.contentSizeChanged(size)
         }
@@ -119,6 +119,15 @@ struct AccountHeaderView: View {
     private enum Constants {
         static let spacing = 16.0
         static let imageSize = 64.0
+
+        enum padding {
+            static let top = 30.0
+            static let bottom = 20.0
+            static let horizontal = 16.0
+
+            static let labelsTop = 5.0
+            static let badgeBottom = 10.0
+        }
     }
 }
 
