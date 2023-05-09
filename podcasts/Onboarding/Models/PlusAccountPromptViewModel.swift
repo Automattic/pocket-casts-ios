@@ -41,13 +41,8 @@ private extension PlusAccountPromptViewModel {
             return
         }
 
-        // Update the flow and source
-        OnboardingFlow.shared.updateFlow(.plusAccountUpgrade)
-        OnboardingFlow.shared.updateAnalyticsSource(source.rawValue)
-
-        let navigationController = parentController as? UINavigationController
-        let displayProduct = product?.identifier.productInfo
-        let controller = PlusLandingViewModel.make(in: navigationController, from: .upsell, config: .init(displayProduct: displayProduct))
+        let flow: OnboardingFlow.Flow = product?.identifier.subscriptionType == .patron ? .patronAccountUpgrade : .plusAccountUpgrade
+        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue)
 
         parentController.present(controller, animated: true)
     }
