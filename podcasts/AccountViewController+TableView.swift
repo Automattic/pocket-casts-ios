@@ -57,7 +57,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .upgradeAccount:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
-            cell.cellLabel.text = "Upgrade Account"
+            cell.cellLabel.text = L10n.upgradeAccount
             cell.cellImage.image = UIImage(named: "patron-heart")?.withRenderingMode(.alwaysTemplate)
             cell.counterView.isHidden = true
             cell.showsDisclosureIndicator = false
