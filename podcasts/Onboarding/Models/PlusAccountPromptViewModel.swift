@@ -4,7 +4,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
     var source: Source = .unknown
 
-    func upgradeTapped() {
+    func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
