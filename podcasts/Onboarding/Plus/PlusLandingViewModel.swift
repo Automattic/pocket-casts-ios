@@ -5,11 +5,13 @@ import SwiftUI
 class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
+    var displayProduct: Constants.ProductInfo? = nil
     var continuePurchasing: Constants.ProductInfo? = nil
     let source: Source
 
-    init(source: Source, continuePurchasing: Constants.ProductInfo? = nil, purchaseHandler: IapHelper = .shared) {
-        self.continuePurchasing = continuePurchasing
+    init(source: Source, config: Config? = nil, purchaseHandler: IapHelper = .shared) {
+        self.displayProduct = config?.displayProduct
+        self.continuePurchasing = config?.continuePurchasing
         self.source = source
 
         super.init(purchaseHandler: purchaseHandler)
@@ -102,6 +104,11 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case login
         case accountCreated
     }
+
+    struct Config {
+        var displayProduct: Constants.ProductInfo? = nil
+        var continuePurchasing: Constants.ProductInfo? = nil
+    }
 }
 
 private extension PlusLandingViewModel {
@@ -130,8 +137,8 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
-        let viewModel = PlusLandingViewModel(source: source, continuePurchasing: continuePurchasing)
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil) -> UIViewController {
+        let viewModel = PlusLandingViewModel(source: source, config: config)
 
         let view = Self.view(with: viewModel)
         let controller = PlusHostingViewController(rootView: view)
