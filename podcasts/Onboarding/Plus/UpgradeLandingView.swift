@@ -4,6 +4,7 @@ import PocketCastsServer
 struct UpgradeLandingView: View {
     @ObservedObject var viewModel: PlusLandingViewModel
 
+    private let tiers: [UpgradeTier]
     private var selectedTier: UpgradeTier {
         tiers[currentPage]
     }
@@ -13,6 +14,27 @@ struct UpgradeLandingView: View {
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
     @State private var displayPrice: Constants.PlanFrequency = .yearly
+
+    init(viewModel: PlusLandingViewModel) {
+        self.viewModel = viewModel
+
+        // Update the displayed products to hide ones the user is subscribed to
+        tiers = {
+            let type = SubscriptionHelper.hasActiveSubscription() ? SubscriptionHelper.subscriptionType() : .none
+
+            return [.plus, .patron].filter { $0.tier != type }
+        }()
+
+        // Switch to the previously selected options if available
+        let displayProduct = [viewModel.continuePurchasing, viewModel.displayProduct].compactMap { $0 }.first
+
+        if let displayProduct {
+            let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
+
+            _displayPrice = State(initialValue: displayProduct.frequency)
+            _currentPage = State(initialValue: index)
+        }
+    }
 
     private var selectedProduct: Constants.IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
