@@ -55,6 +55,18 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
             return cell
 
+        case .upgradeAccount:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
+            cell.cellLabel.text = "Upgrade Account"
+            cell.cellImage.image = UIImage(named: "patron-heart")?.withRenderingMode(.alwaysTemplate)
+            cell.counterView.isHidden = true
+            cell.showsDisclosureIndicator = false
+
+            cell.imageAndTextColor = AppTheme.patronTextColor
+
+            return cell
+
+
         case .supporterContributions:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
             cell.cellLabel.text = L10n.supporterContributions
@@ -151,6 +163,10 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch row {
         case .upgradeView:
+            break
+        case .upgradeAccount:
+            let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, source: "account")
+            navigationController?.present(controller, animated: true)
             break
 
         case .supporterContributions:
