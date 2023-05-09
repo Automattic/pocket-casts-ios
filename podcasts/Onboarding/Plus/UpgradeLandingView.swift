@@ -84,7 +84,7 @@ struct UpgradeLandingView: View {
 
                                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                                if !isSmallScreen && !contentIsScrollable {
+                                if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                                         .foregroundColor(.white)
                                         .padding(.top, 27)
@@ -139,20 +139,6 @@ struct UpgradeLandingView: View {
 
         }
         .background(Color.plusBackgroundColor)
-        .onAppear {
-            // Ensure prices are loaded
-            viewModel.loadPrices()
-
-            // Switch to the previously selected options if available
-            let displayProduct = [viewModel.continuePurchasing, viewModel.displayProduct].compactMap { $0 }.first
-
-            if let displayProduct {
-                let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
-
-                displayPrice = displayProduct.frequency
-                currentPage = index
-            }
-        }
     }
 
     var topBar: some View {
@@ -234,8 +220,9 @@ private struct FeaturesCarousel: View {
                     }
                 )
         }
-        .carouselPeekAmount(.constant(ViewConstants.peekAmount))
+        .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
+        .carouselScrollEnabled(tiers.count > 1)
         .frame(height: calculatedCardHeight)
         .padding(.leading, 30)
     }
