@@ -7,7 +7,7 @@ extension Theme {
     }
 
     var patronPrimaryColor: Color {
-        return Color(hex: ThemeConstants.patronHexLightTheme)
+        Color(hex: ThemeConstants.patronHexLightTheme)
     }
 }
 
