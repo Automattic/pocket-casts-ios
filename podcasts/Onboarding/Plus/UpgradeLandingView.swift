@@ -2,10 +2,9 @@ import SwiftUI
 import PocketCastsServer
 
 struct UpgradeLandingView: View {
-    @EnvironmentObject var viewModel: PlusLandingViewModel
+    @ObservedObject var viewModel: PlusLandingViewModel
 
-    private let tiers: [UpgradeTier] = [.plus, .patron]
-
+    private let tiers: [UpgradeTier]
     private var selectedTier: UpgradeTier {
         tiers[currentPage]
     }
@@ -15,6 +14,27 @@ struct UpgradeLandingView: View {
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
     @State private var displayPrice: Constants.PlanFrequency = .yearly
+
+    init(viewModel: PlusLandingViewModel) {
+        self.viewModel = viewModel
+
+        // Update the displayed products to hide ones the user is subscribed to
+        tiers = {
+            let type = SubscriptionHelper.hasActiveSubscription() ? SubscriptionHelper.subscriptionType() : .none
+
+            return [.plus, .patron].filter { $0.tier != type }
+        }()
+
+        // Switch to the previously selected options if available
+        let displayProduct = [viewModel.continuePurchasing, viewModel.displayProduct].compactMap { $0 }.first
+
+        if let displayProduct {
+            let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
+
+            _displayPrice = State(initialValue: displayProduct.frequency)
+            _currentPage = State(initialValue: index)
+        }
+    }
 
     private var selectedProduct: Constants.IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
@@ -64,7 +84,7 @@ struct UpgradeLandingView: View {
 
                                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
 
-                                if !isSmallScreen && !contentIsScrollable {
+                                if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                                         .foregroundColor(.white)
                                         .padding(.top, 27)
@@ -119,18 +139,6 @@ struct UpgradeLandingView: View {
 
         }
         .background(Color.plusBackgroundColor)
-        .onAppear {
-            // Ensure prices are loaded
-            viewModel.loadPrices()
-
-            // Switch to the previously selected options if available
-            if let continuePurchasing = viewModel.continuePurchasing {
-                let index = tiers.firstIndex(where: { $0.plan == continuePurchasing.plan }) ?? 0
-
-                displayPrice = continuePurchasing.frequency
-                currentPage = index
-            }
-        }
     }
 
     var topBar: some View {
@@ -212,8 +220,9 @@ private struct FeaturesCarousel: View {
                     }
                 )
         }
-        .carouselPeekAmount(.constant(ViewConstants.peekAmount))
+        .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
+        .carouselScrollEnabled(tiers.count > 1)
         .frame(height: calculatedCardHeight)
         .padding(.leading, 30)
     }
@@ -227,7 +236,7 @@ private struct FeaturesCarousel: View {
 // MARK: - Available plans
 
 struct UpgradeTier: Identifiable {
-    let tier: Tier
+    let tier: SubscriptionType
     let iconName: String
     let title: String
     let plan: Constants.Plan
@@ -238,12 +247,8 @@ struct UpgradeTier: Identifiable {
     let features: [TierFeature]
     let background: RadialGradient
 
-    var id: String {
+    var id: Int {
         tier.rawValue
-    }
-
-    enum Tier: String {
-        case plus, patron
     }
 
     struct TierFeature: Hashable {
@@ -346,18 +351,8 @@ struct UpgradeCard: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 4) {
-                    Image(tier.iconName)
-                        .padding(.leading, 8)
-                    Text(tier.title)
-                        .foregroundColor(.white)
-                        .font(style: .subheadline, weight: .medium)
-                        .padding(.trailing, 8)
-                        .padding(.vertical, 2)
-                }
-                .background(.black)
-                .cornerRadius(24)
-                .padding(.bottom, 16)
+                SubscriptionBadge(type: tier.tier)
+                    .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
@@ -430,6 +425,6 @@ extension ViewHeightKey: ViewModifier {
 
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
-        UpgradeLandingView().environmentObject(PlusLandingViewModel(source: .login))
+        UpgradeLandingView(viewModel: PlusLandingViewModel(source: .login))
     }
 }

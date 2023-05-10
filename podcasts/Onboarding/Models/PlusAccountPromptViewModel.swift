@@ -4,11 +4,18 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
     var source: Source = .unknown
 
-    func upgradeTapped() {
+    override init(purchaseHandler: IapHelper = .shared) {
+        super.init(purchaseHandler: purchaseHandler)
+
+        // Load prices on init
+        loadPrices()
+    }
+
+    func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal()
+                self.showModal(for: product)
             case .failed:
                 self.showError()
             default:
@@ -25,14 +32,17 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 }
 
 private extension PlusAccountPromptViewModel {
-    func showModal() {
+    func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController else { return }
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
 
         guard FeatureFlag.patron.enabled else {
+            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
             controller.presentModally(in: parentController)
             return
         }
+
+        let flow: OnboardingFlow.Flow = product?.identifier.subscriptionType == .patron ? .patronAccountUpgrade : .plusAccountUpgrade
+        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue)
 
         parentController.present(controller, animated: true)
     }

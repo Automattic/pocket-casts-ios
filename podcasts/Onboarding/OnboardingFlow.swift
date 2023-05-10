@@ -28,6 +28,12 @@ struct OnboardingFlow {
                 flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
             }
 
+        case .patronAccountUpgrade:
+            self.source = source ?? "unknown"
+            flowController = PlusLandingViewModel.make(in: navigationController,
+                                                       from: .upsell,
+                                                       config: .init(displayProduct: .init(plan: .patron, frequency: .yearly)))
+
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
@@ -79,6 +85,9 @@ struct OnboardingFlow {
         /// When the user taps on an upgrade button and is brought directly to the purchase modal
         /// From account details and plus details
         case plusAccountUpgrade = "plus_account_upgrade"
+
+        /// When the user taps the 'Upgrade Account' option from the account view to view the patron upgrade view
+        case patronAccountUpgrade = "patron_account_upgrade"
 
         /// When the user taps on an upgrade button but is logged out and needs to login
         /// They are presented with the login first, then the modal

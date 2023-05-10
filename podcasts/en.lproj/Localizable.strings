@@ -1680,6 +1680,9 @@
 /* Label of a title explaining why to subscribe to Patron. */
 "patron_callout" = "Believe in what we’re doing and want to show your support?";
 
+/* Label of a button that informs the user they can upgrade their account. . */
+"upgrade_account" = "Upgrade Account";
+
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
 
