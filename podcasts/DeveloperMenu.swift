@@ -63,6 +63,19 @@ struct DeveloperMenu: View {
                     HapticsHelper.triggerSubscribedHaptic()
                 }
 
+                Button("Set to Lifetime") {
+                    SubscriptionHelper.setSubscriptionPaid(Int(1))
+                    SubscriptionHelper.setSubscriptionPlatform(Int(4))
+                    SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 11 * 365.days).timeIntervalSince1970)
+                    SubscriptionHelper.setSubscriptionAutoRenewing(false)
+                    SubscriptionHelper.setSubscriptionGiftDays(Int(11 * 365.days))
+                    SubscriptionHelper.setSubscriptionFrequency(Int(0))
+                    SubscriptionHelper.setSubscriptionType(Int(1))
+
+                    NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+                    HapticsHelper.triggerSubscribedHaptic()
+                }
+
                 VStack(alignment: .leading, spacing: 5) {
                     Button("Set to Active but Cancelled: Plus") {
                         SubscriptionHelper.setSubscriptionPaid(Int(1))

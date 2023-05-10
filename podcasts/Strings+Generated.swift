@@ -2706,6 +2706,8 @@ internal enum L10n {
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
   /// Nothing in Up Next
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
+  /// Upgrade Account
+  internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Title (A-Z)
   internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
   /// Volume Boost
