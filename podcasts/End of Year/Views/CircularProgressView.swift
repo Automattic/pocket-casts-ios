@@ -9,18 +9,18 @@ struct CircularProgressView<S: ShapeStyle>: View {
 
     private var from: Double {
         switch direction {
-        case .up:
-            return 1 - value
         case .down:
+            return 1 - value
+        case .up:
             return 0
         }
     }
 
     private var to: Double {
         switch direction {
-        case .up:
-            return 1
         case .down:
+            return 1
+        case .up:
             return value
         }
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,35 +11,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
-                <outlet property="accountButton" destination="iS9-9S-ZqI" id="Gnn-cG-o4U"/>
                 <outlet property="alertIcon" destination="DIr-Rj-zcX" id="uUW-gF-0g4"/>
-                <outlet property="emailAddress" destination="rz4-2L-dax" id="UwD-H6-a9v"/>
                 <outlet property="footerView" destination="tbb-Ov-mq8" id="ecp-tq-Eiu"/>
-                <outlet property="headerView" destination="uiI-EV-3dN" id="nVc-zp-VsM"/>
-                <outlet property="hoursSaved" destination="l06-nc-WbX" id="1kd-Qf-27x"/>
-                <outlet property="hoursSavedUnits" destination="KpD-Q7-0rE" id="Wtx-jJ-FYe"/>
                 <outlet property="lastRefreshTime" destination="VB8-yk-sc5" id="TNW-Qn-8ZM"/>
                 <outlet property="plusInfoView" destination="HPJ-89-MbZ" id="98u-FG-OHC"/>
-                <outlet property="podcastCount" destination="2Sp-eo-CnB" id="g6s-Af-kSc"/>
-                <outlet property="podcastCountView" destination="AR5-Yo-g5a" id="Uyj-KG-nML"/>
-                <outlet property="podcastsLabel" destination="25m-yY-ZUn" id="a5w-fi-n7r"/>
-                <outlet property="profileStatusView" destination="Tbb-vO-uG1" id="YpV-Xv-cBM"/>
                 <outlet property="profileTable" destination="O6Y-M5-xeo" id="H0S-9j-I26"/>
                 <outlet property="refreshBtn" destination="p8e-4a-Gv8" id="RyB-fn-9Ka"/>
-                <outlet property="timeListened" destination="Gib-T8-GCO" id="318-lo-9Nr"/>
-                <outlet property="timeListenedUnits" destination="qRV-Rz-HlB" id="yBE-Nw-fdk"/>
-                <outlet property="timeListenedView" destination="Gv8-Yr-WQx" id="iVK-to-i8Q"/>
-                <outlet property="timeSavedView" destination="BCI-cZ-UiQ" id="Dcc-tl-tbX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="70" estimatedRowHeight="70" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O6Y-M5-xeo" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                     <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="c7G-JC-m0P"/>
@@ -131,138 +118,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-1439.2" y="-156.97151424287858"/>
         </view>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="348" id="uiI-EV-3dN" customClass="ThemeableCell" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="470" height="348"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uiI-EV-3dN" id="33S-ea-G3l">
-                <rect key="frame" x="0.0" y="0.0" width="470" height="348"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ajb-Ph-hSH">
-                        <rect key="frame" x="0.0" y="16" width="470" height="316"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tbb-vO-uG1" customClass="ProfileProgressCircleView" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="183" y="0.0" width="104" height="104"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="999" constant="104" id="0nS-XO-Uup"/>
-                                    <constraint firstAttribute="width" constant="104" id="bTo-Vf-vr6"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mysuperlongemailaddressisreallylong@longplacename.com.au" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rz4-2L-dax" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="20.5" y="120" width="429.5" height="85"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iS9-9S-ZqI" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="163" y="221" width="144" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="999" constant="40" id="yxr-J9-WsM"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="mainColor">
-                                        <color key="value" red="0.1137254902" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="Set up account"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MlB-ib-JyZ">
-                                <rect key="frame" x="0.0" y="277" width="470" height="39"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AR5-Yo-g5a">
-                                        <rect key="frame" x="0.0" y="0.0" width="156.5" height="39"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Sp-eo-CnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="64.5" y="0.0" width="28" height="20.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcasts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25m-yY-ZUn" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="54" y="25.5" width="48.5" height="13.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Gv8-Yr-WQx">
-                                        <rect key="frame" x="156.5" y="0.0" width="157" height="39"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gib-T8-GCO" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="68.5" y="0.0" width="20.5" height="20.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.97106073940000004" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours Listened" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRV-Rz-HlB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="39" y="25.5" width="79.5" height="13.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BCI-cZ-UiQ">
-                                        <rect key="frame" x="313.5" y="0.0" width="156.5" height="39"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l06-nc-WbX" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="73" y="0.0" width="10.5" height="20.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.97106073940000004" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seconds Saved" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpD-Q7-0rE" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="38" y="25.5" width="80.5" height="13.5"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <bool key="isElement" value="NO"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="MlB-ib-JyZ" firstAttribute="width" secondItem="Ajb-Ph-hSH" secondAttribute="width" id="1d7-9C-Q24"/>
-                        </constraints>
-                    </stackView>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="Ajb-Ph-hSH" firstAttribute="leading" secondItem="33S-ea-G3l" secondAttribute="leading" id="F0o-Nf-umJ"/>
-                    <constraint firstAttribute="bottom" secondItem="Ajb-Ph-hSH" secondAttribute="bottom" priority="999" constant="16" id="WQb-Ty-T2a"/>
-                    <constraint firstItem="Ajb-Ph-hSH" firstAttribute="top" secondItem="33S-ea-G3l" secondAttribute="top" constant="16" id="k4G-e1-ThM"/>
-                    <constraint firstAttribute="trailing" secondItem="Ajb-Ph-hSH" secondAttribute="trailing" id="un0-Vr-YnM"/>
-                </constraints>
-            </tableViewCellContentView>
-            <point key="canvasLocation" x="-2310.4000000000001" y="-867.16641679160432"/>
-        </tableViewCell>
     </objects>
     <designables>
-        <designable name="iS9-9S-ZqI">
-            <size key="intrinsicContentSize" width="143.77119588851929" height="17.900390625"/>
-        </designable>
         <designable name="p8e-4a-Gv8">
             <size key="intrinsicContentSize" width="127.41327571868896" height="17.900390625"/>
         </designable>

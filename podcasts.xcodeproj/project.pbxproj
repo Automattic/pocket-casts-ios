@@ -1373,6 +1373,14 @@
 		C7080C082922DB5F00D7A432 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */; };
 		C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */; };
 		C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */; };
+		C70A444F2A097C3C00F4D77E /* Theme+Plus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */; };
+		C713D4F42A04C90500A78468 /* ProfileDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */; };
+		C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4ED2A04C90400A78468 /* ProfileImage.swift */; };
+		C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */; };
+		C713D4F82A04C90500A78468 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */; };
+		C713D4F92A04C90500A78468 /* SubscriptionProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */; };
+		C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */; };
+		C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F32A04C90500A78468 /* SubscriptionBadge.swift */; };
 		C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */; };
 		C713D4FF2A0519BE00A78468 /* ContentSizeGeometryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */; };
 		C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
@@ -1406,6 +1414,7 @@
 		C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
+		C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */; };
 		C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */; };
 		C7A110E6291EF2DF00887A90 /* PlusLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */; };
 		C7A110F0291EFF7A00887A90 /* PlusPurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110EF291EFF7A00887A90 /* PlusPurchaseModel.swift */; };
@@ -3015,6 +3024,13 @@
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusAccountUpgradePrompt.swift; sourceTree = "<group>"; };
 		C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptViewModel.swift; sourceTree = "<group>"; };
+		C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Plus.swift"; sourceTree = "<group>"; };
+		C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDataViewModel.swift; sourceTree = "<group>"; };
+		C713D4ED2A04C90400A78468 /* ProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
+		C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionProfileImage.swift; sourceTree = "<group>"; };
+		C713D4F32A04C90500A78468 /* SubscriptionBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionBadge.swift; sourceTree = "<group>"; };
 		C713D4FC2A05168B00A78468 /* Theme+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+AppColors.swift"; sourceTree = "<group>"; };
 		C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizeGeometryReader.swift; sourceTree = "<group>"; };
 		C715EE0E2A0497DB0054A082 /* Theme+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+Color.swift"; sourceTree = "<group>"; };
@@ -3044,6 +3060,7 @@
 		C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEpisodeHelper.swift; sourceTree = "<group>"; };
 		C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinator.swift; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
 		C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLandingViewModel.swift; sourceTree = "<group>"; };
 		C7A110EF291EFF7A00887A90 /* PlusPurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseModel.swift; sourceTree = "<group>"; };
@@ -4774,6 +4791,7 @@
 		BD55C9F11FB9200C0084A7CB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C713D4EB2A04C8D700A78468 /* Profile - SwiftUI */,
 				BD5B79191783F9CF00A0F407 /* Settings */,
 				BD7516E01C0FC8180099F53E /* Downloads */,
 				BDF4D30D2175AA0D0086463E /* Starred */,
@@ -6253,6 +6271,17 @@
 			name = "Up Next";
 			sourceTree = "<group>";
 		};
+		C713D4EB2A04C8D700A78468 /* Profile - SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C799373C2A0963420010DC64 /* Account */,
+				C799373E2A0963560010DC64 /* Common Views */,
+				C799373D2A0963500010DC64 /* Profile */,
+				C799373F2A0963680010DC64 /* View Models */,
+			);
+			path = "Profile - SwiftUI";
+			sourceTree = "<group>";
+		};
 		C71C04C729243F6D00F2858A /* Import */ = {
 			isa = PBXGroup;
 			children = (
@@ -6277,22 +6306,26 @@
 		C74887782919DC7B00EBC926 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */,
-				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				C7B3C60B2919DCC800054145 /* ActionView.swift */,
-				C7B3C6132919F47A00054145 /* HorizontalScrollView.swift */,
-				C7FAFF682942E6A400329B40 /* HighlightedText.swift */,
-				C7FF76BF291B4F430082A464 /* ProportionalValue.swift */,
-				C7FF7716291D50880082A464 /* Motion.swift */,
-				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
 				C7A110F8291F66C700887A90 /* Confetti.swift */,
+				C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */,
+				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
 				C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */,
 				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
+				C7FAFF682942E6A400329B40 /* HighlightedText.swift */,
+				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
 				C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */,
+				C7B3C6132919F47A00054145 /* HorizontalScrollView.swift */,
+				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
+				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
+				C7FF7716291D50880082A464 /* Motion.swift */,
 				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
+				C7FF76BF291B4F430082A464 /* ProportionalValue.swift */,
+				C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */,
+				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -6314,6 +6347,34 @@
 				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C799373D2A0963500010DC64 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		C799373E2A0963560010DC64 /* Common Views */ = {
+			isa = PBXGroup;
+			children = (
+				C713D4ED2A04C90400A78468 /* ProfileImage.swift */,
+				C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */,
+				C713D4F32A04C90500A78468 /* SubscriptionBadge.swift */,
+				C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */,
+			);
+			path = "Common Views";
+			sourceTree = "<group>";
+		};
+		C799373F2A0963680010DC64 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */,
+				C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		C7A110F3291F48C100887A90 /* Welcome */ = {
@@ -6365,6 +6426,7 @@
 				C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */,
 				C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */,
 				8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */,
+				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 			);
 			path = Plus;
 			sourceTree = "<group>";
@@ -7747,6 +7809,7 @@
 				BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */,
 				BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */,
 				8B5AB48A29018A950018C637 /* EpilogueStory.swift in Sources */,
+				C70A444F2A097C3C00F4D77E /* Theme+Plus.swift in Sources */,
 				8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */,
 				408426322134CBE60076D82E /* SmallPagedListSummaryViewController.swift in Sources */,
 				C7FAFF6A2942E78A00329B40 /* HighlightedText.swift in Sources */,
@@ -7802,6 +7865,7 @@
 				407502B6240DCBF200437528 /* NetworkUtils+Helpers.swift in Sources */,
 				C741D9D428ADBA23006CFBE7 /* AppLifecyleAnalytics.swift in Sources */,
 				BDD84CE527CC9353001C078B /* ChoosePodcastFolderModel.swift in Sources */,
+				C713D4F82A04C90500A78468 /* ProfileHeaderViewModel.swift in Sources */,
 				BDCE1D611FBC1C4100100A86 /* UrlHelper.swift in Sources */,
 				BDB5F0C7204504E900437669 /* MultipleActionView.swift in Sources */,
 				40164A6723D696E00043907B /* PromotionViewController.swift in Sources */,
@@ -7864,6 +7928,7 @@
 				C7612FFF28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */,
 				BDF4D3162175C56F0086463E /* ThemeLoadingIndicator.swift in Sources */,
 				4030D4612496446000BEC7D9 /* MultiSelectActionController.swift in Sources */,
+				C713D4F92A04C90500A78468 /* SubscriptionProfileImage.swift in Sources */,
 				BDD40A1C1FA1B14900A53AE1 /* TintableImageButton.swift in Sources */,
 				40588AAC254131D1002BDCA6 /* LargeNavBarViewController.swift in Sources */,
 				BD95ED6E1BAFA571004335B0 /* CountryCell.swift in Sources */,
@@ -7973,6 +8038,7 @@
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
 				C7FF7717291D50880082A464 /* Motion.swift in Sources */,
 				BD83DE0C2068B8E000012C06 /* MiniPlayerViewController+Gestures.swift in Sources */,
+				C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */,
 				8B087FCB29DE08460027EAE5 /* UpgradeLandingView.swift in Sources */,
 				C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */,
 				BDC8CDDE203C02F600D88313 /* PodcastListViewController+Search.swift in Sources */,
@@ -8026,6 +8092,7 @@
 				C7FF76C0291B4F430082A464 /* ProportionalValue.swift in Sources */,
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
 				BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */,
+				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
 				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
 				4011B93B2164546E00661A7D /* FilterEditOptionsViewController.swift in Sources */,
 				4051A5762281A9DD00C13C12 /* AccountActionCell.swift in Sources */,
@@ -8047,6 +8114,7 @@
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,
+				C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */,
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,
 				BD26AFD727BE09E8008CC973 /* EditFolderView.swift in Sources */,
@@ -8103,6 +8171,7 @@
 				BD7641332588272B0070CBF3 /* ThemeableSwitch.swift in Sources */,
 				8B938E2B29BFB4F2008997B9 /* SearchAnalyticsHelper.swift in Sources */,
 				BD585C1F2047887700AC842C /* AppDelegate+UrlHandling.swift in Sources */,
+				C713D4FF2A0519BE00A78468 /* ContentSizeGeometryReader.swift in Sources */,
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
 				C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */,
@@ -8158,6 +8227,7 @@
 				4029E3E02292686C0003BEEB /* ChangeEmailViewController.swift in Sources */,
 				4011B9432164641800661A7D /* EditFilterNameCell.swift in Sources */,
 				C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */,
+				C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */,
 				8B67A26729A7D80E0076886D /* SearchResultCell.swift in Sources */,
 				BD03DF881CACD9AB005A127E /* DownloadedFilesViewController.swift in Sources */,
 				BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */,
@@ -8263,6 +8333,7 @@
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
 				BDF15A401B54E064000EC323 /* PlaybackQueue.swift in Sources */,
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,
+				C713D4F42A04C90500A78468 /* ProfileDataViewModel.swift in Sources */,
 				BD6B1F011CE05159003CE958 /* AnalyticsHelper.swift in Sources */,
 				C7B3C60E2919DD1700054145 /* ContentSizeReader.swift in Sources */,
 				BD583AF421AE5F9E0048D78D /* EpisodeDateHelper.swift in Sources */,
