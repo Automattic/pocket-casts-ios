@@ -1,6 +1,6 @@
 7.39
 -----
-
+- Removed the starred filter from the list of default filters
 
 7.38
 -----
