@@ -3,19 +3,18 @@ import SwiftUI
 /// Applies a holographic/foil/rainbow effect to its contents that moves with the device motion
 struct HolographicEffect<Content>: View where Content: View {
     @StateObject var motion = MotionManager(options: .attitude)
-    private var content: () -> Content
-    private let geometry: GeometryProxy
-    private let multiplier = 4.0
 
-    init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-        self.geometry = geometry
-    }
+    var parentSize: CGSize = UIScreen.main.bounds.size
+    var mode: Mode = .background
+    let content: () -> Content
+
+    private let multiplier = 4.0
 
     var body: some View {
         content()
-            .foregroundColor(.clear)
-            .background(gradientView)
+            .foregroundColor(mode == .background ? .clear : nil)
+            .overlay(mode == .overlay ? gradientView.blendMode(.overlay) : nil)
+            .background(mode == .background ? gradientView : nil)
             .onAppear() {
                 motion.start()
             }.onDisappear() {
@@ -32,16 +31,20 @@ struct HolographicEffect<Content>: View where Content: View {
                 .scaleEffect(scale(proxy.size))
                 .offset(position)
                 .mask(content())
-        }
+        }.allowsHitTesting(false)
+    }
+
+    enum Mode {
+        case overlay, background
     }
 
     private var position: CGSize {
-        CGSize(width: (motion.roll / .pi * multiplier) * geometry.size.height,
-               height: (motion.pitch / .pi * multiplier) * geometry.size.width)
+        CGSize(width: (motion.roll / .pi * multiplier) * parentSize.height,
+               height: (motion.pitch / .pi * multiplier) * parentSize.width)
     }
 
     private func scale(_ size: CGSize) -> Double {
-        max(geometry.size.width, geometry.size.height) / radius(size) * multiplier
+        max(parentSize.width, parentSize.height) / radius(size) * multiplier
     }
 
     private func radius(_ size: CGSize) -> Double {

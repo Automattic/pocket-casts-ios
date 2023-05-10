@@ -72,6 +72,8 @@ internal enum L10n {
   internal static var accessibilitySignIn: String { return L10n.tr("Localizable", "accessibility_sign_in") }
   /// Sort and Options
   internal static var accessibilitySortAndOptions: String { return L10n.tr("Localizable", "accessibility_sort_and_options") }
+  /// Account
+  internal static var account: String { return L10n.tr("Localizable", "account") }
   /// Change Email
   internal static var accountChangeEmail: String { return L10n.tr("Localizable", "account_change_email") }
   /// Almost There!
@@ -1393,6 +1395,8 @@ internal enum L10n {
   }
   /// Unsubscribing from all these podcasts will delete any downloaded files they have, are you sure?
   internal static var paidPodcastUnsubscribeMsg: String { return L10n.tr("Localizable", "paid_podcast_unsubscribe_msg") }
+  /// Patron
+  internal static var patron: String { return L10n.tr("Localizable", "patron") }
   /// Believe in what we’re doing and want to show your support?
   internal static var patronCallout: String { return L10n.tr("Localizable", "patron_callout") }
   /// Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.
@@ -2615,6 +2619,10 @@ internal enum L10n {
   /// Subscription Cancelled %1$@ 
   internal static func subscriptionCancelledMsg(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_cancelled_msg", String(describing: p1))
+  }
+  /// Expires in %1$@
+  internal static func subscriptionExpiresIn(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1))
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }

@@ -1615,6 +1615,8 @@
 /* Message informing the user when their Pocket Casts Plus subscription will expire. %1$@ is a placeholder for the expiration date. */
 "plus_subscription_expiration" = "PLUS EXPIRES IN %1$@";
 
+"subscription_expires_in" = "Expires in %1$@";
+
 /* Message informing the user that their Pocket Casts Plus subscription is managed by Google's system and needs to be managed there. */
 "plus_subscription_google" = "It looks like you subscribed to Pocket Casts Plus from an Android device";
 
@@ -1656,6 +1658,9 @@
 
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
+
+/* Name of the Patron plan. Do not translate "Patron". */
+"patron" = "Patron";
 
 /* Description of a Patron feature that gives user everything in Plus. */
 "patron_feature_everything_in_plus" = "Everything in Plus";
@@ -2617,6 +2622,9 @@
 
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
+
+/* Title for the options for the user to configure their account. */
+"account" = "Account";
 
 /* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
 "share" = "Share";

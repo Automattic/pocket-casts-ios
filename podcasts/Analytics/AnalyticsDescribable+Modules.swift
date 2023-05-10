@@ -41,6 +41,8 @@ extension SubscriptionType: AnalyticsDescribable {
             return "plus"
         case .supporter:
             return "supporter"
+        case .patron:
+            return "patron"
         }
     }
 }
