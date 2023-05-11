@@ -1,6 +1,11 @@
 import UIKit
 
 public class SubscriptionHelper: NSObject {
+    /// Returns the users active subscription type or .none if they don't currently have one
+    public static var activeSubscriptionType: SubscriptionType {
+        hasActiveSubscription() ? subscriptionType() : .none
+    }
+
     public class func hasActiveSubscription() -> Bool {
         let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
         return status
