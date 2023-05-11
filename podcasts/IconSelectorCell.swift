@@ -12,6 +12,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
     case electricPink, radioactivity, halloween
     case patronChrome, patronRound, patronGlow, patronDark
 
+    /// Finds the IconType for the given iconName or .primary if there isn't a match
     init(iconName: String) {
         self = Self.availableIcons.first(where: { $0.iconName == iconName }) ?? .primary
     }
