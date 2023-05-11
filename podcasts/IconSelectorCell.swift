@@ -201,6 +201,9 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "")
+
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
             gridLayout.delegate = self
             gridLayout.numberOfRowsOrColumns = 1
@@ -225,9 +228,11 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         return calculatedWidth
     }
 
-    weak var delegate: IconSelectorCellDelegate!
+    weak var delegate: IconSelectorCellDelegate?
 
     private let themeAbstractCellId = "ThemeAbstractCell"
+
+    var selectedIcon: IconType = .primary
 
     // MARK: - GridLayoutDelegate
 
@@ -258,11 +263,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         cell.imageView.image = iconType.icon
 
         cell.isLocked = !SubscriptionHelper.hasActiveSubscription() && indexPath.item > 7
-        if UIApplication.shared.alternateIconName != nil {
-            cell.isCellSelected = selectedIcon().rawValue == indexPath.item
-        } else {
-            cell.isCellSelected = indexPath.item == 0
-        }
+        cell.isCellSelected = selectedIcon == iconType
 
         cell.isAccessibilityElement = true
         cell.accessibilityLabel = cell.nameLabel.text
@@ -285,18 +286,12 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         }
     }
 
+        selectedIcon = icon
+        delegate?.changeIcon(icon: icon)
+        collectionView.reloadData()
+    }
+
     func scrollToSelected() {
-        let selectedItem = selectedIcon().rawValue
-        collectionView.scrollToItem(at: IndexPath(item: selectedItem, section: 0), at: .centeredHorizontally, animated: false)
-    }
-
-    func setCurrentSelectedIcon() {
-        let selectedItem = selectedIcon().rawValue
-        collectionView.selectItem(at: IndexPath(item: selectedItem, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-    }
-
-    func selectedIcon() -> IconType {
-        let selectedIcon = UIApplication.shared.alternateIconName ?? ""
-        return IconType(rawName: selectedIcon)
+        collectionView.scrollToItem(at: IndexPath(item: selectedIcon.rawValue, section: 0), at: .centeredHorizontally, animated: false)
     }
 }
