@@ -280,9 +280,18 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
         cell.isAccessibilityElement = true
         cell.accessibilityLabel = cell.nameLabel.text
+
         if cell.isLocked {
-            cell.accessibilityHint = L10n.accessibilityPlusOnly
+            switch iconType.subscription {
+            case .patron:
+                cell.accessibilityHint = L10n.accessibilityPatronOnly
+                cell.lockImage = UIImage(named: "patron-locked")
+            default:
+                cell.accessibilityHint = L10n.accessibilityPlusOnly
+                cell.lockImage = UIImage(named: "plusGoldCircle")
+            }
         }
+
         return cell
     }
 
