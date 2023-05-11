@@ -12,8 +12,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
          electricPink, radioactivity, halloween,
          patronChrome, patronRound, patronGlow, patronDark
 
-    init(rawName: String) {
-        self = IconType.allCases.first(where: { $0.iconName == rawName }) ?? IconType.primary
+    init(iconName: String) {
+        self = Self.availableIcons.first(where: { $0.iconName == iconName }) ?? .primary
+    }
+
+    static var availableIcons: [IconType] {
+        Self.allCases.filter {
+            $0.subscription <= (FeatureFlag.patron.enabled ? .patron : .plus)
+        }
     }
 
     var description: String {
