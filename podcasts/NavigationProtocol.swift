@@ -25,7 +25,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToAddCustom(_ fileURL: URL)
 
     func showSubscriptionCancelledAcknowledge()
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource)
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?)
     func showPlusMarketingPage()
     func showSettingsAppearance()
     func showPromotionPage(promoCode: String?)

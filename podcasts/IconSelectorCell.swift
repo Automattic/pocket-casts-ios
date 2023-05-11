@@ -303,7 +303,11 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             collectionView.deselectItem(at: indexPath, animated: true)
 
             if let delegate {
-                NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
+                let context: OnboardingFlow.Context? = IconType(rawValue: indexPath.item).flatMap {
+                    ["product": Constants.ProductInfo(plan: $0.subscription == .patron ? .patron : .plus, frequency: .yearly)]
+                }
+
+                NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons, context: context)
             }
             return
         }

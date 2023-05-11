@@ -273,7 +273,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         controller?.present(SJUIUtils.popupNavController(for: cancelledVC), animated: true, completion: nil)
     }
 
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil) {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
@@ -283,7 +283,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
+        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
