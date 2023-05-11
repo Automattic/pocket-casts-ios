@@ -7,10 +7,10 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary, dark, roundLight, roundDark, indigo,
-         rose, pocketCats, redVelvet, plus, classic, electricBlue,
-         electricPink, radioactivity, halloween,
-         patronChrome, patronRound, patronGlow, patronDark
+    case primary, dark, roundLight, roundDark, indigo
+    case rose, pocketCats, redVelvet, plus, classic, electricBlue
+    case electricPink, radioactivity, halloween
+    case patronChrome, patronRound, patronGlow, patronDark
 
     init(iconName: String) {
         self = Self.availableIcons.first(where: { $0.iconName == iconName }) ?? .primary
