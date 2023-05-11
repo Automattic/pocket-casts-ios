@@ -19,10 +19,6 @@ public enum SubscriptionFrequency: Int {
     case none = 0, monthly = 1, yearly = 2
 }
 
-public enum SubscriptionType: Int {
-    case none = 0, plus = 1, supporter = 2, patron = 3
-}
-
 public enum UpdateStatus: Int {
     case notStarted, failed, cancelled, successNoNewData, successNewData, success
 }
@@ -35,4 +31,15 @@ public enum RefreshFetchResult: UInt {
 
 public enum AutoAddLimitReachedAction: Int32 {
     case stopAdding = 0, addToTopOnly = 1
+}
+
+// MARK: - SubscriptionType
+public enum SubscriptionType: Int {
+    case none = 0, plus = 1, supporter = 2, patron = 3
+}
+
+extension SubscriptionType: Comparable {
+    public static func < (lhs: SubscriptionType, rhs: SubscriptionType) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
