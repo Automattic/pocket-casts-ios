@@ -1457,6 +1457,32 @@
 		C7D6551428E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
+		C7D8137C2A0D4B8A007F715F /* AppIcon-Patron-Chrome-app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813762A0D4B89007F715F /* AppIcon-Patron-Chrome-app@2x.png */; };
+		C7D8137D2A0D4B8A007F715F /* AppIcon-Patron-Chrome-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813772A0D4B89007F715F /* AppIcon-Patron-Chrome-app@3x.png */; };
+		C7D8137E2A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */; };
+		C7D8137F2A0D4B8A007F715F /* AppIcon-Patron-Chrome-ipad-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813792A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad-pro.png */; };
+		C7D813802A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8137A2A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@3x.png */; };
+		C7D813812A0D4B8A007F715F /* AppIcon-Patron-Chrome-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8137B2A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad@2x.png */; };
+		C7D813882A0D4BAA007F715F /* AppIcon-Patron-Round-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813822A0D4BAA007F715F /* AppIcon-Patron-Round-ipad@2x.png */; };
+		C7D813892A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813832A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@3x.png */; };
+		C7D8138A2A0D4BAA007F715F /* AppIcon-Patron-Round-app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813842A0D4BAA007F715F /* AppIcon-Patron-Round-app@2x.png */; };
+		C7D8138B2A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813852A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png */; };
+		C7D8138C2A0D4BAA007F715F /* AppIcon-Patron-Round-ipad-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813862A0D4BAA007F715F /* AppIcon-Patron-Round-ipad-pro.png */; };
+		C7D8138D2A0D4BAA007F715F /* AppIcon-Patron-Round-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813872A0D4BAA007F715F /* AppIcon-Patron-Round-app@3x.png */; };
+		C7D813942A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8138E2A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad-pro.png */; };
+		C7D813952A0D4BC0007F715F /* AppIcon-Patron-Glow-app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8138F2A0D4BC0007F715F /* AppIcon-Patron-Glow-app@2x.png */; };
+		C7D813962A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813902A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad@2x.png */; };
+		C7D813972A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813912A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@2x.png */; };
+		C7D813982A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813922A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png */; };
+		C7D813992A0D4BC0007F715F /* AppIcon-Patron-Glow-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D813932A0D4BC0007F715F /* AppIcon-Patron-Glow-app@3x.png */; };
+		C7D813A02A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139A2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@2x.png */; };
+		C7D813A12A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139B2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@3x.png */; };
+		C7D813A22A0D4BEE007F715F /* AppIcon-Patron-Dark-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139C2A0D4BED007F715F /* AppIcon-Patron-Dark-app@3x.png */; };
+		C7D813A32A0D4BEE007F715F /* AppIcon-Patron-Dark-app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139D2A0D4BED007F715F /* AppIcon-Patron-Dark-app@2x.png */; };
+		C7D813A42A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139E2A0D4BED007F715F /* AppIcon-Patron-Dark-ipad@2x.png */; };
+		C7D813A52A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = C7D8139F2A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png */; };
+		C7D813A92A0D575E007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
+		C7D813AA2A0D57C2007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
@@ -3093,6 +3119,31 @@
 		C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C7CA0558293E8918000E41BD /* HolographicEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolographicEffect.swift; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
+		C7D813762A0D4B89007F715F /* AppIcon-Patron-Chrome-app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-app@2x.png"; sourceTree = "<group>"; };
+		C7D813772A0D4B89007F715F /* AppIcon-Patron-Chrome-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-app@3x.png"; sourceTree = "<group>"; };
+		C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-iphone@2x.png"; sourceTree = "<group>"; };
+		C7D813792A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-ipad-pro.png"; sourceTree = "<group>"; };
+		C7D8137A2A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-iphone@3x.png"; sourceTree = "<group>"; };
+		C7D8137B2A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-ipad@2x.png"; sourceTree = "<group>"; };
+		C7D813822A0D4BAA007F715F /* AppIcon-Patron-Round-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-ipad@2x.png"; sourceTree = "<group>"; };
+		C7D813832A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-iphone@3x.png"; sourceTree = "<group>"; };
+		C7D813842A0D4BAA007F715F /* AppIcon-Patron-Round-app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-app@2x.png"; sourceTree = "<group>"; };
+		C7D813852A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-iphone@2x.png"; sourceTree = "<group>"; };
+		C7D813862A0D4BAA007F715F /* AppIcon-Patron-Round-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-ipad-pro.png"; sourceTree = "<group>"; };
+		C7D813872A0D4BAA007F715F /* AppIcon-Patron-Round-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Round-app@3x.png"; sourceTree = "<group>"; };
+		C7D8138E2A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-ipad-pro.png"; sourceTree = "<group>"; };
+		C7D8138F2A0D4BC0007F715F /* AppIcon-Patron-Glow-app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-app@2x.png"; sourceTree = "<group>"; };
+		C7D813902A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-ipad@2x.png"; sourceTree = "<group>"; };
+		C7D813912A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-iphone@2x.png"; sourceTree = "<group>"; };
+		C7D813922A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-iphone@3x.png"; sourceTree = "<group>"; };
+		C7D813932A0D4BC0007F715F /* AppIcon-Patron-Glow-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Glow-app@3x.png"; sourceTree = "<group>"; };
+		C7D8139A2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-iphone@2x.png"; sourceTree = "<group>"; };
+		C7D8139B2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-iphone@3x.png"; sourceTree = "<group>"; };
+		C7D8139C2A0D4BED007F715F /* AppIcon-Patron-Dark-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-app@3x.png"; sourceTree = "<group>"; };
+		C7D8139D2A0D4BED007F715F /* AppIcon-Patron-Dark-app@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-app@2x.png"; sourceTree = "<group>"; };
+		C7D8139E2A0D4BED007F715F /* AppIcon-Patron-Dark-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-ipad@2x.png"; sourceTree = "<group>"; };
+		C7D8139F2A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-ipad-pro.png"; sourceTree = "<group>"; };
+		C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AlternateAppIcons.xcassets; sourceTree = "<group>"; };
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
@@ -5330,28 +5381,6 @@
 			name = Color;
 			sourceTree = "<group>";
 		};
-		BDA002781F7B2C7E00DCB4AE /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				C7D8133C2A0C582A007F715F /* Classic */,
-				C7D813362A0C57F6007F715F /* Dark */,
-				C7D813392A0C5811007F715F /* Default */,
-				C7D8133A2A0C5819007F715F /* Electric Blue */,
-				C7D8133D2A0C5831007F715F /* Electric Pink */,
-				C7D813302A0C42E0007F715F /* Halloween */,
-				C7D8132F2A0C42C2007F715F /* Icons */,
-				C7D813322A0C42F6007F715F /* Indigo */,
-				C7D8133B2A0C5822007F715F /* Plus */,
-				C7D813332A0C4305007F715F /* Pocket Cats */,
-				C7D813352A0C57E9007F715F /* Radioactive */,
-				C7D813312A0C42EB007F715F /* Red Velvet */,
-				C7D813382A0C5807007F715F /* Round */,
-				C7D813372A0C57FE007F715F /* Round Dark */,
-				C7D8133E2A0C583C007F715F /* Round Pink */,
-			);
-			name = Icons;
-			sourceTree = "<group>";
-		};
 		BDA028601C74464D00476B28 /* Google Cast */ = {
 			isa = PBXGroup;
 			children = (
@@ -5555,39 +5584,40 @@
 		BDBD53F817019B2A0048C8C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */,
-				C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */,
+				BDBD53F917019B2A0048C8C5 /* podcasts-Info.plist */,
+				C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */,
+				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */,
-				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
+				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
 				BDE73A7F1B607DB6005BFE30 /* CommonImages.xcassets */,
-				BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */,
+				40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */,
 				BDC692801BA7A91F0023B9F2 /* Discovery.xcassets */,
 				8B9DEFD52906D1CE00075EAB /* EndOfYear.xcassets */,
-				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
-				BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */,
-				4053CE042150B3D5001C92B1 /* Filter.xcassets */,
-				BD23442C1CB66D5E00B66AAE /* Settings.xcassets */,
-				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
-				BDA25D291EDEA2DC00979FE8 /* Sonos.xcassets */,
-				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
-				BD5AE6801FE0CF950009B8A1 /* ListImages.xcassets */,
-				BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */,
 				BDD6297A200EDB1700168DF7 /* Episodes.xcassets */,
-				BD9086A8204E14A800C0C78D /* OptionPicker.xcassets */,
-				4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */,
-				BD01430521A299CE002FDDF4 /* OptionsPickerIcons.xcassets */,
-				40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */,
-				40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */,
-				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BDE43412231759060045D0CB /* Files.xcassets */,
+				4053CE042150B3D5001C92B1 /* Filter.xcassets */,
+				BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */,
+				BD5AE6801FE0CF950009B8A1 /* ListImages.xcassets */,
+				BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */,
+				C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */,
+				BD9086A8204E14A800C0C78D /* OptionPicker.xcassets */,
+				BD01430521A299CE002FDDF4 /* OptionsPickerIcons.xcassets */,
+				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
+				BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */,
+				BD23442C1CB66D5E00B66AAE /* Settings.xcassets */,
+				C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */,
+				4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */,
+				BDA25D291EDEA2DC00979FE8 /* Sonos.xcassets */,
+				40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */,
+				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
+				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
 				404BB865230F7FF5006FE8A9 /* WhatsNew.xcassets */,
 				8BE85CA72876258300AEB5FF /* Acknowledgments */,
 				BD7EA4CE1E52C2800014EAC5 /* Animations */,
-				BD663F9217E1FBA600D48373 /* Push Sounds */,
-				BDA002781F7B2C7E00DCB4AE /* Icons */,
+				C7D813A72A0D4E3E007F715F /* Icons */,
 				BDBD53FA17019B2A0048C8C5 /* InfoPlist.strings */,
-				BDBD53F917019B2A0048C8C5 /* podcasts-Info.plist */,
 				46FBD8B9276A874F00867746 /* Intents.intentdefinition */,
+				BD663F9217E1FBA600D48373 /* Push Sounds */,
 				4007B056230E38DD008DDCF5 /* What's New */,
 			);
 			name = "Supporting Files";
@@ -6248,7 +6278,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Icons;
+			name = Icons;
 			sourceTree = "<group>";
 		};
 		C7D813302A0C42E0007F715F /* Halloween */ = {
@@ -6574,6 +6604,92 @@
 				40888F022563792200887D9A /* AppIcon-Round-Pink83.5x83.5@2x~ipad.png */,
 			);
 			path = "Round Pink";
+			sourceTree = "<group>";
+		};
+		C7D8133F2A0C7CEB007F715F /* Patron */ = {
+			isa = PBXGroup;
+			children = (
+				C7D813472A0C7D09007F715F /* Patron Chrome */,
+				C7D8134E2A0C7D09007F715F /* Patron Round */,
+				C7D813552A0C7D09007F715F /* Patron Glow */,
+				C7D813402A0C7D09007F715F /* Patron Dark */,
+			);
+			path = Patron;
+			sourceTree = "<group>";
+		};
+		C7D813402A0C7D09007F715F /* Patron Dark */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8139D2A0D4BED007F715F /* AppIcon-Patron-Dark-app@2x.png */,
+				C7D8139C2A0D4BED007F715F /* AppIcon-Patron-Dark-app@3x.png */,
+				C7D8139F2A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png */,
+				C7D8139E2A0D4BED007F715F /* AppIcon-Patron-Dark-ipad@2x.png */,
+				C7D8139A2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@2x.png */,
+				C7D8139B2A0D4BED007F715F /* AppIcon-Patron-Dark-iphone@3x.png */,
+			);
+			path = "Patron Dark";
+			sourceTree = "<group>";
+		};
+		C7D813472A0C7D09007F715F /* Patron Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				C7D813762A0D4B89007F715F /* AppIcon-Patron-Chrome-app@2x.png */,
+				C7D813772A0D4B89007F715F /* AppIcon-Patron-Chrome-app@3x.png */,
+				C7D813792A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad-pro.png */,
+				C7D8137B2A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad@2x.png */,
+				C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */,
+				C7D8137A2A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@3x.png */,
+			);
+			path = "Patron Chrome";
+			sourceTree = "<group>";
+		};
+		C7D8134E2A0C7D09007F715F /* Patron Round */ = {
+			isa = PBXGroup;
+			children = (
+				C7D813842A0D4BAA007F715F /* AppIcon-Patron-Round-app@2x.png */,
+				C7D813872A0D4BAA007F715F /* AppIcon-Patron-Round-app@3x.png */,
+				C7D813862A0D4BAA007F715F /* AppIcon-Patron-Round-ipad-pro.png */,
+				C7D813822A0D4BAA007F715F /* AppIcon-Patron-Round-ipad@2x.png */,
+				C7D813852A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png */,
+				C7D813832A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@3x.png */,
+			);
+			path = "Patron Round";
+			sourceTree = "<group>";
+		};
+		C7D813552A0C7D09007F715F /* Patron Glow */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8138F2A0D4BC0007F715F /* AppIcon-Patron-Glow-app@2x.png */,
+				C7D813932A0D4BC0007F715F /* AppIcon-Patron-Glow-app@3x.png */,
+				C7D8138E2A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad-pro.png */,
+				C7D813902A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad@2x.png */,
+				C7D813912A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@2x.png */,
+				C7D813922A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png */,
+			);
+			path = "Patron Glow";
+			sourceTree = "<group>";
+		};
+		C7D813A72A0D4E3E007F715F /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8133F2A0C7CEB007F715F /* Patron */,
+				C7D8133C2A0C582A007F715F /* Classic */,
+				C7D813362A0C57F6007F715F /* Dark */,
+				C7D813392A0C5811007F715F /* Default */,
+				C7D8133A2A0C5819007F715F /* Electric Blue */,
+				C7D8133D2A0C5831007F715F /* Electric Pink */,
+				C7D813302A0C42E0007F715F /* Halloween */,
+				C7D8132F2A0C42C2007F715F /* Icons */,
+				C7D813322A0C42F6007F715F /* Indigo */,
+				C7D8133B2A0C5822007F715F /* Plus */,
+				C7D813332A0C4305007F715F /* Pocket Cats */,
+				C7D813352A0C57E9007F715F /* Radioactive */,
+				C7D813312A0C42EB007F715F /* Red Velvet */,
+				C7D813382A0C5807007F715F /* Round */,
+				C7D813372A0C57FE007F715F /* Round Dark */,
+				C7D8133E2A0C583C007F715F /* Round Pink */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		C7D854F128ADD97700877E87 /* Analytics */ = {
@@ -7075,6 +7191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4090975725235DFC00CED68C /* Assets.xcassets in Resources */,
+				C7D813AA2A0D57C2007F715F /* AlternateAppIcons.xcassets in Resources */,
 				463538A526E16A3000BA9D35 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7133,6 +7250,7 @@
 				BD6B6671245BC25B00CF5245 /* AppIcon-Indigo60x60@2x.png in Resources */,
 				BD9313501D795628007A70FC /* SharePodcastsViewController.xib in Resources */,
 				BD6B6696245BC28800CF5245 /* AppIcon-Red-Velvet40x40@3x.png in Resources */,
+				C7D813952A0D4BC0007F715F /* AppIcon-Patron-Glow-app@2x.png in Resources */,
 				40888F062563792300887D9A /* AppIcon-Round-Pink20x20@2x~ipad.png in Resources */,
 				4065143F2485EB8E00B7E789 /* LastSupporterPodcastCell.xib in Resources */,
 				8B2FEA8D28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png in Resources */,
@@ -7150,6 +7268,7 @@
 				BDA002D91F7B318B00DCB4AE /* AppIcon-Round-Dark29x29@2x.png in Resources */,
 				BD2B50AE201076310099B79D /* PodcastSettingsViewController.xib in Resources */,
 				BD6B6651245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@3x.png in Resources */,
+				C7D813A52A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png in Resources */,
 				BD6B6659245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20~ipad.png in Resources */,
 				BD12928222F7CCC9004608A6 /* AppIcon-Electric-Blue76x76~ipad.png in Resources */,
 				BDB1E4EE1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib in Resources */,
@@ -7200,16 +7319,19 @@
 				BDA002C91F7B318B00DCB4AE /* AppIcon-Dark29x29@3x.png in Resources */,
 				BDADFA072574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib in Resources */,
 				BDA002CA1F7B318B00DCB4AE /* AppIcon-Dark29x29~ipad.png in Resources */,
+				C7D813962A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad@2x.png in Resources */,
 				BD12931722F809F8004608A6 /* AppIcon-Electric-Pink20x20@2x.png in Resources */,
 				BDA002EF1F7B318B00DCB4AE /* AppIcon-Round40x40@2x.png in Resources */,
 				BDE6AB701CC49B010087D195 /* SyncSigninViewController.xib in Resources */,
 				BD1292C422F7CD83004608A6 /* AppIcon-Plus76x76@2x~ipad.png in Resources */,
+				C7D813982A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png in Resources */,
 				BD1292EC22F7D066004608A6 /* AppIcon-Classic20x20~ipad.png in Resources */,
 				400AB2FE220BA3050003EE21 /* UploadedViewController.xib in Resources */,
 				BD12930E22F809F8004608A6 /* AppIcon-Electric-Pink20x20@3x.png in Resources */,
 				40542E34226569BC00046330 /* ProfileIntroViewController.xib in Resources */,
 				BD874EF81C9A428B00F5B2A5 /* GeneralSettingsViewController.xib in Resources */,
 				BD023C682251C192008A9C6F /* HeadingCell.xib in Resources */,
+				C7D8137C2A0D4B8A007F715F /* AppIcon-Patron-Chrome-app@2x.png in Resources */,
 				BD0D7AF41F6BC564006B673F /* AppIcon.xcassets in Resources */,
 				BDBCE6C8244E7755004FFE13 /* AppIcon-Radioactive60x60@3x.png in Resources */,
 				4041FE96218A828F0089D4A1 /* SiriShortcutSuggestedCell.xib in Resources */,
@@ -7220,6 +7342,7 @@
 				BD14CCE01D7D3CB800DB4547 /* SelectedPodcastCell.xib in Resources */,
 				BD6B6670245BC25B00CF5245 /* AppIcon-Indigo20x20@2x.png in Resources */,
 				BD6B664E245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20@2x.png in Resources */,
+				C7D813A22A0D4BEE007F715F /* AppIcon-Patron-Dark-app@3x.png in Resources */,
 				BD9324752398BB6B004F19A1 /* TourViewController.xib in Resources */,
 				BD12931A22F809F8004608A6 /* AppIcon-Electric-Pink40x40@3x.png in Resources */,
 				405553D8244AD7A70048FE7A /* WatchSettingsViewController.xib in Resources */,
@@ -7229,7 +7352,9 @@
 				BD12928022F7CCC9004608A6 /* AppIcon-Electric-Blue20x20~ipad.png in Resources */,
 				4011B9442164641800661A7D /* EditFilterNameCell.xib in Resources */,
 				BDC3028B1C7ABAD300FC2026 /* iPadImages.xcassets in Resources */,
+				C7D813892A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@3x.png in Resources */,
 				BDBCE6CA244E7755004FFE13 /* AppIcon-Radioactive29x29@2x~ipad.png in Resources */,
+				C7D813942A0D4BC0007F715F /* AppIcon-Patron-Glow-ipad-pro.png in Resources */,
 				BDE43413231759060045D0CB /* Files.xcassets in Resources */,
 				40FFCDA822FA756300395CA5 /* Appearance.xcassets in Resources */,
 				BD6B6679245BC25C00CF5245 /* AppIcon-Indigo20x20~ipad.png in Resources */,
@@ -7250,6 +7375,7 @@
 				40888F102563792300887D9A /* AppIcon-Round-Pink29x29@3x.png in Resources */,
 				40888F152563792300887D9A /* AppIcon-Round-Pink29x29~ipad.png in Resources */,
 				BDDA14D9219AFA1E0066441E /* SearchInfoCell.xib in Resources */,
+				C7D8137D2A0D4B8A007F715F /* AppIcon-Patron-Chrome-app@3x.png in Resources */,
 				4006E31223A88AE600174DEB /* ExpandedCollectionViewController.xib in Resources */,
 				BDDA72D31C9B898C003A3BEB /* StorageAndDataUseViewController.xib in Resources */,
 				BD907DAF21537B51004D7C02 /* SiriSettingsViewController.xib in Resources */,
@@ -7283,6 +7409,7 @@
 				BD6B667B245BC25C00CF5245 /* AppIcon-Indigo20x20@2x~ipad.png in Resources */,
 				BD3EB3AF179E622A00D0731C /* MiniPlayerViewController.xib in Resources */,
 				BDA002E91F7B318B00DCB4AE /* AppIcon-Round20x20@3x.png in Resources */,
+				C7D8138C2A0D4BAA007F715F /* AppIcon-Patron-Round-ipad-pro.png in Resources */,
 				BDA002C71F7B318B00DCB4AE /* AppIcon-Dark29x29@2x.png in Resources */,
 				BD424B0C2575F30800C9447B /* PodcastDisclosureCell.xib in Resources */,
 				BD6B6672245BC25B00CF5245 /* AppIcon-Indigo60x60@3x.png in Resources */,
@@ -7298,8 +7425,10 @@
 				BD14CCD71D7D2BCE00DB4547 /* SharePublishViewController.xib in Resources */,
 				8B9DEFD62906D1CE00075EAB /* EndOfYear.xcassets in Resources */,
 				4011B93C2164546E00661A7D /* FilterEditOptionsViewController.xib in Resources */,
+				C7D8137E2A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@2x.png in Resources */,
 				40A4FCD1221938A700252170 /* SinglePodcastViewController.xib in Resources */,
 				BD1292CE22F7CD83004608A6 /* AppIcon-Plus40x40@2x.png in Resources */,
+				C7D813A32A0D4BEE007F715F /* AppIcon-Patron-Dark-app@2x.png in Resources */,
 				BD1292E722F7D066004608A6 /* AppIcon-Classic60x60@3x.png in Resources */,
 				BD12927C22F7CCC9004608A6 /* AppIcon-Electric-Blue40x40@2x.png in Resources */,
 				BD12930F22F809F8004608A6 /* AppIcon-Electric-Pink40x40~ipad.png in Resources */,
@@ -7360,6 +7489,7 @@
 				BD12928322F7CCC9004608A6 /* AppIcon-Electric-Blue29x29~ipad.png in Resources */,
 				BD340FC621AF897400EAB091 /* PodcastArchiveViewController.xib in Resources */,
 				BD1292F622F7D066004608A6 /* AppIcon-Classic76x76@2x~ipad.png in Resources */,
+				C7D813812A0D4B8A007F715F /* AppIcon-Patron-Chrome-ipad@2x.png in Resources */,
 				BD12930C22F809F8004608A6 /* AppIcon-Electric-Pink40x40@2x.png in Resources */,
 				BD9086A9204E14A800C0C78D /* OptionPicker.xcassets in Resources */,
 				BD1292C822F7CD83004608A6 /* AppIcon-Plus20x20~ipad.png in Resources */,
@@ -7387,6 +7517,7 @@
 				BD0F6D7C24BD60FF00EDFB99 /* FilterDurationViewController.xib in Resources */,
 				4053CE032150AC4B001C92B1 /* CheckboxCell.xib in Resources */,
 				BDA002CB1F7B318B00DCB4AE /* AppIcon-Dark40x40@2x.png in Resources */,
+				C7D813802A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@3x.png in Resources */,
 				BDA756DF1BFAE61A0035EE13 /* PlaylistColorChooserCell.xib in Resources */,
 				400E3D1223F0E6D900ADAA63 /* PromotionFinishedViewController.xib in Resources */,
 				BDDA14DD219B021A0066441E /* SearchLoadingCell.xib in Resources */,
@@ -7395,12 +7526,14 @@
 				4007B05C230E392E008DDCF5 /* aboutWhatsNew.json in Resources */,
 				40251CEB22BB0F6E00551C51 /* CancelledAcknowledgeViewController.xib in Resources */,
 				BDA002DA1F7B318B00DCB4AE /* AppIcon-Round-Dark29x29@2x~ipad.png in Resources */,
+				C7D8137F2A0D4B8A007F715F /* AppIcon-Patron-Chrome-ipad-pro.png in Resources */,
 				BD12928422F7CCC9004608A6 /* AppIcon-Electric-Blue40x40~ipad.png in Resources */,
 				BD6B664F245BC24C00CF5245 /* AppIcon-Pocket-Cats60x60@2x.png in Resources */,
 				BDA003051F7B318B00DCB4AE /* AppIcon60x60@2x.png in Resources */,
 				BDA002D51F7B318B00DCB4AE /* AppIcon-Round-Dark20x20@2x.png in Resources */,
 				4053CE0A2159E477001C92B1 /* CreateFilterViewController.xib in Resources */,
 				4030D466249653B000BEC7D9 /* MultiSelectActionCell.xib in Resources */,
+				C7D8138B2A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png in Resources */,
 				BD6B6678245BC25C00CF5245 /* AppIcon-Indigo76x76@2x~ipad.png in Resources */,
 				BDA002DD1F7B318B00DCB4AE /* AppIcon-Round-Dark40x40@2x.png in Resources */,
 				BDA002F01F7B318B00DCB4AE /* AppIcon-Round40x40@2x~ipad.png in Resources */,
@@ -7420,6 +7553,7 @@
 				BDA003091F7B318B00DCB4AE /* AppIcon76x76@2x~ipad.png in Resources */,
 				BDF7BDCF1CA2247F0045AB6D /* StatsCell.xib in Resources */,
 				BDA002DE1F7B318B00DCB4AE /* AppIcon-Round-Dark40x40@2x~ipad.png in Resources */,
+				C7D813882A0D4BAA007F715F /* AppIcon-Patron-Round-ipad@2x.png in Resources */,
 				BD108DFC182B0B90001F7B71 /* BadgeSettingsViewController.xib in Resources */,
 				4022A4C1236BA15800900734 /* SleepTimerViewController.xib in Resources */,
 				BDEAA17E1BB140CE001097D9 /* SwitchCell.xib in Resources */,
@@ -7447,6 +7581,7 @@
 				BD22E0BF178E54EE00073760 /* SettingsOptionsViewController.xib in Resources */,
 				BD12927E22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@2x.png in Resources */,
 				40FFCDBB2300E5AD00395CA5 /* UpgradeRequiredViewController.xib in Resources */,
+				C7D813972A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@2x.png in Resources */,
 				4041FEB22193E5EC0089D4A1 /* SiriShortcuts.xcassets in Resources */,
 				40D6CD21247CD79400F1E665 /* SupporterPodcastViewController.xib in Resources */,
 				BDA002F31F7B318B00DCB4AE /* AppIcon-Round60x60@2x.png in Resources */,
@@ -7462,6 +7597,7 @@
 				BDE292E523680D6100A4EEAE /* EffectsViewController.xib in Resources */,
 				40FFCDB722FBA9C600395CA5 /* IconSelectorCell.xib in Resources */,
 				40930E4D22D6EFCC00B9313C /* player_play_white_button.json in Resources */,
+				C7D8138D2A0D4BAA007F715F /* AppIcon-Patron-Round-app@3x.png in Resources */,
 				BDA002FF1F7B318B00DCB4AE /* AppIcon29x29@3x.png in Resources */,
 				BDA002E81F7B318B00DCB4AE /* AppIcon-Round20x20@2x~ipad.png in Resources */,
 				BD14E794214642B80082FD5F /* VideoViewController.xib in Resources */,
@@ -7498,6 +7634,7 @@
 				BD1BA41B1D07F366001383F0 /* pc.aiff in Resources */,
 				BDBCE6D4244E7755004FFE13 /* AppIcon-Radioactive20x20@2x~ipad.png in Resources */,
 				BD98C54C1BA802AA00E85D3B /* DiscoverDisclosureCell.xib in Resources */,
+				C7D813A12A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@3x.png in Resources */,
 				408B932D216EFD9B00B57B78 /* TextEntryCell.xib in Resources */,
 				BDD6297B200EDB1700168DF7 /* Episodes.xcassets in Resources */,
 				BDF050811FBA677900194D68 /* EpisodeCell.xib in Resources */,
@@ -7510,6 +7647,7 @@
 				BD1292E922F7D066004608A6 /* AppIcon-Classic40x40@3x.png in Resources */,
 				4086511C23B1CE8400D7585A /* CreateSiriShortcutCell.xib in Resources */,
 				BD93D8891D37698C0004C6FE /* PodcastListCell.xib in Resources */,
+				C7D8138A2A0D4BAA007F715F /* AppIcon-Patron-Round-app@2x.png in Resources */,
 				BD1292D222F7CD83004608A6 /* AppIcon-Plus83.5x83.5@2x~ipad.png in Resources */,
 				BD6B6657245BC24C00CF5245 /* AppIcon-Pocket-Cats76x76~ipad.png in Resources */,
 				BD9313541D7970F1007A70FC /* SelectPodcastCell.xib in Resources */,
@@ -7525,9 +7663,11 @@
 				BD12931322F809F8004608A6 /* AppIcon-Electric-Pink60x60@2x.png in Resources */,
 				BD6B6676245BC25C00CF5245 /* AppIcon-Indigo40x40@3x.png in Resources */,
 				BD12931022F809F8004608A6 /* AppIcon-Electric-Pink29x29@3x.png in Resources */,
+				C7D813992A0D4BC0007F715F /* AppIcon-Patron-Glow-app@3x.png in Resources */,
 				BD1292D022F7CD83004608A6 /* AppIcon-Plus29x29~ipad.png in Resources */,
 				BDB3BDC21FE23F9000FD8D24 /* PodcastChooserCell.xib in Resources */,
 				BD86D94C217EB5060010FA1B /* FilterSelectionViewController.xib in Resources */,
+				C7D813A02A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@2x.png in Resources */,
 				BD1292D122F7CD83004608A6 /* AppIcon-Plus20x20@3x.png in Resources */,
 				4041FEA2218AA5EC0089D4A1 /* SiriShortcutAddCell.xib in Resources */,
 				40888F052563792300887D9A /* AppIcon-Round-Pink76x76@2x~ipad.png in Resources */,
@@ -7550,6 +7690,7 @@
 				BD93FDA720159A9A00F6EF55 /* PlaylistsViewController.xib in Resources */,
 				BD780AE920049BFF00B5A442 /* PodcastViewController.xib in Resources */,
 				BDA002EB1F7B318B00DCB4AE /* AppIcon-Round29x29@2x.png in Resources */,
+				C7D813A42A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad@2x.png in Resources */,
 				40888F0A2563792300887D9A /* AppIcon-Round-Pink40x40@2x~ipad.png in Resources */,
 				BD6B6655245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29~ipad.png in Resources */,
 				8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */,
@@ -7563,6 +7704,7 @@
 				BD12931622F809F8004608A6 /* AppIcon-Electric-Pink83.5x83.5@2x~ipad.png in Resources */,
 				4030D4622496446000BEC7D9 /* MultiSelectActionController.xib in Resources */,
 				BD6B669D245BC28800CF5245 /* AppIcon-Red-Velvet40x40@2x~ipad.png in Resources */,
+				C7D813A92A0D575E007F715F /* AlternateAppIcons.xcassets in Resources */,
 				BD1292EF22F7D066004608A6 /* AppIcon-Classic29x29@2x.png in Resources */,
 				BD6B665C245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@2x~ipad.png in Resources */,
 				4051A5802281B38100C13C12 /* NewsletterCell.xib in Resources */,
