@@ -7,7 +7,10 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity, halloween
+    case primary, dark, roundLight, roundDark, indigo,
+         rose, pocketCats, redVelvet, plus, classic, electricBlue,
+         electricPink, radioactivity, halloween,
+         patronChrome, patronRound, patronGlow, patronDark
 
     init(rawName: String) {
         self = IconType.allCases.first(where: { $0.iconName == rawName }) ?? IconType.primary
@@ -43,6 +46,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconRadioactivity
         case .halloween:
             return L10n.appIconHalloween
+        case .patronChrome:
+            return L10n.appIconPatronChrome
+        case .patronRound:
+            return L10n.appIconPatronRound
+        case .patronGlow:
+            return L10n.appIconPatronGlow
+        case .patronDark:
+            return L10n.appIconPatronDark
         }
     }
 
@@ -76,6 +87,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return UIImage(named: "AppIcon-Radioactive108x108")
         case .halloween:
             return UIImage(named: "AppIcon-Halloween108x108")
+        case .patronChrome:
+            return UIImage(named: "AppIcon-Patron-Chrome")
+        case .patronRound:
+            return UIImage(named: "AppIcon-Patron-Round")
+        case .patronGlow:
+            return UIImage(named: "AppIcon-Patron-Glow")
+        case .patronDark:
+            return UIImage(named: "AppIcon-Patron-Dark")
         }
     }
 
@@ -109,6 +128,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Radioactive"
         case .halloween:
             return "AppIcon-Halloween"
+        case .patronChrome:
+            return "AppIcon-Patron-Chrome"
+        case .patronRound:
+            return "AppIcon-Patron-Round"
+        case .patronGlow:
+            return "AppIcon-Patron-Glow"
+        case .patronDark:
+            return "AppIcon-Patron-Dark"
         }
     }
 
@@ -142,6 +169,16 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "radioactive"
         case .halloween:
             return "halloween"
+        case .patronChrome:
+            return "patron_chrome"
+        case .patronRound:
+            return "patron_round"
+        case .patronGlow:
+            return "patron_glow"
+        case .patronDark:
+            return "patron_dark"
+        }
+    }
         }
     }
 }
