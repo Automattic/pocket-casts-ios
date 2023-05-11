@@ -60,33 +60,33 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
     var icon: UIImage? {
         switch self {
         case .primary:
-            return UIImage(named: "AppIcon-Default108x108")
+            return UIImage(named: "AppIcon-Default")
         case .dark:
-            return UIImage(named: "AppIcon-Dark108x108")
+            return UIImage(named: "AppIcon-Dark")
         case .roundLight:
-            return UIImage(named: "AppIcon-Round-Light108x108")
+            return UIImage(named: "AppIcon-Round")
         case .roundDark:
-            return UIImage(named: "AppIcon-Round-Dark108x108")
+            return UIImage(named: "AppIcon-Round-Dark")
         case .indigo:
-            return UIImage(named: "AppIcon-Indigo108x108")
+            return UIImage(named: "AppIcon-Indigo")
         case .rose:
-            return UIImage(named: "AppIcon-Round-Pink108x108")
+            return UIImage(named: "AppIcon-Round-Pink")
         case .pocketCats:
-            return UIImage(named: "AppIcon-Pocket-Cats108x108")
+            return UIImage(named: "AppIcon-Pocket-Cats")
         case .redVelvet:
-            return UIImage(named: "AppIcon-Red-Velvet108x108")
+            return UIImage(named: "AppIcon-Red-Velvet")
         case .plus:
-            return UIImage(named: "AppIcon-Plus108x108")
+            return UIImage(named: "AppIcon-Plus")
         case .classic:
-            return UIImage(named: "AppIcon-Classic108x108")
+            return UIImage(named: "AppIcon-Classic")
         case .electricBlue:
-            return UIImage(named: "AppIcon-Electric-Blue108x108")
+            return UIImage(named: "AppIcon-Electric-Blue")
         case .electricPink:
-            return UIImage(named: "AppIcon-Electric-Pink108x108")
+            return UIImage(named: "AppIcon-Electric-Pink")
         case .radioactivity:
-            return UIImage(named: "AppIcon-Radioactive108x108")
+            return UIImage(named: "AppIcon-Radioactive")
         case .halloween:
-            return UIImage(named: "AppIcon-Halloween108x108")
+            return UIImage(named: "AppIcon-Halloween")
         case .patronChrome:
             return UIImage(named: "AppIcon-Patron-Chrome")
         case .patronRound:
