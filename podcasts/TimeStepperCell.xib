@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                             <constraint firstAttribute="height" constant="24" id="mpO-kU-UDK"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Skip First" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06e-3Z-E2J" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Skip First" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="06e-3Z-E2J" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="50" y="5" width="67.5" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -47,7 +47,7 @@
                     <constraint firstItem="L5Q-aR-hdK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BoX-uy-x5a"/>
                     <constraint firstAttribute="bottom" secondItem="hII-1o-P5c" secondAttribute="bottom" id="C7N-sw-pCr"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ETk-sO-HNJ"/>
-                    <constraint firstItem="L5Q-aR-hdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="06e-3Z-E2J" secondAttribute="trailing" constant="-4" id="RKy-VE-koV"/>
+                    <constraint firstItem="L5Q-aR-hdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="06e-3Z-E2J" secondAttribute="trailing" constant="4" id="RKy-VE-koV"/>
                     <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="U0p-Xm-Rhu"/>
                     <constraint firstAttribute="trailing" secondItem="hII-1o-P5c" secondAttribute="trailing" constant="8" id="UXv-qg-eP5"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Y7x-zG-bw0"/>
