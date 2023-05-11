@@ -66,7 +66,7 @@ enum FeatureFlag: String, CaseIterable {
         case .patron:
             return false
         case .showRatings:
-            return false
+            return true
         }
     }
 }
