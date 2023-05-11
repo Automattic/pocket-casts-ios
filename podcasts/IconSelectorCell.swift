@@ -185,6 +185,21 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "patron_dark"
         }
     }
+
+    /// Whether the icon is unlocked for the users active subscription
+    var isUnlocked: Bool {
+        SubscriptionHelper.activeSubscriptionType >= subscription
+    }
+
+    /// The minimum subscription level required to unlock the icon
+    var subscription: SubscriptionType {
+        switch self {
+        case .patronChrome, .patronRound, .patronGlow, .patronDark:
+            return .patron
+        case .plus, .classic, .electricBlue, .electricPink, .radioactivity, .halloween:
+            return .plus
+        default:
+            return .none
         }
     }
 }
@@ -211,8 +226,6 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             gridLayout.itemSpacing = itemSpacing
         }
     }
-
-    private static let firstPaidIconIndex = 8
 
     private var numVisibleColoumns = 3 as CGFloat
     private var itemSpacing = 0 as CGFloat
@@ -261,8 +274,8 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         let iconType = IconType(rawValue: indexPath.row) ?? .primary
         cell.nameLabel.text = iconType.description
         cell.imageView.image = iconType.icon
+        cell.isLocked = !iconType.isUnlocked
 
-        cell.isLocked = !SubscriptionHelper.hasActiveSubscription() && indexPath.item > 7
         cell.isCellSelected = selectedIcon == iconType
 
         cell.isAccessibilityElement = true
@@ -276,15 +289,14 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     // MARK: - CollectionView Delegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !SubscriptionHelper.hasActiveSubscription(), indexPath.item >= IconSelectorCell.firstPaidIconIndex {
+        guard let icon = IconType(rawValue: indexPath.item), icon.isUnlocked else {
             collectionView.deselectItem(at: indexPath, animated: true)
 
-            NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
-        } else {
-            delegate?.changeIcon(icon: IconType(rawValue: indexPath.row) ?? .primary)
-            collectionView.reloadData()
+            if let delegate {
+                NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
+            }
+            return
         }
-    }
 
         selectedIcon = icon
         delegate?.changeIcon(icon: icon)
