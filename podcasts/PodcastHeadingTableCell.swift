@@ -329,7 +329,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
 
-        ratingView?.isHidden = !expanded && FeatureFlag.showRatings.enabled
+        let hasRating = delegate?.podcastRatingViewModel.rating != nil
+        ratingView?.isHidden = !FeatureFlag.showRatings.enabled || !hasRating || !expanded
     }
 
     private func setupButtons() {

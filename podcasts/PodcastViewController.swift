@@ -190,6 +190,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
 
         AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
+        podcastRatingViewModel.update(uuid: podcast.uuid)
 
         super.init(nibName: "PodcastViewController", bundle: nil)
     }
@@ -204,6 +205,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
 
         if let uuid = podcastInfo.uuid {
+            podcastRatingViewModel.update(uuid: uuid)
             AnalyticsHelper.podcastOpened(uuid: uuid)
         }
 
@@ -263,6 +265,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        // Load the ratings even if we've already started loading them to cover all other potential view states
+        // The view model will ignore extra calls
+        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+            podcastRatingViewModel.update(uuid: uuid)
+        }
 
         updateColors()
     }
