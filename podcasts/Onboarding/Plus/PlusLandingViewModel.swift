@@ -5,12 +5,14 @@ import SwiftUI
 class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
-    var displayProduct: Constants.ProductInfo? = nil
+    let displayedProducts: [UpgradeTier]
+    var initialProduct: Constants.ProductInfo? = nil
     var continuePurchasing: Constants.ProductInfo? = nil
     let source: Source
 
     init(source: Source, config: Config? = nil, purchaseHandler: IapHelper = .shared) {
-        self.displayProduct = config?.displayProduct
+        self.displayedProducts = config?.products ?? [.plus, .patron]
+        self.initialProduct = config?.displayProduct
         self.continuePurchasing = config?.continuePurchasing
         self.source = source
 
@@ -108,6 +110,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
     }
 
     struct Config {
+        var products: [UpgradeTier]? = nil
         var displayProduct: Constants.ProductInfo? = nil
         var continuePurchasing: Constants.ProductInfo? = nil
     }
