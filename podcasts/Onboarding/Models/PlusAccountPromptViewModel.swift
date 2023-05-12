@@ -4,6 +4,22 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
     var source: Source = .unknown
 
+    let subscription: UserInfo.Subscription? = .init()
+
+    lazy var products: [PlusProductPricingInfo] = {
+        let productsToDisplay: [Constants.IapProducts] = {
+            guard FeatureFlag.patron.enabled else {
+                return [.yearly]
+            }
+
+            return subscription?.type == .patron ? [.patronYearly] : [.yearly, .patronYearly]
+        }()
+
+        return productsToDisplay.compactMap { product in
+            pricingInfo.products.first(where: { $0.identifier == product })
+        }
+    }()
+
     override init(purchaseHandler: IapHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
