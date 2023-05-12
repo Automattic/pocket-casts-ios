@@ -1403,6 +1403,10 @@
     <string>选择付款频率</string>
     <key>plus_skip</key>
     <string>跳过</string>
+    <key>plus_start_my_free_trial</key>
+    <string>开始免费试用版</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>试用 %1$@，之后 %2$@</string>
     <key>plus_subscribe_to</key>
     <string>订阅 Plus</string>
     <key>plus_subscription_apple</key>

@@ -1403,6 +1403,10 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Välj betalningsfrekvens</string>
     <key>plus_skip</key>
     <string>Hoppa över</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Starta min gratis provperiod</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Prova %1$@, sedan %2$@</string>
     <key>plus_subscribe_to</key>
     <string>Prenumerera på Plus</string>
     <key>plus_subscription_apple</key>

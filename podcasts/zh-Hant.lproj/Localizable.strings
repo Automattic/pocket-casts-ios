@@ -1403,6 +1403,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>選取付款頻率</string>
     <key>plus_skip</key>
     <string>略過</string>
+    <key>plus_start_my_free_trial</key>
+    <string>開始我的免費試用</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>試用 %1$@，接著%2$@</string>
     <key>plus_subscribe_to</key>
     <string>訂閱 Plus</string>
     <key>plus_subscription_apple</key>

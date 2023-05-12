@@ -1403,6 +1403,10 @@ Obtenha apps para desktop, carregue seus próprios arquivos e personalize a plat
     <string>Selecione a frequência de pagamento</string>
     <key>plus_skip</key>
     <string>Pular</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Iniciar meu teste gratuito</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Experimente %1$@ (depois disso, %2$@)</string>
     <key>plus_subscribe_to</key>
     <string>Assinar o Plus</string>
     <key>plus_subscription_apple</key>

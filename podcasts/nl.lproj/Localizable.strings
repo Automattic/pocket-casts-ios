@@ -1403,6 +1403,10 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Selecteer betaalfrequentie</string>
     <key>plus_skip</key>
     <string>Overslaan</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Mijn gratis proefversie starten</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Probeer %1$@, vervolgens %2$@</string>
     <key>plus_subscribe_to</key>
     <string>Abonneren op Plus</string>
     <key>plus_subscription_apple</key>
