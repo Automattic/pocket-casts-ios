@@ -1,6 +1,8 @@
 import UIKit
 
-class PlusAccountPromptViewModel: PlusPurchaseModel {
+class PlusAccountPromptViewModel: PlusPricingInfoModel {
+    weak var parentController: UIViewController? = nil
+
     var source: Source = .unknown
 
     let subscription: UserInfo.Subscription? = .init()
@@ -53,13 +55,6 @@ private extension PlusAccountPromptViewModel {
         guard FeatureFlag.patron.enabled else {
             let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
             controller.presentModally(in: parentController)
-            return
-        }
-
-        // If the user already has a subscription and we're prompting them to renew
-        // Then go straight to purchasing
-        if let product = product?.identifier, subscription?.isExpiring(product.subscriptionType) == true {
-            purchase(product: product)
             return
         }
 
