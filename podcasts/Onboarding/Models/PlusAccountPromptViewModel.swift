@@ -1,7 +1,6 @@
 import UIKit
 
-class PlusAccountPromptViewModel: PlusPricingInfoModel {
-    weak var parentController: UIViewController? = nil
+class PlusAccountPromptViewModel: PlusPurchaseModel {
     var source: Source = .unknown
 
     let subscription: UserInfo.Subscription? = .init()
@@ -57,8 +56,19 @@ private extension PlusAccountPromptViewModel {
             return
         }
 
-        let flow: OnboardingFlow.Flow = product?.identifier.subscriptionType == .patron ? .patronAccountUpgrade : .plusAccountUpgrade
-        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue)
+        // If the user already has a subscription and we're prompting them to renew
+        // Then go straight to purchasing
+        if let product = product?.identifier, subscription?.isExpiring(product.subscriptionType) == true {
+            purchase(product: product)
+            return
+        }
+
+        // Set the initial product to display on the upsell
+        let context: OnboardingFlow.Context? = product.map {
+            ["product": Constants.ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
+        }
+
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
 
         parentController.present(controller, animated: true)
     }
