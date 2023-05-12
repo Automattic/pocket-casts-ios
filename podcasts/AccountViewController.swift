@@ -89,28 +89,29 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     private func updateDisplayedData() {
         headerViewModel.update()
 
+        // Show the upsell if the users subscription is expiring in the next 30 days
+        let isExpiring = (SubscriptionHelper.timeToSubscriptionExpiry() ?? .infinity) < Constants.Limits.maxSubscriptionExpirySeconds
+
+        // Show the 'Upgrade Account' if the user has an active subscription that isn't patron.
+        // Hide the cell if we're already showing the big upgrade prompt
+        let upgradeRow = (FeatureFlag.patron.enabled && SubscriptionHelper.activeSubscriptionType < .patron && !isExpiring) ? TableRow.upgradeAccount : nil
+
         // Only accounts created with username/password can change email/password
         var accountOptions: [TableRow]
         if isUsernamePasswordLogin {
-            accountOptions = [.changeEmail, .changePassword, .newsletter]
+            accountOptions = [.changeEmail, .changePassword, upgradeRow, .newsletter].compactMap { $0 }
         } else {
-            accountOptions = [.newsletter]
+            accountOptions = [upgradeRow, .newsletter].compactMap { $0 }
         }
 
         if SubscriptionHelper.hasActiveSubscription() {
-            if FeatureFlag.patron.enabled {
-                if SubscriptionHelper.subscriptionType() != .patron {
-                    accountOptions.insert(.upgradeAccount, safelyAt: isUsernamePasswordLogin ? 2 : 0)
-                }
-            }
-
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
-            if SubscriptionHelper.hasRenewingSubscription(), SubscriptionHelper.subscriptionType() != .none {
+            if SubscriptionHelper.activeSubscriptionType != .none {
                 newTableRows[0].append(.cancelSubscription)
             }
 
-            if !SubscriptionHelper.hasRenewingSubscription() && !SubscriptionHelper.hasLifetimeGift() {
+            if !SubscriptionHelper.hasRenewingSubscription() && !SubscriptionHelper.hasLifetimeGift() && isExpiring {
                 newTableRows[0].insert(.upgradeView, at: 0)
             }
 
