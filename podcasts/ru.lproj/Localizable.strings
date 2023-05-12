@@ -1403,6 +1403,10 @@
     <string>Выбрать срок оплаты</string>
     <key>plus_skip</key>
     <string>Пропустить</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Начать бесплатный пробный период</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Попробуйте в течение %1$@, затем %2$@</string>
     <key>plus_subscribe_to</key>
     <string>Подписаться на Plus</string>
     <key>plus_subscription_apple</key>

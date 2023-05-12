@@ -787,7 +787,7 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <key>filter_download_status</key>
     <string>Estat de la descàrrega</string>
     <key>filter_episode_status</key>
-    <string>Estast de l'episodi</string>
+    <string>Estat de l'episodi</string>
     <key>filter_longer_than_label</key>
     <string>Més de</string>
     <key>filter_manual_add_subtitle</key>
@@ -1193,6 +1193,22 @@ ACTUALITZACIONS</string>
     <string>Feed exclusiu per a subscriptors</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Estàs segur que vols cancel·lar la subscripció a tots aquests podcasts? Això eliminarà tots els seus arxius descarregats.</string>
+    <key>patron_callout</key>
+    <string>Confies a la nostra feina i vols mostrar-nos el teu suport?</string>
+    <key>patron_description</key>
+    <string>Converteix-te en membre Patron de Pocket Casts i ajuda'ns a continuar oferint la millor experiència de podcast possible.</string>
+    <key>patron_feature_early_access</key>
+    <string>Accés anticipat a les funcions</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Totes les funcions amb Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Els subscriptors tenen una insignia de perfil</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Icones especials de l'aplicació Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Converteix-te en membre Patron i gaudeix de totes les funcions de Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Subscriu-te a Patron</string>
     <key>pause</key>
     <string>Pausa</string>
     <key>phone</key>
@@ -1297,6 +1313,8 @@ ACTUALITZACIONS</string>
     <string>Caduca %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Emmagatzematge al núvol</string>
+    <key>plus_feature_gratitude</key>
+    <string>L'etern agraïment de l'equip de Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Més temes i icones de l'aplicació</string>
     <key>plus_feature_watch_app</key>
@@ -1378,6 +1396,14 @@ Aconsegueix aplicacions per a ordinador, porta els teus propis fitxers i adorna-
     <string>Aquesta funció necessita Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Seleccionar la freqüència de pagament</string>
+    <key>plus_skip</key>
+    <string>Saltar</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Comença el meu període de prova</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Prova-ho de franc durant %1$@, i després paga %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Subscriu-te a Plus</string>
     <key>plus_subscription_apple</key>
     <string>La teva subscripció s'administra a través de l'App Store d'Apple</string>
     <key>plus_subscription_apple_details</key>
@@ -1681,7 +1707,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>search_podcasts</key>
     <string>Cerca podcasts</string>
     <key>search_recent</key>
-    <string>Cerques recents</string>
+    <string>Darreres cerques</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -1817,7 +1843,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Descarrega els nous episodis quan es publiquin.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
-    <string>Descarregar els episodis afegit a la llista 'Tot seguit'.</string>
+    <string>Descarrega els episodis afegits a la llista 'Tot seguit'.</string>
     <key>settings_badge_filter_header</key>
     <string>NÚMERO DE FILTRES D'EPISODIS</string>
     <key>settings_badge_new_since_opened</key>
@@ -2163,9 +2189,9 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporitzador activat, queden %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
-    <string>Segueix amb Apple</string>
+    <string>Inicia sessió amb un compte d'Apple</string>
     <key>social_sign_in_continue_with_google</key>
-    <string>Segueix amb Google</string>
+    <string>Inicia sessió amb un compte de Google</string>
     <key>sonos_connect_action</key>
     <string>CONNECTAR</string>
     <key>sonos_connect_prompt</key>
@@ -2302,7 +2328,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>today</key>
     <string>avui</string>
     <key>top</key>
-    <string>Top</string>
+    <string>Primer</string>
     <key>trial_finished</key>
     <string>Prova acabada</string>
     <key>trim_silence</key>

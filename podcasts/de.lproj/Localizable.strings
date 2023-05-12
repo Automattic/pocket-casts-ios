@@ -1403,6 +1403,10 @@ Nutze Desktop-Apps, importiere eigene Dateien und poliere mit neuen Themes das D
     <string>Zahlungshäufigkeit auswählen</string>
     <key>plus_skip</key>
     <string>Überspringen</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Gratis-Test starten</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>%1$@ testen, dann %2$@</string>
     <key>plus_subscribe_to</key>
     <string>Plus abonnieren</string>
     <key>plus_subscription_apple</key>

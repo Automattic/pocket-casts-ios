@@ -1403,6 +1403,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>支払頻度を選択</string>
     <key>plus_skip</key>
     <string>スキップ</string>
+    <key>plus_start_my_free_trial</key>
+    <string>無料お試しを開始</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>%1$@のお試し後、%2$@</string>
     <key>plus_subscribe_to</key>
     <string>Plus に登録</string>
     <key>plus_subscription_apple</key>

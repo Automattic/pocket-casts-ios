@@ -1403,6 +1403,10 @@ Obtenez des applications de bureau, apportez vos propres fichiers et donnez un c
     <string>Sélectionner la fréquence de paiement</string>
     <key>plus_skip</key>
     <string>Ignorer</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Démarrer mon essai gratuit</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Essayer %1$@, puis %2$@</string>
     <key>plus_subscribe_to</key>
     <string>S’abonner à Plus</string>
     <key>plus_subscription_apple</key>
