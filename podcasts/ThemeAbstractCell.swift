@@ -46,15 +46,8 @@ class ThemeAbstractCell: UICollectionViewCell {
         }
     }
 
-    @IBOutlet var greyLockImage: UIImageView! {
-        didSet {
-            greyLockImage.tintColor = AppTheme.colorForStyle(.primaryIcon02)
-        }
-    }
-
     var isLocked: Bool = true {
         didSet {
-            greyLockImage.isHidden = !isLocked
             imageView.alpha = isLocked ? 0.5 : 1
             nameLabel.style = isLocked ? .primaryText02 : .primaryText01
             setCornerImage()

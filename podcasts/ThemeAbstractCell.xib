@@ -24,15 +24,8 @@
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hZy-Pq-1HH">
                         <rect key="frame" x="8" y="148" width="112" height="18"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked-grey" translatesAutoresizingMaskIntoConstraints="NO" id="sft-6f-z0e">
-                                <rect key="frame" x="0.0" y="0.0" width="16" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="gjr-1w-GM7"/>
-                                    <constraint firstAttribute="height" constant="18" id="h5o-he-f4D"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-Al-aIr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="21" y="0.0" width="91" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radioactivity" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-Al-aIr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="112" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -86,7 +79,6 @@
             <size key="customSize" width="162" height="224"/>
             <connections>
                 <outlet property="cornerImage" destination="d5O-ct-7y9" id="Dw1-O5-xKX"/>
-                <outlet property="greyLockImage" destination="sft-6f-z0e" id="G0d-WZ-gmG"/>
                 <outlet property="imageView" destination="UCZ-Oj-hTD" id="Mtt-pI-0gU"/>
                 <outlet property="nameLabel" destination="PDr-Al-aIr" id="Byr-6q-Rc9"/>
                 <outlet property="selectionView" destination="xaE-hB-yNN" id="z6U-nA-sX0"/>
@@ -96,7 +88,4 @@
             <point key="canvasLocation" x="218.84057971014494" y="178.79464285714286"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="locked-grey" width="16" height="16"/>
-    </resources>
 </document>
