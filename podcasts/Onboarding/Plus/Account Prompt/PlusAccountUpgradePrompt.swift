@@ -17,10 +17,8 @@ struct PlusAccountUpgradePrompt: View {
 
     init(viewModel: PlusAccountPromptViewModel, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
         self.viewModel = viewModel
+        self.products = viewModel.products
         self.contentSizeUpdated = contentSizeUpdated
-        self.products = ViewConstants.productsToDisplay.compactMap { product in
-            viewModel.pricingInfo.products.first(where: { $0.identifier == product })
-        }
     }
 
     var body: some View {
