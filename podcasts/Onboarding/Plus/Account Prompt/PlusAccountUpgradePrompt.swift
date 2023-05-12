@@ -49,39 +49,60 @@ struct PlusAccountUpgradePrompt: View {
     @ViewBuilder
     func card(for product: ProductInfo, geometryProxy: GeometryProxy) -> some View {
         VStack(spacing: 16) {
-            HStack {
-                SubscriptionBadge(type: product.identifier.subscriptionType)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    SubscriptionBadge(type: product.identifier.subscriptionType)
+                        .padding(.bottom, 10)
+
+                    productFeatures[product.identifier].map {
+                        ForEach($0) { feature in
+                            HStack(spacing: 10) {
+                                Image(feature.iconName)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 16)
+                                    .foregroundColor(theme.primaryText01)
+
+                                Text(feature.title)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryText01)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                                Spacer()
+                            }.frame(maxWidth: .infinity)
+                        }
+                    }
+                }
 
                 Spacer()
 
-                HighlightedText(product.price)
-                    .highlight(product.rawPrice, { _ in
-                            .init(font: nil, weight: .bold, color: nil, backgroundColor: nil)
-                    })
-                    .font(style: .title2)
-                    .foregroundColor(theme.primaryText01)
-            }
+                VStack(alignment: .trailing) {
+                    if let freeTrial = product.freeTrialDuration {
+                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
+                            .highlight(freeTrial, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
 
-            VStack(alignment: .leading) {
-                productFeatures[product.identifier].map {
-                    ForEach($0) { feature in
-                        HStack(spacing: 10) {
-                            Image(feature.iconName)
-                                .renderingMode(.template)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16)
-                                .foregroundColor(theme.primaryText01)
-
-                            Text(feature.title)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(theme.primaryText01)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            Spacer()
-                        }.frame(maxWidth: .infinity)
+                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .body)
+                            .foregroundColor(theme.primaryText01)
+                    } else {
+                        HighlightedText(product.price)
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
                     }
+
+                    Spacer()
                 }
             }
 
