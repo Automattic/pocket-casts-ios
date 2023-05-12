@@ -7,10 +7,20 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity, halloween
+    case primary, dark, roundLight, roundDark, indigo
+    case rose, pocketCats, redVelvet, plus, classic, electricBlue
+    case electricPink, radioactivity, halloween
+    case patronChrome, patronRound, patronGlow, patronDark
 
-    init(rawName: String) {
-        self = IconType.allCases.first(where: { $0.iconName == rawName }) ?? IconType.primary
+    /// Finds the IconType for the given iconName or .primary if there isn't a match
+    init(iconName: String) {
+        self = Self.availableIcons.first(where: { $0.iconName == iconName }) ?? .primary
+    }
+
+    static var availableIcons: [IconType] {
+        Self.allCases.filter {
+            $0.subscription <= (FeatureFlag.patron.enabled ? .patron : .plus)
+        }
     }
 
     var description: String {
@@ -43,39 +53,55 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconRadioactivity
         case .halloween:
             return L10n.appIconHalloween
+        case .patronChrome:
+            return L10n.appIconPatronChrome
+        case .patronRound:
+            return L10n.appIconPatronRound
+        case .patronGlow:
+            return L10n.appIconPatronGlow
+        case .patronDark:
+            return L10n.appIconPatronDark
         }
     }
 
     var icon: UIImage? {
         switch self {
         case .primary:
-            return UIImage(named: "AppIcon-Default108x108")
+            return UIImage(named: "AppIcon-Default")
         case .dark:
-            return UIImage(named: "AppIcon-Dark108x108")
+            return UIImage(named: "AppIcon-Dark")
         case .roundLight:
-            return UIImage(named: "AppIcon-Round-Light108x108")
+            return UIImage(named: "AppIcon-Round")
         case .roundDark:
-            return UIImage(named: "AppIcon-Round-Dark108x108")
+            return UIImage(named: "AppIcon-Round-Dark")
         case .indigo:
-            return UIImage(named: "AppIcon-Indigo108x108")
+            return UIImage(named: "AppIcon-Indigo")
         case .rose:
-            return UIImage(named: "AppIcon-Round-Pink108x108")
+            return UIImage(named: "AppIcon-Round-Pink")
         case .pocketCats:
-            return UIImage(named: "AppIcon-Pocket-Cats108x108")
+            return UIImage(named: "AppIcon-Pocket-Cats")
         case .redVelvet:
-            return UIImage(named: "AppIcon-Red-Velvet108x108")
+            return UIImage(named: "AppIcon-Red-Velvet")
         case .plus:
-            return UIImage(named: "AppIcon-Plus108x108")
+            return UIImage(named: "AppIcon-Plus")
         case .classic:
-            return UIImage(named: "AppIcon-Classic108x108")
+            return UIImage(named: "AppIcon-Classic")
         case .electricBlue:
-            return UIImage(named: "AppIcon-Electric-Blue108x108")
+            return UIImage(named: "AppIcon-Electric-Blue")
         case .electricPink:
-            return UIImage(named: "AppIcon-Electric-Pink108x108")
+            return UIImage(named: "AppIcon-Electric-Pink")
         case .radioactivity:
-            return UIImage(named: "AppIcon-Radioactive108x108")
+            return UIImage(named: "AppIcon-Radioactive")
         case .halloween:
-            return UIImage(named: "AppIcon-Halloween108x108")
+            return UIImage(named: "AppIcon-Halloween")
+        case .patronChrome:
+            return UIImage(named: "AppIcon-Patron-Chrome")
+        case .patronRound:
+            return UIImage(named: "AppIcon-Patron-Round")
+        case .patronGlow:
+            return UIImage(named: "AppIcon-Patron-Glow")
+        case .patronDark:
+            return UIImage(named: "AppIcon-Patron-Dark")
         }
     }
 
@@ -109,6 +135,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Radioactive"
         case .halloween:
             return "AppIcon-Halloween"
+        case .patronChrome:
+            return "AppIcon-Patron-Chrome"
+        case .patronRound:
+            return "AppIcon-Patron-Round"
+        case .patronGlow:
+            return "AppIcon-Patron-Glow"
+        case .patronDark:
+            return "AppIcon-Patron-Dark"
         }
     }
 
@@ -142,6 +176,31 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "radioactive"
         case .halloween:
             return "halloween"
+        case .patronChrome:
+            return "patron_chrome"
+        case .patronRound:
+            return "patron_round"
+        case .patronGlow:
+            return "patron_glow"
+        case .patronDark:
+            return "patron_dark"
+        }
+    }
+
+    /// Whether the icon is unlocked for the users active subscription
+    var isUnlocked: Bool {
+        SubscriptionHelper.activeSubscriptionType >= subscription
+    }
+
+    /// The minimum subscription level required to unlock the icon
+    var subscription: SubscriptionType {
+        switch self {
+        case .patronChrome, .patronRound, .patronGlow, .patronDark:
+            return .patron
+        case .plus, .classic, .electricBlue, .electricPink, .radioactivity, .halloween:
+            return .plus
+        default:
+            return .none
         }
     }
 }
@@ -158,6 +217,9 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "")
+
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
             gridLayout.delegate = self
             gridLayout.numberOfRowsOrColumns = 1
@@ -165,8 +227,6 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             gridLayout.itemSpacing = itemSpacing
         }
     }
-
-    private static let firstPaidIconIndex = 8
 
     private var numVisibleColoumns = 3 as CGFloat
     private var itemSpacing = 0 as CGFloat
@@ -182,9 +242,11 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         return calculatedWidth
     }
 
-    weak var delegate: IconSelectorCellDelegate!
+    weak var delegate: IconSelectorCellDelegate?
 
     private let themeAbstractCellId = "ThemeAbstractCell"
+
+    var selectedIcon: IconType = .primary
 
     // MARK: - GridLayoutDelegate
 
@@ -199,7 +261,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        IconType.allCases.count
+        IconType.availableIcons.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -213,47 +275,49 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         let iconType = IconType(rawValue: indexPath.row) ?? .primary
         cell.nameLabel.text = iconType.description
         cell.imageView.image = iconType.icon
+        cell.isLocked = !iconType.isUnlocked
 
-        cell.isLocked = !SubscriptionHelper.hasActiveSubscription() && indexPath.item > 7
-        if UIApplication.shared.alternateIconName != nil {
-            cell.isCellSelected = selectedIcon().rawValue == indexPath.item
-        } else {
-            cell.isCellSelected = indexPath.item == 0
-        }
+        cell.isCellSelected = selectedIcon == iconType
 
         cell.isAccessibilityElement = true
         cell.accessibilityLabel = cell.nameLabel.text
+
         if cell.isLocked {
-            cell.accessibilityHint = L10n.accessibilityPlusOnly
+            switch iconType.subscription {
+            case .patron:
+                cell.accessibilityHint = L10n.accessibilityPatronOnly
+                cell.lockImage = UIImage(named: "patron-locked")
+            default:
+                cell.accessibilityHint = L10n.accessibilityPlusOnly
+                cell.lockImage = UIImage(named: "plusGoldCircle")
+            }
         }
+
         return cell
     }
 
     // MARK: - CollectionView Delegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !SubscriptionHelper.hasActiveSubscription(), indexPath.item >= IconSelectorCell.firstPaidIconIndex {
+        guard let icon = IconType(rawValue: indexPath.item), icon.isUnlocked else {
             collectionView.deselectItem(at: indexPath, animated: true)
 
-            NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons)
-        } else {
-            delegate?.changeIcon(icon: IconType(rawValue: indexPath.row) ?? .primary)
-            collectionView.reloadData()
+            if let delegate {
+                let context: OnboardingFlow.Context? = IconType(rawValue: indexPath.item).flatMap {
+                    ["product": Constants.ProductInfo(plan: $0.subscription == .patron ? .patron : .plus, frequency: .yearly)]
+                }
+
+                NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons, context: context)
+            }
+            return
         }
+
+        selectedIcon = icon
+        delegate?.changeIcon(icon: icon)
+        collectionView.reloadData()
     }
 
     func scrollToSelected() {
-        let selectedItem = selectedIcon().rawValue
-        collectionView.scrollToItem(at: IndexPath(item: selectedItem, section: 0), at: .centeredHorizontally, animated: false)
-    }
-
-    func setCurrentSelectedIcon() {
-        let selectedItem = selectedIcon().rawValue
-        collectionView.selectItem(at: IndexPath(item: selectedItem, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-    }
-
-    func selectedIcon() -> IconType {
-        let selectedIcon = UIApplication.shared.alternateIconName ?? ""
-        return IconType(rawName: selectedIcon)
+        collectionView.scrollToItem(at: IndexPath(item: selectedIcon.rawValue, section: 0), at: .centeredHorizontally, animated: false)
     }
 }

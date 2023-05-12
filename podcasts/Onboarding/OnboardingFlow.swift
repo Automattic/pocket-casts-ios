@@ -1,12 +1,14 @@
 import Foundation
 
 struct OnboardingFlow {
+    typealias Context = [String: Any]
+
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
 
@@ -17,13 +19,12 @@ struct OnboardingFlow {
         case .plusUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
+            flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
             if FeatureFlag.patron.enabled {
-                // Only the upsell flow needs an unknown source
                 self.source = source ?? "unknown"
-                flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
+                flowController = upgradeController(in: navigationController, context: context)
             } else {
                 flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
             }
@@ -43,6 +44,11 @@ struct OnboardingFlow {
         }
 
         return flowController
+    }
+
+    private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
+        let product = context?["product"] as? Constants.ProductInfo
+        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 
     /// Resets the internal flow state to none and clears any analytics sources

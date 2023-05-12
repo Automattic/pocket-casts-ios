@@ -147,7 +147,8 @@ class NavigationManager {
         } else if place == NavigationManager.subscriptionRequiredPageKey {
             if let data = data, let rootVC = data[NavigationManager.subscriptionUpgradeVCKey] as? UIViewController {
                 let source = (data["source"] as? PlusUpgradeViewSource) ?? .unknown
-                mainController?.showSubscriptionRequired(rootVC, source: source)
+                let context = data["context"] as? OnboardingFlow.Context
+                mainController?.showSubscriptionRequired(rootVC, source: source, context: context)
             }
         } else if place == NavigationManager.showPlusMarketingPageKey {
             mainController?.showPlusMarketingPage()
@@ -201,7 +202,7 @@ class NavigationManager {
 // MARK: - Helpers
 
 extension NavigationManager {
-    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource) {
-        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source])
+    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil) {
+        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source, "context": context ?? [:]])
     }
 }

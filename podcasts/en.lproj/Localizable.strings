@@ -37,6 +37,9 @@
 /* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription. */
 "accessibility_plus_only" = "Locked, Plus Feature";
 
+/* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Patron subscription. */
+"accessibility_patron_only" = "Locked, Patron Feature";
+
 /* Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. */
 "accessibility_profile_settings" = "Pocket Casts Settings";
 
@@ -186,6 +189,18 @@
 
 /* Halloween app icon name */
 "app_icon_halloween" = "Halloween";
+
+/* The name for the Patron Chrome App Icon - Do not translate Patron */
+"app_icon_patron_chrome" = "Patron Chrome";
+
+/* The name for the Patron Round App Icon - Do not translate Patron */
+"app_icon_patron_round" = "Patron Round";
+
+/* The name for the Patron Glow App Icon - Do not translate Patron */
+"app_icon_patron_glow" = "Patron Glow";
+
+/* The name for the Patron Dark App Icon - Do not translate Patron */
+"app_icon_patron_dark" = "Patron Dark";
 
 /* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
 "app_version" = "Version %1$@ (%2$@)";

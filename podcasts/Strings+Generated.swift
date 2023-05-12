@@ -48,6 +48,8 @@ internal enum L10n {
   internal static var accessibilityHintUnstar: String { return L10n.tr("Localizable", "accessibility_hint_unstar") }
   /// More actions
   internal static var accessibilityMoreActions: String { return L10n.tr("Localizable", "accessibility_more_actions") }
+  /// Locked, Patron Feature
+  internal static var accessibilityPatronOnly: String { return L10n.tr("Localizable", "accessibility_patron_only") }
   /// %1$@ percent completed
   internal static func accessibilityPercentCompleteFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_percent_complete_format", String(describing: p1))
@@ -162,6 +164,14 @@ internal enum L10n {
   internal static var appIconHalloween: String { return L10n.tr("Localizable", "app_icon_halloween") }
   /// Indigo
   internal static var appIconIndigo: String { return L10n.tr("Localizable", "app_icon_indigo") }
+  /// Patron Chrome
+  internal static var appIconPatronChrome: String { return L10n.tr("Localizable", "app_icon_patron_chrome") }
+  /// Patron Dark
+  internal static var appIconPatronDark: String { return L10n.tr("Localizable", "app_icon_patron_dark") }
+  /// Patron Glow
+  internal static var appIconPatronGlow: String { return L10n.tr("Localizable", "app_icon_patron_glow") }
+  /// Patron Round
+  internal static var appIconPatronRound: String { return L10n.tr("Localizable", "app_icon_patron_round") }
   /// Plus
   internal static var appIconPlus: String { return L10n.tr("Localizable", "app_icon_plus") }
   /// Pocket Cats
