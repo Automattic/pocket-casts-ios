@@ -28,7 +28,12 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "C9B37131",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "displayPrice" : "0.99",
+            "internalID" : "20314E17",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1M"
+          },
           "localizations" : [
             {
               "description" : "",
