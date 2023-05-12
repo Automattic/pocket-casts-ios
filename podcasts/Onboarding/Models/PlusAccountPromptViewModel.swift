@@ -63,7 +63,8 @@ private extension PlusAccountPromptViewModel {
             ["product": Constants.ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
         }
 
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
+        let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade
+        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue, context: context)
 
         parentController.present(controller, animated: true)
     }
