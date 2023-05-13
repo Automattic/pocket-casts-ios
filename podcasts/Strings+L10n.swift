@@ -108,13 +108,21 @@ extension L10n {
     }
 
     static func timeShorthand(_ time: Int) -> String {
+        localizedTime(time, secondsUnitStyle: .short, otherUnitsStyle: .abbreviated)
+    }
+
+    static func time(_ time: Int) -> String {
+        localizedTime(time, secondsUnitStyle: .full, otherUnitsStyle: .full)
+    }
+
+    private static func localizedTime(_ time: Int, secondsUnitStyle: DateComponentsFormatter.UnitsStyle, otherUnitsStyle: DateComponentsFormatter.UnitsStyle) -> String {
         let value = Double(time)
         if value < 60 {
             let components = DateComponents(calendar: .current, second: Int(value))
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .short) ?? L10n.timePlaceholder
+            return DateComponentsFormatter.localizedString(from: components, unitsStyle: secondsUnitStyle) ?? L10n.timePlaceholder
         } else {
             let components = DateComponents(calendar: .current, minute: Int(floor(value / 60.0)), second: Int(value) % 60)
-            return DateComponentsFormatter.localizedString(from: components, unitsStyle: .abbreviated) ?? L10n.timePlaceholder
+            return DateComponentsFormatter.localizedString(from: components, unitsStyle: otherUnitsStyle) ?? L10n.timePlaceholder
         }
     }
 

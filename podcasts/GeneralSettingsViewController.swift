@@ -44,7 +44,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         switch row {
         case .skipForward:
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
-            cell.cellLabel.text = L10n.skipForward
+            let cellLabelText = L10n.skipForward
+            cell.cellLabel.text = cellLabelText
             let jumpFwdAmount = ServerSettings.skipForwardTime()
             cell.cellSecondaryLabel.text = L10n.timeShorthand(jumpFwdAmount)
             cell.timeStepper.currentValue = TimeInterval(jumpFwdAmount)
@@ -53,11 +54,13 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.smallIncrements = 5.seconds
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
+            cell.configureAccessibilityLabel(text: cellLabelText, time: L10n.time(jumpFwdAmount))
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
                 ServerSettings.setSkipForwardTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
+                cell.configureAccessibilityLabel(text: cellLabelText, time: L10n.time(newValue))
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 
@@ -69,6 +72,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             return cell
         case .skipBack:
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
+            let cellLabelText = L10n.skipBack
             cell.cellLabel.text = L10n.skipBack
             let skipBackAmount = ServerSettings.skipBackTime()
             cell.cellSecondaryLabel.text = L10n.timeShorthand(skipBackAmount)
@@ -78,11 +82,13 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.smallIncrements = 5.seconds
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
+            cell.configureAccessibilityLabel(text: cellLabelText, time: L10n.time(skipBackAmount))
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
                 ServerSettings.setSkipBackTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
+                cell.configureAccessibilityLabel(text: cellLabelText, time: L10n.time(newValue))
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
 

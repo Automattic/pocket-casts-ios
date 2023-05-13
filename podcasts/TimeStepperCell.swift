@@ -39,6 +39,11 @@ class TimeStepperCell: ThemeableCell {
         cellImage.image = UIImage(named: imageName)
     }
 
+    func configureAccessibilityLabel(text: String, time: String) {
+        let accessibilityLabel = "\(text), \(time)"
+        self.accessibilityLabel = accessibilityLabel
+    }
+
     @objc private func stepperChanged(_ sender: CustomTimeStepper) {
         onValueChanged?(sender.currentValue)
     }
