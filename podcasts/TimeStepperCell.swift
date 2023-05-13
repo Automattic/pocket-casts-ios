@@ -39,8 +39,9 @@ class TimeStepperCell: ThemeableCell {
         cellImage.image = UIImage(named: imageName)
     }
 
-    func configureAccessibilityLabel(text: String, time: String) {
-        let accessibilityLabel = "\(text), \(time)"
+    func configureAccessibilityLabel(text: String, time: Int) {
+        let localizedTimeInterval = TimeInterval(time).localizedTimeDescription ?? ""
+        let accessibilityLabel = "\(text), \(localizedTimeInterval)"
         self.accessibilityLabel = accessibilityLabel
     }
 

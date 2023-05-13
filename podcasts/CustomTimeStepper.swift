@@ -38,7 +38,7 @@ class CustomTimeStepper: UIControl {
     var smallIncrementThreshold: TimeInterval = 5.minutes
     var currentValue: TimeInterval = 1.hour {
         didSet {
-            accessibilityValue = L10n.time(Int(currentValue))
+            accessibilityValue = currentValue.localizedTimeDescription ?? ""
         }
     }
 
