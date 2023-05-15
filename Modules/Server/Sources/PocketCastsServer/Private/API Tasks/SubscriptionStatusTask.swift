@@ -23,6 +23,8 @@ class SubscriptionStatusTask: ApiBaseTask {
                 SubscriptionHelper.setSubscriptionGiftDays(Int(status.giftDays))
                 SubscriptionHelper.setSubscriptionFrequency(Int(status.frequency))
                 SubscriptionHelper.setSubscriptionType(Int(status.type))
+                SubscriptionHelper.subscriptionTier = SubscriptionTier(rawValue: status.tier) ?? .none
+
                 var podcastSubscriptions = [PodcastSubscription]()
 
                 for subscription in status.subscriptions {
