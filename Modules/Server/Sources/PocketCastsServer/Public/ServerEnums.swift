@@ -40,7 +40,12 @@ public enum SubscriptionType: Int {
 
 // MARK: - SubscriptionTier
 public enum SubscriptionTier: String {
-    case none = "", plus = "Plus", patron = "Patron"
+    // The none state doesn't come from the server, but it instead may send an empty string
+    // This is used as the fallback value
+    case none = ""
+
+    // The values here come from the server and are case sensitive
+    case plus = "Plus", patron = "Patron"
 }
 
 extension SubscriptionTier: Comparable {
