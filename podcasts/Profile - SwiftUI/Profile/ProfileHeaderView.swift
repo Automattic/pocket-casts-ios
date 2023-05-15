@@ -32,20 +32,22 @@ struct ProfileHeaderView: View {
                 .frame(width: Constants.imageSize, height: Constants.imageSize)
 
             // Show the patron badge
-            if let subscriptionType = viewModel.subscription?.type, subscriptionType == .patron {
-                SubscriptionBadge(type: subscriptionType)
-                    .padding(.top, -10)
-            }
+            if let subscription = viewModel.subscription {
+                if subscription.type == .patron {
+                    SubscriptionBadge(type: subscription.type)
+                        .padding(.top, -10)
+                }
 
-            // Display the expiration date if needed
-            if let expirationDate = viewModel.subscription?.expirationDate {
-                let time = TimeFormatter.shared.appleStyleTillString(date: expirationDate) ?? L10n.timeFormatNever
-                let message = L10n.subscriptionExpiresIn(time)
+                // Display the expiration date if needed
+                if subscription.expirationProgress < 1, let expirationDate = subscription.expirationDate {
+                    let time = TimeFormatter.shared.appleStyleTillString(date: expirationDate) ?? L10n.timeFormatNever
+                    let message = L10n.subscriptionExpiresIn(time)
 
-                Text(message.localizedUppercase)
-                    .font(style: .caption, weight: .semibold)
-                    .foregroundColor(theme.red)
-                    .padding(.top, Constants.spacing)
+                    Text(message.localizedUppercase)
+                        .font(style: .caption, weight: .semibold)
+                        .foregroundColor(theme.red)
+                        .padding(.top, Constants.spacing)
+                }
             }
         }
     }

@@ -2,7 +2,24 @@ import UIKit
 
 class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
+
     var source: Source = .unknown
+
+    let subscription: UserInfo.Subscription? = .init()
+
+    lazy var products: [PlusProductPricingInfo] = {
+        let productsToDisplay: [Constants.IapProducts] = {
+            guard FeatureFlag.patron.enabled else {
+                return [.yearly]
+            }
+
+            return subscription?.type == .patron ? [.patronYearly] : [.yearly, .patronYearly]
+        }()
+
+        return productsToDisplay.compactMap { product in
+            pricingInfo.products.first(where: { $0.identifier == product })
+        }
+    }()
 
     override init(purchaseHandler: IapHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
@@ -41,8 +58,13 @@ private extension PlusAccountPromptViewModel {
             return
         }
 
-        let flow: OnboardingFlow.Flow = product?.identifier.subscriptionType == .patron ? .patronAccountUpgrade : .plusAccountUpgrade
-        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue)
+        // Set the initial product to display on the upsell
+        let context: OnboardingFlow.Context? = product.map {
+            ["product": Constants.ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
+        }
+
+        let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade
+        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue, context: context)
 
         parentController.present(controller, animated: true)
     }

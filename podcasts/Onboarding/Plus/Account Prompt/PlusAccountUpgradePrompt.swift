@@ -17,10 +17,8 @@ struct PlusAccountUpgradePrompt: View {
 
     init(viewModel: PlusAccountPromptViewModel, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
         self.viewModel = viewModel
+        self.products = viewModel.products
         self.contentSizeUpdated = contentSizeUpdated
-        self.products = ViewConstants.productsToDisplay.compactMap { product in
-            viewModel.pricingInfo.products.first(where: { $0.identifier == product })
-        }
     }
 
     var body: some View {
@@ -51,39 +49,60 @@ struct PlusAccountUpgradePrompt: View {
     @ViewBuilder
     func card(for product: ProductInfo, geometryProxy: GeometryProxy) -> some View {
         VStack(spacing: 16) {
-            HStack {
-                SubscriptionBadge(type: product.identifier.subscriptionType)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    SubscriptionBadge(type: product.identifier.subscriptionType)
+                        .padding(.bottom, 10)
+
+                    productFeatures[product.identifier].map {
+                        ForEach($0) { feature in
+                            HStack(spacing: 10) {
+                                Image(feature.iconName)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 16)
+                                    .foregroundColor(theme.primaryText01)
+
+                                Text(feature.title)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryText01)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                                Spacer()
+                            }.frame(maxWidth: .infinity)
+                        }
+                    }
+                }
 
                 Spacer()
 
-                HighlightedText(product.price)
-                    .highlight(product.rawPrice, { _ in
-                            .init(font: nil, weight: .bold, color: nil, backgroundColor: nil)
-                    })
-                    .font(style: .title2)
-                    .foregroundColor(theme.primaryText01)
-            }
+                VStack(alignment: .trailing) {
+                    if let freeTrial = product.freeTrialDuration {
+                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
+                            .highlight(freeTrial, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
 
-            VStack(alignment: .leading) {
-                productFeatures[product.identifier].map {
-                    ForEach($0) { feature in
-                        HStack(spacing: 10) {
-                            Image(feature.iconName)
-                                .renderingMode(.template)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16)
-                                .foregroundColor(theme.primaryText01)
-
-                            Text(feature.title)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(theme.primaryText01)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            Spacer()
-                        }.frame(maxWidth: .infinity)
+                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .body)
+                            .foregroundColor(theme.primaryText01)
+                    } else {
+                        HighlightedText(product.price)
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
                     }
+
+                    Spacer()
                 }
             }
 
@@ -96,11 +115,35 @@ struct PlusAccountUpgradePrompt: View {
     @ViewBuilder
     private func subscribeButton(for product: ProductInfo) -> some View {
         let plan = product.identifier.plan
+        let subscription = viewModel.subscription
+        let expiringPlus = subscription?.isExpiring(.plus) == true
 
         let label: String = {
             switch plan {
-            case .patron: return L10n.patronSubscribeTo
-            case .plus: return L10n.plusSubscribeTo
+            case .patron:
+                return {
+                    // Show the renew your sub title
+                    if subscription?.isExpiring(.patron) == true {
+                        return L10n.renewSubscription
+                    }
+
+                    // If the user has an expiring plus subscription show the 'Upgrade Account' title
+                    return expiringPlus ? L10n.upgradeAccount : L10n.patronSubscribeTo
+                }()
+
+            case .plus:
+                // Show 'Renew Sub' title if it's expiring
+                return {
+                    if expiringPlus {
+                        return L10n.renewSubscription
+                    }
+
+                    if product.freeTrialDuration != nil {
+                        return L10n.plusStartMyFreeTrial
+                    }
+
+                    return L10n.plusSubscribeTo
+                }()
             }
         }()
 
@@ -135,11 +178,6 @@ struct PlusAccountUpgradePrompt: View {
             .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons)
         ]
     ]
-
-    // MARK: - Constants
-    private enum ViewConstants {
-        static let productsToDisplay: [Constants.IapProducts] = FeatureFlag.patron.enabled ? [.yearly, .patronYearly] : [.yearly]
-    }
 
     // MARK: - Model
     private struct Feature: Identifiable, Hashable {

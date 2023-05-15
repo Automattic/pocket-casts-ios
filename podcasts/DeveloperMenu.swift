@@ -25,6 +25,7 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Set to No Plus") {
+                    ServerSettings.setIapUnverifiedPurchaseReceiptDate(nil)
                     SubscriptionHelper.setSubscriptionPaid(Int(0))
                     SubscriptionHelper.setSubscriptionPlatform(Int(0))
                     SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
@@ -63,17 +64,58 @@ struct DeveloperMenu: View {
                     HapticsHelper.triggerSubscribedHaptic()
                 }
 
-                Button("Set to Lifetime") {
-                    SubscriptionHelper.setSubscriptionPaid(Int(1))
-                    SubscriptionHelper.setSubscriptionPlatform(Int(4))
-                    SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 11 * 365.days).timeIntervalSince1970)
-                    SubscriptionHelper.setSubscriptionAutoRenewing(false)
-                    SubscriptionHelper.setSubscriptionGiftDays(Int(11 * 365.days))
-                    SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                    SubscriptionHelper.setSubscriptionType(Int(1))
+                Group {
+                    Button("Set to 150 Gift Days") {
+                        SubscriptionHelper.setSubscriptionPaid(1)
+                        SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.gift.rawValue)
+                        SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 150 * 1.days).timeIntervalSince1970)
+                        SubscriptionHelper.setSubscriptionAutoRenewing(false)
+                        SubscriptionHelper.setSubscriptionGiftDays(150)
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
 
-                    NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
-                    HapticsHelper.triggerSubscribedHaptic()
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+                        HapticsHelper.triggerSubscribedHaptic()
+                    }
+
+                    Button("Set to 150 Gift Days and Expiring in 1 day") {
+                        SubscriptionHelper.setSubscriptionPaid(1)
+                        SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.gift.rawValue)
+                        SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 1.days).timeIntervalSince1970)
+                        SubscriptionHelper.setSubscriptionAutoRenewing(false)
+                        SubscriptionHelper.setSubscriptionGiftDays(150)
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+                        HapticsHelper.triggerSubscribedHaptic()
+                    }
+
+                    Button("Set to 150 Gift Days and Expiring in 29 days") {
+                        SubscriptionHelper.setSubscriptionPaid(1)
+                        SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.gift.rawValue)
+                        SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
+                        SubscriptionHelper.setSubscriptionAutoRenewing(false)
+                        SubscriptionHelper.setSubscriptionGiftDays(150)
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+                        HapticsHelper.triggerSubscribedHaptic()
+                    }
+
+                    Button("Set to Lifetime") {
+                        SubscriptionHelper.setSubscriptionPaid(Int(1))
+                        SubscriptionHelper.setSubscriptionPlatform(Int(4))
+                        SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 11 * 365.days).timeIntervalSince1970)
+                        SubscriptionHelper.setSubscriptionAutoRenewing(false)
+                        SubscriptionHelper.setSubscriptionGiftDays(Int(11 * 365.days))
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+
+                        NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
+                        HapticsHelper.triggerSubscribedHaptic()
+                    }
                 }
 
                 VStack(alignment: .leading, spacing: 5) {
@@ -145,9 +187,10 @@ struct DeveloperMenu: View {
                 }
 
             } header: {
-                Text("Subscription Testing")
-            } footer: {
-                Text("⚠️ Temporary items only, the changes will only be active until the next server sync.")
+                VStack {
+                    Text("Subscription Testing")
+                    Text("⚠️ Temporary items only, the changes will only be active until the next server sync.")
+                }
             }
         }
     }

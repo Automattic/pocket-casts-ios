@@ -85,7 +85,7 @@ struct AccountHeaderView: View {
             return nil
         }
 
-        // If we're more than the max days (progress >= 1) then show the expirationd ate
+        // If we're more than the max days (progress >= 1) then show the expiration date
         guard expirationProgress < 1 else {
             let label = L10n.plusExpirationFormat(DateFormatHelper.sharedHelper.longLocalizedFormat(expirationDate))
             return Text(label)

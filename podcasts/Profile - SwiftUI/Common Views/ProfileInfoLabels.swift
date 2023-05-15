@@ -4,7 +4,7 @@ import SwiftUI
 struct ProfileInfoLabels: View {
     @EnvironmentObject var theme: Theme
 
-    let profile: ProfileDataViewModel.Profile
+    let profile: UserInfo.Profile
     var alignment: HorizontalAlignment = .center
     var spacing: Double = 0
 
