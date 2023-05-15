@@ -1,3 +1,7 @@
+7.40
+-----
+
+
 7.39
 -----
 - Removed the starred filter from the list of default filters
