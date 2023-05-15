@@ -31,9 +31,11 @@ struct OnboardingFlow {
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
+            let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
+
             flowController = PlusLandingViewModel.make(in: navigationController,
                                                        from: .upsell,
-                                                       config: .init(displayProduct: .init(plan: .patron, frequency: .yearly)))
+                                                       config: config)
 
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))

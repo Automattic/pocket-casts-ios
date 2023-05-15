@@ -18,15 +18,10 @@ struct UpgradeLandingView: View {
     init(viewModel: PlusLandingViewModel) {
         self.viewModel = viewModel
 
-        // Update the displayed products to hide ones the user is subscribed to
-        tiers = {
-            let type = SubscriptionHelper.hasActiveSubscription() ? SubscriptionHelper.subscriptionType() : .none
-
-            return [.plus, .patron].filter { $0.tier != type }
-        }()
+        tiers = viewModel.displayedProducts
 
         // Switch to the previously selected options if available
-        let displayProduct = [viewModel.continuePurchasing, viewModel.displayProduct].compactMap { $0 }.first
+        let displayProduct = [viewModel.continuePurchasing, viewModel.initialProduct].compactMap { $0 }.first
 
         if let displayProduct {
             let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0

@@ -3652,3 +3652,6 @@
 
 /* Label describing the recent searches */
 "search_recent" = "Recent searches";
+
+/* Button label prompting the user to renew their subscription */
+"renew_subscription" = "Renew your Subscription";

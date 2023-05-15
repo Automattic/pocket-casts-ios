@@ -11,13 +11,13 @@ class ProfileDataViewModel: ObservableObject {
     var viewContentSizeChanged: (() -> Void)? = nil
 
     /// The user profile information such as logged in, email, etc
-    var profile: Profile = .init()
+    var profile: UserInfo.Profile = .init()
 
     /// The users subscription information, will be nil if there is no active subscription
-    var subscription: Subscription?
+    var subscription: UserInfo.Subscription?
 
     /// Listening Stats
-    var stats: Stats = .init()
+    var stats: UserInfo.Stats = .init()
 
     private var notifications = Set<AnyCancellable>()
 
@@ -44,75 +44,5 @@ class ProfileDataViewModel: ObservableObject {
     func contentSizeChanged(_ size: CGSize) {
         contentSize = size
         viewContentSizeChanged?()
-    }
-
-    struct Profile {
-        let isLoggedIn: Bool
-        let displayName: String?
-        let email: String?
-
-        init(isLoggedIn: Bool = SyncManager.isUserLoggedIn(), email: String? = ServerSettings.syncingEmail(), displayName: String? = nil) {
-            self.isLoggedIn = isLoggedIn
-            self.email = isLoggedIn ? email : nil
-            self.displayName = isLoggedIn ? displayName : nil // Placeholder, Not available yet
-        }
-    }
-
-    struct Subscription {
-        let type: SubscriptionType
-        let expirationProgress: Double
-        let expirationDate: Date?
-
-        /// Returns nil if there is no subscription info to return
-        init?(loggedIn: Bool) {
-            let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-            let type = SubscriptionHelper.subscriptionType()
-
-            guard loggedIn, hasSubscription, type != .none else {
-                return nil
-            }
-
-            self.type = type
-
-            let maxDisplayTime = Constants.Limits.maxSubscriptionExpirySeconds
-
-            // Don't show the expiration label if we're outside of the max days
-            guard let expiration = SubscriptionHelper.timeToSubscriptionExpiry(), expiration <= maxDisplayTime else {
-                expirationDate = nil
-                expirationProgress = hasSubscription ? 1 : 0
-                return
-            }
-
-            expirationProgress = (expiration / maxDisplayTime).clamped(to: 0..<1)
-            expirationDate = hasSubscription ? SubscriptionHelper.subscriptionRenewalDate() : nil
-        }
-    }
-
-    struct Stats {
-        /// The total number of podcasts the user is subscribed to
-        let podcastCount: Int
-
-        /// The total time the user has listened to podcasts
-        let listeningTime: Stat
-
-        /// The total time the user has saved from playback effects
-        let savedTime: Stat
-
-        init() {
-            podcastCount = DataManager.sharedManager.podcastCount()
-
-            listeningTime = .init(seconds: StatsManager.shared.totalListeningTimeInclusive())
-            savedTime = .init(seconds: StatsManager.shared.totalSavedTime())
-        }
-
-        struct Stat {
-            let seconds: TimeInterval
-            let formatValues: Double.TimeFormatValueType
-
-            init(seconds: TimeInterval) {
-                self.seconds = seconds
-                formatValues = seconds.timeFormatValues
-            }
-        }
     }
 }

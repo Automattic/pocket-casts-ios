@@ -1994,6 +1994,8 @@ internal enum L10n {
   internal static var removeFromUpNext: String { return L10n.tr("Localizable", "remove_from_up_next") }
   /// Remove Up Next
   internal static var removeUpNext: String { return L10n.tr("Localizable", "remove_up_next") }
+  /// Renew your Subscription
+  internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
   /// Search
