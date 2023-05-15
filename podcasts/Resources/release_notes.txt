@@ -1,4 +1,3 @@
-- Chapters that are hidden will no longer appear
-- Chapter titles/images now display while scrubbing in the player
-- Embedded artwork: extract embedded artwork from episodes that are being streamed (#829)
+- Removed the starred filter from the list of default filters
+- Added the ability to see ratings for podcasts (#856)
 
