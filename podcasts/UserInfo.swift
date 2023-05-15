@@ -16,20 +16,20 @@ struct UserInfo {
     }
 
     struct Subscription {
-        let type: SubscriptionType
+        let tier: SubscriptionTier
         let expirationProgress: Double
         let expirationDate: Date?
 
         /// Returns nil if there is no subscription info to return
         init?(loggedIn: Bool = SyncManager.isUserLoggedIn()) {
             let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-            let type = SubscriptionHelper.subscriptionType()
+            let tier = SubscriptionHelper.activeSubscriptionTier
 
-            guard loggedIn, hasSubscription, type != .none else {
+            guard loggedIn, hasSubscription, tier != .none else {
                 return nil
             }
 
-            self.type = type
+            self.tier = tier
 
             let maxDisplayTime = Constants.Limits.maxSubscriptionExpirySeconds
 
@@ -44,8 +44,8 @@ struct UserInfo {
             expirationProgress = (expiration / maxDisplayTime).clamped(to: 0..<1)
         }
 
-        func isExpiring(_ type: SubscriptionType) -> Bool {
-            self.type == type && expirationProgress < 1
+        func isExpiring(_ type: SubscriptionTier) -> Bool {
+            self.tier == type && expirationProgress < 1
         }
     }
 

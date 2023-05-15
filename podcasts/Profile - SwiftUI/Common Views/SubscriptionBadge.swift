@@ -8,13 +8,13 @@ import PocketCastsServer
 /// SubscriptionBadge(type: .patron, geometryProxy: geometryProxy)
 ///
 struct SubscriptionBadge: View {
-    let type: SubscriptionType
+    let tier: SubscriptionTier
 
     var body: some View {
-        let content = BadgeModel(type: type).map { render(with: $0) }
+        let content = BadgeModel(tier: tier).map { render(with: $0) }
 
         // Apply an extra effect to the patron badge
-        if type == .patron {
+        if tier == .patron {
             HolographicEffect(mode: .overlay) {
                 content
             }
@@ -48,8 +48,8 @@ struct SubscriptionBadge: View {
         let label: String
         let backgroundColor: Color
 
-        init?(type: SubscriptionType) {
-            switch type {
+        init?(tier: SubscriptionTier) {
+            switch tier {
             case .plus:
                 backgroundColor = .black
                 iconColor = Color(hex: "FFD846")
@@ -75,9 +75,9 @@ struct SubscriptionBadge_Preview: PreviewProvider {
         GeometryReader { proxy in
             VStack(alignment: .leading) {
                 HStack {
-                    SubscriptionBadge(type: .none) // Won't display
-                    SubscriptionBadge(type: .plus)
-                    SubscriptionBadge(type: .patron)
+                    SubscriptionBadge(tier: .none) // Won't display
+                    SubscriptionBadge(tier: .plus)
+                    SubscriptionBadge(tier: .patron)
                 }
             }
             .frame(maxWidth: .infinity)

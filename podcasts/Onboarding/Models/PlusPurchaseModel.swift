@@ -152,7 +152,7 @@ private extension PlusPurchaseModel {
         SubscriptionHelper.setSubscriptionPaid(1)
         SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.iOS.rawValue)
         SubscriptionHelper.setSubscriptionAutoRenewing(true)
-        SubscriptionHelper.setSubscriptionType(purchasedProduct.subscriptionType.rawValue)
+        SubscriptionHelper.subscriptionTier = purchasedProduct.subscriptionTier
 
         let currentDate = Date()
         var dateComponent = DateComponents()

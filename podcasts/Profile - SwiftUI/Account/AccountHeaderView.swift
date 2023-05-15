@@ -17,7 +17,7 @@ struct AccountHeaderView: View {
             VStack {
                 // Subscription badge
                 viewModel.subscription.map {
-                    SubscriptionBadge(type: $0.type)
+                    SubscriptionBadge(tier: $0.tier)
                         .padding(.bottom, Constants.padding.badgeBottom)
                 }
 

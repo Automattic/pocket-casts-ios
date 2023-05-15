@@ -13,7 +13,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                 return [.yearly]
             }
 
-            return subscription?.type == .patron ? [.patronYearly] : [.yearly, .patronYearly]
+            return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
         }()
 
         return productsToDisplay.compactMap { product in
