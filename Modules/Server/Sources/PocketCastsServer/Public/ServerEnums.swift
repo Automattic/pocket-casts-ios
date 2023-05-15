@@ -35,12 +35,9 @@ public enum AutoAddLimitReachedAction: Int32 {
 
 // MARK: - SubscriptionType
 public enum SubscriptionType: Int {
-    case none = 0, plus = 1, supporter = 2, patron = 3
+    case none = 0, plus = 1, supporter = 2
 }
 
-extension SubscriptionType: Comparable {
-    public static func < (lhs: SubscriptionType, rhs: SubscriptionType) -> Bool {
-        lhs.rawValue < rhs.rawValue
 // MARK: - SubscriptionTier
 public enum SubscriptionTier: String {
     case none = "", plus = "Plus", patron = "Patron"
