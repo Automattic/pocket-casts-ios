@@ -6,6 +6,24 @@ public class SubscriptionHelper: NSObject {
         hasActiveSubscription() ? subscriptionType() : .none
     }
 
+    /// Returns the users active subscription tier or .none if they don't currently have one
+    public static var activeSubscriptionTier: SubscriptionTier {
+        hasActiveSubscription() ? subscriptionTier : .none
+    }
+
+    /// The users subscription tier, or .none if there isn't one available
+    public static var subscriptionTier: SubscriptionTier {
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: ServerConstants.UserDefaults.subscriptionTier)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.subscriptionPaid).flatMap {
+                SubscriptionTier(rawValue: $0)
+            } ?? .none
+        }
+    }
+
     public class func hasActiveSubscription() -> Bool {
         let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
         return status
