@@ -45,6 +45,19 @@ extension SubscriptionType: AnalyticsDescribable {
     }
 }
 
+extension SubscriptionTier: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .none:
+            return "none"
+        case .plus:
+            return "plus"
+        case .patron:
+            return "patron"
+        }
+    }
+}
+
 extension AudioVideoFilter: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {

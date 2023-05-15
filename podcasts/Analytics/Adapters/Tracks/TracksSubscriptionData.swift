@@ -8,6 +8,7 @@ protocol TracksSubscriptionData {
     func subscriptionType() -> SubscriptionType
     func subscriptionFrequency() -> SubscriptionFrequency
     func hasLifetimeGift() -> Bool
+    var subscriptionTier: SubscriptionTier { get }
 }
 
 /// Retrieves Pocket Casts specific data for use in tracks
@@ -22,6 +23,10 @@ struct PocketCastsTracksSubscriptionData: TracksSubscriptionData {
 
     func subscriptionType() -> SubscriptionType {
         SubscriptionHelper.subscriptionType()
+    }
+
+    var subscriptionTier: SubscriptionTier {
+        SubscriptionHelper.activeSubscriptionTier
     }
 
     func subscriptionFrequency() -> SubscriptionFrequency {
