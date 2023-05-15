@@ -41,5 +41,18 @@ public enum SubscriptionType: Int {
 extension SubscriptionType: Comparable {
     public static func < (lhs: SubscriptionType, rhs: SubscriptionType) -> Bool {
         lhs.rawValue < rhs.rawValue
+// MARK: - SubscriptionTier
+public enum SubscriptionTier: String {
+    case none = "", plus = "Plus", patron = "Patron"
+}
+
+extension SubscriptionTier: Comparable {
+    private static var tierOrder: [Self] = [.none, .plus, .patron]
+
+    public static func < (lhs: SubscriptionTier, rhs: SubscriptionTier) -> Bool {
+        let lhsIndex = Self.tierOrder.firstIndex(of: lhs) ?? -1
+        let rhsIndex = Self.tierOrder.firstIndex(of: rhs) ?? -1
+
+        return lhsIndex < rhsIndex
     }
 }
