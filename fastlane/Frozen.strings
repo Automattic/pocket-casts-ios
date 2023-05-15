@@ -41,6 +41,9 @@
 /* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription. */
 "accessibility_plus_only" = "Locked, Plus Feature";
 
+/* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Patron subscription. */
+"accessibility_patron_only" = "Locked, Patron Feature";
+
 /* Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. */
 "accessibility_profile_settings" = "Pocket Casts Settings";
 
@@ -190,6 +193,18 @@
 
 /* Halloween app icon name */
 "app_icon_halloween" = "Halloween";
+
+/* The name for the Patron Chrome App Icon - Do not translate Patron */
+"app_icon_patron_chrome" = "Patron Chrome";
+
+/* The name for the Patron Round App Icon - Do not translate Patron */
+"app_icon_patron_round" = "Patron Round";
+
+/* The name for the Patron Glow App Icon - Do not translate Patron */
+"app_icon_patron_glow" = "Patron Glow";
+
+/* The name for the Patron Dark App Icon - Do not translate Patron */
+"app_icon_patron_dark" = "Patron Dark";
 
 /* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
 "app_version" = "Version %1$@ (%2$@)";
@@ -1619,6 +1634,8 @@
 /* Message informing the user when their Pocket Casts Plus subscription will expire. %1$@ is a placeholder for the expiration date. */
 "plus_subscription_expiration" = "PLUS EXPIRES IN %1$@";
 
+"subscription_expires_in" = "Expires in %1$@";
+
 /* Message informing the user that their Pocket Casts Plus subscription is managed by Google's system and needs to be managed there. */
 "plus_subscription_google" = "It looks like you subscribed to Pocket Casts Plus from an Android device";
 
@@ -1661,6 +1678,9 @@
 /* Description of the Patron plan. Do not translate "Patron". */
 "patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
 
+/* Name of the Patron plan. Do not translate "Patron". */
+"patron" = "Patron";
+
 /* Description of a Patron feature that gives user everything in Plus. */
 "patron_feature_everything_in_plus" = "Everything in Plus";
 
@@ -1678,6 +1698,9 @@
 
 /* Label of a title explaining why to subscribe to Patron. */
 "patron_callout" = "Believe in what we’re doing and want to show your support?";
+
+/* Label of a button that informs the user they can upgrade their account. . */
+"upgrade_account" = "Upgrade Account";
 
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
@@ -2621,6 +2644,9 @@
 
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
+
+/* Title for the options for the user to configure their account. */
+"account" = "Account";
 
 /* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
 "share" = "Share";
