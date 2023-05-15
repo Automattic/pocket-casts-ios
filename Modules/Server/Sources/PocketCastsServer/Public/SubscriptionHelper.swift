@@ -18,7 +18,7 @@ public class SubscriptionHelper: NSObject {
         }
 
         get {
-            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.subscriptionPaid).flatMap {
+            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.subscriptionTier).flatMap {
                 SubscriptionTier(rawValue: $0)
             } ?? .none
         }
