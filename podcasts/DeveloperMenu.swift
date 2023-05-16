@@ -31,9 +31,9 @@ struct DeveloperMenu: View {
                     SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
                     SubscriptionHelper.setSubscriptionAutoRenewing(false)
                     SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                    SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                    SubscriptionHelper.setSubscriptionType(Int(0))
-
+                    SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                    SubscriptionHelper.setSubscriptionType(SubscriptionType.none.rawValue)
+                    SubscriptionHelper.subscriptionTier = .none
                     NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                     HapticsHelper.triggerSubscribedHaptic()
                 }
@@ -44,8 +44,9 @@ struct DeveloperMenu: View {
                     SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
                     SubscriptionHelper.setSubscriptionAutoRenewing(true)
                     SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                    SubscriptionHelper.setSubscriptionFrequency(Int(2))
-                    SubscriptionHelper.setSubscriptionType(Int(1))
+                    SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.monthly.rawValue)
+                    SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                    SubscriptionHelper.subscriptionTier = .plus
 
                     NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                     HapticsHelper.triggerSubscribedHaptic()
@@ -57,8 +58,9 @@ struct DeveloperMenu: View {
                     SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 30.days).timeIntervalSince1970)
                     SubscriptionHelper.setSubscriptionAutoRenewing(true)
                     SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                    SubscriptionHelper.setSubscriptionFrequency(Int(2))
-                    SubscriptionHelper.setSubscriptionType(Int(3))
+                    SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.monthly.rawValue)
+                    SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                    SubscriptionHelper.subscriptionTier = .patron
 
                     NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                     HapticsHelper.triggerSubscribedHaptic()
@@ -73,6 +75,7 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionGiftDays(150)
                         SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
                         SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -86,6 +89,7 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionGiftDays(150)
                         SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
                         SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -99,6 +103,7 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionGiftDays(150)
                         SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
                         SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -112,6 +117,7 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionGiftDays(Int(11 * 365.days))
                         SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
                         SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -125,8 +131,9 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 3.days).timeIntervalSince1970)
                         SubscriptionHelper.setSubscriptionAutoRenewing(false)
                         SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                        SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                        SubscriptionHelper.setSubscriptionType(Int(1))
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -142,8 +149,9 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: 3.days).timeIntervalSince1970)
                         SubscriptionHelper.setSubscriptionAutoRenewing(false)
                         SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                        SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                        SubscriptionHelper.setSubscriptionType(Int(3))
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .patron
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -159,8 +167,9 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: (1.days * -1)).timeIntervalSince1970)
                         SubscriptionHelper.setSubscriptionAutoRenewing(false)
                         SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                        SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                        SubscriptionHelper.setSubscriptionType(Int(0))
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .plus
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()
@@ -176,8 +185,9 @@ struct DeveloperMenu: View {
                         SubscriptionHelper.setSubscriptionExpiryDate(Date(timeIntervalSinceNow: (1.days * -1)).timeIntervalSince1970)
                         SubscriptionHelper.setSubscriptionAutoRenewing(false)
                         SubscriptionHelper.setSubscriptionGiftDays(Int(0))
-                        SubscriptionHelper.setSubscriptionFrequency(Int(0))
-                        SubscriptionHelper.setSubscriptionType(Int(3))
+                        SubscriptionHelper.setSubscriptionFrequency(SubscriptionFrequency.none.rawValue)
+                        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+                        SubscriptionHelper.subscriptionTier = .patron
 
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.subscriptionStatusChanged)
                         HapticsHelper.triggerSubscribedHaptic()

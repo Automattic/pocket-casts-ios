@@ -66,6 +66,7 @@ class TracksAdapter: AnalyticsAdapter {
         let hasSubscription = subscriptionData.hasActiveSubscription()
         let platform = subscriptionData.subscriptionPlatform()
         let type = hasSubscription ? subscriptionData.subscriptionType() : .none
+        let tier = subscriptionData.subscriptionTier
         let frequency = hasSubscription ? subscriptionData.subscriptionFrequency() : .none
         let hasLifetime = subscriptionData.hasLifetimeGift()
 
@@ -77,6 +78,7 @@ class TracksAdapter: AnalyticsAdapter {
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
             "plus_subscription_type": type.analyticsDescription,
+            "plus_subscription_tier": tier.analyticsDescription,
             "plus_subscription_platform": platform.analyticsDescription,
             "plus_subscription_frequency": frequency.analyticsDescription,
 

@@ -33,8 +33,8 @@ struct ProfileHeaderView: View {
 
             // Show the patron badge
             if let subscription = viewModel.subscription {
-                if subscription.type == .patron {
-                    SubscriptionBadge(type: subscription.type)
+                if subscription.tier == .patron {
+                    SubscriptionBadge(tier: subscription.tier)
                         .padding(.top, -10)
                 }
 
@@ -69,7 +69,7 @@ struct ProfileHeaderView: View {
         .padding(.top, {
             guard
                 let subscription = viewModel.subscription,
-                subscription.type == .patron,
+                subscription.tier == .patron,
                 subscription.expirationDate != nil
             else {
                 return 0

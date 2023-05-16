@@ -189,11 +189,11 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
 
     /// Whether the icon is unlocked for the users active subscription
     var isUnlocked: Bool {
-        SubscriptionHelper.activeSubscriptionType >= subscription
+        SubscriptionHelper.activeSubscriptionTier >= subscription
     }
 
     /// The minimum subscription level required to unlock the icon
-    var subscription: SubscriptionType {
+    var subscription: SubscriptionTier {
         switch self {
         case .patronChrome, .patronRound, .patronGlow, .patronDark:
             return .patron
