@@ -1429,8 +1429,12 @@ internal enum L10n {
   internal static var patronThankYou: String { return L10n.tr("Localizable", "patron_thank_you") }
   /// Hold the unlock button below to receive some tokens of our appreciation.
   internal static var patronUnlockInstructions: String { return L10n.tr("Localizable", "patron_unlock_instructions") }
+  /// Release to Unlock
+  internal static var patronUnlockRelease: String { return L10n.tr("Localizable", "patron_unlock_release") }
   /// unlock
   internal static var patronUnlockWord: String { return L10n.tr("Localizable", "patron_unlock_word") }
+  /// Unlocking
+  internal static var patronUnlocking: String { return L10n.tr("Localizable", "patron_unlocking") }
   /// Pause
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
   /// Phone
