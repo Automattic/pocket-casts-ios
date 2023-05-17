@@ -1447,6 +1447,10 @@
 		C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */; };
 		C7BDECAF2A15312D00BECF02 /* Spring.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAD2A15312D00BECF02 /* Spring.ahap */; };
 		C7BDECB02A15312D00BECF02 /* Slam.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAE2A15312D00BECF02 /* Slam.ahap */; };
+		C7BDECB52A15327000BECF02 /* PatronUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */; };
+		C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */; };
+		C7BDECB72A15327000BECF02 /* PatronAppIconUnlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */; };
+		C7BDECB92A1533C000BECF02 /* PatronWelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */; };
 		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
 		C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */; };
 		C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; };
@@ -3111,6 +3115,10 @@
 		C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Accessibility.swift"; sourceTree = "<group>"; };
 		C7BDECAD2A15312D00BECF02 /* Spring.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spring.ahap; sourceTree = "<group>"; };
 		C7BDECAE2A15312D00BECF02 /* Slam.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Slam.ahap; sourceTree = "<group>"; };
+		C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatronUnlockButton.swift; sourceTree = "<group>"; };
+		C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockHaptic.swift; sourceTree = "<group>"; };
+		C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatronAppIconUnlock.swift; sourceTree = "<group>"; };
+		C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatronWelcomeViewModel.swift; sourceTree = "<group>"; };
 		C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinator.swift; sourceTree = "<group>"; };
 		C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinatorTests.swift; sourceTree = "<group>"; };
 		C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts Watch App Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6224,15 +6232,16 @@
 		C7B3C618291AD03400054145 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				C71C04C729243F6D00F2858A /* Import */,
-				C7DA8D252923DA3000C1B08B /* Models */,
-				C7A110F3291F48C100887A90 /* Welcome */,
 				C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */,
-				C7FF770D291C2CA80082A464 /* Login */,
-				C7B3C619291AD03A00054145 /* Plus */,
+				C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */,
 				C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */,
 				C72223D3292C918F006B3B55 /* OnboardingModel.swift */,
-				C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */,
+				C71C04C729243F6D00F2858A /* Import */,
+				C7FF770D291C2CA80082A464 /* Login */,
+				C7DA8D252923DA3000C1B08B /* Models */,
+				C7BDECB12A15324C00BECF02 /* Patron */,
+				C7B3C619291AD03A00054145 /* Plus */,
+				C7A110F3291F48C100887A90 /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -6259,6 +6268,17 @@
 				C7BDECAD2A15312D00BECF02 /* Spring.ahap */,
 			);
 			path = Haptics;
+			sourceTree = "<group>";
+		};
+		C7BDECB12A15324C00BECF02 /* Patron */ = {
+			isa = PBXGroup;
+			children = (
+				C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */,
+				C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */,
+				C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */,
+				C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */,
+			);
+			path = Patron;
 			sourceTree = "<group>";
 		};
 		C7BF5E4829083B3F00733C1E /* Discover */ = {
@@ -8094,6 +8114,7 @@
 				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
 				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
+				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
@@ -8121,6 +8142,7 @@
 				C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */,
 				409BF82524906EC10015097B /* PodcastViewController+MultiSelect.swift in Sources */,
 				C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */,
+				C7BDECB52A15327000BECF02 /* PatronUnlockButton.swift in Sources */,
 				BDA206601BB3D4D600D38389 /* DownloadsViewController.swift in Sources */,
 				407502B6240DCBF200437528 /* NetworkUtils+Helpers.swift in Sources */,
 				C741D9D428ADBA23006CFBE7 /* AppLifecyleAnalytics.swift in Sources */,
@@ -8389,6 +8411,7 @@
 				BDB4E7D2240E3134005770E3 /* String+Differentiable.swift in Sources */,
 				BD2BE6791C5B11C20087EE1E /* ShiftyRoundButton.swift in Sources */,
 				8B0EEDE6290081E400075772 /* ListenedNumbersStory.swift in Sources */,
+				C7BDECB72A15327000BECF02 /* PatronAppIconUnlock.swift in Sources */,
 				4007B04C230E1FB4008DDCF5 /* WhatsNewViewController.swift in Sources */,
 				BDB002C1211A9EDD00224A55 /* ProgressLineLayer.swift in Sources */,
 				BD4D91751B9933A800B62FD2 /* AngularActivityIndicator.swift in Sources */,
@@ -8742,6 +8765,7 @@
 				C7A110F2291F1EC300887A90 /* HTMLTextView.swift in Sources */,
 				BDC8CDDC203BFAA400D88313 /* PodcastListViewController+CollectionView.swift in Sources */,
 				BD49C8F127C5F9E300A2CCBD /* ColorSelectCircle.swift in Sources */,
+				C7BDECB92A1533C000BECF02 /* PatronWelcomeViewModel.swift in Sources */,
 				BDB1E4DD1B8C5998009AD30F /* DiscoverViewController.swift in Sources */,
 				BD3334521FC67FBB0017C3A8 /* PlaylistRefreshOperation.swift in Sources */,
 				BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */,
