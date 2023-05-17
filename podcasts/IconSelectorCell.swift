@@ -64,44 +64,44 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
         }
     }
 
-    var icon: UIImage? {
+    var previewIconName: String {
         switch self {
         case .primary:
-            return UIImage(named: "AppIcon-Default")
+            return "AppIcon-Default"
         case .dark:
-            return UIImage(named: "AppIcon-Dark")
+            return "AppIcon-Dark"
         case .roundLight:
-            return UIImage(named: "AppIcon-Round")
+            return "AppIcon-Round"
         case .roundDark:
-            return UIImage(named: "AppIcon-Round-Dark")
+            return "AppIcon-Round-Dark"
         case .indigo:
-            return UIImage(named: "AppIcon-Indigo")
+            return "AppIcon-Indigo"
         case .rose:
-            return UIImage(named: "AppIcon-Round-Pink")
+            return "AppIcon-Round-Pink"
         case .pocketCats:
-            return UIImage(named: "AppIcon-Pocket-Cats")
+            return "AppIcon-Pocket-Cats"
         case .redVelvet:
-            return UIImage(named: "AppIcon-Red-Velvet")
+            return "AppIcon-Red-Velvet"
         case .plus:
-            return UIImage(named: "AppIcon-Plus")
+            return "AppIcon-Plus"
         case .classic:
-            return UIImage(named: "AppIcon-Classic")
+            return "AppIcon-Classic"
         case .electricBlue:
-            return UIImage(named: "AppIcon-Electric-Blue")
+            return "AppIcon-Electric-Blue"
         case .electricPink:
-            return UIImage(named: "AppIcon-Electric-Pink")
+            return "AppIcon-Electric-Pink"
         case .radioactivity:
-            return UIImage(named: "AppIcon-Radioactive")
+            return "AppIcon-Radioactive"
         case .halloween:
-            return UIImage(named: "AppIcon-Halloween")
+            return "AppIcon-Halloween"
         case .patronChrome:
-            return UIImage(named: "AppIcon-Patron-Chrome")
+            return "AppIcon-Patron-Chrome"
         case .patronRound:
-            return UIImage(named: "AppIcon-Patron-Round")
+            return "AppIcon-Patron-Round"
         case .patronGlow:
-            return UIImage(named: "AppIcon-Patron-Glow")
+            return "AppIcon-Patron-Glow"
         case .patronDark:
-            return UIImage(named: "AppIcon-Patron-Dark")
+            return "AppIcon-Patron-Dark"
         }
     }
 
@@ -274,7 +274,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
         let iconType = IconType(rawValue: indexPath.row) ?? .primary
         cell.nameLabel.text = iconType.description
-        cell.imageView.image = iconType.icon
+        cell.imageView.image = UIImage(named: iconType.previewIconName)
         cell.isLocked = !iconType.isUnlocked
 
         cell.isCellSelected = selectedIcon == iconType
