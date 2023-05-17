@@ -133,11 +133,19 @@ struct PatronAppIconUnlock: View {
                     .lineSpacing(5)
                     .multilineTextAlignment(.center)
 
-                PatronUnlockButton {
-                    unlockProgress = 1
-                    isUnlocked = true
-                } onProgress: { progress in
-                    unlockProgress = progress
+                // Unlock / Skip Buttons
+                VStack(spacing: 5) {
+                    PatronUnlockButton {
+                        unlockProgress = 1
+                        isUnlocked = true
+                    } onProgress: { progress in
+                        unlockProgress = progress
+                    }
+
+                    Button(L10n.plusSkip) {
+                        viewModel.continueTapped()
+                    }
+                    .buttonStyle(SimpleTextButtonStyle(theme: .init(previewTheme: .contrastLight)))
                 }
 
                 Spacer()
