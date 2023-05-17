@@ -31,25 +31,31 @@ struct PatronAppIconUnlock: View {
 
     var body: some View {
         GeometryReader { proxy in
-            if !isUnlocked {
-                WelcomeConfetti(type: .normal)
-                    .onAppear { haptics.confetti() }
-                    .allowsHitTesting(false)
-                    .accessibilityHidden(true)
-            }
+            ZStack {
+                if !isUnlocked {
+                    WelcomeConfetti(type: .normal)
+                        .onAppear { haptics.confetti() }
+                        .allowsHitTesting(false)
+                        .accessibilityHidden(true)
+                }
 
-            ZStack(alignment: .center) {
                 // Width limiting ZStack for larger devices to allow the content to stay centered
                 ZStack {
                     thankYouView
 
                     VStack {
                         if selectedIconIndex != nil {
+                            Spacer()
                             selectedIconView
+                            Spacer()
                         } else {
-                            iconsView
-                                .scaleEffect(isSmallScreen ? 0.8 : 1)
-                                .padding(.bottom, -30)
+                            if isSmallScreen {
+                                iconsView
+                                    .scaleEffect(0.8)
+                                    .padding(.bottom, -30)
+                            } else {
+                                iconsView
+                            }
                         }
                         continueButton
                     }
@@ -105,41 +111,43 @@ struct PatronAppIconUnlock: View {
     }
 
     @ViewBuilder private var thankYouView: some View {
-        VStack(spacing: 20) {
-            Spacer()
+        if !animationsFinished {
+            VStack(spacing: 20) {
+                Spacer()
 
-            SubscriptionBadge(tier: .patron)
-                .scaleEffect(1.2)
+                SubscriptionBadge(tier: .patron)
+                    .scaleEffect(1.2)
 
-            Text(L10n.patronThankYou)
-                .font(style: .title, weight: .bold)
-                .foregroundColor(.black)
-                .frame(maxWidth: .infinity)
+                Text(L10n.patronThankYou)
+                    .font(style: .title, weight: .bold)
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
 
-            HighlightedText(L10n.patronUnlockInstructions)
-                .highlight(L10n.patronUnlockWord, { highlight in
-                    .init(weight: .bold, color: Color.patronBackgroundColor)
-                })
-                .font(style: .subheadline)
-                .foregroundColor(.black)
-                .frame(maxWidth: .infinity)
-                .lineSpacing(5)
-                .multilineTextAlignment(.center)
+                HighlightedText(L10n.patronUnlockInstructions)
+                    .highlight(L10n.patronUnlockWord, { highlight in
+                            .init(weight: .bold, color: Color.patronBackgroundColor)
+                    })
+                    .font(style: .subheadline)
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .lineSpacing(5)
+                    .multilineTextAlignment(.center)
 
-            PatronUnlockButton {
-                unlockProgress = 1
-                isUnlocked = true
-            } onProgress: { progress in
-                unlockProgress = progress
+                PatronUnlockButton {
+                    unlockProgress = 1
+                    isUnlocked = true
+                } onProgress: { progress in
+                    unlockProgress = progress
+                }
+
+                Spacer()
             }
 
-            Spacer()
+            // When finished have the view spring towards the user and disappear
+            .scaleEffect(isUnlocked ? 5 : 1)
+            .opacity(isUnlocked ? 0 : 1)
+            .accessibilityAnimation(.default.speed(2.5), value: isUnlocked)
         }
-
-        // When finished have the view spring towards the user and disappear
-        .scaleEffect(isUnlocked ? 5 : 1)
-        .opacity(isUnlocked ? 0 : 1)
-        .accessibilityAnimation(.default.speed(2.5), value: isUnlocked)
     }
 
     // Displays the app icons view
