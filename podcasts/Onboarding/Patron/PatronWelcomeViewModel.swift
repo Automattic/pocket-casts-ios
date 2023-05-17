@@ -29,7 +29,7 @@ class PatronWelcomeViewModel: ObservableObject, OnboardingModel {
             WidgetHelper.shared.updateWidgetAppIcon()
         }
 
-        // TODO: Tracks
+        OnboardingFlow.shared.track(.patronWelcomeAppIconChanged, properties: ["icon": name ?? "default"])
     }
 
     func continueTapped() {
