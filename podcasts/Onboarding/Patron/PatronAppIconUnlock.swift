@@ -25,6 +25,10 @@ struct PatronAppIconUnlock: View {
     @Namespace var namespace
     @State private var selectedIconIndex: Int? = nil
 
+    private var isSmallScreen: Bool {
+        UIScreen.main.bounds.height <= 667
+    }
+
     var body: some View {
         GeometryReader { proxy in
             if !isUnlocked {
@@ -44,6 +48,8 @@ struct PatronAppIconUnlock: View {
                             selectedIconView
                         } else {
                             iconsView
+                                .scaleEffect(isSmallScreen ? 0.8 : 1)
+                                .padding(.bottom, -30)
                         }
                         continueButton
                     }
@@ -138,7 +144,9 @@ struct PatronAppIconUnlock: View {
 
     // Displays the app icons view
     @ViewBuilder private var iconsView: some View {
-        Spacer()
+        if !isSmallScreen {
+            Spacer()
+        }
 
         VStack(spacing: -75) {
             let icons = viewModel.icons
