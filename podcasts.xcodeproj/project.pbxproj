@@ -1444,6 +1444,9 @@
 		C7B3C61D291AD0EA00054145 /* Onboarding.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */; };
 		C7B7123A29DC98BD00965BF7 /* SFSafariViewController+Creation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */; };
 		C7B7123C29DF49BC00965BF7 /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */; };
+		C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */; };
+		C7BDECAF2A15312D00BECF02 /* Spring.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAD2A15312D00BECF02 /* Spring.ahap */; };
+		C7BDECB02A15312D00BECF02 /* Slam.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAE2A15312D00BECF02 /* Slam.ahap */; };
 		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
 		C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */; };
 		C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; };
@@ -3105,6 +3108,9 @@
 		C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Onboarding.xcassets; sourceTree = "<group>"; };
 		C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SFSafariViewController+Creation.swift"; sourceTree = "<group>"; };
 		C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
+		C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Accessibility.swift"; sourceTree = "<group>"; };
+		C7BDECAD2A15312D00BECF02 /* Spring.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spring.ahap; sourceTree = "<group>"; };
+		C7BDECAE2A15312D00BECF02 /* Slam.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Slam.ahap; sourceTree = "<group>"; };
 		C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinator.swift; sourceTree = "<group>"; };
 		C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinatorTests.swift; sourceTree = "<group>"; };
 		C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts Watch App Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4373,6 +4379,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C7BDECAC2A15311000BECF02 /* Haptics */,
 				C74887782919DC7B00EBC926 /* SwiftUI */,
 				C7AF578F289D7F1E0089E435 /* Analytics */,
 				8BAD6E5F2975AF9900DB7259 /* Login */,
@@ -6116,8 +6123,8 @@
 			children = (
 				C7B3C60B2919DCC800054145 /* ActionView.swift */,
 				C7A110F8291F66C700887A90 /* Confetti.swift */,
-				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */,
+				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
 				C7FAFF682942E6A400329B40 /* HighlightedText.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
@@ -6129,6 +6136,7 @@
 				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
 				C7FF76BF291B4F430082A464 /* ProportionalValue.swift */,
 				C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */,
+				C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 			);
 			path = SwiftUI;
@@ -6242,6 +6250,15 @@
 				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 			);
 			path = Plus;
+			sourceTree = "<group>";
+		};
+		C7BDECAC2A15311000BECF02 /* Haptics */ = {
+			isa = PBXGroup;
+			children = (
+				C7BDECAE2A15312D00BECF02 /* Slam.ahap */,
+				C7BDECAD2A15312D00BECF02 /* Spring.ahap */,
+			);
+			path = Haptics;
 			sourceTree = "<group>";
 		};
 		C7BF5E4829083B3F00733C1E /* Discover */ = {
@@ -7579,6 +7596,7 @@
 				BD1292F122F7D066004608A6 /* AppIcon-Classic60x60@2x.png in Resources */,
 				4041FE90218A7DA60089D4A1 /* SiriShortcutEnabledCell.xib in Resources */,
 				40888F0C2563792300887D9A /* AppIcon-Round-Pink40x40@3x.png in Resources */,
+				C7BDECB02A15312D00BECF02 /* Slam.ahap in Resources */,
 				BD23442D1CB66D5E00B66AAE /* Settings.xcassets in Resources */,
 				BD93FDAE20159CF600F6EF55 /* FilterNameCell.xib in Resources */,
 				BDBCE6CD244E7755004FFE13 /* AppIcon-Radioactive40x40~ipad.png in Resources */,
@@ -7605,6 +7623,7 @@
 				40484F0222F26911007DBD55 /* ChangeEmailViewController.xib in Resources */,
 				4006E31823AC935700174DEB /* DescriptiveCollectionCell.xib in Resources */,
 				BD1BA41B1D07F366001383F0 /* pc.aiff in Resources */,
+				C7BDECAF2A15312D00BECF02 /* Spring.ahap in Resources */,
 				BDBCE6D4244E7755004FFE13 /* AppIcon-Radioactive20x20@2x~ipad.png in Resources */,
 				BD98C54C1BA802AA00E85D3B /* DiscoverDisclosureCell.xib in Resources */,
 				C7D813A12A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@3x.png in Resources */,
@@ -8131,6 +8150,7 @@
 				408B932C216EFD9B00B57B78 /* TextEntryCell.swift in Sources */,
 				BDF9DDD91B8AD29C00E77B35 /* TimeSlider.swift in Sources */,
 				8B4881E929A3AE6D00E7C016 /* SearchHistoryView.swift in Sources */,
+				C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */,
 				403B5AFE2179670F00821A54 /* MediaFilterOverlayController.swift in Sources */,
 				BD001B892174260B00504DD3 /* FilterManager.swift in Sources */,
 				BD2A49E61701A6AE00C2F192 /* SJCommonUtils.m in Sources */,
