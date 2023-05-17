@@ -54,7 +54,6 @@ extension PatronWelcomeViewModel {
     }
 }
 
-
 private extension PatronWelcomeViewModel {
     func track(_ event: AnalyticsEvent) {
         OnboardingFlow.shared.track(event, properties: ["display_type": "patron"])

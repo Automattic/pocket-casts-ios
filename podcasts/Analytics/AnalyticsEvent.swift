@@ -628,7 +628,7 @@ enum AnalyticsEvent: String {
     // MARK: - Ratings
     case ratingStarsTapped
 
-    // MARK: - Ratings
+    // MARK: - Patron
     case patronWelcomeAppIconChanged
 
 }
