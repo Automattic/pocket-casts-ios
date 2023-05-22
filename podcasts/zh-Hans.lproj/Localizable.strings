@@ -61,6 +61,8 @@
     <string>轻点以查看或设置账户</string>
     <key>accessibility_sort_and_options</key>
     <string>排序和选项</string>
+    <key>account</key>
+    <string>帐户</string>
     <key>account_change_email</key>
     <string>更改电子邮件地址</string>
     <key>account_completion_nudge</key>

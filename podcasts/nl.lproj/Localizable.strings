@@ -61,6 +61,8 @@
     <string>Tik om account te bekijken of in te stellen</string>
     <key>accessibility_sort_and_options</key>
     <string>Sorteren en opties</string>
+    <key>account</key>
+    <string>Account</string>
     <key>account_change_email</key>
     <string>E-mail wijzigen</string>
     <key>account_completion_nudge</key>

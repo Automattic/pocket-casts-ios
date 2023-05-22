@@ -43,6 +43,8 @@
     <string>Дважды нажмите, чтобы исключить выпуск из избранного</string>
     <key>accessibility_more_actions</key>
     <string>Другие действия</string>
+    <key>accessibility_patron_only</key>
+    <string>Заблокировано, функция Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>Выполнено %1$@ процентов</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>Нажмите для просмотра или настройки учетной записи</string>
     <key>accessibility_sort_and_options</key>
     <string>Сортировка и опции</string>
+    <key>account</key>
+    <string>Учётная запись</string>
     <key>account_change_email</key>
     <string>Изменить адрес электронной почты</string>
     <key>account_completion_nudge</key>
@@ -145,6 +149,14 @@
     <string>Хэллоуин</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron: хромированный</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron: темный</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron: сияющий</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron: круглый</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1198,6 +1210,8 @@
     <string>Лента только для спонсоров</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>При отмене подписки на все эти подкасты все скачанные файлы будут удалены, продолжить?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Нравится то, что мы делаем, и хочется нас поддержать?</string>
     <key>patron_description</key>
@@ -1705,6 +1719,8 @@
     <string>Удалить из следующих</string>
     <key>remove_up_next</key>
     <string>Удалить следующие</string>
+    <key>renew_subscription</key>
+    <string>Продлить подписку</string>
     <key>retry</key>
     <string>Повторить попытку</string>
     <key>search</key>
@@ -2281,6 +2297,8 @@
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>
     <string>Подписка завершается %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Срок действия истекает %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
     <key>supporter</key>
@@ -2359,6 +2377,8 @@
     <string>Вы можете поместить выпуски в очередь для последующего воспроизведения, проведя пальцем вправо по строкам выпусков или коснувшись значка на карточке выпуска.</string>
     <key>up_next_empty_title</key>
     <string>Очередь пуста</string>
+    <key>upgrade_account</key>
+    <string>Перейти на платный план</string>
     <key>upload_sort_alpha</key>
     <string>По названию (A-Z)</string>
     <key>volume_boost</key>

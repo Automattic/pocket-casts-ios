@@ -61,6 +61,8 @@
     <string>點選即可檢視或設定帳號</string>
     <key>accessibility_sort_and_options</key>
     <string>排序與選項</string>
+    <key>account</key>
+    <string>帳號</string>
     <key>account_change_email</key>
     <string>變更電子郵件</string>
     <key>account_completion_nudge</key>

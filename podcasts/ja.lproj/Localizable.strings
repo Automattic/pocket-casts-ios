@@ -61,6 +61,8 @@
     <string>タップして表示またはアカウントを開設</string>
     <key>accessibility_sort_and_options</key>
     <string>並び替えとオプション</string>
+    <key>account</key>
+    <string>アカウント</string>
     <key>account_change_email</key>
     <string>メールアドレスを変更</string>
     <key>account_completion_nudge</key>

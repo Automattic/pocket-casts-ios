@@ -61,6 +61,8 @@
     <string>Prem per veure o configurar el compte</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordre i opcions</string>
+    <key>account</key>
+    <string>Compte</string>
     <key>account_change_email</key>
     <string>Canviar l'adreça de correu electrònic</string>
     <key>account_completion_nudge</key>
@@ -1193,6 +1195,8 @@ ACTUALITZACIONS</string>
     <string>Feed exclusiu per a subscriptors</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Estàs segur que vols cancel·lar la subscripció a tots aquests podcasts? Això eliminarà tots els seus arxius descarregats.</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Confies a la nostra feina i vols mostrar-nos el teu suport?</string>
     <key>patron_description</key>
@@ -1698,6 +1702,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Eliminar de la llista 'Tot seguit'</string>
     <key>remove_up_next</key>
     <string>Eliminar de 'Tot seguit'</string>
+    <key>renew_subscription</key>
+    <string>Renova la teva subscripció</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>search</key>
@@ -2273,6 +2279,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Has cancel·lat la teva subscripció</string>
     <key>subscription_cancelled_msg</key>
     <string>La teva subscripció es cancel·larà el %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Expira el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
     <key>supporter</key>
@@ -2351,6 +2359,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Pots posar episodis a la llista perquè es reprodueixin a tot seguit si llisques cap a la dreta a les files dels episodis o si toques la icona a la targeta de l'episodi.</string>
     <key>up_next_empty_title</key>
     <string>No hi ha res a la llista de 'Tot seguit'</string>
+    <key>upgrade_account</key>
+    <string>Actualizar el compte</string>
     <key>upload_sort_alpha</key>
     <string>Títol (A-Z)</string>
     <key>volume_boost</key>

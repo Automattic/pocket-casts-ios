@@ -61,6 +61,8 @@
     <string>Tocca per visualizzare o configurare l'account</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordinamento e opzioni</string>
+    <key>account</key>
+    <string>Account</string>
     <key>account_change_email</key>
     <string>Modifica l'e-mail</string>
     <key>account_completion_nudge</key>
