@@ -61,6 +61,8 @@
     <string>Tryck för att visa eller konfigurera konto</string>
     <key>accessibility_sort_and_options</key>
     <string>Sortering och Alternativ</string>
+    <key>account</key>
+    <string>Konto</string>
     <key>account_change_email</key>
     <string>Ändra e-post</string>
     <key>account_completion_nudge</key>

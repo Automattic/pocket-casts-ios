@@ -5,7 +5,6 @@
 7.39
 -----
 - Removed the starred filter from the list of default filters
-- Added the ability to see ratings for podcasts (#856)
 
 7.38
 -----
