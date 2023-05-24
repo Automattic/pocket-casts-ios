@@ -23,7 +23,7 @@ struct UserInfo {
         /// Returns nil if there is no subscription info to return
         init?(loggedIn: Bool = SyncManager.isUserLoggedIn()) {
             let hasSubscription = SubscriptionHelper.hasActiveSubscription()
-            let tier = SubscriptionHelper.activeSubscriptionTier
+            let tier = SubscriptionHelper.activeTier
 
             guard loggedIn, hasSubscription, tier != .none else {
                 return nil

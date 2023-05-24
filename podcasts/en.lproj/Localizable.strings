@@ -3655,3 +3655,21 @@
 
 /* Button label prompting the user to renew their subscription */
 "renew_subscription" = "Renew your Subscription";
+
+/* Button label that changes the users chosen app icon */
+"change_app_icon" = "Change App Icon";
+
+/* Title of a label that thanks the user for their purchase */
+"patron_thank_you" = "Thank you for your support!";
+
+/* Label that instructs the user to hold a button to unlock some gifts */
+"patron_unlock_instructions" = "Hold the unlock button below to receive some tokens of our appreciation.";
+
+/* The word unlock that is used to highlight the word unlock in the */
+"patron_unlock_word" = "unlock";
+
+/* A button label that indicates a feature is being unlocked */
+"patron_unlocking" = "Unlocking";
+
+/* A button label that informs the user to release a button press to finish */
+"patron_unlock_release" = "Release to Unlock";

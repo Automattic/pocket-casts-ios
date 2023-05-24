@@ -119,7 +119,13 @@ private extension PlusPurchaseModel {
         guard let parentController else { return }
 
         let navigationController = parentController as? UINavigationController
-        let controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+
+        let controller: UIViewController
+        if FeatureFlag.patron.enabled, SubscriptionHelper.activeTier == .patron {
+            controller = PatronWelcomeViewModel.make(in: navigationController)
+        } else {
+            controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+        }
 
         let presentNextBlock: () -> Void = {
             guard let navigationController else {
