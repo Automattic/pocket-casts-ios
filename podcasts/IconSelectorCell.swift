@@ -189,7 +189,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
 
     /// Whether the icon is unlocked for the users active subscription
     var isUnlocked: Bool {
-        SubscriptionHelper.activeSubscriptionTier >= subscription
+        SubscriptionHelper.activeTier >= subscription
     }
 
     /// The minimum subscription level required to unlock the icon

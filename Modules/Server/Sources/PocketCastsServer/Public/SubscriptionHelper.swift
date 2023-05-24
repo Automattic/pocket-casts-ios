@@ -7,7 +7,7 @@ public class SubscriptionHelper: NSObject {
     }
 
     /// Returns the users active subscription tier or .none if they don't currently have one
-    public static var activeSubscriptionTier: SubscriptionTier {
+    public static var activeTier: SubscriptionTier {
         guard hasActiveSubscription() else {
             return .none
         }
