@@ -7,7 +7,7 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary, dark, roundLight, roundDark, indigo
+    case primary, dark, roundLight, roundDark, indigo, pride2023
     case rose, pocketCats, redVelvet, plus, classic, electricBlue
     case electricPink, radioactivity, halloween
     case patronChrome, patronRound, patronGlow, patronDark
@@ -61,6 +61,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconPatronGlow
         case .patronDark:
             return L10n.appIconPatronDark
+        case .pride2023:
+            return "Pride 2023"
         }
     }
 
@@ -102,6 +104,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return UIImage(named: "AppIcon-Patron-Glow")
         case .patronDark:
             return UIImage(named: "AppIcon-Patron-Dark")
+        case .pride2023:
+            return UIImage(named: "AppIcon-Pride")
         }
     }
 
@@ -143,6 +147,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Patron-Glow"
         case .patronDark:
             return "AppIcon-Patron-Dark"
+        case .pride2023:
+            return "AppIcon-Pride"
         }
     }
 
@@ -184,6 +190,8 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "patron_glow"
         case .patronDark:
             return "patron_dark"
+        case .pride2023:
+            return "pride_2023"
         }
     }
 
