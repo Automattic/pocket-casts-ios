@@ -43,6 +43,8 @@
     <string>Fés doble clic per eliminar l'episodi de destacats</string>
     <key>accessibility_more_actions</key>
     <string>Més accions</string>
+    <key>accessibility_patron_only</key>
+    <string>Bloquejat. És una funció Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ per cent completat</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Índigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Cromat</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron Fosc</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron Clar</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron Rodó</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>

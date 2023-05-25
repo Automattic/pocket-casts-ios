@@ -43,6 +43,8 @@
     <string>轻点两次以删除剧集的星标</string>
     <key>accessibility_more_actions</key>
     <string>更多操作</string>
+    <key>accessibility_patron_only</key>
+    <string>已锁定，Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@
     <string>万圣节</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron 铬黄色</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron 深色</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron 亮色</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron 圆形</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@
     <string>仅支持者源</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>取消订阅所有这些播客将删除其所有的下载文件，是否确定？</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>相信我们的所作所为，并想要表达您的支持？</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@
     <string>从“接下来播放”中删除</string>
     <key>remove_up_next</key>
     <string>删除“接下来播放”</string>
+    <key>renew_subscription</key>
+    <string>续订您的订阅</string>
     <key>retry</key>
     <string>重试</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@
     <string>已取消订阅</string>
     <key>subscription_cancelled_msg</key>
     <string>订阅取消日期：%1$@  </string>
+    <key>subscription_expires_in</key>
+    <string>到期日期：%1$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@
     <string>您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。</string>
     <key>up_next_empty_title</key>
     <string>“接下来播放”列表无内容</string>
+    <key>upgrade_account</key>
+    <string>升级账户</string>
     <key>upload_sort_alpha</key>
     <string>标题 (A-Z)</string>
     <key>volume_boost</key>
