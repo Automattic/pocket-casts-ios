@@ -446,26 +446,26 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon29x29~ipad</string>
-				<string>AppIcon60x60@3x</string>
-				<string>AppIcon20x20@2x~ipad</string>
-				<string>AppIcon29x29@2x</string>
-				<string>AppIcon83.5x83.5@2x~ipad</string>
-				<string>AppIcon60x60@2x</string>
-				<string>AppIcon20x20@2x</string>
-				<string>AppIcon20x20~ipad</string>
-				<string>AppIcon40x40~ipad</string>
-				<string>AppIcon29x29@3x</string>
-				<string>AppIcon40x40@2x~ipad</string>
-				<string>AppIcon40x40@3x</string>
-				<string>AppIcon29x29@2x~ipad</string>
-				<string>AppIcon1024x1024</string>
-				<string>AppIcon20x20@3x</string>
-				<string>AppIcon76x76~ipad</string>
-				<string>AppIcon60x60@2x</string>
-				<string>AppIcon40x40@2x</string>
-				<string>AppIcon76x76@2x~ipad</string>
-				<string>AppIcon60x60@3x</string>
+				<string>AppIcon-Pride29x29~ipad</string>
+				<string>AppIcon-Pride60x60@3x</string>
+				<string>AppIcon-Pride20x20@2x~ipad</string>
+				<string>AppIcon-Pride29x29@2x</string>
+				<string>AppIcon-Pride83.5x83.5@2x~ipad</string>
+				<string>AppIcon-Pride60x60@2x</string>
+				<string>AppIcon-Pride20x20@2x</string>
+				<string>AppIcon-Pride20x20~ipad</string>
+				<string>AppIcon-Pride40x40~ipad</string>
+				<string>AppIcon-Pride29x29@3x</string>
+				<string>AppIcon-Pride40x40@2x~ipad</string>
+				<string>AppIcon-Pride40x40@3x</string>
+				<string>AppIcon-Pride29x29@2x~ipad</string>
+				<string>AppIcon-Pride1024x1024</string>
+				<string>AppIcon-Pride20x20@3x</string>
+				<string>AppIcon-Pride76x76~ipad</string>
+				<string>AppIcon-Pride60x60@2x</string>
+				<string>AppIcon-Pride40x40@2x</string>
+				<string>AppIcon-Pride76x76@2x~ipad</string>
+				<string>AppIcon-Pride60x60@3x</string>
 			</array>
 		</dict>
 	</dict>
@@ -876,26 +876,26 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon29x29~ipad</string>
-				<string>AppIcon60x60@3x</string>
-				<string>AppIcon20x20@2x~ipad</string>
-				<string>AppIcon29x29@2x</string>
-				<string>AppIcon83.5x83.5@2x~ipad</string>
-				<string>AppIcon60x60@2x</string>
-				<string>AppIcon20x20@2x</string>
-				<string>AppIcon20x20~ipad</string>
-				<string>AppIcon40x40~ipad</string>
-				<string>AppIcon29x29@3x</string>
-				<string>AppIcon40x40@2x~ipad</string>
-				<string>AppIcon40x40@3x</string>
-				<string>AppIcon29x29@2x~ipad</string>
-				<string>AppIcon1024x1024</string>
-				<string>AppIcon20x20@3x</string>
-				<string>AppIcon76x76~ipad</string>
-				<string>AppIcon60x60@2x</string>
-				<string>AppIcon40x40@2x</string>
-				<string>AppIcon76x76@2x~ipad</string>
-				<string>AppIcon60x60@3x</string>
+				<string>AppIcon-Pride29x29~ipad</string>
+				<string>AppIcon-Pride60x60@3x</string>
+				<string>AppIcon-Pride20x20@2x~ipad</string>
+				<string>AppIcon-Pride29x29@2x</string>
+				<string>AppIcon-Pride83.5x83.5@2x~ipad</string>
+				<string>AppIcon-Pride60x60@2x</string>
+				<string>AppIcon-Pride20x20@2x</string>
+				<string>AppIcon-Pride20x20~ipad</string>
+				<string>AppIcon-Pride40x40~ipad</string>
+				<string>AppIcon-Pride29x29@3x</string>
+				<string>AppIcon-Pride40x40@2x~ipad</string>
+				<string>AppIcon-Pride40x40@3x</string>
+				<string>AppIcon-Pride29x29@2x~ipad</string>
+				<string>AppIcon-Pride1024x1024</string>
+				<string>AppIcon-Pride20x20@3x</string>
+				<string>AppIcon-Pride76x76~ipad</string>
+				<string>AppIcon-Pride60x60@2x</string>
+				<string>AppIcon-Pride40x40@2x</string>
+				<string>AppIcon-Pride76x76@2x~ipad</string>
+				<string>AppIcon-Pride60x60@3x</string>
 			</array>
 		</dict>
 	</dict>
