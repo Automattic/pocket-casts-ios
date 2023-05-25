@@ -43,6 +43,8 @@
     <string>Haz doble clic para eliminar el destacado del episodio</string>
     <key>accessibility_more_actions</key>
     <string>Más acciones</string>
+    <key>accessibility_patron_only</key>
+    <string>Bloqueada, es una función Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ por ciento completado</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Índigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron oscuro</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron claro</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron redondo</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ ACTUALIZACIONES</string>
     <string>Feed solo para seguidores</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Al darte de baja de todos estos podcasts se borrarán los archivos descargados que tengan, ¿seguro que quieres continuar?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>¿Confías en nuestro trabajo y quieres mostrarnos tu apoyo?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ prueba gratuita de %1$@</string>
     <string>Eliminar de la lista de A continuación</string>
     <key>remove_up_next</key>
     <string>Eliminar de A continuación</string>
+    <key>renew_subscription</key>
+    <string>Renovar la suscripción</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Suscripción cancelada</string>
     <key>subscription_cancelled_msg</key>
     <string>Suscripción cancelada %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Caduca el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Puedes poner episodios en la lista para que se reproduzcan a continuación si deslizas hacia la derecha en las filas de los episodios o si tocas el icono en la tarjeta del episodio.</string>
     <key>up_next_empty_title</key>
     <string>No hay nada en la lista de A continuación</string>
+    <key>upgrade_account</key>
+    <string>Mejorar cuenta</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

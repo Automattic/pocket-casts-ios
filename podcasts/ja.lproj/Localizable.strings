@@ -43,6 +43,8 @@
     <string>ダブルタップしてエピソードから星を削除</string>
     <key>accessibility_more_actions</key>
     <string>その他の操作</string>
+    <key>accessibility_patron_only</key>
+    <string>ロック済み、Patron 機能</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@パーセント完了</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>インディゴ</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron クロム</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron ダーク</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron グロー</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron ラウンド</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サポーター限定フィード</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>これらすべてのポッドキャストのフォローを解除すると、ダウンロードされたファイルは削除されます。よろしいですか ?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Pocket Casts のサービスにご賛同いただける皆さまのサポートをお待ちしています。</string>
     <key>patron_description</key>
@@ -1706,6 +1718,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードから削除</string>
     <key>remove_up_next</key>
     <string>次のエピソードを削除</string>
+    <key>renew_subscription</key>
+    <string>サブスクリプションを更新</string>
     <key>retry</key>
     <string>再試行</string>
     <key>search</key>
@@ -2282,6 +2296,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サブスクリプションをキャンセル済み</string>
     <key>subscription_cancelled_msg</key>
     <string>%1$@にサブスクリプションをキャンセル済み </string>
+    <key>subscription_expires_in</key>
+    <string>%1$@に期限切れ</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>supporter</key>
@@ -2360,6 +2376,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソード行を右にスワイプするか、エピソードカードのアイコンをタップすることで、次に再生するエピソードを待機リストに追加できます。</string>
     <key>up_next_empty_title</key>
     <string>次のエピソードには何もありません</string>
+    <key>upgrade_account</key>
+    <string>アカウントをアップグレード</string>
     <key>upload_sort_alpha</key>
     <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>

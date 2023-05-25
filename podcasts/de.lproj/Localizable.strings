@@ -43,6 +43,8 @@
     <string>Doppelt tippen, um Folge nicht mehr mit Stern zu markieren</string>
     <key>accessibility_more_actions</key>
     <string>Weitere Aktionen</string>
+    <key>accessibility_patron_only</key>
+    <string>Gesperrt, Patron-Feature</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ Prozent abgeschlossen</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron chromiert</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron dunkel</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron leuchtend</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rund</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Exklusiver Feed für Unterstützer</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Wenn du diese Podcasts nicht mehr abonnierst, werden alle dazugehörigen Dateien gelöscht. Bist du dir sicher?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Du glaubst an unser Können und möchtest deine Unterstützung zeigen?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ Gratis-Test für %1$@</string>
     <string>Aus Warteschlange entfernen</string>
     <key>remove_up_next</key>
     <string>Aus Warteschlange entfernen</string>
+    <key>renew_subscription</key>
+    <string>Abonnement verlängern</string>
     <key>retry</key>
     <string>Erneut versuchen</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Abonnement gekündigt</string>
     <key>subscription_cancelled_msg</key>
     <string>Abonnement gekündigt zum %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Läuft ab in: %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Du kannst eine Folge zur Warteschlange hinzufügen, indem du in der Folgenliste nach rechts wischst oder in einer Folgenkarte das Warteschlangen-Icon antippst.</string>
     <key>up_next_empty_title</key>
     <string>Die Warteschlange ist leer.</string>
+    <key>upgrade_account</key>
+    <string>Upgrade für Konto durchführen</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A–Z)</string>
     <key>volume_boost</key>

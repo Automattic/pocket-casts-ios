@@ -147,6 +147,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron mörk</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rund</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1204,8 @@ UPPDATERINGAR</string>
     <string>Supporterexklusivt flöde</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Om du säger upp din prenumeration på alla dessa podcasts kommer alla nedladdningsfiler för dem att tas bort. Är du säker?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Tror du på vad vi gör och vill visa ditt stöd?</string>
     <key>patron_description</key>
@@ -1707,6 +1713,8 @@ gratis provperiod på %1$@</string>
     <string>Ta bort från Nästa</string>
     <key>remove_up_next</key>
     <string>Ta bort Nästa</string>
+    <key>renew_subscription</key>
+    <string>Förnya din prenumeration</string>
     <key>retry</key>
     <string>Försök igen</string>
     <key>search</key>
@@ -2283,6 +2291,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Prenumeration avbruten</string>
     <key>subscription_cancelled_msg</key>
     <string>Prenumeration avbruten %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Löper ut om %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
     <key>supporter</key>
@@ -2361,6 +2371,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
     <key>up_next_empty_title</key>
     <string>Inget i Nästa</string>
+    <key>upgrade_account</key>
+    <string>Uppgradera konto</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Ö)</string>
     <key>volume_boost</key>
