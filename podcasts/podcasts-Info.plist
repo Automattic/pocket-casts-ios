@@ -188,6 +188,13 @@
 					<string>AppIcon-Halloween</string>
 				</array>
 			</dict>
+			<key>AppIcon-Patron-Pride-23</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Patron-23-iphone</string>
+				</array>
+			</dict>
 			<key>AppIcon-Patron-Chrome</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -448,6 +455,14 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>AppIcon-Patron-Pride-23</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>AppIcon-Patron-Pride-23-ipad</string>
+                    <string>AppIcon-Patron-Pride-23-ipad-pro</string>
+                </array>
+            </dict>
             <key>AppIcon-Patron-Chrome</key>
             <dict>
                 <key>CFBundleIconFiles</key>
