@@ -7,8 +7,8 @@ protocol IconSelectorCellDelegate: AnyObject {
 }
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
-    case primary, dark, roundLight, roundDark, indigo, pride2023
-    case rose, pocketCats, redVelvet, plus, classic, electricBlue
+    case primary, dark, roundLight, roundDark, indigo
+    case rose, pocketCats, redVelvet, pride2023, plus, classic, electricBlue
     case electricPink, radioactivity, halloween
     case patronChrome, patronRound, patronGlow, patronDark
 
