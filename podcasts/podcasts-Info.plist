@@ -110,25 +110,25 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon20x20@2x~ipad</string>
-					<string>AppIcon29x29~ipad</string>
-					<string>AppIcon40x40@2x~ipad</string>
-					<string>AppIcon83.5x83.5@2x~ipad</string>
-					<string>AppIcon40x40~ipad</string>
-					<string>AppIcon29x29@2x~ipad</string>
-					<string>AppIcon60x60@2x</string>
-					<string>AppIcon60x60@2x</string>
-					<string>AppIcon60x60@3x</string>
-					<string>AppIcon40x40@3x</string>
-					<string>AppIcon29x29@2x</string>
-					<string>AppIcon60x60@3x</string>
-					<string>AppIcon20x20~ipad</string>
-					<string>AppIcon76x76~ipad</string>
-					<string>AppIcon76x76@2x~ipad</string>
-					<string>AppIcon29x29@3x</string>
-					<string>AppIcon20x20@2x</string>
-					<string>AppIcon20x20@3x</string>
-					<string>AppIcon40x40@2x</string>
+					<string>AppIcon-Default20x20@2x~ipad</string>
+					<string>AppIcon-Default29x29~ipad</string>
+					<string>AppIcon-Default40x40@2x~ipad</string>
+					<string>AppIcon-Default83.5x83.5@2x~ipad</string>
+					<string>AppIcon-Default40x40~ipad</string>
+					<string>AppIcon-Default29x29@2x~ipad</string>
+					<string>AppIcon-Default60x60@2x</string>
+					<string>AppIcon-Default60x60@2x</string>
+					<string>AppIcon-Default60x60@3x</string>
+					<string>AppIcon-Default40x40@3x</string>
+					<string>AppIcon-Default29x29@2x</string>
+					<string>AppIcon-Default60x60@3x</string>
+					<string>AppIcon-Default20x20~ipad</string>
+					<string>AppIcon-Default76x76~ipad</string>
+					<string>AppIcon-Default76x76@2x~ipad</string>
+					<string>AppIcon-Default29x29@3x</string>
+					<string>AppIcon-Default20x20@2x</string>
+					<string>AppIcon-Default20x20@3x</string>
+					<string>AppIcon-Default40x40@2x</string>
 				</array>
 			</dict>
 			<key>AppIcon-Pride</key>
@@ -567,25 +567,25 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIcon20x20@2x~ipad</string>
-					<string>AppIcon29x29~ipad</string>
-					<string>AppIcon40x40@2x~ipad</string>
-					<string>AppIcon83.5x83.5@2x~ipad</string>
-					<string>AppIcon40x40~ipad</string>
-					<string>AppIcon29x29@2x~ipad</string>
-					<string>AppIcon60x60@2x</string>
-					<string>AppIcon60x60@2x</string>
-					<string>AppIcon60x60@3x</string>
-					<string>AppIcon40x40@3x</string>
-					<string>AppIcon29x29@2x</string>
-					<string>AppIcon60x60@3x</string>
-					<string>AppIcon20x20~ipad</string>
-					<string>AppIcon76x76~ipad</string>
-					<string>AppIcon76x76@2x~ipad</string>
-					<string>AppIcon29x29@3x</string>
-					<string>AppIcon20x20@2x</string>
-					<string>AppIcon20x20@3x</string>
-					<string>AppIcon40x40@2x</string>
+					<string>AppIcon-Default20x20@2x~ipad</string>
+					<string>AppIcon-Default29x29~ipad</string>
+					<string>AppIcon-Default40x40@2x~ipad</string>
+					<string>AppIcon-Default83.5x83.5@2x~ipad</string>
+					<string>AppIcon-Default40x40~ipad</string>
+					<string>AppIcon-Default29x29@2x~ipad</string>
+					<string>AppIcon-Default60x60@2x</string>
+					<string>AppIcon-Default60x60@2x</string>
+					<string>AppIcon-Default60x60@3x</string>
+					<string>AppIcon-Default40x40@3x</string>
+					<string>AppIcon-Default29x29@2x</string>
+					<string>AppIcon-Default60x60@3x</string>
+					<string>AppIcon-Default20x20~ipad</string>
+					<string>AppIcon-Default76x76~ipad</string>
+					<string>AppIcon-Default76x76@2x~ipad</string>
+					<string>AppIcon-Default29x29@3x</string>
+					<string>AppIcon-Default20x20@2x</string>
+					<string>AppIcon-Default20x20@3x</string>
+					<string>AppIcon-Default40x40@2x</string>
 				</array>
 			</dict>
 			<key>AppIcon-Pride</key>
