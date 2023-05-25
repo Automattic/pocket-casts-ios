@@ -9913,7 +9913,7 @@
 			baseConfigurationReference = EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pride-2023";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -10264,7 +10264,7 @@
 			baseConfigurationReference = 779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pride-2023";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -10296,7 +10296,7 @@
 			baseConfigurationReference = 30571BE0029B9924A139FBEE /* Pods-podcasts.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pride-2023";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.entitlements;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
