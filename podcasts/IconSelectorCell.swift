@@ -226,7 +226,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "")
+        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "AppIcon-Pride")
 
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
             gridLayout.delegate = self
