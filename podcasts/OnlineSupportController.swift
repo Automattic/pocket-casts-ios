@@ -65,7 +65,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     }
 
     @objc private func showStatusPage() {
-        let hostingController = UIHostingController(rootView: StatusPageView())
+        let hostingController = UIHostingController(rootView: StatusPageView().setupDefaultEnvironment())
         navigationController?.pushViewController(hostingController, animated: true)
     }
 

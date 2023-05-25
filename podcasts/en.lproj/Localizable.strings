@@ -2638,6 +2638,15 @@
 /* Label for an input that takes the user to the privacy policy */
 "settings_read_privacy_policy" = "Read privacy policy";
 
+/* Title of the status page, to check the status of the user's connection. */
+"settings_status_page" = "Status Page";
+
+/* Label explaining the purpose of the Status Page */
+"settings_status_description" = "Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.";
+
+/* Button that starts the diagnostic in the Status Page */
+"settings_status_run" = "Run now";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
