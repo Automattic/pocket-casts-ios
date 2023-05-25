@@ -81,6 +81,31 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>AppIcon-Classic</key>
+ 			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Classic20x20@2x~ipad</string>
+					<string>AppIcon-Classic29x29~ipad</string>
+					<string>AppIcon-Classic40x40@2x~ipad</string>
+					<string>AppIcon-Classic83.5x83.5@2x~ipad</string>
+					<string>AppIcon-Classic40x40~ipad</string>
+					<string>AppIcon-Classic29x29@2x~ipad</string>
+					<string>AppIcon-Classic60x60@2x</string>
+					<string>AppIcon-Classic60x60@2x</string>
+					<string>AppIcon-Classic60x60@3x</string>
+					<string>AppIcon-Classic40x40@3x</string>
+					<string>AppIcon-Classic29x29@2x</string>
+					<string>AppIcon-Classic60x60@3x</string>
+					<string>AppIcon-Classic20x20~ipad</string>
+					<string>AppIcon-Classic76x76~ipad</string>
+					<string>AppIcon-Classic76x76@2x~ipad</string>
+					<string>AppIcon-Classic29x29@3x</string>
+					<string>AppIcon-Classic20x20@2x</string>
+					<string>AppIcon-Classic20x20@3x</string>
+					<string>AppIcon-Classic40x40@2x</string>
+				</array>
+			</dict>
 			<key>AppIcon-Default</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
