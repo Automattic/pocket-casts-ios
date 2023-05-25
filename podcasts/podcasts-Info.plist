@@ -81,7 +81,7 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIcon</key>
+			<key>AppIcon-Default</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -538,7 +538,7 @@
 					<string>AppIcon-Classic40x40@2x</string>
 				</array>
 			</dict>
-			<key>AppIcon</key>
+			<key>AppIcon-Default</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>

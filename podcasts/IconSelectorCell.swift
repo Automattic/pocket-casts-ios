@@ -112,7 +112,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
     var iconName: String? {
         switch self {
         case .primary:
-            return "AppIcon"
+            return "AppIcon-Default"
         case .dark:
             return "AppIcon-Dark"
         case .roundLight:
