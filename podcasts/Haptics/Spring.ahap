@@ -1,0 +1,42 @@
+{
+    "Version": 1.0,
+    "Metadata": {
+        "Description": "A 'twang' spring effect that starts with a plucked string feeling aka 'twang'"
+    },
+    "Pattern": [
+        {
+            "Event": {
+                "Description": "A quick pluck",
+                "Time": 0,
+                "EventType": "HapticTransient",
+                "EventParameters": [
+                    { "ParameterID": "HapticIntensity", "ParameterValue": 0.8 },
+                    { "ParameterID": "HapticSharpness", "ParameterValue": 0.8 }
+                ]
+            }
+        },
+        {
+            "Event": {
+                "Description": "A sharp reverb for the plucked string effect",
+                "Time": 0.015,
+                "EventType": "HapticContinuous",
+                "EventDuration": 0.5,
+                "EventParameters": [
+                    { "ParameterID": "HapticIntensity", "ParameterValue": 0.5 },
+                    { "ParameterID": "HapticSharpness", "ParameterValue": 0.8 }
+                ]
+            }
+        },
+        {
+            "ParameterCurve": {
+                "Description": "Fades out the reverb",
+                "ParameterID": "HapticIntensityControl",
+                "Time": 0.01,
+                "ParameterCurveControlPoints": [
+                    { "Time": 0, "ParameterValue": 1.0 },
+                    { "Time": 0.5, "ParameterValue": 0.0 }
+                ]
+            }
+        }
+    ]
+}

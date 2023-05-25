@@ -91,7 +91,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.pocketcasts.patron.yearly",
+          "productID" : "com.pocketcasts.yearly.patron",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Patron Yearly",
           "subscriptionGroupID" : "D129D5D3",
@@ -116,7 +116,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.pocketcasts.patron.monthly",
+          "productID" : "com.pocketcasts.monthly.patron",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Patron Monthly",
           "subscriptionGroupID" : "D129D5D3",

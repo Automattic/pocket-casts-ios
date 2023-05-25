@@ -1461,6 +1461,13 @@
 		C7B3C61D291AD0EA00054145 /* Onboarding.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */; };
 		C7B7123A29DC98BD00965BF7 /* SFSafariViewController+Creation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */; };
 		C7B7123C29DF49BC00965BF7 /* HorizontalCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */; };
+		C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */; };
+		C7BDECAF2A15312D00BECF02 /* Spring.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAD2A15312D00BECF02 /* Spring.ahap */; };
+		C7BDECB02A15312D00BECF02 /* Slam.ahap in Resources */ = {isa = PBXBuildFile; fileRef = C7BDECAE2A15312D00BECF02 /* Slam.ahap */; };
+		C7BDECB52A15327000BECF02 /* PatronUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */; };
+		C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */; };
+		C7BDECB72A15327000BECF02 /* PatronAppIconUnlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */; };
+		C7BDECB92A1533C000BECF02 /* PatronWelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */; };
 		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
 		C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */; };
 		C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; };
@@ -3139,6 +3146,13 @@
 		C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Onboarding.xcassets; sourceTree = "<group>"; };
 		C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SFSafariViewController+Creation.swift"; sourceTree = "<group>"; };
 		C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarousel.swift; sourceTree = "<group>"; };
+		C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Accessibility.swift"; sourceTree = "<group>"; };
+		C7BDECAD2A15312D00BECF02 /* Spring.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spring.ahap; sourceTree = "<group>"; };
+		C7BDECAE2A15312D00BECF02 /* Slam.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Slam.ahap; sourceTree = "<group>"; };
+		C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatronUnlockButton.swift; sourceTree = "<group>"; };
+		C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockHaptic.swift; sourceTree = "<group>"; };
+		C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatronAppIconUnlock.swift; sourceTree = "<group>"; };
+		C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatronWelcomeViewModel.swift; sourceTree = "<group>"; };
 		C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinator.swift; sourceTree = "<group>"; };
 		C7BF5E4929083B5300733C1E /* DiscoverCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoordinatorTests.swift; sourceTree = "<group>"; };
 		C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts Watch App Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4431,6 +4445,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C7BDECAC2A15311000BECF02 /* Haptics */,
 				C74887782919DC7B00EBC926 /* SwiftUI */,
 				C7AF578F289D7F1E0089E435 /* Analytics */,
 				8BAD6E5F2975AF9900DB7259 /* Login */,
@@ -6174,8 +6189,8 @@
 			children = (
 				C7B3C60B2919DCC800054145 /* ActionView.swift */,
 				C7A110F8291F66C700887A90 /* Confetti.swift */,
-				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				C713D4FE2A0519BE00A78468 /* ContentSizeGeometryReader.swift */,
+				C7B3C60D2919DD1700054145 /* ContentSizeReader.swift */,
 				8B208A5429C933F800AEF951 /* DismissKeyboardOnScroll.swift */,
 				C7FAFF682942E6A400329B40 /* HighlightedText.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
@@ -6187,6 +6202,7 @@
 				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
 				C7FF76BF291B4F430082A464 /* ProportionalValue.swift */,
 				C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */,
+				C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 			);
 			path = SwiftUI;
@@ -6274,15 +6290,16 @@
 		C7B3C618291AD03400054145 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				C71C04C729243F6D00F2858A /* Import */,
-				C7DA8D252923DA3000C1B08B /* Models */,
-				C7A110F3291F48C100887A90 /* Welcome */,
 				C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */,
-				C7FF770D291C2CA80082A464 /* Login */,
-				C7B3C619291AD03A00054145 /* Plus */,
+				C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */,
 				C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */,
 				C72223D3292C918F006B3B55 /* OnboardingModel.swift */,
-				C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */,
+				C71C04C729243F6D00F2858A /* Import */,
+				C7FF770D291C2CA80082A464 /* Login */,
+				C7DA8D252923DA3000C1B08B /* Models */,
+				C7BDECB12A15324C00BECF02 /* Patron */,
+				C7B3C619291AD03A00054145 /* Plus */,
+				C7A110F3291F48C100887A90 /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -6300,6 +6317,26 @@
 				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 			);
 			path = Plus;
+			sourceTree = "<group>";
+		};
+		C7BDECAC2A15311000BECF02 /* Haptics */ = {
+			isa = PBXGroup;
+			children = (
+				C7BDECAE2A15312D00BECF02 /* Slam.ahap */,
+				C7BDECAD2A15312D00BECF02 /* Spring.ahap */,
+			);
+			path = Haptics;
+			sourceTree = "<group>";
+		};
+		C7BDECB12A15324C00BECF02 /* Patron */ = {
+			isa = PBXGroup;
+			children = (
+				C7BDECB42A15327000BECF02 /* PatronAppIconUnlock.swift */,
+				C7BDECB22A15327000BECF02 /* PatronUnlockButton.swift */,
+				C7BDECB32A15327000BECF02 /* UnlockHaptic.swift */,
+				C7BDECB82A1533C000BECF02 /* PatronWelcomeViewModel.swift */,
+			);
+			path = Patron;
 			sourceTree = "<group>";
 		};
 		C7BF5E4829083B3F00733C1E /* Discover */ = {
@@ -7652,6 +7689,7 @@
 				BD1292F122F7D066004608A6 /* AppIcon-Classic60x60@2x.png in Resources */,
 				4041FE90218A7DA60089D4A1 /* SiriShortcutEnabledCell.xib in Resources */,
 				40888F0C2563792300887D9A /* AppIcon-Round-Pink40x40@3x.png in Resources */,
+				C7BDECB02A15312D00BECF02 /* Slam.ahap in Resources */,
 				BD23442D1CB66D5E00B66AAE /* Settings.xcassets in Resources */,
 				BD93FDAE20159CF600F6EF55 /* FilterNameCell.xib in Resources */,
 				BDBCE6CD244E7755004FFE13 /* AppIcon-Radioactive40x40~ipad.png in Resources */,
@@ -7678,6 +7716,7 @@
 				40484F0222F26911007DBD55 /* ChangeEmailViewController.xib in Resources */,
 				4006E31823AC935700174DEB /* DescriptiveCollectionCell.xib in Resources */,
 				BD1BA41B1D07F366001383F0 /* pc.aiff in Resources */,
+				C7BDECAF2A15312D00BECF02 /* Spring.ahap in Resources */,
 				BDBCE6D4244E7755004FFE13 /* AppIcon-Radioactive20x20@2x~ipad.png in Resources */,
 				BD98C54C1BA802AA00E85D3B /* DiscoverDisclosureCell.xib in Resources */,
 				C7D813A12A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@3x.png in Resources */,
@@ -8151,6 +8190,7 @@
 				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
 				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
+				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
@@ -8178,6 +8218,7 @@
 				C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */,
 				409BF82524906EC10015097B /* PodcastViewController+MultiSelect.swift in Sources */,
 				C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */,
+				C7BDECB52A15327000BECF02 /* PatronUnlockButton.swift in Sources */,
 				BDA206601BB3D4D600D38389 /* DownloadsViewController.swift in Sources */,
 				407502B6240DCBF200437528 /* NetworkUtils+Helpers.swift in Sources */,
 				C741D9D428ADBA23006CFBE7 /* AppLifecyleAnalytics.swift in Sources */,
@@ -8207,6 +8248,7 @@
 				408B932C216EFD9B00B57B78 /* TextEntryCell.swift in Sources */,
 				BDF9DDD91B8AD29C00E77B35 /* TimeSlider.swift in Sources */,
 				8B4881E929A3AE6D00E7C016 /* SearchHistoryView.swift in Sources */,
+				C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */,
 				403B5AFE2179670F00821A54 /* MediaFilterOverlayController.swift in Sources */,
 				BD001B892174260B00504DD3 /* FilterManager.swift in Sources */,
 				BD2A49E61701A6AE00C2F192 /* SJCommonUtils.m in Sources */,
@@ -8445,6 +8487,7 @@
 				BDB4E7D2240E3134005770E3 /* String+Differentiable.swift in Sources */,
 				BD2BE6791C5B11C20087EE1E /* ShiftyRoundButton.swift in Sources */,
 				8B0EEDE6290081E400075772 /* ListenedNumbersStory.swift in Sources */,
+				C7BDECB72A15327000BECF02 /* PatronAppIconUnlock.swift in Sources */,
 				4007B04C230E1FB4008DDCF5 /* WhatsNewViewController.swift in Sources */,
 				BDB002C1211A9EDD00224A55 /* ProgressLineLayer.swift in Sources */,
 				BD4D91751B9933A800B62FD2 /* AngularActivityIndicator.swift in Sources */,
@@ -8798,6 +8841,7 @@
 				C7A110F2291F1EC300887A90 /* HTMLTextView.swift in Sources */,
 				BDC8CDDC203BFAA400D88313 /* PodcastListViewController+CollectionView.swift in Sources */,
 				BD49C8F127C5F9E300A2CCBD /* ColorSelectCircle.swift in Sources */,
+				C7BDECB92A1533C000BECF02 /* PatronWelcomeViewModel.swift in Sources */,
 				BDB1E4DD1B8C5998009AD30F /* DiscoverViewController.swift in Sources */,
 				BD3334521FC67FBB0017C3A8 /* PlaylistRefreshOperation.swift in Sources */,
 				BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */,

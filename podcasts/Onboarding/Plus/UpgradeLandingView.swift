@@ -231,7 +231,7 @@ private struct FeaturesCarousel: View {
 // MARK: - Available plans
 
 struct UpgradeTier: Identifiable {
-    let tier: SubscriptionType
+    let tier: SubscriptionTier
     let iconName: String
     let title: String
     let plan: Constants.Plan
@@ -242,7 +242,7 @@ struct UpgradeTier: Identifiable {
     let features: [TierFeature]
     let background: RadialGradient
 
-    var id: Int {
+    var id: String {
         tier.rawValue
     }
 
@@ -346,7 +346,7 @@ struct UpgradeCard: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
-                SubscriptionBadge(type: tier.tier)
+                SubscriptionBadge(tier: tier.tier)
                     .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 12) {

@@ -51,7 +51,7 @@ struct PlusAccountUpgradePrompt: View {
         VStack(spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    SubscriptionBadge(type: product.identifier.subscriptionType)
+                    SubscriptionBadge(tier: product.identifier.subscriptionTier)
                         .padding(.bottom, 10)
 
                     productFeatures[product.identifier].map {
@@ -189,7 +189,7 @@ struct PlusAccountUpgradePrompt: View {
 }
 
 extension Constants.IapProducts {
-    var subscriptionType: SubscriptionType {
+    var subscriptionTier: SubscriptionTier {
         switch self {
         case .monthly, .yearly:
             return .plus

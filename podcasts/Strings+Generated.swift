@@ -292,6 +292,8 @@ internal enum L10n {
   internal static var carplayPlaybackSpeed: String { return L10n.tr("Localizable", "carplay_playback_speed") }
   /// Up Next Queue
   internal static var carplayUpNextQueue: String { return L10n.tr("Localizable", "carplay_up_next_queue") }
+  /// Change App Icon
+  internal static var changeAppIcon: String { return L10n.tr("Localizable", "change_app_icon") }
   /// Change Email Address
   internal static var changeEmail: String { return L10n.tr("Localizable", "change_email") }
   /// Email Address Changed
@@ -1423,6 +1425,16 @@ internal enum L10n {
   internal static var patronPurchasePromoTitle: String { return L10n.tr("Localizable", "patron_purchase_promo_title") }
   /// Subscribe to Patron
   internal static var patronSubscribeTo: String { return L10n.tr("Localizable", "patron_subscribe_to") }
+  /// Thank you for your support!
+  internal static var patronThankYou: String { return L10n.tr("Localizable", "patron_thank_you") }
+  /// Hold the unlock button below to receive some tokens of our appreciation.
+  internal static var patronUnlockInstructions: String { return L10n.tr("Localizable", "patron_unlock_instructions") }
+  /// Release to Unlock
+  internal static var patronUnlockRelease: String { return L10n.tr("Localizable", "patron_unlock_release") }
+  /// unlock
+  internal static var patronUnlockWord: String { return L10n.tr("Localizable", "patron_unlock_word") }
+  /// Unlocking
+  internal static var patronUnlocking: String { return L10n.tr("Localizable", "patron_unlocking") }
   /// Pause
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
   /// Phone

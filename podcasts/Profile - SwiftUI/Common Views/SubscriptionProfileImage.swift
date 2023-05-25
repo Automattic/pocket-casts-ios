@@ -13,9 +13,9 @@ struct SubscriptionProfileImage: View {
     @ViewBuilder
     private func expirationProgressView() -> some View {
         if let subscription = viewModel.subscription {
-            let content = ExpirationProgress(subscriptionType: subscription.type, progress: subscription.expirationProgress)
+            let content = ExpirationProgress(tier: subscription.tier, progress: subscription.expirationProgress)
 
-            if subscription.type == .patron {
+            if subscription.tier == .patron {
                 HolographicEffect(mode: .overlay) {
                     content
                 }
@@ -28,11 +28,11 @@ struct SubscriptionProfileImage: View {
     private struct ExpirationProgress: View {
         @EnvironmentObject var theme: Theme
 
-        let subscriptionType: SubscriptionType
+        let tier: SubscriptionTier
         let progress: Double
 
         private var strokeColor: Color {
-            switch subscriptionType {
+            switch tier {
             case .plus:
                 return theme.plusPrimaryColor
             case .patron:
