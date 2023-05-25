@@ -6,7 +6,7 @@ class CommonWidgetHelper {
     static let appGroupId = "group.au.com.shiftyjelly.pocketcasts"
     class func loadAppIconName() -> String {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let appIcon = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.appIcon) as? String else {
-            return "AppIcon-Default"
+            return "AppIcon-Pride"
         }
         return appIcon
     }
