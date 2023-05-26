@@ -72,8 +72,7 @@ class StatusPageViewModel: ObservableObject {
 }
 
 private extension URL {
-
-    public func requestHTTPStatus() async -> Int? {
+    func requestHTTPStatus() async -> Int? {
         await withCheckedContinuation { continuation in
             var request = URLRequest(url: self)
             request.httpMethod = "HEAD"
