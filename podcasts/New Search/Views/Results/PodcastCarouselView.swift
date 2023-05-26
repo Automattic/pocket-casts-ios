@@ -32,7 +32,7 @@ struct PodcastsCarouselView: View {
 
     init() {
         // Get the initial landscape value from the scene since UIDevice may not have the value yet
-        _isLandscape = State(initialValue: SceneHelper.foregroundActiveAppScene()?.interfaceOrientation.isLandscape ?? false)
+        _isLandscape = State(initialValue: SceneHelper.connectedScene()?.interfaceOrientation.isLandscape ?? false)
     }
 
     var body: some View {
