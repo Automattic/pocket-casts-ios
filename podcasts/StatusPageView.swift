@@ -42,7 +42,7 @@ struct StatusPageView: View {
                                 }
 
 
-                                VStack(alignment: .leading) {
+                                VStack(alignment: .leading, spacing: 5) {
                                     Text(check.title)
                                         .font(style: .title3, weight: .semibold)
                                         .foregroundColor(theme.primaryText01)
@@ -75,7 +75,7 @@ struct StatusPageView: View {
             }
         }
         .padding(.horizontal, 16)
-        .navigationTitle("Status Page")
+        .navigationTitle(L10n.settingsStatusPage)
         .applyDefaultThemeOptions()
     }
 }
