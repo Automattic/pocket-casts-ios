@@ -70,10 +70,12 @@ class StatusPageViewModel: ObservableObject {
 
                 if networkUtils.isConnected() {
                     await test(service: service)
-                    objectWillChange.send()
                 } else {
                     service.status = .failure
                 }
+
+                // Force UI to update after a service is checked
+                objectWillChange.send()
             }
 
             running = false
@@ -82,7 +84,7 @@ class StatusPageViewModel: ObservableObject {
     }
 
     @MainActor
-    func test(service: Service) async {
+    private func test(service: Service) async {
         if service.urls.isEmpty {
             service.status = .success
         } else {
@@ -95,6 +97,7 @@ class StatusPageViewModel: ObservableObject {
                 }
             }
 
+            // If any response code is different from 200, it's a failure
             service.status = responseCodes.first(where: { $0 != 200 }) != nil ? .failure : .success
         }
     }
