@@ -2647,6 +2647,24 @@
 /* Button that starts the diagnostic in the Status Page */
 "settings_status_run" = "Run now";
 
+/* Title for the service being checked, in this case, the Internet connection. */
+"settings_status_internet" = "Internet";
+
+/* Description for the Internet check. */
+"settings_status_internet_description" = "Check the status of your network.";
+
+/* Failure message for the Internet check. */
+"settings_status_internet_failure_message" = "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).";
+
+/* Title for the service being checked, in this case, the Pocket Cast's Refresh Service. */
+"settings_status_refresh_service" = "Refresh Service";
+
+/* Description for the Refresh Service check. */
+"settings_status_refresh_service_description" = "The service used to find new episodes.";
+
+/* Failure message for the Refresh Service check. */
+"settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 

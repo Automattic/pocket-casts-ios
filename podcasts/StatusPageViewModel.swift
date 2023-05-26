@@ -27,14 +27,14 @@ class StatusPageViewModel: ObservableObject {
 
     @Published var checks = [
         Service(
-            title: "Internet",
-            description: "Check the status of your network.",
-            failureMessage: "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data)."
+            title: L10n.settingsStatusInternet,
+            description: L10n.settingsStatusInternetDescription,
+            failureMessage: L10n.settingsStatusInternetFailureMessage
         ),
         Service(
-            title: "Refresh Service",
-            description: "The service used to find new episodes.",
-            failureMessage: "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %s",
+            title: L10n.settingsStatusRefreshService,
+            description: L10n.settingsStatusRefreshServiceDescription,
+            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("refresh.pocketcasts.com"),
             urls: ["https://refresh.pocketcasts.com/health.html"]
         )
     ]

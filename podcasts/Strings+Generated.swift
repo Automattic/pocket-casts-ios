@@ -2380,10 +2380,24 @@ internal enum L10n {
   internal static var settingsStats: String { return L10n.tr("Localizable", "settings_stats") }
   /// Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.
   internal static var settingsStatusDescription: String { return L10n.tr("Localizable", "settings_status_description") }
+  /// Internet
+  internal static var settingsStatusInternet: String { return L10n.tr("Localizable", "settings_status_internet") }
+  /// Check the status of your network.
+  internal static var settingsStatusInternetDescription: String { return L10n.tr("Localizable", "settings_status_internet_description") }
+  /// Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).
+  internal static var settingsStatusInternetFailureMessage: String { return L10n.tr("Localizable", "settings_status_internet_failure_message") }
   /// Status Page
   internal static var settingsStatusPage: String { return L10n.tr("Localizable", "settings_status_page") }
+  /// Refresh Service
+  internal static var settingsStatusRefreshService: String { return L10n.tr("Localizable", "settings_status_refresh_service") }
+  /// The service used to find new episodes.
+  internal static var settingsStatusRefreshServiceDescription: String { return L10n.tr("Localizable", "settings_status_refresh_service_description") }
   /// Run now
   internal static var settingsStatusRun: String { return L10n.tr("Localizable", "settings_status_run") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@
+  internal static func settingsStatusServiceAdBlockerHelpSingular(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_status_service_ad_blocker_help_singular", String(describing: p1))
+  }
   /// Storage & Data Use
   internal static var settingsStorage: String { return L10n.tr("Localizable", "settings_storage") }
   /// Warn Before Using Data
