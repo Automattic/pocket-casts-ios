@@ -2,6 +2,12 @@
 import UIKit
 
 class AccountActionCell: ThemeableCell {
+    var imageAndTextColor: UIColor? = nil {
+        didSet {
+            handleThemeDidChange()
+        }
+    }
+
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.style = iconStyle
@@ -34,8 +40,15 @@ class AccountActionCell: ThemeableCell {
     }
 
     override func handleThemeDidChange() {
-        cellImage.tintColor = AppTheme.colorForStyle(iconStyle)
-        cellLabel.style = iconStyle
+        guard let imageAndTextColor else {
+            cellImage.tintColor = AppTheme.colorForStyle(iconStyle)
+            cellLabel.style = iconStyle
+            return
+        }
+
+
+        cellImage.tintColor = imageAndTextColor
+        cellLabel.textColor = imageAndTextColor
     }
 
     var showsDisclosureIndicator = false {
@@ -47,5 +60,11 @@ class AccountActionCell: ThemeableCell {
                 accessoryView = nil
             }
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageAndTextColor = nil
     }
 }

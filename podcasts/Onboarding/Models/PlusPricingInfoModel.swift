@@ -7,7 +7,7 @@ class PlusPricingInfoModel: ObservableObject {
     let purchaseHandler: IapHelper
 
     // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
+    @Published var pricingInfo: PlusPricingInfo
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
@@ -19,15 +19,22 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly]
+        var products: [Constants.IapProducts]
+        if FeatureFlag.patron.enabled {
+            products = [.yearly, .monthly, .patronYearly, .patronMonthly]
+        } else {
+            products = [.yearly, .monthly]
+        }
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
+            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
             let trial = purchaseHandler.localizedFreeTrialDuration(product)
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
+                                              rawPrice: rawPrice,
                                               freeTrialDuration: trial)
             pricing.append(info)
         }
@@ -48,6 +55,7 @@ class PlusPricingInfoModel: ObservableObject {
     struct PlusProductPricingInfo: Identifiable {
         let identifier: Constants.IapProducts
         let price: String
+        let rawPrice: String
         let freeTrialDuration: String?
 
         var id: String { identifier.rawValue }
@@ -60,10 +68,11 @@ class PlusPricingInfoModel: ObservableObject {
 
 // MARK: - Price Loading
 extension PlusPricingInfoModel {
-    func loadPrices(_ completion: @escaping () -> Void) {
+    func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            completion()
+            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
             return
         }
 
@@ -71,15 +80,19 @@ extension PlusPricingInfoModel {
 
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
 
             self.priceAvailability = .available
-            completion()
+            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
             self.priceAvailability = .failed
-            completion()
+            completion?()
         }
 
         purchaseHandler.requestProductInfo()

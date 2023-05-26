@@ -57,12 +57,12 @@ struct PlusLandingView: View {
                     // Buttons
                     VStack(alignment: .leading, spacing: 16) {
                         Button(L10n.plusButtonTitleUnlockAll) {
-                            viewModel.unlockTapped()
-                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading))
+                            viewModel.unlockTapped(.init(plan: .plus, frequency: .yearly))
+                        }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading, plan: .plus))
 
                         Button(L10n.eoyNotNow) {
                             viewModel.dismissTapped()
-                        }.buttonStyle(PlusGradientStrokeButton())
+                        }.buttonStyle(PlusGradientStrokeButton(plan: .plus))
                     }
                 }
                 .padding(ViewConfig.padding.viewReducedTop)
@@ -139,9 +139,10 @@ private struct PlusFeature: Identifiable, Equatable {
 }
 
 // MARK: - Internal Views
-private struct PlusLabel: View {
+struct PlusLabel: View {
     enum PlusLabelStyle {
         case title
+        case title2
         case subtitle
         case featureTitle
         case featureDescription
@@ -169,6 +170,8 @@ private struct PlusLabel: View {
             switch labelStyle {
             case .title:
                 return content.font(size: 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
+            case .title2:
+                return content.font(style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .subtitle:
                 return content.font(size: 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
             case .featureTitle:

@@ -7,10 +7,11 @@ protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
     func navigateToPodcast(_ podcast: Podcast)
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
-    func navigateToFolder(_ folder: Folder)
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
 
-    func navigateToEpisode(_ episodeUuid: String)
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?)
 
     func navigateToDiscover(_ animated: Bool)
 
@@ -24,7 +25,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToAddCustom(_ fileURL: URL)
 
     func showSubscriptionCancelledAcknowledge()
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource)
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?)
     func showPlusMarketingPage()
     func showSettingsAppearance()
     func showPromotionPage(promoCode: String?)

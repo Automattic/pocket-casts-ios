@@ -1,12 +1,14 @@
 import Foundation
 
 struct OnboardingFlow {
+    typealias Context = [String: Any]
+
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
 
@@ -17,13 +19,26 @@ struct OnboardingFlow {
         case .plusUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
+            flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
-            flowController = PlusPurchaseModel.make(in: controller)
+            if FeatureFlag.patron.enabled {
+                self.source = source ?? "unknown"
+                flowController = upgradeController(in: navigationController, context: context)
+            } else {
+                flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
+            }
+
+        case .patronAccountUpgrade:
+            self.source = source ?? "unknown"
+            let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
+
+            flowController = PlusLandingViewModel.make(in: navigationController,
+                                                       from: .upsell,
+                                                       config: config)
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
         case .initialOnboarding, .loggedOut: fallthrough
         default:
@@ -31,6 +46,11 @@ struct OnboardingFlow {
         }
 
         return flowController
+    }
+
+    private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
+        let product = context?["product"] as? Constants.ProductInfo
+        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 
     /// Resets the internal flow state to none and clears any analytics sources
@@ -73,6 +93,9 @@ struct OnboardingFlow {
         /// When the user taps on an upgrade button and is brought directly to the purchase modal
         /// From account details and plus details
         case plusAccountUpgrade = "plus_account_upgrade"
+
+        /// When the user taps the 'Upgrade Account' option from the account view to view the patron upgrade view
+        case patronAccountUpgrade = "patron_account_upgrade"
 
         /// When the user taps on an upgrade button but is logged out and needs to login
         /// They are presented with the login first, then the modal

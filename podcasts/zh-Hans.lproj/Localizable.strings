@@ -43,6 +43,8 @@
     <string>轻点两次以删除剧集的星标</string>
     <key>accessibility_more_actions</key>
     <string>更多操作</string>
+    <key>accessibility_patron_only</key>
+    <string>已锁定，Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>轻点以查看或设置账户</string>
     <key>accessibility_sort_and_options</key>
     <string>排序和选项</string>
+    <key>account</key>
+    <string>帐户</string>
     <key>account_change_email</key>
     <string>更改电子邮件地址</string>
     <key>account_completion_nudge</key>
@@ -145,6 +149,14 @@
     <string>万圣节</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron 铬黄色</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron 深色</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron 亮色</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron 圆形</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@
     <string>取消全选</string>
     <key>discover</key>
     <string>发现</string>
+    <key>discover_all_episodes</key>
+    <string>所有剧集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有播客</string>
     <key>discover_browse_by_category</key>
     <string>按类型浏览</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@
     <string>电视和电影</string>
     <key>discover_change_region</key>
     <string>更改区域，当前为 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>特色</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@
     <string>未找到精选播客和剧集。 请确保您已连接至互联网并重试。</string>
     <key>discover_fresh_pick</key>
     <string>新鲜精选</string>
+    <key>discover_no_episodes_found</key>
+    <string>未找到剧集</string>
     <key>discover_no_podcasts_found</key>
     <string>未找到播客</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@
     <string>第 %1$@ 集</string>
     <key>episode_shorthand_format_short</key>
     <string>第 %1$@ 集</string>
+    <key>episodes</key>
+    <string>剧集</string>
     <key>error</key>
     <string>错误</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>import</key>
+    <string>导入</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>我们可以通过使用内置的 Shortcuts 应用，从 Apple Podcasts 导入播客。
 注意：如果您之前删除了 Shortcuts 应用，系统将提示您重新安装此应用。
@@ -998,6 +1022,8 @@
 2. 点击应用顶部角落的齿轮图标
 3. 向下滑动直到您看到”导出 OPML“，然后点击此选项
 4. 在对话框打开后，找到 Pocket Casts 图标，然后点击此图标</string>
+    <key>import_opml_from_url</key>
+    <string>使用 URL 从 OPML 文件导入播客</string>
     <key>import_podcasts_description</key>
     <string>您可以使用广受支持的 OPML 格式将播客订阅导入到 Pocket casts。 从另一个应用程序导出文件并选择在 Pocket casts 中打开。
 
@@ -1147,6 +1173,8 @@
     <string>OPML 导入失败</string>
     <key>opml_import_progress_format</key>
     <string>正在导入 %1$@ 个，共 %2$@ 个</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML 导入已成功</string>
     <key>opml_importing</key>
     <string>正在导入播客...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@
     <string>仅支持者源</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>取消订阅所有这些播客将删除其所有的下载文件，是否确定？</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>相信我们的所作所为，并想要表达您的支持？</string>
+    <key>patron_description</key>
+    <string>成为 Pocket Casts Patron，并帮助我们继续提供更好的播客体验。</string>
+    <key>patron_feature_early_access</key>
+    <string>抢先体验功能</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus 中的所有内容</string>
+    <key>patron_feature_profile_badge</key>
+    <string>支持者个人资料徽章</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特殊的 Pocket Casts 应用图标</string>
+    <key>patron_purchase_promo_title</key>
+    <string>成为 Patron 会员并解锁所有 Pocket Casts 功能</string>
+    <key>patron_subscribe_to</key>
+    <string>订阅 Patron</string>
     <key>pause</key>
     <string>暂停</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@
     <string>到期日期：%1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>云存储</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts 的每个人都对您感激不尽</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主题和应用程序图标</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@
     <string>此功能需要使用 Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>选择付款频率</string>
+    <key>plus_skip</key>
+    <string>跳过</string>
+    <key>plus_start_my_free_trial</key>
+    <string>开始免费试用版</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>试用 %1$@，之后 %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>订阅 Plus</string>
     <key>plus_subscription_apple</key>
     <string>您的订阅由 Apple App Store 管理</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@
     <string>从“接下来播放”中删除</string>
     <key>remove_up_next</key>
     <string>删除“接下来播放”</string>
+    <key>renew_subscription</key>
+    <string>续订您的订阅</string>
     <key>retry</key>
     <string>重试</string>
     <key>search</key>
     <string>搜索</string>
+    <key>search_label</key>
+    <string>搜索播客或添加 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜索播客</string>
+    <key>search_recent</key>
+    <string>最近搜索</string>
     <key>season</key>
     <string>季</string>
     <key>season_episode_shorthand_format</key>
@@ -2235,6 +2297,8 @@
     <string>已取消订阅</string>
     <key>subscription_cancelled_msg</key>
     <string>订阅取消日期：%1$@  </string>
+    <key>subscription_expires_in</key>
+    <string>到期日期：%1$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
     <key>supporter</key>
@@ -2313,6 +2377,8 @@
     <string>您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。</string>
     <key>up_next_empty_title</key>
     <string>“接下来播放”列表无内容</string>
+    <key>upgrade_account</key>
+    <string>升级账户</string>
     <key>upload_sort_alpha</key>
     <string>标题 (A-Z)</string>
     <key>volume_boost</key>

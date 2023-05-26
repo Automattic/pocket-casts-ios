@@ -24,7 +24,7 @@ struct EpilogueStory: StoryView {
 
                 StoryLabelContainer(topPadding: 0, geometry: geometry) {
                     if visibility.isVisible {
-                        HolographicEffect(geometry: geometry) {
+                        HolographicEffect(parentSize: geometry.size) {
                             Image("heart")
                                 .renderingMode(.template)
                         }

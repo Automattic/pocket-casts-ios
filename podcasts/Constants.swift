@@ -87,8 +87,11 @@ struct Constants {
         static let watchAutoDownloadSettingsChanged = NSNotification.Name(rawValue: "SJWatchAutoDownloadSettingsChanged")
 
         // folders
+        /// This is triggered many times whenever a folder is changed
         static let folderChanged = NSNotification.Name(rawValue: "SJFolderChanged")
         static let folderDeleted = NSNotification.Name(rawValue: "SJFolderDeleted")
+        /// This is triggered just once after a folder finishes editing
+        static let folderEdited = NSNotification.Name(rawValue: "SJFolderEdited")
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
@@ -150,6 +153,8 @@ struct Constants {
         static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
         static let top5PodcastsListLink = "top5PodcastsListLink"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
+
+        static let searchHistoryEntries = "SearchHistoryEntries"
     }
 
     enum Values {
@@ -224,15 +229,52 @@ struct Constants {
         enum IapProducts: String {
             case yearly = "com.pocketcasts.plus.yearly"
             case monthly = "com.pocketcasts.plus.monthly"
+            case patronYearly = "com.pocketcasts.yearly.patron"
+            case patronMonthly = "com.pocketcasts.monthly.patron"
 
             var renewalPrompt: String {
                 switch self {
-                case .yearly:
+                case .yearly, .patronYearly:
                     return L10n.accountPaymentRenewsYearly
-                case .monthly:
+                case .monthly, .patronMonthly:
                     return L10n.accountPaymentRenewsMonthly
                 }
             }
+        }
+
+        enum Plan {
+            case plus, patron
+
+            var products: [Constants.IapProducts] {
+                return [yearly, monthly]
+            }
+
+            var yearly: Constants.IapProducts {
+                switch self {
+                case .plus:
+                    return .yearly
+                case .patron:
+                    return .patronYearly
+                }
+            }
+
+            var monthly: Constants.IapProducts {
+                switch self {
+                case .plus:
+                    return .monthly
+                case .patron:
+                    return .patronMonthly
+                }
+            }
+        }
+
+        enum PlanFrequency {
+            case yearly, monthly
+        }
+
+        struct ProductInfo {
+            let plan: Plan
+            let frequency: PlanFrequency
         }
     #endif
 

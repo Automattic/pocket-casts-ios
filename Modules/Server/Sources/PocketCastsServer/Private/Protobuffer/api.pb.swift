@@ -36,6 +36,8 @@ struct Api_UserChangeResponse {
 
   var message: String = String()
 
+  var messageID: String = String()
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2437,11 +2439,41 @@ struct Api_SubscriptionResponse {
     set {_uniqueStorage()._eligible = newValue}
   }
 
+  var nextPayment: Api_PaymentResponse {
+    get {return _storage._nextPayment ?? Api_PaymentResponse()}
+    set {_uniqueStorage()._nextPayment = newValue}
+  }
+  /// Returns true if `nextPayment` has been explicitly set.
+  var hasNextPayment: Bool {return _storage._nextPayment != nil}
+  /// Clears the value of `nextPayment`. Subsequent reads from it will return its default value.
+  mutating func clearNextPayment() {_uniqueStorage()._nextPayment = nil}
+
+  var tier: String {
+    get {return _storage._tier}
+    set {_uniqueStorage()._tier = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct Api_PaymentResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var paymentDate: String = String()
+
+  var amount: Double = 0
+
+  var currency: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 struct Api_PodcastPair {
@@ -2534,6 +2566,11 @@ struct Api_SubscriptionsStatusResponse {
   var webStatus: Int32 {
     get {return _storage._webStatus}
     set {_uniqueStorage()._webStatus = newValue}
+  }
+
+  var tier: String {
+    get {return _storage._tier}
+    set {_uniqueStorage()._tier = newValue}
   }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -4558,6 +4595,20 @@ struct Api_VerifyEmailRequest {
   init() {}
 }
 
+struct Api_AuthorizeCallbackRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var idToken: String = String()
+
+  var state: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Api_UserChangeResponse: @unchecked Sendable {}
 extension Api_UserResetPasswordRequest: @unchecked Sendable {}
@@ -4641,6 +4692,7 @@ extension Api_SubscriptionsPurchaseAppleRequest: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseWebRequest: @unchecked Sendable {}
 extension Api_SubscriptionsWebStatusResponse: @unchecked Sendable {}
 extension Api_SubscriptionResponse: @unchecked Sendable {}
+extension Api_PaymentResponse: @unchecked Sendable {}
 extension Api_PodcastPair: @unchecked Sendable {}
 extension Api_SubscriptionsStatusResponse: @unchecked Sendable {}
 extension Api_CancelUserSubscriptionRequest: @unchecked Sendable {}
@@ -4676,6 +4728,7 @@ extension Api_TokenLoginRequest: @unchecked Sendable {}
 extension Api_TokenLoginResponse: @unchecked Sendable {}
 extension Api_TokenErrorResponse: @unchecked Sendable {}
 extension Api_VerifyEmailRequest: @unchecked Sendable {}
+extension Api_AuthorizeCallbackRequest: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -4687,6 +4740,7 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "success"),
     2: .same(proto: "message"),
+    3: .same(proto: "messageId"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -4697,6 +4751,7 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularMessageField(value: &self._success) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.message) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.messageID) }()
       default: break
       }
     }
@@ -4713,12 +4768,16 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     if !self.message.isEmpty {
       try visitor.visitSingularStringField(value: self.message, fieldNumber: 2)
     }
+    if !self.messageID.isEmpty {
+      try visitor.visitSingularStringField(value: self.messageID, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_UserChangeResponse, rhs: Api_UserChangeResponse) -> Bool {
     if lhs._success != rhs._success {return false}
     if lhs.message != rhs.message {return false}
+    if lhs.messageID != rhs.messageID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -9217,6 +9276,8 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     15: .standard(proto: "bundle_uuid"),
     16: .same(proto: "podcasts"),
     17: .same(proto: "eligible"),
+    18: .standard(proto: "next_payment"),
+    19: .same(proto: "tier"),
   ]
 
   fileprivate class _StorageClass {
@@ -9236,6 +9297,8 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _bundleUuid: String = String()
     var _podcasts: [Api_PodcastPair] = []
     var _eligible: Bool = false
+    var _nextPayment: Api_PaymentResponse? = nil
+    var _tier: String = String()
 
     static let defaultInstance = _StorageClass()
 
@@ -9258,6 +9321,8 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _bundleUuid = source._bundleUuid
       _podcasts = source._podcasts
       _eligible = source._eligible
+      _nextPayment = source._nextPayment
+      _tier = source._tier
     }
   }
 
@@ -9292,6 +9357,8 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 15: try { try decoder.decodeSingularStringField(value: &_storage._bundleUuid) }()
         case 16: try { try decoder.decodeRepeatedMessageField(value: &_storage._podcasts) }()
         case 17: try { try decoder.decodeSingularBoolField(value: &_storage._eligible) }()
+        case 18: try { try decoder.decodeSingularMessageField(value: &_storage._nextPayment) }()
+        case 19: try { try decoder.decodeSingularStringField(value: &_storage._tier) }()
         default: break
         }
       }
@@ -9352,6 +9419,12 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       if _storage._eligible != false {
         try visitor.visitSingularBoolField(value: _storage._eligible, fieldNumber: 17)
       }
+      try { if let v = _storage._nextPayment {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 18)
+      } }()
+      if !_storage._tier.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._tier, fieldNumber: 19)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9377,10 +9450,56 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._bundleUuid != rhs_storage._bundleUuid {return false}
         if _storage._podcasts != rhs_storage._podcasts {return false}
         if _storage._eligible != rhs_storage._eligible {return false}
+        if _storage._nextPayment != rhs_storage._nextPayment {return false}
+        if _storage._tier != rhs_storage._tier {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PaymentResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "payment_date"),
+    2: .same(proto: "amount"),
+    3: .same(proto: "currency"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.paymentDate) }()
+      case 2: try { try decoder.decodeSingularDoubleField(value: &self.amount) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.currency) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.paymentDate.isEmpty {
+      try visitor.visitSingularStringField(value: self.paymentDate, fieldNumber: 1)
+    }
+    if self.amount != 0 {
+      try visitor.visitSingularDoubleField(value: self.amount, fieldNumber: 2)
+    }
+    if !self.currency.isEmpty {
+      try visitor.visitSingularStringField(value: self.currency, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PaymentResponse, rhs: Api_PaymentResponse) -> Bool {
+    if lhs.paymentDate != rhs.paymentDate {return false}
+    if lhs.amount != rhs.amount {return false}
+    if lhs.currency != rhs.currency {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -9440,6 +9559,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     11: .same(proto: "type"),
     12: .same(proto: "index"),
     13: .same(proto: "webStatus"),
+    14: .same(proto: "tier"),
   ]
 
   fileprivate class _StorageClass {
@@ -9456,6 +9576,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     var _type: Int32 = 0
     var _index: Int32 = 0
     var _webStatus: Int32 = 0
+    var _tier: String = String()
 
     static let defaultInstance = _StorageClass()
 
@@ -9475,6 +9596,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       _type = source._type
       _index = source._index
       _webStatus = source._webStatus
+      _tier = source._tier
     }
   }
 
@@ -9506,6 +9628,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         case 11: try { try decoder.decodeSingularInt32Field(value: &_storage._type) }()
         case 12: try { try decoder.decodeSingularInt32Field(value: &_storage._index) }()
         case 13: try { try decoder.decodeSingularInt32Field(value: &_storage._webStatus) }()
+        case 14: try { try decoder.decodeSingularStringField(value: &_storage._tier) }()
         default: break
         }
       }
@@ -9557,6 +9680,9 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       if _storage._webStatus != 0 {
         try visitor.visitSingularInt32Field(value: _storage._webStatus, fieldNumber: 13)
       }
+      if !_storage._tier.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._tier, fieldNumber: 14)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9579,6 +9705,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         if _storage._type != rhs_storage._type {return false}
         if _storage._index != rhs_storage._index {return false}
         if _storage._webStatus != rhs_storage._webStatus {return false}
+        if _storage._tier != rhs_storage._tier {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -12385,6 +12512,44 @@ extension Api_VerifyEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
   static func ==(lhs: Api_VerifyEmailRequest, rhs: Api_VerifyEmailRequest) -> Bool {
     if lhs.verifyEmailToken != rhs.verifyEmailToken {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_AuthorizeCallbackRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".AuthorizeCallbackRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "id_token"),
+    2: .same(proto: "state"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.idToken) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.state) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.idToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.idToken, fieldNumber: 1)
+    }
+    if !self.state.isEmpty {
+      try visitor.visitSingularStringField(value: self.state, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_AuthorizeCallbackRequest, rhs: Api_AuthorizeCallbackRequest) -> Bool {
+    if lhs.idToken != rhs.idToken {return false}
+    if lhs.state != rhs.state {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

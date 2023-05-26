@@ -43,6 +43,8 @@
     <string>Dubbeltryck för att ta bort stjärnmärkning från avsnitt</string>
     <key>accessibility_more_actions</key>
     <string>Fler åtgärder</string>
+    <key>accessibility_patron_only</key>
+    <string>Låst Patron-funktion</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent har slutförts</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>Tryck för att visa eller konfigurera konto</string>
     <key>accessibility_sort_and_options</key>
     <string>Sortering och Alternativ</string>
+    <key>account</key>
+    <string>Konto</string>
     <key>account_change_email</key>
     <string>Ändra e-post</string>
     <key>account_completion_nudge</key>
@@ -145,6 +149,14 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron mörk</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron Glow</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rund</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Avmarkera alla</string>
     <key>discover</key>
     <string>Upptäck</string>
+    <key>discover_all_episodes</key>
+    <string>Alla avsnitt</string>
+    <key>discover_all_podcasts</key>
+    <string>Alla podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Bläddra efter kategori</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>TV och film</string>
     <key>discover_change_region</key>
     <string>Ändra region, för närvarande %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Det gick inte att ladda avsnittet</string>
     <key>discover_featured</key>
     <string>Utvalt</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Den utvalda podcasten/det utvalda avsnittet hittades inte. Se till att du är ansluten till internet och försök igen.</string>
     <key>discover_fresh_pick</key>
     <string>UTVALD</string>
+    <key>discover_no_episodes_found</key>
+    <string>Inga avsnitt hittades</string>
     <key>discover_no_podcasts_found</key>
     <string>Inga podcasts hittades</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@ du lyssnade på var
     <string>AVSNITT %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>Avsnitt %1$@</string>
+    <key>episodes</key>
+    <string>Avsnitt</string>
     <key>error</key>
     <string>Fel</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>import</key>
+    <string>Importera</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Vi kan importera dina podcasts från Apple Podcasts genom att använda den inbyggda appen Genvägar.
 Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att installera den igen.
@@ -998,6 +1022,8 @@ Obs! Om du tidigare har tagit bort appen Genvägar kommer du att bli ombedd att 
 2. Tryck på kugghjulsikonen i det övre hörnet av appen
 3. Svep nedåt tills du ser alternativet Exportera OPML och klicka sedan på det
 4. När dialogen öppnas, lokalisera Pocket Casts-ikonen och tryck sedan på den</string>
+    <key>import_opml_from_url</key>
+    <string>Importera dina podcasts från en OPML-fil med hjälp av en URL</string>
     <key>import_podcasts_description</key>
     <string>Du kan importera alla dina prenumerationer till Pocket Casts via en OPML-fil som i stor utsträckning stöds av många podcast applikationer. Exportera filen från din andra app och välj Öppna i Pocket Casts.
 
@@ -1147,6 +1173,8 @@ podcasts med dig</string>
     <string>OPML-importen misslyckades</string>
     <key>opml_import_progress_format</key>
     <string>Importerar %1$@ av %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML-importen har genomförts</string>
     <key>opml_importing</key>
     <string>Importerar podcasts …</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@ UPPDATERINGAR</string>
     <string>Supporterexklusivt flöde</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Om du säger upp din prenumeration på alla dessa podcasts kommer alla nedladdningsfiler för dem att tas bort. Är du säker?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Tror du på vad vi gör och vill visa ditt stöd?</string>
+    <key>patron_description</key>
+    <string>Bli en Pocket Casts Patron och hjälp oss att fortsätta att leverera den bästa möjliga podcastupplevelsen.</string>
+    <key>patron_feature_early_access</key>
+    <string>Tidig åtkomst till funktioner</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Allt i Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Supporterprofilmärke</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Särskilda Pocket Casts-appikoner</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Bli Patron-medlem och lås upp alla Pocket Casts-funktioner</string>
+    <key>patron_subscribe_to</key>
+    <string>Prenumerera på Patron</string>
     <key>pause</key>
     <string>Pause</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@ UPPDATERINGAR</string>
     <string>Löper ut %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Molnet</string>
+    <key>plus_feature_gratitude</key>
+    <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra ikoner för teman och appar</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Denna funktion kräver Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Välj betalningsfrekvens</string>
+    <key>plus_skip</key>
+    <string>Hoppa över</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Starta min gratis provperiod</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Prova %1$@, sedan %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Prenumerera på Plus</string>
     <key>plus_subscription_apple</key>
     <string>Din prenumeration hanteras av Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@ gratis provperiod på %1$@</string>
     <string>Ta bort från Nästa</string>
     <key>remove_up_next</key>
     <string>Ta bort Nästa</string>
+    <key>renew_subscription</key>
+    <string>Förnya din prenumeration</string>
     <key>retry</key>
     <string>Försök igen</string>
     <key>search</key>
     <string>Sök</string>
+    <key>search_label</key>
+    <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
     <string>Sök podcasts</string>
+    <key>search_recent</key>
+    <string>Senaste sökningar</string>
     <key>season</key>
     <string>Säsong</string>
     <key>season_episode_shorthand_format</key>
@@ -2235,6 +2297,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Prenumeration avbruten</string>
     <key>subscription_cancelled_msg</key>
     <string>Prenumeration avbruten %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Löper ut om %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
     <key>supporter</key>
@@ -2313,6 +2377,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
     <key>up_next_empty_title</key>
     <string>Inget i Nästa</string>
+    <key>upgrade_account</key>
+    <string>Uppgradera konto</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Ö)</string>
     <key>volume_boost</key>

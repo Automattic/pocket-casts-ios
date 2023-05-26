@@ -43,6 +43,8 @@
     <string>Toque duas vezes para remover o episódio dos favoritos</string>
     <key>accessibility_more_actions</key>
     <string>Mais ações</string>
+    <key>accessibility_patron_only</key>
+    <string>Bloqueado: funcionalidade Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ por cento concluído</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>Toque para ver ou configurar a conta</string>
     <key>accessibility_sort_and_options</key>
     <string>Ordem e opções</string>
+    <key>account</key>
+    <string>Conta</string>
     <key>account_change_email</key>
     <string>Alterar e-mail</string>
     <key>account_completion_nudge</key>
@@ -90,7 +94,7 @@
     <key>account_details_listened_for</key>
     <string>Ouviu por %1$@</string>
     <key>account_details_plus_title</key>
-    <string>Leve sua experiência de criação de podcasts para um outro nível com acesso exclusivo a funcionalidades e opções de personalização.</string>
+    <string>Leve sua experiência em podcasts para um outro nível com acesso exclusivo a funcionalidades e opções de personalização.</string>
     <key>account_login</key>
     <string>Fazer login</string>
     <key>account_payment_renews_monthly</key>
@@ -145,6 +149,14 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron cromado</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron escuro</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron brilhante</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron redondo</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Desmarcar tudo</string>
     <key>discover</key>
     <string>Explorar</string>
+    <key>discover_all_episodes</key>
+    <string>Todos os episódios</string>
+    <key>discover_all_podcasts</key>
+    <string>Todos os podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Navegar por categoria</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>TV e cinema</string>
     <key>discover_change_region</key>
     <string>Mudar região (atualmente %1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
     <string>Em destaque</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Episódio ou podcast destacado não encontrado. Confirme se você está conectado à internet e tente novamente.</string>
     <key>discover_fresh_pick</key>
     <string>NOVO</string>
+    <key>discover_no_episodes_found</key>
+    <string>Nenhum episódio encontrado</string>
     <key>discover_no_podcasts_found</key>
     <string>Nenhum podcast encontrado</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@ que você ouviu foi
     <string>EPISÓDIO %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episodes</key>
+    <string>Episódios</string>
     <key>error</key>
     <string>Erro</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
+    <key>import</key>
+    <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>É possível importar seus podcasts do Apple Podcasts usando o aplicativo Atalhos integrado.
 Observação: se você excluiu o aplicativo de atalhos, será solicitado que você o reinstale.
@@ -998,6 +1022,8 @@ Observação: se você excluiu o aplicativo de atalhos, será solicitado que voc
 2. Toque no ícone de engrenagem na parte superior do aplicativo
 3. Deslize para baixo e toque em Export OPML
 4. Quando a caixa de diálogo for aberta, localize o ícone do Pocket Casts e toque nele</string>
+    <key>import_opml_from_url</key>
+    <string>Importe seus podcasts de um arquivo OPML usando uma URL</string>
     <key>import_podcasts_description</key>
     <string>Você pode importar suas assinaturas de podcasts para o Pocket Casts usando o formato OPML, que é amplamente compatível. Exporte o arquivo de outro aplicativo e escolha abrir no Pocket Casts.
 
@@ -1147,6 +1173,8 @@ podcasts com você</string>
     <string>Falha na importação de OPML</string>
     <key>opml_import_progress_format</key>
     <string>Importando %1$@ de %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importação de OPML bem-sucedida</string>
     <key>opml_importing</key>
     <string>Importando podcasts...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@ ATUALIZAÇÕES</string>
     <string>Feed somente para apoiadores</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Cancelar a assinatura destes podcasts excluirá todos os arquivos baixados deles. Tem certeza de que quer continuar?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Acredita no nosso trabalho e quer mostrar seu apoio?</string>
+    <key>patron_description</key>
+    <string>Torne-se um apoiador do Pocket Casts e ajude-nos a continuar oferecendo a melhor experiência de podcast disponível.</string>
+    <key>patron_feature_early_access</key>
+    <string>Acesso antecipado a funcionalidades</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Tudo no Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Selo do perfil de apoiadores</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Ícones especiais do aplicativo do Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Seja um membro do Patron e aproveite todas as funcionalidades do Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Assinar o Patron</string>
     <key>pause</key>
     <string>Pausar</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@ ATUALIZAÇÕES</string>
     <string>Expira em %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Armazenamento em nuvem</string>
+    <key>plus_feature_gratitude</key>
+    <string>A eterna gratidão de todos aqui no Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Ícones de aplicativo e temas extras</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@ Obtenha apps para desktop, carregue seus próprios arquivos e personalize a plat
     <string>Esta funcionalidade exige o Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Selecione a frequência de pagamento</string>
+    <key>plus_skip</key>
+    <string>Pular</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Iniciar meu teste gratuito</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Experimente %1$@ (depois disso, %2$@)</string>
+    <key>plus_subscribe_to</key>
+    <string>Assinar o Plus</string>
     <key>plus_subscription_apple</key>
     <string>Sua assinatura é gerenciada pela Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@ teste gratuito de %1$@</string>
     <string>Remover da fila de Próximos</string>
     <key>remove_up_next</key>
     <string>Remover de Próximos</string>
+    <key>renew_subscription</key>
+    <string>Renove sua assinatura</string>
     <key>retry</key>
     <string>Tentar novamente</string>
     <key>search</key>
     <string>Pesquisar</string>
+    <key>search_label</key>
+    <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
     <string>Pesquisar podcasts</string>
+    <key>search_recent</key>
+    <string>Pesquisas recentes</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2235,6 +2297,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Assinatura cancelada</string>
     <key>subscription_cancelled_msg</key>
     <string>Assinatura cancelada em %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Expira em %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Obrigado pelo apoio!</string>
     <key>supporter</key>
@@ -2313,6 +2377,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você pode enfileirar os episódios para serem reproduzidos em seguida arrastando para a direita nas linhas de episódios ou tocando no ícone no cartão de um episódio.</string>
     <key>up_next_empty_title</key>
     <string>Nada na fila de Próximos</string>
+    <key>upgrade_account</key>
+    <string>Fazer upgrade de conta</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

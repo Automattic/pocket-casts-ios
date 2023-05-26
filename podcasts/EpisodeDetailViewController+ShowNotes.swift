@@ -63,10 +63,12 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = false
-                safariViewController = SFSafariViewController(url: navigationAction.request.url!, configuration: config)
+                safariViewController = navigationAction.request.url.flatMap {
+                    SFSafariViewController(with: $0)
+                }
+
                 safariViewController?.delegate = self
+
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(safariViewController!, animated: true, completion: nil)
 

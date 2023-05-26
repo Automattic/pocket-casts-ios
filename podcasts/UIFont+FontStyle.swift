@@ -52,7 +52,7 @@ public extension View {
     func font(size: Double? = nil,
               style: Font.TextStyle,
               weight: Font.Weight = .regular,
-              maxSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge) -> some View {
+              maxSizeCategory: UIContentSizeCategory = .extraExtraLarge) -> some View {
         return modifier(DynamicallyScalableFont(size: size, style: style, weight: weight, maxSizeCategory: maxSizeCategory))
     }
 }

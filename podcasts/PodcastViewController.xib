@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,26 +21,27 @@
                 <outlet property="multiSelectFooter" destination="Lj6-2A-raj" id="j7o-SG-hvb"/>
                 <outlet property="multiSelectFooterBottomConstraint" destination="XlV-rU-xYe" id="rVt-aG-6Wh"/>
                 <outlet property="multiSelectHeaderView" destination="rCn-kh-SHx" id="zCj-c1-wQJ"/>
+                <outlet property="multiSelectHeaderViewConstraint" destination="weF-fk-AC7" id="15c-mD-duz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A5O-Jp-ZY7" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="1346"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z6r-n2-drA">
-                            <rect key="frame" x="0.0" y="-70" width="375" height="250"/>
+                            <rect key="frame" x="0.0" y="-46" width="1024" height="250"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="250" id="hdg-yB-CeB"/>
                             </constraints>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iLx-g1-Ro1">
-                            <rect key="frame" x="16" y="62" width="181" height="181"/>
+                            <rect key="frame" x="16" y="86" width="181" height="181"/>
                             <color key="backgroundColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="181" id="9Ly-xd-pA6"/>
@@ -53,7 +54,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NiC-SX-rde">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="24"/>
                         </view>
                     </subviews>
                     <color key="backgroundColor" red="0.45803546909999998" green="0.83982247109999997" blue="0.28705134989999997" alpha="0.97139084509999996" colorSpace="custom" customColorSpace="displayP3"/>
@@ -68,7 +69,7 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-9D-tbz" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="1346"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
@@ -77,13 +78,13 @@
                     </connections>
                 </tableView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="AZp-uk-Ky7" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                    <rect key="frame" x="502" y="675" width="20" height="20"/>
                 </activityIndicatorView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rCn-kh-SHx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="10"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w24-UV-dAv">
-                            <rect key="frame" x="16" y="46" width="73" height="44"/>
+                            <rect key="frame" x="16" y="-34" width="73" height="44"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="xtn-4c-tFJ"/>
@@ -95,7 +96,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-vB-nD5">
-                            <rect key="frame" x="305" y="46" width="54" height="44"/>
+                            <rect key="frame" x="954" y="-34" width="54" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="FPZ-Vv-F5t"/>
                             </constraints>
@@ -112,11 +113,13 @@
                         <constraint firstItem="w24-UV-dAv" firstAttribute="leading" secondItem="rCn-kh-SHx" secondAttribute="leading" constant="16" id="hsU-ID-8ex"/>
                         <constraint firstAttribute="bottom" secondItem="gVg-vB-nD5" secondAttribute="bottom" id="l6u-IZ-408"/>
                         <constraint firstAttribute="bottom" secondItem="w24-UV-dAv" secondAttribute="bottom" id="neu-aF-ePa"/>
-                        <constraint firstAttribute="height" constant="90" id="weF-fk-AC7"/>
+                        <constraint firstAttribute="height" constant="90" id="weF-fk-AC7">
+                            <variation key="heightClass=regular-widthClass=regular" constant="10"/>
+                        </constraint>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lj6-2A-raj" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="8" y="603" width="359" height="64"/>
+                    <rect key="frame" x="8" y="1282" width="1008" height="64"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="G0W-33-ngx"/>

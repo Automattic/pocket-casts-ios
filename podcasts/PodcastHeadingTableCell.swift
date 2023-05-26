@@ -231,6 +231,39 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
             layoutIfNeeded()
         }
+
+        if FeatureFlag.showRatings.enabled {
+            delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+            addRatingIfNeeded()
+        }
+    }
+
+    private lazy var ratingView: UIView? = {
+        guard let viewModel = self.delegate?.podcastRatingViewModel else {
+            return nil
+        }
+
+        let view = StarRatingView(viewModel: viewModel)
+            .frame(height: 16)
+            .padding(.top, 10)
+            .themedUIView
+
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    private func addRatingIfNeeded() {
+        // Only add the rating if it hasn't been added already
+        guard
+            let ratingView, ratingView.superview == nil,
+            let index = podcastCategory.flatMap({
+                extraContentStackView.arrangedSubviews.firstIndex(of: $0)
+            })
+        else {
+            return
+        }
+
+        extraContentStackView.insertArrangedSubview(ratingView, at: index+1)
     }
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -295,6 +328,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         contentView.addConstraint(contentViewBottomConstraint)
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
+
+        let hasRating = delegate?.podcastRatingViewModel.rating != nil
+        ratingView?.isHidden = !FeatureFlag.showRatings.enabled || !hasRating || !expanded
     }
 
     private func setupButtons() {

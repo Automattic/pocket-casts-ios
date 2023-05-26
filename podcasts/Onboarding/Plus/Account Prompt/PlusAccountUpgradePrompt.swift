@@ -1,146 +1,229 @@
 import SwiftUI
+import PocketCastsServer
 
 struct PlusAccountUpgradePrompt: View {
-    @ObservedObject var viewModel: PlusAccountPromptViewModel
-    let freeTrialDuration: String?
+    typealias ProductInfo = PlusPricingInfoModel.PlusProductPricingInfo
 
-    init(viewModel: PlusAccountPromptViewModel) {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: PlusAccountPromptViewModel
+
+    @State private var currentPage = 0
+    @State private var waitingToLoad = false
+
+    private let products: [ProductInfo]
+
+    /// Allows UIKit to listen for content size changes
+    var contentSizeUpdated: ((CGSize) -> Void)? = nil
+
+    init(viewModel: PlusAccountPromptViewModel, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
         self.viewModel = viewModel
-        let firstProduct = viewModel.pricingInfo.products.first
-        self.freeTrialDuration = firstProduct?.freeTrialDuration
+        self.products = viewModel.products
+        self.contentSizeUpdated = contentSizeUpdated
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // PC + Plus icons
-            HStack(alignment: .top, spacing: 12) {
-                Image("plus-pc-icon-white")
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                Image("plus-icon-white")
-                    .resizable()
-                    .frame(width: 32, height: 32)
-            }.padding(.bottom, 20)
-
-            Label(L10n.accountDetailsPlusTitle, for: .title)
-
-            if let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration)
-                    .padding(.top, 16)
-            }
-
-            let columns = [GridItem(.flexible()), GridItem(.flexible())]
-
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                ForEach(features) { feature in
-                    HStack {
-                        Image(feature.iconName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16)
-
-                        Label(feature.title, for: .featureName)
+        ContentSizeGeometryReader(content: { proxy in
+            VStack(spacing: 0) {
+                HorizontalCarousel(currentIndex: $currentPage, items: products) { item in
+                    CarouselEqualHeightsView {
+                        card(for: item, geometryProxy: proxy)
+                            .frame(maxWidth: .infinity)
                     }
                 }
-            }.padding(.top, 20)
+                .carouselItemsToDisplay(1)
+                .carouselPeekAmount(.constant(0))
+                .carouselItemSpacing(0)
+                .carouselScrollEnabled(products.count > 1)
 
-            Button(L10n.plusMarketingUpgradeButton) {
-                viewModel.upgradeTapped()
-            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: viewModel.priceAvailability == .loading)).padding(.top, 30)
-        }.padding().background (
-            ProportionalValueFrameCalculator {
-                PlusPromptBackgroundView()
+                if products.count > 1 {
+                    PageIndicatorView(numberOfItems: products.count, currentPage: currentPage)
+                        .foregroundColor(theme.primaryText01)
+                        .padding(.top, 10)
+                }
             }
-        )
+            .padding(.vertical, 20)
+            .background(theme.primaryUi01)
+        }, contentSizeUpdated: contentSizeUpdated)
     }
 
-    private let features = [
-        PlusMiniFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
-        PlusMiniFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-        PlusMiniFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())),
-        PlusMiniFeature(iconName: "plus-feature-folders", title: L10n.folders),
-        PlusMiniFeature(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
+    @ViewBuilder
+    func card(for product: ProductInfo, geometryProxy: GeometryProxy) -> some View {
+        VStack(spacing: 16) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    SubscriptionBadge(tier: product.identifier.subscriptionTier)
+                        .padding(.bottom, 10)
+
+                    productFeatures[product.identifier].map {
+                        ForEach($0) { feature in
+                            HStack(spacing: 10) {
+                                Image(feature.iconName)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 16)
+                                    .foregroundColor(theme.primaryText01)
+
+                                Text(feature.title)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(size: 14, style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryText01)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                                Spacer()
+                            }.frame(maxWidth: .infinity)
+                        }
+                    }
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing) {
+                    if let freeTrial = product.freeTrialDuration {
+                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
+                            .highlight(freeTrial, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
+
+                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .body)
+                            .foregroundColor(theme.primaryText01)
+                    } else {
+                        HighlightedText(product.price)
+                            .highlight(product.rawPrice, { _ in
+                                    .init(weight: .bold)
+                            })
+                            .font(style: .title2)
+                            .foregroundColor(theme.primaryText01)
+                    }
+
+                    Spacer()
+                }
+            }
+
+            subscribeButton(for: product)
+        }
+        .padding(.horizontal, 16)
+        .background(theme.primaryUi01)
+    }
+
+    @ViewBuilder
+    private func subscribeButton(for product: ProductInfo) -> some View {
+        let plan = product.identifier.plan
+        let subscription = viewModel.subscription
+        let expiringPlus = subscription?.isExpiring(.plus) == true
+
+        let label: String = {
+            switch plan {
+            case .patron:
+                return {
+                    // Show the renew your sub title
+                    if subscription?.isExpiring(.patron) == true {
+                        return L10n.renewSubscription
+                    }
+
+                    // If the user has an expiring plus subscription show the 'Upgrade Account' title
+                    return expiringPlus ? L10n.upgradeAccount : L10n.patronSubscribeTo
+                }()
+
+            case .plus:
+                // Show 'Renew Sub' title if it's expiring
+                return {
+                    if expiringPlus {
+                        return L10n.renewSubscription
+                    }
+
+                    if product.freeTrialDuration != nil {
+                        return L10n.plusStartMyFreeTrial
+                    }
+
+                    return L10n.plusSubscribeTo
+                }()
+            }
+        }()
+
+        // Only show loading if the user has tapped the button and is waiting
+        let isLoading = waitingToLoad ? viewModel.priceAvailability != .available : false
+
+        Button(label) {
+            // Show a loading indicator on the button if we haven't loaded the prices yet
+            waitingToLoad = true
+
+            // Show the upgrade prompt
+            viewModel.upgradeTapped(with: product)
+        }
+        .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: plan))
+        .padding(.vertical, 10)
+    }
+
+    private let productFeatures: [Constants.IapProducts: [Feature]] = [
+        .yearly: [
+            .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
+            .init(iconName: "plus-feature-folders", title: L10n.folders),
+            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())),
+            .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
+            .init(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
+        ],
+
+        .patronYearly: [
+            .init(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
+            .init(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
+            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            .init(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
+            .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons)
+        ]
     ]
+
+    // MARK: - Model
+    private struct Feature: Identifiable, Hashable {
+        let iconName: String
+        let title: String
+
+        var id: String { title }
+    }
 }
 
-// MARK: - Model
-private struct PlusMiniFeature: Identifiable, Hashable {
-    let iconName: String
-    let title: String
-
-    var id: String { title }
-}
-
-// MARK: - Views
-private struct Label: View {
-    enum LabelStyle {
-        case title
-        case featureName
-    }
-
-    let text: String
-    let labelStyle: LabelStyle
-
-    init(_ text: String, for style: LabelStyle) {
-        self.text = text
-        self.labelStyle = style
-    }
-
-    var body: some View {
-        Text(text)
-            .fixedSize(horizontal: false, vertical: true)
-            .modifier(LabelFont(labelStyle: labelStyle))
-            .foregroundColor(.white)
-    }
-
-    private struct LabelFont: ViewModifier {
-        let labelStyle: LabelStyle
-
-        func body(content: Content) -> some View {
-            switch labelStyle {
-            case .title, .featureName:
-                return content.font(style: .caption, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
-            }
+extension Constants.IapProducts {
+    var subscriptionTier: SubscriptionTier {
+        switch self {
+        case .monthly, .yearly:
+            return .plus
+        case .patronYearly, .patronMonthly:
+            return .patron
         }
     }
+
+    var plan: Constants.Plan {
+        switch self {
+        case .monthly, .yearly:
+            return .plus
+        case .patronYearly, .patronMonthly:
+            return .patron
+        }
+    }
+
+    var frequency: Constants.PlanFrequency {
+        switch self {
+        case .monthly, .patronMonthly:
+            return .monthly
+        case .yearly, .patronYearly:
+            return .yearly
+        }
+    }
+
+    var productInfo: Constants.ProductInfo {
+        .init(plan: plan, frequency: frequency)
+    }
 }
 
-private struct PlusPromptBackgroundView: View {
-    @ProportionalValue(with: .width) var leftCircleSize = 0.936
-    @ProportionalValue(with: .height) var leftCircleSizeHeight = 0.93597561
-    @ProportionalValue(with: .width) var leftCircleX = -0.29315068
-    @ProportionalValue(with: .height) var leftCircleY = -0.375
-
-    @ProportionalValue(with: .width) var rightCircleSize = 0.8445122
-    @ProportionalValue(with: .height) var rightCircleSizeHeight = 0.73780488
-    @ProportionalValue(with: .width) var rightCircleX = 0.54133333
-    @ProportionalValue(with: .height) var rightCircleY = -0.07317073
-
-    var body: some View {
-        ZStack {
-            Color.plusBackgroundColor
-            ZStack {
-                // Right Circle
-                Ellipse()
-                    .foregroundColor(.plusRightCircleColor)
-                    .frame(width: rightCircleSize, height: rightCircleSizeHeight)
-                    .position(x: rightCircleX, y: rightCircleY)
-                    .offset(x: rightCircleSize * 0.5, y: rightCircleSizeHeight * 0.5)
-                    .blur(radius: 73)
-
-                // Left Circle
-                Ellipse()
-                    .foregroundColor(.plusLeftCircleColor)
-                    .frame(width: leftCircleSize, height: leftCircleSizeHeight)
-                    .position(x: leftCircleX, y: leftCircleY)
-                    .offset(x: leftCircleSize * 0.5, y: leftCircleSizeHeight * 0.5)
-                    .blur(radius: 81)
-            }.blur(radius: 16)
-
-            // Overlay view
-            Rectangle()
-                .foregroundColor(.plusBackgroundColor)
-                .opacity(0.28)
-        }.ignoresSafeArea().clipped()
+struct PlusAccountUpgradePrompt_Previews: PreviewProvider {
+    static var previews: some View {
+        PlusAccountUpgradePrompt(viewModel: .init())
+            .setupDefaultEnvironment()
     }
 }

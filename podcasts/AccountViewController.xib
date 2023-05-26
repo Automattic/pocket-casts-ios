@@ -1,35 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
-                <outlet property="accountDetailsLabel" destination="lHS-4C-Tle" id="utT-AF-QVn"/>
-                <outlet property="accountTypeLabel" destination="BAH-JO-YfV" id="ivc-lk-pSb"/>
-                <outlet property="emailLabel" destination="sqm-Io-cLc" id="zfi-GP-Qf0"/>
-                <outlet property="headerBackgroundView" destination="lCb-gG-oQf" id="eaG-8S-vLN"/>
-                <outlet property="headerView" destination="Vn9-xJ-S9C" id="iQp-gc-pTw"/>
-                <outlet property="learnMoreButton" destination="qqE-De-7ep" id="GxG-Ra-shW"/>
-                <outlet property="noInternetLabel" destination="8XA-G9-fKF" id="eKu-w8-rmI"/>
-                <outlet property="noInternetView" destination="cPH-he-0Lm" id="s6l-G0-5Wy"/>
-                <outlet property="oldUpgradeView" destination="D3U-bx-2Vx" id="HS8-4W-7xm"/>
-                <outlet property="paymentExpiryLabel" destination="XvW-wx-fhc" id="Zp6-2s-TXw"/>
-                <outlet property="plusLogo" destination="LDr-Gy-B9z" id="36x-2V-kCe"/>
-                <outlet property="priceLabel" destination="e7j-Oc-ddY" id="ahj-B4-kyG"/>
-                <outlet property="pricingCenterConstraint" destination="us7-eA-idN" id="ocQ-Zp-9qD"/>
-                <outlet property="profileView" destination="RoR-FL-vxD" id="A3i-xq-Qiy"/>
-                <outlet property="seperatorView" destination="Ghs-ZP-E6k" id="rqD-f9-Ogn"/>
                 <outlet property="tableView" destination="LDy-dc-GWZ" id="e0I-W3-lHt"/>
-                <outlet property="trialDetailLabel" destination="VXB-ir-uZv" id="dUd-Xo-aR5"/>
-                <outlet property="upgradeButton" destination="Ew1-n3-G0q" id="plV-KR-kAZ"/>
-                <outlet property="upgradeSeperatorView" destination="x7z-nM-HkN" id="Qxh-Ti-niO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -57,238 +38,10 @@
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
         </view>
-        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" id="Vn9-xJ-S9C">
-            <rect key="frame" x="0.0" y="0.0" width="550" height="517"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lCb-gG-oQf" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="550" height="203"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RoR-FL-vxD" customClass="ProfileProgressCircleView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="247" y="36" width="56" height="56"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="56" id="0wI-x2-Ot2"/>
-                                <constraint firstAttribute="width" constant="56" id="EPF-qJ-y3W"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="22"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="longlonglongemail@reallyreallyreallylongdomain.com" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sqm-Io-cLc" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="104" width="518" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocket Casts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BAH-JO-YfV" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="230" y="125" width="90" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account details" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lHS-4C-Tle" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="169" width="100" height="17"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="4K6-LO-AdD"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvW-wx-fhc" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="116" y="169" width="418" height="17"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ghs-ZP-E6k" userLabel="Seperator" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="202" width="550" height="1"/>
-                            <color key="backgroundColor" red="0.87877780199050903" green="0.90171903371810913" blue="0.91764539480209351" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="2XC-SZ-Zfy"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="XUO-C6-e7r"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Ghs-ZP-E6k" secondAttribute="bottom" id="7O0-mb-Pjr"/>
-                        <constraint firstItem="lHS-4C-Tle" firstAttribute="leading" secondItem="lCb-gG-oQf" secondAttribute="leading" constant="16" id="7xz-a3-ZD6"/>
-                        <constraint firstItem="BAH-JO-YfV" firstAttribute="centerX" secondItem="sqm-Io-cLc" secondAttribute="centerX" id="9Re-mD-VyW"/>
-                        <constraint firstItem="sqm-Io-cLc" firstAttribute="leading" secondItem="lCb-gG-oQf" secondAttribute="leading" constant="16" id="BsV-5i-jYe"/>
-                        <constraint firstItem="RoR-FL-vxD" firstAttribute="centerX" secondItem="lCb-gG-oQf" secondAttribute="centerX" id="IPW-Wx-6mj"/>
-                        <constraint firstItem="RoR-FL-vxD" firstAttribute="top" secondItem="lCb-gG-oQf" secondAttribute="top" constant="36" id="L3y-tw-Zko"/>
-                        <constraint firstItem="BAH-JO-YfV" firstAttribute="top" secondItem="sqm-Io-cLc" secondAttribute="bottom" constant="3" id="Qxm-3d-ZJ9"/>
-                        <constraint firstItem="sqm-Io-cLc" firstAttribute="top" secondItem="lCb-gG-oQf" secondAttribute="top" constant="104" id="S3r-x5-Jii"/>
-                        <constraint firstAttribute="trailing" secondItem="Ghs-ZP-E6k" secondAttribute="trailing" id="SSQ-gi-ZGD"/>
-                        <constraint firstAttribute="height" constant="203" id="Vo4-R6-Xoy"/>
-                        <constraint firstItem="XvW-wx-fhc" firstAttribute="leading" secondItem="lHS-4C-Tle" secondAttribute="trailing" id="YGP-Zp-fBk"/>
-                        <constraint firstItem="Ghs-ZP-E6k" firstAttribute="leading" secondItem="lCb-gG-oQf" secondAttribute="leading" id="dpR-a9-BSA"/>
-                        <constraint firstItem="Ghs-ZP-E6k" firstAttribute="top" secondItem="XvW-wx-fhc" secondAttribute="bottom" constant="16" id="fbC-Oi-7wM"/>
-                        <constraint firstAttribute="trailing" secondItem="sqm-Io-cLc" secondAttribute="trailing" constant="16" id="kq6-M3-Y27"/>
-                        <constraint firstAttribute="trailing" secondItem="XvW-wx-fhc" secondAttribute="trailing" constant="16" id="tK0-8R-dpA"/>
-                        <constraint firstItem="Ghs-ZP-E6k" firstAttribute="top" secondItem="lHS-4C-Tle" secondAttribute="bottom" constant="16" id="vSf-bW-k5w"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3U-bx-2Vx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="203" width="550" height="314"/>
-                    <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dtZ-zN-3By">
-                            <rect key="frame" x="18" y="0.0" width="514" height="314"/>
-                            <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="lHG-Wc-8iJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="514" height="132"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mL1-44-f20" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="514" height="56"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PCPlusHorizontal" translatesAutoresizingMaskIntoConstraints="NO" id="LDr-Gy-B9z" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="16" width="200" height="40"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="200" id="gqy-Df-elr"/>
-                                                        <constraint firstAttribute="height" constant="40" id="hdN-AS-iht"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="PuJ-bE-oOn" userLabel="Price Stack View">
-                                                    <rect key="frame" x="384.5" y="17" width="129.5" height="38.5"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 month free" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7j-Oc-ddY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="129.5" height="19.5"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="then $99.99 / month" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXB-ir-uZv" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="22.5" width="129.5" height="16"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                                            <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <viewLayoutGuide key="safeArea" id="dTR-2C-qjR"/>
-                                                </stackView>
-                                            </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <constraints>
-                                                <constraint firstItem="LDr-Gy-B9z" firstAttribute="top" secondItem="mL1-44-f20" secondAttribute="top" constant="16" id="P5l-dz-mKN"/>
-                                                <constraint firstAttribute="bottom" secondItem="LDr-Gy-B9z" secondAttribute="bottom" id="Tw6-fP-NHM"/>
-                                                <constraint firstItem="PuJ-bE-oOn" firstAttribute="centerY" secondItem="LDr-Gy-B9z" secondAttribute="centerY" id="us7-eA-idN"/>
-                                                <constraint firstItem="LDr-Gy-B9z" firstAttribute="leading" secondItem="mL1-44-f20" secondAttribute="leading" id="v2D-PK-aaI"/>
-                                                <constraint firstAttribute="trailing" secondItem="PuJ-bE-oOn" secondAttribute="trailing" id="wn3-Ro-RuH"/>
-                                            </constraints>
-                                        </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mXu-Dz-3mA" customClass="PlusFeaturesView" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="61" width="514" height="71"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </view>
-                                    </subviews>
-                                </stackView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qqE-De-7ep" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="142" width="514" height="30"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="NNs-E6-UtK"/>
-                                    </constraints>
-                                    <state key="normal" title="Learn more about Pocket Casts Plus">
-                                        <color key="titleColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="learnMoreTapped:" destination="-1" eventType="touchUpInside" id="pUx-bl-aQ0"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cPH-he-0Lm" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="182" width="514" height="50"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no-connection-grey" translatesAutoresizingMaskIntoConstraints="NO" id="CRL-PL-A7t">
-                                            <rect key="frame" x="16" y="13" width="24" height="24"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="24" id="Tw0-76-eS2"/>
-                                                <constraint firstAttribute="height" constant="24" id="rLC-gi-FuW"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="An internet connection is required to upgrade to Pocket Casts Plus" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XA-G9-fKF" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="48" y="15" width="458" height="20"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="8XA-G9-fKF" secondAttribute="trailing" constant="8" id="NPS-yW-TZK"/>
-                                        <constraint firstAttribute="bottom" secondItem="8XA-G9-fKF" secondAttribute="bottom" constant="15" id="RNT-UT-mlx"/>
-                                        <constraint firstItem="8XA-G9-fKF" firstAttribute="centerY" secondItem="cPH-he-0Lm" secondAttribute="centerY" id="Rf9-Wx-5Gv"/>
-                                        <constraint firstItem="CRL-PL-A7t" firstAttribute="centerY" secondItem="cPH-he-0Lm" secondAttribute="centerY" id="XfC-1Q-KAY"/>
-                                        <constraint firstItem="8XA-G9-fKF" firstAttribute="top" secondItem="cPH-he-0Lm" secondAttribute="top" constant="15" id="Ydy-dV-jvB"/>
-                                        <constraint firstItem="8XA-G9-fKF" firstAttribute="leading" secondItem="CRL-PL-A7t" secondAttribute="trailing" constant="8" id="cjs-w8-pAV"/>
-                                        <constraint firstItem="CRL-PL-A7t" firstAttribute="leading" secondItem="cPH-he-0Lm" secondAttribute="leading" constant="16" id="y8c-VL-QDf"/>
-                                    </constraints>
-                                </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ew1-n3-G0q" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="242" width="514" height="56"/>
-                                    <color key="backgroundColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="56" id="EsR-Zq-vfC"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                    <state key="normal" title="Upgrade to Plus">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </state>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.CornerRadius">
-                                            <integer key="value" value="12"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="upgradeTapped:" destination="-1" eventType="touchUpInside" id="ofR-0o-7c4"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Akg-WT-FOE">
-                                    <rect key="frame" x="0.0" y="308" width="514" height="6"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="6" id="3vf-nz-MKo"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
-                        </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x7z-nM-HkN" userLabel="Separator View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="279" width="550" height="1"/>
-                            <color key="backgroundColor" red="0.87877780199050903" green="0.90171903371810913" blue="0.91764539480209351" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="0P9-4X-kYL"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="GVo-Bo-dpY"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="top" secondItem="dtZ-zN-3By" secondAttribute="top" id="0pL-DC-aoX"/>
-                        <constraint firstItem="GVo-Bo-dpY" firstAttribute="bottom" secondItem="x7z-nM-HkN" secondAttribute="bottom" id="CFT-EK-R49"/>
-                        <constraint firstAttribute="trailing" secondItem="x7z-nM-HkN" secondAttribute="trailing" id="N4i-5S-HyB"/>
-                        <constraint firstItem="GVo-Bo-dpY" firstAttribute="trailing" secondItem="dtZ-zN-3By" secondAttribute="trailing" constant="18" id="Vqi-UD-WXR"/>
-                        <constraint firstItem="x7z-nM-HkN" firstAttribute="leading" secondItem="D3U-bx-2Vx" secondAttribute="leading" id="ZeN-K0-o8k"/>
-                        <constraint firstItem="dtZ-zN-3By" firstAttribute="height" secondItem="D3U-bx-2Vx" secondAttribute="height" id="nIG-QC-dNc"/>
-                        <constraint firstItem="dtZ-zN-3By" firstAttribute="leading" secondItem="GVo-Bo-dpY" secondAttribute="leading" constant="18" id="wwM-9I-dlQ"/>
-                    </constraints>
-                </view>
-            </subviews>
-            <viewLayoutGuide key="safeArea" id="fFb-aP-iaN"/>
-            <point key="canvasLocation" x="969.56521739130437" y="20.424107142857142"/>
-        </stackView>
     </objects>
     <resources>
-        <image name="PCPlusHorizontal" width="244.5" height="34"/>
-        <image name="no-connection-grey" width="24" height="24"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

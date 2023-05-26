@@ -1,3 +1,31 @@
+7.40
+-----
+
+
+7.39
+-----
+- Removed the starred filter from the list of default filters
+
+7.38
+-----
+- Chapters that are hidden will no longer appear
+- Chapter titles/images now display while scrubbing in the player
+- Embedded artwork: extract embedded artwork from episodes that are being streamed (#829)
+
+7.37
+-----
+- Login: added capability to sign into Pocket Casts using Google and Apple accounts
+
+7.36
+-----
+- Updated sort order for Chinese podcast titles from Unicode-based to pinyin (#775)
+- Fixed and issue where the multi-selection header would overlap the search bar on certain devices depending on their screen size (#785)
+- Search: improved the search with a new design and added the ability to search for episodes (#796)
+
+7.35
+-----
+- Discover: Top carousel now scrolls automatically (#790)
+
 7.34
 -----
 - Added import OPML from url option (#737)

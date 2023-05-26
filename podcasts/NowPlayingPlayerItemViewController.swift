@@ -239,16 +239,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func chapterLinkTapped() {
-        guard let chapter = PlaybackManager.shared.currentChapter(), let urlString = chapter.url, let url = URL(string: urlString) else { return }
+        let chapters = PlaybackManager.shared.currentChapters()
+        guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
         if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            let config = SFSafariViewController.Configuration()
-            config.entersReaderIfAvailable = true
-
-            let vc = SFSafariViewController(url: url, configuration: config)
-            present(vc, animated: true)
+            present(SFSafariViewController(with: url), animated: true)
         }
     }
 

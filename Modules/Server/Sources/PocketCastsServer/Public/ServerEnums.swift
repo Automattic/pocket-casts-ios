@@ -19,10 +19,6 @@ public enum SubscriptionFrequency: Int {
     case none = 0, monthly = 1, yearly = 2
 }
 
-public enum SubscriptionType: Int {
-    case none = 0, plus = 1, supporter = 2
-}
-
 public enum UpdateStatus: Int {
     case notStarted, failed, cancelled, successNoNewData, successNewData, success
 }
@@ -35,4 +31,30 @@ public enum RefreshFetchResult: UInt {
 
 public enum AutoAddLimitReachedAction: Int32 {
     case stopAdding = 0, addToTopOnly = 1
+}
+
+// MARK: - SubscriptionType
+public enum SubscriptionType: Int {
+    case none = 0, plus = 1, supporter = 2
+}
+
+// MARK: - SubscriptionTier
+public enum SubscriptionTier: String {
+    // The none state doesn't come from the server, but it instead may send an empty string
+    // This is used as the fallback value
+    case none = ""
+
+    // The values here come from the server and are case sensitive
+    case plus = "Plus", patron = "Patron"
+}
+
+extension SubscriptionTier: Comparable {
+    private static var tierOrder: [Self] = [.none, .plus, .patron]
+
+    public static func < (lhs: SubscriptionTier, rhs: SubscriptionTier) -> Bool {
+        let lhsIndex = Self.tierOrder.firstIndex(of: lhs) ?? -1
+        let rhsIndex = Self.tierOrder.firstIndex(of: rhs) ?? -1
+
+        return lhsIndex < rhsIndex
+    }
 }

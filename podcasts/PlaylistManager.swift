@@ -55,28 +55,6 @@ class PlaylistManager {
             DataManager.sharedManager.save(filter: inProgress)
         }
 
-        // starred
-        existingUuid = "78EC673E-4C3A-4985-9D83-7A79C825A359"
-        existingFilter = DataManager.sharedManager.findFilter(uuid: existingUuid)
-        if existingFilter == nil {
-            let starred = EpisodeFilter()
-            starred.filterAllPodcasts = true
-            starred.filterAudioVideoType = AudioVideoFilter.all.rawValue
-            starred.sortPosition = 3
-            starred.playlistName = L10n.statusStarred
-            starred.filterDownloaded = true
-            starred.filterNotDownloaded = true
-            starred.filterUnplayed = true
-            starred.filterPartiallyPlayed = true
-            starred.filterFinished = true
-            starred.filterStarred = true
-            starred.uuid = existingUuid
-            starred.filterHours = 0
-            starred.customIcon = PlaylistIcon.yellowTop.rawValue
-            starred.syncStatus = SyncStatus.synced.rawValue
-            DataManager.sharedManager.save(filter: starred)
-        }
-
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
     }
 

@@ -65,9 +65,9 @@ class DiscoverFeaturedView: ThemeableView {
         podcastImage.alpha = selected ? 0.6 : 1.0
     }
 
-    func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool, listName: String) {
+    func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool, listName: String, isSponsored: Bool) {
         self.discoverPodcast = discoverPodcast
-        listType.text = listName.uppercased()
+        listType.text = isSponsored ? L10n.discoverSponsored : listName.uppercased()
         listType.setLetterSpacing(1.57)
 
         if let title = discoverPodcast.title?.localized {

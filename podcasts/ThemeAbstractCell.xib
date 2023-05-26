@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,21 +18,14 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xaE-hB-yNN" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="44" width="124" height="98"/>
+                        <rect key="frame" x="0.0" y="48" width="124" height="94"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hZy-Pq-1HH">
                         <rect key="frame" x="8" y="148" width="112" height="18"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked-grey" translatesAutoresizingMaskIntoConstraints="NO" id="sft-6f-z0e">
-                                <rect key="frame" x="0.0" y="0.0" width="16" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="gjr-1w-GM7"/>
-                                    <constraint firstAttribute="height" constant="18" id="h5o-he-f4D"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-Al-aIr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="21" y="0.0" width="91" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radioactivity" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-Al-aIr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="112" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -42,15 +33,15 @@
                         </subviews>
                     </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9eI-39-Guv" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                        <rect key="frame" x="8" y="56" width="108" height="78"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2P-5n-MzY" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                        <rect key="frame" x="8" y="56" width="108" height="78"/>
                         <color key="backgroundColor" red="0.388265207" green="0.96620899439999997" blue="0.53839670080000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UCZ-Oj-hTD">
-                        <rect key="frame" x="8" y="52" width="108" height="82"/>
+                        <rect key="frame" x="8" y="56" width="108" height="78"/>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d5O-ct-7y9">
                         <rect key="frame" x="74.5" y="92.5" width="40" height="40"/>
@@ -61,6 +52,7 @@
                     </imageView>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="9eI-39-Guv" firstAttribute="bottom" secondItem="m2P-5n-MzY" secondAttribute="bottom" id="6Id-44-M7n"/>
                 <constraint firstItem="9eI-39-Guv" firstAttribute="leading" secondItem="m2P-5n-MzY" secondAttribute="leading" id="Ayj-os-Ldg"/>
@@ -84,11 +76,9 @@
                 <constraint firstItem="hZy-Pq-1HH" firstAttribute="top" secondItem="xaE-hB-yNN" secondAttribute="bottom" constant="6" id="vFZ-au-t79"/>
                 <constraint firstItem="m2P-5n-MzY" firstAttribute="top" secondItem="UCZ-Oj-hTD" secondAttribute="top" id="wfE-3R-2LM"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="162" height="224"/>
             <connections>
                 <outlet property="cornerImage" destination="d5O-ct-7y9" id="Dw1-O5-xKX"/>
-                <outlet property="greyLockImage" destination="sft-6f-z0e" id="G0d-WZ-gmG"/>
                 <outlet property="imageView" destination="UCZ-Oj-hTD" id="Mtt-pI-0gU"/>
                 <outlet property="nameLabel" destination="PDr-Al-aIr" id="Byr-6q-Rc9"/>
                 <outlet property="selectionView" destination="xaE-hB-yNN" id="z6U-nA-sX0"/>
@@ -98,7 +88,4 @@
             <point key="canvasLocation" x="218.84057971014494" y="178.79464285714286"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="locked-grey" width="16" height="16"/>
-    </resources>
 </document>

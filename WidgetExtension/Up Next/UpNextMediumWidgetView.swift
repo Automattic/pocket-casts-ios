@@ -71,13 +71,11 @@ struct MediumFilterView: View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {
-                    if let filterName = filterName {
-                        Text(filterName)
-                            .font(.callout)
-                            .fontWeight(.regular)
-                            .foregroundColor(Color.secondary)
-                            .frame(height: 18)
-                    }
+                    Text(filterName)
+                        .font(.callout)
+                        .fontWeight(.regular)
+                        .foregroundColor(Color.secondary)
+                        .frame(height: 18)
                     Spacer()
                     Image("logo_red_small")
                         .frame(width: 28, height: 28)

@@ -127,9 +127,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func showInSafariViewController(urlString: String) {
         guard let url = URL(string: urlString) else { return }
 
-        let config = SFSafariViewController.Configuration()
-        config.entersReaderIfAvailable = true
-        let safariViewController = SFSafariViewController(url: url, configuration: config)
+        let safariViewController = SFSafariViewController(with: url)
         topController().present(safariViewController, animated: true, completion: nil)
     }
 
@@ -141,10 +139,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToFolder(_ folder: Folder) {
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool = true) {
         guard let navController = selectedViewController as? UINavigationController else { return }
 
-        navController.popToRootViewController(animated: false)
+        if popToRootViewController {
+            navController.popToRootViewController(animated: false)
+        }
+
         let folderController = FolderViewController(folder: folder)
         navController.pushViewController(folderController, animated: true)
     }
@@ -170,26 +171,46 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if !switchToTab(.podcasts) { return }
+        appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
+            guard let navController = self?.selectedViewController as? UINavigationController else {
+                return
+            }
 
-        if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
-            navController.pushViewController(podcastController, animated: false)
+            navController.pushViewController(podcastController, animated: true)
+        })
+    }
+
+    func navigateTo(podcast searchResult: PodcastFolderSearchResult) {
+        if let navController = selectedViewController as? UINavigationController {
+            let podcastController = PodcastViewController(podcastInfo: PodcastInfo(from: searchResult), existingImage: nil)
+            navController.pushViewController(podcastController, animated: true)
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String) {
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 
             // I know it looks dodgy, but the episode card won't load properly if you just dismissed another view controller. Need to figure out the actual bug...but for now:
             // (before you ask, using the completion block doesn't work above, regardless of whether animated is true or false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
-                episodeController.modalPresentationStyle = .formSheet
+                if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
+                    let episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
+                                                                 podcastUuid: podcastUuid)
 
-                navController.present(episodeController, animated: true)
+                    let nav = UINavigationController(rootViewController: episodeController)
+                    nav.modalPresentationStyle = .formSheet
+                    nav.isNavigationBarHidden = true
+
+                    navController.present(nav, animated: true)
+                } else {
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    episodeController.modalPresentationStyle = .formSheet
+
+                    navController.present(episodeController, animated: true)
+                }
             }
         }
     }
@@ -252,7 +273,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         controller?.present(SJUIUtils.popupNavController(for: cancelledVC), animated: true, completion: nil)
     }
 
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil) {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
@@ -262,7 +283,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
+        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 

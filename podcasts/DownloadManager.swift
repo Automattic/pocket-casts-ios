@@ -168,7 +168,6 @@ class DownloadManager: NSObject, FilePathProtocol {
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
             let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
             let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
-            let fileManager = FileManager.default
             do {
                 try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
 

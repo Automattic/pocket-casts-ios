@@ -1,19 +1,19 @@
 import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
-    var searchControllerView: UIView {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler.view
+    var searchControllerView: UIView? {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler?.view
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
         refreshControl?.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard searchControllerView.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
         refreshControl?.scrollViewDidEndDragging(scrollView)
@@ -21,8 +21,12 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func setupSearchBar() {
         searchController = PCSearchBarController()
+        searchResultsControler = PodcastListSearchResultsController()
+
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
         view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
         NSLayoutConstraint.activate([
@@ -37,7 +41,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
 
-        searchResultsControler = PodcastListSearchResultsController()
         searchResultsControler.searchTextField = searchController.searchTextField
     }
 
@@ -88,10 +91,19 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     // MARK: - PCSearchBarDelegate
 
     func searchDidBegin() {
-        let searchView = searchControllerView
+        guard let searchView = searchControllerView,
+              searchView.superview == nil else {
+            return
+        }
 
         searchView.alpha = 0
-        view.addSubview(searchView)
+        if FeatureFlag.newSearch.enabled {
+            addChild(newSearchResultsController)
+            view.addSubview(searchView)
+            newSearchResultsController.didMove(toParent: self)
+        } else {
+            view.addSubview(searchView)
+        }
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -107,12 +119,23 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     }
 
     func searchDidEnd() {
-        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-            self.searchControllerView.alpha = 0
-        }) { _ in
-            self.searchControllerView.removeFromSuperview()
-            self.resultsControllerDelegate.clearSearch()
+        guard let searchView = searchControllerView else {
+            return
         }
+
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+            searchView.alpha = 0
+        }) { _ in
+            searchView.removeFromSuperview()
+
+            if FeatureFlag.newSearch.enabled {
+                self.newSearchResultsController.clearSearch()
+            } else {
+                self.searchResultsControler.clearSearch()
+            }
+        }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
     }
 
     func searchWasCleared() {
@@ -123,13 +146,13 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         resultsControllerDelegate.performLocalSearch(searchTerm: searchTerm)
 
         debounce.call {
-            if !searchTerm.trim().isEmpty {
+            if !searchTerm.trim().isEmpty && !FeatureFlag.newSearch.enabled {
                 Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
             }
         }
     }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
-        resultsControllerDelegate.performRemoteSearch(searchTerm: searchTerm, completion: completion)
+        resultsControllerDelegate.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
     }
 }

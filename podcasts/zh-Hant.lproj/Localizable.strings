@@ -43,6 +43,8 @@
     <string>點選兩下即可移除單集的星號</string>
     <key>accessibility_more_actions</key>
     <string>更多動作</string>
+    <key>accessibility_patron_only</key>
+    <string>已鎖定，此為 Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>點選即可檢視或設定帳號</string>
     <key>accessibility_sort_and_options</key>
     <string>排序與選項</string>
+    <key>account</key>
+    <string>帳號</string>
     <key>account_change_email</key>
     <string>變更電子郵件</string>
     <key>account_completion_nudge</key>
@@ -145,6 +149,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>萬聖節</string>
     <key>app_icon_indigo</key>
     <string>靛藍色</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron Dark</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron Glow</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron Round</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>取消全選</string>
     <key>discover</key>
     <string>探索</string>
+    <key>discover_all_episodes</key>
+    <string>所有單集</string>
+    <key>discover_all_podcasts</key>
+    <string>所有 Podcast</string>
     <key>discover_browse_by_category</key>
     <string>依分類瀏覽</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>電視和電影</string>
     <key>discover_change_region</key>
     <string>變更區域，目前為 %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>無法載入該單集</string>
     <key>discover_featured</key>
     <string>精選內容</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>找不到精選 Podcast 或集數。 請確認你已連線至網際網路，然後再試一次。</string>
     <key>discover_fresh_pick</key>
     <string>精選內容</string>
+    <key>discover_no_episodes_found</key>
+    <string>找不到任何單集</string>
     <key>discover_no_podcasts_found</key>
     <string>找不到任何 Podcast 節目</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>第 %1$@ 集</string>
     <key>episode_shorthand_format_short</key>
     <string>第 %1$@ 集</string>
+    <key>episodes</key>
+    <string>節目內容</string>
     <key>error</key>
     <string>錯誤</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中點選「複製到 Pocket Casts」</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
+    <key>import</key>
+    <string>匯入</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>我們可以使用內建的「捷徑」應用程式，從 Apple Podcasts 匯入你的Podcast 節目。
 注意：如果你之前刪除了捷徑應用程式，系統會提示你重新安裝。
@@ -998,6 +1022,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
 2. 點選應用程式上角的小齒輪圖示
 3. 向下滑動，看見「匯出 OPML」選項時點選該選項
 4. 對話方塊開啟時，找到 Pocket Casts 圖示，然後點選該圖示</string>
+    <key>import_opml_from_url</key>
+    <string>使用 URL 從 OPML 檔案匯入你的 Podcast</string>
     <key>import_podcasts_description</key>
     <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
 
@@ -1147,6 +1173,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>OPML 匯入失敗</string>
     <key>opml_import_progress_format</key>
     <string>正在匯入 %1$@ 個 Podcast 節目，共 %2$@ 個</string>
+    <key>opml_import_succeeded_title</key>
+    <string>已成功匯入 OPML</string>
     <key>opml_importing</key>
     <string>正在匯入 Podcast 節目...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>支持者專屬摘要</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>取消訂閱這些 Podcast 節目將刪除這些節目中包含的任何已下載檔案，你確定嗎？</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>肯定我們的服務，並想表達支持嗎？</string>
+    <key>patron_description</key>
+    <string>成為 Pocket Casts Patron，協助我們繼續提供最優質的 Podcast 使用體驗。</string>
+    <key>patron_feature_early_access</key>
+    <string>搶先使用新功能</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus 的所有功能</string>
+    <key>patron_feature_profile_badge</key>
+    <string>支持者個人檔案徽章</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特殊 Pocket Casts 應用程式圖示</string>
+    <key>patron_purchase_promo_title</key>
+    <string>成為 Patron 會員並解鎖所有 Pocket Casts 功能</string>
+    <key>patron_subscribe_to</key>
+    <string>訂閱 Patron</string>
     <key>pause</key>
     <string>暫停</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>於 %1$@ 到期</string>
     <key>plus_feature_cloud_storage</key>
     <string>雲端儲存空間</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主題和應用程式圖示</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>此功能需要 Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>選取付款頻率</string>
+    <key>plus_skip</key>
+    <string>略過</string>
+    <key>plus_start_my_free_trial</key>
+    <string>開始我的免費試用</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>試用 %1$@，接著%2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>訂閱 Plus</string>
     <key>plus_subscription_apple</key>
     <string>你的訂閱是由 Apple App Store 管理</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>從「接下來播放」中移除</string>
     <key>remove_up_next</key>
     <string>移除「接下來播放」</string>
+    <key>renew_subscription</key>
+    <string>續訂</string>
     <key>retry</key>
     <string>重試</string>
     <key>search</key>
     <string>搜尋</string>
+    <key>search_label</key>
+    <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
     <string>搜尋 Podcast</string>
+    <key>search_recent</key>
+    <string>最近搜尋的內容</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>
@@ -2235,6 +2297,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>訂閱已取消</string>
     <key>subscription_cancelled_msg</key>
     <string>訂閱取消日：%1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>%1$@後到期</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
     <key>supporter</key>
@@ -2313,6 +2377,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你可以在節目佇列向右撥動，或點選節目卡圖示，將接下來要播放的節目排入佇列。</string>
     <key>up_next_empty_title</key>
     <string>「接下來播放」中沒有任何節目</string>
+    <key>upgrade_account</key>
+    <string>升級帳號</string>
     <key>upload_sort_alpha</key>
     <string>標題 (A-Z)</string>
     <key>volume_boost</key>

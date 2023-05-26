@@ -37,6 +37,9 @@
 /* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription. */
 "accessibility_plus_only" = "Locked, Plus Feature";
 
+/* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Patron subscription. */
+"accessibility_patron_only" = "Locked, Patron Feature";
+
 /* Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. */
 "accessibility_profile_settings" = "Pocket Casts Settings";
 
@@ -186,6 +189,18 @@
 
 /* Halloween app icon name */
 "app_icon_halloween" = "Halloween";
+
+/* The name for the Patron Chrome App Icon - Do not translate Patron */
+"app_icon_patron_chrome" = "Patron Chrome";
+
+/* The name for the Patron Round App Icon - Do not translate Patron */
+"app_icon_patron_round" = "Patron Round";
+
+/* The name for the Patron Glow App Icon - Do not translate Patron */
+"app_icon_patron_glow" = "Patron Glow";
+
+/* The name for the Patron Dark App Icon - Do not translate Patron */
+"app_icon_patron_dark" = "Patron Dark";
 
 /* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
 "app_version" = "Version %1$@ (%2$@)";
@@ -541,6 +556,12 @@
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found" = "No podcasts found";
 
+/* Informational title when the episode search succeeds but returns no results. */
+"discover_no_episodes_found" = "No episodes found";
+
+/* Informational title when the episode fails to load. */
+"discover_episode_fail_to_load" = "The episode couldn't be loaded";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found_msg" = "Try more general or different keywords.";
 
@@ -697,6 +718,12 @@
 /* Title used for promotional purposes to highlight trending podcasts. */
 "discover_trending" = "Trending";
 
+/* Title used when displaying all podcasts from a search. */
+"discover_all_podcasts" = "All Podcasts";
+
+/* Title used when displaying all episodes from a search. */
+"discover_all_episodes" = "All Episodes";
+
 /* A common string used throughout the app. Confirmation text. */
 "done" = "Done";
 
@@ -771,6 +798,9 @@
 
 /* Refers to an Episode in the singular form. */
 "episode" = "Episode";
+
+/* Refers to an Episode in the plural form. */
+"episodes" = "Episodes";
 
 /* A common string used throughout the app. Display configurable options related to a number of episodes. '%1$@' is a placeholder for the number of episodes, the value will be more than one. */
 "episode_count_plural_format" = "%1$@ episodes";
@@ -1600,6 +1630,8 @@
 /* Message informing the user when their Pocket Casts Plus subscription will expire. %1$@ is a placeholder for the expiration date. */
 "plus_subscription_expiration" = "PLUS EXPIRES IN %1$@";
 
+"subscription_expires_in" = "Expires in %1$@";
+
 /* Message informing the user that their Pocket Casts Plus subscription is managed by Google's system and needs to be managed there. */
 "plus_subscription_google" = "It looks like you subscribed to Pocket Casts Plus from an Android device";
 
@@ -1623,6 +1655,48 @@
 
 /* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
 "plus_feature_cloud_storage" = "Cloud Storage";
+
+/* Message about our gratitude when an user subscribe to Plus */
+"plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
+/* Label of a button to subscribe to Patron. Do not translate "Plus". */
+"plus_subscribe_to" = "Subscribe to Plus";
+
+/* Label of a button to skip subscring to any plan */
+"plus_skip" = "Skip";
+
+/* Label of a button prompting the user to start free trial */
+"plus_start_my_free_trial" = "Start my free trial";
+
+/* Sublabel of a button informing the trial duration and the price after. Eg.: "Try 1 month, then $99.99 per year" */
+"plus_start_trial_duration_price" = "Try %1$@, then %2$@";
+
+/* Description of the Patron plan. Do not translate "Patron". */
+"patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
+
+/* Name of the Patron plan. Do not translate "Patron". */
+"patron" = "Patron";
+
+/* Description of a Patron feature that gives user everything in Plus. */
+"patron_feature_everything_in_plus" = "Everything in Plus";
+
+/* Description of a Patron feature that gives user early access to new features. */
+"patron_feature_early_access" = "Early access to features";
+
+/* Description of a Patron feature that gives user a badge on their profile image. */
+"patron_feature_profile_badge" = "Supporters profile badge";
+
+/* Description of a Patron feature that gives users special app icons. */
+"patron_feature_profile_icons" = "Special Pocket Casts app icons";
+
+/* Label of a button to subscribe to Patron. Do not translate "Patron". */
+"patron_subscribe_to" = "Subscribe to Patron";
+
+/* Label of a title explaining why to subscribe to Patron. */
+"patron_callout" = "Believe in what we’re doing and want to show your support?";
+
+/* Label of a button that informs the user they can upgrade their account. . */
+"upgrade_account" = "Upgrade Account";
 
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
@@ -1990,6 +2064,9 @@
 
 /* A common string used throughout the app. Prompt to retry the recent request. */
 "retry" = "Retry";
+
+/* The label of the search button in Discover. Explaining the user can search or directly add a RSS URL. */
+"search_label" = "Search podcasts or add RSS URL";
 
 /* A common string used throughout the app. Placeholder text used in search boxes. */
 "search" = "Search";
@@ -2563,6 +2640,9 @@
 
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
+
+/* Title for the options for the user to configure their account. */
+"account" = "Account";
 
 /* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
 "share" = "Share";
@@ -3321,6 +3401,9 @@
 /* The title of the purchase promo */
 "plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
 
+/* The title of the purchase promo for Patron. Do not translate Patron. */
+"patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
+
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
 "purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
 
@@ -3569,3 +3652,24 @@
 
 /* Label describing the recent searches */
 "search_recent" = "Recent searches";
+
+/* Button label prompting the user to renew their subscription */
+"renew_subscription" = "Renew your Subscription";
+
+/* Button label that changes the users chosen app icon */
+"change_app_icon" = "Change App Icon";
+
+/* Title of a label that thanks the user for their purchase */
+"patron_thank_you" = "Thank you for your support!";
+
+/* Label that instructs the user to hold a button to unlock some gifts */
+"patron_unlock_instructions" = "Hold the unlock button below to receive some tokens of our appreciation.";
+
+/* The word unlock that is used to highlight the word unlock in the */
+"patron_unlock_word" = "unlock";
+
+/* A button label that indicates a feature is being unlocked */
+"patron_unlocking" = "Unlocking";
+
+/* A button label that informs the user to release a button press to finish */
+"patron_unlock_release" = "Release to Unlock";

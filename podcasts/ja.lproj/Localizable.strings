@@ -43,6 +43,8 @@
     <string>ダブルタップしてエピソードから星を削除</string>
     <key>accessibility_more_actions</key>
     <string>その他の操作</string>
+    <key>accessibility_patron_only</key>
+    <string>ロック済み、Patron 機能</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@パーセント完了</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>タップして表示またはアカウントを開設</string>
     <key>accessibility_sort_and_options</key>
     <string>並び替えとオプション</string>
+    <key>account</key>
+    <string>アカウント</string>
     <key>account_change_email</key>
     <string>メールアドレスを変更</string>
     <key>account_completion_nudge</key>
@@ -145,6 +149,14 @@
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>インディゴ</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron クロム</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron ダーク</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron グロー</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron ラウンド</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@
     <string>すべて選択解除</string>
     <key>discover</key>
     <string>ディスカバー</string>
+    <key>discover_all_episodes</key>
+    <string>すべてのエピソード</string>
+    <key>discover_all_podcasts</key>
+    <string>すべてのポッドキャスト</string>
     <key>discover_browse_by_category</key>
     <string>カテゴリー別に参照</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@
     <string>TV / 映画</string>
     <key>discover_change_region</key>
     <string>リージョンを変更 (現在は%1$@)</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>エピソードを読み込めませんでした</string>
     <key>discover_featured</key>
     <string>おすすめ</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@
     <string>そのポッドキャストまたはエピソードが見つかりません。 インターネットに接続されていることを確認してから、もう一度お試しください。</string>
     <key>discover_fresh_pick</key>
     <string>最新セレクション</string>
+    <key>discover_no_episodes_found</key>
+    <string>エピソードがありません</string>
     <key>discover_no_podcasts_found</key>
     <string>ポッドキャストが見つかりません</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@
     <string>エピソード%1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>エピソード%1$@</string>
+    <key>episodes</key>
+    <string>エピソード</string>
     <key>error</key>
     <string>エラー</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>import</key>
+    <string>インポート</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>内蔵のショートカットアプリを使用して Apple Podcasts からポッドキャストをインポートできます。
 注: 以前にショートカットアプリを削除した場合、再度インストールするようメッセージが表示されます。
@@ -998,6 +1022,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
 2. アプリの上隅にある歯車アイコンをタップします
 3.  「OPML をエクスポート」が表示されるまで下にスワイプしてタップします
 4. ダイアログが開いたら、Pocket Casts アイコンを見つけタップします。</string>
+    <key>import_opml_from_url</key>
+    <string>URL を使用して OPML ファイルからポッドキャストをインポートします</string>
     <key>import_podcasts_description</key>
     <string>幅広くサポートされている OPML 形式を使用して、ポッドキャストのサブスクリプションを Pocket Casts にインポートできます。 別のアプリからファイルをエクスポートして、Pocket Casts で「開く」を選択します。
 
@@ -1147,6 +1173,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>OPML インポートに失敗</string>
     <key>opml_import_progress_format</key>
     <string>%1$@ / %2$@をインポートしています</string>
+    <key>opml_import_succeeded_title</key>
+    <string>OPML をインポートできました</string>
     <key>opml_importing</key>
     <string>ポッドキャストをインポートしています...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サポーター限定フィード</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>これらすべてのポッドキャストのフォローを解除すると、ダウンロードされたファイルは削除されます。よろしいですか ?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Pocket Casts のサービスにご賛同いただける皆さまのサポートをお待ちしています。</string>
+    <key>patron_description</key>
+    <string>優れたポッドキャスト体験を継続的に提供するには、Pocket Casts サポーターのご支援が必要です。</string>
+    <key>patron_feature_early_access</key>
+    <string>機能への早期アクセス</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Plus の全機能</string>
+    <key>patron_feature_profile_badge</key>
+    <string>サポーターのプロフィールバッジ</string>
+    <key>patron_feature_profile_icons</key>
+    <string>特別な Pocket Casts アプリのアイコン</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Patron のメンバーになると、すべての Pocket Casts 機能を利用できるようになります</string>
+    <key>patron_subscribe_to</key>
+    <string>Patron に登録</string>
     <key>pause</key>
     <string>一時停止</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>plus_feature_cloud_storage</key>
     <string>クラウドストレージ</string>
+    <key>plus_feature_gratitude</key>
+    <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
     <key>plus_feature_themes_icons</key>
     <string>追加のテーマとアプリアイコン</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>この機能は Pocket Casts Plus が必要です</string>
     <key>plus_select_payment_frequency</key>
     <string>支払頻度を選択</string>
+    <key>plus_skip</key>
+    <string>スキップ</string>
+    <key>plus_start_my_free_trial</key>
+    <string>無料お試しを開始</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>%1$@のお試し後、%2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Plus に登録</string>
     <key>plus_subscription_apple</key>
     <string>サブスクリプションは Apple App Store によって管理されます</string>
     <key>plus_subscription_apple_details</key>
@@ -1662,12 +1718,18 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードから削除</string>
     <key>remove_up_next</key>
     <string>次のエピソードを削除</string>
+    <key>renew_subscription</key>
+    <string>サブスクリプションを更新</string>
     <key>retry</key>
     <string>再試行</string>
     <key>search</key>
     <string>検索</string>
+    <key>search_label</key>
+    <string>ポッドキャストを検索または RSS の URL を追加</string>
     <key>search_podcasts</key>
     <string>ポッドキャストを検索</string>
+    <key>search_recent</key>
+    <string>最近の検索</string>
     <key>season</key>
     <string>シーズン</string>
     <key>season_episode_shorthand_format</key>
@@ -2234,6 +2296,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サブスクリプションをキャンセル済み</string>
     <key>subscription_cancelled_msg</key>
     <string>%1$@にサブスクリプションをキャンセル済み </string>
+    <key>subscription_expires_in</key>
+    <string>%1$@に期限切れ</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>supporter</key>
@@ -2312,6 +2376,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソード行を右にスワイプするか、エピソードカードのアイコンをタップすることで、次に再生するエピソードを待機リストに追加できます。</string>
     <key>up_next_empty_title</key>
     <string>次のエピソードには何もありません</string>
+    <key>upgrade_account</key>
+    <string>アカウントをアップグレード</string>
     <key>upload_sort_alpha</key>
     <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>

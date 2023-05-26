@@ -1,14 +1,8 @@
-#if DEBUG
-    #if canImport(AudioToolbox)
-    import AudioToolbox
-    #endif
-#endif
-
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct BookmarkManager {
+class BookmarkManager {
     typealias Bookmark = BookmarkDataManager.Bookmark
 
     private let dataManager: BookmarkDataManager
@@ -64,27 +58,11 @@ struct BookmarkManager {
 // MARK: - Private
 private extension BookmarkManager {
     func playTone() {
-        // TODO: This is temporary until we have the actual sound file
-        #if DEBUG
-            #if !os(watchOS)
-            // This just plays a system sound instead.
-            if let url = FileManager.default.urls(for: .libraryDirectory, in: .systemDomainMask).first {
-                let audioFile = url.appendingPathComponent("Audio/UISounds/jbl_confirm.caf")
-                var soundID: SystemSoundID = .zero
-                AudioServicesCreateSystemSoundID(audioFile as CFURL, &soundID)
-                AudioServicesPlaySystemSoundWithCompletion(soundID) {
-                    AudioServicesDisposeSystemSoundID(soundID)
-                    AudioServicesRemoveSystemSoundCompletion(soundID)
-                }
-            }
-            #endif
-        #else
         // Stop playing immediately and reset to 0
         tonePlayer?.pause()
         tonePlayer?.currentTime = 0
 
         // Play
         tonePlayer?.play()
-        #endif
     }
 }
