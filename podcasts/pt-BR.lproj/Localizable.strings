@@ -43,6 +43,8 @@
     <string>Toque duas vezes para remover o episódio dos favoritos</string>
     <key>accessibility_more_actions</key>
     <string>Mais ações</string>
+    <key>accessibility_patron_only</key>
+    <string>Bloqueado: funcionalidade Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ por cento concluído</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron cromado</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron escuro</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron brilhante</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron redondo</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ ATUALIZAÇÕES</string>
     <string>Feed somente para apoiadores</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Cancelar a assinatura destes podcasts excluirá todos os arquivos baixados deles. Tem certeza de que quer continuar?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Acredita no nosso trabalho e quer mostrar seu apoio?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ teste gratuito de %1$@</string>
     <string>Remover da fila de Próximos</string>
     <key>remove_up_next</key>
     <string>Remover de Próximos</string>
+    <key>renew_subscription</key>
+    <string>Renove sua assinatura</string>
     <key>retry</key>
     <string>Tentar novamente</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Assinatura cancelada</string>
     <key>subscription_cancelled_msg</key>
     <string>Assinatura cancelada em %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Expira em %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Obrigado pelo apoio!</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você pode enfileirar os episódios para serem reproduzidos em seguida arrastando para a direita nas linhas de episódios ou tocando no ícone no cartão de um episódio.</string>
     <key>up_next_empty_title</key>
     <string>Nada na fila de Próximos</string>
+    <key>upgrade_account</key>
+    <string>Fazer upgrade de conta</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

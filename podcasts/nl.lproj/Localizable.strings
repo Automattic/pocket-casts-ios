@@ -43,6 +43,8 @@
     <string>Tik tweemaal om aflevering uit favorieten te verwijderen</string>
     <key>accessibility_more_actions</key>
     <string>Meer acties</string>
+    <key>accessibility_patron_only</key>
+    <string>Vergrendeld, functie voor Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent voltooid</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron chroom</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron donker</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron gloeiend</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rond</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ UPDATES</string>
     <string>Feed alleen voor ondersteuners</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Door je uit te schrijven voor al deze podcasts worden alle gedownloade bestanden die ze bevatten verwijderd. Weet je het zeker?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Geloof je in wat we doen en wil je ons steunen?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verwijderen uit Hierna</string>
     <key>remove_up_next</key>
     <string>Hierna verwijderen</string>
+    <key>renew_subscription</key>
+    <string>Verleng je abonnement</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Het abonnement is geannuleerd</string>
     <key>subscription_cancelled_msg</key>
     <string>Het abonnement is geannuleerd %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Verloopt over %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>U kunt afleveringen in de wachtrij zetten door naar rechts te swipen in afleveringrijen of door op het pictogram op een afleveringkaart te tikken.</string>
     <key>up_next_empty_title</key>
     <string>Niets in Hierna</string>
+    <key>upgrade_account</key>
+    <string>Account upgraden</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Z)</string>
     <key>volume_boost</key>

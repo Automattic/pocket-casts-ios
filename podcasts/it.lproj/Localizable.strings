@@ -43,6 +43,8 @@
     <string>Tocca due volte per rimuovere la stella dall'episodio</string>
     <key>accessibility_more_actions</key>
     <string>Altre azioni</string>
+    <key>accessibility_patron_only</key>
+    <string>Bloccato, funzionalità Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ percento completato</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron scura</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron brillante</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rotonda</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ AGGIORNAMENTI</string>
     <string>Feed solo per i promotori</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>L'annullamento dell'abbonamento di tutti questi podcast eliminerà tutti i file scaricati in loro possesso, sei sicuro?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Credi in quello che stiamo facendo e vuoi dimostrare il tuo sostegno?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Rimuovi da Successivo</string>
     <key>remove_up_next</key>
     <string>Rimuovi Successivo</string>
+    <key>renew_subscription</key>
+    <string>Rinnova il tuo abbonamento</string>
     <key>retry</key>
     <string>Riprova</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Abbonamento annullato</string>
     <key>subscription_cancelled_msg</key>
     <string>Abbonamento annullato il giorno %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Scade tra %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Grazie per il supporto.</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Puoi mettere in coda gli episodi per la riproduzione successiva scorrendo verso destra sulle righe degli episodi o toccando l'icona sulla scheda di un episodio.</string>
     <key>up_next_empty_title</key>
     <string>Nessun elemento in Prossimo</string>
+    <key>upgrade_account</key>
+    <string>Effettua upgrade dell'account</string>
     <key>upload_sort_alpha</key>
     <string>Titolo (A-Z)</string>
     <key>volume_boost</key>

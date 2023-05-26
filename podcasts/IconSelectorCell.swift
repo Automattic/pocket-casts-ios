@@ -8,7 +8,7 @@ protocol IconSelectorCellDelegate: AnyObject {
 
 enum IconType: Int, CaseIterable, AnalyticsDescribable {
     case primary, dark, roundLight, roundDark, indigo
-    case rose, pocketCats, redVelvet, plus, classic, electricBlue
+    case rose, pocketCats, redVelvet, pride2023, plus, classic, electricBlue
     case electricPink, radioactivity, halloween
     case patronChrome, patronRound, patronGlow, patronDark
 
@@ -61,54 +61,15 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return L10n.appIconPatronGlow
         case .patronDark:
             return L10n.appIconPatronDark
+        case .pride2023:
+            return "Pride 2023"
         }
     }
 
-    var icon: UIImage? {
+    var previewIconName: String {
         switch self {
         case .primary:
-            return UIImage(named: "AppIcon-Default")
-        case .dark:
-            return UIImage(named: "AppIcon-Dark")
-        case .roundLight:
-            return UIImage(named: "AppIcon-Round")
-        case .roundDark:
-            return UIImage(named: "AppIcon-Round-Dark")
-        case .indigo:
-            return UIImage(named: "AppIcon-Indigo")
-        case .rose:
-            return UIImage(named: "AppIcon-Round-Pink")
-        case .pocketCats:
-            return UIImage(named: "AppIcon-Pocket-Cats")
-        case .redVelvet:
-            return UIImage(named: "AppIcon-Red-Velvet")
-        case .plus:
-            return UIImage(named: "AppIcon-Plus")
-        case .classic:
-            return UIImage(named: "AppIcon-Classic")
-        case .electricBlue:
-            return UIImage(named: "AppIcon-Electric-Blue")
-        case .electricPink:
-            return UIImage(named: "AppIcon-Electric-Pink")
-        case .radioactivity:
-            return UIImage(named: "AppIcon-Radioactive")
-        case .halloween:
-            return UIImage(named: "AppIcon-Halloween")
-        case .patronChrome:
-            return UIImage(named: "AppIcon-Patron-Chrome")
-        case .patronRound:
-            return UIImage(named: "AppIcon-Patron-Round")
-        case .patronGlow:
-            return UIImage(named: "AppIcon-Patron-Glow")
-        case .patronDark:
-            return UIImage(named: "AppIcon-Patron-Dark")
-        }
-    }
-
-    var iconName: String? {
-        switch self {
-        case .primary:
-            return nil
+            return "AppIcon-Default"
         case .dark:
             return "AppIcon-Dark"
         case .roundLight:
@@ -143,6 +104,51 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Patron-Glow"
         case .patronDark:
             return "AppIcon-Patron-Dark"
+        case .pride2023:
+            return "AppIcon-Pride"
+        }
+    }
+
+    var iconName: String? {
+        switch self {
+        case .primary:
+            return "AppIcon-Default"
+        case .dark:
+            return "AppIcon-Dark"
+        case .roundLight:
+            return "AppIcon-Round"
+        case .roundDark:
+            return "AppIcon-Round-Dark"
+        case .indigo:
+            return "AppIcon-Indigo"
+        case .rose:
+            return "AppIcon-Round-Pink"
+        case .pocketCats:
+            return "AppIcon-Pocket-Cats"
+        case .redVelvet:
+            return "AppIcon-Red-Velvet"
+        case .plus:
+            return "AppIcon-Plus"
+        case .classic:
+            return "AppIcon-Classic"
+        case .electricBlue:
+            return "AppIcon-Electric-Blue"
+        case .electricPink:
+            return "AppIcon-Electric-Pink"
+        case .radioactivity:
+            return "AppIcon-Radioactive"
+        case .halloween:
+            return "AppIcon-Halloween"
+        case .patronChrome:
+            return "AppIcon-Patron-Chrome"
+        case .patronRound:
+            return "AppIcon-Patron-Round"
+        case .patronGlow:
+            return "AppIcon-Patron-Glow"
+        case .patronDark:
+            return "AppIcon-Patron-Dark"
+        case .pride2023:
+            return "AppIcon-Pride"
         }
     }
 
@@ -184,12 +190,14 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "patron_glow"
         case .patronDark:
             return "patron_dark"
+        case .pride2023:
+            return "pride_2023"
         }
     }
 
     /// Whether the icon is unlocked for the users active subscription
     var isUnlocked: Bool {
-        SubscriptionHelper.activeSubscriptionTier >= subscription
+        SubscriptionHelper.activeTier >= subscription
     }
 
     /// The minimum subscription level required to unlock the icon
@@ -218,7 +226,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "")
+        selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "AppIcon-Pride")
 
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
             gridLayout.delegate = self
@@ -274,7 +282,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
         let iconType = IconType(rawValue: indexPath.row) ?? .primary
         cell.nameLabel.text = iconType.description
-        cell.imageView.image = iconType.icon
+        cell.imageView.image = UIImage(named: iconType.previewIconName)
         cell.isLocked = !iconType.isUnlocked
 
         cell.isCellSelected = selectedIcon == iconType

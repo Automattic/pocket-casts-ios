@@ -26,7 +26,7 @@ struct PocketCastsTracksSubscriptionData: TracksSubscriptionData {
     }
 
     var subscriptionTier: SubscriptionTier {
-        SubscriptionHelper.activeSubscriptionTier
+        SubscriptionHelper.activeTier
     }
 
     func subscriptionFrequency() -> SubscriptionFrequency {
