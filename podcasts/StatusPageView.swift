@@ -10,6 +10,7 @@ struct StatusPageView: View {
             VStack(spacing: 16) {
                 Text(L10n.settingsStatusDescription)
                     .foregroundColor(theme.primaryText01)
+                    .padding(.top, 16)
 
                 if !viewModel.running && !viewModel.hasRun {
                     Button() {
@@ -35,6 +36,7 @@ struct StatusPageView: View {
                                         .foregroundColor(theme.support02)
                                 case .running:
                                     ProgressView()
+                                        .tint(theme.primaryIcon01)
                                 case .idle:
                                     Rectangle()
                                         .frame(width: 20, height: 20)
@@ -55,7 +57,7 @@ struct StatusPageView: View {
 
                                     Text(check.description)
                                         .font(style: .callout)
-                                        .foregroundColor(theme.secondaryIcon02)
+                                        .foregroundColor(theme.primaryText02)
                                 }
 
                                 Spacer()
