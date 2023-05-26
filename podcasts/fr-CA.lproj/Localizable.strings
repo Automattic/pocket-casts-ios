@@ -43,6 +43,8 @@
     <string>Appuyer deux fois pour retirer l’épisode des favoris</string>
     <key>accessibility_more_actions</key>
     <string>Plus d’actions</string>
+    <key>accessibility_patron_only</key>
+    <string>Verrouillé, fonctionnalité Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ pour cent terminé</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,6 +149,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron Dark</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron Glow</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron Round</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -1200,6 +1210,8 @@ MISES À JOUR</string>
     <string>Flux pour les partisans uniquement</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>En vous désabonnant de tous ces balados, tous les fichiers téléchargés de ceux-ci seront supprimés? Voulez-vous vraiment vous désabonner?</string>
+    <key>patron</key>
+    <string>Patron</string>
     <key>patron_callout</key>
     <string>Vous croyez en ce que nous faisons et souhaitez nous témoigner votre soutien ?</string>
     <key>patron_description</key>
@@ -1707,6 +1719,8 @@ essai gratuit de %1$@</string>
     <string>Supprimer de la file d’attente Prochains épisodes</string>
     <key>remove_up_next</key>
     <string>Supprimer la file d’attente Prochains épisodes</string>
+    <key>renew_subscription</key>
+    <string>Renouveler votre abonnement</string>
     <key>retry</key>
     <string>Réessayer</string>
     <key>search</key>
@@ -2283,6 +2297,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Abonnement annulé</string>
     <key>subscription_cancelled_msg</key>
     <string>Abonnement annulé %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Expire dans %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
     <key>supporter</key>
@@ -2361,6 +2377,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Vous pouvez mettre des épisodes dans la file d’attente de lecture en balayant la ligne de l’épisode vers la droite ou en appuyant sur l’icône dans la fiche d’un épisode.</string>
     <key>up_next_empty_title</key>
     <string>Aucun épisode dans Prochains épisodes</string>
+    <key>upgrade_account</key>
+    <string>Mettre le compte à niveau</string>
     <key>upload_sort_alpha</key>
     <string>Titre (A à Z)</string>
     <key>volume_boost</key>
