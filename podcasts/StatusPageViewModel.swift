@@ -26,27 +26,65 @@ class StatusPageViewModel: ObservableObject {
     }
 
     @Published var checks = [
-        Service(title: "Internet", description: "Check the status of your network.", failureMessage: "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).")
+        Service(
+            title: "Internet",
+            description: "Check the status of your network.",
+            failureMessage: "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data)."
+        ),
+        Service(
+            title: "Refresh Service",
+            description: "The service used to find new episodes.",
+            failureMessage: "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %s",
+            urls: ["https://refresh.pocketcasts.com/health.html"]
+        )
     ]
 
     private lazy var networkUtils = NetworkUtils.shared
 
+    @MainActor
     func run() {
         running = true
 
-        checks.forEach { service in
-            if networkUtils.isConnected() {
-                if service.urls.isEmpty {
-                    service.status = .success
-                } else {
-                    // Check URLs
-                }
-            } else {
-                service.status = .failure
-            }
-        }
+        Task {
+            for service in checks {
+                service.status = .running
 
-        running = false
-        hasRun = true
+                if networkUtils.isConnected() {
+                    if service.urls.isEmpty {
+                        service.status = .success
+                    } else {
+                        for url in service.urls {
+                            if let url = URL(string: url) {
+                                let status = await url.requestHTTPStatus()
+                                service.status = status == 200 ? .success : .failure
+                            }
+                        }
+                    }
+                } else {
+                    service.status = .failure
+                }
+            }
+
+            running = false
+            hasRun = true
+        }
+    }
+}
+
+private extension URL {
+
+    public func requestHTTPStatus() async -> Int? {
+        await withCheckedContinuation { continuation in
+            var request = URLRequest(url: self)
+            request.httpMethod = "HEAD"
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse, error == nil {
+                    continuation.resume(returning: httpResponse.statusCode)
+                } else {
+                    continuation.resume(returning: nil)
+                }
+            }
+            task.resume()
+        }
     }
 }
