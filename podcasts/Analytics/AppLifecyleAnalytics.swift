@@ -58,8 +58,8 @@ extension AppLifecycleAnalytics {
         //
         // If the app is launched "in the background" and protected data is enabled then the analytics won't
         // be enabled and we may miss some events.
+        // When the user opens the app directly the event will be tracked.
 
-        // When the user opens the app directly the event will be tracked. 
         guard UIApplication.shared.isProtectedDataAvailable else { return }
 
         let currentVersion = Settings.appVersion()
