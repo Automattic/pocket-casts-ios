@@ -43,6 +43,8 @@
     <string>Dubbeltryck för att ta bort stjärnmärkning från avsnitt</string>
     <key>accessibility_more_actions</key>
     <string>Fler åtgärder</string>
+    <key>accessibility_patron_only</key>
+    <string>Låst Patron-funktion</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent har slutförts</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -147,8 +149,12 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron Chrome</string>
     <key>app_icon_patron_dark</key>
     <string>Patron mörk</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron Glow</string>
     <key>app_icon_patron_round</key>
     <string>Patron rund</string>
     <key>app_icon_plus</key>
