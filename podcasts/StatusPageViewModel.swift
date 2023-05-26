@@ -47,7 +47,7 @@ class StatusPageViewModel: ObservableObject {
             title: L10n.settingsStatusDiscover,
             description: L10n.settingsStatusDiscoverDescription,
             failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("static.pocketcasts.com, cache.pocketcasts.com and podcasts.pocketcasts.com"),
-            urls: ["https://static.pocketcasts.com/discover/android/content.json",
+            urls: ["https://static.pocketcasts.com/discover/ios/content.json",
                    "https://cache.pocketcasts.com/mobile/podcast/full/e7a6f7d0-02f2-0133-1c51-059c869cc4eb"]
         ),
         Service(
