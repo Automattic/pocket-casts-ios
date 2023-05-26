@@ -2384,6 +2384,10 @@ internal enum L10n {
   internal static var settingsStatusAccountServiceDescription: String { return L10n.tr("Localizable", "settings_status_account_service_description") }
   /// Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.
   internal static var settingsStatusDescription: String { return L10n.tr("Localizable", "settings_status_description") }
+  /// Discover & Search
+  internal static var settingsStatusDiscover: String { return L10n.tr("Localizable", "settings_status_discover") }
+  /// The discover section of the app, including podcast search.
+  internal static var settingsStatusDiscoverDescription: String { return L10n.tr("Localizable", "settings_status_discover_description") }
   /// Internet
   internal static var settingsStatusInternet: String { return L10n.tr("Localizable", "settings_status_internet") }
   /// Check the status of your network.

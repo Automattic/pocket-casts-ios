@@ -2671,6 +2671,12 @@
 /* Description for the Account Service check. */
 "settings_status_account_service_description" = "The service used to store episode progress, subscriptions, filters, etc.";
 
+/* Title for the service being checked, in this case, the Pocket Cast's Discover & Search. */
+"settings_status_discover" = "Discover & Search";
+
+/* Description for the Discover & Search check. */
+"settings_status_discover_description" = "The discover section of the app, including podcast search.";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 
