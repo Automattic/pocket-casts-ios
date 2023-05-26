@@ -2378,6 +2378,10 @@ internal enum L10n {
   internal static var settingsSkipMsg: String { return L10n.tr("Localizable", "settings_skip_msg") }
   /// Stats
   internal static var settingsStats: String { return L10n.tr("Localizable", "settings_stats") }
+  /// Account Service
+  internal static var settingsStatusAccountService: String { return L10n.tr("Localizable", "settings_status_account_service") }
+  /// The service used to store episode progress, subscriptions, filters, etc.
+  internal static var settingsStatusAccountServiceDescription: String { return L10n.tr("Localizable", "settings_status_account_service_description") }
   /// Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.
   internal static var settingsStatusDescription: String { return L10n.tr("Localizable", "settings_status_description") }
   /// Internet

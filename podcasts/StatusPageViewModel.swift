@@ -36,6 +36,12 @@ class StatusPageViewModel: ObservableObject {
             description: L10n.settingsStatusRefreshServiceDescription,
             failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("refresh.pocketcasts.com"),
             urls: ["https://refresh.pocketcasts.com/health.html"]
+        ),
+        Service(
+            title: L10n.settingsStatusAccountService,
+            description: L10n.settingsStatusAccountServiceDescription,
+            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("api.pocketcasts.com"),
+            urls: ["https://api.pocketcasts.com/health"]
         )
     ]
 
@@ -75,7 +81,7 @@ private extension URL {
     func requestHTTPStatus() async -> Int? {
         await withCheckedContinuation { continuation in
             var request = URLRequest(url: self)
-            request.httpMethod = "HEAD"
+            request.httpMethod = "GET"
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, error == nil {
                     continuation.resume(returning: httpResponse.statusCode)

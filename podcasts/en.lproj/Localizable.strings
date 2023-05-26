@@ -2662,8 +2662,14 @@
 /* Description for the Refresh Service check. */
 "settings_status_refresh_service_description" = "The service used to find new episodes.";
 
-/* Failure message for the Refresh Service check. */
+/* Failure message for a service check. */
 "settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@";
+
+/* Title for the service being checked, in this case, the Pocket Cast's Account Service. */
+"settings_status_account_service" = "Account Service";
+
+/* Description for the Account Service check. */
+"settings_status_account_service_description" = "The service used to store episode progress, subscriptions, filters, etc.";
 
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
