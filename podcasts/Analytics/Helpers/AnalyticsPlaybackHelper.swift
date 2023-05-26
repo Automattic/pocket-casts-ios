@@ -37,7 +37,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         let to = (to / duration)
 
         // Validate the values are valid
-        guard from.isValid, to.isValid else { return }
+        guard from.isNumeric, to.isNumeric else { return }
 
         // Use percents to relativize the seeking across any duration episode
         let seekFrom = Int(from * 100)
