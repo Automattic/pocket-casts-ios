@@ -2388,6 +2388,12 @@ internal enum L10n {
   internal static var settingsStatusDiscover: String { return L10n.tr("Localizable", "settings_status_discover") }
   /// The discover section of the app, including podcast search.
   internal static var settingsStatusDiscoverDescription: String { return L10n.tr("Localizable", "settings_status_discover_description") }
+  /// Common Podcast Hosts
+  internal static var settingsStatusHost: String { return L10n.tr("Localizable", "settings_status_host") }
+  /// Podcast authors host episode files in various hosting providers not managed by Pocket Casts.
+  internal static var settingsStatusHostDescription: String { return L10n.tr("Localizable", "settings_status_host_description") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.
+  internal static var settingsStatusHostFailureMessage: String { return L10n.tr("Localizable", "settings_status_host_failure_message") }
   /// Internet
   internal static var settingsStatusInternet: String { return L10n.tr("Localizable", "settings_status_internet") }
   /// Check the status of your network.

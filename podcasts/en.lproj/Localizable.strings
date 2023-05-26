@@ -2677,6 +2677,15 @@
 /* Description for the Discover & Search check. */
 "settings_status_discover_description" = "The discover section of the app, including podcast search.";
 
+/* Title for the service being checked, in this case, a podcast host URL. */
+"settings_status_host" = "Common Podcast Hosts";
+
+/* Description for the podcast host check. */
+"settings_status_host_description" = "Podcast authors host episode files in various hosting providers not managed by Pocket Casts.";
+
+/* Failure message for the podcast host check. */
+"settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
 

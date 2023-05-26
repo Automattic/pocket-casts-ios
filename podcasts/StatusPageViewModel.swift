@@ -6,12 +6,12 @@ class StatusPageViewModel: ObservableObject {
 
     @Published var hasRun = false
 
-    class Service: ObservableObject, Identifiable {
+    class Service: Identifiable {
         let title: String
         let description: String
         let failureMessage: String
         let urls: [String]
-        @Published var status: Result = .idle
+        var status: Result = .idle
 
         init(title: String, description: String, failureMessage: String, urls: [String] = []) {
             self.title = title
@@ -25,7 +25,7 @@ class StatusPageViewModel: ObservableObject {
         }
     }
 
-    @Published var checks = [
+    var checks = [
         Service(
             title: L10n.settingsStatusInternet,
             description: L10n.settingsStatusInternetDescription,
@@ -49,6 +49,12 @@ class StatusPageViewModel: ObservableObject {
             failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("static.pocketcasts.com, cache.pocketcasts.com and podcasts.pocketcasts.com"),
             urls: ["https://static.pocketcasts.com/discover/android/content.json",
                    "https://cache.pocketcasts.com/mobile/podcast/full/e7a6f7d0-02f2-0133-1c51-059c869cc4eb"]
+        ),
+        Service(
+            title: L10n.settingsStatusHost,
+            description: L10n.settingsStatusHostDescription,
+            failureMessage: L10n.settingsStatusHostFailureMessage,
+            urls: ["https://dts.podtrac.com/redirect.mp3/static.pocketcasts.com/assets/feeds/status/episode1.mp3"]
         )
     ]
 
@@ -63,20 +69,8 @@ class StatusPageViewModel: ObservableObject {
                 service.status = .running
 
                 if networkUtils.isConnected() {
-                    if service.urls.isEmpty {
-                        service.status = .success
-                    } else {
-                        var responseCodes = [Int?]()
-
-                        for url in service.urls {
-                            if let url = URL(string: url) {
-                                let status = await url.requestHTTPStatus()
-                                responseCodes.append(status)
-                            }
-                        }
-
-                        service.status = responseCodes.first(where: { $0 != 200 }) != nil ? .failure : .success
-                    }
+                    await test(service: service)
+                    objectWillChange.send()
                 } else {
                     service.status = .failure
                 }
@@ -84,6 +78,24 @@ class StatusPageViewModel: ObservableObject {
 
             running = false
             hasRun = true
+        }
+    }
+
+    @MainActor
+    func test(service: Service) async {
+        if service.urls.isEmpty {
+            service.status = .success
+        } else {
+            var responseCodes = [Int?]()
+
+            for url in service.urls {
+                if let url = URL(string: url) {
+                    let status = await url.requestHTTPStatus()
+                    responseCodes.append(status)
+                }
+            }
+
+            service.status = responseCodes.first(where: { $0 != 200 }) != nil ? .failure : .success
         }
     }
 }

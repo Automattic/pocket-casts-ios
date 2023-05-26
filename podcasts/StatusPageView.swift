@@ -27,17 +27,17 @@ struct StatusPageView: View {
                                 switch check.status {
                                 case .failure:
                                     Image(systemName: "xmark")
-                                        .frame(width: 22, height: 22)
+                                        .frame(width: 20, height: 20)
                                         .foregroundColor(theme.support05)
                                 case .success:
                                     Image(systemName: "checkmark")
-                                        .frame(width: 22, height: 22)
+                                        .frame(width: 20, height: 20)
                                         .foregroundColor(theme.support02)
                                 case .running:
                                     ProgressView()
                                 case .idle:
                                     Rectangle()
-                                        .frame(width: 22, height: 22)
+                                        .frame(width: 20, height: 20)
                                         .opacity(0)
                                 }
 
