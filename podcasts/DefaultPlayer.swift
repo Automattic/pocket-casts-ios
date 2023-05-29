@@ -16,6 +16,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private var lastBackgroundedDate: Date?
 
+    /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
+    private var isWaitingForInitialPlayback = false
+
+    // Keep track of the previous playback and waiting state
+    private var previousReasonForWaiting: AVPlayer.WaitingReason?
+    private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
+
     private var durationObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var playerStatusObserver: NSKeyValueObservation?
@@ -26,7 +33,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playFailedObserver: NSObjectProtocol?
     private var playStalledObserver: NSObjectProtocol?
 
+    private var episodeUuid: String?
+
     #if !os(watchOS)
+        private lazy var streamingArtwork: StreamingEpisodeArtwork = {
+            StreamingEpisodeArtwork()
+        }()
+
         private var peakLimiter: AudioUnit?
         private var highPassFilter: AudioUnit?
         private var sampleCount: Float64 = 0
@@ -51,7 +64,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             return
         }
 
+        isWaitingForInitialPlayback = true
+
         player = AVPlayer(playerItem: playerItem)
+
+        episodeUuid = episode.uuid
 
         configurePlayer(videoPodcast: episode.videoPodcast())
     }
@@ -217,6 +234,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+            loadEmbeddedImage()
+
             for track in tracks {
                 if track.mediaType == AVMediaType.audio {
                     assetTrack = track
@@ -228,6 +247,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 createAudioMix()
                 player?.currentItem?.audioMix = audioMix
             #endif
+
+            isWaitingForInitialPlayback = false
         }
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
@@ -441,11 +462,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         player?.rate = Float(requiredPlaybackRate)
 
-        if requiredPlaybackRate < 1.0 || requiredPlaybackRate > 1.0 {
-             player?.currentItem?.audioTimePitchAlgorithm = .spectral
-         } else {
-             player?.currentItem?.audioTimePitchAlgorithm = .lowQualityZeroLatency
-         }
+        player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
     }
 
     private func jumpToStartingPosition() {
@@ -521,12 +538,33 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         //
         // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
         timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
-            guard player.timeControlStatus == .paused, self?.shouldKeepPlaying == true else {
+            #if !os(watchOS)
+            // We're going to be very explicit about the trigger for this to prevent triggering it when we don't want to
+
+            // Only apply the logic when playing over AirPlay
+            guard PlaybackManager.shared.playingOverAirplay(), let self else { return }
+
+            // We'll keep track of the previous statuses and compare against them in the check below
+            defer {
+                self.previousReasonForWaiting = player.reasonForWaitingToPlay
+                self.previousTimeControlStatus = player.timeControlStatus
+            }
+
+            guard
+                // Verify that we indeed want to keep playing, ie: the user hasn't manually paused
+                // And that we're waiting for the initial playback to begin
+                self.shouldKeepPlaying, self.isWaitingForInitialPlayback,
+                // Verify playback has stopped now, but we were waiting to play the audio
+                player.timeControlStatus == .paused, self.previousTimeControlStatus == .waitingToPlayAtSpecifiedRate,
+                // Verify that while we were waiting to play the reason switched to no item to play, and that currently there is no current reason
+                player.reasonForWaitingToPlay == nil, self.previousReasonForWaiting == .noItemToPlay
+            else {
                 return
             }
 
             FileLog.shared.addMessage("[DefaultPlayer] Detected that playback was paused while trying to play the next item. Attempting to resume playback...")
-            self?.play()
+            self.play()
+            #endif
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
@@ -630,5 +668,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
+    }
+
+    func loadEmbeddedImage() {
+        #if !os(watchOS)
+        guard let asset = player?.currentItem?.asset, let episodeUuid else {
+            return
+        }
+
+        streamingArtwork.loadEmbeddedImage(asset: asset, episodeUuid: episodeUuid)
+        #endif
     }
 }

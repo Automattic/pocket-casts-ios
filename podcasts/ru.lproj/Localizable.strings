@@ -43,6 +43,8 @@
     <string>Дважды нажмите, чтобы исключить выпуск из избранного</string>
     <key>accessibility_more_actions</key>
     <string>Другие действия</string>
+    <key>accessibility_patron_only</key>
+    <string>Заблокировано, функция Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>Выполнено %1$@ процентов</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>Нажмите для просмотра или настройки учетной записи</string>
     <key>accessibility_sort_and_options</key>
     <string>Сортировка и опции</string>
+    <key>account</key>
+    <string>Учётная запись</string>
     <key>account_change_email</key>
     <string>Изменить адрес электронной почты</string>
     <key>account_completion_nudge</key>
@@ -116,7 +120,7 @@
     <key>account_signed_out_alert_title</key>
     <string>Вы вышли из системы.</string>
     <key>account_sso_failed</key>
-    <string>Вход через Apple не выполнен. Повторите попытку.</string>
+    <string>Вход не выполнен. Повторите попытку.</string>
     <key>account_title</key>
     <string>Учетная запись Pocket Casts</string>
     <key>account_upgraded</key>
@@ -145,6 +149,14 @@
     <string>Хэллоуин</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron: хромированный</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron: темный</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron: сияющий</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron: круглый</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@
     <string>ОЧИСТИТЬ ВСЕ</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_episodes</key>
+    <string>Все выпуски</string>
+    <key>discover_all_podcasts</key>
+    <string>Все подкасты</string>
     <key>discover_browse_by_category</key>
     <string>Искать в категории</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@
     <string>ТВ и фильмы</string>
     <key>discover_change_region</key>
     <string>Измените регион, сейчас %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Не удалось загрузить выпуск</string>
     <key>discover_featured</key>
     <string>Рекомендуется</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@
     <string>Запрошенный подкаст или выпуск не найден. Проверьте интернет-соединение и повторите попытку.</string>
     <key>discover_fresh_pick</key>
     <string>НОВИНКА</string>
+    <key>discover_no_episodes_found</key>
+    <string>Выпуски не найдены</string>
     <key>discover_no_podcasts_found</key>
     <string>Подкасты не найдены</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@
     <string>ВЫПУСК %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>ВЫП %1$@</string>
+    <key>episodes</key>
+    <string>Выпуски</string>
     <key>error</key>
     <string>Ошибка</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>import</key>
+    <string>Импорт</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>Можно импортировать подкасты из Apple Podcasts с помощью встроенного приложения "Шорткаты".
 Примечание. Если вы удалили приложение "Шорткаты", появится запрос на его повторную установку.
@@ -998,6 +1022,8 @@
 2. Нажмите значок шестерёнки в верхней части экрана приложения.
 3. Прокрутите экран вниз, найдите опцию "Экспорт OPML" и выберите её.
 4. В открывшемся диалоговом окне найдите значок Pocket Casts и нажмите его.</string>
+    <key>import_opml_from_url</key>
+    <string>Импортируйте подкасты из файла OPML с помощью URL-адреса</string>
     <key>import_podcasts_description</key>
     <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
@@ -1147,6 +1173,8 @@
     <string>Не удалось импортировать OPML</string>
     <key>opml_import_progress_format</key>
     <string>Импорт подкастов: %1$@ из %2$@</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Файлы OPML импортированы</string>
     <key>opml_importing</key>
     <string>Импорт подкастов...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@
     <string>Лента только для спонсоров</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>При отмене подписки на все эти подкасты все скачанные файлы будут удалены, продолжить?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Нравится то, что мы делаем, и хочется нас поддержать?</string>
+    <key>patron_description</key>
+    <string>Станьте пользователем Patron в Pocket Casts и помогите нам развивать лучшую платформу для подкастов.</string>
+    <key>patron_feature_early_access</key>
+    <string>Ранний доступ к новым возможностям</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Все возможности Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Значок профиля для спонсоров</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Специальные значки приложения Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Станьте пользователем Patron и получите доступ ко всем возможностям Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Подписаться на Patron</string>
     <key>pause</key>
     <string>Пауза</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@
     <string>Истекает %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Облачное хранилище</string>
+    <key>plus_feature_gratitude</key>
+    <string>Бесконечная благодарность от всей команды Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Дополнительные темы и значки приложения</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@
     <string>Для работы этой функции требуется Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Выбрать срок оплаты</string>
+    <key>plus_skip</key>
+    <string>Пропустить</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Начать бесплатный пробный период</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Попробуйте в течение %1$@, затем %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Подписаться на Plus</string>
     <key>plus_subscription_apple</key>
     <string>Ваша подписка управляется магазином Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@
     <string>Удалить из следующих</string>
     <key>remove_up_next</key>
     <string>Удалить следующие</string>
+    <key>renew_subscription</key>
+    <string>Продлить подписку</string>
     <key>retry</key>
     <string>Повторить попытку</string>
     <key>search</key>
     <string>Поиск</string>
+    <key>search_label</key>
+    <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
     <string>Поиск подкастов</string>
+    <key>search_recent</key>
+    <string>Последний поиск</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2211,10 @@
     <string>Конец выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Продолжить с Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Продолжить с помощью Google</string>
     <key>sonos_connect_action</key>
     <string>ПОДКЛЮЧИТЬСЯ</string>
     <key>sonos_connect_prompt</key>
@@ -2231,6 +2297,8 @@
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>
     <string>Подписка завершается %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Срок действия истекает %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
     <key>supporter</key>
@@ -2309,6 +2377,8 @@
     <string>Вы можете поместить выпуски в очередь для последующего воспроизведения, проведя пальцем вправо по строкам выпусков или коснувшись значка на карточке выпуска.</string>
     <key>up_next_empty_title</key>
     <string>Очередь пуста</string>
+    <key>upgrade_account</key>
+    <string>Перейти на платный план</string>
     <key>upload_sort_alpha</key>
     <string>По названию (A-Z)</string>
     <key>volume_boost</key>

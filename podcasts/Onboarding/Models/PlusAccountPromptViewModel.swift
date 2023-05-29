@@ -2,13 +2,37 @@ import UIKit
 
 class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
+
     var source: Source = .unknown
 
-    func upgradeTapped() {
+    let subscription: UserInfo.Subscription? = .init()
+
+    lazy var products: [PlusProductPricingInfo] = {
+        let productsToDisplay: [Constants.IapProducts] = {
+            guard FeatureFlag.patron.enabled else {
+                return [.yearly]
+            }
+
+            return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
+        }()
+
+        return productsToDisplay.compactMap { product in
+            pricingInfo.products.first(where: { $0.identifier == product })
+        }
+    }()
+
+    override init(purchaseHandler: IapHelper = .shared) {
+        super.init(purchaseHandler: purchaseHandler)
+
+        // Load prices on init
+        loadPrices()
+    }
+
+    func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
-                self.showModal()
+                self.showModal(for: product)
             case .failed:
                 self.showError()
             default:
@@ -25,11 +49,24 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 }
 
 private extension PlusAccountPromptViewModel {
-    func showModal() {
+    func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController else { return }
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
 
-        controller.presentModally(in: parentController)
+        guard FeatureFlag.patron.enabled else {
+            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
+            controller.presentModally(in: parentController)
+            return
+        }
+
+        // Set the initial product to display on the upsell
+        let context: OnboardingFlow.Context? = product.map {
+            ["product": Constants.ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
+        }
+
+        let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade
+        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue, context: context)
+
+        parentController.present(controller, animated: true)
     }
 
     func showError() {

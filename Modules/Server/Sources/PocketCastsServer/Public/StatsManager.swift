@@ -170,6 +170,15 @@ public class StatsManager {
         totalListeningTime() + timeForKey(ServerConstants.UserDefaults.statsListenedToServer)
     }
 
+    public func totalSavedTime() -> TimeInterval {
+        [
+            totalSkippedTimeInclusive(),
+            timeSavedVariableSpeedInclusive(),
+            timeSavedDynamicSpeedInclusive(),
+            totalAutoSkippedTimeInclusive()
+        ].reduce(0, +)
+    }
+
     public func totalSkippedTimeInclusive() -> TimeInterval {
         totalSkippedTime() + timeForKey(ServerConstants.UserDefaults.statsSkippedServer)
     }

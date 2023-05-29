@@ -35,6 +35,8 @@ protocol PodcastActionsDelegate: AnyObject {
     func didActivateSearch()
 
     func enableMultiSelect()
+
+    var podcastRatingViewModel: PodcastRatingViewModel { get }
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -49,6 +51,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var searchController: EpisodeListSearchController?
 
     var cellHeights: [IndexPath: CGFloat] = [:]
+
+    var podcastRatingViewModel = PodcastRatingViewModel()
 
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
@@ -66,9 +70,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.rowHeight = UITableView.automaticDimension
             episodesTable.estimatedRowHeight = 80.0
             episodesTable.allowsMultipleSelectionDuringEditing = true
-            if #available(iOS 15.0, *) {
-                episodesTable.sectionHeaderTopPadding = 0
-            }
+            episodesTable.sectionHeaderTopPadding = 0
         }
     }
 
@@ -114,6 +116,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                         self.multiSelectHeaderView.isHidden = false
                         self.view.bringSubviewToFront(self.multiSelectHeaderView)
+
+                        // Adjusts multiSelectHeaderView based on screen width
+                        self.setMultiSelectHeaderViewConstraint()
+
                     }
                 } else {
                     self.multiSelectHeaderView.isHidden = true
@@ -151,6 +157,27 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var multiSelectHeaderView: ThemeableView!
     private let operationQueue = OperationQueue()
 
+    // Constraint to adjust multiSelectHeader based on device size
+    @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+
+    private func setMultiSelectHeaderViewConstraint() {
+        let screenWidth = UIScreen.main.bounds.width
+        var setConstant: Double
+
+        switch screenWidth {
+        /* iPod Touch (320) to iPhone SE 3rd gen (375) and
+         iPad Mini 4 (760) to iPad 6th Gen (1024) */
+        case 320...380, 760...1024:
+            setConstant = 65.0
+        /* Covers most modern devices (380+ width),
+         from iPhone 6 Plus (414) to iPhone 14 Pro Max (430) */
+        default:
+            setConstant = 90.0
+        }
+
+        self.multiSelectHeaderViewConstraint.constant = setConstant
+    }
+
     static let headerSection = 0
     static let allEpisodesSection = 1
 
@@ -163,6 +190,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
 
         AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
+        podcastRatingViewModel.update(uuid: podcast.uuid)
 
         super.init(nibName: "PodcastViewController", bundle: nil)
     }
@@ -177,6 +205,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
 
         if let uuid = podcastInfo.uuid {
+            podcastRatingViewModel.update(uuid: uuid)
             AnalyticsHelper.podcastOpened(uuid: uuid)
         }
 
@@ -236,6 +265,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        // Load the ratings even if we've already started loading them to cover all other potential view states
+        // The view model will ignore extra calls
+        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+            podcastRatingViewModel.update(uuid: uuid)
+        }
 
         updateColors()
     }

@@ -165,7 +165,7 @@ class PodcastManager: NSObject {
             importerQueue.addOperation(importer)
         }
 
-        func importPodcastsFromOpml(_ opmlFile: URL, progressWindow: ShiftyLoadingAlert) {
+        func importPodcastsFromOpml(_ opmlFile: URL, progressWindow: ShiftyLoadingAlert? = nil) {
             importerQueue.cancelAllOperations()
 
             let importer = OpmlImporter(opmlFile: opmlFile, progressWindow: progressWindow)

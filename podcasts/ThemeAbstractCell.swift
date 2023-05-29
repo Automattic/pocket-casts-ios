@@ -46,17 +46,16 @@ class ThemeAbstractCell: UICollectionViewCell {
         }
     }
 
-    @IBOutlet var greyLockImage: UIImageView! {
+    var isLocked: Bool = true {
         didSet {
-            greyLockImage.tintColor = AppTheme.colorForStyle(.primaryIcon02)
+            imageView.alpha = isLocked ? 0.5 : 1
+            nameLabel.style = isLocked ? .primaryText02 : .primaryText01
+            setCornerImage()
         }
     }
 
-    var isLocked: Bool = true {
+    var lockImage: UIImage? = nil {
         didSet {
-            greyLockImage.isHidden = !isLocked
-            imageView.alpha = isLocked ? 0.5 : 1
-            nameLabel.style = isLocked ? .primaryText02 : .primaryText01
             setCornerImage()
         }
     }
@@ -65,7 +64,7 @@ class ThemeAbstractCell: UICollectionViewCell {
         if isCellSelected {
             cornerImage.image = UIImage(named: "tickBlueCircle")
         } else {
-            cornerImage.image = isLocked ? UIImage(named: "plusGoldCircle") : nil
+            cornerImage.image = isLocked ? lockImage : nil
         }
     }
 

@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Metadata": {
+    "Description": "Slam effect with a sharp hit followed by a reverb effect that fades out"
+  },
+  "Pattern": [
+    {
+      "Event": {
+        "Description": "A sharp hit",
+        "Time": 0,
+        "EventType": "HapticTransient",
+        "EventParameters": [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1.0 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 1.0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "A short splat feeling after a short delay that leads into the reverb effect",
+        "Time": 0.01,
+        "EventType": "HapticTransient",
+        "EventParameters": [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "A muddy reverb that fades out",
+        "Time": 0.01,
+        "EventType": "HapticContinuous",
+        "EventDuration": 0.5,
+        "EventParameters": [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.5 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0 }
+        ]
+      }
+    },
+    {
+      "ParameterCurve": {
+        "Description": "Fades out the reverb effect",
+        "ParameterID": "HapticIntensityControl",
+        "Time": 0.01,
+        "ParameterCurveControlPoints": [
+          { "Time": 0, "ParameterValue": 1 },
+          { "Time": 0.5, "ParameterValue": 0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.02,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1.0 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.5 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.04,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.8 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.06,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1.0 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.08,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1.0 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.5 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.1,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 0.8 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.0 }
+        ]
+      }
+    },
+    {
+      "Event": {
+        "Description": "Extra rumble event to emphasize the slam",
+        "Time": 0.12,
+        "EventType": "HapticTransient",
+        "EventParameters":
+        [
+          { "ParameterID": "HapticIntensity", "ParameterValue": 1.0 },
+          { "ParameterID": "HapticSharpness", "ParameterValue": 0.0 }
+        ]
+      }
+    }
+  ]
+}

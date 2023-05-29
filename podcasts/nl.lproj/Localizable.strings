@@ -43,6 +43,8 @@
     <string>Tik tweemaal om aflevering uit favorieten te verwijderen</string>
     <key>accessibility_more_actions</key>
     <string>Meer acties</string>
+    <key>accessibility_patron_only</key>
+    <string>Vergrendeld, functie voor Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent voltooid</string>
     <key>accessibility_player_effects_playback_speed</key>
@@ -61,6 +63,8 @@
     <string>Tik om account te bekijken of in te stellen</string>
     <key>accessibility_sort_and_options</key>
     <string>Sorteren en opties</string>
+    <key>account</key>
+    <string>Account</string>
     <key>account_change_email</key>
     <string>E-mail wijzigen</string>
     <key>account_completion_nudge</key>
@@ -116,7 +120,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>account_signed_out_alert_title</key>
     <string>Je bent uitgelogd.</string>
     <key>account_sso_failed</key>
-    <string>Aanmelden met Apple mislukt. Probeer het nog eens.</string>
+    <string>Aanmelden mislukt. Probeer het nog eens.</string>
     <key>account_title</key>
     <string>Pocket Casts-account</string>
     <key>account_upgraded</key>
@@ -145,6 +149,14 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron chroom</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron donker</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron gloeiend</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rond</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -359,6 +371,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alles deselecteren</string>
     <key>discover</key>
     <string>Ontdek</string>
+    <key>discover_all_episodes</key>
+    <string>Alle afleveringen</string>
+    <key>discover_all_podcasts</key>
+    <string>Alle podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Door categorieën bladeren</string>
     <key>discover_browse_by_category_art</key>
@@ -415,6 +431,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Tv en film</string>
     <key>discover_change_region</key>
     <string>Regio wijzigen, huidige %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>De aflevering kan niet worden geladen</string>
     <key>discover_featured</key>
     <string>Uitgelicht</string>
     <key>discover_featured_episode</key>
@@ -423,6 +441,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Aanbevolen podcast of aflevering niet gevonden. Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
     <key>discover_fresh_pick</key>
     <string>VERSE SELECTIE</string>
+    <key>discover_no_episodes_found</key>
+    <string>Geen afleveringen gevonden</string>
     <key>discover_no_podcasts_found</key>
     <string>Geen podcasts gevonden</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -682,6 +702,8 @@ waar je naar hebt geluisterd was
     <string>AFLEVERING %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>AFL. %1$@</string>
+    <key>episodes</key>
+    <string>Afleveringen</string>
     <key>error</key>
     <string>Fout</string>
     <key>error_general_podcast_not_found</key>
@@ -951,6 +973,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>import</key>
+    <string>Importeren</string>
     <key>import_instructions_apple_podcasts_steps</key>
     <string>We kunnen je podcasts importeren van Apple Podcasts met de geïntegreerde Shortcuts-app.
 Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnieuw te installeren.
@@ -998,6 +1022,8 @@ Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnie
 2. Tik op het tandwieltje in de bovenhoek van de app
 3. Veeg omlaag tot je OPML exporteren ziet en tik erop
 4. Wanneer het dialoogvenster opent, tik op het pictogram van Pocket Casts</string>
+    <key>import_opml_from_url</key>
+    <string>Importeer je podcasts vanuit een OPML-bestand met een URL</string>
     <key>import_podcasts_description</key>
     <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
@@ -1147,6 +1173,8 @@ podcasts mee</string>
     <string>OPML-import mislukt</string>
     <key>opml_import_progress_format</key>
     <string>%1$@ van %2$@ importeren</string>
+    <key>opml_import_succeeded_title</key>
+    <string>Importeren van OPML gelukt</string>
     <key>opml_importing</key>
     <string>Podcasts worden geïmporteerd...</string>
     <key>page_control_page_progress_format</key>
@@ -1182,6 +1210,24 @@ UPDATES</string>
     <string>Feed alleen voor ondersteuners</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Door je uit te schrijven voor al deze podcasts worden alle gedownloade bestanden die ze bevatten verwijderd. Weet je het zeker?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Geloof je in wat we doen en wil je ons steunen?</string>
+    <key>patron_description</key>
+    <string>Word een Pocket Casts Patron en help ons de best mogelijke podcast-ervaring te kunnen blijven leveren.</string>
+    <key>patron_feature_early_access</key>
+    <string>Vroegtijdige toegang tot functies</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Alles in Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Profielbadge voor ondersteuners</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Speciale app-pictogrammen voor Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Word Patron-lid en profiteer van alle Pocket Casts-functies</string>
+    <key>patron_subscribe_to</key>
+    <string>Abonneren op Patron</string>
     <key>pause</key>
     <string>Pauzeren</string>
     <key>phone</key>
@@ -1286,6 +1332,8 @@ UPDATES</string>
     <string>Verloopt %1$@</string>
     <key>plus_feature_cloud_storage</key>
     <string>Opslag in de cloud</string>
+    <key>plus_feature_gratitude</key>
+    <string>De eeuwige dank van iedereen bij Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra thema's en app-pictogrammen</string>
     <key>plus_feature_watch_app</key>
@@ -1367,6 +1415,14 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Voor deze functie is Pocket Casts plus vereist</string>
     <key>plus_select_payment_frequency</key>
     <string>Selecteer betaalfrequentie</string>
+    <key>plus_skip</key>
+    <string>Overslaan</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Mijn gratis proefversie starten</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Probeer %1$@, vervolgens %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Abonneren op Plus</string>
     <key>plus_subscription_apple</key>
     <string>Je abonnement wordt beheerd door de Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1663,12 +1719,18 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verwijderen uit Hierna</string>
     <key>remove_up_next</key>
     <string>Hierna verwijderen</string>
+    <key>renew_subscription</key>
+    <string>Verleng je abonnement</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
     <key>search</key>
     <string>Zoeken</string>
+    <key>search_label</key>
+    <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
     <string>Podcasts zoeken</string>
+    <key>search_recent</key>
+    <string>Recente zoekopdrachten</string>
     <key>season</key>
     <string>Seizoen</string>
     <key>season_episode_shorthand_format</key>
@@ -2149,6 +2211,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Einde van de aflevering</string>
     <key>sleep_timer_time_remaining</key>
     <string>Slaaptimer aan, %1$@ resterend</string>
+    <key>social_sign_in_continue_with_apple</key>
+    <string>Doorgaan met Apple</string>
+    <key>social_sign_in_continue_with_google</key>
+    <string>Doorgaan met Google</string>
     <key>sonos_connect_action</key>
     <string>VERBINDEN</string>
     <key>sonos_connect_prompt</key>
@@ -2231,6 +2297,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Het abonnement is geannuleerd</string>
     <key>subscription_cancelled_msg</key>
     <string>Het abonnement is geannuleerd %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Verloopt over %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
     <key>supporter</key>
@@ -2309,6 +2377,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>U kunt afleveringen in de wachtrij zetten door naar rechts te swipen in afleveringrijen of door op het pictogram op een afleveringkaart te tikken.</string>
     <key>up_next_empty_title</key>
     <string>Niets in Hierna</string>
+    <key>upgrade_account</key>
+    <string>Account upgraden</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Z)</string>
     <key>volume_boost</key>

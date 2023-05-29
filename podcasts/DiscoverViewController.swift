@@ -18,7 +18,13 @@ class DiscoverViewController: PCViewController {
     private var summaryViewControllers = [UIViewController]()
 
     var searchController: PCSearchBarController!
+
     var searchResultsController: DiscoverPodcastSearchResultsController!
+    lazy var newSearchResultsController = SearchResultsViewController(source: .discover)
+
+    var resultsControllerDelegate: SearchResultsDelegate {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsController
+    }
 
     private var loadingContent = false
 
@@ -41,9 +47,9 @@ class DiscoverViewController: PCViewController {
 
         title = L10n.discover
 
-        setupSearchBar()
         handleThemeChanged()
         reloadData()
+        setupSearchBar()
 
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))

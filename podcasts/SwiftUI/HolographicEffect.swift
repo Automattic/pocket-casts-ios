@@ -3,19 +3,18 @@ import SwiftUI
 /// Applies a holographic/foil/rainbow effect to its contents that moves with the device motion
 struct HolographicEffect<Content>: View where Content: View {
     @StateObject var motion = MotionManager(options: .attitude)
-    private var content: () -> Content
-    private let geometry: GeometryProxy
-    private let multiplier = 4.0
 
-    init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-        self.geometry = geometry
-    }
+    var parentSize: CGSize = UIScreen.main.bounds.size
+    var mode: Mode = .background
+    let content: () -> Content
+
+    private let multiplier = 4.0
 
     var body: some View {
         content()
-            .foregroundColor(.clear)
-            .background(gradientView)
+            .foregroundColor(mode == .background ? .clear : nil)
+            .overlay(mode == .overlay ? gradientView.blendMode(.overlay) : nil)
+            .background(mode == .background ? gradientView : nil)
             .onAppear() {
                 motion.start()
             }.onDisappear() {
@@ -32,16 +31,20 @@ struct HolographicEffect<Content>: View where Content: View {
                 .scaleEffect(scale(proxy.size))
                 .offset(position)
                 .mask(content())
-        }
+        }.allowsHitTesting(false)
+    }
+
+    enum Mode {
+        case overlay, background
     }
 
     private var position: CGSize {
-        CGSize(width: (motion.roll / .pi * multiplier) * geometry.size.height,
-               height: (motion.pitch / .pi * multiplier) * geometry.size.width)
+        CGSize(width: (motion.roll / .pi * multiplier) * parentSize.height,
+               height: (motion.pitch / .pi * multiplier) * parentSize.width)
     }
 
     private func scale(_ size: CGSize) -> Double {
-        max(geometry.size.width, geometry.size.height) / radius(size) * multiplier
+        max(parentSize.width, parentSize.height) / radius(size) * multiplier
     }
 
     private func radius(_ size: CGSize) -> Double {
@@ -51,4 +54,92 @@ struct HolographicEffect<Content>: View where Content: View {
     private let rainbowColors: [Color] = [
         .red, .orange, .yellow, .green, .blue, .purple, .pink
     ]
+}
+
+// MARK: - Glossy Effect
+
+/// Simulates a lighting reflection effect that makes the contents look glossier
+struct GlossyEffect<Content: View>: View {
+    @StateObject var motion = MotionManager(options: .attitude)
+    let content: () -> Content
+
+    var body: some View {
+        content()
+            .overlay(gradientView)
+            .onAppear { motion.start() }
+            .onDisappear() { motion.stop() }
+    }
+
+    @ViewBuilder
+    private var gradientView: some View {
+        GeometryReader { proxy in
+            RadialGradient(colors: colors, center: .center, startRadius: 0, endRadius: radius(proxy.size))
+                .scaleEffect(scale(proxy.size) * 2)
+                .offset(x: CGFloat(-motion.roll * 5) * proxy.size.width,
+                        y: CGFloat(-motion.pitch * 3) * proxy.size.height*0.2)
+                .mask(alignment: .center, content)
+                .opacity(0.3)
+        }.allowsHitTesting(false)
+    }
+
+    private func scale(_ size: CGSize) -> Double {
+        max(size.width, size.height) / radius(size) * 4
+    }
+
+    private func radius(_ size: CGSize) -> Double {
+        min(size.width, size.height) * 0.5
+    }
+
+    private let colors: [Color] = [
+        // The clear colors in the beginning reduces the shiny effect initially
+        .white.opacity(0.0),
+        .white.opacity(0.0),
+        .white.opacity(0.0),
+
+        // Create a glossy band
+        .white.opacity(0.5),
+        .white.opacity(0.3),
+        .white.opacity(0.2),
+
+        // More clear colors to create a banding effect
+        .white.opacity(0.0),
+        .white.opacity(0.0),
+
+        // Create another glossy band
+        .white.opacity(0.5),
+        .white.opacity(0.3),
+        .white.opacity(0.2),
+
+        // More clear colors to create a banding effect
+        .white.opacity(0.0),
+        .white.opacity(0.0),
+    ]
+}
+
+struct HolographicEffect_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewContent()
+    }
+
+    struct PreviewContent: View {
+        var body: some View {
+            VStack(spacing: 20) {
+                Text("Holographic Effect")
+                HolographicEffect(mode: .background) {
+                    Image("heart")
+                        .renderingMode(.template)
+                }
+                .padding()
+                .background(Color.black)
+
+
+                Text("Glossy Effect")
+                GlossyEffect {
+                    Image("AppIcon-Default")
+                        .cornerRadius(20)
+                        .shadow(radius: 5)
+                }
+            }
+        }
+    }
 }

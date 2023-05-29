@@ -63,7 +63,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }()
 
     var searchController: PCSearchBarController!
+
     var searchResultsControler: PodcastListSearchResultsController!
+    lazy var newSearchResultsController = SearchResultsViewController(source: .podcastsList)
+
+    var resultsControllerDelegate: SearchResultsDelegate {
+        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsControler
+    }
 
     override func viewDidLoad() {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))

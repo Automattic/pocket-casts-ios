@@ -561,9 +561,12 @@ enum AnalyticsEvent: String {
 
     // MARK: - Podcast Search
 
+    case searchShown
+    case searchDismissed
     case searchPerformed
     case searchFailed
     case searchResultTapped
+    case searchListShown
 
     // MARK: - Chromecast
 
@@ -616,4 +619,16 @@ enum AnalyticsEvent: String {
     case cancelConfirmationViewDismissed
     case cancelConfirmationStayButtonTapped
     case cancelConfirmationCancelButtonTapped
+
+    // MARK: - Search History
+    case searchHistoryCleared
+    case searchHistoryItemTapped
+    case searchHistoryItemDeleteButtonTapped
+
+    // MARK: - Ratings
+    case ratingStarsTapped
+
+    // MARK: - Patron
+    case patronWelcomeAppIconChanged
+
 }

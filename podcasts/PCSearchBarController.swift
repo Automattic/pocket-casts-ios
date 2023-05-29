@@ -43,7 +43,7 @@ class PCSearchBarController: UIViewController {
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
-    var placeholderText = L10n.search
+    var placeholderText = L10n.searchLabel
 
     var backgroundColorOverride: UIColor?
 
@@ -51,15 +51,36 @@ class PCSearchBarController: UIViewController {
 
     weak var searchDelegate: PCSearchBarDelegate?
 
+    private var isVisible = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isVisible = false
     }
 
     @objc private func themeDidChange() {
         updateColors()
+    }
+
+    @objc private func searchRequest(notification: Notification) {
+        if isVisible, let searchTerm = notification.object as? String {
+            searchTextField.text = searchTerm
+            clearSearchBtn.isHidden = false
+            view.endEditing(true)
+        }
     }
 
     private func updateColors() {

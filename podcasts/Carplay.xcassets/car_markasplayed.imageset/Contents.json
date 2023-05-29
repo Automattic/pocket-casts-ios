@@ -5,7 +5,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "car-markasplayed@2x-2.png",
+      "filename" : "car-markasplayed@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -20,7 +20,7 @@
       "scale" : "2x"
     },
     {
-      "filename" : "car-markasplayed@3x-2.png",
+      "filename" : "car-markasplayed@3x.png",
       "idiom" : "car",
       "scale" : "3x"
     }

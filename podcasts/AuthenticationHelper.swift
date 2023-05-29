@@ -14,7 +14,7 @@ class AuthenticationHelper {
             return try await validateLogin(username: username, password: password, scope: scope).token
         }
         else if let token = ServerSettings.refreshToken {
-            return try await validateLogin(identityToken: token).token
+            return try await validateLogin(identityToken: token, scope: scope).token
         }
 
         return nil
@@ -39,8 +39,8 @@ class AuthenticationHelper {
 
     // MARK: Apple SSO
 
-    static func validateLogin(identityToken: String)  async throws -> AuthenticationResponse {
-        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken)
+    static func validateLogin(identityToken: String, scope: AuthenticationScope = .mobile)  async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.validateLogin(identityToken: identityToken, scope: scope)
         handleSuccessfulSignIn(response)
 
         ServerSettings.refreshToken = response.refreshToken
@@ -81,11 +81,4 @@ class AuthenticationHelper {
         Settings.setPromotionFinishedAcknowledged(true)
         Settings.setLoginDetailsUpdated()
     }
-}
-
-// MARK: - Enums
-
-enum AuthenticationScope: String {
-    case mobile
-    case sonos
 }

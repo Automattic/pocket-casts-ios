@@ -46,7 +46,7 @@ class AppleSocialLogin: NSObject, SocialLogin {
 
 extension AppleSocialLogin: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = viewController?.view.window else { return UIApplication.shared.windows.first! }
+        guard let window = viewController?.view.window else { return SceneHelper.mainWindow! }
         return window
     }
 }

@@ -64,10 +64,8 @@ private extension WidgetFamily {
             return 2
         case .systemLarge:
             return 5
-        case .systemExtraLarge:
+        default:
             return 5 // we don't support this size, but added to make switch exhaustive
-        @unknown default:
-            return 5
         }
     }
 }

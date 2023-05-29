@@ -1,4 +1,5 @@
 import MessageUI
+import SwiftUI
 import PocketCastsServer
 import UIKit
 import WebKit
@@ -37,6 +38,8 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
 
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "status_page"), style: .done, target: self, action: #selector(showStatusPage))
+
         AnalyticsHelper.userGuideOpened()
         Analytics.track(.settingsHelpShown)
     }
@@ -59,6 +62,11 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     @objc private func doneTapped() {
         dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func showStatusPage() {
+        let hostingController = ThemedHostingController(rootView: StatusPageView())
+        navigationController?.pushViewController(hostingController, animated: true)
     }
 
     private func load() {

@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+echo "--- :swift: Installing Swift Package Manager Dependencies"
+install_swiftpm_dependencies
+
 echo "--- :rubygems: Setting up Gems"
 install_gems
 

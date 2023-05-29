@@ -2,11 +2,12 @@ import Foundation
 import UIKit
 
 public extension UIFont {
+    @available(watchOS 8.0, *)
     static func systemFontWithMonospacedNumbers(_ size: CGFloat) -> UIFont {
         let features = [
             [
-                UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
-                UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector
+                UIFontDescriptor.FeatureKey.selector: kNumberSpacingType,
+                UIFontDescriptor.FeatureKey.type: kMonospacedNumbersSelector
             ]
         ]
 
@@ -17,11 +18,12 @@ public extension UIFont {
         return UIFont(descriptor: fontDescriptor, size: size)
     }
 
+    @available(watchOS 8.0, *)
     func monospaced() -> UIFont {
         let fontDescriptorFeatureSettings = [
             [
-                UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
-                UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector
+                UIFontDescriptor.FeatureKey.selector: kNumberSpacingType,
+                UIFontDescriptor.FeatureKey.type: kMonospacedNumbersSelector
             ]
         ]
 

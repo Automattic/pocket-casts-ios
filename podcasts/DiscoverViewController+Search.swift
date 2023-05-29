@@ -16,7 +16,9 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     func setupSearchBar() {
         searchController = PCSearchBarController()
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
         view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
         NSLayoutConstraint.activate([
@@ -37,10 +39,19 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidBegin() {
-        guard let searchView = searchResultsController.view else { return }
+        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view,
+              searchView.superview == nil else {
+            return
+        }
 
         searchView.alpha = 0
-        view.addSubview(searchView)
+        if FeatureFlag.newSearch.enabled {
+            addChild(newSearchResultsController)
+            view.addSubview(searchView)
+            newSearchResultsController.didMove(toParent: self)
+        } else {
+            view.addSubview(searchView)
+        }
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -51,26 +62,30 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
         ])
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
-            self.searchResultsController.view.alpha = 1
+            searchView.alpha = 1
         }
     }
 
     func searchDidEnd() {
+        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
+
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-            self.searchResultsController.view.alpha = 0
+            searchView.alpha = 0
         }) { _ in
-            self.searchResultsController.view.removeFromSuperview()
-            self.searchResultsController.clearSearchResults()
+            searchView.removeFromSuperview()
+            self.resultsControllerDelegate.clearSearch()
         }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.discover])
     }
 
     func searchWasCleared() {
-        searchResultsController.clearSearchResults()
+        resultsControllerDelegate.clearSearch()
     }
 
     func searchTermChanged(_ searchTerm: String) {}
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
-        searchResultsController.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
+        resultsControllerDelegate.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
     }
 }

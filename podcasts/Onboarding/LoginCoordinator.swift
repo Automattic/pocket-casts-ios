@@ -6,7 +6,7 @@ import PocketCastsDataModel
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
-    var presentedFromUpgrade: Bool = false
+    var continuePurchasing: Constants.ProductInfo? = nil
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -154,7 +154,13 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
      }
 
     func signingProcessCompleted() {
-        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
+        // Due to connection issues this might be called even if the user didn't actually
+        // signed in. So we make sure the user is actually logged in.
+        guard SyncManager.isUserLoggedIn() else {
+            return
+        }
+
+        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && continuePurchasing == nil)
 
         if shouldDismiss {
             handleDismiss()
@@ -196,7 +202,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         // Update the flow to make sure the correct analytics source is passed on
         OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
 
-        let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
+        let controller = PlusLandingViewModel.make(in: navigationController,
+                                                   from: source,
+                                                   config: .init(continuePurchasing: continuePurchasing))
         navigationController?.setViewControllers([controller], animated: true)
     }
 }
@@ -204,9 +212,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, fromUpgrade: Bool = false) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
         let coordinator = LoginCoordinator()
-        coordinator.presentedFromUpgrade = fromUpgrade
+        coordinator.continuePurchasing = continuePurchasing
 
         let view = LoginLandingView(coordinator: coordinator)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())

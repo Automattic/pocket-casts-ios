@@ -1,4 +1,4 @@
-import UIKit
+import PocketCastsUtils
 
 /// Helper used to track playback
 class AnalyticsPlaybackHelper: AnalyticsCoordinator {
@@ -36,7 +36,8 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         let from = (from / duration)
         let to = (to / duration)
 
-        guard !from.isNaN, !to.isNaN else { return }
+        // Validate the values are valid
+        guard from.isNumeric, to.isNumeric else { return }
 
         // Use percents to relativize the seeking across any duration episode
         let seekFrom = Int(from * 100)
