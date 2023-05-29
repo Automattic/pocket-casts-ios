@@ -105,17 +105,7 @@ class StatusPageViewModel: ObservableObject {
 
 private extension URL {
     func requestHTTPStatus() async -> Int? {
-        await withCheckedContinuation { continuation in
-            var request = URLRequest(url: self)
-            request.httpMethod = "GET"
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let httpResponse = response as? HTTPURLResponse, error == nil {
-                    continuation.resume(returning: httpResponse.statusCode)
-                } else {
-                    continuation.resume(returning: nil)
-                }
-            }
-            task.resume()
-        }
+        let response = try? await URLSession.shared.data(from: self).1 as? HTTPURLResponse
+        return response?.statusCode
     }
 }
