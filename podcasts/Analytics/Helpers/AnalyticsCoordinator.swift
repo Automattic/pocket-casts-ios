@@ -76,7 +76,7 @@ class AnalyticsCoordinator {
             Analytics.track(event, properties: mergedProperties)
         }
 
-        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+    func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }
