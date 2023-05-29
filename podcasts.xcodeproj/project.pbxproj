@@ -542,6 +542,7 @@
 		8BC7FF55290FF92400017779 /* StoriesProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */; };
 		8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */; };
 		8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B328F48282001A0315 /* EndOfYear.swift */; };
+		8BD5A4E42A1E844D00F473C6 /* StatusPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */; };
 		8BD5A4FF2A1F96C200F473C6 /* AppIcon-Pride76x76@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4EE2A1F96BD00F473C6 /* AppIcon-Pride76x76@2x~ipad.png */; };
 		8BD5A5002A1F96C200F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4EF2A1F96BD00F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png */; };
 		8BD5A5012A1F96C200F473C6 /* AppIcon-Pride29x29@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4F02A1F96BE00F473C6 /* AppIcon-Pride29x29@2x~ipad.png */; };
@@ -583,6 +584,7 @@
 		8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */; };
 		8BF0BBDB2891B038006BBECF /* FolderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */; };
 		8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */; };
+		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -2244,6 +2246,7 @@
 		8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesProgressModel.swift; sourceTree = "<group>"; };
 		8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearModal.swift; sourceTree = "<group>"; };
 		8BCB22B328F48282001A0315 /* EndOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear.swift; sourceTree = "<group>"; };
+		8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageView.swift; sourceTree = "<group>"; };
 		8BD5A4EE2A1F96BD00F473C6 /* AppIcon-Pride76x76@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride76x76@2x~ipad.png"; sourceTree = "<group>"; };
 		8BD5A4EF2A1F96BD00F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride83.5x83.5@2x~ipad.png"; sourceTree = "<group>"; };
 		8BD5A4F02A1F96BE00F473C6 /* AppIcon-Pride29x29@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride29x29@2x~ipad.png"; sourceTree = "<group>"; };
@@ -2272,6 +2275,7 @@
 		8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastBuilder.swift; sourceTree = "<group>"; };
 		8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderBuilder.swift; sourceTree = "<group>"; };
 		8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderModelTests.swift; sourceTree = "<group>"; };
+		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
 		8F94CEC98B0A0E0B35578196 /* Pods-Today Extension.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -5079,6 +5083,8 @@
 				BD65E51B1CD9BDE000B90A67 /* OnlineSupportController.xib */,
 				462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */,
 				46CD3CA02715E3E600F5EB8F /* SupportConfig.swift */,
+				8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */,
+				8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -8545,6 +8551,7 @@
 				408F0B30227927A20019584D /* NewSubscription.swift in Sources */,
 				C7FF76C2291B5F100082A464 /* PlusButtonStyles.swift in Sources */,
 				BDDC1C652394B7F800F2D723 /* UpNextViewController+Swipe.swift in Sources */,
+				8BD5A4E42A1E844D00F473C6 /* StatusPageView.swift in Sources */,
 				8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */,
 				BD01397F2022DBF8001EAF84 /* PodcastViewController+Search.swift in Sources */,
 				BD14BD53217074D800998296 /* UnplayedBadge.swift in Sources */,
@@ -8714,6 +8721,7 @@
 				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
 				8B0EEDEA2900990D00075772 /* LongestEpisodeStory.swift in Sources */,
 				BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */,
+				8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */,
 				4006E31123A88AE600174DEB /* ExpandedCollectionViewController.swift in Sources */,
 				C72223D6292CAE92006B3B55 /* OnboardingFlow.swift in Sources */,
 				BD240C45231F471B00FB2CDD /* PCSearchBarController+Animation.swift in Sources */,

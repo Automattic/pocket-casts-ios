@@ -2390,6 +2390,40 @@ internal enum L10n {
   internal static var settingsSkipMsg: String { return L10n.tr("Localizable", "settings_skip_msg") }
   /// Stats
   internal static var settingsStats: String { return L10n.tr("Localizable", "settings_stats") }
+  /// Account Service
+  internal static var settingsStatusAccountService: String { return L10n.tr("Localizable", "settings_status_account_service") }
+  /// The service used to store episode progress, subscriptions, filters, etc.
+  internal static var settingsStatusAccountServiceDescription: String { return L10n.tr("Localizable", "settings_status_account_service_description") }
+  /// Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.
+  internal static var settingsStatusDescription: String { return L10n.tr("Localizable", "settings_status_description") }
+  /// Discover & Search
+  internal static var settingsStatusDiscover: String { return L10n.tr("Localizable", "settings_status_discover") }
+  /// The discover section of the app, including podcast search.
+  internal static var settingsStatusDiscoverDescription: String { return L10n.tr("Localizable", "settings_status_discover_description") }
+  /// Common Podcast Hosts
+  internal static var settingsStatusHost: String { return L10n.tr("Localizable", "settings_status_host") }
+  /// Podcast authors host episode files in various hosting providers not managed by Pocket Casts.
+  internal static var settingsStatusHostDescription: String { return L10n.tr("Localizable", "settings_status_host_description") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.
+  internal static var settingsStatusHostFailureMessage: String { return L10n.tr("Localizable", "settings_status_host_failure_message") }
+  /// Internet
+  internal static var settingsStatusInternet: String { return L10n.tr("Localizable", "settings_status_internet") }
+  /// Check the status of your network.
+  internal static var settingsStatusInternetDescription: String { return L10n.tr("Localizable", "settings_status_internet_description") }
+  /// Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).
+  internal static var settingsStatusInternetFailureMessage: String { return L10n.tr("Localizable", "settings_status_internet_failure_message") }
+  /// Status Page
+  internal static var settingsStatusPage: String { return L10n.tr("Localizable", "settings_status_page") }
+  /// Refresh Service
+  internal static var settingsStatusRefreshService: String { return L10n.tr("Localizable", "settings_status_refresh_service") }
+  /// The service used to find new episodes.
+  internal static var settingsStatusRefreshServiceDescription: String { return L10n.tr("Localizable", "settings_status_refresh_service_description") }
+  /// Run now
+  internal static var settingsStatusRun: String { return L10n.tr("Localizable", "settings_status_run") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@
+  internal static func settingsStatusServiceAdBlockerHelpSingular(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_status_service_ad_blocker_help_singular", String(describing: p1))
+  }
   /// Storage & Data Use
   internal static var settingsStorage: String { return L10n.tr("Localizable", "settings_storage") }
   /// Warn Before Using Data

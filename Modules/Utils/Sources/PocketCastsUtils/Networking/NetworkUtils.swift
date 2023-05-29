@@ -21,4 +21,10 @@ public class NetworkUtils {
             return reachability.connection == .wifi
         #endif
     }
+
+    #if !os(watchOS)
+    public func isConnected() -> Bool {
+        reachability.connection != .none
+    }
+    #endif
 }
