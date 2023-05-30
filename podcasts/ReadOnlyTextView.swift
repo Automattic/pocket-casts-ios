@@ -12,11 +12,12 @@ struct ReadOnlyTextView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                Text(lines.joined(separator: "\n"))
-                    .lineLimit(Int.max)
+                ForEach(lines.indices, id: \.self) { line in
+                    Text(lines[line])
+                        .lineLimit(Int.max)
+                }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .textSelection(.enabled)
             .padding(10)
         }
         .frame(maxWidth: .infinity, minHeight: 25, maxHeight: 300, alignment: .leading)
@@ -28,5 +29,10 @@ struct ReadOnlyTextView: View {
             )
         )
         .background(ThemeColor.primaryUi02(for: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
+        .contextMenu {
+            Button(L10n.copy) {
+                UIPasteboard.general.string = lines.joined(separator: "\n")
+            }
+        }
     }
 }

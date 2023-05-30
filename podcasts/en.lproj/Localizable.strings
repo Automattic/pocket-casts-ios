@@ -3721,3 +3721,6 @@
 
 /* A button label that informs the user to release a button press to finish */
 "patron_unlock_release" = "Release to Unlock";
+
+/* The string for the act of Copy (from Copy & Paste) */
+"copy" = "Copy";"

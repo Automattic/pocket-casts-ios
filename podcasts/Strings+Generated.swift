@@ -346,6 +346,8 @@ internal enum L10n {
   internal static var confirmNewPasswordPrompt: String { return L10n.tr("Localizable", "confirm_new_password_prompt") }
   /// Continue
   internal static var `continue`: String { return L10n.tr("Localizable", "continue") }
+  /// Copy
+  internal static var copy: String { return L10n.tr("Localizable", "copy") }
   /// Create Account
   internal static var createAccount: String { return L10n.tr("Localizable", "create_account") }
   /// Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again.
