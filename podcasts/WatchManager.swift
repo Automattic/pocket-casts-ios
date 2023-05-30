@@ -9,6 +9,9 @@ class WatchManager: NSObject, WCSessionDelegate {
 
     let logFileRequestTimedAction = TimedActionHelper()
 
+    // The last retrieved log is cached here for the duration of this session
+    var cachedLog: String? = nil
+
     func setup() {
         if !WCSession.isSupported() { return }
 
