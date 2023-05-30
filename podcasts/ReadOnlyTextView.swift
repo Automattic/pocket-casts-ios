@@ -12,12 +12,11 @@ struct ReadOnlyTextView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                ForEach(lines.indices, id: \.self) { line in
-                    Text(lines[line])
-                        .lineLimit(Int.max)
-                }
+                Text(lines.joined(separator: "\n"))
+                    .lineLimit(Int.max)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .textSelection(.enabled)
             .padding(10)
         }
         .frame(maxWidth: .infinity, minHeight: 25, maxHeight: 300, alignment: .leading)
