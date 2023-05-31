@@ -87,7 +87,7 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     @objc func progressUpdated(animated: Bool = true) {
-        guard let chapter = chapter, chapter == PlaybackManager.shared.currentChapters().visibleChapter() else { return }
+        guard let chapter = chapter, chapter == PlaybackManager.shared.currentChapter() else { return }
 
         layoutIfNeeded()
 

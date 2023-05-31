@@ -1521,8 +1521,6 @@
 		C7FF770F291C2CBA0082A464 /* LoginButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF770E291C2CBA0082A464 /* LoginButtonStyles.swift */; };
 		C7FF7715291D45B50082A464 /* SingleSignOn.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */; };
 		C7FF7717291D50880082A464 /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF7716291D50880082A464 /* Motion.swift */; };
-		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
-		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3203,7 +3201,6 @@
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
 		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
-		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		E51D1A08077BEF3B1F180BA7 /* Pods-PocketCasts-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
 		EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -4702,7 +4699,6 @@
 				BD35E9171D45AC3E00CAE2A7 /* ChapterInfo.swift */,
 				BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */,
 				BDD6F0332140E1A3005FD8A3 /* ChapterManager.swift */,
-				E3F37445291F0DD1005916ED /* Chapters.swift */,
 			);
 			name = Chapters;
 			sourceTree = "<group>";
@@ -8173,7 +8169,6 @@
 				BD6275BF27D1C5370020A28C /* TraceHelper.swift in Sources */,
 				4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */,
 				45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */,
-				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
 				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
@@ -8873,7 +8868,6 @@
 				BDE48A332410D48900ECA6CA /* ChapterManager.swift in Sources */,
 				BDE48A172410CFD100ECA6CA /* PlaybackManager.swift in Sources */,
 				BDE48A392410D5BD00ECA6CA /* PodcastManager+Cleanup.swift in Sources */,
-				E3F37447291F0DD1005916ED /* Chapters.swift in Sources */,
 				46703E0E27BEEF0900DD7998 /* Bundle+Helpers.swift in Sources */,
 				4670303627D7A70700844CED /* PodcastEpisodeListView.swift in Sources */,
 				BD74F15527F293ED00222785 /* HomeGridDataHelper.swift in Sources */,

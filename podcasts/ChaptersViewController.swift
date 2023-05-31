@@ -26,10 +26,10 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     func scrollToCurrentlyPlayingChapter(animated: Bool) {
-        let currentChapter = PlaybackManager.shared.currentChapters()
+        guard let currentChapter = PlaybackManager.shared.currentChapter() else { return }
 
         // scroll far enough to at least see the current chapter + a few more
-        chaptersTable.scrollToRow(at: IndexPath(item: currentChapter.index(), section: 0), at: .middle, animated: animated)
+        chaptersTable.scrollToRow(at: IndexPath(item: currentChapter.index, section: 0), at: .middle, animated: animated)
     }
 
     private func addObservers() {
