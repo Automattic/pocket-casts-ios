@@ -2071,6 +2071,12 @@
     <string>跳过开头音乐和结尾音乐，就像您生来是超级用户一样。</string>
     <key>settings_stats</key>
     <string>统计</string>
+    <key>settings_status_description</key>
+    <string>检查您与重要服务的连接。 这有助于诊断网络、代理、VPN、广告拦截和安全应用程序的问题。</string>
+    <key>settings_status_page</key>
+    <string>状态页</string>
+    <key>settings_status_run</key>
+    <string>立即运行</string>
     <key>settings_storage</key>
     <string>存储和数据使用情况</string>
     <key>settings_storage_data_warning</key>

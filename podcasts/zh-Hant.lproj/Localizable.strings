@@ -2071,6 +2071,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>輕鬆跳過開場和結尾音樂，享受進階使用者功能。</string>
     <key>settings_stats</key>
     <string>統計</string>
+    <key>settings_status_description</key>
+    <string>請檢查重要服務的連線。 這有助於診斷網路、Proxy、VPN、廣告封鎖和安全性應用程式的問題。</string>
+    <key>settings_status_page</key>
+    <string>狀態頁面</string>
+    <key>settings_status_run</key>
+    <string>立即執行</string>
     <key>settings_storage</key>
     <string>儲存空間與數據使用</string>
     <key>settings_storage_data_warning</key>

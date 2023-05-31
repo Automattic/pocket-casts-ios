@@ -2071,6 +2071,12 @@ Gratis-Test für %1$@</string>
     <string>Überspringe die Intro- und Outro-Musik wie ein echter Power-User.</string>
     <key>settings_stats</key>
     <string>Statistik</string>
+    <key>settings_status_description</key>
+    <string>Prüfe die Verbindung mit wichtigen Diensten. Dadurch kannst du Probleme mit deinem Netzwerk, Proxys, VPN, Werbeblockern und Sicherheits-Apps ermitteln.</string>
+    <key>settings_status_page</key>
+    <string>Statusseite</string>
+    <key>settings_status_run</key>
+    <string>Jetzt ausführen</string>
     <key>settings_storage</key>
     <string>Speicher und Datennutzung</string>
     <key>settings_storage_data_warning</key>

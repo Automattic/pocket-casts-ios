@@ -2071,6 +2071,12 @@ gratis provperiod på %1$@</string>
     <string>Hoppa över intro och outro musiken som den produktiva super-lyssnaren du föddes till att vara.</string>
     <key>settings_stats</key>
     <string>Statistik</string>
+    <key>settings_status_description</key>
+    <string>Kontrollera din anslutning med viktiga tjänster Det hjälper till att diagnostisera problem med ditt nätverk, proxyservrar, VPN samt annonsblockerings- och säkerhetsappar.</string>
+    <key>settings_status_page</key>
+    <string>Statussida</string>
+    <key>settings_status_run</key>
+    <string>Kör nu</string>
     <key>settings_storage</key>
     <string>Lagrings- och dataanvändning</string>
     <key>settings_storage_data_warning</key>
