@@ -3,65 +3,45 @@ import PocketCastsDataModel
 
 class ChapterManager {
     private var chapterParser = PodcastChapterParser()
-    private var chapters = [ChapterInfo]() {
-        didSet {
-            visibleChapters = chapters.filter { !$0.isHidden }
-        }
-    }
-    private var visibleChapters = [ChapterInfo]()
+    private var chapters = [ChapterInfo]()
 
     private var lastEpisodeUuid = ""
 
-    var currentChapters = Chapters()
+    var currentChapter: ChapterInfo?
 
-    func visibleChapterCount() -> Int {
-        visibleChapters.count
+    func chapterCount() -> Int {
+        chapters.count
     }
 
     func haveTriedToParseChaptersFor(episodeUuid: String?) -> Bool {
         lastEpisodeUuid == episodeUuid
     }
 
-    func previousVisibleChapter() -> ChapterInfo? {
-        guard let visibleChapter = currentChapters.visibleChapter else {
+    func previousChapter() -> ChapterInfo? {
+        guard let currentChapter = currentChapter else {
             return nil
         }
-        let previousChapter: ChapterInfo?
-
-        if let index = visibleChapters.firstIndex(of: visibleChapter) {
-            previousChapter = visibleChapters[safe: index.advanced(by: -1)]
-        } else {
-            previousChapter = nil
-        }
-        return previousChapter
+        return chapters[safe: currentChapter.index - 1]
     }
 
-    func nextVisibleChapter() -> ChapterInfo? {
-        guard let visibleChapter = currentChapters.visibleChapter else {
-            return nil
-        }
-        let nextChapter: ChapterInfo?
+    func nextChapter() -> ChapterInfo? {
+        guard let currentChapter = currentChapter else { return nil }
 
-        if let index = visibleChapters.firstIndex(of: visibleChapter) {
-            nextChapter = visibleChapters[safe: index.advanced(by: 1)]
-        } else {
-            nextChapter = nil
-        }
-        return nextChapter
+        return chapters[safe: currentChapter.index + 1]
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
-        visibleChapters[safe: index]
+        chapters[safe: index]
     }
 
     @discardableResult
     func updateCurrentChapter(time: TimeInterval) -> Bool {
         if chapters.count == 0 { return false }
 
-        let chapters = chaptersForTime(time)
-        let hasChanged = currentChapters != chapters
+        let chapter = chapterForTime(time)
+        let hasChanged = currentChapter != chapter
 
-        if hasChanged { currentChapters = chapters }
+        if hasChanged { currentChapter = chapter }
 
         return hasChanged
     }
@@ -88,14 +68,13 @@ class ChapterManager {
     func clearChapterInfo() {
         lastEpisodeUuid = ""
         chapters.removeAll()
-        currentChapters = Chapters()
+        currentChapter = nil
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastChaptersDidUpdate)
     }
 
-    func chaptersForTime(_ time: TimeInterval) -> Chapters {
-
-        Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time })
+    func chapterForTime(_ time: TimeInterval) -> ChapterInfo? {
+        chapters.filter { $0.startTime.seconds <= time }.last
     }
 
     private func handleChaptersLoaded(_ chapters: [ChapterInfo]) {
