@@ -92,7 +92,7 @@
     <key>account_details_free_account</key>
     <string>Compte gratuït</string>
     <key>account_details_listened_for</key>
-    <string>Escoltat durant %1$@</string>
+    <string>Temps escoltat: %1$@</string>
     <key>account_details_plus_title</key>
     <string>Porta la teva experiència amb els podcasts a un altre nivell amb accés exclusiu a funcions i opcions de personalització.</string>
     <key>account_login</key>
@@ -907,7 +907,7 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <key>free_trial_pricing_terms</key>
     <string>%1$@ gratuït, i després %2$@</string>
     <key>free_trial_start_and_subscribe_button</key>
-    <string>Començar una prova gratuïta i subscriure's</string>
+    <string>Comença una prova gratuïta i subscriure'm</string>
     <key>free_trial_start_button</key>
     <string>Començar la prova gratuïta</string>
     <key>free_trial_title_label</key>
@@ -1338,7 +1338,7 @@ ACTUALITZACIONS</string>
     <key>plus_features</key>
     <string>FUNCIONS PLUS</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ grauït</string>
+    <string>%1$@ gratuït</string>
     <key>plus_lifetime_membership</key>
     <string>Membre vitalici</string>
     <key>plus_marketing_cloud_storage_description</key>
@@ -1667,7 +1667,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>queue_time_remaining</key>
     <string>%1$@ queden</string>
     <key>queue_total_time_remaining</key>
-    <string>Temps total que queda: %1$@</string>
+    <string>Queda en total: %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>CERCANT NOUS EPISODIS DELS PODCASTS</string>
     <key>refresh_control_pull_to_refresh</key>

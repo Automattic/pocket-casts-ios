@@ -428,7 +428,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
             let hasChapters = playbackManager.chapterCount() > 0
             nowPlayingInfo[WatchConstants.Keys.nowPlayingHasChapters] = hasChapters
-            let chapterTitle = playbackManager.currentChapters().title
+            let chapterTitle = playbackManager.currentChapter()?.title ?? ""
             nowPlayingInfo[WatchConstants.Keys.nowPlayingChapterTitle] = chapterTitle
 
             let duration = playbackManager.duration()

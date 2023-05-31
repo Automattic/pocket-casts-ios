@@ -2071,6 +2071,12 @@ prueba gratuita de %1$@</string>
     <string>Omite la música de introducción y de cierre como el usuario experto que eres desde que naciste.</string>
     <key>settings_stats</key>
     <string>Estadísticas</string>
+    <key>settings_status_description</key>
+    <string>Comprueba tu conexión a través de servicios importantes. Esto ayuda a diagnosticar problemas de red, proxies, VPN, bloqueo de anuncios y aplicaciones de seguridad.</string>
+    <key>settings_status_page</key>
+    <string>Página de estado</string>
+    <key>settings_status_run</key>
+    <string>Ejecutar ahora</string>
     <key>settings_storage</key>
     <string>Almacenamiento y uso de datos</string>
     <key>settings_storage_data_warning</key>

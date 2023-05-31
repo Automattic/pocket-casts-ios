@@ -2071,6 +2071,12 @@
     <string>Пропускайте вступительную и заключительную музыку как умудренный опытом слушатель.</string>
     <key>settings_stats</key>
     <string>Статистика</string>
+    <key>settings_status_description</key>
+    <string>Проверьте подключение к важным службам. Это помогает диагностировать проблемы с сетью, прокси-серверами, VPN, приложениями для блокировки рекламы и безопасности.</string>
+    <key>settings_status_page</key>
+    <string>Страница состояния</string>
+    <key>settings_status_run</key>
+    <string>Запустить сейчас</string>
     <key>settings_storage</key>
     <string>Использование хранилища и данных</string>
     <key>settings_storage_data_warning</key>

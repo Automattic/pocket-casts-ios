@@ -2071,6 +2071,12 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Salta la musica introduttiva e finale come l'utente esperto che sei nato per diventare.</string>
     <key>settings_stats</key>
     <string>Statistiche</string>
+    <key>settings_status_description</key>
+    <string>Verifica la connessione con servizi importanti. L'operazione ti aiuta a diagnosticare problemi con rete, proxy, VPN, blocco annunci e app di sicurezza.</string>
+    <key>settings_status_page</key>
+    <string>Stato</string>
+    <key>settings_status_run</key>
+    <string>Verifica</string>
     <key>settings_storage</key>
     <string>Archiviazione e utilizzo dei dati</string>
     <key>settings_storage_data_warning</key>

@@ -2071,6 +2071,12 @@ essai gratuit de %1$@</string>
     <string>Passer la musique du générique du début et de fin tel le puissant utilisateur que vous avez toujours rêvé d’être.</string>
     <key>settings_stats</key>
     <string>Statistiques</string>
+    <key>settings_status_description</key>
+    <string>Vérifiez votre connexion avec les principaux services. Cela permet de diagnostiquer les problèmes liés à votre réseau, aux serveurs mandataires, aux RPV, au blocage des publicités et aux applications de sécurité.</string>
+    <key>settings_status_page</key>
+    <string>Page de statut</string>
+    <key>settings_status_run</key>
+    <string>Exécuter</string>
     <key>settings_storage</key>
     <string>Stockage et utilisation des données</string>
     <key>settings_storage_data_warning</key>

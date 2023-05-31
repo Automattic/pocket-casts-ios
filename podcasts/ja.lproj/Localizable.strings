@@ -2070,6 +2070,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>パワーユーザーにふさわしく、冒頭と最後の音楽をスキップします。</string>
     <key>settings_stats</key>
     <string>統計</string>
+    <key>settings_status_description</key>
+    <string>重要なサービスとの接続を確認してください。 これは、ネットワーク、プロキシ、VPN、広告ブロックアプリ、セキュリティアプリの問題を診断するのに役立ちます。</string>
+    <key>settings_status_page</key>
+    <string>ステータスページ</string>
+    <key>settings_status_run</key>
+    <string>今すぐ実行</string>
     <key>settings_storage</key>
     <string>ストレージとデータ使用量</string>
     <key>settings_storage_data_warning</key>

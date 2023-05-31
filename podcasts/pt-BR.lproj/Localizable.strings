@@ -2071,6 +2071,12 @@ teste gratuito de %1$@</string>
     <string>Use todo o seu poder para pular a música de introdução e encerramento.</string>
     <key>settings_stats</key>
     <string>Estatísticas</string>
+    <key>settings_status_description</key>
+    <string>Verifique sua conexão com serviços importantes. Isso ajuda a identificar problemas na sua rede, nos proxies, na VPN e nos aplicativos de segurança e bloqueadores de anúncios.</string>
+    <key>settings_status_page</key>
+    <string>Página de status</string>
+    <key>settings_status_run</key>
+    <string>Executar agora</string>
     <key>settings_storage</key>
     <string>Uso de dados e armazenamento</string>
     <key>settings_storage_data_warning</key>
