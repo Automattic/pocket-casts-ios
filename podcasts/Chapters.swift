@@ -41,10 +41,15 @@ class Chapters: Equatable {
     }
 #endif
 
-    init(chapters: [ChapterInfo] = []) {
-        if chaptersOverlap(chapters) {
-            self.chapters = chapters
+    init() {
+        self.chapters = []
+    }
+
+    init?(chapters: [ChapterInfo]) {
+        if !chaptersOverlap(chapters) {
+            return nil
         }
+        self.chapters = chapters
     }
 
     static func == (lhs: Chapters, rhs: Chapters) -> Bool {
@@ -52,30 +57,27 @@ class Chapters: Equatable {
     }
 }
 
-private extension Chapters {
+private func chaptersOverlap(_ chapters: [ChapterInfo]) -> Bool {
+    let ranges = chapters.compactMap { $0.duration > 0 ? $0.startTime.seconds ... ($0.startTime.seconds + $0.duration) : nil }
+    var ranegsOverlap = true
+    var lowerbound = -Double.infinity, upperbound = Double.infinity
 
-    func chaptersOverlap(_ chapters: [ChapterInfo]) -> Bool {
-        let ranges = chapters.compactMap { $0.duration > 0 ? $0.startTime.seconds ... ($0.startTime.seconds + $0.duration) : nil }
-        var rangesOverlap = true
-        var lowerbound = -Double.infinity, upperbound = Double.infinity
-
-        for r in ranges {
-            var didSet = false
-            if r.lowerBound >= lowerbound && r.lowerBound < upperbound {
-                lowerbound = r.lowerBound
-                didSet = true
-            }
-
-            if r.upperBound <= upperbound && r.upperBound > lowerbound {
-                upperbound = r.upperBound
-                didSet = true
-            }
-
-            if !didSet {
-                rangesOverlap = false
-                break
-            }
+    for r in ranges {
+        var didSet = false
+        if r.lowerBound >= lowerbound && r.lowerBound < upperbound {
+            lowerbound = r.lowerBound
+            didSet = true
         }
-        return rangesOverlap
+
+        if r.upperBound <= upperbound && r.upperBound > lowerbound {
+            upperbound = r.upperBound
+            didSet = true
+        }
+
+        if !didSet {
+            ranegsOverlap = false
+            break
+        }
     }
+    return ranegsOverlap
 }

@@ -321,7 +321,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         chapterManager.currentChapters
     }
 
-    func chaptersForTime(time: TimeInterval) -> Chapters {
+    func chapterForTime(time: TimeInterval) -> Chapters {
         chapterManager.chaptersForTime(time)
     }
 

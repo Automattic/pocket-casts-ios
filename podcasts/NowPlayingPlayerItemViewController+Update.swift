@@ -94,7 +94,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     private func updateChapterInfoForTime(_ time: TimeInterval) {
-        updateChapterInfoWithChapters(PlaybackManager.shared.chaptersForTime(time: time))
+        updateChapterInfoWithChapters(PlaybackManager.shared.chapterForTime(time: time))
     }
 
     private func updateChapterInfoWithChapters(_ chapters: Chapters) {
@@ -152,7 +152,7 @@ extension NowPlayingPlayerItemViewController {
     func updateUpTo(upTo: TimeInterval, duration: TimeInterval, moveSlider: Bool) {
         let remaining = max(0, duration - upTo)
         updateTimeLabels(upTo: upTo, remaining: remaining)
-        updateChapterInfoWithChapters(PlaybackManager.shared.chaptersForTime(time: upTo))
+        updateChapterInfoWithChapters(PlaybackManager.shared.chapterForTime(time: upTo))
 
         if moveSlider {
             timeSlider.totalDuration = duration
@@ -169,7 +169,7 @@ extension NowPlayingPlayerItemViewController {
         if PlaybackManager.shared.chapterCount() == 0 {
             return
         }
-        let chapters = PlaybackManager.shared.chaptersForTime(time: time)
+        let chapters = PlaybackManager.shared.chapterForTime(time: time)
         if chapters.count > 0 {
             episodeName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
             updateChapterProgress(for: chapters.visibleChapter, playheadPosition: time)

@@ -24,15 +24,15 @@ final class ChaptersTests: XCTestCase {
     }
 
     private lazy var singleChapter: Chapters = {
-        Chapters(chapters: [ChapterInfo()])
+        Chapters(chapters: [ChapterInfo()])!
     }()
 
     private lazy var fiveChapters: Chapters = {
-        Chapters(chapters: [ChapterInfo](repeating: ChapterInfo(), count: 5))
+        Chapters(chapters: [ChapterInfo](repeating: ChapterInfo(), count: 5))!
     }()
 
     private lazy var visibleChapterOnly: Chapters = {
-        Chapters(chapters: [visibleChapter()])
+        Chapters(chapters: [visibleChapter()])!
     }()
 
     private func invisibleChaptersOnly(baseStartTime: CMTime = CMTime(seconds: 10, preferredTimescale: 1000)) -> Chapters {
@@ -48,7 +48,7 @@ final class ChaptersTests: XCTestCase {
             chapter.image = UIImage()
             chapters.append(chapter)
         }
-        return Chapters(chapters: chapters)
+        return Chapters(chapters: chapters)!
     }
 
     private func detailsOnVisibleChapterOnly(title: String = "visible chapter",
@@ -67,7 +67,7 @@ final class ChaptersTests: XCTestCase {
             chapters.append(chapter)
         }
         chapters.insert(visibleChapter(title: title, url: url, image: image, index: index, duration: duration, startTime: startTime), at: 0)
-        return Chapters(chapters: chapters)
+        return Chapters(chapters: chapters)!
     }
 
     private func detailsOnFirstChapter(title: String = "invisible chapter",
@@ -86,7 +86,7 @@ final class ChaptersTests: XCTestCase {
         chapters[1].title = title
         chapters[1].url = url
         chapters[1].image = image
-        return Chapters(chapters: chapters)
+        return Chapters(chapters: chapters)!
     }
 
     private func detailsOnMiddleChapter(title: String = "invisible chapter",
@@ -110,7 +110,7 @@ final class ChaptersTests: XCTestCase {
         chapters[1].url = url
         chapters[1].image = image
         chapters.insert(visibleChapter(title: "visible chapter", startTime: CMTime(seconds: 0, preferredTimescale: 1000)), at: 0)
-        return Chapters(chapters: chapters)
+        return Chapters(chapters: chapters)!
     }
 
     private func detailsOnLastChapter(title: String = "invisible chapter",
@@ -132,10 +132,10 @@ final class ChaptersTests: XCTestCase {
         chapters.last?.title = title
         chapters.last?.url = url
         chapters.last?.image = image
-        return Chapters(chapters: chapters)
+        return Chapters(chapters: chapters)!
     }
 
-    func testZeroChaptersWhenChaptersDontOverlap() {
+    func testNilObjectWhenChaptersDontOverlap() {
         let chapter1 = ChapterInfo()
         chapter1.duration = 15
         chapter1.startTime = CMTime(seconds: 0, preferredTimescale: 1000)
@@ -145,10 +145,10 @@ final class ChaptersTests: XCTestCase {
 
         let chapters = Chapters(chapters: [chapter1, chapter2])
 
-        XCTAssertEqual(0, chapters.count)
+        XCTAssertNil(chapters)
     }
 
-    func testChaptersCreatedWhenChapterRangesAreEqual() {
+    func testNonNilObjectWhenChapterRangesAreEqual() {
         let chapter1 = ChapterInfo()
         chapter1.duration = 15
         chapter1.startTime = CMTime(seconds: 15, preferredTimescale: 1000)
@@ -158,10 +158,10 @@ final class ChaptersTests: XCTestCase {
 
         let chapters = Chapters(chapters: [chapter1, chapter2])
 
-        XCTAssertEqual(2, chapters.count)
+        XCTAssertNotNil(chapters)
     }
 
-    func testChaptersCreatedWhenChaptersOverlap() {
+    func testNonNilObjectWhenChaptersOverlap() {
         let chapter1 = ChapterInfo()
         chapter1.duration = 15
         chapter1.startTime = CMTime(seconds: 7, preferredTimescale: 1000)
@@ -171,7 +171,7 @@ final class ChaptersTests: XCTestCase {
 
         let chapters = Chapters(chapters: [chapter1, chapter2])
 
-        XCTAssertEqual(2, chapters.count)
+        XCTAssertNotNil(chapters)
     }
 
     func testChapterCountIsOne() {
