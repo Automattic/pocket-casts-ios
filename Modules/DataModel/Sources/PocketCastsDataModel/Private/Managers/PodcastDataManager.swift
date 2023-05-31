@@ -409,6 +409,31 @@ class PodcastDataManager {
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
+
+    /// TODO: Documentation
+    /// - Parameters:
+    ///   - value: <#value description#>
+    ///   - podcasts: <#podcasts description#>
+    ///   - dbQueue: <#dbQueue description#>
+    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                let uuids = podcasts.map { $0.uuid }
+
+                let query = """
+                UPDATE \(DataManager.podcastTableName)
+                SET autoAddToUpNext = ?
+                AND uuid IN (\(DataHelper.convertArrayToInString(uuids)))
+                """
+                try db.executeUpdate(query, values: [value.rawValue])
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
+            }
+        }
+
+        cachePodcasts(dbQueue: dbQueue)
+    }
+
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: FMDatabaseQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
     }
