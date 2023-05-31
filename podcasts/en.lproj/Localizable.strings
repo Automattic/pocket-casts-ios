@@ -3723,4 +3723,4 @@
 "patron_unlock_release" = "Release to Unlock";
 
 /* The string for the act of Copy (from Copy & Paste) */
-"copy" = "Copy";"
+"copy" = "Copy";
