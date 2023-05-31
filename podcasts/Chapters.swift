@@ -21,7 +21,7 @@ class Chapters: Equatable {
     }
 
     func title() -> String {
-        chapters.last?.title ?? ""
+        visibleChapter()?.title ?? ""
     }
 
 #if !os(watchOS)
