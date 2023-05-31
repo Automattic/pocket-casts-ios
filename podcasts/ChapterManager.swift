@@ -12,7 +12,7 @@ class ChapterManager {
 
     private var lastEpisodeUuid = ""
 
-    var currentChapters: Chapters = Chapters()
+    var currentChapters = Chapters(chapters: [])
 
     func visibleChapterCount() -> Int {
         visibleChapters.count
@@ -23,7 +23,7 @@ class ChapterManager {
     }
 
     func previousVisibleChapter() -> ChapterInfo? {
-        guard let visibleChapter = currentChapters.visibleChapter else {
+        guard let visibleChapter = currentChapters.visibleChapter() else {
             return nil
         }
         let previousChapter: ChapterInfo?
@@ -37,7 +37,7 @@ class ChapterManager {
     }
 
     func nextVisibleChapter() -> ChapterInfo? {
-        guard let visibleChapter = currentChapters.visibleChapter else {
+        guard let visibleChapter = currentChapters.visibleChapter() else {
             return nil
         }
         let nextChapter: ChapterInfo?
@@ -88,14 +88,14 @@ class ChapterManager {
     func clearChapterInfo() {
         lastEpisodeUuid = ""
         chapters.removeAll()
-        currentChapters = Chapters()
+        currentChapters = Chapters(chapters: [])
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastChaptersDidUpdate)
     }
 
     func chaptersForTime(_ time: TimeInterval) -> Chapters {
 
-        Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time }) ?? Chapters()
+        Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) >= time })
     }
 
     private func handleChaptersLoaded(_ chapters: [ChapterInfo]) {

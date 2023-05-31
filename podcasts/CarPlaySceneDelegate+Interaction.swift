@@ -81,7 +81,7 @@ extension CarPlaySceneDelegate {
             let chapterLength = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
             let subtTitle = L10n.carplayChapterCount((i + 1).localized(), chapterCount.localized(), chapterLength)
             let chapterItem = CPListItem(text: chapter.title, detailText: subtTitle)
-            chapterItem.isPlaying = currentChapters.index == chapter.index
+            chapterItem.isPlaying = currentChapters.index() == chapter.index
             chapterItem.playingIndicatorLocation = .trailing
             chapterItem.handler = { [weak self] _, completion in
                 PlaybackManager.shared.skipToChapter(chapter)

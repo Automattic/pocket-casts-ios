@@ -237,9 +237,9 @@ class WatchSourceViewModel: PlaySourceViewModel {
     func nowPlayingTitle(forEpisode episode: BaseEpisode) -> String? {
         let chapters = PlaybackManager.shared.currentChapters()
         guard
-            let chapter = chapters.visibleChapter,
+            let chapter = chapters.visibleChapter(),
             PlaybackManager.shared.chapterCount() != 0,
-            !chapters.title.isEmpty
+            !chapters.title().isEmpty
         else {
             return episode.displayableTitle()
         }
