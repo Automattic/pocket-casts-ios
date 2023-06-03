@@ -25,6 +25,10 @@ class PodcastChapterParser {
                     let movieAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
                     guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else { return }
 
+                    if chapters.allSatisfy({ $0.hidden }) {
+                        chapters.forEach { $0.hidden = false }
+                    }
+
                     var parsedChapters = [ChapterInfo]()
                     var index = 0
                     for chapter in chapters {

@@ -5,6 +5,7 @@
 7.40
 -----
 - Add a Status Page so the user can check their connection to our services
+- When all chapters in a file are hidden, make them visible in the Chapters UI
 
 7.39
 -----
