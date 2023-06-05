@@ -1521,6 +1521,9 @@
 		C7FF770F291C2CBA0082A464 /* LoginButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF770E291C2CBA0082A464 /* LoginButtonStyles.swift */; };
 		C7FF7715291D45B50082A464 /* SingleSignOn.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */; };
 		C7FF7717291D50880082A464 /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FF7716291D50880082A464 /* Motion.swift */; };
+		E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3665F532936CD13001C8372 /* ChaptersTests.swift */; };
+		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
+		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3201,6 +3204,8 @@
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
 		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
+		E3665F532936CD13001C8372 /* ChaptersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersTests.swift; sourceTree = "<group>"; };
+		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		E51D1A08077BEF3B1F180BA7 /* Pods-PocketCasts-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
 		EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.staging.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.staging.xcconfig"; sourceTree = "<group>"; };
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -4013,6 +4018,7 @@
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E3665F552936CD33001C8372 /* Playback */,
 				C7BF5E4829083B3F00733C1E /* Discover */,
 				8B2E054E28F8577200C2DBDE /* End of Year */,
 				C7D854F128ADD97700877E87 /* Analytics */,
@@ -4699,6 +4705,7 @@
 				BD35E9171D45AC3E00CAE2A7 /* ChapterInfo.swift */,
 				BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */,
 				BDD6F0332140E1A3005FD8A3 /* ChapterManager.swift */,
+				E3F37445291F0DD1005916ED /* Chapters.swift */,
 			);
 			name = Chapters;
 			sourceTree = "<group>";
@@ -6835,6 +6842,22 @@
 			name = Discovery;
 			sourceTree = "<group>";
 		};
+		E3665F552936CD33001C8372 /* Playback */ = {
+			isa = PBXGroup;
+			children = (
+				E3665F562936CD6C001C8372 /* Chapters */,
+			);
+			path = Playback;
+			sourceTree = "<group>";
+		};
+		E3665F562936CD6C001C8372 /* Chapters */ = {
+			isa = PBXGroup;
+			children = (
+				E3665F532936CD13001C8372 /* ChaptersTests.swift */,
+			);
+			path = Chapters;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -8084,6 +8107,7 @@
 				8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */,
 				C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */,
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
+				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
@@ -8169,6 +8193,7 @@
 				BD6275BF27D1C5370020A28C /* TraceHelper.swift in Sources */,
 				4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */,
 				45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */,
+				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
 				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
@@ -8868,6 +8893,7 @@
 				BDE48A332410D48900ECA6CA /* ChapterManager.swift in Sources */,
 				BDE48A172410CFD100ECA6CA /* PlaybackManager.swift in Sources */,
 				BDE48A392410D5BD00ECA6CA /* PodcastManager+Cleanup.swift in Sources */,
+				E3F37447291F0DD1005916ED /* Chapters.swift in Sources */,
 				46703E0E27BEEF0900DD7998 /* Bundle+Helpers.swift in Sources */,
 				4670303627D7A70700844CED /* PodcastEpisodeListView.swift in Sources */,
 				BD74F15527F293ED00222785 /* HomeGridDataHelper.swift in Sources */,

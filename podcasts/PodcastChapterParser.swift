@@ -25,11 +25,14 @@ class PodcastChapterParser {
                     let movieAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
                     guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else { return }
 
+                    if chapters.allSatisfy({ $0.hidden }) {
+                        chapters.forEach { $0.hidden = false }
+                    }
+
                     var parsedChapters = [ChapterInfo]()
-                    for (index, chapter) in chapters.enumerated() {
+                    var index = 0
+                    for chapter in chapters {
                         let convertedChapter = ChapterInfo()
-                        convertedChapter.isFirst = index == 0
-                        convertedChapter.isLast = (index == chapters.count - 1)
                         convertedChapter.title = chapter.title ?? ""
                         #if !os(watchOS)
                             convertedChapter.image = chapter.artwork
@@ -37,14 +40,19 @@ class PodcastChapterParser {
 
                         convertedChapter.startTime = chapter.time
                         convertedChapter.duration = chapter.duration.seconds
-                        convertedChapter.index = index
+                        convertedChapter.isHidden = chapter.hidden
+                        if !convertedChapter.isHidden {
+                            convertedChapter.index = index
+                            index += 1
+                        }
                         if strongSelf.isValidUrl(chapter.url) {
                             convertedChapter.url = chapter.url
                         }
 
                         parsedChapters.append(convertedChapter)
                     }
-
+                    parsedChapters.first(where: {!$0.isHidden})?.isFirst = true
+                    parsedChapters.last(where: {!$0.isHidden})?.isLast = true
                     completion(parsedChapters)
                 }
             } catch {

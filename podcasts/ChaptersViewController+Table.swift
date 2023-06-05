@@ -21,12 +21,12 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
             var state = PlayerChapterCell.ChapterPlayState.played
-            if let currentChapter = PlaybackManager.shared.currentChapter() {
-                if chapter.index == currentChapter.index {
-                    state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
-                } else if chapter.index > currentChapter.index {
-                    state = .future
-                }
+            let currentChapters = PlaybackManager.shared.currentChapters()
+
+            if chapter.index == currentChapters.index {
+                state = PlaybackManager.shared.playing() ? .currentlyPlaying : .currentlyPaused
+            } else if chapter.index > currentChapters.index {
+                state = .future
             }
 
             chapterCell.populateFrom(chapter: chapter, playState: state) { url in
@@ -37,7 +37,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 }
             }
 
-            chapterCell.seperatorView.isHidden = (chapter.index == (PlaybackManager.shared.currentChapter()?.index ?? 0) - 1 || chapter.index == (PlaybackManager.shared.currentChapter()?.index ?? 0) || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
+            chapterCell.seperatorView.isHidden = (chapter.index == PlaybackManager.shared.currentChapters().index - 1 || chapter.index == PlaybackManager.shared.currentChapters().index || (indexPath.row == PlaybackManager.shared.chapterCount() - 1))
         }
 
         return chapterCell
@@ -47,7 +47,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         tableView.deselectRow(at: indexPath, animated: true)
 
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
-            if chapter.index == PlaybackManager.shared.currentChapter()?.index {
+            if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
             } else {
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
