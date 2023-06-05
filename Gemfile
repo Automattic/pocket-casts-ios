@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'cocoapods'
+gem 'cocoapods', '~> 1.12', '>= 1.12.1'
 gem 'cocoapods-check', '~> 1.1'
 gem 'commonmarker'
 gem 'danger'
