@@ -45,7 +45,7 @@ public class FileLog {
         guard let message = message, message.count > 0 else { return }
 
         // if it's important enough to log to file, write it to the debug console as well
-        Self.logger.log("\(message)")
+        Self.logger.log("\(message, privacy: .public)")
         let dateFormatter = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
         appendStringToLog("\(dateFormatter.string(from: Date())) \(message)\n")
     }
