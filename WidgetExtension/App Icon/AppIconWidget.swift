@@ -27,5 +27,8 @@ struct AppIconWidgetEntryView: View {
                 .frame(width: 55, height: 55)
         }
         .widgetURL(URL(string: "pktc://last_opened"))
+        .widgetContainerBackground {
+            Color.red
+        }
     }
 }

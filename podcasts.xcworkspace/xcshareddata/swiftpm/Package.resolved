@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "d302de612e3d57c6f4afaf087da18fba8eac72a7",
-          "version": "0.20220203.1"
+          "revision": "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
+          "version": "0.20220203.2"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "15ccdfd25ac55b9239b82809531ff26605e7556e",
-          "version": "9.1.2"
+          "revision": "7874c1b48cbffd086ce8a052c4be873a78613775",
+          "version": "9.2.3"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "f4abe56ce62a779e64b525eb133c8fc2a84bbc1f",
-          "version": "7.7.1"
+          "revision": "871d43135925cde39ef7421d8723ce47edfdcc39",
+          "version": "7.11.1"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/grpc/grpc-ios.git",
         "state": {
           "branch": null,
-          "revision": "abd2d5a4347efa0454606a788678a5d8ec223738",
-          "version": "1.44.0-grpc"
+          "revision": "8440b914756e0d26d4f4d054a1c1581daedfc5b6",
+          "version": "1.44.3-grpc"
         }
       },
       {

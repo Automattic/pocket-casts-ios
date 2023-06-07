@@ -6,6 +6,9 @@ struct UpNextLockScreenWidget: Widget {
         if #available(iOSApplicationExtension 16.0, *) {
             return StaticConfiguration(kind: "Up_Next_Lock_Screen_Widget", provider: UpNextProvider()) { entry in
                 UpNextLockScreenWidgetEntryView(entry: entry)
+                    .widgetContainerBackground {
+                        Color.red
+                    }
             }
             .configurationDisplayName(L10n.upNext)
             .description(L10n.widgetsUpNextDescription)
@@ -35,6 +38,17 @@ struct UpNextLockScreenWidgetEntryView: View {
     }
 }
 
+extension View {
+    func widgetContainerBackground<Content: View>(_ content: () -> Content) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return self.containerBackground(for: .widget) {
+                content()
+            }
+        } else {
+            return self
+        }
+    }
+}
 // MARK: - Circular View
 
 @available(iOSApplicationExtension 16.0, *)
@@ -71,6 +85,9 @@ struct UpNextCircularWidgetView: View {
             }
         }
         .widgetURL(URL(string: widgetURL))
+        .widgetContainerBackground {
+            Color.red
+        }
     }
 }
 
@@ -129,14 +146,21 @@ struct UpNextRectangularWidgetView: View {
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
             }
-        }.widgetURL(URL(string: widgetURL))
+        }
+        .widgetURL(URL(string: widgetURL))
+        .widgetContainerBackground {
+            Color.red
+        }
     }
 }
 
 @available(iOSApplicationExtension 16.0, *)
 struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
     static var previews: some View {
-        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))
+        UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(),
+                                                           isPlaying: false,
+                                                           upNextEpisodesCount: 18))
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+            .previewLayout(.fixed(width: 160, height: 160))
     }
 }
