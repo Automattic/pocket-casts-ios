@@ -238,6 +238,54 @@ class PlayerTabsView: UIScrollView {
     private enum TabConstants {
         static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
         static let spacing: CGFloat = 14
+// MARK: - Private: Scroll Fading
+
+private extension PlayerTabsView {
+    private class FadeOutLayer: CAGradientLayer {
+        enum FadePosition {
+            case leading, trailing
+        }
+
+        var fadePosition: FadePosition = .leading
+
+        init(fadePosition: FadePosition) {
+            self.fadePosition = fadePosition
+
+            super.init()
+
+            updateColors()
+
+            switch fadePosition {
+            case .leading:
+                startPoint = .init(x: 1, y: 0)
+                endPoint = .zero
+
+            case .trailing:
+                startPoint = .zero
+                endPoint = .init(x: 1, y: 0)
+            }
+        }
+
+        func updateColors() {
+            let color = PlayerColorHelper.playerBackgroundColor01()
+
+            colors = [
+                color.withAlphaComponent(0).cgColor,
+                color.cgColor
+            ]
+        }
+
+        override init(layer: Any) {
+            if let layer = layer as? Self {
+                fadePosition = layer.fadePosition
+            }
+
+            super.init(layer: layer)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
 }
 
