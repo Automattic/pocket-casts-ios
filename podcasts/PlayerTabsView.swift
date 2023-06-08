@@ -31,7 +31,7 @@ enum PlayerTabs: Int {
     }
 }
 
-class PlayerTabsView: UIView {
+class PlayerTabsView: UIScrollView {
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {
             updateTabs()
