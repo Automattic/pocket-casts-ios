@@ -68,9 +68,7 @@ class PlayerTabsView: UIScrollView {
 
     weak var tabDelegate: PlayerTabDelegate?
 
-    private let lineHeight: CGFloat = 2
     private let lineLayer = CAShapeLayer()
-    private let lineOffset: CGFloat = 8
 
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -168,7 +166,7 @@ class PlayerTabsView: UIScrollView {
         lineLayer.fillColor = contrast01
         lineLayer.strokeColor = contrast01
 
-        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: lineHeight)).cgPath
+        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: TabConstants.lineHeight)).cgPath
         lineLayer.lineCap = CAShapeLayerLineCap.round
 
         layer.addSublayer(lineLayer)
@@ -242,22 +240,29 @@ class PlayerTabsView: UIScrollView {
     private func lineRectForTab(index: Int, ignoreLeadingTrailing: Bool = false) -> CGRect {
         guard let tab = tabsStackView.arrangedSubviews[safe: index] else { return CGRect.zero }
 
+        let height = TabConstants.lineHeight
+        let offset = TabConstants.lineOffset
+
         let tabRect = convert(tab.frame, from: tab.superview)
         if !ignoreLeadingTrailing, leadingEdgePullDistance > 0 || trailingEdgePullDistance > 0 {
             let width = tabRect.width - min(tabRect.width * 0.9, (leadingEdgePullDistance + trailingEdgePullDistance) / 3)
             if leadingEdgePullDistance > 0 {
-                return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
+                return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: width, height: height)
             } else {
-                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
+                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - offset, width: width, height: height)
             }
         } else {
-            return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
+            return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: tabRect.width, height: height)
         }
     }
 
     private enum TabConstants {
         static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
         static let spacing: CGFloat = 14
+
+        static let lineHeight: CGFloat = 2
+        static let lineOffset: CGFloat = 8
+
         static let fadeSize: CGFloat = 50
     }
 }
