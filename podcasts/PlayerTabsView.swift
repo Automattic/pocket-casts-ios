@@ -114,6 +114,9 @@ class PlayerTabsView: UIScrollView {
 
     func themeDidChange() {
         updateTabs()
+
+        fadeLeading.updateColors()
+        fadeTrailing.updateColors()
     }
 
     var lastLayedOutWidth: CGFloat = 0
