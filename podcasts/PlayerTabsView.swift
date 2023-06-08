@@ -208,6 +208,9 @@ class PlayerTabsView: UIScrollView {
             UIView.transition(with: toTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
                 toTab.setTitleColor(ThemeColor.playerContrast01(), for: .normal)
             }, completion: nil)
+
+            // Scroll the button into view, but make sure it clears the fade
+            scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: true)
         }
 
         CATransaction.begin()
@@ -238,6 +241,10 @@ class PlayerTabsView: UIScrollView {
     private enum TabConstants {
         static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
         static let spacing: CGFloat = 14
+        static let fadeSize: CGFloat = 50
+    }
+}
+
 // MARK: - Private: Scroll Fading
 
 private extension PlayerTabsView {
