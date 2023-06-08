@@ -254,6 +254,11 @@ class PlayerTabsView: UIScrollView {
             return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
         }
     }
+
+    private enum TabConstants {
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        static let spacing: CGFloat = 14
+    }
 }
 
 // MARK: - Private: Analytics
