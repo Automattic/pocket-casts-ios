@@ -20,7 +20,7 @@ enum PlayerTabs: Int {
         case .chapters:
             return L10n.chapters
         case .bookmarks:
-            return "Bookmarks"
+            return L10n.bookmarks
         }
     }
 }
