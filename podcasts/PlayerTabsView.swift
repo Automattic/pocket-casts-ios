@@ -123,6 +123,8 @@ class PlayerTabsView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
+        updateFadeLayers()
+
         let currentWidth = bounds.width
         if lastLayedOutWidth == currentWidth { return }
 
@@ -263,6 +265,18 @@ class PlayerTabsView: UIScrollView {
 // MARK: - Private: Scroll Fading
 
 private extension PlayerTabsView {
+    private func updateFadeLayers() {
+        let offset = contentOffset.x
+        let size = CGSize(width: TabConstants.fadeSize, height: bounds.height)
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        fadeLeading.frame = .init(origin: .init(x: offset, y: 0), size: size)
+        fadeTrailing.frame = .init(origin: .init(x: offset + bounds.width - TabConstants.fadeSize, y: 0), size: size)
+        CATransaction.commit()
+
+    }
+
     private class FadeOutLayer: CAGradientLayer {
         enum FadePosition {
             case leading, trailing
