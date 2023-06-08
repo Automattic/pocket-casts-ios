@@ -80,6 +80,15 @@ class PlayerTabsView: UIScrollView {
         return stackView
     }()
 
+    // Fade Layers
+    private lazy var fadeLeading = {
+        FadeOutLayer(fadePosition: .leading)
+    }()
+
+    private lazy var fadeTrailing = {
+        FadeOutLayer(fadePosition: .trailing)
+    }()
+
     func setup() {
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
@@ -98,6 +107,9 @@ class PlayerTabsView: UIScrollView {
             tabsStackView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
             tabsStackView.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
         ])
+
+        layer.addSublayer(fadeLeading)
+        layer.addSublayer(fadeTrailing)
     }
 
     func themeDidChange() {
