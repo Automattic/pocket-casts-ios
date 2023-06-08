@@ -46,6 +46,11 @@ extension PlayerContainerViewController {
             tabsView.tabs += [.showNotes]
         }
 
+        if FeatureFlag.bookmarks.enabled {
+            tabsView.tabs += [.bookmarks]
+            addTab(bookmarksItem, previousTab: &previousTab)
+        }
+
         if shouldShowChapters {
             showingChapters = true
 
