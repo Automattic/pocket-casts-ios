@@ -13,13 +13,12 @@ public struct BookmarkDataManager {
     /// - Parameters:
     ///   - episodeUuid: The UUID of the episode we're adding to
     ///   - podcastUuid: The UUID of the podcast of the episode, can be nil for user episodes
-    ///   - start: The start time interval of the clip
-    ///   - end: The end time interval of the clip
+    ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(episodeUuid: String, podcastUuid: String?, start: TimeInterval, end: TimeInterval, transcription: String? = nil) -> String? {
+    public func add(episodeUuid: String, podcastUuid: String?, time: TimeInterval) -> String? {
         // Prevent adding more than 1 bookmark at the same place
-        if let existing = existingBookmark(forEpisode: episodeUuid, start: start, end: end) {
+        if let existing = existingBookmark(forEpisode: episodeUuid, time: time) {
             return existing.uuid
         }
 
@@ -31,7 +30,7 @@ public struct BookmarkDataManager {
                 let now = Date().timeIntervalSince1970
 
                 let columns = Column.insertColumns
-                let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, start, end, transcription]
+                let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, time]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
@@ -71,8 +70,7 @@ public struct BookmarkDataManager {
     public struct Bookmark {
         public let uuid: String
         public let createdDate: Date
-        public let timeRange: TimeRange
-        public let transcription: String?
+        public let time: TimeInterval
 
         public lazy var episode: BaseEpisode? = {
             DataManager.sharedManager.findEpisode(uuid: episodeUuid)
@@ -94,34 +92,16 @@ public struct BookmarkDataManager {
                 let uuid = resultSet.string(for: .uuid),
                 let createdDate = resultSet.date(for: .createdDate),
                 let episode = resultSet.string(for: .episode),
-                let timeRange = TimeRange(from: resultSet)
+                let time = resultSet.double(for: .time)
             else {
                 return nil
             }
 
             self.uuid = uuid
             self.createdDate = createdDate
-            self.timeRange = timeRange
+            self.time = time
             self.episodeUuid = episode
             self.podcastUuid = resultSet.string(for: .podcast)
-            self.transcription = resultSet.string(for: .transcription)
-        }
-
-        public struct TimeRange {
-            public let start: TimeInterval
-            public let end: TimeInterval
-
-            init?(from resultSet: FMResultSet) {
-                guard
-                    let start = resultSet.object(for: .timestampStart) as? Double,
-                    let end = resultSet.object(for: .timestampEnd) as? Double
-                else {
-                    return nil
-                }
-
-                self.start = start
-                self.end = end
-            }
         }
     }
 
@@ -130,37 +110,15 @@ public struct BookmarkDataManager {
         case createdDate = "date_added"
         case episode = "episode_uuid"
         case podcast = "podcast_uuid"
-        case timestampStart = "timestamp_start"
-        case timestampEnd = "timestamp_end"
-        case transcription
+        case time
         case deleted
 
         var description: String { rawValue }
 
+        /// The columns used when inserting a new row into the database
         static let insertColumns: [Column] = [
-            .uuid,
-            .createdDate,
-            .episode,
-            .podcast,
-            .timestampStart,
-            .timestampEnd,
-            .transcription
+            .uuid, .createdDate, .episode, .podcast, .time
         ]
-    }
-}
-
-// MARK: - DB Column Constants
-private extension FMResultSet {
-    func object(for column: BookmarkDataManager.Column) -> Any? {
-        object(forColumn: column.rawValue)
-    }
-
-    func string(for column: BookmarkDataManager.Column) -> String? {
-        string(forColumn: column.rawValue)
-    }
-
-    func date(for column: BookmarkDataManager.Column) -> Date? {
-        date(forColumn: column.rawValue)
     }
 }
 
@@ -168,9 +126,9 @@ private extension FMResultSet {
 
 private extension BookmarkDataManager {
     /// Looks for any existing bookmarks in an episode that have the same start/end timestampss
-    func existingBookmark(forEpisode episodeUuid: String, start: TimeInterval, end: TimeInterval) -> Bookmark? {
-        selectBookmarks(where: [.episode, .timestampStart, .timestampEnd],
-                        values: [episodeUuid, start, end],
+    func existingBookmark(forEpisode episodeUuid: String, time: TimeInterval) -> Bookmark? {
+        selectBookmarks(where: [.episode, .time],
+                        values: [episodeUuid, time],
                         limit: 1).first
     }
 
@@ -217,9 +175,7 @@ extension BookmarkDataManager {
                 \(Column.uuid) varchar(40) NOT NULL,
                 \(Column.episode) varchar(40) NOT NULL,
                 \(Column.podcast) varchar(40),
-                \(Column.timestampStart) real NOT NULL,
-                \(Column.timestampEnd) real NOT NULL,
-                \(Column.transcription) text,
+                \(Column.time) real NOT NULL,
                 \(Column.createdDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
                 PRIMARY KEY (\(Column.uuid))
@@ -230,5 +186,25 @@ extension BookmarkDataManager {
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_episode ON \(Self.tableName) (\(Column.episode));", values: nil)
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_podcast ON \(Self.tableName) (\(Column.podcast));", values: nil)
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_deleted ON \(Self.tableName) (\(Column.deleted));", values: nil)
+    }
+}
+
+
+// MARK: - BookmarkDataManager.Column: FMResultSet Extension
+private extension FMResultSet {
+    func object(for column: BookmarkDataManager.Column) -> Any? {
+        object(forColumn: column.rawValue)
+    }
+
+    func string(for column: BookmarkDataManager.Column) -> String? {
+        string(forColumn: column.rawValue)
+    }
+
+    func date(for column: BookmarkDataManager.Column) -> Date? {
+        date(forColumn: column.rawValue)
+    }
+
+    func double(for column: BookmarkDataManager.Column) -> Double? {
+        double(forColumn: column.rawValue)
     }
 }
