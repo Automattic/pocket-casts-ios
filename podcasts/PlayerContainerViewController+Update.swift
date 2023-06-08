@@ -25,11 +25,9 @@ extension PlayerContainerViewController {
         let shouldShowBookmarks = FeatureFlag.bookmarks.enabled
 
         // check to see if the visible views are already configured correctly
-        if
-            shouldShowNotes == showingNotes,
+        if shouldShowNotes == showingNotes,
             shouldShowChapters == showingChapters,
-            shouldShowBookmarks == showingBookmarks
-        {
+            shouldShowBookmarks == showingBookmarks {
             return
         }
 
