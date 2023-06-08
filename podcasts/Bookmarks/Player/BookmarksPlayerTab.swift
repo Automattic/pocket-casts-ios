@@ -13,6 +13,8 @@ struct BookmarksPlayerTab: View {
     }
 }
 
+// MARK: - PlayerItemViewController Wrapper
+
 class BookmarksPlayerTabController: PlayerItemViewController {
     private let controller = ThemedHostingController(rootView: BookmarksPlayerTab())
 
@@ -31,6 +33,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         addChild(controller)
     }
 }
+
+// MARK: - Previews
 
 struct BookmarksPlayerTab_Previews: PreviewProvider {
     static var previews: some View {
