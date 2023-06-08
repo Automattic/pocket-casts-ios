@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22113.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,9 +40,9 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DY8-o1-Oqt" customClass="PlayerTabsView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="62" y="0.0" width="278" height="60"/>
+                            <rect key="frame" x="62" y="14" width="278" height="46"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="fvZ-1o-n3k"/>
+                                <constraint firstAttribute="height" constant="46" id="fvZ-1o-n3k"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBu-bE-aeT" customClass="UpNextButton" customModule="podcasts" customModuleProvider="target">
@@ -86,7 +86,7 @@
                 <constraint firstAttribute="trailing" secondItem="tuk-fS-Mph" secondAttribute="trailing" id="jMd-Bl-UDQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-2230" y="-36"/>
+            <point key="canvasLocation" x="-2643" y="-62"/>
         </view>
     </objects>
     <resources>
