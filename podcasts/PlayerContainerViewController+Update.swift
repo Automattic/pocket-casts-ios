@@ -80,4 +80,35 @@ extension PlayerContainerViewController {
             tabsView.tabs += [.chapters]
         }
     }
+
+    private func addTab(_ tab: PlayerItemViewController, previousTab: inout PlayerItemViewController) {
+        guard addTab(tab, after: previousTab) else { return }
+
+        previousTab = tab
+    }
+
+    @discardableResult
+    func addTab(_ tab: PlayerItemViewController, after afterTab: PlayerItemViewController? = nil) -> Bool {
+        guard let tabView = tab.view else { return false }
+
+        tab.willBeAddedToPlayer()
+        mainScrollView.addSubview(tabView)
+        addChild(tab)
+
+        let previousAnchor = afterTab?.view.map { $0.trailingAnchor } ?? mainScrollView.leadingAnchor
+
+        finalScrollViewConstraint?.isActive = false
+        let finalConstraint = tab.view.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor)
+        NSLayoutConstraint.activate([
+            tabView.leadingAnchor.constraint(equalTo: previousAnchor),
+            tabView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            tabView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            tabView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
+            tabView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor),
+            finalConstraint
+        ])
+
+        finalScrollViewConstraint = finalConstraint
+        return true
+    }
 }
