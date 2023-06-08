@@ -15,7 +15,7 @@ enum PlayerTabs: Int {
         case .nowPlaying:
             return L10n.nowPlaying
         case .showNotes:
-            return L10n.showNotes
+            return L10n.playerShowNotesTitle
         case .chapters:
             return L10n.chapters
         }
