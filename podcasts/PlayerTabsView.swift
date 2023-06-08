@@ -275,6 +275,8 @@ private extension PlayerTabsView {
         fadeTrailing.frame = .init(origin: .init(x: offset + bounds.width - TabConstants.fadeSize, y: 0), size: size)
         CATransaction.commit()
 
+        fadeLeading.opacity = contentOffset.x > 0 ? 1 : 0
+        fadeTrailing.opacity = (contentOffset.x + bounds.width) < contentSize.width ? 1 : 0
     }
 
     private class FadeOutLayer: CAGradientLayer {
