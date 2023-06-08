@@ -66,7 +66,7 @@ public struct BookmarkDataManager {
         return selectBookmarks(where: whereColumns, values: values)
     }
 
-    /// A bookmark that represents a time range within an episode
+    /// A bookmark that represents a position in time within an episode
     public struct Bookmark {
         public let uuid: String
         public let createdDate: Date
@@ -125,7 +125,7 @@ public struct BookmarkDataManager {
 // MARK: - Private
 
 private extension BookmarkDataManager {
-    /// Looks for any existing bookmarks in an episode that have the same start/end timestampss
+    /// Looks for any existing bookmarks in an episode that have the same start time
     func existingBookmark(forEpisode episodeUuid: String, time: TimeInterval) -> Bookmark? {
         selectBookmarks(where: [.episode, .time],
                         values: [episodeUuid, time],
