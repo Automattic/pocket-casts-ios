@@ -51,6 +51,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
+    lazy var bookmarksItem: BookmarksPlayerTabController = {
+        let item = BookmarksPlayerTabController()
+        item.view.translatesAutoresizingMaskIntoConstraints = false
+
+        return item
+    }()
+
     private lazy var upNextViewController = UpNextViewController(source: .player)
 
     @IBOutlet var closeBtn: ThemeableUIButton! {
