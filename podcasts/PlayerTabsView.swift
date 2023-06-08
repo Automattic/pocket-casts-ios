@@ -75,7 +75,7 @@ class PlayerTabsView: UIScrollView {
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 14
+        stackView.spacing = TabConstants.spacing
 
         return stackView
     }()
@@ -118,35 +118,15 @@ class PlayerTabsView: UIScrollView {
     private func updateTabs() {
         tabsStackView.removeAllSubviews()
 
-        let widthAvailable = bounds.width
-
-        var fontSize: CGFloat = 16
-        var spacing: CGFloat = 14
-        var totalWidthRequired = widthAvailable
-
-        // not ideal, but here we figure out if our labels will fit, and if not we shrink the font and spacing by 1 until they do
-        while totalWidthRequired >= widthAvailable {
-            totalWidthRequired = 0
-            for tab in tabs {
-                let title = fontSize <= 14 ? tab.shortDescription : tab.description
-                totalWidthRequired += title.widthOfString(usingFont: UIFont.systemFont(ofSize: fontSize, weight: .bold))
-            }
-            totalWidthRequired += spacing * CGFloat(tabs.count - 1)
-
-            if totalWidthRequired >= widthAvailable {
-                fontSize -= 1
-                spacing -= 1
-            }
-        }
-
-        tabsStackView.spacing = spacing
         for (index, tab) in tabs.enumerated() {
             let button = UIButton(type: .custom)
             button.isPointerInteractionEnabled = true
-            button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+            button.titleLabel?.font = TabConstants.titleFont
+
             let titleColor = index == currentTab ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
             button.setTitleColor(titleColor, for: .normal)
-            let title = fontSize <= 14 ? tab.shortDescription : tab.description
+
+            let title = tab.description
             button.setTitle(title, for: .normal)
             button.tag = index
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
