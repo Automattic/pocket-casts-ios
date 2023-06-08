@@ -246,6 +246,8 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Bookmarks
+  internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.

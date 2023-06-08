@@ -9,6 +9,7 @@ enum PlayerTabs: Int {
     case nowPlaying
     case showNotes
     case chapters
+    case bookmarks
 
     var description: String {
         switch self {
@@ -18,15 +19,8 @@ enum PlayerTabs: Int {
             return FeatureFlag.bookmarks.enabled ? L10n.playerShowNotesTitle : L10n.showNotes
         case .chapters:
             return L10n.chapters
-        }
-    }
-
-    var shortDescription: String {
-        switch self {
-        case .nowPlaying:
-            return L10n.nowPlayingShortTitle
-        default:
-            return description
+        case .bookmarks:
+            return L10n.bookmarks
         }
     }
 }
@@ -42,14 +36,21 @@ class PlayerTabsView: UIScrollView {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
 
-            if oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) {
-                trackTabChanged(tab: tab)
+            guard oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) else {
+                return
             }
 
-            if currentTab == 1 {
+            trackTabChanged(tab: tab)
+
+            switch tab {
+            case .nowPlaying:
+                break
+            case .showNotes:
                 AnalyticsHelper.playerShowNotesOpened()
-            } else if currentTab == 2 {
+            case .chapters:
                 AnalyticsHelper.chaptersOpened()
+            case .bookmarks: #warning("TODO: Bookmarks: Analytics")
+                break
             }
         }
     }
@@ -344,6 +345,8 @@ private extension PlayerTabsView {
             tabName = "show_notes"
         case .chapters:
             tabName = "chapters"
+        case .bookmarks:
+            tabName = "bookmarks"
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])
