@@ -70,6 +70,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var showingChapters = false
     var showingNotes = false
+    var showingBookmarks = false
+
     var finalScrollViewConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {

@@ -22,9 +22,16 @@ extension PlayerContainerViewController {
 
         let shouldShowNotes = (playingEpisode is Episode)
         let shouldShowChapters = PlaybackManager.shared.chapterCount() > 0
+        let shouldShowBookmarks = FeatureFlag.bookmarks.enabled
 
         // check to see if the visible views are already configured correctly
-        if shouldShowNotes == showingNotes, shouldShowChapters == showingChapters { return }
+        if
+            shouldShowNotes == showingNotes,
+            shouldShowChapters == showingChapters,
+            shouldShowBookmarks == showingBookmarks
+        {
+            return
+        }
 
         mainScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
         tabsView.currentTab = 0
@@ -42,19 +49,22 @@ extension PlayerContainerViewController {
 
         if shouldShowNotes {
             showingNotes = true
-            addTab(showNotesItem, previousTab: &previousTab)
             tabsView.tabs += [.showNotes]
+
+            addTab(showNotesItem, previousTab: &previousTab)
         }
 
-        if FeatureFlag.bookmarks.enabled {
+        if shouldShowBookmarks {
+            showingBookmarks = true
             tabsView.tabs += [.bookmarks]
+
             addTab(bookmarksItem, previousTab: &previousTab)
         }
 
         if shouldShowChapters {
             showingChapters = true
-
             tabsView.tabs += [.chapters]
+
             addTab(chaptersItem, previousTab: &previousTab)
         }
     }
