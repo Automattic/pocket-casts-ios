@@ -1519,6 +1519,8 @@ internal enum L10n {
   internal static var playerRouteSelection: String { return L10n.tr("Localizable", "player_route_selection") }
   /// SHARE LINK TO
   internal static var playerShareHeader: String { return L10n.tr("Localizable", "player_share_header") }
+  /// Description
+  internal static var playerShowNotesTitle: String { return L10n.tr("Localizable", "player_show_notes_title") }
   /// Download Error
   internal static var playerUserEpisodeDownloadError: String { return L10n.tr("Localizable", "player_user_episode_download_error") }
   /// Playback Error
