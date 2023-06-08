@@ -261,6 +261,8 @@
     <string>播放速度</string>
     <key>carplay_up_next_queue</key>
     <string>“接下来播放”队列</string>
+    <key>change_app_icon</key>
+    <string>更改应用图标</string>
     <key>change_email</key>
     <string>更改电子邮件地址</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@
     <string>成为 Patron 会员并解锁所有 Pocket Casts 功能</string>
     <key>patron_subscribe_to</key>
     <string>订阅 Patron</string>
+    <key>patron_thank_you</key>
+    <string>感谢您的支持！</string>
+    <key>patron_unlock_instructions</key>
+    <string>按住下面的解锁按钮，可以获得我们的一些感谢礼物。</string>
+    <key>patron_unlock_release</key>
+    <string>释放以解锁</string>
+    <key>patron_unlock_word</key>
+    <string>解锁</string>
+    <key>patron_unlocking</key>
+    <string>正在解锁</string>
     <key>pause</key>
     <string>暂停</string>
     <key>phone</key>
@@ -2071,12 +2083,38 @@
     <string>跳过开头音乐和结尾音乐，就像您生来是超级用户一样。</string>
     <key>settings_stats</key>
     <string>统计</string>
+    <key>settings_status_account_service</key>
+    <string>账户服务</string>
+    <key>settings_status_account_service_description</key>
+    <string>该服务用于存储剧集进度、订阅、过滤器等。</string>
     <key>settings_status_description</key>
     <string>检查您与重要服务的连接。 这有助于诊断网络、代理、VPN、广告拦截和安全应用程序的问题。</string>
+    <key>settings_status_discover</key>
+    <string>发现和搜索</string>
+    <key>settings_status_discover_description</key>
+    <string>应用程序的“发现”部分，包括播客搜索。</string>
+    <key>settings_status_host</key>
+    <string>常见播客主机</string>
+    <key>settings_status_host_description</key>
+    <string>播客作者在不受 Pocket Casts 管理的各种托管提供商中托管剧集文件。</string>
+    <key>settings_status_host_failure_message</key>
+    <string>最常见的原因是您的电话或网络上配置了广告拦截器。 您需要取消屏蔽此域名才能下载播客。 请注意，Pocket Casts 不托管，也不选择播客的托管位置，这是由节目作者决定的，不受我们的控制。</string>
+    <key>settings_status_internet</key>
+    <string>互联网</string>
+    <key>settings_status_internet_description</key>
+    <string>检查网络的状态。</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>无法连接到互联网。 尝试在不同的网络上连接（例如移动数据）。</string>
     <key>settings_status_page</key>
     <string>状态页</string>
+    <key>settings_status_refresh_service</key>
+    <string>刷新服务</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>该服务用于查找新剧集。</string>
     <key>settings_status_run</key>
     <string>立即运行</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>最常见的原因是您的电话或网络上配置了广告拦截器。 您需要取消屏蔽域名 %1$@</string>
     <key>settings_storage</key>
     <string>存储和数据使用情况</string>
     <key>settings_storage_data_warning</key>

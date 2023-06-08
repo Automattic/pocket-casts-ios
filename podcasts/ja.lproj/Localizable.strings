@@ -261,6 +261,8 @@
     <string>再生速度</string>
     <key>carplay_up_next_queue</key>
     <string>次のエピソード待機リスト</string>
+    <key>change_app_icon</key>
+    <string>アプリアイコンを変更</string>
     <key>change_email</key>
     <string>メールアドレスを変更</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Patron のメンバーになると、すべての Pocket Casts 機能を利用できるようになります</string>
     <key>patron_subscribe_to</key>
     <string>Patron に登録</string>
+    <key>patron_thank_you</key>
+    <string>ご支援いただきありがとうございます。</string>
+    <key>patron_unlock_instructions</key>
+    <string>下のロック解除ボタンを長押しすると、お礼のトークンをいくつか受け取ることができます。</string>
+    <key>patron_unlock_release</key>
+    <string>リリースしてロックを解除</string>
+    <key>patron_unlock_word</key>
+    <string>ロック解除</string>
+    <key>patron_unlocking</key>
+    <string>ロックを解除中</string>
     <key>pause</key>
     <string>一時停止</string>
     <key>phone</key>
@@ -2070,12 +2082,38 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>パワーユーザーにふさわしく、冒頭と最後の音楽をスキップします。</string>
     <key>settings_stats</key>
     <string>統計</string>
+    <key>settings_status_account_service</key>
+    <string>アカウントサービス</string>
+    <key>settings_status_account_service_description</key>
+    <string>エピソードの進捗やサブスクリプション、フィルターなどを保存するのに使用するサービス。</string>
     <key>settings_status_description</key>
     <string>重要なサービスとの接続を確認してください。 これは、ネットワーク、プロキシ、VPN、広告ブロックアプリ、セキュリティアプリの問題を診断するのに役立ちます。</string>
+    <key>settings_status_discover</key>
+    <string>検出と検索</string>
+    <key>settings_status_discover_description</key>
+    <string>ポッドキャスト検索を含む、アプリの検出セクション。</string>
+    <key>settings_status_host</key>
+    <string>一般的なポッドキャストホスト</string>
+    <key>settings_status_host_description</key>
+    <string>ポッドキャストの作成者は、Pocket Casts が管理していないさまざまなホスティングプロバイダーでエピソードファイルをホストします。</string>
+    <key>settings_status_host_failure_message</key>
+    <string>最も一般的な原因は、スマートフォンかネットワークで広告ブロッカーを設定していることです。 ポッドキャストをダウンロードするにはこのドメインのブロックを解除する必要があります。 Pocket Casts はポッドキャストをホストすることも、ポッドキャストのホスト先を選択することもありません。これらはショーの作成者が判断するものであり、Pocket Casts の管轄外となっています。</string>
+    <key>settings_status_internet</key>
+    <string>インターネット</string>
+    <key>settings_status_internet_description</key>
+    <string>ネットワークのステータスを確認してください。</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>インターネットに接続できません。 別のネットワーク (モバイルデータなど) に接続してみてください。</string>
     <key>settings_status_page</key>
     <string>ステータスページ</string>
+    <key>settings_status_refresh_service</key>
+    <string>サービスの再読み込み</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>新しいエピソードを見つけるのに使用するサービス。</string>
     <key>settings_status_run</key>
     <string>今すぐ実行</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>最も一般的な原因は、スマートフォンかネットワークで広告ブロッカーを設定していることです。 ドメイン %1$@ のブロックを解除する必要があります</string>
     <key>settings_storage</key>
     <string>ストレージとデータ使用量</string>
     <key>settings_storage_data_warning</key>

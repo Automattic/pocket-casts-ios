@@ -261,6 +261,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>播放速度</string>
     <key>carplay_up_next_queue</key>
     <string>「接下來播放」佇列</string>
+    <key>change_app_icon</key>
+    <string>變更應用程式圖示</string>
     <key>change_email</key>
     <string>變更電子郵件地址</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>成為 Patron 會員並解鎖所有 Pocket Casts 功能</string>
     <key>patron_subscribe_to</key>
     <string>訂閱 Patron</string>
+    <key>patron_thank_you</key>
+    <string>感謝你的支持！</string>
+    <key>patron_unlock_instructions</key>
+    <string>按住解鎖按鈕即可收到我們的答謝之禮。</string>
+    <key>patron_unlock_release</key>
+    <string>放開以解鎖</string>
+    <key>patron_unlock_word</key>
+    <string>解鎖</string>
+    <key>patron_unlocking</key>
+    <string>正在解鎖</string>
     <key>pause</key>
     <string>暫停</string>
     <key>phone</key>
@@ -2071,12 +2083,38 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>輕鬆跳過開場和結尾音樂，享受進階使用者功能。</string>
     <key>settings_stats</key>
     <string>統計</string>
+    <key>settings_status_account_service</key>
+    <string>帳號服務</string>
+    <key>settings_status_account_service_description</key>
+    <string>該服務用於儲存單集進度、訂閱、篩選條件等。</string>
     <key>settings_status_description</key>
     <string>請檢查重要服務的連線。 這有助於診斷網路、Proxy、VPN、廣告封鎖和安全性應用程式的問題。</string>
+    <key>settings_status_discover</key>
+    <string>探索和搜尋</string>
+    <key>settings_status_discover_description</key>
+    <string>應用程式的探索區段，包括 Podcast 搜尋。</string>
+    <key>settings_status_host</key>
+    <string>Podcast 常見託管服務商</string>
+    <key>settings_status_host_description</key>
+    <string>Podcast 作者會將單集檔案交由各式託管服務商管理，而這些服務商不受 Pocket Casts 管理。</string>
+    <key>settings_status_host_failure_message</key>
+    <string>最常見的原因是在手機或網路上設定了廣告封鎖程式。  你需要解除封鎖此網域才能下載 Podcast。 請注意，Pocket Casts 不負責管理 Podcast 或選擇託管服務商，一切由節目作者決定。</string>
+    <key>settings_status_internet</key>
+    <string>網際網路</string>
+    <key>settings_status_internet_description</key>
+    <string>請檢查你的網路狀態。</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>無法連線到網際網路。 請嘗試連線不同網路 (例如行動數據)。</string>
     <key>settings_status_page</key>
     <string>狀態頁面</string>
+    <key>settings_status_refresh_service</key>
+    <string>重新整理服務</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>該服務用於尋找新單集。</string>
     <key>settings_status_run</key>
     <string>立即執行</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>最常見的原因是在手機或網路上設定了廣告封鎖程式。  你需要解除封鎖網域 %1$@</string>
     <key>settings_storage</key>
     <string>儲存空間與數據使用</string>
     <key>settings_storage_data_warning</key>

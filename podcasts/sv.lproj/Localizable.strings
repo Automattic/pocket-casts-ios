@@ -261,6 +261,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Uppspelningshastighet</string>
     <key>carplay_up_next_queue</key>
     <string>Nästa-kö</string>
+    <key>change_app_icon</key>
+    <string>Ändra appikon</string>
     <key>change_email</key>
     <string>Ändra e-postadress</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@ UPPDATERINGAR</string>
     <string>Bli Patron-medlem och lås upp alla Pocket Casts-funktioner</string>
     <key>patron_subscribe_to</key>
     <string>Prenumerera på Patron</string>
+    <key>patron_thank_you</key>
+    <string>Tack för ditt stöd.</string>
+    <key>patron_unlock_instructions</key>
+    <string>Håll in upplåsningsknappen nedan för att få några tecken på vår uppskattning.</string>
+    <key>patron_unlock_release</key>
+    <string>Släpp för att låsa upp</string>
+    <key>patron_unlock_word</key>
+    <string>lås upp</string>
+    <key>patron_unlocking</key>
+    <string>Låser upp</string>
     <key>pause</key>
     <string>Pause</string>
     <key>phone</key>
@@ -2071,12 +2083,38 @@ gratis provperiod på %1$@</string>
     <string>Hoppa över intro och outro musiken som den produktiva super-lyssnaren du föddes till att vara.</string>
     <key>settings_stats</key>
     <string>Statistik</string>
+    <key>settings_status_account_service</key>
+    <string>Tjänsten Konto</string>
+    <key>settings_status_account_service_description</key>
+    <string>Tjänsten som används för att lagra avsnittsförlopp, prenumerationer, filter, osv.</string>
     <key>settings_status_description</key>
     <string>Kontrollera din anslutning med viktiga tjänster Det hjälper till att diagnostisera problem med ditt nätverk, proxyservrar, VPN samt annonsblockerings- och säkerhetsappar.</string>
+    <key>settings_status_discover</key>
+    <string>Upptäck och sök</string>
+    <key>settings_status_discover_description</key>
+    <string>Upptäck-sektionen i appen, med podcastsökning.</string>
+    <key>settings_status_host</key>
+    <string>Vanliga podcastvärdar</string>
+    <key>settings_status_host_description</key>
+    <string>Podcastskapare använder olika värdtjänster för sina avsnittsfiler. Dessa hanteras inte av Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera den här domänen för att ladda ner podcasts. Observera att Pocket Casts inte är värd för dina podcasts eller väljer vilken värdtjänst som används för dem. Det är upp till showens skapare och ligger utanför vår kontroll.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Kontrollera ditt nätverks status.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Det gick inte att ansluta till internet. Prova att ansluta till ett annat nätverk (t.ex. mobildata).</string>
     <key>settings_status_page</key>
     <string>Statussida</string>
+    <key>settings_status_refresh_service</key>
+    <string>Tjänsten Uppdatera</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>Tjänsten som används för att hitta nya avsnitt.</string>
     <key>settings_status_run</key>
     <string>Kör nu</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera domänen %1$@</string>
     <key>settings_storage</key>
     <string>Lagrings- och dataanvändning</string>
     <key>settings_storage_data_warning</key>
