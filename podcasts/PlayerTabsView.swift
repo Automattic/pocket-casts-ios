@@ -81,15 +81,22 @@ class PlayerTabsView: UIScrollView {
     }()
 
     func setup() {
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        clipsToBounds = true
+
         configureLine()
         updateTabs()
 
         addSubview(tabsStackView)
         tabsStackView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            tabsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tabsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            tabsStackView.topAnchor.constraint(equalTo: topAnchor, constant: 14)
+            tabsStackView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            tabsStackView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            tabsStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            tabsStackView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
+            tabsStackView.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
         ])
     }
 
