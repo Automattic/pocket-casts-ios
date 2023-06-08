@@ -261,6 +261,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Velocidade de reprodução</string>
     <key>carplay_up_next_queue</key>
     <string>Fila de Próximos</string>
+    <key>change_app_icon</key>
+    <string>Alterar ícone do aplicativo</string>
     <key>change_email</key>
     <string>Alterar endereço de e-mail</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@ ATUALIZAÇÕES</string>
     <string>Seja um membro do Patron e aproveite todas as funcionalidades do Pocket Casts</string>
     <key>patron_subscribe_to</key>
     <string>Assinar o Patron</string>
+    <key>patron_thank_you</key>
+    <string>Obrigado pelo apoio!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Pressione o botão Desbloquear abaixo para receber alguns símbolos da nossa gratidão.</string>
+    <key>patron_unlock_release</key>
+    <string>Solte para desbloquear</string>
+    <key>patron_unlock_word</key>
+    <string>desbloquear</string>
+    <key>patron_unlocking</key>
+    <string>Desbloqueando</string>
     <key>pause</key>
     <string>Pausar</string>
     <key>phone</key>
@@ -2071,12 +2083,38 @@ teste gratuito de %1$@</string>
     <string>Use todo o seu poder para pular a música de introdução e encerramento.</string>
     <key>settings_stats</key>
     <string>Estatísticas</string>
+    <key>settings_status_account_service</key>
+    <string>Serviço de conta</string>
+    <key>settings_status_account_service_description</key>
+    <string>O serviço usado para armazenar o progresso dos episódios, assinaturas, filtros, etc.</string>
     <key>settings_status_description</key>
     <string>Verifique sua conexão com serviços importantes. Isso ajuda a identificar problemas na sua rede, nos proxies, na VPN e nos aplicativos de segurança e bloqueadores de anúncios.</string>
+    <key>settings_status_discover</key>
+    <string>Explorar e pesquisar</string>
+    <key>settings_status_discover_description</key>
+    <string>A seção Explorar do aplicativo, incluindo pesquisa de podcast.</string>
+    <key>settings_status_host</key>
+    <string>Hosts comuns de podcast</string>
+    <key>settings_status_host_description</key>
+    <string>Os autores de podcasts hospedam os arquivos de episódios em diversos servidores de hospedagem que não são gerenciados pelo Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear este domínio para fazer download dos podcasts. O Pocket Casts não hospeda nem escolhe onde os podcasts são hospedados. Isso cabe ao autor do programa e está fora da nossa alçada.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Verifique o status da sua rede.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Não é possível se conectar à internet. Tente se conectar a outra rede (rede móvel, por exemplo).</string>
     <key>settings_status_page</key>
     <string>Página de status</string>
+    <key>settings_status_refresh_service</key>
+    <string>Atualizar serviço</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>O serviço usado para encontrar novos episódios.</string>
     <key>settings_status_run</key>
     <string>Executar agora</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear o domínio %1$@</string>
     <key>settings_storage</key>
     <string>Uso de dados e armazenamento</string>
     <key>settings_storage_data_warning</key>

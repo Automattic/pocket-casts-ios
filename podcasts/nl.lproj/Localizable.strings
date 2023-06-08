@@ -261,6 +261,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Afspeelsnelheid</string>
     <key>carplay_up_next_queue</key>
     <string>Wachtrij Hierna</string>
+    <key>change_app_icon</key>
+    <string>App-pictogram veranderen</string>
     <key>change_email</key>
     <string>Verander e-mailadres</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@ UPDATES</string>
     <string>Word Patron-lid en profiteer van alle Pocket Casts-functies</string>
     <key>patron_subscribe_to</key>
     <string>Abonneren op Patron</string>
+    <key>patron_thank_you</key>
+    <string>Bedankt voor je ondersteuning!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Houd de onderstaande ontgrendelknop in om een paar cadeautjes van ons te krijgen.</string>
+    <key>patron_unlock_release</key>
+    <string>Laat los om te ontgrendelen</string>
+    <key>patron_unlock_word</key>
+    <string>ontgrendelen</string>
+    <key>patron_unlocking</key>
+    <string>Ontgrendelen</string>
     <key>pause</key>
     <string>Pauzeren</string>
     <key>phone</key>
@@ -2071,12 +2083,38 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sla de intro- en outro-muziek over als de ultieme gebruiker waarvoor je bestemd was.</string>
     <key>settings_stats</key>
     <string>Statistieken</string>
+    <key>settings_status_account_service</key>
+    <string>Accountservice</string>
+    <key>settings_status_account_service_description</key>
+    <string>De service die wordt gebruikt om afleveringvoortgang, abonnementen, filters etc op te slaan.</string>
     <key>settings_status_description</key>
     <string>Controleer je verbinding met belangrijke services. Dit helpt problemen met je verbinding, proxy's, VPN, adblocker en beveiligingsapps te identificeren.</string>
+    <key>settings_status_discover</key>
+    <string>Ontdekken en zoeken</string>
+    <key>settings_status_discover_description</key>
+    <string>Het gedeelte Ontdekken van de app, waaronder podcasts zoeken.</string>
+    <key>settings_status_host</key>
+    <string>Veelgebruikte Podcast-hosts</string>
+    <key>settings_status_host_description</key>
+    <string>Schrijvers van podcasts hosten afleveringbestanden in verschillende providers die niet worden beheerd door Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Controleer de status van je netwerk.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Kan geen verbinding maken met het internet. Probeer verbinding te maken met een ander netwerk (bij. mobiele data).</string>
     <key>settings_status_page</key>
     <string>Statuspagina</string>
+    <key>settings_status_refresh_service</key>
+    <string>Service vernieuwen</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>De service die wordt gebruikt om nieuwe afleveringen te vinden.</string>
     <key>settings_status_run</key>
     <string>Nu uitvoeren</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet het domein %1$@ deblokkeren </string>
     <key>settings_storage</key>
     <string>Gebruik van opslag en data</string>
     <key>settings_storage_data_warning</key>
