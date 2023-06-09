@@ -588,3 +588,9 @@ extension PlaylistViewController: AnalyticsSourceProvider {
         .filters
     }
 }
+
+extension PlaylistViewController: Autoplay {
+    var provider: DatabaseQueries.Section {
+        .filter(uuid: filter.uuid)
+    }
+}

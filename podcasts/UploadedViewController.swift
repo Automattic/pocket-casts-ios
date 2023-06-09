@@ -224,14 +224,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
+    // Files query UserEpisode
     func reloadLocalFiles() {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
-
-        if SubscriptionHelper.hasActiveSubscription() {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
-        } else {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
-        }
+        uploadedEpisodes = DatabaseQueries.shared.uploadedEpisodes()
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
 
         uploadsTable.reloadData()
@@ -370,4 +365,14 @@ extension UploadedViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .files
     }
+}
+
+extension UploadedViewController: Autoplay {
+    var provider: DatabaseQueries.Section {
+        .files
+    }
+}
+
+protocol Autoplay {
+    var provider: DatabaseQueries.Section { get }
 }

@@ -1,4 +1,5 @@
 import Foundation
+import DifferenceKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -6,6 +7,11 @@ import PocketCastsUtils
 class PlaybackActionHelper {
     class func play(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
+
+        let topViewController = AnalyticsCoordinator().getTopViewController() as? Autoplay
+        let source = topViewController?.provider
+
+        DatabaseQueries.playedFrom = source
 
         if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
@@ -104,6 +110,156 @@ class PlaybackActionHelper {
             SiriShortcutsManager.shared.donateFilterPlayed(filterUuid: filterUuid)
         } else if let podcastUuid = podcastUuid {
             SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
+        }
+    }
+}
+
+class DatabaseQueries {
+    enum Section {
+        case podcast
+        case download
+        case listeningHistory
+        case filter(uuid: String)
+        case starred
+        case files
+    }
+
+    static let shared = DatabaseQueries()
+
+    static var playedFrom: Section? = nil
+
+    private init() { }
+
+    func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
+        let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
+        let arguments = [Date().weeksAgo(1)] as [Any]
+
+        let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: arguments, episodeShortKey: { episode -> String in
+            episode.shortLastDownloadAttemptDate()
+        })
+
+        return newData
+    }
+
+    func listeningHistoryEpisodes() -> [ArraySection<String, ListEpisode>] {
+        let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
+
+        let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
+            episode.shortLastPlaybackInteractionDate()
+        })
+
+        return newData
+    }
+
+    func filterEpisodes(_ filter: EpisodeFilter) -> [ListEpisode] {
+        let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxFilterItems)
+        let tintColor = filter.playlistColor()
+        return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
+    }
+
+    func podcastEpisodes(_ podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
+        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
+        var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
+
+        // Podcast screen query ArraySection<String, ListItem>
+        let tintColor = AppTheme.appTintColor()
+        let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
+        switch podcast.podcastGrouping() {
+        case .none:
+            let episodes = EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil)
+            newData.append(ArraySection(model: "episodes", elements: episodes))
+        case .season:
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, name2 -> Bool in
+                sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
+            }, episodeShortKey: { episode -> String in
+                episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.podcastNoSeason
+            })
+            newData.append(contentsOf: groupedEpisodes)
+        case .unplayed:
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+                name1 == L10n.statusUnplayed
+            }, episodeShortKey: { episode -> String in
+                episode.played() ? L10n.statusPlayed : L10n.statusUnplayed
+            })
+            newData.append(contentsOf: groupedEpisodes)
+        case .downloaded:
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+                name1 == L10n.statusDownloaded
+            }, episodeShortKey: { (episode: Episode) -> String in
+                episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() || episode.downloading() ? L10n.statusDownloaded : L10n.statusNotDownloaded
+            })
+            newData.append(contentsOf: groupedEpisodes)
+        case .starred:
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+                name1 == L10n.statusStarred
+            }, episodeShortKey: { episode -> String in
+                episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
+            })
+            newData.append(contentsOf: groupedEpisodes)
+        }
+
+        return newData
+    }
+
+    private func createEpisodesQuery(_ podcast: Podcast, uuidsToFilter: [String]? = nil) -> String {
+        let sortStr: String
+        let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? PodcastEpisodeSortOrder.newestToOldest
+        switch sortOrder {
+        case .newestToOldest:
+            sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
+        case .oldestToNewest:
+            sortStr = "ORDER BY publishedDate ASC, addedDate ASC"
+        case .shortestToLongest:
+            sortStr = "ORDER BY duration ASC, addedDate"
+        case .longestToShortest:
+            sortStr = "ORDER BY duration DESC, addedDate"
+        }
+        if let uuids = uuidsToFilter {
+            let inClause = "(\(uuids.map { "'\($0)'" }.joined(separator: ",")))"
+            return "podcast_id = \(podcast.id) AND uuid IN \(inClause) \(sortStr)"
+        }
+        if !podcast.showArchived {
+            return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
+        }
+
+        return "podcast_id = \(podcast.id) \(sortStr)"
+    }
+
+    func starredEpisodes() -> [ListEpisode] {
+        let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
+        let newData = EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
+
+        return newData
+    }
+
+    func uploadedEpisodes() -> [UserEpisode] {
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+
+        var uploadedEpisodes: [UserEpisode]
+        if SubscriptionHelper.hasActiveSubscription() {
+            uploadedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
+        } else {
+            uploadedEpisodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
+        }
+
+        return uploadedEpisodes
+    }
+
+    func getEpisodes() -> [BaseEpisode] {
+        switch Self.playedFrom {
+        case .files:
+            return uploadedEpisodes().compactMap { $0 as BaseEpisode }
+        case .listeningHistory:
+            var episodes: [BaseEpisode] = []
+            listeningHistoryEpisodes().forEach { episodes.append(contentsOf: $0.elements.map { $0.episode as BaseEpisode }) }
+            return episodes
+        case .filter(uuid: let uuid):
+            if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+                return filterEpisodes(filter).compactMap { $0.episode }
+            }
+            return  []
+        default:
+            return []
         }
     }
 }

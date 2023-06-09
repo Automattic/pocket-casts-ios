@@ -21,43 +21,7 @@ class PodcastEpisodesRefreshOperation: Operation {
 
             // the podcast page has a header, for simplicity in table animations, we add it here
             let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
-            var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
-
-            let tintColor = AppTheme.appTintColor()
-            let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
-            switch podcast.podcastGrouping() {
-            case .none:
-                let episodes = EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: createEpisodesQuery(), arguments: nil)
-                newData.append(ArraySection(model: "episodes", elements: episodes))
-            case .season:
-                let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, name2 -> Bool in
-                    sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
-                }, episodeShortKey: { episode -> String in
-                    episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.podcastNoSeason
-                })
-                newData.append(contentsOf: groupedEpisodes)
-            case .unplayed:
-                let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusUnplayed
-                }, episodeShortKey: { episode -> String in
-                    episode.played() ? L10n.statusPlayed : L10n.statusUnplayed
-                })
-                newData.append(contentsOf: groupedEpisodes)
-            case .downloaded:
-                let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusDownloaded
-                }, episodeShortKey: { (episode: Episode) -> String in
-                    episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() || episode.downloading() ? L10n.statusDownloaded : L10n.statusNotDownloaded
-                })
-                newData.append(contentsOf: groupedEpisodes)
-            case .starred:
-                let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(), arguments: nil, sectionComparator: { name1, _ -> Bool in
-                    name1 == L10n.statusStarred
-                }, episodeShortKey: { episode -> String in
-                    episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
-                })
-                newData.append(contentsOf: groupedEpisodes)
-            }
+            let newData = DatabaseQueries.shared.podcastEpisodes(podcast, uuidsToFilter: uuidsToFilter)
 
             if self.isCancelled { return }
             DispatchQueue.main.sync { [weak self] in

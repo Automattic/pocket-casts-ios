@@ -110,14 +110,11 @@ class ListeningHistoryViewController: PCViewController {
         listeningHistoryTable.reloadData()
     }
 
+    // Listening history query ArraySection<String, ListEpisode>
     func refreshEpisodes(animated: Bool) {
         operationQueue.addOperation {
-            let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
-
             let oldData = self.episodes
-            let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
-                episode.shortLastPlaybackInteractionDate()
-            })
+            let newData = DatabaseQueries.shared.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
@@ -182,6 +179,12 @@ class ListeningHistoryViewController: PCViewController {
 
 extension ListeningHistoryViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
+        .listeningHistory
+    }
+}
+
+extension ListeningHistoryViewController: Autoplay {
+    var provider: DatabaseQueries.Section {
         .listeningHistory
     }
 }

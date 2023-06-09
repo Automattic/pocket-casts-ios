@@ -134,11 +134,11 @@ class StarredViewController: PCViewController {
         }
     }
 
+    // Starred query ListEpisode
     func refreshEpisodesFromDatabase(animated: Bool) {
         refreshQueue.addOperation {
-            let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
             let oldData = self.episodes
-            let newData = EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
+            let newData = DatabaseQueries.shared.starredEpisodes()
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }

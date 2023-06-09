@@ -172,13 +172,9 @@ class DownloadsViewController: PCViewController {
     }
 
     func reloadEpisodes() {
+        // Downloads query ArraySection<String, ListEpisode>
         operationQueue.addOperation {
-            let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
-            let arguments = [Date().weeksAgo(1)] as [Any]
-
-            let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: arguments, episodeShortKey: { episode -> String in
-                episode.shortLastDownloadAttemptDate()
-            })
+            let newData = DatabaseQueries.shared.downloadedEpisodes()
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }

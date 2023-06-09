@@ -18,9 +18,8 @@ class PlaylistRefreshOperation: Operation {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxFilterItems)
-            let tintColor = filter.playlistColor()
-            let newData = EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
+            // Filter query ListEpisode
+            let newData = DatabaseQueries.shared.filterEpisodes(filter)
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }

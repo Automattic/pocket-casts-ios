@@ -926,12 +926,18 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // Put the logic here
 
+        #if !os(watchOS)
         // Check if there's a next episode
         if let episode = currentEpisode(),
-           queue.upNextCount() == 0,
-           let nextEpisode = DataManager.sharedManager.findNextEpisode(currentEpisodeUuid: episode.uuid) {
-            queue.add(episode: nextEpisode, fireNotification: false)
+           queue.upNextCount() == 0 {
+            let playlistEpisodes = DatabaseQueries.shared.getEpisodes()
+
+            let index = playlistEpisodes.firstIndex(where: { $0.uuid == episode.uuid }) ?? -1
+            if let nextEpisode = playlistEpisodes[safe: index + 1] {
+                queue.add(episode: nextEpisode, fireNotification: false)
+            }
         }
+        #endif
 
         // check to see if there's another episode we should be moving onto
         if queue.upNextCount() == 0 {
