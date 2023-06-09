@@ -30,13 +30,13 @@ final class BookmarkDataManagerTests: XCTestCase {
     }
 
     func testAddBookmarkSucceeds() {
-        XCTAssertNotNil(dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", start: 1, end: 2))
+        XCTAssertNotNil(dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", time: 1))
     }
 
     func testAddingEpisodeOnlyBookmarkSucceeds() {
         let episode = "episode-uuid"
 
-        let result = dataManager.add(episodeUuid: episode, podcastUuid: nil, start: 1, end: 2)
+        let result = dataManager.add(episodeUuid: episode, podcastUuid: nil, time: 1)
         XCTAssertNotNil(result)
         XCTAssertEqual(dataManager.bookmarks(forEpisode: episode).count, 1)
     }
@@ -44,34 +44,22 @@ final class BookmarkDataManagerTests: XCTestCase {
     func testAddingExistingBookmarkIsNotAdded() {
         let episode = "episode-uuid"
         let podcast = "podcast-uuid"
-        let start = 1.0
-        let end = 2.0
+        let time = 1.0
 
-        let firstUuid = dataManager.add(episodeUuid: episode, podcastUuid: podcast, start: start, end: end)
-        let secondUuid = dataManager.add(episodeUuid: episode, podcastUuid: podcast, start: start, end: end)
+        let firstUuid = dataManager.add(episodeUuid: episode, podcastUuid: podcast, time: time)
+        let secondUuid = dataManager.add(episodeUuid: episode, podcastUuid: podcast, time: time)
 
         XCTAssertEqual(firstUuid, secondUuid)
-    }
-
-    func testBookmarkModelReturnsCorrectTimeRange() {
-        let start = 1.0
-        let end = 2.0
-
-        let uuid = dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", start: start, end: end)
-        let bookmark = dataManager.bookmark(for: uuid!)!
-
-        XCTAssertEqual(bookmark.timeRange.start, start)
-        XCTAssertEqual(bookmark.timeRange.end, end)
     }
 
     func testGettingAllBookmarksForPodcast() {
         let podcast = "podcast-uuid"
 
-        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, start: 1, end: 2)
-        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, start: 3, end: 4)
+        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, time: 1)
+        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, time: 3)
 
-        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, start: 1, end: 2)
-        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, start: 3, end: 4)
+        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, time: 1)
+        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, time: 3)
 
         let bookmarks = dataManager.bookmarks(forPodcast: podcast)
         XCTAssertEqual(bookmarks.count, 4)
@@ -80,11 +68,11 @@ final class BookmarkDataManagerTests: XCTestCase {
     func testGettingAllBookmarksForPodcastAndEpisode() {
         let podcast = "podcast-uuid"
 
-        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, start: 1, end: 2)
-        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, start: 3, end: 4)
+        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, time: 1)
+        dataManager.add(episodeUuid: "episode-1", podcastUuid: podcast, time: 3)
 
-        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, start: 1, end: 2)
-        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, start: 3, end: 4)
+        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, time: 1)
+        dataManager.add(episodeUuid: "episode-2", podcastUuid: podcast, time: 3)
 
         let bookmarks = dataManager.bookmarks(forPodcast: podcast, episodeUuid: "episode-2")
         XCTAssertEqual(bookmarks.count, 2)
