@@ -18,34 +18,57 @@ public class CacheServerHandler {
 
     // MARK: - Show Notes
 
+    struct ShowNotes: Decodable {
+        let podcast: ShowNotesPodcast
+    }
+
+    struct ShowNotesPodcast: Decodable {
+        let episodes: [ShowNotesEpisode]
+    }
+
+    struct ShowNotesEpisode: Decodable {
+        let uuid: String
+        let showNotes: String
+        let image: String?
+    }
+
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
         let request = URLRequest(url: url)
 
         var cachedNotes = ""
         var didSendCachedNotes = false
-        if let cachedResponse = showNotesUrlCache.cachedResponse(for: request), let showNotes = topLevelValue(data: cachedResponse.data, name: "show_notes", ofType: String.self) {
-            cachedNotes = showNotes
-            cached?(showNotes)
+        if let cachedResponse = showNotesUrlCache.cachedResponse(for: request),
+           let episodeNotes = getNotes(from: cachedResponse.data, episodeUuid: episodeUuid) {
+            cachedNotes = episodeNotes
+            cached?(episodeNotes)
             didSendCachedNotes = true
         }
 
-        TokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
-            guard let strongSelf = self else { return }
-
-            if let data = data, let response = response, let showNotes = strongSelf.topLevelValue(data: data, name: "show_notes", ofType: String.self) {
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
+            if let data = data,
+               let response = response,
+               let episodeNotes = self?.getNotes(from: data, episodeUuid: episodeUuid) {
                 let responseToCache = CachedURLResponse(response: response, data: data)
-                strongSelf.showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
+                self?.showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
 
-                if didSendCachedNotes, showNotes == cachedNotes {
+                if didSendCachedNotes, episodeNotes == cachedNotes {
                     return
                 }
-                completion?(showNotes)
+                completion?(episodeNotes)
             } else if !didSendCachedNotes {
                 // if loading failed and we haven't sent the client anything, send it a message it can show the user instead
                 completion?(CacheServerHandler.noShowNotesMessage)
             }
-        }
+        }.resume()
+    }
+
+    private func getNotes(from data: Data, episodeUuid: String) -> String? {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let showNotes = try? decoder.decode(ShowNotes.self, from: data)
+        return showNotes?.podcast.episodes.first(where: { $0.uuid == episodeUuid })?.showNotes
     }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
