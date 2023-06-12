@@ -10,8 +10,6 @@ struct ProfileImage: View {
         if let url {
             KFImage
                 .url(url, cacheKey: email)
-                .startLoadingBeforeViewAppear()
-                .cancelOnDisappear(true)
                 .placeholder { _ in defaultProfileView }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
