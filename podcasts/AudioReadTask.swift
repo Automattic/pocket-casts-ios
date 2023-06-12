@@ -372,6 +372,11 @@ class AudioReadTask {
         let totalSeconds = totalFrames / audioFile.fileFormat.sampleRate
         let percentSeek = time / totalSeconds
 
+        // Ignore any invalid values
+        guard percentSeek.isNumeric else {
+            return(0, false)
+        }
+
         return (Int64(totalFrames * percentSeek), percentSeek >= 1)
     }
 }
