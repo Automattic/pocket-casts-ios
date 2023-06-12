@@ -130,7 +130,10 @@ class MessageSupportViewModel: ObservableObject {
 
                 // Check if the user mentioned watch on their issue description and if there
                 // are any Apple Watch logs available.
-                if self.comment.lowercased().contains("watch") && customFields.first(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) != nil && !ignoreUnavailableWatchLogs {
+                let containsWatch = self.comment.localizedCaseInsensitiveContains(L10n.watch) || self.comment.lowercased().contains("watch")
+                if containsWatch && customFields.first(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) != nil && !ignoreUnavailableWatchLogs {
+
+
 
                     return Fail(error: PlaybackError.errorDuringPlayback).eraseToAnyPublisher()
                 } else {
