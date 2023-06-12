@@ -9,29 +9,23 @@ enum PlayerTabs: Int {
     case nowPlaying
     case showNotes
     case chapters
+    case bookmarks
 
     var description: String {
         switch self {
         case .nowPlaying:
             return L10n.nowPlaying
         case .showNotes:
-            return L10n.showNotes
+            return FeatureFlag.bookmarks.enabled ? L10n.playerShowNotesTitle : L10n.showNotes
         case .chapters:
             return L10n.chapters
-        }
-    }
-
-    var shortDescription: String {
-        switch self {
-        case .nowPlaying:
-            return L10n.nowPlayingShortTitle
-        default:
-            return description
+        case .bookmarks:
+            return L10n.bookmarks
         }
     }
 }
 
-class PlayerTabsView: UIView {
+class PlayerTabsView: UIScrollView {
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {
             updateTabs()
@@ -42,14 +36,21 @@ class PlayerTabsView: UIView {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
 
-            if oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) {
-                trackTabChanged(tab: tab)
+            guard oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) else {
+                return
             }
 
-            if currentTab == 1 {
+            trackTabChanged(tab: tab)
+
+            switch tab {
+            case .nowPlaying:
+                break
+            case .showNotes:
                 AnalyticsHelper.playerShowNotesOpened()
-            } else if currentTab == 2 {
+            case .chapters:
                 AnalyticsHelper.chaptersOpened()
+            case .bookmarks: #warning("TODO: Bookmarks: Analytics")
+                break
             }
         }
     }
@@ -68,38 +69,60 @@ class PlayerTabsView: UIView {
 
     weak var tabDelegate: PlayerTabDelegate?
 
-    private let lineHeight: CGFloat = 2
     private let lineLayer = CAShapeLayer()
-    private let lineOffset: CGFloat = 8
 
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 14
+        stackView.spacing = TabConstants.spacing
 
         return stackView
     }()
 
+    // Fade Layers
+    private lazy var fadeLeading = {
+        FadeOutLayer(fadePosition: .leading)
+    }()
+
+    private lazy var fadeTrailing = {
+        FadeOutLayer(fadePosition: .trailing)
+    }()
+
     func setup() {
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        clipsToBounds = true
+
         configureLine()
         updateTabs()
 
         addSubview(tabsStackView)
         tabsStackView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            tabsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tabsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            tabsStackView.topAnchor.constraint(equalTo: topAnchor, constant: 14)
+            tabsStackView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            tabsStackView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            tabsStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            tabsStackView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
+            tabsStackView.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
         ])
+
+        layer.addSublayer(fadeLeading)
+        layer.addSublayer(fadeTrailing)
     }
 
     func themeDidChange() {
         updateTabs()
+
+        fadeLeading.updateColors()
+        fadeTrailing.updateColors()
     }
 
     var lastLayedOutWidth: CGFloat = 0
     override func layoutSubviews() {
         super.layoutSubviews()
+
+        updateFadeLayers()
 
         let currentWidth = bounds.width
         if lastLayedOutWidth == currentWidth { return }
@@ -111,35 +134,15 @@ class PlayerTabsView: UIView {
     private func updateTabs() {
         tabsStackView.removeAllSubviews()
 
-        let widthAvailable = bounds.width
-
-        var fontSize: CGFloat = 16
-        var spacing: CGFloat = 14
-        var totalWidthRequired = widthAvailable
-
-        // not ideal, but here we figure out if our labels will fit, and if not we shrink the font and spacing by 1 until they do
-        while totalWidthRequired >= widthAvailable {
-            totalWidthRequired = 0
-            for tab in tabs {
-                let title = fontSize <= 14 ? tab.shortDescription : tab.description
-                totalWidthRequired += title.widthOfString(usingFont: UIFont.systemFont(ofSize: fontSize, weight: .bold))
-            }
-            totalWidthRequired += spacing * CGFloat(tabs.count - 1)
-
-            if totalWidthRequired >= widthAvailable {
-                fontSize -= 1
-                spacing -= 1
-            }
-        }
-
-        tabsStackView.spacing = spacing
         for (index, tab) in tabs.enumerated() {
             let button = UIButton(type: .custom)
             button.isPointerInteractionEnabled = true
-            button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+            button.titleLabel?.font = TabConstants.titleFont
+
             let titleColor = index == currentTab ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
             button.setTitleColor(titleColor, for: .normal)
-            let title = fontSize <= 14 ? tab.shortDescription : tab.description
+
+            let title = tab.description
             button.setTitle(title, for: .normal)
             button.tag = index
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
@@ -164,7 +167,7 @@ class PlayerTabsView: UIView {
         lineLayer.fillColor = contrast01
         lineLayer.strokeColor = contrast01
 
-        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: lineHeight)).cgPath
+        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: TabConstants.lineHeight)).cgPath
         lineLayer.lineCap = CAShapeLayerLineCap.round
 
         layer.addSublayer(lineLayer)
@@ -221,6 +224,9 @@ class PlayerTabsView: UIView {
             UIView.transition(with: toTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
                 toTab.setTitleColor(ThemeColor.playerContrast01(), for: .normal)
             }, completion: nil)
+
+            // Scroll the button into view, but make sure it clears the fade
+            scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: true)
         }
 
         CATransaction.begin()
@@ -235,16 +241,94 @@ class PlayerTabsView: UIView {
     private func lineRectForTab(index: Int, ignoreLeadingTrailing: Bool = false) -> CGRect {
         guard let tab = tabsStackView.arrangedSubviews[safe: index] else { return CGRect.zero }
 
+        let height = TabConstants.lineHeight
+        let offset = TabConstants.lineOffset
+
         let tabRect = convert(tab.frame, from: tab.superview)
         if !ignoreLeadingTrailing, leadingEdgePullDistance > 0 || trailingEdgePullDistance > 0 {
             let width = tabRect.width - min(tabRect.width * 0.9, (leadingEdgePullDistance + trailingEdgePullDistance) / 3)
             if leadingEdgePullDistance > 0 {
-                return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
+                return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: width, height: height)
             } else {
-                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
+                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - offset, width: width, height: height)
             }
         } else {
-            return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
+            return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: tabRect.width, height: height)
+        }
+    }
+
+    private enum TabConstants {
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+        static let spacing: CGFloat = 14
+
+        static let lineHeight: CGFloat = 2
+        static let lineOffset: CGFloat = 8
+
+        static let fadeSize: CGFloat = 50
+    }
+}
+
+// MARK: - Private: Scroll Fading
+
+private extension PlayerTabsView {
+    private func updateFadeLayers() {
+        let offset = contentOffset.x
+        let size = CGSize(width: TabConstants.fadeSize, height: bounds.height)
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        fadeLeading.frame = .init(origin: .init(x: offset, y: 0), size: size)
+        fadeTrailing.frame = .init(origin: .init(x: offset + bounds.width - TabConstants.fadeSize, y: 0), size: size)
+        CATransaction.commit()
+
+        fadeLeading.opacity = contentOffset.x > 0 ? 1 : 0
+        fadeTrailing.opacity = (contentOffset.x + bounds.width) < contentSize.width ? 1 : 0
+    }
+
+    private class FadeOutLayer: CAGradientLayer {
+        enum FadePosition {
+            case leading, trailing
+        }
+
+        var fadePosition: FadePosition = .leading
+
+        init(fadePosition: FadePosition) {
+            self.fadePosition = fadePosition
+
+            super.init()
+
+            updateColors()
+
+            switch fadePosition {
+            case .leading:
+                startPoint = .init(x: 1, y: 0)
+                endPoint = .zero
+
+            case .trailing:
+                startPoint = .zero
+                endPoint = .init(x: 1, y: 0)
+            }
+        }
+
+        func updateColors() {
+            let color = PlayerColorHelper.playerBackgroundColor01()
+
+            colors = [
+                color.withAlphaComponent(0).cgColor,
+                color.cgColor
+            ]
+        }
+
+        override init(layer: Any) {
+            if let layer = layer as? Self {
+                fadePosition = layer.fadePosition
+            }
+
+            super.init(layer: layer)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
         }
     }
 }
@@ -261,6 +345,8 @@ private extension PlayerTabsView {
             tabName = "show_notes"
         case .chapters:
             tabName = "chapters"
+        case .bookmarks:
+            tabName = "bookmarks"
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])

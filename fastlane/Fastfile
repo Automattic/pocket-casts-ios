@@ -19,6 +19,8 @@ SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 
+SCHEME = 'pocketcasts'
+
 TEAM_ID = 'PZYM8XX95Q'
 
 APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
@@ -122,27 +124,8 @@ platform :ios do
   desc 'Run the unit tests'
   lane :test do
     run_tests(
-      scheme: 'pocketcasts'
+      scheme: SCHEME
     )
-  end
-
-  desc 'Build the project only'
-  lane :build do
-    # CI has its own mechanism to setup the Ruby gems and CocoaPods
-    unless is_ci
-      bundle_install
-      cocoapods
-    end
-
-    configure_code_signing
-
-    gym(
-      scheme: 'pocketcasts',
-      include_bitcode: false,
-      clean: true
-    )
-    clean_build_artifacts
-    sh(command: 'rm -fr ~/Library/Developer/Xcode/Archives/*')
   end
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
@@ -361,12 +344,15 @@ platform :ios do
     sentry_check_cli_installed
     configure_code_signing
 
-    gym(
-      scheme: 'pocketcasts',
+    build_app(
+      scheme: SCHEME,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
-      export_options: { method: 'app-store', manageAppVersionAndBuildNumber: false }
+      export_options: {
+        method: 'app-store',
+        manageAppVersionAndBuildNumber: false
+      }
     )
 
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')

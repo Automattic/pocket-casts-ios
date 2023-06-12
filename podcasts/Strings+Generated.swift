@@ -246,6 +246,8 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Bookmarks
+  internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.
@@ -1521,6 +1523,8 @@ internal enum L10n {
   internal static var playerRouteSelection: String { return L10n.tr("Localizable", "player_route_selection") }
   /// SHARE LINK TO
   internal static var playerShareHeader: String { return L10n.tr("Localizable", "player_share_header") }
+  /// Description
+  internal static var playerShowNotesTitle: String { return L10n.tr("Localizable", "player_show_notes_title") }
   /// Download Error
   internal static var playerUserEpisodeDownloadError: String { return L10n.tr("Localizable", "player_user_episode_download_error") }
   /// Playback Error

@@ -1425,9 +1425,10 @@
 		C741D9D228AD3D6C006CFBE7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
 		C741D9D428ADBA23006CFBE7 /* AppLifecyleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */; };
 		C750EF7F28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
-		C7540DE029AE645D00B77D54 /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
+		C75274E22A3252180004DD15 /* BookmarksPlayerTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */; };
 		C752F28A29D5F8F200681C33 /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C752F28929D5F8F100681C33 /* StarRatingView.swift */; };
 		C752F28C29D5F8FF00681C33 /* PodcastRatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C752F28B29D5F8FF00681C33 /* PodcastRatingViewModel.swift */; };
+		C7540DE029AE645D00B77D54 /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		C75BB06829B954B100F2DF63 /* EpisodeLoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75BB06729B954B100F2DF63 /* EpisodeLoadingController.swift */; };
 		C7612FFF28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */; };
 		C761300028E3BC090044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */; };
@@ -3120,6 +3121,7 @@
 		C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalytics.swift; sourceTree = "<group>"; };
 		C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PocketCastsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsDescribable+Modules.swift"; sourceTree = "<group>"; };
+		C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTab.swift; sourceTree = "<group>"; };
 		C752F28929D5F8F100681C33 /* StarRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		C752F28B29D5F8FF00681C33 /* PodcastRatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastRatingViewModel.swift; sourceTree = "<group>"; };
 		C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Pocket Casts Configuration.storekit"; sourceTree = "<group>"; };
@@ -4480,6 +4482,7 @@
 		BD2A49EE1701AA8500C2F192 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				C75274DF2A3252180004DD15 /* Bookmarks */,
 				C752F28829D5F8DA00681C33 /* Ratings */,
 				C7B3C618291AD03400054145 /* Onboarding */,
 				BD3E3C1B170404490066AE3D /* Common Components */,
@@ -6212,6 +6215,22 @@
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 			);
 			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		C75274DF2A3252180004DD15 /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				C75274E02A3252180004DD15 /* Player */,
+			);
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
+		C75274E02A3252180004DD15 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */,
+			);
+			path = Player;
 			sourceTree = "<group>";
 		};
 		C752F28829D5F8DA00681C33 /* Ratings */ = {
@@ -8208,6 +8227,7 @@
 				4650F5C128ECC6D1006A5704 /* CrashLoggingDataProvider.swift in Sources */,
 				BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */,
 				BDAA3CEF2122754700649F81 /* PlayerChapterCell.swift in Sources */,
+				C75274E22A3252180004DD15 /* BookmarksPlayerTab.swift in Sources */,
 				BD240C47231F475500FB2CDD /* PCSearchBarController+Scrolling.swift in Sources */,
 				BD0B68712203DC58002CCE3F /* EpisodeLimitPlaceholder.swift in Sources */,
 				4041FE99218A872B0089D4A1 /* SiriShortcutDisclosureCell.swift in Sources */,

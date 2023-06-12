@@ -261,6 +261,8 @@
     <string>Скорость воспроизведения</string>
     <key>carplay_up_next_queue</key>
     <string>Очередь «Следующие»</string>
+    <key>change_app_icon</key>
+    <string>Изменить значок приложения</string>
     <key>change_email</key>
     <string>Изменить электронный адрес</string>
     <key>change_email_conf</key>
@@ -1228,6 +1230,16 @@
     <string>Станьте пользователем Patron и получите доступ ко всем возможностям Pocket Casts</string>
     <key>patron_subscribe_to</key>
     <string>Подписаться на Patron</string>
+    <key>patron_thank_you</key>
+    <string>Спасибо за вашу поддержку!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Удерживайте кнопку разблокировки, чтобы получить токены как знак нашей благодарности.</string>
+    <key>patron_unlock_release</key>
+    <string>Отпустите, чтобы разблокировать</string>
+    <key>patron_unlock_word</key>
+    <string>разблокировать</string>
+    <key>patron_unlocking</key>
+    <string>Разблокировка</string>
     <key>pause</key>
     <string>Пауза</string>
     <key>phone</key>
@@ -2071,6 +2083,38 @@
     <string>Пропускайте вступительную и заключительную музыку как умудренный опытом слушатель.</string>
     <key>settings_stats</key>
     <string>Статистика</string>
+    <key>settings_status_account_service</key>
+    <string>Сервис учётной записи</string>
+    <key>settings_status_account_service_description</key>
+    <string>Этот сервис используется для хранения информации о состоянии прослушивания выпусков, подписках, фильтрах и т. д.</string>
+    <key>settings_status_description</key>
+    <string>Проверьте подключение к важным службам. Это помогает диагностировать проблемы с сетью, прокси-серверами, VPN, приложениями для блокировки рекламы и безопасности.</string>
+    <key>settings_status_discover</key>
+    <string>Поиск</string>
+    <key>settings_status_discover_description</key>
+    <string>Поисковый раздел приложения, включая поиск подкастов.</string>
+    <key>settings_status_host</key>
+    <string>Распространённые хостинги подкастов</string>
+    <key>settings_status_host_description</key>
+    <string>Авторы подкастов размещают файлы выпусков у различных хостинг-провайдеров, которые не контролируются Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Для скачивания подкастов вам потребуется разблокировать этот домен. Обратите внимание, что Pocket Casts не размещает подкасты на своих серверах и не выбирает место их размещения. Этим занимаются авторы программ, и мы не можем это контролировать.</string>
+    <key>settings_status_internet</key>
+    <string>Интернет</string>
+    <key>settings_status_internet_description</key>
+    <string>Проверьте статус своей сети.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Не удаётся подключиться к Интернету. Попробуйте подключиться через другую сеть (например, мобильную).</string>
+    <key>settings_status_page</key>
+    <string>Страница состояния</string>
+    <key>settings_status_refresh_service</key>
+    <string>Сервис обновления</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>Этот сервис используется для поиска новых выпусков.</string>
+    <key>settings_status_run</key>
+    <string>Запустить сейчас</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Вам потребуется разблокировать домен %1$@</string>
     <key>settings_storage</key>
     <string>Использование хранилища и данных</string>
     <key>settings_storage_data_warning</key>
