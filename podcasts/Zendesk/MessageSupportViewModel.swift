@@ -15,6 +15,10 @@ class MessageSupportViewModel: ObservableObject {
         }
     }
 
+    public enum MessageSupportFailure: Error {
+        case watchLogMissing
+    }
+
     // MARK: Input
 
     @Published var requesterName: String
@@ -132,10 +136,7 @@ class MessageSupportViewModel: ObservableObject {
                 // are any Apple Watch logs available.
                 let containsWatch = self.comment.localizedCaseInsensitiveContains(L10n.watch) || self.comment.lowercased().contains("watch")
                 if containsWatch && customFields.first(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) != nil && !ignoreUnavailableWatchLogs {
-
-
-
-                    return Fail(error: PlaybackError.errorDuringPlayback).eraseToAnyPublisher()
+                    return Fail(error: MessageSupportFailure.watchLogMissing).eraseToAnyPublisher()
                 } else {
                     let requestObject = ZDSupportRequest(subject: self.config.subject,
                                                          name: self.requesterName,
