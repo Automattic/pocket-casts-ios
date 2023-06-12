@@ -121,7 +121,7 @@ struct SupportConfig: ZDConfig {
             // Return the File Contents to show the user
             return Future { promise in
                 WatchManager.shared.requestLogFile { watchLog in
-                    let wearableLog = watchLog ?? "No wearable logs were available"
+                    let wearableLog = watchLog ?? "No wearable logs were available. If you use the Watch app, open it and reopen this screen."
                     promise(.success(ZDCustomField(.wearableLog, value: wearableLog)))
                 }
             }

@@ -348,6 +348,8 @@ internal enum L10n {
   internal static var confirmNewPasswordPrompt: String { return L10n.tr("Localizable", "confirm_new_password_prompt") }
   /// Continue
   internal static var `continue`: String { return L10n.tr("Localizable", "continue") }
+  /// Copy
+  internal static var copy: String { return L10n.tr("Localizable", "copy") }
   /// Create Account
   internal static var createAccount: String { return L10n.tr("Localizable", "create_account") }
   /// Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again.
@@ -2688,6 +2690,14 @@ internal enum L10n {
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
+  /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.
+  internal static var supportWatchHelpMessage: String { return L10n.tr("Localizable", "support_watch_help_message") }
+  /// I've opened the Watch app
+  internal static var supportWatchHelpOpenedApp: String { return L10n.tr("Localizable", "support_watch_help_opened_app") }
+  /// Send without Watch logs
+  internal static var supportWatchHelpSendWithoutLog: String { return L10n.tr("Localizable", "support_watch_help_send_without_log") }
+  /// Looking for Watch app help?
+  internal static var supportWatchHelpTitle: String { return L10n.tr("Localizable", "support_watch_help_title") }
   /// Supporter
   internal static var supporter: String { return L10n.tr("Localizable", "supporter") }
   /// Supporter Contributions
