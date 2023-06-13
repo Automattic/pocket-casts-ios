@@ -1,3 +1,7 @@
+7.42
+-----
+
+
 7.41
 -----
 - Improve support section to help the user to send Apple Watch logs

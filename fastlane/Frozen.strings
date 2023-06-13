@@ -3726,6 +3726,27 @@
 /* A button label that informs the user to release a button press to finish */
 "patron_unlock_release" = "Release to Unlock";
 
+/* The string for the act of Copy (from Copy & Paste) */
+"copy" = "Copy";
+
+/* Title of an alert shown to the user */
+"support_watch_help_title" = "Looking for Watch app help?";
+
+/* Description of an alert shown to the user */
+"support_watch_help_message" = "If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.";
+
+/* Button that the user can press if they opened the Watch app */
+"support_watch_help_opened_app" = "I've opened the Watch app";
+
+/* Button that the user can press if they want to request help without the Apple Watch logs */
+"support_watch_help_send_without_log" = "Send without Watch logs";
+
+/* Title of a tab in the player that shows the episode description (show notes). */
+"player_show_notes_title" = "Description";
+
+/* The plural name of a feature called Bookmarks, used in various places in the app */
+"bookmarks" = "Bookmarks";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
