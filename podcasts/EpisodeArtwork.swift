@@ -10,10 +10,13 @@ class EpisodeArtwork {
         self.imageManager = imageManager
     }
 
-    /// Extract a UIImage from a given asset if embedded artwork option is enabled.
-    /// If an image is extracted, `episodeEmbeddedArtworkLoaded` notification is triggered
+    /// Attempts to load an episode embedded artwork.
+    /// It first tries to load an embedded artwork from the AVAsset.
+    /// If nothing is found, it then request the image from Cache Server Handler.
+    /// If an image is retrieved, `episodeEmbeddedArtworkLoaded` notification is triggered
     /// - Parameters:
     ///   - asset: an AVAsset
+    ///   - podcastUuid: the UUID of the current playing podcast
     ///   - episodeUuid: the UUID of the current playing episode
     func loadEmbeddedImage(asset: AVAsset, podcastUuid: String, episodeUuid: String) {
         guard Settings.loadEmbeddedImages, !isCached(episodeUuid: episodeUuid) else {
