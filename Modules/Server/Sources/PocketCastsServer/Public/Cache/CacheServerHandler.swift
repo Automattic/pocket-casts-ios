@@ -11,7 +11,12 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
-    public init() {
+    private var requestingNotes = false
+
+    private var showNotesCompletionBlocks: [(ShowNotesPodcast?) -> Void] = []
+    private var showNotesCachedCompletionBlocks: [(ShowNotesPodcast?) -> Void] = []
+
+    private init() {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
     }
@@ -33,42 +38,83 @@ public class CacheServerHandler {
     }
 
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let request = URLRequest(url: url)
-
         var cachedNotes = ""
         var didSendCachedNotes = false
+
+        requestShowNotes(for: podcastUuid, cached: { showNotes in
+            if let notes = showNotes?.episodes.first(where: { $0.uuid == episodeUuid })?.showNotes {
+                cached?(notes)
+                cachedNotes = notes
+                didSendCachedNotes = true
+            }
+        }, completion: { showNotes in
+            if let episodeNotes = showNotes?.episodes.first(where: { $0.uuid == episodeUuid })?.showNotes {
+                if didSendCachedNotes, episodeNotes == cachedNotes {
+                    return
+                }
+
+                completion?(episodeNotes)
+            } else if !didSendCachedNotes {
+                completion?(CacheServerHandler.noShowNotesMessage)
+            }
+        })
+    }
+
+    private func requestShowNotes(for podcastUuid: String, cached: @escaping (ShowNotesPodcast?) -> Void, completion: @escaping (ShowNotesPodcast?) -> Void) {
+        showNotesCachedCompletionBlocks.append(cached)
+        showNotesCompletionBlocks.append(completion)
+
+        guard !requestingNotes else { return }
+
+        requestingNotes = true
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadRevalidatingCacheData
+
         if let cachedResponse = showNotesUrlCache.cachedResponse(for: request),
-           let episodeNotes = getNotes(from: cachedResponse.data, episodeUuid: episodeUuid) {
-            cachedNotes = episodeNotes
-            cached?(episodeNotes)
-            didSendCachedNotes = true
+           let showNotes = try? decoder.decode(ShowNotes.self, from: cachedResponse.data) {
+
+            showNotesCachedCompletionBlocks.forEach { $0(showNotes.podcast) }
+            showNotesCachedCompletionBlocks = []
+            requestingNotes = false
         }
 
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
             if let data = data,
                let response = response,
-               let episodeNotes = self?.getNotes(from: data, episodeUuid: episodeUuid) {
+               let showNotes = try? decoder.decode(ShowNotes.self, from: data) {
                 let responseToCache = CachedURLResponse(response: response, data: data)
                 self?.showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
 
-                if didSendCachedNotes, episodeNotes == cachedNotes {
-                    return
-                }
-                completion?(episodeNotes)
-            } else if !didSendCachedNotes {
-                // if loading failed and we haven't sent the client anything, send it a message it can show the user instead
-                completion?(CacheServerHandler.noShowNotesMessage)
+                self?.showNotesCompletionBlocks.forEach { $0(showNotes.podcast) }
+                self?.showNotesCompletionBlocks = []
+            } else {
+                completion(nil)
             }
+
+            self?.requestingNotes = false
         }.resume()
     }
 
-    private func getNotes(from data: Data, episodeUuid: String) -> String? {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    // MARK: - Episode Artwork
 
-        let showNotes = try? decoder.decode(ShowNotes.self, from: data)
-        return showNotes?.podcast.episodes.first(where: { $0.uuid == episodeUuid })?.showNotes
+    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        var retrievedImage = ""
+        let completionBlock: (ShowNotesPodcast?) -> Void = { episodeNotes in
+            guard let image = episodeNotes?.episodes.first(where: { $0.uuid == episodeUuid })?.image,
+                  image != retrievedImage else {
+                return
+            }
+
+            retrievedImage = image
+            completion?(image)
+        }
+
+        requestShowNotes(for: podcastUuid, cached: completionBlock, completion: completionBlock)
     }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
