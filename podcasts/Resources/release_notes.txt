@@ -1,2 +1,2 @@
-- Add a Status Page so the user can check their connection to our services
+- Improve support section to help the user to send Apple Watch logs
 
