@@ -164,6 +164,11 @@ class DownloadManager: NSObject, FilePathProtocol {
         // try and cache the show notes for this episode
         ShowNotesUpdater.updateShowNotesInBackground(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
 
+        // try and cache the episode embedded artwork
+        #if !os(watchOS)
+        EpisodeArtwork().loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        #endif
+
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
             let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
