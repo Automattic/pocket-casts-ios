@@ -4,6 +4,8 @@ source 'https://cdn.cocoapods.org/'
 
 use_modular_headers!
 
+inhibit_all_warnings!
+
 app_ios_deployment_target = Gem::Version.new('15.0')
 
 def kingfisher
