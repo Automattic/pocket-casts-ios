@@ -1,8 +1,9 @@
 import Foundation
 import Kingfisher
+import PocketCastsServer
 
 /// Extracts artwork from a streaming episode (if there's any)
-class StreamingEpisodeArtwork {
+class EpisodeArtwork {
     private let imageManager: ImageManager
 
     init(imageManager: ImageManager = .sharedManager) {
@@ -14,7 +15,7 @@ class StreamingEpisodeArtwork {
     /// - Parameters:
     ///   - asset: an AVAsset
     ///   - episodeUuid: the UUID of the current playing episode
-    func loadEmbeddedImage(asset: AVAsset, episodeUuid: String) {
+    func loadEmbeddedImage(asset: AVAsset, podcastUuid: String, episodeUuid: String) {
         guard Settings.loadEmbeddedImages, !isCached(episodeUuid: episodeUuid) else {
             return
         }
@@ -22,10 +23,22 @@ class StreamingEpisodeArtwork {
         let artworkItems = AVMetadataItem.metadataItems(from: asset.commonMetadata, filteredByIdentifier: .commonIdentifierArtwork)
         let image = artworkItems.compactMap { $0.dataValue.flatMap { UIImage(data: $0) } }.first
 
-        guard let image else { return }
-
-        set(for: episodeUuid, image: image) {
-            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
+        if let image {
+            set(for: episodeUuid, image: image) {
+                NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
+            }
+        } else {
+            CacheServerHandler.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) { [weak self] imageUrl in
+                if let imageUrl, let url = URL(string: imageUrl) {
+                    KingfisherManager.shared.retrieveImage(with: url, options: nil) { result in
+                        if let image = try? result.get().image {
+                            self?.set(for: episodeUuid, image: image) {
+                                NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
