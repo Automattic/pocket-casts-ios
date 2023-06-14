@@ -29,6 +29,9 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    public var biggestPodcastImageSize: Int {
+        availablePodcastImageSizes.last!
+    }
     private let availablePodcastImageSizes = [130, 210, 280, 340, 400, 420, 680, 960]
 
     // we store failed embed lookups in memory, just to stop us constantly parsing a file with no artwork for artwork

@@ -51,7 +51,13 @@ class EpisodeArtwork {
             }
 
             if let imageUrl, let url = URL(string: imageUrl) {
-                KingfisherManager.shared.retrieveImage(with: url, options: [.targetCache(self.imageManager.subscribedPodcastsCache)]) { result in
+                // Resize image to avoid really big images that appear
+                // super blurred on CarPlay.
+                // If the image is smaller to the given size, no downsampling is done.
+                let size = self.imageManager.biggestPodcastImageSize
+                let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
+                KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
+
                     if let image = try? result.get().image {
                         self.save(image, for: episodeUuid)
                     }
