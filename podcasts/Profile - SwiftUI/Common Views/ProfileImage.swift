@@ -19,7 +19,7 @@ struct ProfileImage: View {
     }
 
     private var url: URL? {
-        email.flatMap { URL(string: "https://www.gravatar.com/avatar/\($0.md5)?d=404&s=\(256)") }
+        email.flatMap { URL(string: "https://www.gravatar.com/avatar/\($0.sha256)?d=404&s=\(256)") }
     }
 
     private var defaultProfileView: some View {
