@@ -106,7 +106,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
             .map { [unowned self] notification -> BaseEpisode? in
                 let currentEpisode = self.episode
                 guard let uuid = notification.object as? String, currentEpisode.uuid == uuid else { return currentEpisode }
-                return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid) ?? nil
+                return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid)
             }
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] fetchedEpisode in

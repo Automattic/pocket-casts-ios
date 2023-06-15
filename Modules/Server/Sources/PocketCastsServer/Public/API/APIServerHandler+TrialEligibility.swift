@@ -20,7 +20,7 @@ public extension ApiServerHandler {
                 return
             }
 
-            let eligible = (try? Api_CheckEligibleResponse(serializedData: data))?.eligible ?? nil
+            let eligible = (try? Api_CheckEligibleResponse(serializedData: data))?.eligible
 
             completion(eligible)
         }.resume()
