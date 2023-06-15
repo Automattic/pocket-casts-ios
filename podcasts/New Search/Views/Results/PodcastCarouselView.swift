@@ -130,7 +130,7 @@ struct PodcastsCarouselView: View {
         let podcast = Podcast()
         podcast.title = ""
         podcast.author = ""
-        podcast.uuid = ""
+        podcast.uuid = UUID().uuidString
 
         return podcast
     }
