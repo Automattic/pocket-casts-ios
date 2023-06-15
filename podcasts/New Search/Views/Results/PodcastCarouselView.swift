@@ -54,7 +54,7 @@ struct PodcastsCarouselView: View {
                     }
                 }
             } else if searchResults.podcasts.count > 0 {
-                let fillerPodcast = Podcast.previewPodcast()
+                let fillerPodcast = fillerPodcast()
 
                 // If needed, fill the results with filler podcasts to make sure the sizing and positioning is consistent
                 let results: [PodcastFolderSearchResult] = {
@@ -124,6 +124,15 @@ struct PodcastsCarouselView: View {
 
             UIDevice.current.endGeneratingDeviceOrientationNotifications()
         }
+    }
+
+    private func fillerPodcast() -> Podcast {
+        let podcast = Podcast()
+        podcast.title = ""
+        podcast.author = ""
+        podcast.uuid = ""
+
+        return podcast
     }
 
     private enum Carousel {
