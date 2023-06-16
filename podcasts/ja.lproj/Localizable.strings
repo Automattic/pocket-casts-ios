@@ -313,6 +313,8 @@
     <string>新しいパスワードを確認</string>
     <key>continue</key>
     <string>次へ</string>
+    <key>copy</key>
+    <string>コピー</string>
     <key>create_account</key>
     <string>アカウントを作成</string>
     <key>create_account_app_store_error_message</key>

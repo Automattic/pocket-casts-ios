@@ -313,6 +313,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>確認新密碼</string>
     <key>continue</key>
     <string>繼續</string>
+    <key>copy</key>
+    <string>複製</string>
     <key>create_account</key>
     <string>建立帳號</string>
     <key>create_account_app_store_error_message</key>

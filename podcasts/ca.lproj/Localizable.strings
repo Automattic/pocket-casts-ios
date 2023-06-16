@@ -227,6 +227,8 @@
     <string>Primer</string>
     <key>back</key>
     <string>Enrere</string>
+    <key>bookmarks</key>
+    <string>Favorits</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -261,6 +263,8 @@
     <string>Velocitat de reproducció</string>
     <key>carplay_up_next_queue</key>
     <string>Llista 'Tot seguit'</string>
+    <key>change_app_icon</key>
+    <string>Canvia la icona de l'app</string>
     <key>change_email</key>
     <string>Canviar l'adreça de correu electrònic</string>
     <key>change_email_conf</key>
@@ -311,6 +315,8 @@
     <string>Confirmar la novca contrasenya</string>
     <key>continue</key>
     <string>Segueix</string>
+    <key>copy</key>
+    <string>Copiar</string>
     <key>create_account</key>
     <string>Crear un compte</string>
     <key>create_account_app_store_error_message</key>
@@ -1223,6 +1229,16 @@ ACTUALITZACIONS</string>
     <string>Converteix-te en membre Patron i gaudeix de totes les funcions de Pocket Casts</string>
     <key>patron_subscribe_to</key>
     <string>Subscriu-te a Patron</string>
+    <key>patron_thank_you</key>
+    <string>Gràcies per la teva ajuda!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Manteniu premut el botó de desbloqueig que hi ha a continuació per rebre algunes mostres del nostre agraïment.</string>
+    <key>patron_unlock_release</key>
+    <string>Prem per desbloquejar</string>
+    <key>patron_unlock_word</key>
+    <string>desbloquejar</string>
+    <key>patron_unlocking</key>
+    <string>Desbloquejant</string>
     <key>pause</key>
     <string>Pausa</string>
     <key>phone</key>
@@ -1297,6 +1313,8 @@ ACTUALITZACIONS</string>
     <string>Selector de la ruta</string>
     <key>player_share_header</key>
     <string>COMPARTEIX L'ENLLAÇ A</string>
+    <key>player_show_notes_title</key>
+    <string>Descripció</string>
     <key>player_user_episode_download_error</key>
     <string>Error de la descàrrega</string>
     <key>player_user_episode_playback_error</key>
@@ -2064,6 +2082,38 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Salta't la música de la introducció i del final com a bon usuari experimentat que ets.</string>
     <key>settings_stats</key>
     <string>Estadístiques</string>
+    <key>settings_status_account_service</key>
+    <string>Servei del compte</string>
+    <key>settings_status_account_service_description</key>
+    <string>El servei es fa servir per emmagatzemar el progrés dels episodis, les subscripcions, els filtres, etc.</string>
+    <key>settings_status_description</key>
+    <string>Comprova la teva connexió amb serveis importants. Us ajudem a diagnosticar problemes de xarxes, proxies, VPN, bloquejadors de publicitat i aplicacions de seguretat.</string>
+    <key>settings_status_discover</key>
+    <string>Descobrir i cercar</string>
+    <key>settings_status_discover_description</key>
+    <string>La secció Descobrir l'aplicació i la cerca de podcast.</string>
+    <key>settings_status_host</key>
+    <string>Proveïdors d'allotjament més comuns de podcasts</string>
+    <key>settings_status_host_description</key>
+    <string>Els autors de podcast allotgen fitxers d'episodi en diversos proveïdors d'allotjament no gestionats per Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>La causa més comuna és que teniu un bloquejador d'anuncis configurat al vostre telèfon o xarxa. Haureu de desbloquejar aquest domini per baixar podcasts. Tingueu en compte que Pocket Casts no allotja ni tria on s'allotgen els podcasts, això depèn de l'autor del programa i està fora del nostre control.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Comprova l'estat de la xarxa.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>No és possible connectar-se a Internet. Prova de connectar a una xarxa diferent, per exemple a les dades mòbils.</string>
+    <key>settings_status_page</key>
+    <string>Pàgina d'estat</string>
+    <key>settings_status_refresh_service</key>
+    <string>Servei d'actualizació</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>Aquest servei s'empra per cercar episodis nous.</string>
+    <key>settings_status_run</key>
+    <string>Executar ara</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>La causa més comuna és que teniu un bloquejador d'anuncis configurat al vostre telèfon o xarxa. Haureu de desbloquejar el domini %1$@</string>
     <key>settings_storage</key>
     <string>Emmagatzematge i ús de dades</string>
     <key>settings_storage_data_warning</key>
@@ -2293,6 +2343,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Expira el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
+    <key>support_watch_help_message</key>
+    <string>Si tens problemes amb l'aplicació Pocket Casts Watch, podem enviar-vos els vostres registres de portàtils per ajudar-vos millor. Per fer-ho, obriu Pocket Casts al vostre rellotge.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>He obert l'app al Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Envia sense els logs del Watch</string>
+    <key>support_watch_help_title</key>
+    <string>Busques ajuda per a l'aplicació Watch?</string>
     <key>supporter</key>
     <string>Col·laborador</string>
     <key>supporter_contributions</key>

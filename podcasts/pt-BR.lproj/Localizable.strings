@@ -313,6 +313,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Confirmar nova senha</string>
     <key>continue</key>
     <string>Continuar</string>
+    <key>copy</key>
+    <string>Copiar</string>
     <key>create_account</key>
     <string>Criar conta</string>
     <key>create_account_app_store_error_message</key>

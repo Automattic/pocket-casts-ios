@@ -313,6 +313,8 @@
     <string>Подтвердите новый пароль</string>
     <key>continue</key>
     <string>Продолжить</string>
+    <key>copy</key>
+    <string>Копирование</string>
     <key>create_account</key>
     <string>Создать учётную запись</string>
     <key>create_account_app_store_error_message</key>

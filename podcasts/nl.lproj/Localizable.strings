@@ -313,6 +313,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuw wachtwoord bevestigen</string>
     <key>continue</key>
     <string>Doorgaan</string>
+    <key>copy</key>
+    <string>Kopieer</string>
     <key>create_account</key>
     <string>Account aanmaken</string>
     <key>create_account_app_store_error_message</key>
