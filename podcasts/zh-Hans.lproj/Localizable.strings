@@ -313,6 +313,8 @@
     <string>确认新密码</string>
     <key>continue</key>
     <string>继续</string>
+    <key>copy</key>
+    <string>复制</string>
     <key>create_account</key>
     <string>创建账户</string>
     <key>create_account_app_store_error_message</key>
