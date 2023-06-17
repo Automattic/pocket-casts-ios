@@ -31,6 +31,9 @@ import PocketCastsDataModel
     func interruptionDidStart()
 
     func internalPlayerForVideoPlayback() -> AVPlayer?
+
+    /// If the playback fails, we should try to fallback to this player
+    var fallbackPlayer: PlaybackProtocol.Type? { get }
 }
 
 enum PlaybackError: Error {
