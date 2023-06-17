@@ -98,6 +98,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     // we haven't cached a frame count for this episode, do that now
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
+
+                    // If the count is still 0 then way may not be able to read the file correctly, so throw an error
+                    if strongSelf.cachedFrameCount == 0 {
+                        throw PlaybackError.unableToOpenFile
+                    }
                 }
             } catch {
                 objc_sync_exit(strongSelf.playerLock)
