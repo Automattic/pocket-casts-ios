@@ -12,8 +12,7 @@ class FileTypeUtil {
         else if type.contains("video/m4v") { return ".m4v" }
         else if type.contains("video/mpeg") { return ".mp4" }
         else if type.contains("video/mpeg2") { return ".mov" }
-
-        else if type.contains("audio/aac") { return ".m4a" }
+        else if type.contains("audio/aac") { return ".aac" }
         else if type.contains("audio/3gpp") { return ".3gp" }
         else if type.contains("audio/3gpp2") { return ".3g2" }
         else if type.contains("audio/aiff") { return ".aiff" }
@@ -47,7 +46,7 @@ class FileTypeUtil {
         else if fileExtension.contains(".mp4") { return "video/mp4" }
         else if fileExtension.contains(".mov") { return "video/quicktime" }
         else if fileExtension.contains(".m4v") { return "video/m4v" }
-        else if fileExtension.contains(".m4a") { return "audio/aac" }
+        else if fileExtension.contains(".aac") { return "audio/aac" }
         else if fileExtension.contains(".aiff") { return "audio/aiff" }
         else if fileExtension.contains(".amr") { return "audio/amr" }
         else if fileExtension.contains(".mp3") { return "audio/mp3" }
@@ -76,6 +75,7 @@ class FileTypeUtil {
         else if fileName.contains(".m4a") { return true }
         else if fileName.contains(".m4b") { return true }
         else if fileName.contains(".m4p") { return true }
+        else if fileName.contains(".aac") { return true }
         return false
     }
 }
