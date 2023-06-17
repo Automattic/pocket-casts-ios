@@ -106,6 +106,13 @@ extension AppDelegate {
             }
         }
 
+        /// Ref: https://github.com/Automattic/pocket-casts-ios/issues/900
+        performUpdateIfRequired(updateKey: "AACFileRenaming") {
+            Task.detached {
+                await DownloadManager.shared.fixAACFileExtensions()
+            }
+        }
+
         defaults.synchronize()
     }
 
