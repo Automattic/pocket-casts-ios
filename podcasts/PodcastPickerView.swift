@@ -13,7 +13,7 @@ struct PodcastPickerView: View {
                 HStack {
                     PCSearchView(searchTerm: $pickerModel.searchTerm)
                         .frame(height: PCSearchView.defaultHeight)
-                        .padding(.top, -6)
+                        .padding(.top, 11)
                         .padding(.leading, -PCSearchView.defaultIndenting)
                     Spacer()
                     Menu {
@@ -30,7 +30,7 @@ struct PodcastPickerView: View {
                                     .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: 2)
                             )
                     }
-                    .padding(.top, -14)
+                    .padding(.top, 1)
                 }
                 ThemedDivider()
                 Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count, capitalized: true))
