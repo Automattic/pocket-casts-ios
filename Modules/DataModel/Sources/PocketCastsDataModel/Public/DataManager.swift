@@ -903,6 +903,11 @@ public extension DataManager {
             try? db.executeUpdate(query, values: nil)
         }
     }
+
+    /// Finds all the episodes for the given `fileType`. Check `FileTypeUtil` for the types
+    func episodesWithFileType(_ type: String, downloadStatus: DownloadStatus) -> [BaseEpisode] {
+        episodeManager.episodesWithFileType(type, downloadStatus: downloadStatus, in: dbQueue)
+    }
 }
 
 // MARK: - End of Year stats

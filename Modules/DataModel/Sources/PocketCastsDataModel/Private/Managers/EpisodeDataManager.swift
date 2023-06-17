@@ -161,6 +161,14 @@ class EpisodeDataManager {
         return count
     }
 
+    /// Finds all the episodes for the given `fileType`, and DownloadStatus.
+    /// Check `FileTypeUtil` for the types
+    func episodesWithFileType(_ type: String, downloadStatus: DownloadStatus, in dbQueue: FMDatabaseQueue) -> [BaseEpisode] {
+        let query = "SELECT * FROM \(DataManager.episodeTableName) WHERE fileType = ? AND episodeStatus = ?"
+
+        return loadMultiple(query: query, values: [type, downloadStatus.rawValue], dbQueue: dbQueue)
+    }
+
     // MARK: - Updates
 
     func saveIfNotModified(starred: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
