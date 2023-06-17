@@ -5,6 +5,8 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class DefaultPlayer: PlaybackProtocol, Hashable {
+    var fallbackPlayer: PlaybackProtocol.Type? = nil
+
     private var audioMix: AVAudioMix?
     private var assetTrack: AVAssetTrack?
 
