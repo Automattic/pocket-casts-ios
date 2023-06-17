@@ -448,3 +448,45 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadTask?.resume()
     }
 }
+
+// Updates
+extension DownloadManager {
+    /// Renames any downloaded AAC files with an m4a file extension to AAC
+    /// Ref: https://github.com/Automattic/pocket-casts-ios/issues/900
+    func fixAACFileExtensions() async {
+        FileLog.shared.addMessage("[AAC Renaming] Started Renaming AAC extensions from m4a to aac")
+        let episodes = DataManager.sharedManager.episodesWithFileType("audio/aac", downloadStatus: .downloaded)
+        FileLog.shared.addMessage("[AAC Renaming] Found \(episodes.count) AAC episodes")
+
+        // Stats trackers for the final log
+        var renamedCount = 0
+        var missingCount = 0
+        var failedCount = 0
+
+        episodes.forEach { episode in
+            // The new path to move to
+            let destination = episode.pathToDownloadedFile(pathFinder: self)
+
+            // Revert to the old file extension
+            let source = destination.replacingOccurrences(of: ".aac", with: ".m4a")
+
+            guard FileManager.default.fileExists(atPath: source) else {
+                missingCount += 1
+                return
+            }
+
+            do {
+                let sourceUrl = try URL(throwing: source)
+                let destinationUrl = try URL(throwing: destination)
+                try StorageManager.moveItem(at: sourceUrl, to: destinationUrl)
+
+                renamedCount += 1
+            } catch {
+                failedCount += 1
+                FileLog.shared.addMessage("[AAC Renaming] Failed with error: \(error)")
+            }
+        }
+
+        FileLog.shared.addMessage("[AAC Renaming] Finished. Renamed \(renamedCount) episodes, skipped \(missingCount) episodes whose m4a file didn't exist. There were \(failedCount) failures.")
+    }
+}
