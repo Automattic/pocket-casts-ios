@@ -12,17 +12,6 @@ class EpisodesDataManager {
         case starred
     }
 
-    func get(_ section: Section) -> [ArraySection<String, ListEpisode>] {
-        switch section {
-        case .downloads:
-            return downloadedEpisodes()
-        case .listeningHistory:
-            return listeningHistoryEpisodes()
-        default:
-            fatalError("[ArraySection<String, ListEpisode>] can't be returned for this section.")
-        }
-    }
-
     // MARK: - Podcast episodes list
 
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {

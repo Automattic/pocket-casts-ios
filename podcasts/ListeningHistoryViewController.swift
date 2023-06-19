@@ -117,7 +117,7 @@ class ListeningHistoryViewController: PCViewController {
             guard let self else { return }
 
             let oldData = self.episodes
-            let newData: [ArraySection<String, ListEpisode>] = self.episodesDataManager.get(.listeningHistory)
+            let newData = self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
                 self.listeningHistoryTable.isHidden = (newData.count == 0)

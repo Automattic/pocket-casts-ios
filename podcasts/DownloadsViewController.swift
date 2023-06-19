@@ -177,7 +177,7 @@ class DownloadsViewController: PCViewController {
         operationQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            let newData: [ArraySection<String, ListEpisode>] = strongSelf.episodesDataManager.get(.downloads)
+            let newData = strongSelf.episodesDataManager.downloadedEpisodes()
 
             DispatchQueue.main.sync {
                 strongSelf.downloadsTable.isHidden = (newData.count == 0)
