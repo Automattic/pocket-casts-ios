@@ -7,6 +7,7 @@ class EpisodesDataManager {
         case podcast(Podcast, uuidsToFilter: [String]?)
         case filter(EpisodeFilter)
         case downloads
+        case listeningHistory
     }
 
     func get(_ section: Section) -> [ArraySection<String, ListItem>] {
@@ -31,6 +32,8 @@ class EpisodesDataManager {
         switch section {
         case .downloads:
             return downloadedEpisodes()
+        case .listeningHistory:
+            return listeningHistoryEpisodes()
         default:
             fatalError("[ArraySection<String, ListEpisode>] can't be returned for this section.")
         }
@@ -125,5 +128,16 @@ class EpisodesDataManager {
         })
 
         return newData
+    }
+
+    // MARK: - Listening History
+
+    func listeningHistoryEpisodes() -> [ArraySection<String, ListEpisode>] {
+        let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
+
+        let oldData = self.episodes
+        return EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
+            episode.shortLastPlaybackInteractionDate()
+        })
     }
 }
