@@ -2,8 +2,6 @@ import Foundation
 
 /// Request information about an episode using the show notes endpoint
 public class EpisodeInfoHandler {
-    public static var shared = EpisodeInfoHandler()
-
     private let showNotesUrlCache: URLCache
 
     private var requestingNotes = false
@@ -11,7 +9,7 @@ public class EpisodeInfoHandler {
     private var showNotesCompletionBlocks: [(ShowNotesPodcast?) -> Void] = []
     private var showNotesCachedCompletionBlocks: [(ShowNotesPodcast?) -> Void] = []
 
-    private init() {
+    init() {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
     }
 

@@ -10,7 +10,7 @@ public class CacheServerHandler {
 
     private let colorsUrlsCache: URLCache
 
-    private lazy var episodeInfoHandler = EpisodeInfoHandler.shared
+    private lazy var episodeInfoHandler = EpisodeInfoHandler()
 
     private init() {
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
