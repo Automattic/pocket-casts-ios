@@ -21,6 +21,10 @@ public class EpisodeInfoHandler {
 
     struct ShowNotesPodcast: Decodable {
         let episodes: [ShowNotesEpisode]
+
+        func episode(with uuid: String) -> ShowNotesEpisode? {
+            episodes.first(where: { $0.uuid == uuid })
+        }
     }
 
     struct ShowNotesEpisode: Decodable {
@@ -34,7 +38,7 @@ public class EpisodeInfoHandler {
         var didSendCachedNotes = false
 
         requestShowNotes(for: podcastUuid, cached: { showNotes in
-            if let notes = showNotes?.episodes.first(where: { $0.uuid == episodeUuid })?.showNotes {
+            if let notes = showNotes?.episode(with: episodeUuid)?.showNotes {
                 cached?(notes)
                 cachedNotes = notes
                 didSendCachedNotes = true
