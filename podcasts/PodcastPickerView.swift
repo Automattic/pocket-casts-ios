@@ -30,7 +30,7 @@ struct PodcastPickerView: View {
                                     .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: 2)
                             )
                     }
-                    .padding(.top, 1)
+                    .padding(.top, 3)
                 }
                 ThemedDivider()
                 Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count, capitalized: true))
