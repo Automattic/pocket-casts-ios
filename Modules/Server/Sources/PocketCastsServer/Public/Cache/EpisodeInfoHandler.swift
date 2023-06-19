@@ -71,8 +71,7 @@ public class EpisodeInfoHandler {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        var request = URLRequest(url: url)
-        request.cachePolicy = .reloadRevalidatingCacheData
+        let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
 
         // Check for any cached version and if there's any call the cached completion blocks
         if let cachedResponse = showNotesUrlCache.cachedResponse(for: request),
