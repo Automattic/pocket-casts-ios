@@ -12,17 +12,6 @@ class EpisodesDataManager {
         case starred
     }
 
-    func get(_ section: Section) -> [ListEpisode] {
-        switch section {
-        case .filter(let filter):
-            return episodes(for: filter)
-        case .starred:
-            return starredEpisodes()
-        default:
-            fatalError("An array of ListEpisode can't be returned for this section.")
-        }
-    }
-
     func get(_ section: Section) -> [ArraySection<String, ListEpisode>] {
         switch section {
         case .downloads:

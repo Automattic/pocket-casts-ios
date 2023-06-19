@@ -20,7 +20,7 @@ class PlaylistRefreshOperation: Operation {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let newData: [ListEpisode] = episodesDataManager.get(.filter(filter))
+            let newData = episodesDataManager.episodes(for: filter)
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
