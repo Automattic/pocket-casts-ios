@@ -3,6 +3,7 @@ import PocketCastsServer
 import DifferenceKit
 
 /// Returns a list of episodes for an specific section
+/// Depending on the section, it returns a DifferenceKit ArraySection
 class EpisodesDataManager {
     // MARK: - Podcast episodes list
 
