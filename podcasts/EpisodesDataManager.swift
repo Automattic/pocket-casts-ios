@@ -2,16 +2,8 @@ import PocketCastsDataModel
 import PocketCastsServer
 import DifferenceKit
 
-/// Returns a list of episodes
+/// Returns a list of episodes for an specific section
 class EpisodesDataManager {
-    enum Section {
-        case podcast(Podcast, uuidsToFilter: [String]?)
-        case filter(EpisodeFilter)
-        case downloads
-        case listeningHistory
-        case starred
-    }
-
     // MARK: - Podcast episodes list
 
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
