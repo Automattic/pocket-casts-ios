@@ -8,6 +8,7 @@ class EpisodesDataManager {
         case filter(EpisodeFilter)
         case downloads
         case listeningHistory
+        case starred
     }
 
     func get(_ section: Section) -> [ArraySection<String, ListItem>] {
@@ -23,6 +24,8 @@ class EpisodesDataManager {
         switch section {
         case .filter(let filter):
             return episodes(for: filter)
+        case .starred:
+            return starredEpisodes()
         default:
             fatalError("An array of ListEpisode can't be returned for this section.")
         }
@@ -138,5 +141,12 @@ class EpisodesDataManager {
         return EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
             episode.shortLastPlaybackInteractionDate()
         })
+    }
+
+    // MARK: - Starred
+
+    func starredEpisodes() -> [ListEpisode] {
+        let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
+        return EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
     }
 }
