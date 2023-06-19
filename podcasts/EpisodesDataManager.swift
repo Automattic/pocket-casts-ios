@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import DifferenceKit
 
 /// Returns a list of episodes
@@ -148,5 +149,17 @@ class EpisodesDataManager {
     func starredEpisodes() -> [ListEpisode] {
         let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
         return EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
+    }
+
+    // MARK: - Uploaded Files
+
+    func uploadedEpisodes() -> [UserEpisode] {
+        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
+
+        if SubscriptionHelper.hasActiveSubscription() {
+            return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
+        } else {
+            return DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
+        }
     }
 }
