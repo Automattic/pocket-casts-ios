@@ -6,23 +6,33 @@ class EpisodesDataManager {
     enum Section {
         case podcast(Podcast, uuidsToFilter: [String]?)
         case filter(EpisodeFilter)
+        case downloads
     }
 
     func get(_ section: Section) -> [ArraySection<String, ListItem>] {
         switch section {
         case .podcast(let podcast, uuidsToFilter: let uuidsToFilter):
             return episodes(for: podcast, uuidsToFilter: uuidsToFilter)
-        case .filter:
-            fatalError("ArraySection can't be returned for filters")
+        default:
+            fatalError("ArraySection<String, ListItem> can't be returned for this section.")
         }
     }
 
     func get(_ section: Section) -> [ListEpisode] {
         switch section {
-        case .podcast(_, uuidsToFilter: _):
-            fatalError("An array of ListEpisode can't be returned for a podcast")
         case .filter(let filter):
             return episodes(for: filter)
+        default:
+            fatalError("An array of ListEpisode can't be returned for this section.")
+        }
+    }
+
+    func get(_ section: Section) -> [ArraySection<String, ListEpisode>] {
+        switch section {
+        case .downloads:
+            return downloadedEpisodes()
+        default:
+            fatalError("[ArraySection<String, ListEpisode>] can't be returned for this section.")
         }
     }
 
@@ -102,5 +112,18 @@ class EpisodesDataManager {
         let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxFilterItems)
         let tintColor = filter.playlistColor()
         return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
+    }
+
+    // MARK: - Downloads
+
+    func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
+        let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
+        let arguments = [Date().weeksAgo(1)] as [Any]
+
+        let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: arguments, episodeShortKey: { episode -> String in
+            episode.shortLastDownloadAttemptDate()
+        })
+
+        return newData
     }
 }
