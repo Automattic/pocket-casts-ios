@@ -21,7 +21,7 @@ class PodcastEpisodesRefreshOperation: Operation {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let newData: [ArraySection<String, ListItem>] = episodesDataManager.get(.podcast(podcast, uuidsToFilter: uuidsToFilter))
+            let newData = episodesDataManager.episodes(for: podcast, uuidsToFilter: uuidsToFilter)
 
             if self.isCancelled { return }
             DispatchQueue.main.sync { [weak self] in

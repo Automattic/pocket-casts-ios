@@ -12,15 +12,6 @@ class EpisodesDataManager {
         case starred
     }
 
-    func get(_ section: Section) -> [ArraySection<String, ListItem>] {
-        switch section {
-        case .podcast(let podcast, uuidsToFilter: let uuidsToFilter):
-            return episodes(for: podcast, uuidsToFilter: uuidsToFilter)
-        default:
-            fatalError("ArraySection<String, ListItem> can't be returned for this section.")
-        }
-    }
-
     func get(_ section: Section) -> [ListEpisode] {
         switch section {
         case .filter(let filter):
