@@ -9,8 +9,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles }
-    private let tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
+    private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -27,6 +27,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         title = L10n.settingsGeneral
 
         Analytics.track(.settingsGeneralShown)
+
+        if FeatureFlag.autoplay.enabled {
+            tableData.append([.autoplay])
+        }
     }
 
     // MARK: - UITableView Methods
@@ -221,6 +225,17 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralPublishChapterTitles
+            cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: UIControl.Event.valueChanged)
+
+            return cell
+
+        case .autoplay:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = "Continuous Playback"
             cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
