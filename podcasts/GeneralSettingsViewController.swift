@@ -239,7 +239,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellSwitch.isOn = Settings.autoplay
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: UIControl.Event.valueChanged)
 
             return cell
         }
@@ -476,6 +476,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
         Settings.trackValueToggled(.settingsGeneralPublishChapterTitlesToggled, enabled: sender.isOn)
+    }
+
+    @objc private func autoplayToggled(_ sender: UISwitch) {
+        Settings.autoplay = sender.isOn
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
