@@ -383,6 +383,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralMultiSelectGestureSubtitle
         case [.publishChapterTitles]:
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
+        case [.autoplay]:
+            return "Continue playing after an episode ends if Up Next is empty."
         default:
             return nil
         }
