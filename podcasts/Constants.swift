@@ -154,6 +154,8 @@ struct Constants {
         static let top5PodcastsListLink = "top5PodcastsListLink"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
+        static let autoplay = "autoplay"
+
         static let searchHistoryEntries = "SearchHistoryEntries"
     }
 
