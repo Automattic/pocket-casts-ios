@@ -3742,3 +3742,6 @@
 
 /* The plural name of a feature called Bookmarks, used in various places in the app */
 "bookmarks" = "Bookmarks";
+
+/* Title for an action that allows a user to create a new bookmark */
+"add_bookmark" = "Add Bookmark";
