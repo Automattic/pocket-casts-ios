@@ -38,6 +38,13 @@ target 'Pocket Casts Watch App Extension' do
   kingfisher
 end
 
+#target 'WidgetExtension' do
+#  # or just use common_pods
+#  pod 'JLRoutes'
+#  pod 'MaterialComponents/BottomSheet'
+#  kingfisher
+#end
+
 abstract_target 'CI' do
   platform :ios, app_ios_deployment_target.version
 

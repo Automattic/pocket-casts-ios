@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
+import AppIntents
 
 struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
+    @State var isPlaying: Bool = false
     var compactView: Bool {
         typeSize >= .xxLarge
     }
@@ -13,7 +15,10 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                SmallArtworkView(imageData: episode.imageData)
+                Toggle("hi", isOn: isPlaying, intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!)))
+                Button(intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!))) {
+                    SmallArtworkView(imageData: episode.imageData)
+                }
                 VStack(alignment: .leading) {
                     if !compactView {
                         topText

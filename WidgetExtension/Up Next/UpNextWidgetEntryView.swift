@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import WidgetKit
 
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
@@ -9,8 +10,14 @@ struct UpNextWidgetEntryView: View {
         if let episodes = entry.episodes, episodes.count > 0 {
             if family == .systemMedium {
                 UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
+                    .containerBackground(for: .widget) {
+                        Rectangle().background(.white)
+                    }
             } else {
                 UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
+                    .containerBackground(for: .widget) {
+                        Rectangle().background(.white)
+                    }
             }
         } else {
             VStack(alignment: .center) {
@@ -39,6 +46,17 @@ struct UpNextWidgetEntryView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(darkBackgroundColor)
+            .containerBackground(for: .widget) {
+                
+            }
         }
     }
 }
+
+//#Preview(as: .systemMedium) {
+//    UpNextWidget()
+//} timeline: {
+//    let ep1 = WidgetEpisode(commonItem: CommonUpNextItem(episodeUuid: "uuid1", imageUrl: "", episodeTitle: "John Speaks!", podcastName: "JohnCast", podcastColor: "red", duration: TimeInterval(120), isPlaying: true))
+//
+//    UpNextEntry(date: Date(), episodes: [ep1], filterName: nil, isPlaying: false, upNextEpisodesCount: 1)
+//}
