@@ -275,6 +275,18 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         switch self {
         case .starEpisode, .shareEpisode:
             return episode is Episode
+        case .addBookmark:
+            return isAvailable
+        default:
+            return true
+        }
+    }
+
+    /// Return false to completely hide the action from the shelf and overflow menu
+    var isAvailable: Bool {
+        switch self {
+        case .addBookmark:
+            return FeatureFlag.bookmarks.enabled
         default:
             return true
         }
