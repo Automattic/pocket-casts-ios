@@ -366,23 +366,26 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1 {
-            return L10n.settingsGeneralSmartPlaybackSubtitle
-        } else if section == 2 {
-            return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
-        } else if section == 3 {
-            return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
-        } else if section == 4 {
-            return L10n.settingsGeneralPlayBackActionsSubtitle
-        } else if section == 5 {
-            return L10n.settingsGeneralLegacyBluetoothSubtitle
-        } else if section == 6 {
-            return L10n.settingsGeneralMultiSelectGestureSubtitle
-        } else if section == 7 {
-            return L10n.settingsGeneralPublishChapterTitlesSubtitle
-        }
+        guard let sectionItems = tableData[safe: section] else { return nil }
 
-        return nil
+        switch sectionItems {
+        case let section where section.contains(.intelligentPlaybackResumption):
+            return L10n.settingsGeneralSmartPlaybackSubtitle
+        case [.playUpNextOnTap]:
+            return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
+        case [.remoteSkipChapters]:
+            return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
+        case [.extraMediaActions]:
+            return L10n.settingsGeneralPlayBackActionsSubtitle
+        case [.legacyBluetooth]:
+            return L10n.settingsGeneralLegacyBluetoothSubtitle
+        case [.multiSelectGesture]:
+            return L10n.settingsGeneralMultiSelectGestureSubtitle
+        case [.publishChapterTitles]:
+            return L10n.settingsGeneralPublishChapterTitlesSubtitle
+        default:
+            return nil
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
