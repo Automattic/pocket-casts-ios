@@ -2268,6 +2268,10 @@ internal enum L10n {
   }
   /// Open Player Automatically
   internal static var settingsGeneralAutoOpenPlayer: String { return L10n.tr("Localizable", "settings_general_auto_open_player") }
+  /// Continuous Playback
+  internal static var settingsGeneralAutoplay: String { return L10n.tr("Localizable", "settings_general_autoplay") }
+  /// Continue playing after an episode ends if Up Next is empty.
+  internal static var settingsGeneralAutoplaySubtitle: String { return L10n.tr("Localizable", "settings_general_autoplay_subtitle") }
   /// DEFAULTS
   internal static var settingsGeneralDefaultsHeader: String { return L10n.tr("Localizable", "settings_general_defaults_header") }
   /// Podcast Episode Grouping

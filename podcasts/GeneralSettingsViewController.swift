@@ -235,7 +235,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         case .autoplay:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
-            cell.cellLabel.text = "Continuous Playback"
+            cell.cellLabel.text = L10n.settingsGeneralAutoplay
             cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -384,7 +384,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         case [.publishChapterTitles]:
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
         case [.autoplay]:
-            return "Continue playing after an episode ends if Up Next is empty."
+            return L10n.settingsGeneralAutoplaySubtitle
         default:
             return nil
         }
