@@ -814,7 +814,12 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
-        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
+
+        // If there is no current analytics source, then use the previous one
+        // This helps prevent an `unknown` from being used if this is called right after another event, such as playbackPlay
+        if analyticsPlaybackHelper.currentSource == nil || analyticsPlaybackHelper.currentSource == .unknown {
+            analyticsPlaybackHelper.currentSource = analyticsPlaybackHelper.previousSource
+        }
 
         guard let episode = currentEpisode() else {
             endPlayback()
