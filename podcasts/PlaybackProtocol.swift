@@ -33,7 +33,19 @@ import PocketCastsDataModel
     func internalPlayerForVideoPlayback() -> AVPlayer?
 }
 
-enum PlaybackError: Error {
+enum PlaybackError: LocalizedError {
     case unableToOpenFile
+    case effectsPlayerFrameCountZero
     case errorDuringPlayback
+
+    var errorDescription: String? {
+        switch self {
+        case .unableToOpenFile:
+            return "PlaybackError: unableToOpenFile"
+        case .effectsPlayerFrameCountZero:
+            return "EffectsPlayer frameCount was 0 while opening the file"
+        case .errorDuringPlayback:
+            return "PlaybackError: errorDuringPlayback"
+        }
+    }
 }
