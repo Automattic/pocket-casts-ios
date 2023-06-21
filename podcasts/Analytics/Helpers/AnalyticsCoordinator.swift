@@ -51,9 +51,13 @@ class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
 
+    /// Keep track of the analytics source that was used for the last event before it was reset
+    var previousSource: AnalyticsSource?
+
     #if !os(watchOS)
         var currentAnalyticsSource: AnalyticsSource {
-            if let currentSource = currentSource {
+            if let currentSource {
+                previousSource = currentSource
                 self.currentSource = nil
                 return currentSource
             }
