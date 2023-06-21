@@ -5,6 +5,15 @@ import DifferenceKit
 /// Returns a list of episodes for an specific section
 /// Depending on the section, it returns a DifferenceKit ArraySection
 class EpisodesDataManager {
+    enum Playlist {
+        case podcast(Podcast)
+        case filter(EpisodeFilter)
+        case downloads
+        case files
+        case starred
+        case listeningHistory
+    }
+
     // MARK: - Podcast episodes list
 
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
@@ -129,6 +138,5 @@ class EpisodesDataManager {
 /// If a ViewController provides an episode list it should conform to
 /// this protocol in order for the episode autoplay to work.
 protocol PlaylistAutoplay {
-    // TODO: Change this to an enum
-    var playlist: String { get }
+    var playlist: EpisodesDataManager.Playlist { get }
 }
