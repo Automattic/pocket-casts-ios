@@ -25,8 +25,8 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackSkipForward)
     }
 
-    func playbackFailed(errorMessage: String, episodeUuid: String) {
-        track(.playbackFailed, properties: [ "error": errorMessage, "episode_uuid": episodeUuid ])
+    func playbackFailed(errorMessage: String, episodeUuid: String, player: PlaybackProtocol?) {
+        track(.playbackFailed, properties: [ "error": errorMessage, "episode_uuid": episodeUuid, "player": player ?? "unknown" ])
     }
 
     func seek(from: TimeInterval, to: TimeInterval, duration: TimeInterval) {

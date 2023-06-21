@@ -833,6 +833,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         // - Is the duration actually reasonable?
         // if either of these is false, flag it as an error, otherwise we got close enough to the end
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
+            analyticsPlaybackHelper.playbackFailed(errorMessage: logMessage ?? "Unknown",
+                                                   episodeUuid: episode.uuid,
+                                                   player: player)
+
             pause(userInitiated: false)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
 
@@ -846,8 +850,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackFailed)
-
-            analyticsPlaybackHelper.playbackFailed(errorMessage: logMessage ?? "Unknown", episodeUuid: episode.uuid)
             return
         }
 
