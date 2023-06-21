@@ -842,6 +842,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackFailed)
 
+            analyticsPlaybackHelper.playbackFailed(errorMessage: logMessage ?? "Unknown", episodeUuid: episode.uuid)
             return
         }
 
