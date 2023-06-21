@@ -328,10 +328,8 @@
 		45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45ECEF8727E9253900C65030 /* ShowNotesFormatterUtils.swift */; };
 		45F19AA42A3BAD7600F214A8 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 45F19AA32A3BAD7600F214A8 /* PocketCastsDataModel */; };
 		45F19AA52A3BAD7600F214A8 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 45F19AA32A3BAD7600F214A8 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		45F19AD62A3BBC6B00F214A8 /* PlayEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F19AD52A3BBC6B00F214A8 /* PlayEpisodeIntent.swift */; };
-		45F19AE02A3BBCA200F214A8 /* PlayEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F19AD52A3BBC6B00F214A8 /* PlayEpisodeIntent.swift */; };
-		45F19AE32A3BBEB800F214A8 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F19AE22A3BBEB800F214A8 /* Intents.framework */; };
-		45F19AE42A3BBEE600F214A8 /* PodcastsAppIntents.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 45F19AD12A3BBC6B00F214A8 /* PodcastsAppIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		45FB77D22A43A28D00ECD808 /* PlayEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB77D12A43A28D00ECD808 /* PlayEpisodeIntent.swift */; };
+		45FB77D32A43A29100ECD808 /* PlayEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB77D12A43A28D00ECD808 /* PlayEpisodeIntent.swift */; };
 		460C375326D831E3008B3609 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		4614556327C6A32700B65F0F /* OrderPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4614556227C6A32700B65F0F /* OrderPicker.swift */; };
 		4614556727C6A7E800B65F0F /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4614556627C6A7E800B65F0F /* SortOption.swift */; };
@@ -1562,13 +1560,6 @@
 			remoteGlobalIDString = BDBD53EB17019B2A0048C8C5;
 			remoteInfo = podcasts;
 		};
-		45F19AD82A3BBC6B00F214A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 45F19AD02A3BBC6A00F214A8;
-			remoteInfo = PodcastsAppIntents;
-		};
 		462EE0C627025399003D67DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1657,17 +1648,6 @@
 				45F19AA52A3BAD7600F214A8 /* PocketCastsDataModel in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45F19ADF2A3BBC6B00F214A8 /* Embed ExtensionKit Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
-			dstSubfolderSpec = 16;
-			files = (
-				45F19AE42A3BBEE600F214A8 /* PodcastsAppIntents.appex in Embed ExtensionKit Extensions */,
-			);
-			name = "Embed ExtensionKit Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8BF0BBD5289199D2006BBECF /* Embed Frameworks */ = {
@@ -2058,10 +2038,8 @@
 		45F19AAB2A3BAEEE00F214A8 /* libKingfisher-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libKingfisher-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F19AAF2A3BB06F00F214A8 /* libJLRoutes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJLRoutes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F19AB32A3BB08600F214A8 /* libMaterialComponents.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libMaterialComponents.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		45F19AD12A3BBC6B00F214A8 /* PodcastsAppIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = PodcastsAppIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		45F19AD52A3BBC6B00F214A8 /* PlayEpisodeIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEpisodeIntent.swift; sourceTree = "<group>"; };
-		45F19AD72A3BBC6B00F214A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45F19AE22A3BBEB800F214A8 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		45FB77D12A43A28D00ECD808 /* PlayEpisodeIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayEpisodeIntent.swift; sourceTree = "<group>"; };
 		460C375426D831E3008B3609 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4614556227C6A32700B65F0F /* OrderPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPicker.swift; sourceTree = "<group>"; };
 		4614556627C6A7E800B65F0F /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
@@ -3305,14 +3283,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		45F19ACE2A3BBC6A00F214A8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45F19AE32A3BBEB800F214A8 /* Intents.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4694FA5D2799C80300E9CF70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3740,15 +3710,6 @@
 				3FB86431288968A1003A86BE /* UnitTests.xctestplan */,
 			);
 			path = PocketCastsTests;
-			sourceTree = "<group>";
-		};
-		45F19AD22A3BBC6B00F214A8 /* PodcastsAppIntents */ = {
-			isa = PBXGroup;
-			children = (
-				45F19AD52A3BBC6B00F214A8 /* PlayEpisodeIntent.swift */,
-				45F19AD72A3BBC6B00F214A8 /* Info.plist */,
-			);
-			path = PodcastsAppIntents;
 			sourceTree = "<group>";
 		};
 		460C375026D83171008B3609 /* Resources */ = {
@@ -4359,6 +4320,7 @@
 		BD054A781E3EDE9C00D9195B /* Shared with Extension */ = {
 			isa = PBXGroup;
 			children = (
+				45FB77D12A43A28D00ECD808 /* PlayEpisodeIntent.swift */,
 				BD054A791E3EDEB300D9195B /* SharedConstants.swift */,
 				40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */,
 			);
@@ -5609,7 +5571,6 @@
 				4694FA612799C80300E9CF70 /* Screenshot Automation */,
 				46AFC23527AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7C27E910E300C65030 /* PocketCastsTests */,
-				45F19AD22A3BBC6B00F214A8 /* PodcastsAppIntents */,
 				BDBD53EE17019B2A0048C8C5 /* Frameworks */,
 				BDBD53ED17019B2A0048C8C5 /* Products */,
 				0AEDA899EF3BB3B8C0034C76 /* Pods */,
@@ -5630,7 +5591,6 @@
 				4694FA602799C80300E9CF70 /* Screenshot Automation.xctest */,
 				46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */,
 				45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */,
-				45F19AD12A3BBC6B00F214A8 /* PodcastsAppIntents.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -7039,23 +6999,6 @@
 			productReference = 45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		45F19AD02A3BBC6A00F214A8 /* PodcastsAppIntents */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 45F19ADB2A3BBC6B00F214A8 /* Build configuration list for PBXNativeTarget "PodcastsAppIntents" */;
-			buildPhases = (
-				45F19ACD2A3BBC6A00F214A8 /* Sources */,
-				45F19ACE2A3BBC6A00F214A8 /* Frameworks */,
-				45F19ACF2A3BBC6A00F214A8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = PodcastsAppIntents;
-			productName = PodcastsAppIntents;
-			productReference = 45F19AD12A3BBC6B00F214A8 /* PodcastsAppIntents.appex */;
-			productType = "com.apple.product-type.extensionkit-extension";
-		};
 		4694FA5F2799C80300E9CF70 /* Screenshot Automation */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4694FA6B2799C80300E9CF70 /* Build configuration list for PBXNativeTarget "Screenshot Automation" */;
@@ -7124,7 +7067,6 @@
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
-				45F19ADF2A3BBC6B00F214A8 /* Embed ExtensionKit Extensions */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
 			);
@@ -7138,7 +7080,6 @@
 				403B5B2421813FFA00821A54 /* PBXTargetDependency */,
 				403B5B2721813FFA00821A54 /* PBXTargetDependency */,
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
-				45F19AD92A3BBC6B00F214A8 /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -7249,9 +7190,6 @@
 						CreatedOnToolsVersion = 13.2;
 						TestTargetID = BDBD53EB17019B2A0048C8C5;
 					};
-					45F19AD02A3BBC6A00F214A8 = {
-						CreatedOnToolsVersion = 15.0;
-					};
 					462EE0C02702532E003D67DC = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
@@ -7360,7 +7298,6 @@
 				4694FA5F2799C80300E9CF70 /* Screenshot Automation */,
 				46AFC23327AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7A27E910E300C65030 /* PocketCastsTests */,
-				45F19AD02A3BBC6A00F214A8 /* PodcastsAppIntents */,
 			);
 		};
 /* End PBXProject section */
@@ -7396,13 +7333,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45F19ACF2A3BBC6A00F214A8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8208,7 +8138,7 @@
 				BD422EC126840E140078B799 /* NowPlayingEntryView.swift in Sources */,
 				4036B04C25240C1B00AE08E6 /* CommonWidgetHelper.swift in Sources */,
 				463538F526F2415300BA9D35 /* Strings+L10n.swift in Sources */,
-				45F19AE02A3BBCA200F214A8 /* PlayEpisodeIntent.swift in Sources */,
+				45FB77D32A43A29100ECD808 /* PlayEpisodeIntent.swift in Sources */,
 				4036B09325240CD100AE08E6 /* CommonUpNextItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8243,14 +8173,6 @@
 				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
 				8B317BA728906CC200A26A13 /* TestingViewController.swift in Sources */,
 				8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45F19ACD2A3BBC6A00F214A8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45F19AD62A3BBC6B00F214A8 /* PlayEpisodeIntent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8439,6 +8361,7 @@
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
 				BD240C43231F46F400FB2CDD /* PCSearchBarController+TextFieldDelegate.swift in Sources */,
+				45FB77D22A43A28D00ECD808 /* PlayEpisodeIntent.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,
 				C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */,
@@ -9188,11 +9111,6 @@
 			target = BDBD53EB17019B2A0048C8C5 /* podcasts */;
 			targetProxy = 45ECEF7F27E910E300C65030 /* PBXContainerItemProxy */;
 		};
-		45F19AD92A3BBC6B00F214A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 45F19AD02A3BBC6A00F214A8 /* PodcastsAppIntents */;
-			targetProxy = 45F19AD82A3BBC6B00F214A8 /* PBXContainerItemProxy */;
-		};
 		462EE0C727025399003D67DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
@@ -9716,149 +9634,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/podcasts.app/podcasts";
-			};
-			name = Release;
-		};
-		45F19ADC2A3BBC6B00F214A8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PodcastsAppIntents/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PodcastsAppIntents;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsAppIntents;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		45F19ADD2A3BBC6B00F214A8 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PodcastsAppIntents/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PodcastsAppIntents;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsAppIntents;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Staging;
-		};
-		45F19ADE2A3BBC6B00F214A8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PodcastsAppIntents/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PodcastsAppIntents;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsAppIntents;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -10888,16 +10663,6 @@
 				45ECEF8127E910E300C65030 /* Debug */,
 				45ECEF8227E910E300C65030 /* Staging */,
 				45ECEF8327E910E300C65030 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45F19ADB2A3BBC6B00F214A8 /* Build configuration list for PBXNativeTarget "PodcastsAppIntents" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45F19ADC2A3BBC6B00F214A8 /* Debug */,
-				45F19ADD2A3BBC6B00F214A8 /* Staging */,
-				45F19ADE2A3BBC6B00F214A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

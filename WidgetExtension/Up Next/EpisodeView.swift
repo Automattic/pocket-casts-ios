@@ -15,7 +15,6 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                Toggle("hi", isOn: isPlaying, intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!)))
                 Button(intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!))) {
                     SmallArtworkView(imageData: episode.imageData)
                 }
