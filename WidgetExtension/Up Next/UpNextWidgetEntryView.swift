@@ -49,11 +49,3 @@ struct UpNextWidgetEntryView: View {
         }
     }
 }
-
-//#Preview(as: .systemMedium) {
-//    UpNextWidget()
-//} timeline: {
-//    let ep1 = WidgetEpisode(commonItem: CommonUpNextItem(episodeUuid: "uuid1", imageUrl: "", episodeTitle: "John Speaks!", podcastName: "JohnCast", podcastColor: "red", duration: TimeInterval(120), isPlaying: true))
-//
-//    UpNextEntry(date: Date(), episodes: [ep1], filterName: nil, isPlaying: false, upNextEpisodesCount: 1)
-//}
