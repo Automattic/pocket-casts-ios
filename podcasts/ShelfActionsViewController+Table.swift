@@ -91,6 +91,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
                 self.playerActionsDelegate?.markPlayedTapped()
             case .archive:
                 self.playerActionsDelegate?.archiveTapped()
+            case .addBookmark:
+                self.playerActionsDelegate?.bookmarkTapped()
             }
         }
     }

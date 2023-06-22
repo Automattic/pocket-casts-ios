@@ -144,6 +144,8 @@ internal enum L10n {
   internal static var accountWelcome: String { return L10n.tr("Localizable", "account_welcome") }
   /// Welcome to Pocket Casts Plus!
   internal static var accountWelcomePlus: String { return L10n.tr("Localizable", "account_welcome_plus") }
+  /// Add Bookmark
+  internal static var addBookmark: String { return L10n.tr("Localizable", "add_bookmark") }
   /// Add to Up Next
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
