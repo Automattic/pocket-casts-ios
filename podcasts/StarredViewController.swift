@@ -193,3 +193,11 @@ extension StarredViewController: AnalyticsSourceProvider {
         .starred
     }
 }
+
+// MARK: - Autoplay
+
+extension StarredViewController: PlaylistAutoplay {
+    var playlist: EpisodesDataManager.Playlist {
+        .starred
+    }
+}
