@@ -183,3 +183,11 @@ extension ListeningHistoryViewController: AnalyticsSourceProvider {
         .listeningHistory
     }
 }
+
+// MARK: - Autoplay
+
+extension ListeningHistoryViewController: PlaylistAutoplay {
+    var playlist: EpisodesDataManager.Playlist {
+        .listeningHistory
+    }
+}
