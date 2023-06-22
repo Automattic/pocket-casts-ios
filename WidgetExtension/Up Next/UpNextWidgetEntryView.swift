@@ -11,12 +11,10 @@ struct UpNextWidgetEntryView: View {
             if family == .systemMedium {
                 UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
                     .containerBackground(for: .widget) {
-                        Rectangle().background(.white)
                     }
             } else {
                 UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
                     .containerBackground(for: .widget) {
-                        Rectangle().background(.white)
                     }
             }
         } else {
@@ -47,7 +45,6 @@ struct UpNextWidgetEntryView: View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(darkBackgroundColor)
             .containerBackground(for: .widget) {
-                
             }
         }
     }
