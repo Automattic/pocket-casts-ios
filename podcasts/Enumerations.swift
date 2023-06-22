@@ -282,7 +282,8 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         }
     }
 
-    /// Return false to completely hide the action from the shelf and overflow menu
+    /// Determines whether the action should be available as an option
+    /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
         switch self {
         case .addBookmark:
