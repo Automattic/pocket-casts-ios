@@ -108,8 +108,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralRemoteSkipsChapters
             cell.cellSwitch.isOn = Settings.remoteSkipShouldSkipChapters()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(remoteSkipChanged(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(remoteSkipChanged(_:)), for: .valueChanged)
 
             return cell
         case .keepScreenAwake:
@@ -118,8 +118,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
 
             return cell
         case .openLinksInBrowser:
@@ -128,8 +128,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralOpenInBrowser
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: .valueChanged)
 
             return cell
         case .openPlayer:
@@ -138,8 +138,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
 
             return cell
         case .intelligentPlaybackResumption:
@@ -148,8 +148,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
 
             return cell
         case .defaultRowAction:
@@ -187,8 +187,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsGeneralUpNextTap
             cell.cellSwitch.isOn = Settings.playUpNextOnTap()
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(playUpNextOnTapToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(playUpNextOnTapToggled(_:)), for: .valueChanged)
 
             return cell
         case .extraMediaActions:
@@ -197,8 +197,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralPlayBackActions
             cell.cellSwitch.isOn = Settings.extraMediaSessionActionsEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(extraMediaSessionActionsToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(extraMediaSessionActionsToggled(_:)), for: .valueChanged)
 
             return cell
         case .legacyBluetooth:
@@ -207,8 +207,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralLegacyBluetooth
             cell.cellSwitch.isOn = Settings.legacyBluetoothModeEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(legacyBluetoothToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(legacyBluetoothToggled(_:)), for: .valueChanged)
 
             return cell
         case .multiSelectGesture:
@@ -217,8 +217,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralMultiSelectGesture
             cell.cellSwitch.isOn = Settings.multiSelectGestureEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(multiSelectGestureToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(multiSelectGestureToggled(_:)), for: .valueChanged)
 
             return cell
         case .publishChapterTitles:
@@ -227,8 +227,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralPublishChapterTitles
             cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: .valueChanged)
 
             return cell
 
@@ -238,8 +238,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralAutoplay
             cell.cellSwitch.isOn = Settings.autoplay
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: .valueChanged)
 
             return cell
         }
