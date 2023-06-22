@@ -945,6 +945,6 @@ extension PodcastViewController: PlaylistAutoplay {
             return .unknown
         }
 
-        return .podcast(podcast)
+        return .podcast(uuid: podcast.uuid)
     }
 }

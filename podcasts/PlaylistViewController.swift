@@ -592,6 +592,6 @@ extension PlaylistViewController: AnalyticsSourceProvider {
 // MARK: - Autoplay
 extension PlaylistViewController: PlaylistAutoplay {
     var playlist: EpisodesDataManager.Playlist {
-        .filter(filter)
+        .filter(uuid: filter.uuid)
     }
 }

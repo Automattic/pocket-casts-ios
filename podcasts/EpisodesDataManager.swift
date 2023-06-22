@@ -5,9 +5,9 @@ import DifferenceKit
 /// Returns a list of episodes for an specific section
 /// Depending on the section, it returns a DifferenceKit ArraySection
 class EpisodesDataManager {
-    enum Playlist {
-        case podcast(Podcast)
-        case filter(EpisodeFilter)
+    enum Playlist: Codable {
+        case podcast(uuid: String)
+        case filter(uuid: String)
         case downloads
         case files
         case starred

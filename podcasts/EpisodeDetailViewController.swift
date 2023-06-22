@@ -498,6 +498,6 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
 
 extension EpisodeDetailViewController: PlaylistAutoplay {
     var playlist: EpisodesDataManager.Playlist {
-        .podcast(podcast)
+        .podcast(uuid: podcast.uuid)
     }
 }
