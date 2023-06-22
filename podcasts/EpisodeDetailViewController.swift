@@ -493,3 +493,11 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
 
     var analyticsDescription: String { rawValue }
 }
+
+// MARK: - Autoplay
+
+extension EpisodeDetailViewController: PlaylistAutoplay {
+    var playlist: EpisodesDataManager.Playlist {
+        .podcast(podcast)
+    }
+}
