@@ -3,7 +3,12 @@ import Foundation
 class AutoplayHelper {
     static let shared = AutoplayHelper()
 
-    private init() { }
+    private let userDefaults: UserDefaults
+    private let userDefaultsKey = "playlist"
+
+    private init(userDefaults: UserDefaults = UserDefaults.standard) {
+        self.userDefaults = userDefaults
+    }
 
     func savePlaylist() {
         #if !os(watchOS)
@@ -13,7 +18,15 @@ class AutoplayHelper {
         #endif
     }
 
-    private func save(selectedPlaylist: EpisodesDataManager.Playlist?) {
+    private func save(selectedPlaylist playlist: EpisodesDataManager.Playlist?) {
+        guard let playlist else {
+            userDefaults.removeObject(forKey: userDefaultsKey)
+            return
+        }
 
+        if let data = try? JSONEncoder().encode(playlist),
+           let dict = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+            userDefaults.set(dict, forKey: userDefaultsKey)
+        }
     }
 }
