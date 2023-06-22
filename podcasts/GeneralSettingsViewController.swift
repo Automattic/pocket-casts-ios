@@ -366,24 +366,24 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        guard let sectionItems = tableData[safe: section] else { return nil }
+        guard let sectionItems = tableData[safe: section]?.last else { return nil }
 
         switch sectionItems {
-        case let section where section.contains(.intelligentPlaybackResumption):
+        case .intelligentPlaybackResumption:
             return L10n.settingsGeneralSmartPlaybackSubtitle
-        case [.playUpNextOnTap]:
+        case .playUpNextOnTap:
             return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
-        case [.remoteSkipChapters]:
+        case .remoteSkipChapters:
             return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
-        case [.extraMediaActions]:
+        case .extraMediaActions:
             return L10n.settingsGeneralPlayBackActionsSubtitle
-        case [.legacyBluetooth]:
+        case .legacyBluetooth:
             return L10n.settingsGeneralLegacyBluetoothSubtitle
-        case [.multiSelectGesture]:
+        case .multiSelectGesture:
             return L10n.settingsGeneralMultiSelectGestureSubtitle
-        case [.publishChapterTitles]:
+        case .publishChapterTitles:
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
-        case [.autoplay]:
+        case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
         default:
             return nil
