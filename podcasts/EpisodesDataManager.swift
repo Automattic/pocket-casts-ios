@@ -12,6 +12,7 @@ class EpisodesDataManager {
         case files
         case starred
         case listeningHistory
+        case unknown
     }
 
     // MARK: - Podcast episodes list

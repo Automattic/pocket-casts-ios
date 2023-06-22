@@ -937,3 +937,14 @@ private extension PodcastViewController {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
     }
 }
+
+// MARK: - Autoplay
+extension PodcastViewController: PlaylistAutoplay {
+    var playlist: EpisodesDataManager.Playlist {
+        guard let podcast else {
+            return .unknown
+        }
+
+        return .podcast(podcast)
+    }
+}
