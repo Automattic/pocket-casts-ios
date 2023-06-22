@@ -2,6 +2,22 @@ import Foundation
 import SwiftUI
 import AppIntents
 
+struct WidgetPlayToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            configuration.label
+                .truncationMode(.tail)
+            Group {
+                configuration.isOn ?
+                    Image(systemName: "pause.circle.fill")
+                :
+                    Image(systemName: "play.circle.fill")
+            }
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(.black, .white)
+        }
+    }
+}
 struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
@@ -15,9 +31,10 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                Button(intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!))) {
+                Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!), play: !isPlaying)) {
                     SmallArtworkView(imageData: episode.imageData)
                 }
+                .toggleStyle(WidgetPlayToggleStyle())
                 VStack(alignment: .leading) {
                     if !compactView {
                         topText

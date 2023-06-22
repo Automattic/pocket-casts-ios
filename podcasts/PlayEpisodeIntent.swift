@@ -6,21 +6,28 @@ import PocketCastsDataModel
 struct PlayEpisodeIntent: AppIntent {
     static var title: LocalizedStringResource = "Play episode"
 
-//    @Parameter(title: "Episode", optionsProvider: EpisodeOptionsProvider())
     @Parameter(title: "Episode")
     var episode: EpisodeEntity
 
+    @Parameter(title: "Play")
+    var play: Bool
+
     init() {}
 
-    init(episode: EpisodeEntity) {
+    init(episode: EpisodeEntity, play: Bool) {
         self.episode = episode
+        self.play = play
     }
 
     @MainActor
     func perform() async throws -> some IntentResult {
         let message = "testing message in intent"
         Logger().log("\(message, privacy: .public)")
-        print("Play episode \(episode.id)")
+        if play {
+            print("Play episode \(episode.id)")
+        } else {
+            print("PAUSE episode \(episode.id)")
+        }
 
         // TODO: HOW TO DO THIS WITHOUT ADDING ALL THE NECESSARY DEPENDENCIES???
         // can I fire some "notification" to trigger it? Media Playback Intent?
@@ -32,9 +39,7 @@ struct PlayEpisodeIntent: AppIntent {
 //            PlaybackActionHelper.play(episode: podcastEpisode!)
 //        }
 
-//        return .result(result: nil, confirmationActionName: "test", showPrompt: true)
-        return .result(value: episode, dialog: IntentDialog(stringLiteral: "YO"))
-//        return .result(value: "")
+        return .result(value: episode)
     }
 }
 
