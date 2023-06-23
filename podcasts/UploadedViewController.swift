@@ -227,7 +227,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func reloadLocalFiles() {
-        let uploadedEpisodes = episodesDataManager.uploadedEpisodes()
+        uploadedEpisodes = episodesDataManager.uploadedEpisodes()
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
 
         uploadsTable.reloadData()
