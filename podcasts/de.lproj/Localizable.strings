@@ -227,6 +227,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Erste</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>bookmarks</key>
+    <string>Lesezeichen</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>
@@ -1316,6 +1318,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Weiterleitungsauswahl</string>
     <key>player_share_header</key>
     <string>LINK TEILEN MIT</string>
+    <key>player_show_notes_title</key>
+    <string>Beschreibung</string>
     <key>player_user_episode_download_error</key>
     <string>Downloadfehler</string>
     <key>player_user_episode_playback_error</key>
@@ -2347,6 +2351,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Läuft ab in: %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
+    <key>support_watch_help_message</key>
+    <string>Wenn du Probleme mit Pocket Casts in der Watch-App hast, können wir dir Wearable-Protokolle senden, um dich besser zu unterstützen. Öffne dafür Pocket Casts auf deiner Watch.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ich habe die Watch-App geöffnet</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Ohne Watch-Protokolle senden</string>
+    <key>support_watch_help_title</key>
+    <string>Du brauchst Unterstützung bei der Watch-App?</string>
     <key>supporter</key>
     <string>Unterstützer</string>
     <key>supporter_contributions</key>

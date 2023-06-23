@@ -227,6 +227,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>頂端</string>
     <key>back</key>
     <string>上一步</string>
+    <key>bookmarks</key>
+    <string>書籤</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -1316,6 +1318,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>路徑選取器</string>
     <key>player_share_header</key>
     <string>分享連結</string>
+    <key>player_show_notes_title</key>
+    <string>說明</string>
     <key>player_user_episode_download_error</key>
     <string>下載錯誤</string>
     <key>player_user_episode_playback_error</key>
@@ -2347,6 +2351,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@後到期</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
+    <key>support_watch_help_message</key>
+    <string>如果 Pocket Casts Watch 應用程式發生問題，我們可以傳送你的穿戴記錄給你以提供協助。 若要進行此操作，請在 Watch 上開啟 Pocket Casts。</string>
+    <key>support_watch_help_opened_app</key>
+    <string>我已開啟 Watch 應用程式</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>不附加 Watch 記錄並傳送</string>
+    <key>support_watch_help_title</key>
+    <string>需要 Watch 應用程式的相關協助嗎？</string>
     <key>supporter</key>
     <string>支持者</string>
     <key>supporter_contributions</key>

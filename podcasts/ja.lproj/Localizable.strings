@@ -227,6 +227,8 @@
     <string>最初</string>
     <key>back</key>
     <string>戻る</string>
+    <key>bookmarks</key>
+    <string>ブックマーク</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
@@ -1316,6 +1318,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ルーティング端末セレクタ</string>
     <key>player_share_header</key>
     <string>リンクを共有</string>
+    <key>player_show_notes_title</key>
+    <string>説明</string>
     <key>player_user_episode_download_error</key>
     <string>ダウンロードエラー</string>
     <key>player_user_episode_playback_error</key>
@@ -2346,6 +2350,14 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
+    <key>support_watch_help_message</key>
+    <string>Pocket Casts Watch アプリで問題が発生した場合は、ウェアラブルログを送信するとサポートの際に役立ちます。 これを行うには、Watch で Pocket Cast を開いてください。</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Watch アプリを開きました</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Watch ログなしで送信</string>
+    <key>support_watch_help_title</key>
+    <string>Watch アプリのヘルプをお探しですか ?</string>
     <key>supporter</key>
     <string>サポーター</string>
     <key>supporter_contributions</key>
