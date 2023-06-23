@@ -2,11 +2,11 @@ import PocketCastsDataModel
 import PocketCastsServer
 import DifferenceKit
 
-/// Returns a list of episodes for an specific section
-/// Depending on the section, it returns a DifferenceKit ArraySection
 class EpisodesDataManager {
     // MARK: - Podcast episodes list
 
+    /// Returns a podcasts episodes that are grouped by `PodcastGrouping`
+    /// Use `uuidsToFilter` to filter the episode UUIDs to only those in the array
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
         // the podcast page has a header, for simplicity in table animations, we add it here
         let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
