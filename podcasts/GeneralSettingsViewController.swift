@@ -366,9 +366,9 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        guard let sectionItems = tableData[safe: section]?.last else { return nil }
+        let lastSectionItem = tableData[safe: section]?.last
 
-        switch sectionItems {
+        switch lastSectionItem {
         case .intelligentPlaybackResumption:
             return L10n.settingsGeneralSmartPlaybackSubtitle
         case .playUpNextOnTap:
