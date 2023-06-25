@@ -14,53 +14,59 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
     override init(episode: BaseEpisode) {
         super.init(episode: episode)
 
+        updateProperties(episode: episode, downloadProgress: downloadProgress)
         Publishers.CombineLatest($episode, $downloadProgress)
             .receive(on: RunLoop.main)
+            .dropFirst()
             .sink(receiveValue: { [unowned self] episode, downloadProgress in
-                var informationLabel = [String]()
-                var accessibilityLabel = [episode.title ?? ""]
-
-                if let publishedDate = episode.publishedDate {
-                    let info = DateFormatHelper.sharedHelper.shortLocalizedFormat(publishedDate)
-                    informationLabel.append(info)
-                    accessibilityLabel.append(info)
-                }
-
-                isDownloading = episode.downloading() || downloadProgress != nil
-
-                let info: String
-                let statusText: String?
-                switch episode.episodeStatus {
-                case DownloadStatus.downloaded.rawValue:
-                    self.downloadStatusIconName = "episodedownloaded"
-                    info = episode.displayableTimeLeft()
-                    statusText = L10n.statusDownloaded
-                case DownloadStatus.downloading.rawValue:
-                    self.downloadStatusIconName = nil
-                    info = episode.displayableInfo(includeSize: false)
-                    statusText = L10n.statusDownloading
-                case DownloadStatus.downloadFailed.rawValue:
-                    self.downloadStatusIconName = "downloadfailed"
-                    informationLabel = []
-                    accessibilityLabel = [L10n.downloadFailed]
-                    info = episode.displayableInfo(includeSize: false)
-                    statusText = nil
-                default:
-                    self.downloadStatusIconName = nil
-                    info = episode.displayableInfo(includeSize: false)
-                    statusText = L10n.statusNotDownloaded
-                }
-
-                informationLabel.append(info)
-                accessibilityLabel.append(info)
-
-                if let statusText = statusText {
-                    accessibilityLabel.append(statusText)
-                }
-
-                self.displayInfo = informationLabel.joined(separator: " • ")
-                self.accessibilityInfo = accessibilityLabel.joined(separator: " , ")
+                updateProperties(episode: episode, downloadProgress: downloadProgress)
             })
             .store(in: &cancellables)
+    }
+
+    private func updateProperties(episode: BaseEpisode, downloadProgress: DownloadProgress?) {
+        var informationLabel = [String]()
+        var accessibilityLabel = [episode.title ?? ""]
+
+        if let publishedDate = episode.publishedDate {
+            let info = DateFormatHelper.sharedHelper.shortLocalizedFormat(publishedDate)
+            informationLabel.append(info)
+            accessibilityLabel.append(info)
+        }
+
+        isDownloading = episode.downloading() || downloadProgress != nil
+
+        let info: String
+        let statusText: String?
+        switch episode.episodeStatus {
+        case DownloadStatus.downloaded.rawValue:
+            self.downloadStatusIconName = "episodedownloaded"
+            info = episode.displayableTimeLeft()
+            statusText = L10n.statusDownloaded
+        case DownloadStatus.downloading.rawValue:
+            self.downloadStatusIconName = nil
+            info = episode.displayableInfo(includeSize: false)
+            statusText = L10n.statusDownloading
+        case DownloadStatus.downloadFailed.rawValue:
+            self.downloadStatusIconName = "downloadfailed"
+            informationLabel = []
+            accessibilityLabel = [L10n.downloadFailed]
+            info = episode.displayableInfo(includeSize: false)
+            statusText = nil
+        default:
+            self.downloadStatusIconName = nil
+            info = episode.displayableInfo(includeSize: false)
+            statusText = L10n.statusNotDownloaded
+        }
+
+        informationLabel.append(info)
+        accessibilityLabel.append(info)
+
+        if let statusText = statusText {
+            accessibilityLabel.append(statusText)
+        }
+
+        self.displayInfo = informationLabel.joined(separator: " • ")
+        self.accessibilityInfo = accessibilityLabel.joined(separator: " , ")
     }
 }
