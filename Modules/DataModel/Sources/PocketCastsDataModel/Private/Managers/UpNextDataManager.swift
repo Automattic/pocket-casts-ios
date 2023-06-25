@@ -14,6 +14,7 @@ class UpNextDataManager {
     ]
 
     private var cachedItems = [PlaylistEpisode]()
+    private var allUuids = Set<String>()
     private lazy var cachedItemsQueue: DispatchQueue = {
         let queue = DispatchQueue(label: "au.com.pocketcasts.UpNextItemsQueue")
 
@@ -65,6 +66,12 @@ class UpNextDataManager {
     func playlistEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
         cachedItemsQueue.sync {
             cachedItems.count
+        }
+    }
+
+    func isEpisodePresent(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+        cachedItemsQueue.sync {
+            return allUuids.contains(uuid)
         }
     }
 
@@ -222,12 +229,15 @@ class UpNextDataManager {
                 defer { resultSet.close() }
 
                 var newItems = [PlaylistEpisode]()
+                var uuids = Set<String>()
                 while resultSet.next() {
                     let episode = self.createEpisodeFrom(resultSet: resultSet)
                     newItems.append(episode)
+                    uuids.insert(episode.episodeUuid)
                 }
                 cachedItemsQueue.sync {
                     cachedItems = newItems
+                    allUuids = uuids
                 }
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.cacheEpisodes error: \(error)")
