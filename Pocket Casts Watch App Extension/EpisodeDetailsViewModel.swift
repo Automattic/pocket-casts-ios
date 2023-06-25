@@ -31,7 +31,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
         .eraseToAnyPublisher()
     }
 
-    override init(episode: BaseEpisode) {
+    init(episode: BaseEpisode) {
         super.init(episode: episode)
 
         playbackChanged
