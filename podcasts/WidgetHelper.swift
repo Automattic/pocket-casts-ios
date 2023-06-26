@@ -226,7 +226,7 @@ class WidgetHelper {
 
         do {
             var upNextUuids = [String]()
-            let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: true)
+            let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: true, hydrate: false)
             if upNextEpisodes.count > 0 {
                 let numUpNextUuids = max(0, min(WidgetHelper.maxUpNextToPublish, upNextEpisodes.count - 1))
                 upNextUuids = upNextEpisodes[0 ... numUpNextUuids].map(\.uuid)

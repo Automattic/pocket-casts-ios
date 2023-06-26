@@ -1171,8 +1171,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.refreshList(checkForAutoDownload: checkForAutoDownload)
     }
 
-    func allEpisodesInQueue(includeNowPlaying: Bool) -> [BaseEpisode] {
-        queue.allEpisodes(includeNowPlaying: includeNowPlaying)
+    func allEpisodesInQueue(includeNowPlaying: Bool, hydrate: Bool = true) -> [BaseEpisode] {
+        queue.allEpisodes(includeNowPlaying: includeNowPlaying, hydrate: hydrate)
     }
 
     func upNextQueueChanged() {
@@ -1184,7 +1184,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func removeLastEpisodeFromUpNext() {
-        guard let lastEpisode = queue.allEpisodes().last else { return }
+        guard let lastEpisode = queue.allEpisodes(hydrate: false).last else { return }
 
         queue.remove(uuid: lastEpisode.uuid, fireNotification: true)
     }

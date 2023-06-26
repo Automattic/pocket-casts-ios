@@ -55,4 +55,6 @@ import Foundation
 
     func videoPodcast() -> Bool
     func mayContainChapters() -> Bool
+
+    func hydrate() -> Void
 }

@@ -13,7 +13,7 @@ public protocol ServerPlaybackDelegate {
 
     func queuePersistLocalCopyAsReplace()
     func queueRefreshList(checkForAutoDownload: Bool)
-    func allEpisodesInQueue(includeNowPlaying: Bool) -> [BaseEpisode]
+    func allEpisodesInQueue(includeNowPlaying: Bool, hydrate: Bool) -> [BaseEpisode]
     func playingEpisodeChangedExternally()
 
     func upNextQueueChanged()

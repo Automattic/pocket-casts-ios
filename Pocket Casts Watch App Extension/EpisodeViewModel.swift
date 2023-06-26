@@ -23,6 +23,7 @@ class EpisodeViewModel: ObservableObject {
             return
         }
         alreadyHydrated = true
+        episode.hydrate()
         inUpNext = playSourceViewModel.inUpNext(forEpisode: episode)
 
         if episode.downloading() {

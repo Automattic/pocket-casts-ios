@@ -64,12 +64,12 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    public func allUpNextEpisodes() -> [BaseEpisode] {
+    public func allUpNextEpisodes(hydrate: Bool = true) -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
 
-        let episodes = episodeManager.allUpNextEpisodes(dbQueue: dbQueue)
-        let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
+        let episodes = episodeManager.allUpNextEpisodes(dbQueue: dbQueue, hydrate: hydrate)
+        let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue, hydrate: hydrate)
 
         // this extra step is to make sure we return the episodes in the order they are in the up next list, which they won't be if there's both Episodes and UserEpisodes in Up Next
         var convertedEpisodes = [BaseEpisode]()
@@ -322,8 +322,8 @@ public class DataManager {
 
     // MARK: - Episodes
 
-    public func findEpisode(uuid: String) -> Episode? {
-        episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
+    public func findEpisode(uuid: String, hydrate: Episode? = nil) -> Episode? {
+        episodeManager.findBy(uuid: uuid, dbQueue: dbQueue, hydrate: hydrate)
     }
 
     public func findBaseEpisode(uuid: String) -> BaseEpisode? {
@@ -657,8 +657,8 @@ public class DataManager {
 
     // MARK: - User Episodes
 
-    public func findUserEpisode(uuid: String) -> UserEpisode? {
-        userEpisodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
+    public func findUserEpisode(uuid: String, hydrate: UserEpisode? = nil) -> UserEpisode? {
+        userEpisodeManager.findBy(uuid: uuid, dbQueue: dbQueue, hydrate: hydrate)
     }
 
     public func allUserEpisodes(sortedBy: UploadedSort, limit: Int? = nil) -> [UserEpisode] {

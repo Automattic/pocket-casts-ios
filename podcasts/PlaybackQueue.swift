@@ -244,10 +244,10 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.upNextPlayListContains(episodeUuid: episodeUuid)
     }
 
-    func allEpisodes(includeNowPlaying: Bool = true) -> [BaseEpisode] {
-        if includeNowPlaying { return DataManager.sharedManager.allUpNextEpisodes() }
+    func allEpisodes(includeNowPlaying: Bool = true, hydrate: Bool = true) -> [BaseEpisode] {
+        if includeNowPlaying { return DataManager.sharedManager.allUpNextEpisodes(hydrate: hydrate) }
 
-        var episodes = DataManager.sharedManager.allUpNextEpisodes()
+        var episodes = DataManager.sharedManager.allUpNextEpisodes(hydrate: hydrate)
         if episodes.count == 0 { return episodes }
 
         episodes.removeFirst()

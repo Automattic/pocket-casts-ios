@@ -302,7 +302,7 @@ class WatchSyncManager {
         // The phone sends us a truncated list, and if the total count is higher than that we can't determine which list is newer because we're missing info
         if phoneUpNextCount > phoneEpisodes.count { return .notEnoughInformation }
 
-        let watchEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
+        let watchEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false, hydrate: false)
         if phoneEpisodes.count == watchEpisodes.count {
             // if they are both 0, nothing to do
             if watchEpisodes.count == 0 {

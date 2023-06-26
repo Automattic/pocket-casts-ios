@@ -235,7 +235,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func selectAllTapped() {
-        guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
+        guard DataManager.sharedManager.allUpNextEpisodes(hydrate: false).count > 1 else { return }
         upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
         track(.upNextSelectAllButtonTapped, properties: ["select_all": true])

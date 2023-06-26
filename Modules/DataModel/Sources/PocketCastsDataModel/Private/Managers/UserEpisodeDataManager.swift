@@ -36,8 +36,8 @@ class UserEpisodeDataManager {
 
     // MARK: - Query
 
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> UserEpisode? {
-        loadSingle(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue)
+    func findBy(uuid: String, dbQueue: FMDatabaseQueue, hydrate: UserEpisode? = nil) -> UserEpisode? {
+        loadSingle(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue, hydrate: hydrate)
     }
 
     func findBy(downloadTaskId: String, dbQueue: FMDatabaseQueue) -> UserEpisode? {
@@ -102,13 +102,14 @@ class UserEpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue)
     }
 
-    func allUpNextEpisodes(dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func allUpNextEpisodes(dbQueue: FMDatabaseQueue, hydrate: Bool = true) -> [UserEpisode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let userEpisodeTableName = DataManager.userEpisodeTableName
-        return loadMultiple(query: "SELECT \(userEpisodeTableName).* FROM \(upNextTableName) JOIN \(userEpisodeTableName) ON \(userEpisodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+        let fields = hydrate ? "*" : "uuid"
+        return loadMultiple(query: "SELECT \(userEpisodeTableName).\(fields) FROM \(upNextTableName) JOIN \(userEpisodeTableName) ON \(userEpisodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue, hydrate: hydrate)
     }
 
-    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> UserEpisode? {
+    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, hydrate: UserEpisode? = nil) -> UserEpisode? {
         var episode: UserEpisode?
         dbQueue.inDatabase { db in
             do {
@@ -116,7 +117,8 @@ class UserEpisodeDataManager {
                 defer { resultSet.close() }
 
                 if resultSet.next() {
-                    episode = self.createEpisodeFrom(resultSet: resultSet)
+                    episode = hydrate ?? UserEpisode()
+                    self.initializeEpisodeFrom(resultSet: resultSet, episode: episode!)
                 }
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.loadSingle error: \(error)")
@@ -145,7 +147,7 @@ class UserEpisodeDataManager {
         return frameCount
     }
 
-    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, hydrate: Bool = true) -> [UserEpisode] {
         var episodes = [UserEpisode]()
         dbQueue.inDatabase { db in
             do {
@@ -153,7 +155,12 @@ class UserEpisodeDataManager {
                 defer { resultSet.close() }
 
                 while resultSet.next() {
-                    let episode = self.createEpisodeFrom(resultSet: resultSet)
+                    let episode = UserEpisode()
+                    if hydrate {
+                        self.initializeEpisodeFrom(resultSet: resultSet, episode: episode)
+                    } else {
+                        episode.uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    }
                     episodes.append(episode)
                 }
             } catch {
@@ -539,8 +546,7 @@ class UserEpisodeDataManager {
 
     // MARK: - Conversion
 
-    private func createEpisodeFrom(resultSet rs: FMResultSet) -> UserEpisode {
-        let episode = UserEpisode()
+    private func initializeEpisodeFrom(resultSet rs: FMResultSet, episode: UserEpisode) {
         episode.id = rs.longLongInt(forColumn: "id")
         episode.addedDate = DBUtils.convertDate(value: rs.double(forColumn: "addedDate"))
         episode.lastDownloadAttemptDate = DBUtils.convertDate(value: rs.double(forColumn: "lastDownloadAttemptDate"))
@@ -570,7 +576,7 @@ class UserEpisodeDataManager {
         episode.imageColor = rs.int(forColumn: "imageColor")
         episode.imageColorModified = rs.longLongInt(forColumn: "imageColorModified")
         episode.hasCustomImage = rs.bool(forColumn: "hasCustomImage")
-        return episode
+        episode.alreadyHydrated = true
     }
 
     private func createValuesFrom(episode: UserEpisode, includeIdForWhere: Bool = false) -> [Any] {

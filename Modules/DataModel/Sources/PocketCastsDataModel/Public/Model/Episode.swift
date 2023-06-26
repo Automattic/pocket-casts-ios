@@ -168,4 +168,13 @@ public class Episode: NSObject, BaseEpisode {
     override public var hash: Int {
         taggableId()
     }
+
+    var alreadyHydrated = false
+    public func hydrate() {
+        if alreadyHydrated {
+            return
+        }
+        var _ = DataManager.sharedManager.findEpisode(uuid: self.uuid, hydrate: self)
+        alreadyHydrated = true
+    }
 }

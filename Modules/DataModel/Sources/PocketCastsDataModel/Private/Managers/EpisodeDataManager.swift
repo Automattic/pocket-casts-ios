@@ -44,8 +44,8 @@ class EpisodeDataManager {
 
     // MARK: - Query
 
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue)
+    func findBy(uuid: String, dbQueue: FMDatabaseQueue, hydrate: Episode? = nil) -> Episode? {
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue, hydrate: hydrate)
     }
 
     func findWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
@@ -98,14 +98,15 @@ class EpisodeDataManager {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
     }
 
-    func allUpNextEpisodes(dbQueue: FMDatabaseQueue) -> [Episode] {
+    func allUpNextEpisodes(dbQueue: FMDatabaseQueue, hydrate: Bool = true) -> [Episode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let episodeTableName = DataManager.episodeTableName
+        let fields = hydrate ? "*" : "uuid"
 
-        return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+        return loadMultiple(query: "SELECT \(episodeTableName).\(fields) FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue, hydrate: hydrate)
     }
 
-    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
+    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, hydrate: Episode? = nil) -> Episode? {
         var episode: Episode?
         dbQueue.inDatabase { db in
             do {
@@ -113,7 +114,8 @@ class EpisodeDataManager {
                 defer { resultSet.close() }
 
                 if resultSet.next() {
-                    episode = self.createEpisodeFrom(resultSet: resultSet)
+                    episode = hydrate ?? Episode()
+                    episode!.initializeFrom(resultSet: resultSet)
                 }
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
@@ -123,7 +125,7 @@ class EpisodeDataManager {
         return episode
     }
 
-    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [Episode] {
+    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, hydrate: Bool = true) -> [Episode] {
         var episodes = [Episode]()
         dbQueue.inDatabase { db in
             do {
@@ -131,7 +133,13 @@ class EpisodeDataManager {
                 defer { resultSet.close() }
 
                 while resultSet.next() {
-                    let episode = self.createEpisodeFrom(resultSet: resultSet)
+                    let episode: Episode
+                    if hydrate {
+                        episode = self.createEpisodeFrom(resultSet: resultSet)
+                    } else {
+                        episode = Episode()
+                        episode.uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    }
                     episodes.append(episode)
                 }
             } catch {

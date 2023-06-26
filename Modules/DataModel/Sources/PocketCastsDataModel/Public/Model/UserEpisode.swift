@@ -160,4 +160,13 @@ public class UserEpisode: NSObject, BaseEpisode {
     public func uploadWaitingForWifi() -> Bool {
         uploadStatus == UploadStatus.waitingForWifi.rawValue
     }
+    
+    var alreadyHydrated = false
+    public func hydrate() {
+        if alreadyHydrated {
+            return
+        }
+        var _ = DataManager.sharedManager.findUserEpisode(uuid: self.uuid, hydrate: self)
+        alreadyHydrated = true
+    }
 }

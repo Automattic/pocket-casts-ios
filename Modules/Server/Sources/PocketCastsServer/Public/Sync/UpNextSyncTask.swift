@@ -132,7 +132,7 @@ class UpNextSyncTask: ApiBaseTask {
         }
 
         // check that the server list doesn't exactly match our list, if it does, no need to do anything
-        guard let localEpisodes = ServerConfig.shared.playbackDelegate?.allEpisodesInQueue(includeNowPlaying: true) else { return }
+        guard let localEpisodes = ServerConfig.shared.playbackDelegate?.allEpisodesInQueue(includeNowPlaying: true, hydrate: false) else { return }
         if localEpisodes.count == episodes.count {
             // if they are both 0, nothing to do
             if localEpisodes.count == 0 {
