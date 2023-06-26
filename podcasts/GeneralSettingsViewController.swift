@@ -9,8 +9,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles }
-    private let tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
+    private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -27,6 +27,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         title = L10n.settingsGeneral
 
         Analytics.track(.settingsGeneralShown)
+
+        if FeatureFlag.autoplay.enabled {
+            tableData.append([.autoplay])
+        }
     }
 
     // MARK: - UITableView Methods
@@ -104,8 +108,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralRemoteSkipsChapters
             cell.cellSwitch.isOn = Settings.remoteSkipShouldSkipChapters()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(remoteSkipChanged(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(remoteSkipChanged(_:)), for: .valueChanged)
 
             return cell
         case .keepScreenAwake:
@@ -114,8 +118,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
 
             return cell
         case .openLinksInBrowser:
@@ -124,8 +128,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralOpenInBrowser
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: .valueChanged)
 
             return cell
         case .openPlayer:
@@ -134,8 +138,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
 
             return cell
         case .intelligentPlaybackResumption:
@@ -144,8 +148,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
             cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
 
             return cell
         case .defaultRowAction:
@@ -183,8 +187,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsGeneralUpNextTap
             cell.cellSwitch.isOn = Settings.playUpNextOnTap()
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(playUpNextOnTapToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(playUpNextOnTapToggled(_:)), for: .valueChanged)
 
             return cell
         case .extraMediaActions:
@@ -193,8 +197,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralPlayBackActions
             cell.cellSwitch.isOn = Settings.extraMediaSessionActionsEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(extraMediaSessionActionsToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(extraMediaSessionActionsToggled(_:)), for: .valueChanged)
 
             return cell
         case .legacyBluetooth:
@@ -203,8 +207,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralLegacyBluetooth
             cell.cellSwitch.isOn = Settings.legacyBluetoothModeEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(legacyBluetoothToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(legacyBluetoothToggled(_:)), for: .valueChanged)
 
             return cell
         case .multiSelectGesture:
@@ -213,8 +217,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralMultiSelectGesture
             cell.cellSwitch.isOn = Settings.multiSelectGestureEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(multiSelectGestureToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(multiSelectGestureToggled(_:)), for: .valueChanged)
 
             return cell
         case .publishChapterTitles:
@@ -223,8 +227,19 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.cellLabel.text = L10n.settingsGeneralPublishChapterTitles
             cell.cellSwitch.isOn = Settings.publishChapterTitlesEnabled()
 
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: UIControl.Event.valueChanged)
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(publishChapterTitlesToggled(_:)), for: .valueChanged)
+
+            return cell
+
+        case .autoplay:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralAutoplay
+            cell.cellSwitch.isOn = Settings.autoplay
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: .valueChanged)
 
             return cell
         }
@@ -351,23 +366,28 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1 {
-            return L10n.settingsGeneralSmartPlaybackSubtitle
-        } else if section == 2 {
-            return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
-        } else if section == 3 {
-            return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
-        } else if section == 4 {
-            return L10n.settingsGeneralPlayBackActionsSubtitle
-        } else if section == 5 {
-            return L10n.settingsGeneralLegacyBluetoothSubtitle
-        } else if section == 6 {
-            return L10n.settingsGeneralMultiSelectGestureSubtitle
-        } else if section == 7 {
-            return L10n.settingsGeneralPublishChapterTitlesSubtitle
-        }
+        let lastSectionItem = tableData[safe: section]?.last
 
-        return nil
+        switch lastSectionItem {
+        case .intelligentPlaybackResumption:
+            return L10n.settingsGeneralSmartPlaybackSubtitle
+        case .playUpNextOnTap:
+            return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
+        case .remoteSkipChapters:
+            return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
+        case .extraMediaActions:
+            return L10n.settingsGeneralPlayBackActionsSubtitle
+        case .legacyBluetooth:
+            return L10n.settingsGeneralLegacyBluetoothSubtitle
+        case .multiSelectGesture:
+            return L10n.settingsGeneralMultiSelectGestureSubtitle
+        case .publishChapterTitles:
+            return L10n.settingsGeneralPublishChapterTitlesSubtitle
+        case .autoplay:
+            return L10n.settingsGeneralAutoplaySubtitle
+        default:
+            return nil
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -456,6 +476,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
         Settings.trackValueToggled(.settingsGeneralPublishChapterTitlesToggled, enabled: sender.isOn)
+    }
+
+    @objc private func autoplayToggled(_ sender: UISwitch) {
+        Settings.autoplay = sender.isOn
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

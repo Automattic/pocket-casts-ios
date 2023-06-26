@@ -786,6 +786,21 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Autoplay
+
+    static var autoplay: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
+        }
+        get {
+            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.autoplay) as? Bool else {
+                return true
+            }
+
+            return isEnabled
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
