@@ -907,6 +907,16 @@ class PlaybackManager: ServerPlaybackDelegate {
                 ApiServerHandler.shared.saveCompleted(episode: episode)
             }
 
+            #if !os(watchOS)
+            // If Autoplay is enabled we check if there's another episode to play
+            if Settings.autoplay,
+               let episode = currentEpisode(),
+               queue.upNextCount() == 0,
+               let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
+                queue.add(episode: nextEpisode, fireNotification: false)
+            }
+            #endif
+
             // if marking an episode as played means the it should be archived, then do that
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
                 if let episode = episode as? Episode {
