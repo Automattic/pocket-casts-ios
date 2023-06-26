@@ -15,6 +15,34 @@ class EpisodesDataManager {
         case unknown
     }
 
+    // MARK: - Playlist episodes
+
+    /// Return the list of episodes for a given playlist
+    func episodes(for playlist: Playlist) -> [BaseEpisode] {
+        switch playlist {
+        case .podcast(uuid: let uuid):
+            if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+                return Array(episodes(for: podcast).compactMap { $0.elements as? [ListEpisode] }.joined()).map { $0.episode }
+            }
+        case .filter(uuid: let uuid):
+            if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+                return episodes(for: filter).compactMap { $0.episode }
+            }
+        case .downloads:
+            return Array(downloadedEpisodes().compactMap { $0.elements }.joined()).map { $0.episode }
+        case .files:
+            return uploadedEpisodes()
+        case .starred:
+            return starredEpisodes().map { $0.episode }
+        case .listeningHistory:
+            return Array(listeningHistoryEpisodes().compactMap { $0.elements }.joined()).map { $0.episode }
+        case .unknown:
+            return []
+        }
+
+        return  []
+    }
+
     // MARK: - Podcast episodes list
 
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
