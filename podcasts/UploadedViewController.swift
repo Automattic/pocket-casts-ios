@@ -3,6 +3,8 @@ import PocketCastsServer
 import UIKit
 
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
+    private let episodesDataManager = EpisodesDataManager()
+
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
             uploadsTable.updateContentInset(multiSelectEnabled: false)
@@ -225,13 +227,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func reloadLocalFiles() {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
-
-        if SubscriptionHelper.hasActiveSubscription() {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
-        } else {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
-        }
+        uploadedEpisodes = episodesDataManager.uploadedEpisodes()
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
 
         uploadsTable.reloadData()
