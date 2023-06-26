@@ -1,2 +1,2 @@
-- Improve support section to help the user to send Apple Watch logs
+
 
