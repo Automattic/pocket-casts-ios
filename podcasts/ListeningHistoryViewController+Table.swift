@@ -110,7 +110,7 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                 optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
             } else if let parentPodcast = episode.parentPodcast() {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .listeningHistory, playlist: .listeningHistory)
+                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .listeningHistory)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }

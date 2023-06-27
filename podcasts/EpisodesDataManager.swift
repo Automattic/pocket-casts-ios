@@ -9,7 +9,6 @@ class EpisodesDataManager {
         case downloads
         case files
         case starred
-        case listeningHistory
         case unknown
     }
 

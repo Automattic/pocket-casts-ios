@@ -29,10 +29,10 @@ class AutoplayHelperTests: XCTestCase {
     func testCorrectlyUpdateLatestPlaylist() {
         autoplayHelper.playedAt(playlist: .podcast(uuid: "fake-uuid"))
 
-        autoplayHelper.playedAt(playlist: .listeningHistory)
+        autoplayHelper.playedAt(playlist: .starred)
 
         switch autoplayHelper.lastPlaylist {
-        case .listeningHistory:
+        case .starred:
             break
         default:
             XCTFail()
