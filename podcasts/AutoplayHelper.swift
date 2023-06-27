@@ -31,10 +31,11 @@ class AutoplayHelper {
             return
         }
 
-        if let data = try? JSONEncoder().encode(playlist),
-           let dict = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-            userDefaults.set(dict, forKey: userDefaultsKey)
+        guard let data = try? JSONEncoder().encode(playlist) else {
+            return
         }
+
+        userDefaults.set(data, forKey: userDefaultsKey)
     }
 }
 
