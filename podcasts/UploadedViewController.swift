@@ -367,11 +367,3 @@ extension UploadedViewController: AnalyticsSourceProvider {
         .files
     }
 }
-
-// MARK: - Autoplay
-
-extension UploadedViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
-        .files
-    }
-}
