@@ -3751,3 +3751,6 @@
 
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
+
+/* Label for a settings menu that allows the user to customize headphone action. */
+"settings_headphone_controls" = "Headphone Controls";
