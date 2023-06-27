@@ -12,6 +12,23 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case headphoneControls
         case developer, beta
 
+        /// Whether the section should be displayed or not
+        var visible: Bool {
+            switch self {
+            case .watch:
+                return WCSession.isSupported()
+
+            case .pocketCastsPlus:
+                return !SubscriptionHelper.hasActiveSubscription()
+
+            case .headphoneControls:
+                return FeatureFlag.bookmarks.enabled
+
+            default:
+                return true
+            }
+        }
+
         var display: (text: String, image: UIImage?) {
             switch self {
             case .general:
