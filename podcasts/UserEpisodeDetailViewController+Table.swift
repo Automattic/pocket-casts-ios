@@ -178,7 +178,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
 
             PlaybackActionHelper.playPause()
         } else {
-            PlaybackActionHelper.play(episode: episode)
+            PlaybackActionHelper.play(episode: episode, playlist: .files)
             animateOut()
         }
     }

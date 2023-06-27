@@ -134,9 +134,3 @@ class EpisodesDataManager {
         }
     }
 }
-
-/// If a ViewController provides an episode list it should conform to
-/// this protocol in order for the episode autoplay to work.
-protocol PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist { get }
-}
