@@ -22,11 +22,9 @@ class AutoplayHelper {
         self.topViewControllerGetter = topViewControllerGetter
     }
 
-    func savePlaylist() {
+    func playedAt(playlist: EpisodesDataManager.Playlist?) {
         #if !os(watchOS)
-        let topViewController = topViewControllerGetter.getTopViewController() as? PlaylistAutoplay
-
-        save(selectedPlaylist: topViewController?.playlist)
+        save(selectedPlaylist: playlist)
         #endif
     }
 
