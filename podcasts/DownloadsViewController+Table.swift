@@ -49,6 +49,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: DownloadsViewController.cellId, for: indexPath) as! EpisodeCell
 
         cell.delegate = self
+        cell.playlist = .downloads
         if let episode = episodeAtIndexPath(indexPath) {
             cell.populateFrom(episode: episode, tintColor: ThemeColor.primaryIcon01())
             cell.shouldShowSelect = isMultiSelectEnabled

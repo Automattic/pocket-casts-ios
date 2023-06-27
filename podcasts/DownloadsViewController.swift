@@ -306,11 +306,3 @@ extension DownloadsViewController: AnalyticsSourceProvider {
         .downloads
     }
 }
-
-// MARK: - Autoplay
-
-extension DownloadsViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
-        .downloads
-    }
-}
