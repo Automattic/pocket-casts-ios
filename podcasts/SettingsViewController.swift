@@ -5,7 +5,11 @@ import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, importSteps, opml, about, pocketCastsPlus, privacy, developer, beta
+        case general, notifications, appearance, storageAndDataUse
+        case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
+        case watch, customFiles, help, importSteps, opml
+        case about, pocketCastsPlus, privacy
+        case developer, beta
 
         var display: (text: String, image: UIImage?) {
             switch self {
