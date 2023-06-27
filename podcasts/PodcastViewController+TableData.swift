@@ -71,6 +71,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         if let listEpisode = itemAtRow as? ListEpisode {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.episodeCellId, for: indexPath) as! EpisodeCell
             cell.hidesArtwork = true
+            cell.playlist = .podcast(uuid: listEpisode.episode.uuid)
             cell.delegate = self
             cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
             cell.shouldShowSelect = isMultiSelectEnabled
