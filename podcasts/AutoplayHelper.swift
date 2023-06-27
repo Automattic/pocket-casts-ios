@@ -4,7 +4,6 @@ class AutoplayHelper {
     static let shared = AutoplayHelper()
 
     private let userDefaults: UserDefaults
-    private let topViewControllerGetter: TopViewControllerGetter
     private let userDefaultsKey = "playlist"
 
     var lastPlaylist: EpisodesDataManager.Playlist? {
@@ -16,10 +15,8 @@ class AutoplayHelper {
         return nil
     }
 
-    init(userDefaults: UserDefaults = UserDefaults.standard,
-         topViewControllerGetter: TopViewControllerGetter = UIApplication.shared) {
+    init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.userDefaults = userDefaults
-        self.topViewControllerGetter = topViewControllerGetter
     }
 
     func playedAt(playlist: EpisodesDataManager.Playlist?) {
