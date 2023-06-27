@@ -46,6 +46,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistViewController.cellIdentifier, for: indexPath) as! EpisodeCell
 
+        cell.playlist = .filter(uuid: filter.uuid)
         cell.delegate = self
         if let listEpisode = episodes[safe: indexPath.row] {
             cell.populateFrom(episode: listEpisode.episode, tintColor: filter.playlistColor(), filterUuid: filter.uuid)
