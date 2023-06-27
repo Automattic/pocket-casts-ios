@@ -5041,7 +5041,6 @@
 				8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */,
 				C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */,
 				4647623028F70CD0006D005A /* AuthenticationHelper.swift */,
-				8B1877E02A44BA230025D245 /* AutoplayHelper.swift */,
 			);
 			name = "Managers and Helpers";
 			sourceTree = "<group>";
@@ -6136,7 +6135,6 @@
 				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
 				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 				C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */,
-				8B1877E22A44C4EF0025D245 /* UIApplication+topViewController.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -8284,7 +8282,6 @@
 				8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */,
 				BD6D4187200C802900CA8993 /* PodcastViewController+NetworkLoad.swift in Sources */,
 				40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */,
-				8B1877E32A44C4EF0025D245 /* UIApplication+topViewController.swift in Sources */,
 				BDD5CA022303EB95005E133C /* ThemeableCollectionCell.swift in Sources */,
 				BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */,
 				8B738F3128F5CBE0004E7526 /* StoriesView.swift in Sources */,
@@ -8549,7 +8546,6 @@
 				BD5C39541B5E0A2A00C3A499 /* ShiftyLoadingAlert.swift in Sources */,
 				BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */,
 				40164A5E23CC028D0043907B /* TourSpotlight.swift in Sources */,
-				8B1877E12A44BA230025D245 /* AutoplayHelper.swift in Sources */,
 				BDA681AB220D03930053BEEE /* UserEpisodeManager.swift in Sources */,
 				C7FF770F291C2CBA0082A464 /* LoginButtonStyles.swift in Sources */,
 				462EE0A826FB9FDA003D67DC /* ActivityDialog.swift in Sources */,
