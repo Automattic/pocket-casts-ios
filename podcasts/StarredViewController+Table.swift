@@ -93,7 +93,7 @@ extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .starred)
+            let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .starred, playlist: .starred)
             episodeController.modalPresentationStyle = .formSheet
             present(episodeController, animated: true, completion: nil)
         }
