@@ -43,6 +43,7 @@ extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: StarredViewController.episodeCellId, for: indexPath) as! EpisodeCell
         guard let episode = episodes[safe: indexPath.row]?.episode else { return cell }
 
+        cell.playlist = .starred
         cell.delegate = self
         cell.populateFrom(episode: episode, tintColor: nil)
         cell.shouldShowSelect = isMultiSelectEnabled
