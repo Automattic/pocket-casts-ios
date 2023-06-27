@@ -227,7 +227,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func reloadLocalFiles() {
-        let uploadedEpisodes = episodesDataManager.uploadedEpisodes()
+        uploadedEpisodes = episodesDataManager.uploadedEpisodes()
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
 
         uploadsTable.reloadData()
@@ -364,14 +364,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
 extension UploadedViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
-        .files
-    }
-}
-
-// MARK: - Autoplay
-
-extension UploadedViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
         .files
     }
 }

@@ -588,10 +588,3 @@ extension PlaylistViewController: AnalyticsSourceProvider {
         .filters
     }
 }
-
-// MARK: - Autoplay
-extension PlaylistViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
-        .filter(uuid: filter.uuid)
-    }
-}

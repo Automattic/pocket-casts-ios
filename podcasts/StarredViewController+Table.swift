@@ -43,6 +43,7 @@ extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: StarredViewController.episodeCellId, for: indexPath) as! EpisodeCell
         guard let episode = episodes[safe: indexPath.row]?.episode else { return cell }
 
+        cell.playlist = .starred
         cell.delegate = self
         cell.populateFrom(episode: episode, tintColor: nil)
         cell.shouldShowSelect = isMultiSelectEnabled
@@ -93,7 +94,7 @@ extension StarredViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .starred)
+            let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .starred, playlist: .starred)
             episodeController.modalPresentationStyle = .formSheet
             present(episodeController, animated: true, completion: nil)
         }

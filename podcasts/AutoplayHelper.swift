@@ -5,7 +5,6 @@ class AutoplayHelper {
     static let shared = AutoplayHelper()
 
     private let userDefaults: UserDefaults
-    private let topViewControllerGetter: TopViewControllerGetter
     private let userDefaultsKey = "playlist"
     private let episodesDataManager: EpisodesDataManager
 
@@ -22,15 +21,12 @@ class AutoplayHelper {
          topViewControllerGetter: TopViewControllerGetter = UIApplication.shared,
          episodesDataManager: EpisodesDataManager = EpisodesDataManager()) {
         self.userDefaults = userDefaults
-        self.topViewControllerGetter = topViewControllerGetter
         self.episodesDataManager = episodesDataManager
     }
 
-    func savePlaylist() {
+    func playedAt(playlist: EpisodesDataManager.Playlist?) {
         #if !os(watchOS)
-        let topViewController = topViewControllerGetter.getTopViewController() as? PlaylistAutoplay
-
-        save(selectedPlaylist: topViewController?.playlist)
+        save(selectedPlaylist: playlist)
         #endif
     }
 

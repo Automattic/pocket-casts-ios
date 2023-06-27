@@ -79,6 +79,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var hidesArtwork = false
 
+    var playlist: EpisodesDataManager.Playlist = .unknown
+
     private var inUpNext = false
     private var filterUuid: String?
     private var podcastUuid: String?
@@ -413,7 +415,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 
-        PlaybackActionHelper.play(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
+        PlaybackActionHelper.play(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid, playlist: playlist)
     }
 
     func pauseTapped() {

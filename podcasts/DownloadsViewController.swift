@@ -175,14 +175,14 @@ class DownloadsViewController: PCViewController {
 
     func reloadEpisodes() {
         operationQueue.addOperation { [weak self] in
-            guard let strongSelf = self else { return }
+            guard let self else { return }
 
-            let newData = strongSelf.episodesDataManager.downloadedEpisodes()
+            let newData = self.episodesDataManager.downloadedEpisodes()
 
             DispatchQueue.main.sync {
-                strongSelf.downloadsTable.isHidden = (newData.count == 0)
-                strongSelf.episodes = newData
-                strongSelf.downloadsTable.reloadData()
+                self.downloadsTable.isHidden = (newData.count == 0)
+                self.episodes = newData
+                self.downloadsTable.reloadData()
             }
         }
     }
@@ -303,14 +303,6 @@ class DownloadsViewController: PCViewController {
 
 extension DownloadsViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
-        .downloads
-    }
-}
-
-// MARK: - Autoplay
-
-extension DownloadsViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
         .downloads
     }
 }

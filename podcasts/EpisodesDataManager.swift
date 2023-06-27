@@ -2,8 +2,6 @@ import PocketCastsDataModel
 import PocketCastsServer
 import DifferenceKit
 
-/// Returns a list of episodes for an specific section
-/// Depending on the section, it returns a DifferenceKit ArraySection
 class EpisodesDataManager {
     enum Playlist: Codable {
         case podcast(uuid: String)
@@ -11,7 +9,6 @@ class EpisodesDataManager {
         case downloads
         case files
         case starred
-        case listeningHistory
         case unknown
     }
 
@@ -34,8 +31,6 @@ class EpisodesDataManager {
             return uploadedEpisodes()
         case .starred:
             return starredEpisodes().map { $0.episode }
-        case .listeningHistory:
-            return Array(listeningHistoryEpisodes().compactMap { $0.elements }.joined()).map { $0.episode }
         case .unknown:
             return []
         }
@@ -45,40 +40,41 @@ class EpisodesDataManager {
 
     // MARK: - Podcast episodes list
 
+    /// Returns a podcasts episodes that are grouped by `PodcastGrouping`
+    /// Use `uuidsToFilter` to filter the episode UUIDs to only those in the array
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
         // the podcast page has a header, for simplicity in table animations, we add it here
         let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
         var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
 
-        let tintColor = AppTheme.appTintColor()
         let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
         switch podcast.podcastGrouping() {
         case .none:
-            let episodes = EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil)
+            let episodes = EpisodeTableHelper.loadEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil)
             newData.append(ArraySection(model: "episodes", elements: episodes))
         case .season:
-            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, name2 -> Bool in
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, name2 -> Bool in
                 sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
             }, episodeShortKey: { episode -> String in
                 episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.podcastNoSeason
             })
             newData.append(contentsOf: groupedEpisodes)
         case .unplayed:
-            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
                 name1 == L10n.statusUnplayed
             }, episodeShortKey: { episode -> String in
                 episode.played() ? L10n.statusPlayed : L10n.statusUnplayed
             })
             newData.append(contentsOf: groupedEpisodes)
         case .downloaded:
-            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
                 name1 == L10n.statusDownloaded
             }, episodeShortKey: { (episode: Episode) -> String in
                 episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() || episode.downloading() ? L10n.statusDownloaded : L10n.statusNotDownloaded
             })
             newData.append(contentsOf: groupedEpisodes)
         case .starred:
-            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
+            let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, _ -> Bool in
                 name1 == L10n.statusStarred
             }, episodeShortKey: { episode -> String in
                 episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
@@ -127,7 +123,7 @@ class EpisodesDataManager {
         let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
         let arguments = [Date().weeksAgo(1)] as [Any]
 
-        let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: arguments, episodeShortKey: { episode -> String in
+        let newData = EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: arguments, episodeShortKey: { episode -> String in
             episode.shortLastDownloadAttemptDate()
         })
 
@@ -139,7 +135,7 @@ class EpisodesDataManager {
     func listeningHistoryEpisodes() -> [ArraySection<String, ListEpisode>] {
         let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
 
-        return EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
+        return EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: nil, episodeShortKey: { episode -> String in
             episode.shortLastPlaybackInteractionDate()
         })
     }
@@ -148,7 +144,7 @@ class EpisodesDataManager {
 
     func starredEpisodes() -> [ListEpisode] {
         let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
-        return EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
+        return EpisodeTableHelper.loadEpisodes(query: query, arguments: nil)
     }
 
     // MARK: - Uploaded Files
@@ -162,10 +158,4 @@ class EpisodesDataManager {
             return DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
         }
     }
-}
-
-/// If a ViewController provides an episode list it should conform to
-/// this protocol in order for the episode autoplay to work.
-protocol PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist { get }
 }

@@ -227,6 +227,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>De första</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>bookmarks</key>
+    <string>Bokmärken</string>
     <key>bottom</key>
     <string>Längst ner</string>
     <key>bulk_download_max_format</key>
@@ -1316,6 +1318,8 @@ UPPDATERINGAR</string>
     <string>Gruppväljare</string>
     <key>player_share_header</key>
     <string>DELA LÄNK TILL</string>
+    <key>player_show_notes_title</key>
+    <string>Beskrivning</string>
     <key>player_user_episode_download_error</key>
     <string>Nedladdningsfel</string>
     <key>player_user_episode_playback_error</key>
@@ -2347,6 +2351,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Löper ut om %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
+    <key>support_watch_help_message</key>
+    <string>Om du har problem med Pocket Casts Watch-appen kan vi skicka dina bärbara loggar för att hjälpa dig. Om du vill att vi ska göra det, öppna Pocket Casts på din klocka.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Jag har öppnat Watch-appen</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Skicka utan Watch-loggar</string>
+    <key>support_watch_help_title</key>
+    <string>Behöver du hjälp med Watch-appen?</string>
     <key>supporter</key>
     <string>Supporter</string>
     <key>supporter_contributions</key>

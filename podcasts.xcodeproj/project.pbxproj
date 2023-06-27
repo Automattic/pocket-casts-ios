@@ -1423,6 +1423,8 @@
 		C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */; };
 		C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */; };
 		C734A88E2938308F005E5B98 /* CommonStoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C734A88D2938308F005E5B98 /* CommonStoryViews.swift */; };
+		C7360CB82A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
+		C7360CB92A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
 		C73CCBC929C590100075EFFD /* View+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73CCBC829C590100075EFFD /* View+UIView.swift */; };
 		C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */; };
 		C73FD2D6292C209F00E5E2E7 /* LoginLandingCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FD2D5292C209F00E5E2E7 /* LoginLandingCoverImage.swift */; };
@@ -3123,6 +3125,7 @@
 		C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Analytics.swift"; sourceTree = "<group>"; };
 		C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseModal.swift; sourceTree = "<group>"; };
 		C734A88D2938308F005E5B98 /* CommonStoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStoryViews.swift; sourceTree = "<group>"; };
+		C7360CB72A42128300456930 /* Bookmarks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Bookmarks.xcassets; sourceTree = "<group>"; };
 		C73CCBC829C590100075EFFD /* View+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+UIView.swift"; sourceTree = "<group>"; };
 		C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Previews.swift"; sourceTree = "<group>"; };
 		C73FD2D5292C209F00E5E2E7 /* LoginLandingCoverImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLandingCoverImage.swift; sourceTree = "<group>"; };
@@ -5667,6 +5670,7 @@
 				C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */,
 				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
 				BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */,
+				C7360CB72A42128300456930 /* Bookmarks.xcassets */,
 				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
 				BDE73A7F1B607DB6005BFE30 /* CommonImages.xcassets */,
 				40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */,
@@ -7769,6 +7773,7 @@
 				BD1292E922F7D066004608A6 /* AppIcon-Classic40x40@3x.png in Resources */,
 				4086511C23B1CE8400D7585A /* CreateSiriShortcutCell.xib in Resources */,
 				BD93D8891D37698C0004C6FE /* PodcastListCell.xib in Resources */,
+				C7360CB82A42128300456930 /* Bookmarks.xcassets in Resources */,
 				BD1292D222F7CD83004608A6 /* AppIcon-Plus83.5x83.5@2x~ipad.png in Resources */,
 				BD6B6657245BC24C00CF5245 /* AppIcon-Pocket-Cats76x76~ipad.png in Resources */,
 				BD9313541D7970F1007A70FC /* SelectPodcastCell.xib in Resources */,
@@ -7845,6 +7850,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7360CB92A42128300456930 /* Bookmarks.xcassets in Resources */,
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
 				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
 				463538A326E16A2C00BA9D35 /* Localizable.strings in Resources */,

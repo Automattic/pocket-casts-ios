@@ -46,6 +46,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistViewController.cellIdentifier, for: indexPath) as! EpisodeCell
 
+        cell.playlist = .filter(uuid: filter.uuid)
         cell.delegate = self
         if let listEpisode = episodes[safe: indexPath.row] {
             cell.populateFrom(episode: listEpisode.episode, tintColor: filter.playlistColor(), filterUuid: filter.uuid)
@@ -102,7 +103,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
 
-            let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters)
+            let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters, playlist: .filter(uuid: filter.uuid))
             episodeController.modalPresentationStyle = .formSheet
             present(episodeController, animated: true, completion: nil)
         }
