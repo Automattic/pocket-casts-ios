@@ -16,7 +16,7 @@ class AutoplayHelperTests: XCTestCase {
     }
 
     func testSaveLatestPlaylist() {
-        autoplayHelper.playedAt(playlist: .podcast(uuid: "fake-uuid"))
+        autoplayHelper.playedFrom(playlist: .podcast(uuid: "fake-uuid"))
 
         switch autoplayHelper.lastPlaylist {
         case .podcast(uuid: let uuid):
@@ -27,9 +27,9 @@ class AutoplayHelperTests: XCTestCase {
     }
 
     func testCorrectlyUpdateLatestPlaylist() {
-        autoplayHelper.playedAt(playlist: .podcast(uuid: "fake-uuid"))
+        autoplayHelper.playedFrom(playlist: .podcast(uuid: "fake-uuid"))
 
-        autoplayHelper.playedAt(playlist: .starred)
+        autoplayHelper.playedFrom(playlist: .starred)
 
         switch autoplayHelper.lastPlaylist {
         case .starred:
@@ -40,9 +40,9 @@ class AutoplayHelperTests: XCTestCase {
     }
 
     func testCorrectlyRemoveValueIfPlaylistIsUnknown() {
-        autoplayHelper.playedAt(playlist: .podcast(uuid: "fake-uuid"))
+        autoplayHelper.playedFrom(playlist: .podcast(uuid: "fake-uuid"))
 
-        autoplayHelper.playedAt(playlist: nil)
+        autoplayHelper.playedFrom(playlist: nil)
 
         XCTAssertNil(autoplayHelper.lastPlaylist)
     }

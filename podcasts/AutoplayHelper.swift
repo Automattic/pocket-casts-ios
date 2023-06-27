@@ -16,7 +16,7 @@ class AutoplayHelper {
         self.userDefaults = userDefaults
     }
 
-    func playedAt(playlist: EpisodesDataManager.Playlist?) {
+    func playedFrom(playlist: EpisodesDataManager.Playlist?) {
         #if !os(watchOS)
         save(selectedPlaylist: playlist)
         #endif
