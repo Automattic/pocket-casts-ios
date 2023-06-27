@@ -106,7 +106,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     let viewSource: EpisodeDetailViewSource
 
-    private let fromPlaylist: EpisodesDataManager.Playlist
+    let fromPlaylist: EpisodesDataManager.Playlist
 
     // MARK: - Init
 
@@ -497,12 +497,4 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
     case upNext = "up_next"
 
     var analyticsDescription: String { rawValue }
-}
-
-// MARK: - Autoplay
-
-extension EpisodeDetailViewController: PlaylistAutoplay {
-    var playlist: EpisodesDataManager.Playlist {
-        fromPlaylist
-    }
 }
