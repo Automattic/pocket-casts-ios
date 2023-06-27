@@ -39,9 +39,15 @@ class AutoplayHelper {
         if let lastPlaylist = lastPlaylist {
             let playlistEpisodes = episodesDataManager.episodes(for: lastPlaylist)
 
-            if let index = playlistEpisodes.firstIndex(where: { $0.uuid == currentEpisodeUuid }),
-               let nextEpisode = playlistEpisodes[safe: index + 1] {
-                return nextEpisode
+            switch lastPlaylist {
+            case .filter:
+                // Current episode from filter is always removed before calling here
+                // So we handle this case differently.
+                return playlistEpisodes[safe: 0]
+            default:
+                if let index = playlistEpisodes.firstIndex(where: { $0.uuid == currentEpisodeUuid }) {
+                    return playlistEpisodes[safe: index + 1]
+                }
             }
         }
 
