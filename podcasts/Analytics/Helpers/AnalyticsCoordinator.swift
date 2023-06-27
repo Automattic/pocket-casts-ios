@@ -54,6 +54,15 @@ class AnalyticsCoordinator {
     /// Keep track of the analytics source that was used for the last event before it was reset
     var previousSource: AnalyticsSource?
 
+    /// If the current source is not available, attempt to fallback to previous value before it was reset
+    func fallbackToPreviousSourceIfNeeded() {
+        guard currentSource == nil || currentSource == .unknown else {
+            return
+        }
+
+        currentSource = previousSource
+    }
+
     #if !os(watchOS)
         var currentAnalyticsSource: AnalyticsSource {
             if let currentSource {

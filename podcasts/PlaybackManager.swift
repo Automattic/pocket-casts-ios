@@ -817,10 +817,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // If there is no current analytics source, then use the previous one
         // This helps prevent an `unknown` from being used if this is called right after another event, such as playbackPlay
-        if analyticsPlaybackHelper.currentSource == nil || analyticsPlaybackHelper.currentSource == .unknown {
-            analyticsPlaybackHelper.currentSource = analyticsPlaybackHelper.previousSource
-        }
-
+        analyticsPlaybackHelper.fallbackToPreviousSourceIfNeeded()
+        
         guard let episode = currentEpisode() else {
             endPlayback()
 
