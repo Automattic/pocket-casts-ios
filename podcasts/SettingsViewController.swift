@@ -75,6 +75,26 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
     private var tableData: [[TableRow]] = []
 
+    /// All the possible settings sections
+    private let allSections: [[TableRow]] = {
+        #if DEBUG
+        let developerSection: [TableRow] = [.developer, .beta]
+        #else
+        let developerSection: [TableRow] = []
+        #endif
+
+        return [
+            developerSection,
+            [.pocketCastsPlus],
+            [.general, .notifications, .appearance],
+            [.autoArchive, .autoDownload, .autoAddToUpNext],
+            [.storageAndDataUse, .siriShortcuts, .headphoneControls, .watch, .customFiles],
+            [.importSteps, .opml],
+            [.help],
+            [.privacy, .about]
+        ]
+    }()
+
     private let settingsCellId = "SettingsCell"
 
     @IBOutlet var settingsTable: UITableView! {
