@@ -15,7 +15,7 @@ class AutoplayHelper {
         return nil
     }
 
-    init(userDefaults: UserDefaults = UserDefaults.standard) {
+    init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
 
