@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 import UIKit
 import WatchConnectivity
@@ -212,19 +213,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     }
 
     private func reloadTable() {
-        if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
-        } else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
+        tableData = allSections.compactMap {
+            $0.filter(\.visible).nilIfEmpty()
         }
-
-        if !SubscriptionHelper.hasActiveSubscription() {
-            tableData.insert([.pocketCastsPlus], at: 0)
-        }
-
-        #if DEBUG
-        tableData.insert([.developer, .beta], at: 0)
-        #endif
 
         settingsTable.reloadData()
     }
