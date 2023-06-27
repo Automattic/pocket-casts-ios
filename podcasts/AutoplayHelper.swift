@@ -7,12 +7,9 @@ class AutoplayHelper {
     private let userDefaultsKey = "playlist"
 
     var lastPlaylist: EpisodesDataManager.Playlist? {
-        if let rawDictionary = userDefaults.dictionary(forKey: userDefaultsKey),
-           let dictData = try? JSONSerialization.data(withJSONObject: rawDictionary) {
-            return try? JSONDecoder().decode(EpisodesDataManager.Playlist.self, from: dictData)
+        userDefaults.data(forKey: userDefaultsKey).flatMap {
+            try? JSONDecoder().decode(EpisodesDataManager.Playlist.self, from: $0)
         }
-
-        return nil
     }
 
     init(userDefaults: UserDefaults = .standard) {
