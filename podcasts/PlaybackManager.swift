@@ -913,6 +913,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                let episode = currentEpisode(),
                queue.upNextCount() == 0,
                let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
+                FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
                 queue.add(episode: nextEpisode, fireNotification: false)
             }
             #endif
