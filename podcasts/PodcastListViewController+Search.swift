@@ -37,7 +37,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         ])
         searchController.searchControllerTopConstant = topAnchor
 
-        searchController.setupScrollView(podcastsCollectionView, hideSearchInitially: !UIAccessibility.isVoiceOverRunning)
+        searchController.setupScrollView(podcastsCollectionView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
 
