@@ -9,6 +9,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
         case watch, customFiles, help, importSteps, opml
         case about, pocketCastsPlus, privacy
+        case headphoneControls
         case developer, beta
 
         var display: (text: String, image: UIImage?) {
@@ -49,6 +50,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return ("Developer", UIImage(systemName: "ladybug.fill"))
             case .beta:
                 return ("Beta Features", UIImage(systemName: "testtube.2"))
+            case .headphoneControls:
+                return (L10n.settingsHeadphoneControls, .init(named: "settings_headphone_controls"))
             }
         }
     }
@@ -161,6 +164,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             let hostingController = UIHostingController(rootView: BetaMenu().setupDefaultEnvironment())
             hostingController.title = "Beta Features"
             navigationController?.pushViewController(hostingController, animated: true)
+        case .headphoneControls:
+            print("🎧 Coming Soon")
+
         }
     }
 
