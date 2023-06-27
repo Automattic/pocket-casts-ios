@@ -7,7 +7,7 @@ class PlaylistRefreshOperation: Operation {
     private let filter: EpisodeFilter
     private let completion: ([ListEpisode]) -> Void
 
-    init(episodesDataManager: EpisodesDataManager = EpisodesDataManager(), tableView: UITableView, filter: EpisodeFilter, completion: @escaping (([ListEpisode]) -> Void)) {
+    init(episodesDataManager: EpisodesDataManager = .init(), tableView: UITableView, filter: EpisodeFilter, completion: @escaping (([ListEpisode]) -> Void)) {
         self.episodesDataManager = episodesDataManager
         self.tableView = tableView
         self.filter = filter
