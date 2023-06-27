@@ -111,7 +111,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                 optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: episode.readableErrorMessage(), icon: "option-alert", actions: [retryAction])
                 optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
             } else if let parentPodcast = episode.parentPodcast() {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .downloads)
+                let episodeController = EpisodeDetailViewController(episodeUuid: episode.uuid, podcast: parentPodcast, source: .downloads, playlist: .downloads)
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }
