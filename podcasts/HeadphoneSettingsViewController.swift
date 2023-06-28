@@ -36,6 +36,12 @@ class HeadphoneSettingsViewController: PCTableViewController {
             return cell
 
         case .bookmarkSound:
+            let cell = tableView.dequeueReusableCell(SwitchCell.self, for: indexPath)
+            cell.cellLabel.text = L10n.settingsBookmarkConfirmationSound
+            cell.cellSwitch.isOn = Settings.playBookmarkCreationSound
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(bookmarkSoundToggled(_:)), for: .valueChanged)
             return cell
         }
     }
@@ -55,6 +61,18 @@ class HeadphoneSettingsViewController: PCTableViewController {
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         visibleSections[section].footer
     }
+
+    // MARK: - Bookmark Sound
+
+    @objc func bookmarkSoundToggled(_ sender: UISwitch) {
+        updateBookmarkSoundEnabled(sender.isOn)
+    }
+
+    private func updateBookmarkSoundEnabled(_ enabled: Bool) {
+        Settings.playBookmarkCreationSound = enabled
+
+    }
+
     // MARK: - Data Struct
 
     private struct TableSection {
