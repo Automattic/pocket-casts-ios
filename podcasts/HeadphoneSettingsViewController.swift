@@ -194,11 +194,7 @@ private extension HeadphoneControlAction {
     }
 
     var iconName: String? {
-        switch self {
-        case .addBookmark:
-            return "plusGold"
-        default:
-            return nil
-        }
+        // placeholder for the future
+        return nil
     }
 }
