@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 class PlusAccountPromptTableCell: ThemeableCell {
-    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
+//    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
 
     private let model = PlusAccountPromptViewModel()
 
