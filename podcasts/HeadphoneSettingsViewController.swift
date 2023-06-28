@@ -126,6 +126,20 @@ class HeadphoneSettingsViewController: PCTableViewController {
     }
 }
 
+// MARK: - Private: Options Picker
+
+private extension HeadphoneSettingsViewController {
+    private func showPicker(_ title: String, _ options: [HeadphoneControlAction], currentValue: HeadphoneControlAction, onChange: @escaping ((HeadphoneControlAction) -> Void)) {
+        let picker = OptionsPicker(title: title)
+        picker.addActions(options.map { option in
+            OptionAction(label: option.displayableTitle, icon: option.iconName, selected: currentValue == option) {
+                onChange(option)
+            }
+        })
+        picker.show(statusBarStyle: preferredStatusBarStyle)
+    }
+}
+
 // MARK: - Helper extension to get the title and image for each option
 
 private extension HeadphoneControlAction {
