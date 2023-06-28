@@ -1,6 +1,15 @@
 import UIKit
 
 class HeadphoneSettingsViewController: PCTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = L10n.settingsHeadphoneControls
+    }
+
+    override var customCellTypes: [ReusableTableCell.Type] {
+        [SwitchCell.self, DisclosureCell.self]
+    }
     // MARK: - Data Struct
 
     private struct TableSection {
