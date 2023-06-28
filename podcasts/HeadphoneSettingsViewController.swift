@@ -1,6 +1,12 @@
 import UIKit
 
 class HeadphoneSettingsViewController: PCTableViewController {
+    private var allSections: [TableSection] = [
+        .init(rows: [.previousAction, .nextAction], footer: L10n.settingsHeadphoneControlsFooter),
+        .init(rows: [.bookmarkSound], footer: L10n.settingsBookmarkSoundFooter)
+    ]
+
+    private var visibleSections: [TableSection] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -10,6 +16,13 @@ class HeadphoneSettingsViewController: PCTableViewController {
     override var customCellTypes: [ReusableTableCell.Type] {
         [SwitchCell.self, DisclosureCell.self]
     }
+
+    override func reloadData() {
+        visibleSections = allSections.filter(\.visible)
+
+        super.reloadData()
+    }
+
     // MARK: - Data Struct
 
     private struct TableSection {
