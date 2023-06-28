@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
@@ -17,9 +18,13 @@ class AutoplayHelper {
 
     /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
-        userDefaults.data(forKey: userDefaultsKey).flatMap {
+        let lastPlaylist = userDefaults.data(forKey: userDefaultsKey).flatMap {
             try? JSONDecoder().decode(Playlist.self, from: $0)
         }
+
+        FileLog.shared.addMessage("Autoplay: returning the last playlist: \(String(describing: lastPlaylist))")
+
+        return lastPlaylist
     }
 
     init(userDefaults: UserDefaults = .standard) {
@@ -36,6 +41,7 @@ class AutoplayHelper {
     private func save(selectedPlaylist playlist: Playlist?) {
         guard let playlist else {
             userDefaults.removeObject(forKey: userDefaultsKey)
+            FileLog.shared.addMessage("Autoplay: reset the last playlist")
             return
         }
 
@@ -44,6 +50,7 @@ class AutoplayHelper {
         }
 
         userDefaults.set(data, forKey: userDefaultsKey)
+        FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
     }
 }
 
