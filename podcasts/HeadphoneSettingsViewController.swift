@@ -30,9 +30,16 @@ class HeadphoneSettingsViewController: PCTableViewController {
         switch row {
         case .previousAction:
             let cell = tableView.dequeueReusableCell(DisclosureCell.self, for: indexPath)
+            cell.cellLabel.text = L10n.settingsPreviousAction
+            cell.setImage(imageName: "settings_headphone_controls_skip_back")
+            cell.cellSecondaryLabel.text = Settings.headphonesPreviousAction.displayableTitle
+
             return cell
         case .nextAction:
             let cell = tableView.dequeueReusableCell(DisclosureCell.self, for: indexPath)
+            cell.cellLabel.text = L10n.settingsNextAction
+            cell.setImage(imageName: "settings_headphone_controls_skip_forward")
+            cell.cellSecondaryLabel.text = Settings.headphonesNextAction.displayableTitle
             return cell
 
         case .bookmarkSound:
