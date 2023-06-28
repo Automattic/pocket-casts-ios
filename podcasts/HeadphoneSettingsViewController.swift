@@ -7,6 +7,8 @@ class HeadphoneSettingsViewController: PCTableViewController {
     ]
 
     private var visibleSections: [TableSection] = []
+    private let bookmarksManager = BookmarkManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -107,6 +109,10 @@ class HeadphoneSettingsViewController: PCTableViewController {
     private func updateBookmarkSoundEnabled(_ enabled: Bool) {
         Settings.playBookmarkCreationSound = enabled
 
+        // Play a preview of the sound if the user has enabled the option
+        if enabled {
+            bookmarksManager.playTone()
+        }
     }
 
     // MARK: - Data Struct

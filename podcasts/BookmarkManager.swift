@@ -47,8 +47,9 @@ class BookmarkManager {
     }
 }
 
-// MARK: - Private
-private extension BookmarkManager {
+// MARK: - Confirmation Tone Playing
+
+extension BookmarkManager {
     func playTone() {
         // Stop playing immediately and reset to 0
         tonePlayer?.pause()
