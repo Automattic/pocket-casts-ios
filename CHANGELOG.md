@@ -1,6 +1,6 @@
 7.43
 -----
-
+- Correctly display chapter durations when the chapter info shows that it passes the end of the episode.
 
 7.42
 -----

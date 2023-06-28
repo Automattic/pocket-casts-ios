@@ -39,7 +39,7 @@ class PodcastChapterParser {
                         #endif
 
                         convertedChapter.startTime = chapter.time
-                        convertedChapter.duration = chapter.duration.seconds
+                        convertedChapter.duration = strongSelf.sanitise(chapterDuration: chapter.duration.seconds, usingChapterStart: chapter.time, episodeDuration: episodeDuration)
                         convertedChapter.isHidden = chapter.hidden
                         if !convertedChapter.isHidden {
                             convertedChapter.index = index
@@ -67,5 +67,11 @@ class PodcastChapterParser {
 
         // next see if the scheme is http or https, we don't support any others
         return scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame
+    }
+
+    private func sanitise(chapterDuration: TimeInterval, usingChapterStart chapterStart: CMTime, episodeDuration: TimeInterval) -> TimeInterval {
+        let sanitisedDuration = chapterStart.seconds + chapterDuration > episodeDuration ? episodeDuration - chapterStart.seconds : chapterDuration
+
+        return sanitisedDuration
     }
 }
