@@ -87,6 +87,8 @@ class UserEpisodeDetailViewController: UIViewController {
 
     var themeOverride: Theme.ThemeType?
 
+    var playlist: AutoplayHelper.Playlist?
+
     private var window: UIWindow?
     private static let containerHeightWithError: CGFloat = 534
     private static let containerHeightWithoutError: CGFloat = 410

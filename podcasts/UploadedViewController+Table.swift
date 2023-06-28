@@ -63,6 +63,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
             let episode = uploadedEpisodes[indexPath.row]
             userEpisodeDetailVC = UserEpisodeDetailViewController(episodeUuid: episode.uuid)
+            userEpisodeDetailVC?.playlist = .files
             userEpisodeDetailVC?.delegate = self
             userEpisodeDetailVC?.animateIn()
         }
