@@ -41,6 +41,15 @@ class HeadphoneSettingsViewController: PCTableViewController {
                 self?.reloadData()
             }
         case .bookmarkSound:
+            // Toggle the value when the row is tapped
+            let enabled = !Settings.playBookmarkCreationSound
+            updateBookmarkSoundEnabled(enabled)
+
+            // Change the switch state
+            if let cell = tableView.cellForRow(at: indexPath) as? SwitchCell {
+                cell.cellSwitch.setOn(enabled, animated: true)
+            }
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
