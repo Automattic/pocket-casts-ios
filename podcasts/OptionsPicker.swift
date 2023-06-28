@@ -23,6 +23,12 @@ class OptionsPicker {
         optionsController?.addAction(action: action)
     }
 
+    func addActions(_ actions: [OptionAction]) {
+        for action in actions {
+            addAction(action: action)
+        }
+    }
+
     func addSegmentedAction(name: String, icon: String?, actions: [OptionAction]) {
         optionsController?.addSegmentedAction(name: name, icon: icon, actions: actions)
     }
