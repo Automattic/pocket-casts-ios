@@ -886,6 +886,19 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // handle the episode that just finished, marking it as played, etc
         if let episode = currentEpisode() {
+            #if !os(watchOS)
+            // If Autoplay is enabled we check if there's another episode to play
+            if Settings.autoplay,
+               queue.upNextCount() == 0,
+               let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
+                FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
+                queue.add(episode: nextEpisode, fireNotification: false)
+            } else {
+                // Reset the latest played from
+                AutoplayHelper.shared.playedFrom(playlist: nil)
+            }
+            #endif
+
             FileLog.shared.addMessage("Finished playing \(episode.displayableTitle())")
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
@@ -906,17 +919,6 @@ class PlaybackManager: ServerPlaybackDelegate {
                 FileLog.shared.addMessage("Sending playback completed to API server")
                 ApiServerHandler.shared.saveCompleted(episode: episode)
             }
-
-            #if !os(watchOS)
-            // If Autoplay is enabled we check if there's another episode to play
-            if Settings.autoplay,
-               let episode = currentEpisode(),
-               queue.upNextCount() == 0,
-               let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
-                FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
-                queue.add(episode: nextEpisode, fireNotification: false)
-            }
-            #endif
 
             // if marking an episode as played means the it should be archived, then do that
             if EpisodeManager.shouldArchiveOnCompletion(episode: episode) {
