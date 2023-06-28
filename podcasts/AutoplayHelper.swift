@@ -1,5 +1,6 @@
 import Foundation
 
+/// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
     enum Playlist: Codable {
         case podcast(uuid: String)
@@ -14,6 +15,7 @@ class AutoplayHelper {
     private let userDefaults: UserDefaults
     private let userDefaultsKey = "playlist"
 
+    /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
         userDefaults.data(forKey: userDefaultsKey).flatMap {
             try? JSONDecoder().decode(Playlist.self, from: $0)
@@ -24,6 +26,7 @@ class AutoplayHelper {
         self.userDefaults = userDefaults
     }
 
+    /// Saves the current playlist
     func playedFrom(playlist: Playlist?) {
         #if !os(watchOS)
         save(selectedPlaylist: playlist)
