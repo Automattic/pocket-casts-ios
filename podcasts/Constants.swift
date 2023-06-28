@@ -158,7 +158,7 @@ struct Constants {
 
         static let searchHistoryEntries = "SearchHistoryEntries"
 
-        enum headphoneControls {
+        enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)
 
