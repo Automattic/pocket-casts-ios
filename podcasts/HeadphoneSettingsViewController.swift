@@ -23,6 +23,22 @@ class HeadphoneSettingsViewController: PCTableViewController {
         super.reloadData()
     }
 
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = visibleSections[indexPath.section]
+        let row = section.rows[indexPath.row]
+
+        switch row {
+        case .previousAction:
+            let cell = tableView.dequeueReusableCell(DisclosureCell.self, for: indexPath)
+            return cell
+        case .nextAction:
+            let cell = tableView.dequeueReusableCell(DisclosureCell.self, for: indexPath)
+            return cell
+
+        case .bookmarkSound:
+            return cell
+        }
+    }
     // MARK: - Data Struct
 
     private struct TableSection {
