@@ -23,6 +23,26 @@ class HeadphoneSettingsViewController: PCTableViewController {
         super.reloadData()
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let section = visibleSections[indexPath.section]
+        let row = section.rows[indexPath.row]
+
+        switch row {
+        case .nextAction:
+            showPicker(L10n.settingsNextAction, [.skipForward, .nextChapter, .addBookmark], currentValue: Settings.headphonesNextAction) { [weak self] selection in
+                Settings.headphonesNextAction = selection
+                self?.reloadData()
+            }
+        case .previousAction:
+            showPicker(L10n.settingsPreviousAction, [.skipBack, .previousChapter, .addBookmark], currentValue: Settings.headphonesPreviousAction) { [weak self] selection in
+                Settings.headphonesPreviousAction = selection
+                self?.reloadData()
+            }
+        case .bookmarkSound:
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = visibleSections[indexPath.section]
         let row = section.rows[indexPath.row]
