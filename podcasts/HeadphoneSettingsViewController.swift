@@ -39,6 +39,22 @@ class HeadphoneSettingsViewController: PCTableViewController {
             return cell
         }
     }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        visibleSections.count
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        visibleSections[section].rows.count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        Constants.rowHeight
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        visibleSections[section].footer
+    }
     // MARK: - Data Struct
 
     private struct TableSection {
