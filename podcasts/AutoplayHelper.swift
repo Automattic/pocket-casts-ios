@@ -7,7 +7,6 @@ class AutoplayHelper {
         case downloads
         case files
         case starred
-        case unknown
     }
 
     static let shared = AutoplayHelper()
