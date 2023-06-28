@@ -79,7 +79,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var hidesArtwork = false
 
-    var playlist: EpisodesDataManager.Playlist = .unknown
+    var playlist: AutoplayHelper.Playlist?
 
     private var inUpNext = false
     private var filterUuid: String?

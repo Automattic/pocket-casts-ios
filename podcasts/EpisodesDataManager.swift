@@ -3,19 +3,10 @@ import PocketCastsServer
 import DifferenceKit
 
 class EpisodesDataManager {
-    enum Playlist: Codable {
-        case podcast(uuid: String)
-        case filter(uuid: String)
-        case downloads
-        case files
-        case starred
-        case unknown
-    }
-
     // MARK: - Playlist episodes
 
     /// Return the list of episodes for a given playlist
-    func episodes(for playlist: Playlist) -> [BaseEpisode] {
+    func episodes(for playlist: AutoplayHelper.Playlist) -> [BaseEpisode] {
         switch playlist {
         case .podcast(uuid: let uuid):
             if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
@@ -31,8 +22,6 @@ class EpisodesDataManager {
             return uploadedEpisodes()
         case .starred:
             return starredEpisodes().map { $0.episode }
-        case .unknown:
-            return []
         }
 
         return  []
