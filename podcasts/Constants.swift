@@ -379,3 +379,23 @@ enum PlusUpgradeViewSource: String {
         }
     }
 }
+
+// MARK: - HeadphoneControlAction
+
+/// Describes how the headphone/bluetooth skip next/back button actions should perform in the app
+enum HeadphoneControlAction: JSONCodable {
+    /// Skip back X seconds in the episode, where X is the Skip Back seconds settings value
+    case skipBack
+
+    /// Skip forward X seconds in the episode, where X is the Skip Forward seconds settings value
+    case skipForward
+
+    /// If the episode has chapters, then skip to the previous chapter, if not default to .skipBack behavior
+    case previousChapter
+
+    /// If the episode has chapters, then skip to the next chapter, if not default to .skipForward behavior
+    case nextChapter
+
+    /// Create a new bookmark for the currently playing episode
+    case addBookmark
+}
