@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class PlaybackActionHelper {
-    class func play(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil, playlist: EpisodesDataManager.Playlist? = nil) {
+    class func play(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
 
         AutoplayHelper.shared.playedFrom(playlist: playlist)

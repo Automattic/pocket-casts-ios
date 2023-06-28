@@ -1,14 +1,23 @@
 import Foundation
 
 class AutoplayHelper {
+    enum Playlist: Codable {
+        case podcast(uuid: String)
+        case filter(uuid: String)
+        case downloads
+        case files
+        case starred
+        case unknown
+    }
+
     static let shared = AutoplayHelper()
 
     private let userDefaults: UserDefaults
     private let userDefaultsKey = "playlist"
 
-    var lastPlaylist: EpisodesDataManager.Playlist? {
+    var lastPlaylist: Playlist? {
         userDefaults.data(forKey: userDefaultsKey).flatMap {
-            try? JSONDecoder().decode(EpisodesDataManager.Playlist.self, from: $0)
+            try? JSONDecoder().decode(Playlist.self, from: $0)
         }
     }
 
@@ -16,13 +25,13 @@ class AutoplayHelper {
         self.userDefaults = userDefaults
     }
 
-    func playedFrom(playlist: EpisodesDataManager.Playlist?) {
+    func playedFrom(playlist: Playlist?) {
         #if !os(watchOS)
         save(selectedPlaylist: playlist)
         #endif
     }
 
-    private func save(selectedPlaylist playlist: EpisodesDataManager.Playlist?) {
+    private func save(selectedPlaylist playlist: Playlist?) {
         guard let playlist else {
             userDefaults.removeObject(forKey: userDefaultsKey)
             return

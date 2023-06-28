@@ -3,15 +3,6 @@ import PocketCastsServer
 import DifferenceKit
 
 class EpisodesDataManager {
-    enum Playlist: Codable {
-        case podcast(uuid: String)
-        case filter(uuid: String)
-        case downloads
-        case files
-        case starred
-        case unknown
-    }
-
     // MARK: - Podcast episodes list
 
     /// Returns a podcasts episodes that are grouped by `PodcastGrouping`
