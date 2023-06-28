@@ -157,6 +157,18 @@ struct Constants {
         static let autoplay = "autoplay"
 
         static let searchHistoryEntries = "SearchHistoryEntries"
+
+        enum headphoneControls {
+            static let previousAction = SettingValue("headphones.previousAction",
+                                                      defaultValue: HeadphoneControlAction.skipBack)
+
+            static let nextAction = SettingValue("headphones.nextAction",
+                                                      defaultValue: HeadphoneControlAction.skipForward)
+        }
+
+        enum bookmarks {
+            static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
+        }
     }
 
     enum Values {
