@@ -119,4 +119,30 @@ class HeadphoneSettingsViewController: PCTableViewController {
     }
 }
 
+// MARK: - Helper extension to get the title and image for each option
+
+private extension HeadphoneControlAction {
+    var displayableTitle: String {
+        switch self {
+        case .skipBack:
+            return L10n.skipBack
+        case .skipForward:
+            return L10n.skipForward
+        case .previousChapter:
+            return L10n.siriShortcutPreviousChapter.localizedCapitalized
+        case .nextChapter:
+            return L10n.siriShortcutNextChapter.localizedCapitalized
+        case .addBookmark:
+            return L10n.addBookmark
+        }
+    }
+
+    var iconName: String? {
+        switch self {
+        case .addBookmark:
+            return "plusGold"
+        default:
+            return nil
+        }
+    }
 }
