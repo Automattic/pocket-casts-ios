@@ -123,7 +123,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
     }
 
     func playPauseTapped() {
-        playSourceViewModel.playPauseTapped(withEpisode: episode)
+        playSourceViewModel.playPauseTapped(withEpisode: episode, playlist: playlist)
     }
 
     func handleEpisodeAction(_ action: EpisodeAction, wasConfirmed: Bool = false, dismiss: () -> Void) {

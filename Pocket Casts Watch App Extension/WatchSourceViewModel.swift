@@ -54,7 +54,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
         set {} // This is intentionally a noop because this feature isn't supported on the Watch
     }
 
-    func playPauseTapped(withEpisode episode: BaseEpisode) {
+    func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {

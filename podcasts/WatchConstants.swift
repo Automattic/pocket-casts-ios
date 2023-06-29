@@ -125,6 +125,7 @@ public enum WatchConstants {
         enum PlayEpisodeRequest {
             public static let type = "playEpisodeRequest"
             public static let episodeUuid = "uuid"
+            public static let playlist = "playlist"
         }
 
         enum PlayPauseRequest {
