@@ -14,7 +14,7 @@ class EpisodesDataManager {
             }
         case .filter(uuid: let uuid):
             if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
-                return episodes(for: filter).compactMap { $0.episode }
+                return episodes(for: filter).map { $0.episode }
             }
         case .downloads:
             return Array(downloadedEpisodes().compactMap { $0.elements }.joined()).map { $0.episode }
