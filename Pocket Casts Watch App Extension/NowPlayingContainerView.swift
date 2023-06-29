@@ -49,7 +49,7 @@ struct NowPlayingContainerView: View {
             }.hidden()
 
             if let episode = viewModel.episode {
-                NavigationLink(destination: EpisodeView(viewModel: EpisodeDetailsViewModel(episode: episode), listTitle: L10n.nowPlaying), tag: .episodeDetails, selection: $presentedView) {
+                NavigationLink(destination: EpisodeView(viewModel: EpisodeDetailsViewModel(episode: episode, playlist: nil), listTitle: L10n.nowPlaying), tag: .episodeDetails, selection: $presentedView) {
                     EmptyView()
                 }.hidden()
             }
