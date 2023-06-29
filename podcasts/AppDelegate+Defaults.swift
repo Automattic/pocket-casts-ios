@@ -18,6 +18,7 @@ extension AppDelegate {
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             Settings.setMobileDataAllowed(true)
             Settings.shouldShowInitialOnboardingFlow = true
+            Settings.autoplay = true
             setWhatsNewAcknowledgeToLatest()
         }
 
