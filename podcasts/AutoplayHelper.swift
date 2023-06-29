@@ -48,7 +48,7 @@ class AutoplayHelper {
     /// started playing it, locating the current episode there and
     /// returning the subsequent one.
     func nextEpisode(currentEpisodeUuid: String) -> BaseEpisode? {
-        if let lastPlaylist = lastPlaylist {
+        if let lastPlaylist {
             let playlistEpisodes = episodesDataManager.episodes(for: lastPlaylist)
 
             if let index = playlistEpisodes.firstIndex(where: { $0.uuid == currentEpisodeUuid }) {
