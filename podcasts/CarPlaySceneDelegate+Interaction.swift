@@ -141,7 +141,7 @@ extension CarPlaySceneDelegate {
             guard let self else { return nil }
 
             let episodes = episodeLoader()
-            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork)
+            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork, playlist: playlist)
             return [CPListSection(items: episodeItems)]
         }
 

@@ -3,7 +3,7 @@ import Foundation
 import PocketCastsDataModel
 
 extension CarPlaySceneDelegate {
-    func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool) -> [CPListItem] {
+    func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool, playlist: AutoplayHelper.Playlist?) -> [CPListItem] {
         var items = [CPListItem]()
         for episode in episodes {
             let artwork = showArtwork ? CarPlayImageHelper.imageForEpisode(episode) : nil
