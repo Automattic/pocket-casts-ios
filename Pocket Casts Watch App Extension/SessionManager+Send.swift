@@ -16,7 +16,7 @@ extension SessionManager {
         if !WCSession.default.isReachable { return }
 
         let playEpisodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.PlayEpisodeRequest.type, WatchConstants.Messages.PlayEpisodeRequest.episodeUuid: episode.uuid,
-            WatchConstants.Messages.PlayEpisodeRequest.playlist: playlist as Any] as [String: Any]
+            WatchConstants.Messages.PlayEpisodeRequest.playlist: (try? JSONEncoder().encode(playlist)) as Any] as [String: Any]
         WCSession.default.sendMessage(playEpisodeRequest, replyHandler: nil)
     }
 
