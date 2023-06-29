@@ -17,7 +17,7 @@ class EpisodesDataManager {
                 return episodes(for: filter).map { $0.episode }
             }
         case .downloads:
-            return Array(downloadedEpisodes().compactMap { $0.elements }.joined()).map { $0.episode }
+            return downloadedEpisodes().flatMap { $0.elements.map { $0.episode } }
         case .files:
             return uploadedEpisodes()
         case .starred:
