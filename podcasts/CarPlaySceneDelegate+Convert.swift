@@ -28,7 +28,7 @@ extension CarPlaySceneDelegate {
             item.isPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
 
             item.handler = { [weak self] _, completion in
-                self?.episodeTapped(episode)
+                self?.episodeTapped(episode, playlist: playlist)
                 completion()
             }
 

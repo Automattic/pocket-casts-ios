@@ -32,7 +32,7 @@ extension CarPlaySceneDelegate {
         }
     }
 
-    func episodeTapped(_ episode: BaseEpisode) {
+    func episodeTapped(_ episode: BaseEpisode, playlist: AutoplayHelper.Playlist? = nil) {
         AnalyticsPlaybackHelper.shared.currentSource = .carPlay
 
         defer {
@@ -51,6 +51,9 @@ extension CarPlaySceneDelegate {
 
         // Anything else, load the episode and start playing it
         PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+
+        // Store the playlist
+        AutoplayHelper.shared.playedFrom(playlist: playlist)
     }
 
     func listeningHistoryTapped() {
