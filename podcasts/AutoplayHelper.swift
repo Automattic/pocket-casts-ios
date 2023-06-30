@@ -12,6 +12,7 @@ class AutoplayHelper {
         case starred
     }
 
+    #if !os(watchOS)
     static let shared = AutoplayHelper()
 
     private let userDefaults: UserDefaults
@@ -37,9 +38,7 @@ class AutoplayHelper {
 
     /// Saves the current playlist
     func playedFrom(playlist: Playlist?) {
-        #if !os(watchOS)
         save(selectedPlaylist: playlist)
-        #endif
     }
 
     /// Given the current episode UUID, checks if there's any
@@ -73,4 +72,5 @@ class AutoplayHelper {
         userDefaults.set(data, forKey: userDefaultsKey)
         FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
     }
+    #endif
 }
