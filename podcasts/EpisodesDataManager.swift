@@ -3,6 +3,30 @@ import PocketCastsServer
 import DifferenceKit
 
 class EpisodesDataManager {
+    // MARK: - Playlist episodes
+
+    /// Return the list of episodes for a given playlist
+    func episodes(for playlist: AutoplayHelper.Playlist) -> [BaseEpisode] {
+        switch playlist {
+        case .podcast(uuid: let uuid):
+            if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+                return episodes(for: podcast).flatMap { $0.elements.compactMap { ($0 as? ListEpisode)?.episode } }
+            }
+        case .filter(uuid: let uuid):
+            if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+                return episodes(for: filter).map { $0.episode }
+            }
+        case .downloads:
+            return downloadedEpisodes().flatMap { $0.elements.map { $0.episode } }
+        case .files:
+            return uploadedEpisodes()
+        case .starred:
+            return starredEpisodes().map { $0.episode }
+        }
+
+        return  []
+    }
+
     // MARK: - Podcast episodes list
 
     /// Returns a podcasts episodes that are grouped by `PodcastGrouping`

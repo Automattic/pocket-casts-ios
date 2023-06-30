@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import PocketCastsUtils
 
 /// Reponsible for handling the Autoplay of episodes
@@ -15,6 +16,7 @@ class AutoplayHelper {
 
     private let userDefaults: UserDefaults
     private let userDefaultsKey = "playlist"
+    private let episodesDataManager: EpisodesDataManager
 
     /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
@@ -27,8 +29,10 @@ class AutoplayHelper {
         return lastPlaylist
     }
 
-    init(userDefaults: UserDefaults = .standard) {
+    init(userDefaults: UserDefaults = UserDefaults.standard,
+         episodesDataManager: EpisodesDataManager = EpisodesDataManager()) {
         self.userDefaults = userDefaults
+        self.episodesDataManager = episodesDataManager
     }
 
     /// Saves the current playlist
@@ -36,6 +40,23 @@ class AutoplayHelper {
         #if !os(watchOS)
         save(selectedPlaylist: playlist)
         #endif
+    }
+
+    /// Given the current episode UUID, checks if there's any
+    /// episode to play.
+    /// This is done by checking the list from the last place the user
+    /// started playing it, locating the current episode there and
+    /// returning the subsequent one.
+    func nextEpisode(currentEpisodeUuid: String) -> BaseEpisode? {
+        if let lastPlaylist {
+            let playlistEpisodes = episodesDataManager.episodes(for: lastPlaylist)
+
+            if let index = playlistEpisodes.firstIndex(where: { $0.uuid == currentEpisodeUuid }) {
+                return playlistEpisodes[safe: index + 1]
+            }
+        }
+
+        return nil
     }
 
     private func save(selectedPlaylist playlist: Playlist?) {
@@ -53,17 +74,3 @@ class AutoplayHelper {
         FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
     }
 }
-
-// MARK: - TopViewControllerGetter
-
-protocol TopViewControllerGetter {
-    func getTopViewController(base: UIViewController?) -> UIViewController?
-}
-
-extension TopViewControllerGetter {
-    func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
-        getTopViewController(base: base)
-    }
-}
-
-extension UIApplication: TopViewControllerGetter { }
