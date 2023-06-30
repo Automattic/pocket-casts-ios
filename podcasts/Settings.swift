@@ -797,11 +797,7 @@ class Settings: NSObject {
                 return false
             }
 
-            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.autoplay) as? Bool else {
-                return true
-            }
-
-            return isEnabled
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
         }
     }
 
