@@ -480,6 +480,9 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     @objc private func autoplayToggled(_ sender: UISwitch) {
         Settings.autoplay = sender.isOn
+
+
+        Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

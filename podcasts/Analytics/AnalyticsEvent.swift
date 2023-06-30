@@ -461,6 +461,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+    case settingsGeneralAutoplayToggled
 
     // MARK: - Settings: Notifications
 
