@@ -10,7 +10,7 @@ class EpisodesDataManager {
         switch playlist {
         case .podcast(uuid: let uuid):
             if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
-                return Array(episodes(for: podcast).compactMap { $0.elements as? [ListEpisode] }.joined()).map { $0.episode }
+                return episodes(for: podcast).flatMap { $0.elements.compactMap { ($0 as? ListEpisode)?.episode } }
             }
         case .filter(uuid: let uuid):
             if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
