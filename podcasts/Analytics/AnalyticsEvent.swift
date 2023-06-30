@@ -224,6 +224,8 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
 
+    case playbackEpisodeAutoplayed
+
     // MARK: - Filters
 
     case filterListShown

@@ -1884,6 +1884,7 @@ class PlaybackManager: ServerPlaybackDelegate {
            let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
             FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
             queue.add(episode: nextEpisode, fireNotification: false)
+            Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
         } else {
             // Reset the latest played from
             AutoplayHelper.shared.playedFrom(playlist: nil)
