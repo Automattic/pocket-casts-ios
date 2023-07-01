@@ -793,11 +793,11 @@ class Settings: NSObject {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            guard let isEnabled = UserDefaults.standard.object(forKey: Constants.UserDefaults.autoplay) as? Bool else {
-                return true
+            guard FeatureFlag.autoplay.enabled else {
+                return false
             }
 
-            return isEnabled
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
         }
     }
 

@@ -459,6 +459,7 @@
 		8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3AD29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift */; };
 		8B14E3B029B9159B0069B6F2 /* SearchHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3AF29B9159B0069B6F2 /* SearchHistoryModel.swift */; };
 		8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3B229BA43A00069B6F2 /* SearchHistoryModelTests.swift */; };
+		8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */; };
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
@@ -478,9 +479,11 @@
 		8B317BA728906CC200A26A13 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317BA628906CC200A26A13 /* TestingViewController.swift */; };
 		8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B317BA82890704400A26A13 /* TestingScreen.storyboard */; };
 		8B3654172926C13000FD7216 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3654162926C13000FD7216 /* CircularProgressView.swift */; };
+		8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B44446229785287007E0AA8 /* AppleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446129785287007E0AA8 /* AppleSocialLogin.swift */; };
 		8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446329785947007E0AA8 /* SocialLogin.swift */; };
 		8B44446729785BD0007E0AA8 /* SocialLoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446629785BD0007E0AA8 /* SocialLoginFactory.swift */; };
+		8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */; };
 		8B484EF728D23F06001AFA97 /* PlaybackTimeHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF628D23F06001AFA97 /* PlaybackTimeHelperTests.swift */; };
 		8B484EF928D256F5001AFA97 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF828D256F5001AFA97 /* Date+Ext.swift */; };
@@ -2174,6 +2177,7 @@
 		8B17365B298D47B10057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Intents.strings; sourceTree = "<group>"; };
 		8B17365C298D47B10057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8B17365D298D47B20057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoplayHelperTests.swift; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsListView.swift; sourceTree = "<group>"; };
@@ -2196,6 +2200,7 @@
 		8B44446129785287007E0AA8 /* AppleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSocialLogin.swift; sourceTree = "<group>"; };
 		8B44446329785947007E0AA8 /* SocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogin.swift; sourceTree = "<group>"; };
 		8B44446629785BD0007E0AA8 /* SocialLoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginFactory.swift; sourceTree = "<group>"; };
+		8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoplayHelper.swift; sourceTree = "<group>"; };
 		8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTimeHelper.swift; sourceTree = "<group>"; };
 		8B484EF628D23F06001AFA97 /* PlaybackTimeHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTimeHelperTests.swift; sourceTree = "<group>"; };
 		8B484EF828D256F5001AFA97 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
@@ -5005,6 +5010,7 @@
 				BD45F013243460C10029ADF2 /* Watch Communication */,
 				BD3334531FC680E20017C3A8 /* Lists */,
 				BDCA97A417CB78D3006E4242 /* Sharing */,
+				8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */,
 				BD674B0A1F68F2BD00AC1B2B /* PlaylistManager.swift */,
 				BD2E8ED21FB18A7C005E4B7C /* PodcastManager.swift */,
 				BD5E8D3C2061E0FB00C84B43 /* PodcastManager+Cleanup.swift */,
@@ -6872,6 +6878,7 @@
 			isa = PBXGroup;
 			children = (
 				E3665F562936CD6C001C8372 /* Chapters */,
+				8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */,
 			);
 			path = Playback;
 			sourceTree = "<group>";
@@ -8140,6 +8147,7 @@
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
+				8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */,
 				8B2E055028F8579700C2DBDE /* StoriesModelTests.swift in Sources */,
 				C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */,
 				8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */,
@@ -8538,6 +8546,7 @@
 				BD5C39541B5E0A2A00C3A499 /* ShiftyLoadingAlert.swift in Sources */,
 				BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */,
 				40164A5E23CC028D0043907B /* TourSpotlight.swift in Sources */,
+				8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */,
 				BDA681AB220D03930053BEEE /* UserEpisodeManager.swift in Sources */,
 				C7FF770F291C2CBA0082A464 /* LoginButtonStyles.swift in Sources */,
 				462EE0A826FB9FDA003D67DC /* ActivityDialog.swift in Sources */,
@@ -8988,6 +8997,7 @@
 				C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */,
 				C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */,
 				46C7BB8827DA60E000CD6AE3 /* DownloadListView.swift in Sources */,
+				8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */,
 				BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */,
 				46703E1427BEF79C00DD7998 /* PreviewHelpers.swift in Sources */,
 				BD38F252253FB0670016713B /* PlaybackCatchUpHelper.swift in Sources */,

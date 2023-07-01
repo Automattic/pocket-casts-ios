@@ -34,7 +34,7 @@ protocol PlaySourceViewModel {
     var volumeBoostAvailable: Bool { get }
     var volumeBoostEnabled: Bool { get set }
 
-    func playPauseTapped(withEpisode episode: BaseEpisode)
+    func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?)
     func skip(forward: Bool)
     func changeChapter(next: Bool)
 

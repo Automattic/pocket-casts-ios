@@ -66,7 +66,9 @@ class WatchManager: NSObject, WCSessionDelegate {
             updateWatchData()
         } else if WatchConstants.Messages.PlayEpisodeRequest.type == messageType {
             if let episodeUuid = message[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
-                handlePlayRequest(episodeUuid: episodeUuid)
+                let playlist = getPlaylist(from: message)
+
+                handlePlayRequest(episodeUuid: episodeUuid, playlist: playlist)
             }
         } else if WatchConstants.Messages.PlayPauseRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
@@ -270,8 +272,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         EpisodeManager.setStarred(starred, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
     }
 
-    private func handlePlayRequest(episodeUuid: String) {
+    private func handlePlayRequest(episodeUuid: String, playlist: AutoplayHelper.Playlist?) {
         guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+
+        AutoplayHelper.shared.playedFrom(playlist: playlist)
 
         PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
@@ -515,5 +519,13 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         return convertedEpisode
+    }
+
+    private func getPlaylist(from message: [String: Any]) -> AutoplayHelper.Playlist? {
+        if let playlistData = message[WatchConstants.Messages.PlayEpisodeRequest.playlist] as? Data {
+            return try? JSONDecoder().decode(AutoplayHelper.Playlist.self, from: playlistData)
+        }
+
+        return nil
     }
 }

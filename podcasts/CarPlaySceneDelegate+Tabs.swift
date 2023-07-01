@@ -80,7 +80,7 @@ extension CarPlaySceneDelegate {
 extension CarPlaySceneDelegate {
     private var downloadTabSections: [CPListSection] {
         let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == \(DownloadStatus.downloaded.rawValue) ORDER BY lastDownloadAttemptDate DESC LIMIT \(Constants.Limits.maxCarplayItems)", arguments: nil)
-        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true)
+        let items = convertToListItems(episodes: downloadedEpisodes, showArtwork: true, playlist: .downloads)
 
         return [CPListSection(items: items)]
     }

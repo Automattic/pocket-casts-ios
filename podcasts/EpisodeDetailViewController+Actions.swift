@@ -55,7 +55,7 @@ extension EpisodeDetailViewController {
             PlaybackActionHelper.playPause()
         } else {
             dismiss(animated: true, completion: nil)
-            PlaybackActionHelper.play(episode: episode)
+            PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
         }
     }
 

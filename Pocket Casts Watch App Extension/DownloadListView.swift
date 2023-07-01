@@ -6,7 +6,7 @@ struct DownloadListView: View {
         ItemListContainer(isEmpty: viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
             ScrollView {
                 LazyVStack {
-                    EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
+                    EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .downloads)
                 }
             }
         }

@@ -97,7 +97,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         miniPlayerStatusDidChange()
         refreshGridItems()
         addEventObservers()
-        updateForVoiceOver()
         updateFolderButton()
 
         Analytics.track(.podcastsListShown, properties: [
@@ -158,8 +157,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
-
-        addCustomObserver(UIAccessibility.voiceOverStatusDidChangeNotification, selector: #selector(updateForVoiceOver))
     }
 
     @objc private func subscriptionStatusDidChange() {
@@ -175,15 +172,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let leftButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         leftButton.accessibilityLabel = L10n.folderCreateNew
         navigationItem.leftBarButtonItem = leftButton
-    }
-
-    @objc private func updateForVoiceOver() {
-        // if a user turns voice over on, show them the search field that's hidden behind a scroll
-        if UIAccessibility.isVoiceOverRunning {
-            if podcastsCollectionView.contentOffset.y == 0 {
-                podcastsCollectionView.contentOffset.y = -searchController.view.bounds.height
-            }
-        }
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {

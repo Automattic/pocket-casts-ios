@@ -106,29 +106,34 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     let viewSource: EpisodeDetailViewSource
 
+    let fromPlaylist: AutoplayHelper.Playlist?
+
     // MARK: - Init
 
-    init(episodeUuid: String, source: EpisodeDetailViewSource) {
+    init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
         podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
         viewSource = source
+        fromPlaylist = playlist
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
-    init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource) {
+    init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
         self.podcast = podcast
         viewSource = source
+        fromPlaylist = playlist
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
-    init(episode: Episode, podcast: Podcast, source: EpisodeDetailViewSource) {
+    init(episode: Episode, podcast: Podcast, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
         self.episode = episode
         self.podcast = podcast
         viewSource = source
+        fromPlaylist = playlist
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
