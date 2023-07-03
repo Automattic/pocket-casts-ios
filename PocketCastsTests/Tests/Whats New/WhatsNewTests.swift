@@ -37,4 +37,15 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertTrue(whatsNew.showIfNeeded())
     }
+
+    /// When opening the app for the first time, show nothing
+    func testDontShowWhenFirstOpening() {
+        let whatsNew = WhatsNew(
+            announcements: [.init(version: 7.41, image: "", title: "", message: "")],
+            previousOpenedVersion: nil,
+            currentVersion: 7.41
+        )
+
+        XCTAssertFalse(whatsNew.showIfNeeded())
+    }
 }
