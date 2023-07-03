@@ -12,7 +12,7 @@ class WhatsNew {
     let currentVersion: Double
     let previousOpenedVersion: Double?
 
-    init(announcements: [WhatsNewAnnouncement], previousOpenedVersion: Double?, currentVersion: Double) {
+    init(announcements: [WhatsNewAnnouncement] = Announcements().announcements, previousOpenedVersion: Double? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion)?.toDouble(), currentVersion: Double = Settings.appVersion().toDouble()) {
         self.announcements = announcements
         self.previousOpenedVersion = previousOpenedVersion
         self.currentVersion = currentVersion
@@ -20,7 +20,7 @@ class WhatsNew {
 
     func viewControllerToShow() -> UIViewController? {
         guard let previousOpenedVersion,
-              let announcement = announcements.filter { $0.version >= previousOpenedVersion }.last else {
+              let announcement = announcements.filter { $0.version >= previousOpenedVersion && $0.version <= currentVersion }.last else {
             return nil
         }
 
