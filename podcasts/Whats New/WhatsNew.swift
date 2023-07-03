@@ -18,12 +18,12 @@ class WhatsNew {
         self.currentVersion = currentVersion
     }
 
-    func showIfNeeded() -> Bool {
+    func viewControllerToShow() -> UIViewController? {
         guard let previousOpenedVersion,
               let announcement = announcements.filter { $0.version >= previousOpenedVersion }.last else {
-            return false
+            return nil
         }
 
-        return true
+        return UIViewController()
     }
 }

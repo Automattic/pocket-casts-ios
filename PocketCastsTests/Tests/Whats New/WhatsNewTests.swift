@@ -12,7 +12,7 @@ class WhatsNewtests: XCTestCase {
             currentVersion: 7.40
         )
 
-        XCTAssertTrue(whatsNew.showIfNeeded())
+        XCTAssertNotNil(whatsNew.viewControllerToShow())
     }
 
     /// When just opening the same version, do nothing
@@ -23,7 +23,7 @@ class WhatsNewtests: XCTestCase {
             currentVersion: 7.40
         )
 
-        XCTAssertFalse(whatsNew.showIfNeeded())
+        XCTAssertNil(whatsNew.viewControllerToShow())
     }
 
     /// When upgrading from 7.37 to 7.42 and there's a "What's New"
@@ -35,7 +35,7 @@ class WhatsNewtests: XCTestCase {
             currentVersion: 7.42
         )
 
-        XCTAssertTrue(whatsNew.showIfNeeded())
+        XCTAssertNotNil(whatsNew.viewControllerToShow())
     }
 
     /// When opening the app for the first time, show nothing
@@ -46,6 +46,6 @@ class WhatsNewtests: XCTestCase {
             currentVersion: 7.41
         )
 
-        XCTAssertFalse(whatsNew.showIfNeeded())
+        XCTAssertNil(whatsNew.viewControllerToShow())
     }
 }
