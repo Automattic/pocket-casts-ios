@@ -227,6 +227,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Premiers</string>
     <key>back</key>
     <string>Revenir</string>
+    <key>bookmarks</key>
+    <string>Favoris</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +315,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Confirmer le nouveau mot de passe</string>
     <key>continue</key>
     <string>Continuer</string>
+    <key>copy</key>
+    <string>Copier</string>
     <key>create_account</key>
     <string>Créer un compte</string>
     <key>create_account_app_store_error_message</key>
@@ -1314,6 +1318,8 @@ MISES À JOUR</string>
     <string>Sélecteur de chemin</string>
     <key>player_share_header</key>
     <string>PARTAGER LE LIEN DANS</string>
+    <key>player_show_notes_title</key>
+    <string>Description</string>
     <key>player_user_episode_download_error</key>
     <string>Erreur lors du téléchargement</string>
     <key>player_user_episode_playback_error</key>
@@ -2345,6 +2351,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Expire dans %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
+    <key>support_watch_help_message</key>
+    <string>Si vous rencontrez des difficultés avec l’application Pocket Casts Watch, nous pouvons vous envoyer les journaux de votre montre afin de mieux vous aider. Pour ce faire, ouvrez Pocket Casts sur votre montre.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>J’ai ouvert l’application Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Envoyer sans les journaux de la montre</string>
+    <key>support_watch_help_title</key>
+    <string>Besoin d’aide pour utiliser l’application Watch ?</string>
     <key>supporter</key>
     <string>Partisan</string>
     <key>supporter_contributions</key>

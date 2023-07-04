@@ -227,6 +227,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Eerste</string>
     <key>back</key>
     <string>Terug</string>
+    <key>bookmarks</key>
+    <string>Bladwijzers</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +315,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuw wachtwoord bevestigen</string>
     <key>continue</key>
     <string>Doorgaan</string>
+    <key>copy</key>
+    <string>Kopieer</string>
     <key>create_account</key>
     <string>Account aanmaken</string>
     <key>create_account_app_store_error_message</key>
@@ -1314,6 +1318,8 @@ UPDATES</string>
     <string>Routeselectie</string>
     <key>player_share_header</key>
     <string>LINK DELEN NAAR</string>
+    <key>player_show_notes_title</key>
+    <string>Omschrijving</string>
     <key>player_user_episode_download_error</key>
     <string>Downloadfout</string>
     <key>player_user_episode_playback_error</key>
@@ -2345,6 +2351,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Verloopt over %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
+    <key>support_watch_help_message</key>
+    <string>Als je problemen ondervindt met de Pocket Casts horloge-app, kunnen we jouw draagbare logboeken versturen om je beter te helpen. Om dit te doen moet je Pocket Casts op je horloge openen.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ik heb de horloge-app geopend</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Versturen zonder horloge-logboeken</string>
+    <key>support_watch_help_title</key>
+    <string>Hulp nodig met de horloge-app?</string>
     <key>supporter</key>
     <string>Ondersteuner</string>
     <key>supporter_contributions</key>

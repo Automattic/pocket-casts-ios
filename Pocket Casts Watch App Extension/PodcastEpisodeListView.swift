@@ -11,7 +11,7 @@ struct PodcastEpisodeListView: View {
         ScrollView {
             LazyVStack {
                 podcastInfo
-                EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes)
+                EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes, playlist: .podcast(uuid: viewModel.podcast.uuid))
             }
         }
         .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)

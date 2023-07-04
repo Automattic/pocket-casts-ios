@@ -10,9 +10,9 @@ class PCMessageSupportViewModel: MessageSupportViewModel {
                    requesterEmail: UserDefaults.standard.string(forKey: Constants.UserDefaults.supportEmail) ?? ServerSettings.syncingEmail() ?? "")
     }
 
-    override func submitRequest() {
+    override func submitRequest(ignoreUnavailableWatchLogs: Bool = false) {
         UserDefaults.standard.set(requesterName, forKey: Constants.UserDefaults.supportName)
         UserDefaults.standard.set(requesterEmail, forKey: Constants.UserDefaults.supportEmail)
-        super.submitRequest()
+        super.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
     }
 }

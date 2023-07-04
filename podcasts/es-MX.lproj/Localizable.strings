@@ -227,6 +227,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Primero</string>
     <key>back</key>
     <string>Atrás</string>
+    <key>bookmarks</key>
+    <string>Marcadores</string>
     <key>bottom</key>
     <string>Final de la cola</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +315,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Confirmar nueva contraseña</string>
     <key>continue</key>
     <string>Continuar</string>
+    <key>copy</key>
+    <string>Copiar</string>
     <key>create_account</key>
     <string>Crear cuenta</string>
     <key>create_account_app_store_error_message</key>
@@ -1314,6 +1318,8 @@ ACTUALIZACIONES</string>
     <string>Selector de ruta</string>
     <key>player_share_header</key>
     <string>COMPARTIR ENLACE DE</string>
+    <key>player_show_notes_title</key>
+    <string>Descripción</string>
     <key>player_user_episode_download_error</key>
     <string>Error de descarga</string>
     <key>player_user_episode_playback_error</key>
@@ -2345,6 +2351,14 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Caduca el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
+    <key>support_watch_help_message</key>
+    <string>Si tienes problemas con la aplicación para el Apple Watch de Pocket Casts, podemos enviar los registros de tu dispositivo para proporcionarte una mejor asistencia. Para ello, abre Pocket Casts en tu Apple Watch.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>He abierto la aplicación para el Apple Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Enviar sin los registros del Apple Watch</string>
+    <key>support_watch_help_title</key>
+    <string>¿Necesitas ayuda con la aplicación para el Apple Watch?</string>
     <key>supporter</key>
     <string>Colaborador</string>
     <key>supporter_contributions</key>

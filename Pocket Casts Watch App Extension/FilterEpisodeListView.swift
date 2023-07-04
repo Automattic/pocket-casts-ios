@@ -28,7 +28,7 @@ struct FilterEpisodeListView: View {
     var body: some View {
         headerWithContent {
             ItemListContainer(isEmpty: $viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
-                EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes)
+                EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .filter(uuid: viewModel.filter.uuid))
             }
         }
         .navigationTitle(L10n.filters.prefixSourceUnicode)

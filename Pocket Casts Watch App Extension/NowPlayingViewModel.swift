@@ -127,7 +127,7 @@ class NowPlayingViewModel: ObservableObject {
 
     func playPauseTapped() {
         guard let episode = episode else { return }
-        playSource.playPauseTapped(withEpisode: episode)
+        playSource.playPauseTapped(withEpisode: episode, playlist: nil)
     }
 
     func markPlayed() {

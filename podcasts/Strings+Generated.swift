@@ -144,6 +144,8 @@ internal enum L10n {
   internal static var accountWelcome: String { return L10n.tr("Localizable", "account_welcome") }
   /// Welcome to Pocket Casts Plus!
   internal static var accountWelcomePlus: String { return L10n.tr("Localizable", "account_welcome_plus") }
+  /// Add Bookmark
+  internal static var addBookmark: String { return L10n.tr("Localizable", "add_bookmark") }
   /// Add to Up Next
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
@@ -348,6 +350,8 @@ internal enum L10n {
   internal static var confirmNewPasswordPrompt: String { return L10n.tr("Localizable", "confirm_new_password_prompt") }
   /// Continue
   internal static var `continue`: String { return L10n.tr("Localizable", "continue") }
+  /// Copy
+  internal static var copy: String { return L10n.tr("Localizable", "copy") }
   /// Create Account
   internal static var createAccount: String { return L10n.tr("Localizable", "create_account") }
   /// Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again.
@@ -2266,6 +2270,10 @@ internal enum L10n {
   }
   /// Open Player Automatically
   internal static var settingsGeneralAutoOpenPlayer: String { return L10n.tr("Localizable", "settings_general_auto_open_player") }
+  /// Continuous Playback
+  internal static var settingsGeneralAutoplay: String { return L10n.tr("Localizable", "settings_general_autoplay") }
+  /// If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.
+  internal static var settingsGeneralAutoplaySubtitle: String { return L10n.tr("Localizable", "settings_general_autoplay_subtitle") }
   /// DEFAULTS
   internal static var settingsGeneralDefaultsHeader: String { return L10n.tr("Localizable", "settings_general_defaults_header") }
   /// Podcast Episode Grouping
@@ -2688,6 +2696,14 @@ internal enum L10n {
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
+  /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.
+  internal static var supportWatchHelpMessage: String { return L10n.tr("Localizable", "support_watch_help_message") }
+  /// I've opened the Watch app
+  internal static var supportWatchHelpOpenedApp: String { return L10n.tr("Localizable", "support_watch_help_opened_app") }
+  /// Send without Watch logs
+  internal static var supportWatchHelpSendWithoutLog: String { return L10n.tr("Localizable", "support_watch_help_send_without_log") }
+  /// Looking for Watch app help?
+  internal static var supportWatchHelpTitle: String { return L10n.tr("Localizable", "support_watch_help_title") }
   /// Supporter
   internal static var supporter: String { return L10n.tr("Localizable", "supporter") }
   /// Supporter Contributions

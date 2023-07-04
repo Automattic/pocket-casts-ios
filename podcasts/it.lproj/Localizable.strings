@@ -227,6 +227,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Primo</string>
     <key>back</key>
     <string>Indietro</string>
+    <key>bookmarks</key>
+    <string>Segnalibri</string>
     <key>bottom</key>
     <string>In basso</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +315,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Conferma nuova password</string>
     <key>continue</key>
     <string>Continua</string>
+    <key>copy</key>
+    <string>Copia</string>
     <key>create_account</key>
     <string>Crea un account</string>
     <key>create_account_app_store_error_message</key>
@@ -1314,6 +1318,8 @@ AGGIORNAMENTI</string>
     <string>Selettore del percorso</string>
     <key>player_share_header</key>
     <string>CONDIVIDI IL LINK SU</string>
+    <key>player_show_notes_title</key>
+    <string>Descrizione</string>
     <key>player_user_episode_download_error</key>
     <string>Errore di download</string>
     <key>player_user_episode_playback_error</key>
@@ -2345,6 +2351,14 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Scade tra %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Grazie per il supporto.</string>
+    <key>support_watch_help_message</key>
+    <string>Se riscontri problemi con l'app Pocket Casts Watch, possiamo inviare i log del tuo dispositivo indossabile per supportarti meglio. A tal fine, apri Pocket Casts sul tuo orologio.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ho aperto l'app Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Invia senza log di Watch</string>
+    <key>support_watch_help_title</key>
+    <string>Sei alla ricerca di aiuto per l'app Watch?</string>
     <key>supporter</key>
     <string>Promotore</string>
     <key>supporter_contributions</key>

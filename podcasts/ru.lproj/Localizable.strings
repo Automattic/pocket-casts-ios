@@ -227,6 +227,8 @@
     <string>Первый</string>
     <key>back</key>
     <string>Назад</string>
+    <key>bookmarks</key>
+    <string>Закладки</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +315,8 @@
     <string>Подтвердите новый пароль</string>
     <key>continue</key>
     <string>Продолжить</string>
+    <key>copy</key>
+    <string>Копирование</string>
     <key>create_account</key>
     <string>Создать учётную запись</string>
     <key>create_account_app_store_error_message</key>
@@ -1314,6 +1318,8 @@
     <string>Селектор маршрута</string>
     <key>player_share_header</key>
     <string>ПОДЕЛИТЬСЯ ССЫЛКОЙ С</string>
+    <key>player_show_notes_title</key>
+    <string>Описание</string>
     <key>player_user_episode_download_error</key>
     <string>Ошибка скачивания</string>
     <key>player_user_episode_playback_error</key>
@@ -2345,6 +2351,14 @@
     <string>Срок действия истекает %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>support_watch_help_message</key>
+    <string>Если у вас возникли проблемы с приложением Pocket Casts для часов, мы можем отправить журналы с носимого устройства, чтобы помочь вам. Для этого откройте Pocket Casts на часах.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Я открыл (-а) приложение для часов</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Отправить без журналов часов</string>
+    <key>support_watch_help_title</key>
+    <string>Нужна помощь с приложением для часов?</string>
     <key>supporter</key>
     <string>Спонсор</string>
     <key>supporter_contributions</key>

@@ -17,6 +17,8 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
 extension FileLog: EventLoggingDelegate {
     static let genericErrorMessage = "No log file uploaded: Error generating logs"
 
+    static let noWearableLogsAvailable = "No wearable logs were available"
+
     fileprivate func queueFileUpload(_ filePath: String) throws -> String {
         let logFilePath = URL(fileURLWithPath: filePath)
         let dataProvider = EventLoggingDataProvider(logUploadFile: logFilePath)
@@ -65,7 +67,7 @@ extension FileLog: EventLoggingDelegate {
         watchLogFileForUpload()
             .tryMap { [unowned self] filePath in
                 guard let filePath = filePath else {
-                    return "No wearable logs were available"
+                    return Self.noWearableLogsAvailable
                 }
 
                 return try self.queueFileUpload(filePath)
