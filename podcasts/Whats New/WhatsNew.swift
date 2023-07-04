@@ -21,11 +21,11 @@ class WhatsNew {
 
     func viewControllerToShow() -> UIViewController? {
         guard let previousOpenedVersion,
-              let announcement = announcements.filter { $0.version >= previousOpenedVersion && $0.version <= currentVersion }.last else {
+              let announcement = announcements.filter({ $0.version >= previousOpenedVersion && $0.version <= currentVersion }).last else {
             return nil
         }
 
-        let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView())
+        let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
         whatsNewViewController.modalPresentationStyle = .overCurrentContext
         whatsNewViewController.modalTransitionStyle = .crossDissolve
         whatsNewViewController.view.backgroundColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)

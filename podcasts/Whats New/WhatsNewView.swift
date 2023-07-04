@@ -3,6 +3,8 @@ import SwiftUI
 struct WhatsNewView: View {
     @EnvironmentObject var theme: Theme
 
+    let announcement: WhatsNewAnnouncement
+
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .top) {
@@ -22,11 +24,11 @@ struct WhatsNewView: View {
                     }
                 }
             }
-            Text("Autoplay is here!")
+            Text(announcement.title)
                 .font(style: .title3, weight: .bold)
                 .padding(.horizontal)
                 .foregroundColor(theme.primaryText01)
-            Text("If your Up Next queue is empty, Pocket Casts can autoplay episodes from the list you started playing it — either a specific podcast, a filter, downloaded episodes or your own files.")
+            Text(announcement.message)
                 .font(style: .subheadline)
                 .foregroundColor(theme.secondaryText02)
                 .padding(.horizontal)
@@ -43,7 +45,7 @@ struct WhatsNewView: View {
 
 struct WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewView()
+        WhatsNewView(announcement: .init(version: 7.20, image: "", title: "Autoplay is here!", message: "If your Up Next queue is empty, Pocket Casts can autoplay episodes from the list you started playing it — either a specific podcast, a filter, downloaded episodes or your own files."))
             .environmentObject(Theme(previewTheme: .light))
     }
 }
