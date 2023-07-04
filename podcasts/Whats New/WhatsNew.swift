@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct WhatsNewAnnouncement {
     let version: Double
@@ -24,6 +25,11 @@ class WhatsNew {
             return nil
         }
 
-        return UIViewController()
+        let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView())
+        whatsNewViewController.modalPresentationStyle = .overCurrentContext
+        whatsNewViewController.modalTransitionStyle = .crossDissolve
+        whatsNewViewController.view.backgroundColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
+
+        return whatsNewViewController
     }
 }
