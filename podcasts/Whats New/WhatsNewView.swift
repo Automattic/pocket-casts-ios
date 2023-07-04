@@ -14,7 +14,7 @@ struct WhatsNewView: View {
                 HStack {
                     Spacer()
                     Button {
-
+                        NavigationManager.sharedManager.dismissPresentedViewController()
                     } label: {
                         ZStack {
                             Image("close")
