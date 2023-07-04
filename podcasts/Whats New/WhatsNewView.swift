@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WhatsNewView: View {
-    var theme: Theme = .sharedTheme
+    @EnvironmentObject var theme: Theme
 
     var body: some View {
         VStack(spacing: 10) {
