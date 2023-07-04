@@ -4,6 +4,8 @@ import PocketCastsServer
 import UIKit
 
 class StarredViewController: PCViewController {
+    private let episodesDataManager = EpisodesDataManager()
+
     @IBOutlet var starredTable: UITableView! {
         didSet {
             starredTable.applyInsetForMiniPlayer()
@@ -135,22 +137,21 @@ class StarredViewController: PCViewController {
     }
 
     func refreshEpisodesFromDatabase(animated: Bool) {
-        refreshQueue.addOperation {
-            let query = "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000"
+        refreshQueue.addOperation { [weak self] in
+            guard let self else { return }
             let oldData = self.episodes
-            let newData = EpisodeTableHelper.loadEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil)
+            let newData = self.episodesDataManager.starredEpisodes()
 
-            DispatchQueue.main.sync { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.starredTable.isHidden = (newData.count == 0)
+            DispatchQueue.main.sync {
+                self.starredTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
-                    strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
-                        strongSelf.episodes = data
+                    self.starredTable.reload(using: changeSet, with: .none, setData: { data in
+                        self.episodes = data
                     })
                 } else {
-                    strongSelf.episodes = newData
-                    strongSelf.starredTable.reloadData()
+                    self.episodes = newData
+                    self.starredTable.reloadData()
                 }
             }
         }

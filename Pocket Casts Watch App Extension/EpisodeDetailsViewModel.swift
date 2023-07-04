@@ -10,6 +10,8 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
     @Published var actions: [EpisodeAction] = []
     @Published var supportsPodcastNavigation = false
 
+    var playlist: AutoplayHelper.Playlist?
+
     var parentPodcast: Podcast? {
         (episode as? Episode)?.parentPodcast()
     }
@@ -31,7 +33,8 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
         .eraseToAnyPublisher()
     }
 
-    override init(episode: BaseEpisode) {
+    init(episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
+        self.playlist = playlist
         super.init(episode: episode)
 
         playbackChanged
@@ -120,7 +123,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
     }
 
     func playPauseTapped() {
-        playSourceViewModel.playPauseTapped(withEpisode: episode)
+        playSourceViewModel.playPauseTapped(withEpisode: episode, playlist: playlist)
     }
 
     func handleEpisodeAction(_ action: EpisodeAction, wasConfirmed: Bool = false, dismiss: () -> Void) {

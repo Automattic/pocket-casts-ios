@@ -14,6 +14,7 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func chromecastTapped()
     func markPlayedTapped()
     func archiveTapped()
+    func bookmarkTapped()
 
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
 }
@@ -130,6 +131,16 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             archiveButton.accessibilityLabel = L10n.archive
 
             addToShelf(on: archiveButton)
+
+        case .addBookmark:
+            let button = UIButton(frame: CGRect.zero)
+            button.isPointerInteractionEnabled = true
+            button.imageView?.tintColor = ThemeColor.playerContrast02()
+            button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
+            button.addTarget(self, action: #selector(bookmarkTapped(_:)), for: .touchUpInside)
+            button.accessibilityLabel = L10n.addBookmark
+
+            addToShelf(on: button)
         }
 
         return true
@@ -204,6 +215,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         return routePicker
     }
 
+    func bookmarkTapped() {
+        PlaybackManager.shared.bookmark()
+    }
+
     // MARK: - Player Actions
 
     @objc private func overflowTapped() {
@@ -248,6 +263,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     @objc private func shareTapped(_ sender: UIButton) {
         shelfButtonTapped(.shareEpisode)
         shareEpisode(sender: sender)
+    }
+
+    @objc private func bookmarkTapped(_ sender: UIButton) {
+        shelfButtonTapped(.addBookmark)
+        bookmarkTapped()
     }
 
     // MARK: - Sleep Timer
