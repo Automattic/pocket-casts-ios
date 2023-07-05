@@ -27,11 +27,13 @@ struct WhatsNewView: View {
             Text(announcement.title)
                 .font(style: .title3, weight: .bold)
                 .padding(.horizontal)
+                .padding(.top)
                 .foregroundColor(theme.primaryText01)
             Text(announcement.message)
                 .font(style: .subheadline)
                 .foregroundColor(theme.secondaryText02)
                 .padding(.horizontal)
+                .padding(.bottom)
             Button("Enable it") {}
                 .buttonStyle(RoundedDarkButton(theme: theme))
                 .padding(.horizontal)
