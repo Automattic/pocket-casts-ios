@@ -4,7 +4,7 @@ import Foundation
 public class EpisodeInfoHandler {
     private let showNotesUrlCache: URLCache
 
-    private var requestingNotes = false
+    private var requestingNotes: [String: Bool] = [:]
 
     private var showNotesCompletionBlocks: [String: [(ShowNotesPodcast?) -> Void]] = [:]
     private var showNotesCachedCompletionBlocks: [String: [(ShowNotesPodcast?) -> Void]] = [:]
@@ -61,7 +61,9 @@ public class EpisodeInfoHandler {
     ///   - for: a podcast UUID
     ///   - cached: a closure that receive a cached notes information
     ///   - completion: a closure that *might* receive a cached or update notes information
+    let lock = NSLock()
     private func requestShowNotes(for podcastUuid: String, cached: @escaping (ShowNotesPodcast?) -> Void, completion: @escaping (ShowNotesPodcast?) -> Void) {
+        lock.lock()
         if showNotesCachedCompletionBlocks[podcastUuid] == nil {
             showNotesCachedCompletionBlocks[podcastUuid] = []
         }
@@ -73,9 +75,12 @@ public class EpisodeInfoHandler {
         showNotesCachedCompletionBlocks[podcastUuid]?.append(cached)
         showNotesCompletionBlocks[podcastUuid]?.append(completion)
 
-        guard !requestingNotes else { return }
+        guard requestingNotes[podcastUuid] == nil || requestingNotes[podcastUuid] == false else {
+            lock.unlock()
+            return
+        }
 
-        requestingNotes = true
+        requestingNotes[podcastUuid] = true
 
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -89,8 +94,9 @@ public class EpisodeInfoHandler {
 
             showNotesCachedCompletionBlocks[podcastUuid]?.forEach { $0(showNotes.podcast) }
             showNotesCachedCompletionBlocks[podcastUuid] = []
-            requestingNotes = false
+            requestingNotes[podcastUuid] = false
         }
+        lock.unlock()
 
         // Call the endpoint to request for a more up-to-date notes information
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
@@ -100,14 +106,18 @@ public class EpisodeInfoHandler {
                 let responseToCache = CachedURLResponse(response: response, data: data)
                 self?.showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
 
+                self?.lock.lock()
                 self?.showNotesCompletionBlocks[podcastUuid]?.forEach { $0(showNotes.podcast) }
                 self?.showNotesCompletionBlocks[podcastUuid] = []
+                self?.lock.unlock()
             } else {
+                self?.lock.lock()
                 self?.showNotesCompletionBlocks[podcastUuid]?.forEach { $0(nil) }
                 self?.showNotesCompletionBlocks[podcastUuid] = []
+                self?.lock.unlock()
             }
 
-            self?.requestingNotes = false
+            self?.requestingNotes[podcastUuid] = false
         }.resume()
     }
 
