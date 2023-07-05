@@ -49,7 +49,7 @@ class WhatsNewtests: XCTestCase {
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
 
-    // If the announcement is for a futue version, don't show
+    // If the announcement is for a future version, don't show
     func testDontShowWhenFutureVersion() {
         let whatsNew = WhatsNew(
             announcements: [.init(version: 7.50, image: "", title: "", message: "")],
