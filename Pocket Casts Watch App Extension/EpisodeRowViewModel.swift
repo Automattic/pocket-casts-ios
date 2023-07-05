@@ -11,8 +11,15 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
     @Published var downloadStatusIconName: String?
     @Published var isDownloading = false
 
-    override init(episode: BaseEpisode) {
-        super.init(episode: episode)
+    init(episode: BaseEpisode) {
+        super.init(episode: episode, skipHydration: true)
+    }
+
+    override func hydrate() {
+        if alreadyHydrated {
+            return
+        }
+        super.hydrate()
 
         updateProperties(episode: episode, downloadProgress: downloadProgress)
         Publishers.CombineLatest($episode, $downloadProgress)
