@@ -1,18 +1,18 @@
 import Foundation
 
-struct WhatsNewAnnouncement {
-    let version: Double
-    let image: String
-    let title: String
-    let message: String
-}
-
 class WhatsNew {
-    let announcements: [WhatsNewAnnouncement]
+    struct Announcement {
+        let version: Double
+        let image: String
+        let title: String
+        let message: String
+    }
+
+    let announcements: [Announcement]
     let currentVersion: Double
     let previousOpenedVersion: Double?
 
-    init(announcements: [WhatsNewAnnouncement] = Announcements().announcements, previousOpenedVersion: Double? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion)?.toDouble(), currentVersion: Double = Settings.appVersion().toDouble()) {
+    init(announcements: [Announcement] = Announcements().announcements, previousOpenedVersion: Double? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion)?.toDouble(), currentVersion: Double = Settings.appVersion().toDouble()) {
         self.announcements = announcements
         self.previousOpenedVersion = previousOpenedVersion
         self.currentVersion = currentVersion
