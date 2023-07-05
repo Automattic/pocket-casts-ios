@@ -71,4 +71,22 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
+
+    // If there's an announcement for the current hotfix and the user
+    // hasn't opened this version yet, show what's new
+    func testShowWhatsNewForHotfix() {
+        let whatsNew = WhatsNew(
+            announcements: [.init(version: 7.42, image: "", title: "", message: "")],
+            previousOpenedVersion: 7.41,
+            currentVersion: "7.42.1".toDouble()
+        )
+
+        XCTAssertNotNil(whatsNew.viewControllerToShow())
+    }
+}
+
+extension String {
+    func toDouble() -> Double {
+        (self as NSString).doubleValue
+    }
 }
