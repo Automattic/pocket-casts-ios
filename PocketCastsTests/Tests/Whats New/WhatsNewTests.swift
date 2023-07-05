@@ -59,4 +59,16 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
+
+    // If there's an announcement for the current version but the user
+    // already opened it, show nothing
+    func testDontShowWhatsNewForTheCurrentOpenedVersion() {
+        let whatsNew = WhatsNew(
+            announcements: [.init(version: 7.41, image: "", title: "", message: "")],
+            previousOpenedVersion: 7.41,
+            currentVersion: 7.41
+        )
+
+        XCTAssertNil(whatsNew.viewControllerToShow())
+    }
 }
