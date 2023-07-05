@@ -20,7 +20,7 @@ class WhatsNew {
 
     func viewControllerToShow() -> UIViewController? {
         guard let previousOpenedVersion,
-              let announcement = announcements.filter { $0.version >= previousOpenedVersion && $0.version <= currentVersion }.last else {
+              let announcement = announcements.last(where: { $0.version >= previousOpenedVersion && $0.version <= currentVersion }) else {
             return nil
         }
 
