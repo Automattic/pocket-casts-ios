@@ -13,7 +13,6 @@ struct WhatsNewView: View {
                 ZStack {
                     announcement.header()
                 }
-                .frame(height: 195)
 
                 Spacer()
                 Button {
