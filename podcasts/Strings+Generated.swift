@@ -2278,7 +2278,7 @@ internal enum L10n {
   }
   /// Open Player Automatically
   internal static var settingsGeneralAutoOpenPlayer: String { return L10n.tr("Localizable", "settings_general_auto_open_player") }
-  /// Continuous Playback
+  /// Autoplay
   internal static var settingsGeneralAutoplay: String { return L10n.tr("Localizable", "settings_general_autoplay") }
   /// If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.
   internal static var settingsGeneralAutoplaySubtitle: String { return L10n.tr("Localizable", "settings_general_autoplay_subtitle") }

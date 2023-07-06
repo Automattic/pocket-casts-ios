@@ -2473,8 +2473,8 @@
 /* Setting toggle to modify how a tap is handled in the up next queue. */
 "settings_general_up_next_tap" = "Play Up Next On Tap";
 
-/* Setting toggle to modify if a new episode is played after the current one ends. */
-"settings_general_autoplay" = "Continuous Playback";
+/* Setting toggle to modify if a new episode is played after the current one ends. In most languages we believe Autoplay is understandable and might not need a translation. */
+"settings_general_autoplay" = "Autoplay";
 
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is off. */
 "settings_general_up_next_tap_off_subtitle" = "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.";
