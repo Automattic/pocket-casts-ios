@@ -8,8 +8,10 @@ struct WhatsNewView: View {
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
-                Rectangle()
-                    .frame(height: 195)
+                ZStack {
+                    LinearGradient(colors: [.init(hex: "03A9F4"), .init(hex: "50D0F1")], startPoint: .top, endPoint: .bottom)
+                }
+                .frame(height: 195)
 
                 Spacer()
                 Button {
