@@ -31,7 +31,7 @@ struct WhatsNewView: View {
                 .foregroundColor(theme.primaryText01)
             Text(announcement.message)
                 .font(style: .subheadline)
-                .foregroundColor(theme.secondaryText02)
+                .foregroundStyle(theme.primaryText02)
                 .padding(.horizontal)
                 .padding(.bottom)
             Button("Enable it") {}
