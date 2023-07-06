@@ -3754,3 +3754,18 @@
 
 /* Label for a settings menu that allows the user to customize headphone action. */
 "settings_headphone_controls" = "Headphone Controls";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip next action. */
+"settings_next_action" = "Next Action";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip back action. */
+"settings_previous_action" = "Previous Action";
+
+/* Settings section subtitle that explains what the section does . */
+"settings_headphone_controls_footer" = "Customise the actions done by the most common headphone controls.";
+
+/* Settings section subtitle that explains what the bookmark sound section does . */
+"settings_bookmark_sound_footer" = "Play a confirmation sound after creating a bookmark with your headphones.";
+
+/* Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark . */
+"settings_bookmark_confirmation_sound" = "Bookmark Confirmation Sound";
