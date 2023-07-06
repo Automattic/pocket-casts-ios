@@ -129,6 +129,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>歡迎使用 Pocket Casts！</string>
     <key>account_welcome_plus</key>
     <string>歡迎使用 Pocket Casts Plus！</string>
+    <key>add_bookmark</key>
+    <string>新增書籤</string>
     <key>add_to_up_next</key>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>

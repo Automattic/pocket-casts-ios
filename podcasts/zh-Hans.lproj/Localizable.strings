@@ -129,6 +129,8 @@
     <string>欢迎使用 Pocket Casts！</string>
     <key>account_welcome_plus</key>
     <string>欢迎使用 Pocket Casts Plus！</string>
+    <key>add_bookmark</key>
+    <string>添加书签</string>
     <key>add_to_up_next</key>
     <string>添加到“接下来播放”</string>
     <key>after_playing</key>

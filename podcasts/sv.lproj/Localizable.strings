@@ -129,6 +129,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Välkommen till Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Välkommen till Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Lägg till bokmärke</string>
     <key>add_to_up_next</key>
     <string>Lägg till i Nästa</string>
     <key>after_playing</key>

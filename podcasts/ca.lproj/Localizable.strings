@@ -129,6 +129,8 @@
     <string>Benvigut a Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Benvingut a Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Afegeix un favorit</string>
     <key>add_to_up_next</key>
     <string>Afegir a la llista 'Tot seguit'</string>
     <key>after_playing</key>

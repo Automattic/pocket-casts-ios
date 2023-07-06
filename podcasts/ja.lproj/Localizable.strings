@@ -129,6 +129,8 @@
     <string>Pocket Casts へようこそ !</string>
     <key>account_welcome_plus</key>
     <string>Pocket Casts Plus へようこそ !</string>
+    <key>add_bookmark</key>
+    <string>ブックマークを追加</string>
     <key>add_to_up_next</key>
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
