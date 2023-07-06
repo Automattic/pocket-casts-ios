@@ -31,7 +31,11 @@ struct WhatsNewView: View {
                     .foregroundStyle(theme.secondaryText02)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
-                Button("Enable it") { }
+                Button("Enable it") {
+                    dismiss()
+
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
+                }
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                 Button(L10n.maybeLater) {
                     dismiss()
