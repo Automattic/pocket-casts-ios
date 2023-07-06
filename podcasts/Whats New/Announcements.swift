@@ -10,7 +10,10 @@ struct Announcements {
             image: "",
             title: L10n.announcementAutoplayTitle,
             message: L10n.announcementAutoplayDescription,
-            buttonTitle: L10n.enableIt
+            buttonTitle: L10n.enableIt,
+            action: {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
+            }
         )
     ]
 }
