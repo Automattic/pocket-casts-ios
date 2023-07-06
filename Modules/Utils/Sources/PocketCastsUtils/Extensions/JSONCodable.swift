@@ -72,8 +72,8 @@ public typealias JSONCodable = JSONDecodable & JSONEncodable
 public extension UserDefaults {
     /// Saves a JSONEncodable object to the UserDefaults for the given key.
     /// Passing nil to this will delete the value.
-    func set<Value: JSONEncodable>(_ encodedValue: Value?, forKey key: String) {
-        setValue(encodedValue?.jsonData, forKey: key)
+    func setJSONObject(_ encodedValue: JSONEncodable?, forKey key: String) {
+        set(encodedValue?.jsonData, forKey: key)
     }
 
     /// Retrieves the JSONDecodable object from the UserDefaults for the given key.

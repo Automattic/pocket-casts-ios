@@ -359,7 +359,7 @@ struct Constants {
                 return
             }
 
-            defaults.set(decodableType, forKey: key)
+            defaults.setJSONObject(decodableType, forKey: key)
         }
     }
 }
