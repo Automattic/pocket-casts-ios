@@ -3,7 +3,7 @@ import SwiftUI
 struct WhatsNewView: View {
     @EnvironmentObject var theme: Theme
 
-    let announcement: WhatsNewAnnouncement
+    let announcement: WhatsNew.Announcement
 
     var body: some View {
         VStack(spacing: 10) {
