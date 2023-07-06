@@ -806,7 +806,7 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.value()
+            Constants.UserDefaults.headphones.previousAction.value
         }
 
         set {
@@ -816,7 +816,7 @@ class Settings: NSObject {
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.value()
+            Constants.UserDefaults.headphones.nextAction.value
         }
 
         set {
@@ -826,7 +826,7 @@ class Settings: NSObject {
 
     static var playBookmarkCreationSound: Bool {
         get {
-            Constants.UserDefaults.bookmarks.creationSound.value()
+            Constants.UserDefaults.bookmarks.creationSound.value
         }
 
         set {
