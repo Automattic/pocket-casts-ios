@@ -11,18 +11,7 @@ struct WhatsNewView: View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
                 ZStack {
-                    LinearGradient(colors: [.init(hex: "03A9F4"), .init(hex: "50D0F1")], startPoint: .top, endPoint: .bottom)
-
-                    ZStack {
-                        Circle()
-                            .foregroundStyle(.white)
-                            .frame(width: 120, height: 120)
-
-                        Image("whatsnew_autoplay")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80)
-                    }
+                    announcement.header()
                 }
                 .frame(height: 195)
 
@@ -77,7 +66,7 @@ struct WhatsNewView: View {
 
 struct WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewView(announcement: .init(version: 7.20, image: "", title: "Autoplay is here!", message: "If your Up Next queue is empty, Pocket Casts can autoplay episodes from the list you started playing it — either a specific podcast, a filter, downloaded episodes or your own files.", buttonTitle: "Enable it", action: {}))
+        WhatsNewView(announcement: Announcements().announcements.last!)
             .environmentObject(Theme(previewTheme: .light))
     }
 }

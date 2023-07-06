@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct Announcements {
     // Order is important.
@@ -7,7 +8,9 @@ struct Announcements {
     var announcements: [WhatsNew.Announcement] = [
         .init(
             version: 7.43,
-            image: "",
+            header: {
+                AnyView(AutoplayWhatsNewHeader())
+            },
             title: L10n.announcementAutoplayTitle,
             message: L10n.announcementAutoplayDescription,
             buttonTitle: L10n.enableIt,
