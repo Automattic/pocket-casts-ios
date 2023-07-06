@@ -6,10 +6,10 @@ struct Announcements {
     // there were two announcements, the last one will be picked.
     var announcements: [WhatsNew.Announcement] = [
         .init(
-            version: 7.80,
+            version: 7.43,
             image: "",
-            title: "",
-            message: ""
+            title: L10n.announcementAutoplayTitle,
+            message: L10n.announcementAutoplayDescription
         )
     ]
 }
