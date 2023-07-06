@@ -47,9 +47,9 @@ struct WhatsNewView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 Button(announcement.buttonTitle) {
-                    dismiss()
-
                     announcement.action()
+
+                    dismiss()
                 }
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                 Button(L10n.maybeLater) {
@@ -70,6 +70,8 @@ struct WhatsNewView: View {
 
     private func dismiss() {
         NavigationManager.sharedManager.dismissPresentedViewController()
+
+        NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
     }
 }
 

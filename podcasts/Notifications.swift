@@ -18,4 +18,6 @@ extension NSNotification.Name {
 
     static let tableViewReorderWillBegin = NSNotification.Name("TableView.ReorderWillBegin")
     static let tableViewReorderDidEnd = NSNotification.Name("TableView.ReorderDidEnd")
+
+    static let whatsNewDismissed = NSNotification.Name("WhatsNew.Dismissed")
 }
