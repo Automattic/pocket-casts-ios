@@ -40,7 +40,7 @@ struct WhatsNewView: View {
                 .padding(.bottom)
         }
         .frame(width: 340)
-        .background(.white)
+        .background(theme.primaryUi01)
         .cornerRadius(5)
     }
 }
