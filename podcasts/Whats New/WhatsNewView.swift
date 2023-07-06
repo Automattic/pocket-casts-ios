@@ -34,8 +34,11 @@ struct WhatsNewView: View {
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                 Button(L10n.maybeLater) { }
                     .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
+                    .padding(.bottom, 5)
+                    .padding(.top, -5)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top)
         }
         .frame(minWidth: 300, maxWidth: 340)
         .background(theme.primaryUi01)
