@@ -13,7 +13,7 @@ struct WhatsNewView: View {
 
                 Spacer()
                 Button {
-                    NavigationManager.sharedManager.dismissPresentedViewController()
+                    dismiss()
                 } label: {
                     ZStack {
                         Image("close")
@@ -29,11 +29,14 @@ struct WhatsNewView: View {
                 Text(announcement.message)
                     .font(style: .subheadline)
                     .foregroundStyle(theme.secondaryText02)
+                    .multilineTextAlignment(.center)
                     .padding(.bottom)
                 Button("Enable it") { }
                     .buttonStyle(RoundedButtonStyle(theme: theme))
-                Button(L10n.maybeLater) { }
-                    .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
+                Button(L10n.maybeLater) {
+                    dismiss()
+                }
+                .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
                     .padding(.bottom, 5)
                     .padding(.top, -5)
             }
@@ -44,6 +47,10 @@ struct WhatsNewView: View {
         .background(theme.primaryUi01)
         .cornerRadius(5)
         .padding()
+    }
+
+    private func dismiss() {
+        NavigationManager.sharedManager.dismissPresentedViewController()
     }
 }
 
