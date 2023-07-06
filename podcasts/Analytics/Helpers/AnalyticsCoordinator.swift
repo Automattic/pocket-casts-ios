@@ -41,7 +41,6 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case upNext = "up_next"
     case userEpisode = "user_episode"
     case videoPlayerSkipForwardLongPress = "video_player_skip_forward_long_press"
-    case playbackFailed = "playback_failed"
     case watch
     case unknown
 
@@ -52,9 +51,22 @@ class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
 
+    /// Keep track of the analytics source that was used for the last event before it was reset
+    var previousSource: AnalyticsSource?
+
+    /// If the current source is not available, attempt to fallback to previous value before it was reset
+    func fallbackToPreviousSourceIfNeeded() {
+        guard currentSource == nil || currentSource == .unknown else {
+            return
+        }
+
+        currentSource = previousSource
+    }
+
     #if !os(watchOS)
         var currentAnalyticsSource: AnalyticsSource {
-            if let currentSource = currentSource {
+            if let currentSource {
+                previousSource = currentSource
                 self.currentSource = nil
                 return currentSource
             }

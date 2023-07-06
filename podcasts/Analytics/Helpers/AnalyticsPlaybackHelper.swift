@@ -25,6 +25,10 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackSkipForward)
     }
 
+    func playbackFailed(errorMessage: String, episodeUuid: String, player: PlaybackProtocol?) {
+        track(.playbackFailed, properties: [ "error": errorMessage, "episode_uuid": episodeUuid, "player": player ?? "unknown" ])
+    }
+
     func seek(from: TimeInterval, to: TimeInterval, duration: TimeInterval) {
         // Currently ignore a seek event that is triggered by a sync process
         // Using the skip buttons triggers a seek, ignore this as well

@@ -105,7 +105,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     //
                     // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/900
                     if strongSelf.cachedFrameCount == 0 {
-                        throw PlaybackError.unableToOpenFile
+                        throw PlaybackError.effectsPlayerFrameCountZero
                     }
                 }
             } catch {

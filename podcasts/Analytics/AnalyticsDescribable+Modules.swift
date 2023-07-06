@@ -183,3 +183,24 @@ extension SocialAuthProvider: AnalyticsDescribable {
         }
     }
 }
+
+// MARK: - Players
+extension DefaultPlayer: AnalyticsDescribable {
+    var analyticsDescription: String {
+       "default"
+    }
+}
+
+#if !os(watchOS)
+extension EffectsPlayer: AnalyticsDescribable {
+    var analyticsDescription: String {
+       "effects"
+    }
+}
+
+extension GoogleCastPlayer: AnalyticsDescribable {
+    var analyticsDescription: String {
+       "google_cast"
+    }
+}
+#endif
