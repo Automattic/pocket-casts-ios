@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 
 @testable import podcasts
 
@@ -7,7 +8,7 @@ class WhatsNewtests: XCTestCase {
     /// for 7.40, show it
     func testShowWhatsNew() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.40, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.40)],
             previousOpenedVersion: "7.39",
             currentVersion: "7.40"
         )
@@ -18,7 +19,7 @@ class WhatsNewtests: XCTestCase {
     /// When just opening the same version, do nothing
     func testDontShowWhatsNew() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.39, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.39)],
             previousOpenedVersion: "7.40",
             currentVersion: "7.40"
         )
@@ -30,7 +31,7 @@ class WhatsNewtests: XCTestCase {
     /// for 7.41, show it
     func testShowWhatsNewEvenIfVersionDontMatch() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.41, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.41)],
             previousOpenedVersion: "7.37",
             currentVersion: "7.42"
         )
@@ -41,7 +42,7 @@ class WhatsNewtests: XCTestCase {
     /// When opening the app for the first time, show nothing
     func testDontShowWhenFirstOpening() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.41, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.41)],
             previousOpenedVersion: nil,
             currentVersion: "7.41"
         )
@@ -52,7 +53,7 @@ class WhatsNewtests: XCTestCase {
     // If the announcement is for a future version, don't show
     func testDontShowWhenFutureVersion() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.50, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.50)],
             previousOpenedVersion: "7.41",
             currentVersion: "7.41"
         )
@@ -64,7 +65,7 @@ class WhatsNewtests: XCTestCase {
     // already opened it, show nothing
     func testDontShowWhatsNewForTheCurrentOpenedVersion() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.41, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.41)],
             previousOpenedVersion: "7.41",
             currentVersion: "7.41"
         )
@@ -76,7 +77,7 @@ class WhatsNewtests: XCTestCase {
     // hasn't opened this version yet, show what's new
     func testShowWhatsNewForHotfix() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.42, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.42)],
             previousOpenedVersion: "7.41",
             currentVersion: "7.42.1"
         )
@@ -88,12 +89,16 @@ class WhatsNewtests: XCTestCase {
     // has opened this version yet, show what's new
     func testDontShowWhatsNewForHotfix() {
         let whatsNew = WhatsNew(
-            announcements: [.init(version: 7.42, image: "", title: "", message: "")],
+            announcements: [announcement(version: 7.42)],
             previousOpenedVersion: "7.42",
             currentVersion: "7.42.1"
         )
 
         XCTAssertNil(whatsNew.viewControllerToShow())
+    }
+
+    private func announcement(version: Double) -> WhatsNew.Announcement {
+        return .init(version: version, header: { AnyView(EmptyView()) }, title: "", message: "", buttonTitle: "", action: {})
     }
 }
 
