@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "whatsnew_autoplay.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

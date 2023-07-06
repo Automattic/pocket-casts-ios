@@ -5,11 +5,24 @@ struct WhatsNewView: View {
 
     let announcement: WhatsNew.Announcement
 
+    @State private var scale = 1.0
+
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
                 ZStack {
                     LinearGradient(colors: [.init(hex: "03A9F4"), .init(hex: "50D0F1")], startPoint: .top, endPoint: .bottom)
+
+                    ZStack {
+                        Circle()
+                            .foregroundStyle(.white)
+                            .frame(width: 120, height: 120)
+
+                        Image("whatsnew_autoplay")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80)
+                    }
                 }
                 .frame(height: 195)
 
