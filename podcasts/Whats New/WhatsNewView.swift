@@ -7,21 +7,19 @@ struct WhatsNewView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            ZStack(alignment: .top) {
+            ZStack(alignment: .topTrailing) {
                 Rectangle()
                     .frame(height: 195)
 
-                HStack {
-                    Spacer()
-                    Button {
-                        NavigationManager.sharedManager.dismissPresentedViewController()
-                    } label: {
-                        ZStack {
-                            Image("close")
-                                .foregroundStyle(.white)
-                        }
-                        .frame(width: 44, height: 44)
+                Spacer()
+                Button {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
+                } label: {
+                    ZStack {
+                        Image("close")
+                            .foregroundStyle(.white)
                     }
+                    .frame(width: 44, height: 44)
                 }
             }
             Text(announcement.title)
