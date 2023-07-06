@@ -1,11 +1,34 @@
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 import UIKit
 import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, importSteps, opml, about, pocketCastsPlus, privacy, developer, beta
+        case general, notifications, appearance, storageAndDataUse
+        case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
+        case watch, customFiles, help, importSteps, opml
+        case about, pocketCastsPlus, privacy
+        case headphoneControls
+        case developer, beta
+
+        /// Whether the section should be displayed or not
+        var visible: Bool {
+            switch self {
+            case .watch:
+                return WCSession.isSupported()
+
+            case .pocketCastsPlus:
+                return !SubscriptionHelper.hasActiveSubscription()
+
+            case .headphoneControls:
+                return FeatureFlag.bookmarks.enabled
+
+            default:
+                return true
+            }
+        }
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -45,11 +68,33 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return ("Developer", UIImage(systemName: "ladybug.fill"))
             case .beta:
                 return ("Beta Features", UIImage(systemName: "testtube.2"))
+            case .headphoneControls:
+                return (L10n.settingsHeadphoneControls, .init(named: "settings_headphone_controls"))
             }
         }
     }
 
     private var tableData: [[TableRow]] = []
+
+    /// All the possible settings sections
+    private let allSections: [[TableRow]] = {
+        #if DEBUG
+        let developerSection: [TableRow] = [.developer, .beta]
+        #else
+        let developerSection: [TableRow] = []
+        #endif
+
+        return [
+            developerSection,
+            [.pocketCastsPlus],
+            [.general, .notifications, .appearance],
+            [.autoArchive, .autoDownload, .autoAddToUpNext],
+            [.storageAndDataUse, .siriShortcuts, .headphoneControls, .watch, .customFiles],
+            [.importSteps, .opml],
+            [.help],
+            [.privacy, .about]
+        ]
+    }()
 
     private let settingsCellId = "SettingsCell"
 
@@ -157,6 +202,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             let hostingController = UIHostingController(rootView: BetaMenu().setupDefaultEnvironment())
             hostingController.title = "Beta Features"
             navigationController?.pushViewController(hostingController, animated: true)
+        case .headphoneControls:
+            print("🎧 Coming Soon")
+
         }
     }
 
@@ -165,19 +213,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     }
 
     private func reloadTable() {
-        if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
-        } else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.importSteps, .opml], [.help], [.privacy, .about]]
+        tableData = allSections.compactMap {
+            $0.filter(\.visible).nilIfEmpty()
         }
-
-        if !SubscriptionHelper.hasActiveSubscription() {
-            tableData.insert([.pocketCastsPlus], at: 0)
-        }
-
-        #if DEBUG
-        tableData.insert([.developer, .beta], at: 0)
-        #endif
 
         settingsTable.reloadData()
     }

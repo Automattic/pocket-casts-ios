@@ -224,6 +224,8 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
 
+    case playbackEpisodeAutoplayed
+
     // MARK: - Filters
 
     case filterListShown
@@ -461,6 +463,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+    case settingsGeneralAutoplayToggled
 
     // MARK: - Settings: Notifications
 

@@ -36,7 +36,6 @@ struct CreateFolderView: View {
             }
             .padding(.horizontal)
         }
-        .padding(.vertical)
         .navigationTitle(L10n.folderCreate)
         .onAppear {
             pickerModel.setup()

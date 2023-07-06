@@ -1,6 +1,7 @@
 7.43
 -----
 - The search bar on the podcasts tab is now visible by default [#929]
+- Fix spacing for the search bar when creating/editing a folder [#912]
 
 
 7.42

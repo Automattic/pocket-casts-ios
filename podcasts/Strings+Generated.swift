@@ -2340,6 +2340,8 @@ internal enum L10n {
   internal static var settingsGeneralUpNextTapOnSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_on_subtitle") }
   /// Global Settings
   internal static var settingsGlobalSettings: String { return L10n.tr("Localizable", "settings_global_settings") }
+  /// Headphone Controls
+  internal static var settingsHeadphoneControls: String { return L10n.tr("Localizable", "settings_headphone_controls") }
   /// Help & Feedback
   internal static var settingsHelp: String { return L10n.tr("Localizable", "settings_help") }
   /// Import / Export

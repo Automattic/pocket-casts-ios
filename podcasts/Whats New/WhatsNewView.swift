@@ -14,7 +14,6 @@ struct WhatsNewView: View {
                     announcement.header()
                 }
 
-                Spacer()
                 Button {
                     dismiss()
                 } label: {
@@ -31,7 +30,7 @@ struct WhatsNewView: View {
                     .foregroundStyle(theme.primaryText01)
                 Text(announcement.message)
                     .font(style: .subheadline)
-                    .foregroundStyle(theme.secondaryText02)
+                    .foregroundStyle(theme.primaryText02)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 Button(announcement.buttonTitle) {

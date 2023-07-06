@@ -3763,3 +3763,6 @@
 
 /* An action that the user want to postpone and maybe do later */
 "maybe_later" = "Maybe later";
+
+/* Label for a settings menu that allows the user to customize headphone action. */
+"settings_headphone_controls" = "Headphone Controls";
