@@ -129,6 +129,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Welkom bij Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Welkom bij Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Bladwijzer toevoegen</string>
     <key>add_to_up_next</key>
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>

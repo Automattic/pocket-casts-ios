@@ -129,6 +129,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Bienvenue à Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Bienvenue à Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Ajouter un signet</string>
     <key>add_to_up_next</key>
     <string>Ajouter à la file d’attente Prochains épisodes</string>
     <key>after_playing</key>

@@ -129,6 +129,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Willkommen bei Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Willkommen bei Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Lesezeichen hinzufügen</string>
     <key>add_to_up_next</key>
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>

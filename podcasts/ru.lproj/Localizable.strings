@@ -129,6 +129,8 @@
     <string>Добро пожаловать в Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Добро пожаловать в Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Добавить закладку</string>
     <key>add_to_up_next</key>
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
