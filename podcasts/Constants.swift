@@ -353,7 +353,7 @@ struct Constants {
         }
 
         /// Saves the value to the UserDefaults. Passing nil to this will delete the key
-        func save(_ value: Value, in defaults: Foundation.UserDefaults = .standard) {
+        func save(_ value: Value) {
             guard let decodableType = value as? JSONEncodable else {
                 defaults.set(value, forKey: key)
                 return
