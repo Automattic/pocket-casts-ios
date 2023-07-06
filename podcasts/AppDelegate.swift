@@ -26,12 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
+    var whatsNew: WhatsNew?
+
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
         FileLog.shared.setup()
+
+        setupWhatsNew()
 
         setupSecrets()
         setupAnalytics()
@@ -355,5 +359,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
+    }
+
+    // MARK: What's New
+
+    private func setupWhatsNew() {
+        whatsNew = WhatsNew()
     }
 }

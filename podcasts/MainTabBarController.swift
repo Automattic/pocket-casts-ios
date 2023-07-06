@@ -63,6 +63,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         endOfYear.showPromptBasedOnState(in: self)
         showInitialOnboardingIfNeeded()
+        showWhatsNewIfNeeded()
     }
 
     private func showInitialOnboardingIfNeeded() {
@@ -559,6 +560,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
+        }
+    }
+
+    // MARK: - What's New
+
+    func showWhatsNewIfNeeded() {
+        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+            present(whatsNewViewController, animated: true)
         }
     }
 }
