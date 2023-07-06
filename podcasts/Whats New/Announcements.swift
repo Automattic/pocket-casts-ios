@@ -9,7 +9,8 @@ struct Announcements {
             version: 7.43,
             image: "",
             title: L10n.announcementAutoplayTitle,
-            message: L10n.announcementAutoplayDescription
+            message: L10n.announcementAutoplayDescription,
+            buttonTitle: L10n.enableIt
         )
     ]
 }

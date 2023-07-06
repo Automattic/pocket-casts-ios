@@ -7,6 +7,7 @@ class WhatsNew {
         let image: String
         let title: String
         let message: String
+        let buttonTitle: String
     }
 
     let announcements: [Announcement]

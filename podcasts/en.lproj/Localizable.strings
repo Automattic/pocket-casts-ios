@@ -3758,8 +3758,8 @@
 /* Autoplay feature announcement description */
 "announcement_autoplay_description" = "Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.";
 
-/* Autoplay feature announcement button title */
-"announcement_autoplay_button" = "Enable it";
+/* Button label for a feature that the user can enable */
+"enable_it" = "Enable it";
 
 /* An action that the user want to postpone and maybe do later */
 "maybe_later" = "Maybe later";

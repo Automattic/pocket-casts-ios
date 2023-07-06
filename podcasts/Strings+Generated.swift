@@ -150,8 +150,6 @@ internal enum L10n {
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing") }
-  /// Enable it
-  internal static var announcementAutoplayButton: String { return L10n.tr("Localizable", "announcement_autoplay_button") }
   /// Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
   /// Autoplay is here!
@@ -658,6 +656,8 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
+  /// Enable it
+  internal static var enableIt: String { return L10n.tr("Localizable", "enable_it") }
   /// See your top podcasts, categories, listening stats and more.
   internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.

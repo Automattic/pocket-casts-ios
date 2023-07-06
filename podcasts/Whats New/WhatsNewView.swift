@@ -31,7 +31,7 @@ struct WhatsNewView: View {
                     .foregroundStyle(theme.secondaryText02)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
-                Button("Enable it") {
+                Button(announcement.buttonTitle) {
                     dismiss()
 
                     NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
@@ -60,7 +60,7 @@ struct WhatsNewView: View {
 
 struct WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewView(announcement: .init(version: 7.20, image: "", title: "Autoplay is here!", message: "If your Up Next queue is empty, Pocket Casts can autoplay episodes from the list you started playing it — either a specific podcast, a filter, downloaded episodes or your own files."))
+        WhatsNewView(announcement: .init(version: 7.20, image: "", title: "Autoplay is here!", message: "If your Up Next queue is empty, Pocket Casts can autoplay episodes from the list you started playing it — either a specific podcast, a filter, downloaded episodes or your own files.", buttonTitle: "Enable it"))
             .environmentObject(Theme(previewTheme: .light))
     }
 }
