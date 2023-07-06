@@ -335,14 +335,16 @@ struct Constants {
     struct SettingValue<Value> {
         let key: String
         let defaultValue: Value
+        let defaults: Foundation.UserDefaults
 
-        init(_ key: String, defaultValue: Value) {
+        init(_ key: String, defaultValue: Value, defaults: Foundation.UserDefaults = .standard) {
             self.key = key
             self.defaultValue = defaultValue
+            self.defaults = defaults
         }
 
         /// Retrieve the stored value from the UserDefaults or the `defaultValue` if there isn't a stored value
-        func value(in defaults: Foundation.UserDefaults = .standard) -> Value {
+        var value: Value {
             guard let decodableType = Value.self as? JSONDecodable.Type else {
                 return defaults.object(forKey: key) as? Value ?? defaultValue
             }
