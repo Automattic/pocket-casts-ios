@@ -31,7 +31,9 @@ struct WhatsNewView: View {
                     .foregroundStyle(theme.secondaryText02)
                     .padding(.bottom)
                 Button("Enable it") { }
-                    .buttonStyle(RoundedDarkButton(theme: theme))
+                    .buttonStyle(RoundedButtonStyle(theme: theme))
+                Button(L10n.maybeLater) { }
+                    .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
             }
             .padding()
         }
