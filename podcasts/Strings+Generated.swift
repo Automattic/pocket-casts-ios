@@ -150,6 +150,12 @@ internal enum L10n {
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing") }
+  /// Enable it
+  internal static var announcementAutoplayButton: String { return L10n.tr("Localizable", "announcement_autoplay_button") }
+  /// Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.
+  internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
+  /// Autoplay is here!
+  internal static var announcementAutoplayTitle: String { return L10n.tr("Localizable", "announcement_autoplay_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -1212,6 +1218,8 @@ internal enum L10n {
   internal static var markPlayedShort: String { return L10n.tr("Localizable", "mark_played_short") }
   /// Mark Unplayed
   internal static var markUnplayedShort: String { return L10n.tr("Localizable", "mark_unplayed_short") }
+  /// Maybe later
+  internal static var maybeLater: String { return L10n.tr("Localizable", "maybe_later") }
   /// Close And Clear Up Next
   internal static var miniPlayerClose: String { return L10n.tr("Localizable", "mini_player_close") }
   /// Minute listened

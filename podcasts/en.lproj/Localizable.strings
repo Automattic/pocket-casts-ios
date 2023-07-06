@@ -3751,3 +3751,15 @@
 
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
+
+/* Autoplay feature announcement title */
+"announcement_autoplay_title" = "Autoplay is here!";
+
+/* Autoplay feature announcement description */
+"announcement_autoplay_description" = "Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.";
+
+/* Autoplay feature announcement button title */
+"announcement_autoplay_button" = "Enable it";
+
+/* An action that the user want to postpone and maybe do later */
+"maybe_later" = "Maybe later";
