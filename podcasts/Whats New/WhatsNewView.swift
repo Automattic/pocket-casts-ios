@@ -22,20 +22,18 @@ struct WhatsNewView: View {
                     .frame(width: 44, height: 44)
                 }
             }
-            Text(announcement.title)
-                .font(style: .title3, weight: .bold)
-                .padding(.horizontal)
-                .padding(.top)
-                .foregroundColor(theme.primaryText01)
-            Text(announcement.message)
-                .font(style: .subheadline)
-                .foregroundStyle(theme.primaryText02)
-                .padding(.horizontal)
-                .padding(.bottom)
-            Button("Enable it") {}
-                .buttonStyle(RoundedDarkButton(theme: theme))
-                .padding(.horizontal)
-                .padding(.bottom)
+            VStack(spacing: 10) {
+                Text(announcement.title)
+                    .font(style: .title3, weight: .bold)
+                    .foregroundColor(theme.primaryText01)
+                Text(announcement.message)
+                    .font(style: .subheadline)
+                    .foregroundColor(theme.secondaryText02)
+                    .padding(.bottom)
+                Button("Enable it") { }
+                    .buttonStyle(RoundedDarkButton(theme: theme))
+            }
+            .padding()
         }
         .frame(minWidth: 300, maxWidth: 340)
         .background(theme.primaryUi01)
