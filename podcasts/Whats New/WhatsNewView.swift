@@ -39,9 +39,10 @@ struct WhatsNewView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
         }
-        .frame(width: 340)
+        .frame(minWidth: 300, maxWidth: 340)
         .background(theme.primaryUi01)
         .cornerRadius(5)
+        .padding()
     }
 }
 
