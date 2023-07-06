@@ -18,7 +18,7 @@ struct WhatsNewView: View {
                     } label: {
                         ZStack {
                             Image("close")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         }
                         .frame(width: 44, height: 44)
                     }
