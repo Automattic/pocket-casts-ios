@@ -25,10 +25,10 @@ struct WhatsNewView: View {
             VStack(spacing: 10) {
                 Text(announcement.title)
                     .font(style: .title3, weight: .bold)
-                    .foregroundColor(theme.primaryText01)
+                    .foregroundStyle(theme.primaryText01)
                 Text(announcement.message)
                     .font(style: .subheadline)
-                    .foregroundColor(theme.secondaryText02)
+                    .foregroundStyle(theme.secondaryText02)
                     .padding(.bottom)
                 Button("Enable it") { }
                     .buttonStyle(RoundedDarkButton(theme: theme))
