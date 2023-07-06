@@ -71,7 +71,7 @@ enum FeatureFlag: String, CaseIterable {
         case .showRatings:
             return false
         case .autoplay:
-            return false
+            return true
         }
     }
 }
