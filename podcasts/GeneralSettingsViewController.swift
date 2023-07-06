@@ -33,6 +33,18 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if AnnouncementFlow.shared.isShowingAutoplayOption {
+            settingsTable.scrollToRow(at: IndexPath(row: 0, section: settingsTable.numberOfSections - 1), at: .bottom, animated: true)
+
+
+            // Finish the Autoplay option flow
+            AnnouncementFlow.shared.isShowingAutoplayOption = false
+        }
+    }
+
     // MARK: - UITableView Methods
 
     func numberOfSections(in tableView: UITableView) -> Int {

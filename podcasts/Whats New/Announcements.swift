@@ -12,8 +12,16 @@ struct Announcements {
             message: L10n.announcementAutoplayDescription,
             buttonTitle: L10n.enableIt,
             action: {
+                AnnouncementFlow.shared.isShowingAutoplayOption = true
+
                 NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             }
         )
     ]
+}
+
+class AnnouncementFlow {
+    static let shared = AnnouncementFlow()
+
+    var isShowingAutoplayOption = false
 }

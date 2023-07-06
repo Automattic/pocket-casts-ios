@@ -122,6 +122,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if EndOfYear.isEligible {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
+
+        if AnnouncementFlow.shared.isShowingAutoplayOption {
+            let generalSettingsViewController = GeneralSettingsViewController()
+            navigationController?.pushViewController(generalSettingsViewController, animated: true)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
