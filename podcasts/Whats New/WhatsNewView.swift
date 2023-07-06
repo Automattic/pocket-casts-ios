@@ -11,7 +11,6 @@ struct WhatsNewView: View {
                 Rectangle()
                     .frame(height: 195)
 
-                Spacer()
                 Button {
                     NavigationManager.sharedManager.dismissPresentedViewController()
                 } label: {
@@ -28,7 +27,7 @@ struct WhatsNewView: View {
                     .foregroundStyle(theme.primaryText01)
                 Text(announcement.message)
                     .font(style: .subheadline)
-                    .foregroundStyle(theme.secondaryText02)
+                    .foregroundStyle(theme.primaryText02)
                     .padding(.bottom)
                 Button("Enable it") { }
                     .buttonStyle(RoundedDarkButton(theme: theme))
