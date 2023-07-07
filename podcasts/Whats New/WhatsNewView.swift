@@ -43,7 +43,7 @@ struct WhatsNewView: View {
         .cornerRadius(5)
         .padding()
         .onAppear {
-            track(.whatsnewDisplayed)
+            track(.whatsnewShown)
         }
     }
 
