@@ -10,19 +10,7 @@ struct WhatsNewView: View {
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
-                ZStack {
-                    announcement.header()
-                }
-
-                Button {
-                    dismiss()
-                } label: {
-                    ZStack {
-                        Image("close")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 44, height: 44)
-                }
+                announcement.header()
             }
             VStack(spacing: 10) {
                 Text(announcement.title)
