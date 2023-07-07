@@ -2,6 +2,7 @@
 -----
 - The search bar on the podcasts tab is now visible by default [#929]
 - Fix spacing for the search bar when creating/editing a folder [#912]
+- Adds Autoplay, if user's Up Next is empty the app will keep playing episodes from the same list [#957]
 
 
 7.42
