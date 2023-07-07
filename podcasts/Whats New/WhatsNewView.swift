@@ -5,8 +5,6 @@ struct WhatsNewView: View {
 
     let announcement: WhatsNew.Announcement
 
-    @State private var scale = 1.0
-
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
