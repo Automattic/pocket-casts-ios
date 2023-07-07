@@ -13,7 +13,7 @@ struct Announcements {
             },
             title: L10n.announcementAutoplayTitle,
             message: L10n.announcementAutoplayDescription,
-            buttonTitle: L10n.enableIt,
+            buttonTitle: L10n.enableItNow,
             action: {
                 AnnouncementFlow.shared.isShowingAutoplayOption = true
 
