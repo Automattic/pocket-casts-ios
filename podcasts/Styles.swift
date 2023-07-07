@@ -231,15 +231,25 @@ struct SimpleTextButtonStyle: ButtonStyle {
     @ObservedObject var theme: Theme
 
     let textColor: ThemeStyle
+    let style: Font.TextStyle
+    let weight: Font.Weight
+    let size: Double
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryText01) {
+    init(theme: Theme,
+         size: Double = 18,
+         textColor: ThemeStyle = .primaryText01,
+         style: Font.TextStyle = .body,
+         weight: Font.Weight = .semibold) {
         self.theme = theme
+        self.size = size
         self.textColor = textColor
+        self.style = style
+        self.weight = weight
     }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .applyButtonFont()
+            .applyButtonFont(size: size, style: style, weight: weight)
             .foregroundColor(AppTheme.color(for: textColor, theme: theme))
             .frame(maxWidth: .infinity)
             .padding()
@@ -319,10 +329,12 @@ extension View {
             }
     }
 
-    func applyButtonFont() -> some View {
-        self.font(size: 18,
-                  style: .body,
-                  weight: .semibold,
+    func applyButtonFont(size: Double = 18,
+                         style: Font.TextStyle = .body,
+                         weight: Font.Weight = .semibold) -> some View {
+        self.font(size: size,
+                  style: style,
+                  weight: weight,
                   maxSizeCategory: .extraExtraLarge)
     }
 }

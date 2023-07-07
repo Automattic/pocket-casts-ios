@@ -111,6 +111,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.userLoginDidChange, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -122,6 +123,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if EndOfYear.isEligible {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
+
+        showGeneralSettingsIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -334,6 +337,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateFooterFrame() {
         let height: CGFloat = plusInfoView.isHidden ? 120 : 308
         footerView.frame = CGRect(x: footerView.frame.minX, y: footerView.frame.minY, width: footerView.frame.width, height: height)
+    }
+
+    // MARK: - What's New Autoplay flow
+
+    @objc private func whatsNewDismissed() {
+        showGeneralSettingsIfNeeded()
+    }
+
+    private func showGeneralSettingsIfNeeded() {
+        if AnnouncementFlow.shared.isShowingAutoplayOption {
+            let generalSettingsViewController = GeneralSettingsViewController()
+            navigationController?.pushViewController(generalSettingsViewController, animated: true)
+        }
     }
 }
 

@@ -2473,8 +2473,8 @@
 /* Setting toggle to modify how a tap is handled in the up next queue. */
 "settings_general_up_next_tap" = "Play Up Next On Tap";
 
-/* Setting toggle to modify if a new episode is played after the current one ends. */
-"settings_general_autoplay" = "Continuous Playback";
+/* Setting toggle to modify if a new episode is played after the current one ends. In most languages we believe Autoplay is understandable and might not need a translation. */
+"settings_general_autoplay" = "Autoplay";
 
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is off. */
 "settings_general_up_next_tap_off_subtitle" = "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.";
@@ -3751,6 +3751,18 @@
 
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
+
+/* Autoplay feature announcement title */
+"announcement_autoplay_title" = "Autoplay is here!";
+
+/* Autoplay feature announcement description */
+"announcement_autoplay_description" = "Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.";
+
+/* Button label for a feature that the user can enable */
+"enable_it_now" = "Enable it now";
+
+/* An action that the user want to postpone and maybe do later */
+"maybe_later" = "Maybe later";
 
 /* Label for a settings menu that allows the user to customize headphone action. */
 "settings_headphone_controls" = "Headphone Controls";

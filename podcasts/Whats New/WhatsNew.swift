@@ -4,9 +4,11 @@ import SwiftUI
 class WhatsNew {
     struct Announcement {
         let version: Double
-        let image: String
+        let header: () -> AnyView
         let title: String
         let message: String
+        let buttonTitle: String
+        let action: () -> Void
     }
 
     let announcements: [Announcement]
