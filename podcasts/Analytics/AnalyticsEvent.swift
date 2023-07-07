@@ -634,4 +634,9 @@ enum AnalyticsEvent: String {
     // MARK: - Patron
     case patronWelcomeAppIconChanged
 
+    // MARK: - What's New
+    case whatsnewDisplayed
+    case whatsnewDismissed
+    case whatsnewConfirmButtonTapped
+
 }
