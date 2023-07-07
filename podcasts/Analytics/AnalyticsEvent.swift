@@ -635,7 +635,7 @@ enum AnalyticsEvent: String {
     case patronWelcomeAppIconChanged
 
     // MARK: - What's New
-    case whatsnewDisplayed
+    case whatsnewShown
     case whatsnewDismissed
     case whatsnewConfirmButtonTapped
 
