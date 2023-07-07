@@ -22,7 +22,11 @@ class WhatsNew {
     }
 
     func viewControllerToShow() -> UIViewController? {
-        let announcement = announcements.last!
+        guard let previousOpenedVersion,
+              previousOpenedVersion != currentVersion,
+              let announcement = announcements.last(where: { $0.version > previousOpenedVersion && $0.version <= currentVersion }) else {
+            return nil
+        }
 
         let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
         whatsNewViewController.modalPresentationStyle = .overCurrentContext
