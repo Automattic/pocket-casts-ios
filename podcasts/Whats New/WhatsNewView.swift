@@ -20,6 +20,8 @@ struct WhatsNewView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                 Button(announcement.buttonTitle) {
+                    track(.whatsnewConfirmButtonTapped)
+
                     announcement.action()
 
                     dismiss()
@@ -27,6 +29,7 @@ struct WhatsNewView: View {
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                 Button(L10n.maybeLater) {
                     dismiss()
+                    track(.whatsnewDismissed)
                 }
                 .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
                     .padding(.bottom, 5)
@@ -39,12 +42,19 @@ struct WhatsNewView: View {
         .background(theme.primaryUi01)
         .cornerRadius(5)
         .padding()
+        .onAppear {
+            track(.whatsnewShown)
+        }
     }
 
     private func dismiss() {
         NavigationManager.sharedManager.dismissPresentedViewController()
 
         NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
+    }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["version": "\(announcement.version)"])
     }
 }
 
