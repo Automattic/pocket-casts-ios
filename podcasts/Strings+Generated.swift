@@ -2182,6 +2182,10 @@ internal enum L10n {
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened") }
   /// Total Unplayed
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed") }
+  /// Bookmark Confirmation Sound
+  internal static var settingsBookmarkConfirmationSound: String { return L10n.tr("Localizable", "settings_bookmark_confirmation_sound") }
+  /// Play a confirmation sound after creating a bookmark with your headphones.
+  internal static var settingsBookmarkSoundFooter: String { return L10n.tr("Localizable", "settings_bookmark_sound_footer") }
   /// Collect information
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
@@ -2334,6 +2338,8 @@ internal enum L10n {
   internal static var settingsGlobalSettings: String { return L10n.tr("Localizable", "settings_global_settings") }
   /// Headphone Controls
   internal static var settingsHeadphoneControls: String { return L10n.tr("Localizable", "settings_headphone_controls") }
+  /// Customise the actions done by the most common headphone controls.
+  internal static var settingsHeadphoneControlsFooter: String { return L10n.tr("Localizable", "settings_headphone_controls_footer") }
   /// Help & Feedback
   internal static var settingsHelp: String { return L10n.tr("Localizable", "settings_help") }
   /// Import / Export
@@ -2348,6 +2354,8 @@ internal enum L10n {
   internal static var settingsInMenu: String { return L10n.tr("Localizable", "settings_in_menu") }
   /// Inactive episodes are episodes you haven't played or downloaded in the time you specify above. Downloads are removed when the episode is archived.
   internal static var settingsInactiveEpisodesMsg: String { return L10n.tr("Localizable", "settings_inactive_episodes_msg") }
+  /// Next Action
+  internal static var settingsNextAction: String { return L10n.tr("Localizable", "settings_next_action") }
   /// Not Included In Any Filters
   internal static var settingsNotInFilters: String { return L10n.tr("Localizable", "settings_not_in_filters") }
   /// Notifications
@@ -2364,6 +2372,8 @@ internal enum L10n {
   internal static func settingsPlusPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "settings_plus_pricing_format", String(describing: p1), String(describing: p2))
   }
+  /// Previous Action
+  internal static var settingsPreviousAction: String { return L10n.tr("Localizable", "settings_previous_action") }
   /// Privacy
   internal static var settingsPrivacy: String { return L10n.tr("Localizable", "settings_privacy") }
   /// Position in Queue

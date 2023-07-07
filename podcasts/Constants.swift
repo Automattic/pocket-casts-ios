@@ -157,6 +157,18 @@ struct Constants {
         static let autoplay = "autoplay"
 
         static let searchHistoryEntries = "SearchHistoryEntries"
+
+        enum headphones {
+            static let previousAction = SettingValue("headphones.previousAction",
+                                                      defaultValue: HeadphoneControlAction.skipBack)
+
+            static let nextAction = SettingValue("headphones.nextAction",
+                                                      defaultValue: HeadphoneControlAction.skipForward)
+        }
+
+        enum bookmarks {
+            static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
+        }
     }
 
     enum Values {
@@ -298,6 +310,58 @@ struct Constants {
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
+
+    /// The `SettingValue` provides a way to:
+    ///     - Define a UserDefaults setting
+    ///     - Specify the default value to be used if it's not set
+    ///     - Retrieve and save the value to the user defaults
+    /// Example:
+    /// let helloWorld = SettingValue("hello", defaultValue: "world")
+    /// print(helloWorld.value()) -> "world" // Default value is used
+    /// helloWorld.save("hello world")
+    /// print(helloWorld.value()) -> "hello world" // Custom value is used
+    ///
+    /// This uses Generics and the `defaultValue` to define the value type that should be set and returned.
+    /// If you want to provide a nullable value you can:
+    ///
+    /// Specify an optional and a default value by wrapping the value in an `Optional`
+    ///
+    ///     SettingValue("nullable", defaultValue: Optional("HelloWorld"))
+    ///
+    /// Specify a type and a default value of nil by using `.none`
+    ///
+    ///     SettingValue("nullable", defaultValue: String?.none)
+    ///
+    struct SettingValue<Value> {
+        let key: String
+        let defaultValue: Value
+        let defaults: Foundation.UserDefaults
+
+        init(_ key: String, defaultValue: Value, defaults: Foundation.UserDefaults = .standard) {
+            self.key = key
+            self.defaultValue = defaultValue
+            self.defaults = defaults
+        }
+
+        /// Retrieve the stored value from the UserDefaults or the `defaultValue` if there isn't a stored value
+        var value: Value {
+            guard let decodableType = Value.self as? JSONDecodable.Type else {
+                return defaults.object(forKey: key) as? Value ?? defaultValue
+            }
+
+            return defaults.jsonObject(decodableType.self, forKey: key) as? Value ?? defaultValue
+        }
+
+        /// Saves the value to the UserDefaults. Passing nil to this will delete the key
+        func save(_ value: Value) {
+            guard let decodableType = value as? JSONEncodable else {
+                defaults.set(value, forKey: key)
+                return
+            }
+
+            defaults.setJSONObject(decodableType, forKey: key)
+        }
+    }
 }
 
 enum PlusUpgradeViewSource: String {
@@ -328,4 +392,24 @@ enum PlusUpgradeViewSource: String {
             return "Upgrade to Plus for \(rawValue)"
         }
     }
+}
+
+// MARK: - HeadphoneControlAction
+
+/// Describes how the headphone/bluetooth skip next/back button actions should perform in the app
+enum HeadphoneControlAction: JSONCodable {
+    /// Skip back X seconds in the episode, where X is the Skip Back seconds settings value
+    case skipBack
+
+    /// Skip forward X seconds in the episode, where X is the Skip Forward seconds settings value
+    case skipForward
+
+    /// If the episode has chapters, then skip to the previous chapter, if not default to .skipBack behavior
+    case previousChapter
+
+    /// If the episode has chapters, then skip to the next chapter, if not default to .skipForward behavior
+    case nextChapter
+
+    /// Create a new bookmark for the currently playing episode
+    case addBookmark
 }

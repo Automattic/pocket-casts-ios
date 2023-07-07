@@ -801,6 +801,39 @@ class Settings: NSObject {
         }
     }
 
+
+    // MARK: - Headphone Controls
+
+    static var headphonesPreviousAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.previousAction.value
+        }
+
+        set {
+            Constants.UserDefaults.headphones.previousAction.save(newValue)
+        }
+    }
+
+    static var headphonesNextAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.nextAction.value
+        }
+
+        set {
+            Constants.UserDefaults.headphones.nextAction.save(newValue)
+        }
+    }
+
+    static var playBookmarkCreationSound: Bool {
+        get {
+            Constants.UserDefaults.bookmarks.creationSound.value
+        }
+
+        set {
+            Constants.UserDefaults.bookmarks.creationSound.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

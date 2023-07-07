@@ -1489,6 +1489,8 @@
 		C7C4CAEB28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
 		C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */; };
 		C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
+		C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */; };
+		C7C4F9BF2A4CC359002822DD /* PCTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */; };
 		C7CA0559293E8918000E41BD /* HolographicEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CA0558293E8918000E41BD /* HolographicEffect.swift */; };
 		C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
 		C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
@@ -3183,6 +3185,8 @@
 		C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsLoggingAdapter.swift; sourceTree = "<group>"; };
 		C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksSubscriptionData.swift; sourceTree = "<group>"; };
 		C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneSettingsViewController.swift; sourceTree = "<group>"; };
+		C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCTableViewController.swift; sourceTree = "<group>"; };
 		C7CA0558293E8918000E41BD /* HolographicEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolographicEffect.swift; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-iphone@2x.png"; sourceTree = "<group>"; };
@@ -4981,6 +4985,7 @@
 		BD5B79191783F9CF00A0F407 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C7C4F9AE2A4BA4BF002822DD /* Bookmarks */,
 				8B68C1CD2942132C00CF25C5 /* Beta */,
 				46C22EE128F7496000F4173B /* Developer Menu */,
 				BD69EBBD1CD1D39F007F273B /* Helpers */,
@@ -5357,6 +5362,7 @@
 				BDD62980200EEA6700168DF7 /* SimpleNotificationsViewController.swift */,
 				BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */,
 				BD6B432B27561EA8005E4017 /* PCHostingController.swift */,
+				C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */,
 			);
 			name = "VIew Controllers";
 			sourceTree = "<group>";
@@ -6420,6 +6426,14 @@
 				C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */,
 			);
 			path = Tracks;
+			sourceTree = "<group>";
+		};
+		C7C4F9AE2A4BA4BF002822DD /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */,
+			);
+			name = Bookmarks;
 			sourceTree = "<group>";
 		};
 		C7D8132F2A0C42C2007F715F /* Icons */ = {
@@ -8590,6 +8604,7 @@
 				BD023C622251BB4E008A9C6F /* ListHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
+				C7C4F9BF2A4CC359002822DD /* PCTableViewController.swift in Sources */,
 				BD874EFB1C9A637200F5B2A5 /* NotificationsViewController.swift in Sources */,
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
@@ -8658,6 +8673,7 @@
 				BDD6297D200EDEF400168DF7 /* EpisodeDetailViewController+Actions.swift in Sources */,
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
+				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
 				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
 				BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */,
