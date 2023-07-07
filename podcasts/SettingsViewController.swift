@@ -203,8 +203,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             hostingController.title = "Beta Features"
             navigationController?.pushViewController(hostingController, animated: true)
         case .headphoneControls:
-            print("🎧 Coming Soon")
-
+            navigationController?.pushViewController(HeadphoneSettingsViewController(), animated: true)
         }
     }
 
