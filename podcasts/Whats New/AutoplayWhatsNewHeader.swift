@@ -1,39 +1,29 @@
 import SwiftUI
 
 struct AutoplayWhatsNewHeader: View {
-    @State private var scale: Double = 0
-    @State var shouldRotate = false
+    @State private var animate = false
 
     var body: some View {
         ZStack {
             LinearGradient(colors: [.init(hex: "03A9F4"), .init(hex: "50D0F1")], startPoint: .top, endPoint: .bottom)
 
-            ZStack {
-                Circle()
-                    .foregroundStyle(.white)
-                    .frame(width: 120, height: 120)
-
-                Image("whatsnew_autoplay")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80)
-                    .rotationEffect(shouldRotate ? .degrees(0) : .degrees(360))
-            }
-            .scaleEffect(scale)
+            Circle()
+                .foregroundStyle(.white)
+                .frame(width: 120, height: 120)
+                .overlay (
+                    Image("whatsnew_autoplay")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80)
+                        .rotationEffect(animate ? .degrees(720) : .degrees(0))
+                )
+                .scaleEffect(animate ? 1 : 0.1)
+                .opacity(animate ? 1 : 0)
+                .animation(.interpolatingSpring(mass: 1, stiffness: 600, damping: 15).delay(0.3), value: animate)
         }
         .frame(height: 195)
         .onAppear {
-            withAnimation(.spring().speed(0.5)) {
-                scale = 1.5
-            }
-
-            withAnimation(.spring().speed(0.8)) {
-                shouldRotate = true
-            }
-
-            withAnimation(.spring().speed(1)) {
-                scale = 1
-            }
+            animate = true
         }
     }
 }
