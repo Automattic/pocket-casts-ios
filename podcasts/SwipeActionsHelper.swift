@@ -7,6 +7,7 @@ protocol SwipeHandler: AnyObject {
     func archivingRemovesFromList() -> Bool
     func actionPerformed(willBeRemoved: Bool)
     func deleteRequested(uuid: String)
+    func share(episode: Episode, in: IndexPath)
 }
 
 enum SwipeActionsHelper {
@@ -90,9 +91,10 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(archiveAction)
         }
 
-        if !(episode is UserEpisode) {
-            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { _ -> Bool in
-                    Self.performAction(.share, handler: swipeHandler, willBeRemoved: true)
+        if let episode = episode as? Episode {
+            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { indexPath -> Bool in
+                    swipeHandler.share(episode: episode, in: indexPath)
+                    Self.performAction(.share, handler: swipeHandler, willBeRemoved: false)
                 return true
             })
             tableSwipeActions.addAction(shareAction)
