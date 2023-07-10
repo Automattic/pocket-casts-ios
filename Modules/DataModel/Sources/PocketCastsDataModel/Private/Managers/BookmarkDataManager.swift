@@ -71,6 +71,7 @@ public struct BookmarkDataManager {
         public let uuid: String
         public let createdDate: Date
         public let time: TimeInterval
+        public let title: String?
 
         public lazy var episode: BaseEpisode? = {
             DataManager.sharedManager.findEpisode(uuid: episodeUuid)
@@ -102,6 +103,7 @@ public struct BookmarkDataManager {
             self.time = time
             self.episodeUuid = episode
             self.podcastUuid = resultSet.string(for: .podcast)
+            self.title = nil // TODO
         }
     }
 
