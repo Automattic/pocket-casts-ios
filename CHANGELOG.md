@@ -1,6 +1,6 @@
 7.44
 -----
-
+- Add a share action from the episode row [#966]
 
 7.43
 -----
