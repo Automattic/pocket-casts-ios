@@ -67,11 +67,14 @@ public struct BookmarkDataManager {
     }
 
     /// A bookmark that represents a position in time within an episode
-    public struct Bookmark {
+    public struct Bookmark: Identifiable {
         public let uuid: String
         public let createdDate: Date
         public let time: TimeInterval
         public let title: String?
+
+        /* Identifiable */
+        public var id: String { uuid }
 
         public lazy var episode: BaseEpisode? = {
             DataManager.sharedManager.findEpisode(uuid: episodeUuid)
