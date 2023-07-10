@@ -47,7 +47,7 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
         true
     }
 
-    func share(episode: Episode, in indexPath: IndexPath) {
+    func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: tableView, at: indexPath)
     }
 }

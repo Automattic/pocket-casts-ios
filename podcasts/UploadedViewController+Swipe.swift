@@ -45,5 +45,5 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
         true
     }
 
-    func share(episode: Episode, in: IndexPath) { }
+    func share(episode: Episode, at: IndexPath) { }
 }
