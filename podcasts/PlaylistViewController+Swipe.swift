@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import SwipeCellKit
 
 extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
@@ -44,5 +45,9 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
 
     func archivingRemovesFromList() -> Bool {
         true
+    }
+
+    func share(episode: Episode, in indexPath: IndexPath) {
+        SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: tableView, at: indexPath)
     }
 }
