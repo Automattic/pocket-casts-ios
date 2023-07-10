@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import SwipeCellKit
 
 extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
@@ -45,4 +46,8 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one
+
+    func share(episode: Episode, in indexPath: IndexPath) {
+        SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: downloadsTable, at: indexPath)
+    }
 }
