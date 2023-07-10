@@ -1522,6 +1522,9 @@
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
+		C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */; };
+		C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */; };
+		C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */; };
 		C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */; };
 		C7F0EEE7291D9A770007C148 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */; };
 		C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */; };
@@ -3216,6 +3219,9 @@
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
+		C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTabController.swift; sourceTree = "<group>"; };
+		C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
+		C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRow.swift; sourceTree = "<group>"; };
 		C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonBlockingLongPressView.swift; sourceTree = "<group>"; };
 		C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableMetadataProvider.swift; sourceTree = "<group>"; };
@@ -6279,6 +6285,7 @@
 		C75274DF2A3252180004DD15 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
+				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
 			);
 			path = Bookmarks;
@@ -6288,6 +6295,7 @@
 			isa = PBXGroup;
 			children = (
 				C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */,
+				C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -6885,6 +6893,15 @@
 				C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */,
 			);
 			path = "Account Prompt";
+			sourceTree = "<group>";
+		};
+		C7E99EF62A5C803B00E7CBAF /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */,
+				C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		C7FAFF592941839A00329B40 /* Cancel */ = {
@@ -8399,6 +8416,7 @@
 				BD21D4A722DEDAE700D5888B /* ThemeableCollectionView.swift in Sources */,
 				8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */,
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
+				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
 				BD240C43231F46F400FB2CDD /* PCSearchBarController+TextFieldDelegate.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
@@ -8674,6 +8692,7 @@
 				C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */,
 				C7A110F9291F66C700887A90 /* Confetti.swift in Sources */,
 				BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */,
+				C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */,
 				BD585C1D204785EF00AC842C /* AppDelegate.swift in Sources */,
 				BD93246F2398BAE3004F19A1 /* TourStep.swift in Sources */,
 				BDDAE72C27F2E76B003741A1 /* FileTypeUtil.swift in Sources */,
@@ -8689,6 +8708,7 @@
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
+				C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */,
 				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
 				BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */,
 				C72223D4292C918F006B3B55 /* OnboardingModel.swift in Sources */,
