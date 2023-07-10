@@ -1,11 +1,15 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import Combine
 
 class BookmarkManager {
     typealias Bookmark = BookmarkDataManager.Bookmark
 
     private let dataManager: BookmarkDataManager
+
+    // Publishers
+    let onBookmarkCreated = PassthroughSubject<(BaseEpisode, Bookmark), Never>()
 
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks) {
         self.dataManager = dataManager
@@ -29,9 +33,12 @@ class BookmarkManager {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
-        dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, time: time)
+        let uuid = dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, time: time)
 
-        playTone()
+        // Inform the subscribers a bookmark was added
+        uuid.flatMap { dataManager.bookmark(for: $0) }.map {
+            onBookmarkCreated.send((episode, $0))
+        }
 
         FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
     }
