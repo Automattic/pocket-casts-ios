@@ -90,6 +90,14 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(archiveAction)
         }
 
+        if !(episode is UserEpisode) {
+            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { _ -> Bool in
+                //            Self.performAction(.delete, handler: swipeHandler, willBeRemoved: true)
+                return true
+            })
+            tableSwipeActions.addAction(shareAction)
+        }
+
         return tableSwipeActions
     }
 
