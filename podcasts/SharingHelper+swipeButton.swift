@@ -4,6 +4,7 @@ import PocketCastsDataModel
 extension SharingHelper {
     func shareLinkTo(episode: Episode, fromController: UIViewController, fromTableView tableView: UITableView, at indexPath: IndexPath) {
         let source = tableView.swipeButton(forLabel: L10n.share, at: indexPath) ?? tableView
+        Analytics.track(.podcastShared, properties: ["type": "episode", "source": "episode_swipe_action"])
         shareLinkTo(episode: episode, shareTime: 0, fromController: fromController, sourceRect: source.bounds, sourceView: source)
     }
 }
