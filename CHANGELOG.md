@@ -1,3 +1,7 @@
+7.44
+-----
+
+
 7.43
 -----
 - The search bar on the podcasts tab is now visible by default [#929]
