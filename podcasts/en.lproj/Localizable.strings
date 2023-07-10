@@ -3781,3 +3781,9 @@
 
 /* Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark . */
 "settings_bookmark_confirmation_sound" = "Bookmark Confirmation Sound";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is equal to one */
+"bookmarks_count_singular" = "1 bookmark";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is more than one */
+"bookmarks_count_plural" = "%1$@ bookmarks";
