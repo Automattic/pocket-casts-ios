@@ -92,7 +92,7 @@ enum SwipeActionsHelper {
 
         if !(episode is UserEpisode) {
             let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { _ -> Bool in
-                //            Self.performAction(.delete, handler: swipeHandler, willBeRemoved: true)
+                    Self.performAction(.share, handler: swipeHandler, willBeRemoved: true)
                 return true
             })
             tableSwipeActions.addAction(shareAction)
@@ -119,6 +119,7 @@ enum SwipeActionsHelper {
         case delete
         case unarchive
         case archive
+        case share
 
         var analyticsDescription: String {
             switch self {
@@ -134,6 +135,8 @@ enum SwipeActionsHelper {
                 return "unarchive"
             case .archive:
                 return "archive"
+            case .share:
+                return "share"
             }
         }
     }
