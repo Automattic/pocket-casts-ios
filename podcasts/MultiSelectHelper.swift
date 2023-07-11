@@ -326,6 +326,8 @@ class MultiSelectHelper {
             return
         }
 
+        Analytics.track(.podcastShared, properties: ["type": "episode", "source": "multi_select"])
+
         if let view {
             SharingHelper.shared.shareLinkTo(episode: episode, shareTime: 0, fromController: actionDelegate.multiSelectPresentingViewController(), sourceRect: view.bounds, sourceView: view)
         }
