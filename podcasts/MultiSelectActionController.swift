@@ -60,6 +60,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         }
     }
 
+    private var originalActions: [MultiSelectAction]
     private var orderedActions: [MultiSelectAction]
     private var delegate: MultiSelectActionOrderDelegate
     private var actionDelegate: MultiSelectActionDelegate
@@ -71,6 +72,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     init(actions: [MultiSelectAction], delegate: MultiSelectActionOrderDelegate, actionDelegate: MultiSelectActionDelegate, numSelectedEpisodes: Int, setActionsFunc: @escaping (([MultiSelectAction]) -> Void), themeOverride: Theme.ThemeType?) {
         orderedActions = actions
+        originalActions = actions
         self.delegate = delegate
         self.actionDelegate = actionDelegate
         self.numSelectedEpisodes = numSelectedEpisodes
@@ -92,6 +94,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         doneButton.isHidden = true
         updateColors()
         setPreferredSize(animated: false)
+
+        removeShareIfMultipleEpisodesAreSelected()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -130,8 +134,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedAction = actionAt(indexPath: indexPath, isEditing: actionsTable.isEditing)
-        MultiSelectHelper.performAction(selectedAction, actionDelegate: actionDelegate)
         dismiss(animated: true, completion: nil)
+        MultiSelectHelper.performAction(selectedAction, actionDelegate: actionDelegate)
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -216,6 +220,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @IBAction func editTapped(_ sender: UIButton) {
+        showAllActions()
+
         actionsTable.isEditing = true
         actionsTable.reloadData()
 
@@ -231,6 +237,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @IBAction func doneTapped(_ sender: UIButton) {
+        removeShareIfMultipleEpisodesAreSelected()
         setActionsFunc(orderedActions)
         delegate.actionOrderChanged()
         dismiss(animated: true, completion: nil)
@@ -263,5 +270,22 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     func updateColors() {
         doneButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
         editButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
+    }
+
+    private func removeShareIfMultipleEpisodesAreSelected() {
+        if numSelectedEpisodes > 1 {
+            orderedActions = orderedActions.filter { $0 != .share }
+        }
+    }
+
+    private func showAllActions() {
+        orderedActions = originalActions
+
+        // If a user already saved the actions, share will be
+        // missing since was added later to the app.
+        // This ensures it's displayed.
+        if !orderedActions.contains(.share) {
+            orderedActions.append(.share)
+        }
     }
 }
