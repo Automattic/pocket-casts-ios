@@ -91,7 +91,7 @@ class SharingHelper: NSObject {
         activityController.popoverPresentationController?.barButtonItem = barButtonItem
     }
 
-    func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?) {
+    func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true) {
         activityController = createActivityController(episode: episode, shareTime: shareTime)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
@@ -105,6 +105,10 @@ class SharingHelper: NSObject {
         })
         activityController.popoverPresentationController?.sourceView = sourceView
         activityController.popoverPresentationController?.sourceRect = sourceRect
+
+        if !showArrow {
+            activityController.popoverPresentationController?.permittedArrowDirections = []
+        }
     }
 
     func createActivityController(episode: Episode, shareTime: TimeInterval) -> UIActivityViewController {
