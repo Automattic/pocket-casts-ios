@@ -7,6 +7,7 @@ protocol SwipeHandler: AnyObject {
     func archivingRemovesFromList() -> Bool
     func actionPerformed(willBeRemoved: Bool)
     func deleteRequested(uuid: String)
+    func share(episode: Episode, at: IndexPath)
 }
 
 enum SwipeActionsHelper {
@@ -90,6 +91,15 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(archiveAction)
         }
 
+        if let episode = episode as? Episode {
+            let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.share, removesFromList: false, backgroundColor: ThemeColor.support03(), icon: UIImage(named: "podcast-share"), tableView: tableView, handler: { indexPath -> Bool in
+                    swipeHandler.share(episode: episode, at: indexPath)
+                    Self.performAction(.share, handler: swipeHandler, willBeRemoved: false)
+                return true
+            })
+            tableSwipeActions.addAction(shareAction)
+        }
+
         return tableSwipeActions
     }
 
@@ -111,6 +121,7 @@ enum SwipeActionsHelper {
         case delete
         case unarchive
         case archive
+        case share
 
         var analyticsDescription: String {
             switch self {
@@ -126,6 +137,8 @@ enum SwipeActionsHelper {
                 return "unarchive"
             case .archive:
                 return "archive"
+            case .share:
+                return "share"
             }
         }
     }

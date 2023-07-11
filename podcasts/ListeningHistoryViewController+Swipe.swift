@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import SwipeCellKit
 
 extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandler {
@@ -39,4 +40,8 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one
+
+    func share(episode: Episode, at indexPath: IndexPath) {
+        SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: listeningHistoryTable, at: indexPath)
+    }
 }
