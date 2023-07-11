@@ -1,11 +1,3 @@
-//
-//  ShareViewController.swift
-//  Share Extension
-//
-//  Created by Yael Rubinstein on 6/30/23.
-//  Copyright © 2023 Shifty Jelly. All rights reserved.
-//
-
 import UIKit
 import Social
 
