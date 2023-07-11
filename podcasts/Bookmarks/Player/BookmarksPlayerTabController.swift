@@ -3,13 +3,18 @@ import Combine
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
 class BookmarksPlayerTabController: PlayerItemViewController {
-    private let viewModel = BookmarkListViewModel(bookmarkManager: PlaybackManager.shared.bookmarkManager)
-
-    private lazy var controller = {
-        ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
-    }()
+    private let viewModel: BookmarkListViewModel
+    let controller: ThemedHostingController<BookmarksPlayerTab>
 
     private var cancellables = Set<AnyCancellable>()
+
+    init(bookmarkManager: BookmarkManager) {
+        let viewModel = BookmarkListViewModel(bookmarkManager: bookmarkManager)
+        self.viewModel = viewModel
+        self.controller = ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
+
+        super.init(nibName: nil, bundle: nil)
+    }
 
     override func loadView() {
         self.view = controller.view.map {
@@ -41,5 +46,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
     private func updateCurrentEpisode() {
         viewModel.episode = PlaybackManager.shared.currentEpisode()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
