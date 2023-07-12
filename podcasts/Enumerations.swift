@@ -426,4 +426,14 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "share"
         }
     }
+
+    func isVisible(with episodes: [BaseEpisode]) -> Bool {
+        switch self {
+        case .share:
+            return episodes.count > 1 && episodes.allSatisfy({ $0 is Episode })
+
+        default:
+            return true
+        }
+    }
 }

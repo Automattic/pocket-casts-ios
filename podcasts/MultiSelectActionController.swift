@@ -95,7 +95,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         updateColors()
         setPreferredSize(animated: false)
 
-        removeShareIfMultipleEpisodesAreSelected()
+        filterUnavailableActions()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -237,7 +237,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @IBAction func doneTapped(_ sender: UIButton) {
-        removeShareIfMultipleEpisodesAreSelected()
+        filterUnavailableActions()
         setActionsFunc(orderedActions)
         delegate.actionOrderChanged()
         dismiss(animated: true, completion: nil)
@@ -272,10 +272,9 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         editButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
     }
 
-    private func removeShareIfMultipleEpisodesAreSelected() {
-        if numSelectedEpisodes > 1 {
-            orderedActions = orderedActions.filter { $0 != .share }
-        }
+    private func filterUnavailableActions() {
+        let episodes = actionDelegate.multiSelectedBaseEpisodes()
+        orderedActions = orderedActions.filter { $0.isVisible(with: episodes) }
     }
 
     private func showAllActions() {
