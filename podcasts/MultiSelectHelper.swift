@@ -328,14 +328,16 @@ class MultiSelectHelper {
 
         Analytics.track(.podcastShared, properties: ["type": "episode", "source": "multi_select"])
 
-        if let view {
-            SharingHelper.shared.shareLinkTo(episode: episode, shareTime: 0, fromController: actionDelegate.multiSelectPresentingViewController(), sourceRect: view.bounds, sourceView: view)
+        guard let sourceView = view ?? actionDelegate.multiSelectPresentingViewController().view else {
+            return
         }
 
-        // If no view is provided, the app is sharing from the bottom sheet
-        if let view = actionDelegate.multiSelectPresentingViewController().view {
-            SharingHelper.shared.shareLinkTo(episode: episode, shareTime: 0, fromController: actionDelegate.multiSelectPresentingViewController(), sourceRect: view.bounds, sourceView: view, showArrow: false)
-        }
+        SharingHelper.shared.shareLinkTo(episode: episode,
+                                         shareTime: 0,
+                                         fromController: actionDelegate.multiSelectPresentingViewController(),
+                                         sourceRect: sourceView.bounds,
+                                         sourceView: sourceView,
+                                         showArrow: view != nil)
     }
 
     // MARK: - Selection Helpers
