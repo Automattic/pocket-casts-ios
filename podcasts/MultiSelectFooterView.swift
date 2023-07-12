@@ -64,16 +64,14 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
     private var rightAction: MultiSelectAction?
     private var leftAction: MultiSelectAction?
-    private var numberOfEpisodes: Int
+    private var numberOfEpisodes = 0
 
     override init(frame: CGRect) {
-        numberOfEpisodes = 0
         super.init(frame: frame)
         commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        numberOfEpisodes = 0
         super.init(coder: aDecoder)
         commonInit()
     }
