@@ -2,11 +2,10 @@ import Combine
 import PocketCastsDataModel
 
 class BookmarkListViewModel: ObservableObject {
-    let bookmarkManager: BookmarkManager
-
     @Published var bookmarkCount: Int = 0
     @Published var bookmarks: [Bookmark] = []
 
+    private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
 
     weak var episode: BaseEpisode? = nil {
