@@ -52,8 +52,11 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }()
 
     lazy var bookmarksItem: BookmarksPlayerTabController = {
-        let bookmarkManager = PlaybackManager.shared.bookmarkManager
-        let item = BookmarksPlayerTabController(bookmarkManager: bookmarkManager)
+        let playbackManager = PlaybackManager.shared
+        let bookmarkManager = playbackManager.bookmarkManager
+        let item = BookmarksPlayerTabController(bookmarkManager: bookmarkManager,
+                                                playbackManager: playbackManager)
+
         item.view.translatesAutoresizingMaskIntoConstraints = false
 
         return item
