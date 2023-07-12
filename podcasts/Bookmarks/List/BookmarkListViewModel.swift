@@ -30,10 +30,10 @@ class BookmarkListViewModel: ObservableObject {
 
     private func listenForAddedBookmarks() {
         bookmarkManager.onBookmarkCreated
-            .filter { [weak self] (episode, _) in
+            .filter { [weak self] episode, _ in
                 self?.episode?.uuid == episode.uuid
             }
-            .sink { [weak self] (_, _) in
+            .sink { [weak self] _, _ in
                 self?.reload()
             }
             .store(in: &cancellables)
