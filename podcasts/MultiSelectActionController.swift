@@ -279,11 +279,15 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     private func showAllActions() {
         orderedActions = originalActions
+        let shareableEpisodesCount = actionDelegate
+            .multiSelectedBaseEpisodes()
+            .filter { $0 is Episode }
+            .count
 
         // If a user already saved the actions, share will be
         // missing since was added later to the app.
-        // This ensures it's displayed.
-        if !orderedActions.contains(.share) {
+        // This ensures it's displayed except for user's files.
+        if !orderedActions.contains(.share) && shareableEpisodesCount > 0 {
             orderedActions.append(.share)
         }
     }
