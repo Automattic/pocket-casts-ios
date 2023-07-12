@@ -58,7 +58,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private let bookmarkManager = BookmarkManager()
+    let bookmarkManager = BookmarkManager()
 
     init() {
         queue = PlaybackQueue()

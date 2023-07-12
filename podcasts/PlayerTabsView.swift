@@ -36,7 +36,7 @@ class PlayerTabsView: UIScrollView {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
 
-            guard oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) else {
+            guard oldValue != currentTab, let tab = tabs[safe: currentTab] else {
                 return
             }
 

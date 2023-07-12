@@ -254,6 +254,12 @@ internal enum L10n {
   internal static var back: String { return L10n.tr("Localizable", "back") }
   /// Bookmarks
   internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
+  /// %1$@ bookmarks
+  internal static func bookmarksCountPlural(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_count_plural", String(describing: p1))
+  }
+  /// 1 bookmark
+  internal static var bookmarksCountSingular: String { return L10n.tr("Localizable", "bookmarks_count_singular") }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.
