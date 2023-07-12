@@ -1071,6 +1071,8 @@ podcasts com você</string>
     <string>Marcar como reproduzido</string>
     <key>mark_unplayed_short</key>
     <string>Marcar como não reproduzido</string>
+    <key>maybe_later</key>
+    <string>Talvez depois</string>
     <key>mini_player_close</key>
     <string>Fechar e limpar Próximos</string>
     <key>minute_listened</key>

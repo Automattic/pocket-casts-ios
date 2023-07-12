@@ -1071,6 +1071,8 @@
     <string>Отметить прослушанным</string>
     <key>mark_unplayed_short</key>
     <string>Отметить как непрослушанный</string>
+    <key>maybe_later</key>
+    <string>Возможно, позже</string>
     <key>mini_player_close</key>
     <string>Закрыть и очистить очередь</string>
     <key>minute_listened</key>

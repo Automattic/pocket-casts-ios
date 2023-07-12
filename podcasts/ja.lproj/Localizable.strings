@@ -1071,6 +1071,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>再生済みとしてマーク</string>
     <key>mark_unplayed_short</key>
     <string>未再生としてマーク</string>
+    <key>maybe_later</key>
+    <string>後で確認する</string>
     <key>mini_player_close</key>
     <string>ミニプレイヤーを閉じて次のエピソードをクリア</string>
     <key>minute_listened</key>
