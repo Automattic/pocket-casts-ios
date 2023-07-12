@@ -1,5 +1,4 @@
-import FMDB
-import PocketCastsUtils
+import Foundation
 
 /// A bookmark that represents a position in time within an episode
 public struct Bookmark {
