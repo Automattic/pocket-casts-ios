@@ -2487,7 +2487,7 @@
 "settings_general_up_next_tap_on_subtitle" = "Tapping an episode in Up Next will play it. Long press shows episode options. Turn off to switch these around.";
 
 /* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
-"settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
+"settings_general_autoplay_subtitle" = "If your Up Next Queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
