@@ -4,8 +4,6 @@ import PocketCastsUtils
 import Combine
 
 class BookmarkManager {
-    typealias Bookmark = BookmarkDataManager.Bookmark
-
     private let dataManager: BookmarkDataManager
 
     // Publishers

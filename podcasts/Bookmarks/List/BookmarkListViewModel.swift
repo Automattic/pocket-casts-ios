@@ -5,7 +5,7 @@ class BookmarkListViewModel: ObservableObject {
     let bookmarkManager: BookmarkManager
 
     @Published var bookmarkCount: Int = 0
-    @Published var bookmarks: [BookmarkManager.Bookmark] = []
+    @Published var bookmarks: [Bookmark] = []
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -39,11 +39,11 @@ class BookmarkListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func bookmarkTapped(_ bookmark: BookmarkManager.Bookmark) {
+    func bookmarkTapped(_ bookmark: Bookmark) {
         print("Tapped")
     }
 
-    func bookmarkPlayTapped(_ bookmark: BookmarkManager.Bookmark) {
+    func bookmarkPlayTapped(_ bookmark: Bookmark) {
         PlaybackManager.shared.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
     }
 }

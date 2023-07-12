@@ -6,7 +6,7 @@ struct BookmarkRow: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var viewModel: BookmarkListViewModel
 
-    private let bookmark: BookmarkManager.Bookmark
+    private let bookmark: Bookmark
 
     private let title: String
     private let subtitle: String
@@ -14,7 +14,7 @@ struct BookmarkRow: View {
 
     @State private var higlighted = false
 
-    init(bookmark: BookmarkManager.Bookmark) {
+    init(bookmark: Bookmark) {
         self.bookmark = bookmark
 
         let title = bookmark.title?.isEmpty == false ? bookmark.title : nil
