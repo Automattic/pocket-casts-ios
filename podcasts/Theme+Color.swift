@@ -445,3 +445,42 @@ extension Theme {
         AppTheme.color(for: .category19, theme: self)
     }
 }
+
+// MARK: - Player Colors
+extension Theme {
+    var playerBackground01: Color {
+        Color(uiColor: PlayerColorHelper.playerBackgroundColor01())
+    }
+
+    var playerBackground02: Color {
+        Color(uiColor: PlayerColorHelper.playerBackgroundColor02())
+    }
+
+    var playerHighlight01: Color {
+        Color(uiColor: PlayerColorHelper.playerHighlightColor01(for: activeTheme))
+    }
+
+    var playerHighlight02: Color {
+        Color(uiColor: PlayerColorHelper.playerHighlightColor02(for: activeTheme))
+    }
+
+    var playerHighlight06: Color {
+        Color(uiColor: PlayerColorHelper.playerHighlightColor06(for: activeTheme))
+    }
+
+    var playerHighlight07: Color {
+        Color(uiColor: PlayerColorHelper.playerHighlightColor07(for: activeTheme))
+    }
+
+    var podcastInteractive03: Color {
+        Color(uiColor: PlayerColorHelper.podcastInteractive03(for: activeTheme))
+    }
+
+    var podcastInteractive04: Color {
+        Color(uiColor: PlayerColorHelper.podcastInteractive04(for: activeTheme))
+    }
+
+    var podcastInteractive05: Color {
+        Color(uiColor: PlayerColorHelper.podcastInteractive05(for: activeTheme))
+    }
+}

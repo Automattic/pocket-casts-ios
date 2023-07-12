@@ -66,45 +66,6 @@ public struct BookmarkDataManager {
         return selectBookmarks(where: whereColumns, values: values)
     }
 
-    /// A bookmark that represents a position in time within an episode
-    public struct Bookmark {
-        public let uuid: String
-        public let createdDate: Date
-        public let time: TimeInterval
-
-        public lazy var episode: BaseEpisode? = {
-            DataManager.sharedManager.findEpisode(uuid: episodeUuid)
-        }()
-
-        public lazy var podcast: Podcast? = {
-            guard let podcastUuid else {
-                return nil
-            }
-            return DataManager.sharedManager.findPodcast(uuid: podcastUuid)
-        }()
-
-        // Internally used to lazily load the episode/podcast
-        private let episodeUuid: String
-        private let podcastUuid: String?
-
-        init?(from resultSet: FMResultSet) {
-            guard
-                let uuid = resultSet.string(for: .uuid),
-                let createdDate = resultSet.date(for: .createdDate),
-                let episode = resultSet.string(for: .episode),
-                let time = resultSet.double(for: .time)
-            else {
-                return nil
-            }
-
-            self.uuid = uuid
-            self.createdDate = createdDate
-            self.time = time
-            self.episodeUuid = episode
-            self.podcastUuid = resultSet.string(for: .podcast)
-        }
-    }
-
     enum Column: String, CaseIterable, CustomStringConvertible {
         case uuid
         case createdDate = "date_added"
@@ -189,6 +150,29 @@ extension BookmarkDataManager {
     }
 }
 
+// MARK: - Bookmark from FMResultSet
+private extension Bookmark {
+    init?(from resultSet: FMResultSet) {
+        guard
+            let uuid = resultSet.string(for: .uuid),
+            let createdDate = resultSet.date(for: .createdDate),
+            let episode = resultSet.string(for: .episode),
+            let time = resultSet.double(for: .time)
+        else {
+            return nil
+        }
+
+        let title: String? = nil
+        let podcast = resultSet.string(for: .podcast)
+
+        self.init(uuid: uuid,
+                  createdDate: createdDate,
+                  time: time,
+                  title: title,
+                  episodeUuid: episode,
+                  podcastUuid: podcast)
+    }
+}
 
 // MARK: - BookmarkDataManager.Column: FMResultSet Extension
 private extension FMResultSet {
