@@ -150,7 +150,7 @@ internal enum L10n {
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing") }
-  /// Enable it and Pocket Casts will autoplay episodes from your current list, if your Up Next queue is empty.
+  /// If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
   /// Autoplay is here!
   internal static var announcementAutoplayTitle: String { return L10n.tr("Localizable", "announcement_autoplay_title") }

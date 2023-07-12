@@ -1071,6 +1071,8 @@ podcasts mee</string>
     <string>Afgespeeld markeren</string>
     <key>mark_unplayed_short</key>
     <string>Niet-afgespeeld markeren</string>
+    <key>maybe_later</key>
+    <string>Misschien later</string>
     <key>mini_player_close</key>
     <string>Sluit en wis Hierna</string>
     <key>minute_listened</key>

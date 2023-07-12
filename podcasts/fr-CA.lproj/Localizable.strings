@@ -1071,6 +1071,8 @@ podcasts partout avec</string>
     <string>Marquer lu(s)</string>
     <key>mark_unplayed_short</key>
     <string>Marquer non lu(s)</string>
+    <key>maybe_later</key>
+    <string>Peut-être plus tard</string>
     <key>mini_player_close</key>
     <string>Fermer et effacer la file d’attente Prochains épisodes</string>
     <key>minute_listened</key>

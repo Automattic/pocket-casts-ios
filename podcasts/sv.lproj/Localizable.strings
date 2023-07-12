@@ -1071,6 +1071,8 @@ podcasts med dig</string>
     <string>Markera som spelad</string>
     <key>mark_unplayed_short</key>
     <string>Markera som ospelad</string>
+    <key>maybe_later</key>
+    <string>Kanske senare</string>
     <key>mini_player_close</key>
     <string>Stäng och rensa Nästa</string>
     <key>minute_listened</key>
