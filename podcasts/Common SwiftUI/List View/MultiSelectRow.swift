@@ -16,8 +16,8 @@ struct MultiSelectRow<Content: View>: View {
     /// Called when the selection toggle is tapped
     let onSelectionToggled: () -> Void
 
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var multiSelectButtonSize = 24
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var checkSize = 20
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var multiSelectButtonSize = 24
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var checkSize = 20
 
     private let style = Style()
 

@@ -53,7 +53,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
     /// The actions to display in the action bar, this can be omitted
     var actions: [Action] = []
 
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var imageSize = 24
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 24
 
     var body: some View {
         HStack {
