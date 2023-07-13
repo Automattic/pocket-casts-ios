@@ -153,6 +153,12 @@ private extension Font.TextStyle {
 }
 
 // MARK: - ScaledMetricWithMaxSize
+
+/// `ScaledMetricWithMaxSize` provides the same functionality as the [@ScaledMetric](https://developer.apple.com/documentation/swiftui/scaledmetric) property wrapper, however it also adds the ability to limit the maximum size of the value.
+///
+/// This allows you to create custom values that scale along with the dynamic text size, such as scaling an icon or padding.
+///
+///
 @propertyWrapper
 public struct ScaledMetricWithMaxSize<Value>: DynamicProperty where Value: BinaryFloatingPoint {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
