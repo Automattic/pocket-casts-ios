@@ -81,6 +81,8 @@ struct BookmarkRow: View {
                 .opacity(config.isPressed ? 0.9 : 1)
                 .applyButtonEffect(isPressed: config.isPressed)
         }
+        .opacity(viewModel.isMultiSelecting ? 0.3 : 1)
+        .disabled(viewModel.isMultiSelecting)
     }
 
     // MARK: - Play Button View
