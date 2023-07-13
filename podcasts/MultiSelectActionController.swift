@@ -236,8 +236,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @IBAction func doneTapped(_ sender: UIButton) {
-        filterUnavailableActions()
         setActionsFunc(orderedActions)
+        filterUnavailableActions()
         delegate.actionOrderChanged()
         dismiss(animated: true, completion: nil)
         Analytics.track(.multiSelectViewOverflowMenuRearrangeFinished, properties: ["source": actionDelegate.multiSelectViewSource])
