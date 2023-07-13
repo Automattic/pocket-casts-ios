@@ -76,7 +76,7 @@ struct BookmarksPlayerTab: View {
                     ForEach(viewModel.items) { bookmark in
                         BookmarkRow(bookmark: bookmark)
 
-                        if !viewModel.itemIsLast(bookmark) {
+                        if !viewModel.isLast(item: bookmark) {
                             divider
                         }
                     }
@@ -101,7 +101,7 @@ struct BookmarksPlayerTab: View {
         let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
         let editVisible = viewModel.numberOfSelectedItems == 1
 
-        ActionBarOverlayView(visible: actionBarVisible, title: title, content: {
+        ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: .player, content: {
             content()
         }, actions: [
             .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
@@ -111,9 +111,6 @@ struct BookmarksPlayerTab: View {
                 viewModel.deleteSelectedBookmarks()
             })
         ])
-        .barStyle(backgroundTint: theme.playerBackground02,
-                  buttonColor: theme.playerBackground01,
-                  foregroundColor: theme.playerContrast01)
     }
 
     // MARK: - Utility Views

@@ -1523,6 +1523,7 @@
 		C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */; };
 		C7D8AE5D2A6056C900C9EBAF /* ListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */; };
 		C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */; };
+		C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
 		C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */; };
@@ -3226,6 +3227,7 @@
 		C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarOverlayView.swift; sourceTree = "<group>"; };
 		C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTests.swift; sourceTree = "<group>"; };
 		C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutliSelectListViewModel.swift; sourceTree = "<group>"; };
+		C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarStyles.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
 		C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTabController.swift; sourceTree = "<group>"; };
@@ -6311,6 +6313,7 @@
 			children = (
 				C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */,
 				C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */,
+				C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -6949,7 +6952,6 @@
 			children = (
 				C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */,
 				C7E99F082A5E105600E7CBAF /* MultiSelectRow.swift */,
-				C7E99EFF2A5E099100E7CBAF /* MutliSelectListViewModel.swift */,
 				C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */,
 			);
 			path = "List View";
@@ -8953,6 +8955,7 @@
 				BD93134F1D795628007A70FC /* SharePodcastsViewController.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */,
+				C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */,
 				8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */,
 				C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,

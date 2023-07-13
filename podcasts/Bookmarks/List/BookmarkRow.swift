@@ -30,18 +30,18 @@ struct BookmarkRow: View {
     }
 
     var body: some View {
-        let selected = viewModel.itemIsSelected(bookmark)
-        MultiSelectRow(visible: viewModel.isMultiSelecting, selected: selected) {
+        let selected = viewModel.isSelected(bookmark)
+        MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
             HStack {
                 detailsView
                 playButtonView
             }
         } onSelectionToggled: {
             withAnimation {
-                viewModel.toggleItemSelected(bookmark)
+                viewModel.toggleSelected(bookmark)
             }
         }
-        .rowStyle(tintColor: theme.playerContrast01, checkColor: theme.playerBackground01)
+        .selectButtonStyle(tintColor: theme.playerContrast01, checkColor: theme.playerBackground01)
         .padding(Constants.padding)
         // Display a highlight when tapped, or the row is selected
         .background((highlighted || selected) ? theme.playerContrast05 : nil)
