@@ -4,10 +4,10 @@ import Foundation
 ///
 /// Usage:
 ///
-///     class MyListViewModel: MutliSelectListViewModel<MyCustomModel> {
+///     class MyListViewModel: MultiSelectListViewModel<MyCustomModel> {
 ///         ...
 ///     }
-class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
+class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     /// Whether the list is currently in the multi selection mode
     @Published private(set) var isMultiSelecting = false
 
