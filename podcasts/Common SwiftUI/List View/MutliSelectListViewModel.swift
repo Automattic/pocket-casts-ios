@@ -100,18 +100,10 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
         // Show the select all above/below options
         showOptionsPicker(item)
     }
-}
 
-// MARK: - Private Methods
+    // MARK: - Options Picker
 
-private extension MutliSelectListViewModel {
-    func updateCounts() {
-        let selected = selectedItems.count
-        numberOfSelectedItems = selected
-        hasSelectedAll = selected == items.count
-    }
-
-    /// Shows the option picker to allow for Select All Above/Below
+    /// Shows the default option picker to allow for Select All Above/Below
     func showOptionsPicker(_ item: Model) {
         let optionPicker = OptionsPicker(title: nil)
 
