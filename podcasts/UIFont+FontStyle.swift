@@ -151,3 +151,66 @@ private extension Font.TextStyle {
         }
     }
 }
+
+// MARK: - ScaledMetricWithMaxSize
+
+/// `ScaledMetricWithMaxSize` provides the same functionality as the [@ScaledMetric](https://developer.apple.com/documentation/swiftui/scaledmetric) property wrapper, however it also adds the ability to limit the maximum size of the value.
+///
+/// This allows you to create custom values that scale along with the dynamic text size, such as scaling an icon or padding.
+///
+///
+@propertyWrapper
+public struct ScaledMetricWithMaxSize<Value>: DynamicProperty where Value: BinaryFloatingPoint {
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
+
+    private let baseValue: Value
+    private let textStyle: Font.TextStyle
+    private let maxTypeSize: DynamicTypeSize
+
+    public var wrappedValue: Value {
+        let size = min(dynamicTypeSize, maxTypeSize)
+        let metrics = UIFontMetrics(forTextStyle: textStyle.UIFontTextStyle)
+        let traits = UITraitCollection(preferredContentSizeCategory: size.UIContentSizeCategory)
+
+        return Value(metrics.scaledValue(for: Double(baseValue), compatibleWith: traits))
+    }
+
+    public init(wrappedValue: Value = .zero, relativeTo textStyle: Font.TextStyle, maxSize: DynamicTypeSize) {
+        self.baseValue = wrappedValue
+        self.textStyle = textStyle
+        self.maxTypeSize = maxSize
+    }
+}
+
+private extension DynamicTypeSize {
+    var UIContentSizeCategory: UIContentSizeCategory {
+        switch self {
+        case .xSmall:
+            return .extraSmall
+        case .small:
+            return .small
+        case .medium:
+            return .medium
+        case .large:
+            return .large
+        case .xLarge:
+            return .extraLarge
+        case .xxLarge:
+            return .extraExtraLarge
+        case .xxxLarge:
+            return .extraExtraExtraLarge
+        case .accessibility1:
+            return .accessibilityMedium
+        case .accessibility2:
+            return .accessibilityLarge
+        case .accessibility3:
+            return .accessibilityExtraLarge
+        case .accessibility4:
+            return .accessibilityExtraExtraLarge
+        case .accessibility5:
+            return .accessibilityExtraExtraExtraLarge
+        @unknown default:
+            return .large
+        }
+    }
+}
