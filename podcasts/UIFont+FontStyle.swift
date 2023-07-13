@@ -214,4 +214,3 @@ private extension DynamicTypeSize {
         }
     }
 }
-
