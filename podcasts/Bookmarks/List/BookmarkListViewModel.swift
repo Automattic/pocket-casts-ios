@@ -46,6 +46,6 @@ protocol BookmarkListRouter {
     }
 
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
-        PlaybackManager.shared.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
+        router?.bookmarkPlay(bookmark)
     }
 }
