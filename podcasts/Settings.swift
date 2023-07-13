@@ -597,13 +597,15 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
-            return [.playNext, .playLast, .download, .archive, .markAsPlayed, .star]
+            return defaultActions
         }
 
         let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
 
-        return actions
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
     }
 
     class func updateMultiSelectActions(_ actions: [MultiSelectAction]) {

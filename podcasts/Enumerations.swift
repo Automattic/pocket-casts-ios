@@ -320,7 +320,7 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share
 
     func title() -> String {
         switch self {
@@ -352,6 +352,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.multiSelectRemoveMarkUnplayed
         case .delete:
             return L10n.delete
+        case .share:
+            return L10n.share
         }
     }
 
@@ -385,6 +387,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "episode-remove-download"
         case .delete:
             return "episode-delete"
+        case .share:
+            return "podcast-share"
         }
     }
 
@@ -418,6 +422,18 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "remove_download"
         case .delete:
             return "delete"
+        case .share:
+            return "share"
+        }
+    }
+
+    func isVisible(with episodes: [BaseEpisode]) -> Bool {
+        switch self {
+        case .share:
+            return episodes.count == 1 && episodes.allSatisfy({ $0 is Episode })
+
+        default:
+            return true
         }
     }
 }
