@@ -6,6 +6,7 @@ protocol BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark)
 }
 
+class BookmarkListViewModel: MutliSelectListViewModel<Bookmark> {
     var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
@@ -19,15 +20,15 @@ protocol BookmarkListRouter {
 
     init(bookmarkManager: BookmarkManager) {
         self.bookmarkManager = bookmarkManager
+        super.init()
 
         listenForAddedBookmarks()
     }
 
-    func reload() {
-        let bookmarks = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
+    override func reload() {
+        items = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
 
-        bookmarkCount = bookmarks.count
-        self.bookmarks = bookmarks
+        super.reload()
     }
 
     private func listenForAddedBookmarks() {
