@@ -79,6 +79,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         self.setActionsFunc = setActionsFunc
         self.themeOverride = themeOverride
         super.init(nibName: "MultiSelectActionController", bundle: nil)
+        filterUnavailableActions()
     }
 
     @available(*, unavailable)
@@ -94,8 +95,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         doneButton.isHidden = true
         updateColors()
         setPreferredSize(animated: false)
-
-        filterUnavailableActions()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
