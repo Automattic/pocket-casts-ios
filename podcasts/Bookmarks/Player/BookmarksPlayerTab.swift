@@ -8,6 +8,10 @@ struct BookmarksPlayerTab: View {
 
     @State private var showShadow = false
 
+    private var actionBarVisible: Bool {
+        viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             headerView
@@ -76,6 +80,11 @@ struct BookmarksPlayerTab: View {
                             divider
                         }
                     }
+
+                    // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+                    if actionBarVisible {
+                        Spacer(minLength: Constants.multiSelectionBottompadding)
+                    }
                 }
             }
             .onContentOffsetChange { contentOffset in
@@ -89,11 +98,10 @@ struct BookmarksPlayerTab: View {
 
     @ViewBuilder
     private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
-        let visible = viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
         let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
         let editVisible = viewModel.numberOfSelectedItems == 1
 
-        ActionBarOverlayView(visible: visible, title: title, content: {
+        ActionBarOverlayView(visible: actionBarVisible, title: title, content: {
             content()
         }, actions: [
             .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
@@ -128,6 +136,7 @@ struct BookmarksPlayerTab: View {
         static let padding = 16.0
         static let headerPadding = 12.0
         static let headerTransitionOffset = 10.0
+        static let multiSelectionBottompadding = 70.0
     }
 }
 
