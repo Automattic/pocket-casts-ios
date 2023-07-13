@@ -12,7 +12,10 @@ struct BookmarksPlayerTab: View {
         VStack(spacing: 0) {
             headerView
             divider
-            scrollView
+
+            actionBarView {
+                scrollView
+            }
         }
         .environmentObject(viewModel)
         .padding(.bottom)
@@ -84,6 +87,27 @@ struct BookmarksPlayerTab: View {
         }
     }
 
+    @ViewBuilder
+    private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
+        let visible = viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
+        let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
+        let editVisible = viewModel.numberOfSelectedItems == 1
+
+        ActionBarOverlayView(visible: visible, title: title, content: {
+            content()
+        }, actions: [
+            .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
+                viewModel.editSelectedBookmarks()
+            }),
+            .init(imageName: "delete", title: L10n.delete, action: {
+                viewModel.deleteSelectedBookmarks()
+            })
+        ])
+        .barStyle(backgroundTint: theme.playerBackground02,
+                  buttonColor: theme.playerBackground01,
+                  foregroundColor: theme.playerContrast01)
+    }
+
     // MARK: - Utility Views
 
     /// A shadow view that adds depth between the scroll view and the static header
@@ -103,6 +127,7 @@ struct BookmarksPlayerTab: View {
         static let shadowHeight = 20.0
         static let padding = 16.0
         static let headerPadding = 12.0
+        static let headerTransitionOffset = 10.0
     }
 }
 
