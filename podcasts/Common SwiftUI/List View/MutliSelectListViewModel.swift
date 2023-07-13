@@ -17,8 +17,8 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     /// Whether all the items in the list have been selected
     @Published private(set) var hasSelectedAll = false
 
-    /// An internal set that keeps track of the items that are currently selected
-    private lazy var selectedItems: Set<Model> = [] {
+    /// A set that keeps track of the items that are currently selected
+    private(set) lazy var selectedItems: Set<Model> = [] {
         didSet {
             updateCounts()
         }
