@@ -3787,3 +3787,9 @@
 
 /* Label for displaying the number of bookmarks the user has when the bookmark count is more than one */
 "bookmarks_count_plural" = "%1$@ bookmarks";
+
+/* The title of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_title" = "Delete Bookmarks?";
+
+/* The body of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_body" = "Are you sure you want to delete these bookmarks, there’s no way to undo it!";
