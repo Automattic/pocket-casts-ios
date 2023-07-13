@@ -1,9 +1,12 @@
 import Combine
 import PocketCastsDataModel
 
-class BookmarkListViewModel: ObservableObject {
-    @Published var bookmarkCount: Int = 0
-    @Published var bookmarks: [Bookmark] = []
+// MARK: - BookmarkListRouter
+protocol BookmarkListRouter {
+    func bookmarkPlay(_ bookmark: Bookmark)
+}
+
+    var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
