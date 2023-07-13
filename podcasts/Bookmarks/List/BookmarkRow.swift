@@ -62,7 +62,7 @@ struct BookmarkRow: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } onTapped: {
-            viewModel.bookmarkTapped(bookmark)
+            viewModel.tapped(item: bookmark)
         } onPressed: { pressed in
             highlighted = pressed
         } onLongPressed: {

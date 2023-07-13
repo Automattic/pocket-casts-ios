@@ -42,14 +42,6 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 
     // MARK: - View Methods
 
-    func bookmarkTapped(_ bookmark: Bookmark) {
-        guard isMultiSelecting else {
-            return
-        }
-
-        toggleSelected(bookmark)
-    }
-
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
         router?.bookmarkPlay(bookmark)
     }
