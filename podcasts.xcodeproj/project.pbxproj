@@ -1528,7 +1528,7 @@
 		C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */; };
 		C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */; };
 		C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */; };
-		C7E99F002A5E099100E7CBAF /* MutliSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFF2A5E099100E7CBAF /* MutliSelectListViewModel.swift */; };
+		C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */; };
 		C7E99F042A5E0FAB00E7CBAF /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */; };
 		C7F0EEE7291D9A770007C148 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */; };
 		C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */; };
@@ -3229,7 +3229,7 @@
 		C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
 		C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRow.swift; sourceTree = "<group>"; };
 		C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonBlockingLongPressView.swift; sourceTree = "<group>"; };
-		C7E99EFF2A5E099100E7CBAF /* MutliSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutliSelectListViewModel.swift; sourceTree = "<group>"; };
+		C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectListViewModel.swift; sourceTree = "<group>"; };
 		C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableMetadataProvider.swift; sourceTree = "<group>"; };
@@ -6943,7 +6943,7 @@
 			isa = PBXGroup;
 			children = (
 				C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */,
-				C7E99EFF2A5E099100E7CBAF /* MutliSelectListViewModel.swift */,
+				C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */,
 			);
 			path = "List View";
 			sourceTree = "<group>";
@@ -8855,7 +8855,7 @@
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
-				C7E99F002A5E099100E7CBAF /* MutliSelectListViewModel.swift in Sources */,
+				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,
 				BD1C46DD27B9DD9C00B1D8BB /* FolderListCell.swift in Sources */,
 				BD998AD127B25A3300B38857 /* PodcastPickerModel.swift in Sources */,
 				BDD6297F200EE26200168DF7 /* PlaybackActionHelper.swift in Sources */,
