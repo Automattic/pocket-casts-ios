@@ -8,6 +8,7 @@ import Foundation
 ///         ...
 ///     }
 ///
+@MainActor
 class ListViewModel<Model: Hashable>: ObservableObject {
     @Published var items: [Model] = [] {
         didSet {
