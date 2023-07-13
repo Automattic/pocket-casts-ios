@@ -12,7 +12,7 @@ struct BookmarkRow: View {
     private let subtitle: String
     private let playButton: String
 
-    @State private var higlighted = false
+    @State private var highlighted = false
 
     init(bookmark: Bookmark) {
         self.bookmark = bookmark
@@ -30,15 +30,22 @@ struct BookmarkRow: View {
     }
 
     var body: some View {
-        HStack {
-            detailsView
-            playButtonView
+        let selected = viewModel.itemIsSelected(bookmark)
+        MultiSelectRow(visible: viewModel.isMultiSelecting, selected: selected) {
+            HStack {
+                detailsView
+                playButtonView
+            }
+        } onSelectionToggled: {
+            withAnimation {
+                viewModel.toggleItemSelected(bookmark)
+            }
         }
+        .rowStyle(tintColor: theme.playerContrast01, checkColor: theme.playerBackground01)
         .padding(Constants.padding)
-
-        // Display a highlight when tapped
-        .background(higlighted ? theme.playerContrast05 : nil)
-        .animation(.linear, value: higlighted)
+        // Display a highlight when tapped, or the row is selected
+        .background((highlighted || selected) ? theme.playerContrast05 : nil)
+        .animation(.linear, value: highlighted)
     }
 
     /// Displays a title and subtitle
@@ -57,9 +64,11 @@ struct BookmarkRow: View {
         } onTapped: {
             viewModel.bookmarkTapped(bookmark)
         } onPressed: { pressed in
-            higlighted = pressed
+            highlighted = pressed
         } onLongPressed: {
-            /* not used yet */
+            withAnimation {
+                viewModel.longPressed(bookmark)
+            }
         }
     }
 
