@@ -25,7 +25,7 @@ class ListViewModel<Model: Hashable>: ObservableObject {
     // MARK: - Helpers
 
     /// Whether the given item is the last in the list
-    func itemIsLast(_ item: Model) -> Bool {
+    func isLast(item: Model) -> Bool {
         items.last == item
     }
 }

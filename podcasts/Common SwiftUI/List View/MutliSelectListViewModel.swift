@@ -32,20 +32,20 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
 
     // MARK: - Item Selection
 
-    func itemIsSelected(_ item: Model) -> Bool {
+    func isSelected(_ item: Model) -> Bool {
         selectedItems.contains(where: { $0 == item })
     }
 
-    func selectItem(_ item: Model) {
+    func select(item: Model) {
         selectedItems.insert(item)
     }
 
-    func deselectItem(_ item: Model) {
+    func deselect(item: Model) {
         selectedItems.remove(item)
     }
 
-    func toggleItemSelected(_ item: Model) {
-        itemIsSelected(item) ? deselectItem(item) : selectItem(item)
+    func toggleSelected(_ item: Model) {
+        isSelected(item) ? deselect(item: item) : select(item: item)
     }
 
     // MARK: - Select All / Deselect All
@@ -85,7 +85,7 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
         // If we're not multiselecting, then enter and select the long pressed item
         guard isMultiSelecting else {
             isMultiSelecting = true
-            selectItem(item)
+            select(item: item)
             return
         }
 
