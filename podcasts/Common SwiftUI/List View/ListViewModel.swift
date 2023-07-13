@@ -8,6 +8,7 @@ import Foundation
 ///         ...
 ///     }
 ///
+@MainActor
 class ListViewModel<Model: Hashable>: ObservableObject {
     @Published var items: [Model] = [] {
         didSet {
@@ -18,14 +19,17 @@ class ListViewModel<Model: Hashable>: ObservableObject {
     /// The total number of items, this value is automatically updated as the items array changes
     @Published private(set) var numberOfItems = 0
 
-    // MARK: - Data
+    convenience init(items: [Model]) {
+        self.init()
 
-    func reload() { /* Subclasses should override this */ }
+        _items = .init(initialValue: items)
+        _numberOfItems = .init(initialValue: items.count)
+    }
 
     // MARK: - Helpers
 
     /// Whether the given item is the last in the list
-    func itemIsLast(_ item: Model) -> Bool {
+    func isLast(item: Model) -> Bool {
         items.last == item
     }
 }

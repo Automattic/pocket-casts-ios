@@ -1,60 +1,106 @@
 import SwiftUI
 
-/// Displays an overlay view that displays text and icon only buttons
+/// Displays an overlay view that displays the ActionBarView at the bottom
 ///
-struct ActionBarOverlayView<Content: View>: View {
-    var visible: Bool
+struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
+    /// Whether the action bar should appear in the view or not
+    var actionBarVisible: Bool
+
+    /// The label that appears in the action bar, this can be omitted
     var title: String? = nil
+
+    /// The ActionBarStyle to use
+    let style: Style
+
+    /// The view to display the action bar in, ideally this should be a full height view
     let content: () -> Content
-    var actions: [Action] = []
 
-    private let style = Style()
-
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var imageSize = 24
+    /// The actions to display in the action bar
+    var actions: [ActionBarView<Style>.Action] = []
 
     var body: some View {
         ZStack(alignment: .bottom) {
             content()
 
-            if visible {
-                HStack {
-                    // Show the title if needed
-                    title.map {
-                        Text($0)
-                            .font(style: .subheadline, weight: .medium)
-                            // Disable the animation so it doesn't fade when changed
-                            .animation(.none, value: $0)
-                    }
-
-                    Spacer()
-
-                    ForEach(actions) { action in
-                        if action.visible {
-                            actionButton(action)
-                        }
-                    }
-                }
-                .foregroundStyle(style.foregroundColor)
-                // Inner Padding
-                .padding(.vertical, ActionBarConstants.barPaddingVertical)
-                .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
-                .applyMaterial(tint: style.backgroundTint)
-                .cornerRadius(ActionBarConstants.radius)
-                // Outer Padding
-                .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
+            if actionBarVisible {
+                ActionBarView(title: title, style: style, actions: actions)
             }
         }
         .accessibilityTransition(.opacity)
-        .animation(.linear(duration: 0.1), value: visible)
+        .animation(.linear(duration: 0.1), value: actionBarVisible)
         .padding(.bottom)
     }
+}
 
-    func barStyle(backgroundTint: Color, buttonColor: Color, foregroundColor: Color) -> Self {
-        style.backgroundTint = backgroundTint
-        style.buttonColor = buttonColor
-        style.foregroundColor = foregroundColor
-        return self
+// MARK: - ActionBarStyle
+
+/// Allows parent views to customize the colors of the action bar
+protocol ActionBarStyle {
+    var backgroundTint: Color { get }
+    var buttonColor: Color { get }
+    var foregroundColor: Color { get }
+}
+
+// MARK: - ActionBarView
+
+struct ActionBarView<Style: ActionBarStyle>: View {
+    /// The label that appears in the action bar, this can be omitted
+    var title: String? = nil
+
+    /// The ActionBarStyle to use
+    let style: Style
+
+    /// The actions to display in the action bar, this can be omitted
+    var actions: [Action] = []
+
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 24
+
+    var body: some View {
+        HStack {
+            // Show the title if needed
+            title.map {
+                Text($0)
+                    .font(style: .subheadline, weight: .medium)
+                    // Disable the animation so it doesn't fade when changed
+                    .animation(.none, value: $0)
+            }
+
+            Spacer()
+
+            ForEach(actions) { action in
+                if action.visible {
+                    actionButton(action)
+                }
+            }
+        }
+        .foregroundStyle(style.foregroundColor)
+        // Inner Padding
+        .padding(.vertical, ActionBarConstants.barPaddingVertical)
+        .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
+        .applyMaterial(tint: style.backgroundTint)
+        .cornerRadius(ActionBarConstants.radius)
+        // Outer Padding
+        .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
     }
+
+    // MARK: - Action! 🎬
+    struct Action: Identifiable {
+        let imageName: String
+        let title: String
+        let visible: Bool
+        let action: () -> Void
+
+        init(imageName: String, title: String, visible: Bool = true, action: @escaping () -> Void) {
+            self.imageName = imageName
+            self.title = title
+            self.visible = visible
+            self.action = action
+        }
+
+        var id: String { title }
+    }
+
+    // MARK: - Private
 
     private func actionButton(_ action: Action) -> some View {
         Button {
@@ -72,28 +118,6 @@ struct ActionBarOverlayView<Content: View>: View {
         .accessibilityLabel(action.title)
         .opacity(action.visible ? 1 : 0)
         .accessibilityAnimation(.linear(duration: 0.1), value: action.visible)
-    }
-
-    struct Action: Identifiable {
-        let imageName: String
-        let title: String
-        let visible: Bool
-        let action: () -> Void
-
-        init(imageName: String, title: String, visible: Bool = true, action: @escaping () -> Void) {
-            self.imageName = imageName
-            self.title = title
-            self.visible = visible
-            self.action = action
-        }
-
-        var id: String { title }
-    }
-
-    private class Style {
-        var backgroundTint: Color = .white
-        var buttonColor: Color = .white
-        var foregroundColor: Color = .black
     }
 }
 
@@ -126,7 +150,7 @@ struct ActionBarOverlayView_Previews: PreviewProvider {
         @State var showAction = true
 
         var body: some View {
-            ActionBarOverlayView(visible: visible, title: "Hello World", content: {
+            ActionBarOverlayView(actionBarVisible: visible, title: "Hello World", style: PreviewStyle(), content: {
                 VStack(spacing: 20) {
                     Button("Toggle Action Bar") {
                         withAnimation {
@@ -151,8 +175,12 @@ struct ActionBarOverlayView_Previews: PreviewProvider {
                     print("two")
                 })
             ])
-            .barStyle(backgroundTint: .secondary, buttonColor: .accentColor, foregroundColor: .primary)
-            .background(Color.primary.ignoresSafeArea())
         }
+    }
+
+    private struct PreviewStyle: ActionBarStyle {
+        var backgroundTint: Color { .secondary }
+        var buttonColor: Color { .accentColor }
+        var foregroundColor: Color { .primary }
     }
 }

@@ -4,37 +4,48 @@ import SwiftUI
 ///
 /// See the [Preview](x-source-tag://MultiSelectRowPreview) for example usage
 struct MultiSelectRow<Content: View>: View {
-    let visible: Bool
+    /// Whether the row should display the select button in the row
+    let showSelectButton: Bool
+
+    /// Whether the select button should appear in its selected state
     let selected: Bool
+
+    /// The row content to wrap
     let content: () -> Content
+
+    /// Called when the selection toggle is tapped
     let onSelectionToggled: () -> Void
 
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var multiSelectButtonSize = 24
-    @ScaledMetricWithMaxSize(relativeTo: .body) private var checkSize = 20
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var multiSelectButtonSize = 24
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var checkSize = 20
 
     private let style = Style()
 
     var body: some View {
         HStack(spacing: 15) {
-            if visible {
+            if showSelectButton {
                 buttonView.buttonize {
                     onSelectionToggled()
                 } customize: { config in
                     config.label.applyButtonEffect(isPressed: config.isPressed)
                 }
-                .transition(.move(edge: .leading).combined(with: .opacity))
+                .accessibilityTransition(.move(edge: .leading).combined(with: .opacity))
             }
 
             content()
         }
     }
 
-    func rowStyle(tintColor: Color, checkColor: Color) -> Self {
+    /// Customizes the selection button colors
+    func selectButtonStyle(tintColor: Color, checkColor: Color) -> Self {
         style.tint = tintColor
         style.check = checkColor
         return self
     }
 
+    // MARK: - Private
+
+    /// The unselected select button
     private var buttonView: some View {
         Circle()
             .stroke(lineWidth: 2)
@@ -43,6 +54,7 @@ struct MultiSelectRow<Content: View>: View {
             .overlay(selectedView)
     }
 
+    /// The selected button state
     private var selectedView: some View {
         ZStack {
             Circle().fill(style.tint)
@@ -84,7 +96,7 @@ struct MultiSelectRow_Previews: PreviewProvider {
                     }
                 }.buttonStyle(.borderedProminent)
 
-                MultiSelectRow(visible: visible, selected: selected) {
+                MultiSelectRow(showSelectButton: visible, selected: selected) {
                     HStack {
                         Text("Hello World")
                     }
@@ -95,7 +107,7 @@ struct MultiSelectRow_Previews: PreviewProvider {
                         selected.toggle()
                     }
                 }
-                .rowStyle(tintColor: .black, checkColor: .white)
+                .selectButtonStyle(tintColor: .black, checkColor: .white)
                 .padding()
                 .background(Color.blue)
 

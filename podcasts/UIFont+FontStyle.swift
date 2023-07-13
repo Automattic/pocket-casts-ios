@@ -175,10 +175,10 @@ public struct ScaledMetricWithMaxSize<Value>: DynamicProperty where Value: Binar
         return Value(metrics.scaledValue(for: Double(baseValue), compatibleWith: traits))
     }
 
-    public init(wrappedValue: Value = .zero, relativeTo textStyle: Font.TextStyle, maxTypeSize: DynamicTypeSize = .xxLarge) {
+    public init(wrappedValue: Value = .zero, relativeTo textStyle: Font.TextStyle, maxSize: DynamicTypeSize) {
         self.baseValue = wrappedValue
         self.textStyle = textStyle
-        self.maxTypeSize = maxTypeSize
+        self.maxTypeSize = maxSize
     }
 }
 
@@ -214,4 +214,3 @@ private extension DynamicTypeSize {
         }
     }
 }
-
