@@ -21,19 +21,45 @@ struct BookmarksPlayerTab: View {
 
     /// A static header view that displays the number of bookmarks and a ... more button
     private var headerView: some View {
-        HStack {
-            Text(L10n.bookmarkCount(viewModel.bookmarkCount))
-                .foregroundStyle(theme.playerContrast02)
-                .font(size: 14, style: .subheadline)
+        // Using a ZStack here to prevent the header from changing height when switching between modes
+        ZStack {
+            HStack {
+                Text(L10n.bookmarkCount(viewModel.numberOfItems))
+                    .foregroundStyle(theme.playerContrast02)
+                    .font(size: 14, style: .subheadline)
 
-            Spacer()
+                Spacer()
 
-            Image("more").foregroundStyle(theme.playerContrast01).buttonize {
-                print("NOOP")
+                Image("more").foregroundStyle(theme.playerContrast01)
             }
+            .opacity(viewModel.isMultiSelecting ? 0 : 1)
+            .offset(y: viewModel.isMultiSelecting ? Constants.headerTransitionOffset : 0)
+
+            multiSelectionHeaderView
         }
         .padding(.horizontal, Constants.padding)
         .padding(.bottom, Constants.headerPadding)
+    }
+
+    /// A header view that appears when we're in the multi selection mode
+    private var multiSelectionHeaderView: some View {
+        HStack {
+            Button(viewModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll) {
+                viewModel.toggleSelectAll()
+            }
+
+            Spacer()
+
+            Button(L10n.cancel) {
+                withAnimation {
+                    viewModel.toggleMultiSelection()
+                }
+            }
+        }
+        .font(style: .body)
+        .foregroundStyle(theme.playerContrast01)
+        .opacity(viewModel.isMultiSelecting ? 1 : 0)
+        .offset(y: viewModel.isMultiSelecting ? 0 : -Constants.headerTransitionOffset)
     }
 
     private var scrollView: some View {
