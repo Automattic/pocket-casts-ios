@@ -18,7 +18,11 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     @Published private(set) var hasSelectedAll = false
 
     /// An internal set that keeps track of the items that are currently selected
-    private lazy var selectedItems: Set<Model> = []
+    private lazy var selectedItems: Set<Model> = [] {
+        didSet {
+            updateCounts()
+        }
+    }
 
     // MARK: - Entering / Exiting Multi Select
     func toggleMultiSelection() {
@@ -34,12 +38,10 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
 
     func selectItem(_ item: Model) {
         selectedItems.insert(item)
-        updateCounts()
     }
 
     func deselectItem(_ item: Model) {
         selectedItems.remove(item)
-        updateCounts()
     }
 
     func toggleItemSelected(_ item: Model) {
@@ -54,26 +56,24 @@ class MutliSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
 
     func selectAll() {
         selectedItems = Set(items)
-        updateCounts()
     }
 
     func deselectAll() {
         selectedItems.removeAll()
-        updateCounts()
     }
+
+    // MARK: - Select All Before/After
 
     func selectAllBefore(_ item: Model) {
         guard let index = items.firstIndex(of: item) else { return }
 
         selectedItems.formUnion(items[...index])
-        updateCounts()
     }
 
     func selectAllAfter(_ item: Model) {
         guard let index = items.firstIndex(of: item) else { return }
 
         selectedItems.formUnion(items[index...])
-        updateCounts()
     }
 
     // MARK: - Long Press
