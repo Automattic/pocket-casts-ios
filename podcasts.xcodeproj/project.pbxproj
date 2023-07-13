@@ -1520,6 +1520,8 @@
 		C7D813A92A0D575E007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
 		C7D813AA2A0D57C2007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
+		C7D8AE5D2A6056C900C9EBAF /* ListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */; };
+		C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
 		C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */; };
@@ -3219,6 +3221,8 @@
 		C7D8139F2A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-ipad-pro.png"; sourceTree = "<group>"; };
 		C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AlternateAppIcons.xcassets; sourceTree = "<group>"; };
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
+		C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTests.swift; sourceTree = "<group>"; };
+		C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutliSelectListViewModel.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
 		C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTabController.swift; sourceTree = "<group>"; };
@@ -4079,6 +4083,7 @@
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */,
 				E3665F552936CD33001C8372 /* Playback */,
 				C7BF5E4829083B3F00733C1E /* Discover */,
 				8B2E054E28F8577200C2DBDE /* End of Year */,
@@ -6881,6 +6886,23 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8AE5B2A6056B700C9EBAF /* List View Model */,
+			);
+			path = "Common SwiftUI";
+			sourceTree = "<group>";
+		};
+		C7D8AE5B2A6056B700C9EBAF /* List View Model */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */,
+				C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */,
+			);
+			path = "List View Model";
+			sourceTree = "<group>";
+		};
 		C7DA8D252923DA3000C1B08B /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -8227,6 +8249,7 @@
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
+				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
 				8B484EFB28D25719001AFA97 /* Double+Ext.swift in Sources */,
 				8BF0BBD228918B49006BBECF /* HomeGridDataHelperTests.swift in Sources */,
@@ -8237,6 +8260,7 @@
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
 				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
+				C7D8AE5D2A6056C900C9EBAF /* ListViewModelTests.swift in Sources */,
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
