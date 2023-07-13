@@ -24,6 +24,13 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
         }
     }
 
+    /// Update the selected items whenever the parent items change
+    override var items: [Model] {
+        didSet {
+            validateSelectedItems()
+        }
+    }
+
     /// When multiselecting, toggle the selection state of the item
     /// If not, then do nothing.
     func tapped(item: Model) {
@@ -33,6 +40,7 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
     }
 
     // MARK: - Entering / Exiting Multi Select
+
     func toggleMultiSelection() {
         deselectAll()
         isMultiSelecting.toggle()
@@ -117,5 +125,26 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
         ])
 
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+}
+
+// MARK: - Private Methods
+
+private extension MultiSelectListViewModel {
+    func updateCounts() {
+        let selected = selectedItems.count
+        numberOfSelectedItems = selected
+        hasSelectedAll = selected == items.count
+    }
+
+    func validateSelectedItems() {
+        // Update the selected items to remove any items that are not present in the items array
+        // IE: if they were deleted
+        selectedItems.formIntersection(items)
+
+        // If we're multiselecting and there are no items left, exit the multiselection mode
+        if isMultiSelecting, numberOfItems == 0 {
+            toggleMultiSelection()
+        }
     }
 }
