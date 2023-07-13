@@ -40,11 +40,10 @@ struct BookmarksPlayerTab: View {
         ZStack(alignment: .top) {
             ScrollViewWithContentOffset {
                 LazyVStack(spacing: 0) {
-                    //   enumerated to get both the index and the bookmark to hide the last divider
-                    ForEach(Array(viewModel.bookmarks.enumerated()), id: \.element.id) { index, bookmark in
+                    ForEach(viewModel.items) { bookmark in
                         BookmarkRow(bookmark: bookmark)
 
-                        if index < viewModel.bookmarkCount-1 {
+                        if !viewModel.itemIsLast(bookmark) {
                             divider
                         }
                     }
