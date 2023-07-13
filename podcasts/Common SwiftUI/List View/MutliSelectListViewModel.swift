@@ -24,6 +24,14 @@ class MultiSelectListViewModel<Model: Hashable>: ListViewModel<Model> {
         }
     }
 
+    /// When multiselecting, toggle the selection state of the item
+    /// If not, then do nothing.
+    func tapped(item: Model) {
+        guard isMultiSelecting else { return }
+
+        toggleSelected(item)
+    }
+
     // MARK: - Entering / Exiting Multi Select
     func toggleMultiSelection() {
         deselectAll()
