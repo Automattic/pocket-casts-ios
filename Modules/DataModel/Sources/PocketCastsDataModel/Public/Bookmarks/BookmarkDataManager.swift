@@ -18,7 +18,7 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(episodeUuid: String, podcastUuid: String?, time: TimeInterval, dateCreated: Date = Date()) -> String? {
+    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date()) -> String? {
         // Prevent adding more than 1 bookmark at the same place
         if let existing = existingBookmark(forEpisode: episodeUuid, time: time) {
             return existing.uuid
@@ -28,11 +28,16 @@ public struct BookmarkDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let uuid = UUID().uuidString.lowercased()
+                let uuid = uuid ?? UUID().uuidString.lowercased()
                 let created = dateCreated.timeIntervalSince1970
 
-                let columns = Column.insertColumns
-                let values: [Any?] = [uuid, created, episodeUuid, podcastUuid, time]
+                let columns: [Column] = [
+                    .uuid, .title, .time,
+                    .createdDate, .modifiedDate,
+                    .episode, .podcast
+                ]
+
+                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
@@ -133,11 +138,6 @@ public struct BookmarkDataManager {
         case deleted
 
         var description: String { rawValue }
-
-        /// The columns used when inserting a new row into the database
-        static let insertColumns: [Column] = [
-            .uuid, .createdDate, .episode, .podcast, .time
-        ]
     }
 }
 
