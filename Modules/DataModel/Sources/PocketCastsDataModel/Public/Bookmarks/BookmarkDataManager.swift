@@ -50,6 +50,27 @@ public struct BookmarkDataManager {
         return bookmarkUuid
     }
 
+    // MARK: - Updating
+    @discardableResult
+    public func update(title: String, for bookmark: Bookmark, modified: Date = Date()) async -> Bool {
+        let query = """
+                UPDATE \(Self.tableName)
+                SET \(Column.title) = ?, \(Column.modifiedDate) = ?
+                WHERE \(Column.uuid) = ?
+                LIMIT 1
+                """
+
+        let result = await dbQueue.executeUpdate(query, values: [title, modified.timeIntervalSince1970, bookmark.uuid])
+
+        switch result {
+        case .success:
+            return true
+        case .failure(let failure):
+            FileLog.shared.addMessage("BookmarkManager.update failed: \(failure)")
+            return false
+        }
+    }
+
     // MARK: - Retrieving
 
     /// Retrieves a single Bookmark for the given UUID
