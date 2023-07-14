@@ -30,6 +30,7 @@ final class BookmarkDataManagerTests: XCTestCase {
     }
 
     // MARK: - Adding
+
     func testAddBookmarkSucceeds() {
         XCTAssertNotNil(dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", title: "Title", time: 1))
     }
