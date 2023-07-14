@@ -124,7 +124,9 @@ public struct BookmarkDataManager {
 
     enum Column: String, CaseIterable, CustomStringConvertible {
         case uuid
+        case title
         case createdDate = "date_added"
+        case modifiedDate = "date_modified"
         case episode = "episode_uuid"
         case podcast = "podcast_uuid"
         case time
@@ -194,10 +196,12 @@ extension BookmarkDataManager {
         try db.executeUpdate("""
             CREATE TABLE IF NOT EXISTS \(Self.tableName) (
                 \(Column.uuid) varchar(40) NOT NULL,
+                \(Column.title) varchar(100) NOT NULL,
                 \(Column.episode) varchar(40) NOT NULL,
                 \(Column.podcast) varchar(40),
                 \(Column.time) real NOT NULL,
                 \(Column.createdDate) INTEGER NOT NULL,
+                \(Column.modifiedDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
                 PRIMARY KEY (\(Column.uuid))
             );
@@ -215,20 +219,22 @@ private extension Bookmark {
     init?(from resultSet: FMResultSet) {
         guard
             let uuid = resultSet.string(for: .uuid),
+            let title = resultSet.string(for: .title),
             let createdDate = resultSet.date(for: .createdDate),
+            let modified = resultSet.date(for: .modifiedDate),
             let episode = resultSet.string(for: .episode),
             let time = resultSet.double(for: .time)
         else {
             return nil
         }
 
-        let title: String? = nil
         let podcast = resultSet.string(for: .podcast)
 
         self.init(uuid: uuid,
-                  createdDate: createdDate,
-                  time: time,
                   title: title,
+                  time: time,
+                  created: createdDate,
+                  modified: modified,
                   episodeUuid: episode,
                   podcastUuid: podcast)
     }
