@@ -28,11 +28,11 @@ class BookmarkManager {
     }()
 
     /// Adds a new bookmark for an episode at the given time
-    func add(to episode: BaseEpisode, at time: TimeInterval) {
+    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle) {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
-        let uuid = dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, time: time)
+        let uuid = dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, title: title, time: time)
 
         // Inform the subscribers a bookmark was added
         uuid.flatMap { dataManager.bookmark(for: $0) }.map {

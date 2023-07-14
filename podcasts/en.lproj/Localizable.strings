@@ -3793,3 +3793,6 @@
 
 /* The body of an alert message asking the user if they want to continue with deleting the selected bookmarks */
 "bookmark_delete_warning_body" = "Are you sure you want to delete these bookmarks, there’s no way to undo it!";
+
+/* The default title to use for a bookmark */
+"bookmark_default_title" = "Bookmark";
