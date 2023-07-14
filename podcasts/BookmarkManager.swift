@@ -8,7 +8,6 @@ class BookmarkManager {
 
     // Publishers
     let onBookmarkCreated = PassthroughSubject<(BaseEpisode, Bookmark), Never>()
-    let onBookmarksDeleted = PassthroughSubject<([Bookmark]), Never>()
 
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks) {
         self.dataManager = dataManager
@@ -50,18 +49,6 @@ class BookmarkManager {
     /// Retrieves all the bookmarks for a podcast
     func bookmarks(for podcast: Podcast) -> [Bookmark] {
         dataManager.bookmarks(forEpisode: podcast.uuid)
-    }
-
-    /// Removes an array of bookmarks
-    func remove(_ bookmarks: [Bookmark]) async -> Bool {
-        let success = await dataManager.remove(bookmarks: bookmarks)
-
-        // Inform any listeners
-        if success {
-            onBookmarksDeleted.send(bookmarks)
-        }
-
-        return success
     }
 }
 

@@ -80,12 +80,5 @@ private extension BookmarkListViewModel {
     }
 
     func actuallyDelete(_ items: [Bookmark]) {
-        Task {
-            guard await bookmarkManager.remove(items) else {
-                return
-            }
-
-            reload()
-        }
     }
 }

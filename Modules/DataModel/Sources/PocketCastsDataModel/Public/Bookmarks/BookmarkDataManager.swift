@@ -9,8 +9,6 @@ public struct BookmarkDataManager {
         self.dbQueue = dbQueue
     }
 
-    // MARK: - Adding
-
     /// Adds a new bookmark to the database
     /// - Parameters:
     ///   - episodeUuid: The UUID of the episode we're adding to
@@ -45,8 +43,6 @@ public struct BookmarkDataManager {
         return bookmarkUuid
     }
 
-    // MARK: - Retrieving
-
     /// Retrieves a single Bookmark for the given UUID
     public func bookmark(for uuid: String) -> Bookmark? {
         selectBookmarks(where: [.uuid], values: [uuid], limit: 1).first
@@ -68,58 +64,6 @@ public struct BookmarkDataManager {
         }
 
         return selectBookmarks(where: whereColumns, values: values)
-    }
-
-    /// Returns all the bookmarks in the database and optionally can also return deleted items
-    public func allBookmarks(includeDeleted: Bool) -> [Bookmark] {
-        selectBookmarks(where: [.deleted], values: [includeDeleted])
-    }
-
-    // MARK: - Deleting
-
-    /// Marks the bookmarks as deleted, but doesn't actually remove them from the database
-    public func remove(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
-
-            let query = """
-            UPDATE \(Self.tableName)
-            SET \(Column.deleted) = 1
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
-
-            dbQueue.inDatabase { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
-            }
-        }
-    }
-
-    /// Permanently removes the bookmarks from the database
-    public func permanentlyDelete(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
-
-            let query = """
-            DELETE FROM \(Self.tableName)
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
-
-            dbQueue.inDatabase { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
-            }
-        }
     }
 
     enum Column: String, CaseIterable, CustomStringConvertible {
@@ -155,9 +99,6 @@ private extension BookmarkDataManager {
         let selectColumns = Column.allCases.map { $0.rawValue }
         let whereString = whereColumns.map { "\($0.rawValue) = ?" }.joined(separator: " AND ")
 
-        // If the deleted column isn't specified, then by default exclude deleted items
-        let deleteString = whereColumns.contains(.deleted) ? "" : "AND \(Column.deleted) = 0"
-
         var results: [Bookmark] = []
 
         dbQueue.inDatabase { db in
@@ -166,7 +107,6 @@ private extension BookmarkDataManager {
                     SELECT \(selectColumns.columnString)
                     FROM \(Self.tableName)
                     WHERE \(whereString)
-                    \(deleteString)
                     ORDER BY \(Column.createdDate) DESC
                     \(limitQuery)
                 """
