@@ -105,24 +105,22 @@ public struct BookmarkDataManager {
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database
     public func remove(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
+        let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
-            let query = """
-            UPDATE \(Self.tableName)
-            SET \(Column.deleted) = 1
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
+        let query = """
+        UPDATE \(Self.tableName)
+        SET \(Column.deleted) = 1
+        WHERE \(Column.uuid) IN (\(uuids))
+        """
 
-            dbQueue.inDatabase { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
-            }
+        let result = await dbQueue.executeUpdate(query)
+
+        switch result {
+        case .success:
+            return true
+        case .failure(let error):
+            FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
+            return false
         }
     }
 
