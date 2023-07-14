@@ -1,7 +1,7 @@
 import Foundation
 
 /// A bookmark that represents a position in time within an episode
-public struct Bookmark {
+public struct Bookmark: Hashable {
     public let uuid: String
     public let createdDate: Date
     public let time: TimeInterval

@@ -77,4 +77,47 @@ final class BookmarkDataManagerTests: XCTestCase {
         let bookmarks = dataManager.bookmarks(forPodcast: podcast, episodeUuid: "episode-2")
         XCTAssertEqual(bookmarks.count, 2)
     }
+
+    // MARK: - Deletion
+
+    func testRemovingBookmarksSucceeds() async {
+        let bookmark = dataManager.add(episodeUuid: "episode-1", podcastUuid: "podcast-uuid", time: 1).flatMap {
+            dataManager.bookmark(for: $0)
+        }!
+
+        let success = await dataManager.remove(bookmarks: [bookmark])
+        XCTAssertTrue(success)
+    }
+
+    func testRemovedBookmarksArentReturned() async {
+        let bookmark = dataManager.add(episodeUuid: "episode-1", podcastUuid: "podcast-uuid", time: 1).flatMap {
+            dataManager.bookmark(for: $0)
+        }!
+
+        _ = await dataManager.remove(bookmarks: [bookmark])
+
+        XCTAssertNil(dataManager.bookmark(for: bookmark.uuid))
+    }
+
+    func testAllBookmarksReturnsDeletedItems() async {
+        let bookmark = dataManager.add(episodeUuid: "episode-1", podcastUuid: "podcast-uuid", time: 1).flatMap {
+            dataManager.bookmark(for: $0)
+        }!
+
+        _ = await dataManager.remove(bookmarks: [bookmark])
+        let allBookmarks = dataManager.allBookmarks(includeDeleted: true)
+
+        XCTAssertEqual([bookmark.uuid], allBookmarks.map(\.uuid))
+    }
+
+    func testBookmarkIsPermanentlyRemoved() async {
+        let bookmark = dataManager.add(episodeUuid: "episode-1", podcastUuid: "podcast-uuid", time: 1).flatMap {
+            dataManager.bookmark(for: $0)
+        }!
+
+        let success = await dataManager.permanentlyDelete(bookmarks: [bookmark])
+        XCTAssertTrue(success)
+
+        XCTAssertTrue(dataManager.allBookmarks(includeDeleted: true).isEmpty)
+    }
 }

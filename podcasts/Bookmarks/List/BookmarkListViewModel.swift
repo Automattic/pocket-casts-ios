@@ -1,9 +1,13 @@
 import Combine
 import PocketCastsDataModel
 
-class BookmarkListViewModel: ObservableObject {
-    @Published var bookmarkCount: Int = 0
-    @Published var bookmarks: [Bookmark] = []
+// MARK: - BookmarkListRouter
+protocol BookmarkListRouter {
+    func bookmarkPlay(_ bookmark: Bookmark)
+}
+
+class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
+    var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
@@ -16,15 +20,13 @@ class BookmarkListViewModel: ObservableObject {
 
     init(bookmarkManager: BookmarkManager) {
         self.bookmarkManager = bookmarkManager
+        super.init()
 
         listenForAddedBookmarks()
     }
 
     func reload() {
-        let bookmarks = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
-
-        bookmarkCount = bookmarks.count
-        self.bookmarks = bookmarks
+        items = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
     }
 
     private func listenForAddedBookmarks() {
@@ -38,11 +40,52 @@ class BookmarkListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func bookmarkTapped(_ bookmark: Bookmark) {
-        print("Tapped")
-    }
+    // MARK: - View Methods
 
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
-        PlaybackManager.shared.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
+        router?.bookmarkPlay(bookmark)
+    }
+
+    func editSelectedBookmarks() {
+        guard let bookmark = selectedItems.first else { return }
+
+        print("TODO \(bookmark)")
+    }
+
+    func deleteSelectedBookmarks() {
+        guard numberOfSelectedItems > 0 else { return }
+
+        let items = Array(selectedItems)
+
+        confirmDeletion { [weak self] in
+            self?.actuallyDelete(items)
+        }
+    }
+}
+
+private extension BookmarkListViewModel {
+    func confirmDeletion(_ delete: @escaping () -> Void) {
+        guard let controller = SceneHelper.rootViewController() else { return }
+
+        let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
+                                      message: L10n.bookmarkDeleteWarningBody,
+                                      preferredStyle: .alert)
+
+        alert.addAction(.init(title: L10n.cancel, style: .cancel))
+        alert.addAction(.init(title: L10n.delete, style: .destructive, handler: { _ in
+            delete()
+        }))
+
+        controller.present(alert, animated: true, completion: nil)
+    }
+
+    func actuallyDelete(_ items: [Bookmark]) {
+        Task {
+            guard await bookmarkManager.remove(items) else {
+                return
+            }
+
+            reload()
+        }
     }
 }

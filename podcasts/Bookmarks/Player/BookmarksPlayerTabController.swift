@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import PocketCastsDataModel
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
 class BookmarksPlayerTabController: PlayerItemViewController {
@@ -16,6 +17,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         self.controller = ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
 
         super.init(nibName: nil, bundle: nil)
+
+        viewModel.router = self
     }
 
     override func loadView() {
@@ -52,5 +55,14 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - BookmarkListRouter
+
+extension BookmarksPlayerTabController: BookmarkListRouter {
+    func bookmarkPlay(_ bookmark: Bookmark) {
+        containerDelegate?.scrollToNowPlaying()
+        playbackManager.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
     }
 }

@@ -8,11 +8,18 @@ struct BookmarksPlayerTab: View {
 
     @State private var showShadow = false
 
+    private var actionBarVisible: Bool {
+        viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             headerView
             divider
-            scrollView
+
+            actionBarView {
+                scrollView
+            }
         }
         .environmentObject(viewModel)
         .padding(.bottom)
@@ -21,32 +28,62 @@ struct BookmarksPlayerTab: View {
 
     /// A static header view that displays the number of bookmarks and a ... more button
     private var headerView: some View {
-        HStack {
-            Text(L10n.bookmarkCount(viewModel.bookmarkCount))
-                .foregroundStyle(theme.playerContrast02)
-                .font(size: 14, style: .subheadline)
+        // Using a ZStack here to prevent the header from changing height when switching between modes
+        ZStack {
+            HStack {
+                Text(L10n.bookmarkCount(viewModel.numberOfItems))
+                    .foregroundStyle(theme.playerContrast02)
+                    .font(size: 14, style: .subheadline)
 
-            Spacer()
+                Spacer()
 
-            Image("more").foregroundStyle(theme.playerContrast01).buttonize {
-                print("NOOP")
+                Image("more").foregroundStyle(theme.playerContrast01)
             }
+            .opacity(viewModel.isMultiSelecting ? 0 : 1)
+            .offset(y: viewModel.isMultiSelecting ? Constants.headerTransitionOffset : 0)
+
+            multiSelectionHeaderView
         }
         .padding(.horizontal, Constants.padding)
         .padding(.bottom, Constants.headerPadding)
+    }
+
+    /// A header view that appears when we're in the multi selection mode
+    private var multiSelectionHeaderView: some View {
+        HStack {
+            Button(viewModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll) {
+                viewModel.toggleSelectAll()
+            }
+
+            Spacer()
+
+            Button(L10n.cancel) {
+                withAnimation {
+                    viewModel.toggleMultiSelection()
+                }
+            }
+        }
+        .font(style: .body)
+        .foregroundStyle(theme.playerContrast01)
+        .opacity(viewModel.isMultiSelecting ? 1 : 0)
+        .offset(y: viewModel.isMultiSelecting ? 0 : -Constants.headerTransitionOffset)
     }
 
     private var scrollView: some View {
         ZStack(alignment: .top) {
             ScrollViewWithContentOffset {
                 LazyVStack(spacing: 0) {
-                    //   enumerated to get both the index and the bookmark to hide the last divider
-                    ForEach(Array(viewModel.bookmarks.enumerated()), id: \.element.id) { index, bookmark in
+                    ForEach(viewModel.items) { bookmark in
                         BookmarkRow(bookmark: bookmark)
 
-                        if index < viewModel.bookmarkCount-1 {
+                        if !viewModel.isLast(item: bookmark) {
                             divider
                         }
+                    }
+
+                    // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+                    if actionBarVisible {
+                        Spacer(minLength: Constants.multiSelectionBottompadding)
                     }
                 }
             }
@@ -57,6 +94,23 @@ struct BookmarksPlayerTab: View {
             // Shadow overlay
             shadowView
         }
+    }
+
+    @ViewBuilder
+    private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
+        let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
+        let editVisible = viewModel.numberOfSelectedItems == 1
+
+        ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: .player, content: {
+            content()
+        }, actions: [
+            .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
+                viewModel.editSelectedBookmarks()
+            }),
+            .init(imageName: "delete", title: L10n.delete, action: {
+                viewModel.deleteSelectedBookmarks()
+            })
+        ])
     }
 
     // MARK: - Utility Views
@@ -78,6 +132,8 @@ struct BookmarksPlayerTab: View {
         static let shadowHeight = 20.0
         static let padding = 16.0
         static let headerPadding = 12.0
+        static let headerTransitionOffset = 10.0
+        static let multiSelectionBottompadding = 70.0
     }
 }
 

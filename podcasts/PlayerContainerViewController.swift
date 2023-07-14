@@ -58,7 +58,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
                                                 playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
-
+        item.containerDelegate = self
         return item
     }()
 

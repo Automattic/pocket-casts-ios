@@ -252,6 +252,10 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Are you sure you want to delete these bookmarks, there’s no way to undo it!
+  internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body") }
+  /// Delete Bookmarks?
+  internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title") }
   /// Bookmarks
   internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
   /// %1$@ bookmarks
