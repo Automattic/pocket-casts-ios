@@ -17,14 +17,9 @@ struct BookmarkRow: View {
     init(bookmark: Bookmark) {
         self.bookmark = bookmark
 
-        let title = bookmark.title?.isEmpty == false ? bookmark.title : nil
-        let displayTime = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
-
-        // Default to showing the display time if we don't have a title
-        self.title = title ?? displayTime
-        self.playButton = title == nil ? L10n.play : displayTime
-
-        self.subtitle = DateFormatter.localizedString(from: bookmark.createdDate,
+        self.title = bookmark.title
+        self.playButton = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
+        self.subtitle = DateFormatter.localizedString(from: bookmark.created,
                                                       dateStyle: .medium,
                                                       timeStyle: .short)
     }
