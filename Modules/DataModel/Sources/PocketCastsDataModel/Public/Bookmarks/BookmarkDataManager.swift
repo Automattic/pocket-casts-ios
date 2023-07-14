@@ -235,11 +235,8 @@ private extension Bookmark {
 }
 
 // MARK: - BookmarkDataManager.Column: FMResultSet Extension
-private extension FMResultSet {
-    func object(for column: BookmarkDataManager.Column) -> Any? {
-        object(forColumn: column.rawValue)
-    }
 
+private extension FMResultSet {
     func string(for column: BookmarkDataManager.Column) -> String? {
         string(forColumn: column.rawValue)
     }
