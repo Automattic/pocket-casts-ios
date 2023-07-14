@@ -97,7 +97,7 @@ public struct BookmarkDataManager {
     }
 
     /// Returns all the bookmarks in the database and optionally can also return deleted items
-    public func allBookmarks(includeDeleted: Bool) -> [Bookmark] {
+    public func allBookmarks(includeDeleted: Bool = false) -> [Bookmark] {
         selectBookmarks(where: [.deleted], values: [includeDeleted])
     }
 
