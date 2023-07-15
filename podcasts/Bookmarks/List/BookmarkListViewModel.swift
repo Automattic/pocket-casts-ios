@@ -70,9 +70,11 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
             }
             .store(in: &cancellables)
     }
+}
 
-    // MARK: - View Methods
+// MARK: - View Methods
 
+extension BookmarkListViewModel {
     func bookmarkPlayTapped(_ bookmark: Bookmark) {
         router?.bookmarkPlay(bookmark)
     }
@@ -84,6 +86,11 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         toggleMultiSelection()
     }
 
+    func sorted(by option: BookmarkSortOption) {
+        sortOption = option
+        reload()
+    }
+
     func deleteSelectedBookmarks() {
         guard numberOfSelectedItems > 0 else { return }
 
@@ -93,6 +100,39 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
             self?.actuallyDelete(items)
             self?.toggleMultiSelection()
         }
+    }
+}
+
+// MARK: - More Menu
+
+extension BookmarkListViewModel {
+    func showMoreOptions() {
+        let optionPicker = OptionsPicker(title: nil)
+
+        optionPicker.addActions([
+            .init(label: L10n.selectBookmarks, icon: "option-multiselect") { [weak self] in
+                self?.toggleMultiSelection()
+            },
+            .init(label: L10n.sortBy, secondaryLabel: sortOption.label, icon: "podcast-sort") { [weak self] in
+                self?.showSortOptions()
+            }
+        ])
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    func showSortOptions() {
+        let optionPicker = OptionsPicker(title: L10n.sortBy)
+
+        let options: [BookmarkSortOption] = [.newestToOldest, .oldestToNewest, .timestamp]
+
+        optionPicker.addActions(options.map({ option in
+            .init(label: option.label) { [weak self] in
+                self?.sorted(by: option)
+            }
+        }))
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
 }
 
@@ -119,6 +159,19 @@ private extension BookmarkListViewModel {
             }
 
             reload()
+        }
+    }
+}
+
+private extension BookmarkSortOption {
+    var label: String {
+        switch self {
+        case .newestToOldest:
+            return L10n.podcastsEpisodeSortNewestToOldest
+        case .oldestToNewest:
+            return L10n.podcastsEpisodeSortOldestToNewest
+        case .timestamp:
+            return L10n.sortOptionTimestamp
         }
     }
 }
