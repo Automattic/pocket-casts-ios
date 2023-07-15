@@ -7,18 +7,20 @@ protocol BookmarkListRouter: AnyObject {
 }
 
 class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
-    typealias BookmarkSettings = Constants.UserDefaults.bookmarks
+    typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
 
-    @Published private(set) var sortOption: BookmarkSortOption {
+    private var sortOption: BookmarkSortOption {
         didSet {
-            BookmarkSettings.playerSort.save(sortOption)
+            sortSettingValue.save(sortOption)
         }
     }
+
+    private let sortSettingValue: SortSetting
 
     weak var episode: BaseEpisode? = nil {
         didSet {
@@ -26,9 +28,10 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         }
     }
 
-    init(bookmarkManager: BookmarkManager) {
+    init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
-        self.sortOption = BookmarkSettings.playerSort.value
+        self.sortSettingValue = sortOption
+        self.sortOption = sortOption.value
 
         super.init()
 
