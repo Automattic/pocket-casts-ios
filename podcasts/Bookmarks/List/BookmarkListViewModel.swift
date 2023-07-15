@@ -1,13 +1,13 @@
 import Combine
 import PocketCastsDataModel
 
-// MARK: - BookmarkListRouter
-protocol BookmarkListRouter {
+protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark)
+    func bookmarkEdit(_ bookmark: Bookmark)
 }
 
 class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
-    var router: BookmarkListRouter?
+    weak var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
@@ -49,7 +49,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
     func editSelectedBookmarks() {
         guard let bookmark = selectedItems.first else { return }
 
-        print("TODO \(bookmark)")
+        router?.bookmarkEdit(bookmark)
     }
 
     func deleteSelectedBookmarks() {
