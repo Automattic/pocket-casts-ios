@@ -50,7 +50,9 @@ class BookmarkManager {
         }
     }
 
-        FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
+    /// Returns an existing bookmark with the given `uuid`
+    func bookmark(for uuid: String) -> Bookmark? {
+        dataManager.bookmark(for: uuid)
     }
 
     /// Retrieves all the bookmarks for a episode
