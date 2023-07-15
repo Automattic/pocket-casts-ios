@@ -38,10 +38,11 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 
     private func addListeners() {
         bookmarkManager.onBookmarkCreated
-            .filter { [weak self] episode, _ in
-                self?.episode?.uuid == episode.uuid
+            .filter { [weak self] event in
+                self?.episode?.uuid == event.episode
             }
-            .sink { [weak self] _, _ in
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
                 self?.reload()
             }
             .store(in: &cancellables)
