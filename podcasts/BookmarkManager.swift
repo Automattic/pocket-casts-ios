@@ -6,9 +6,16 @@ import Combine
 class BookmarkManager {
     private let dataManager: BookmarkDataManager
 
-    // Publishers
-    let onBookmarkCreated = PassthroughSubject<(BaseEpisode, Bookmark), Never>()
-    let onBookmarksDeleted = PassthroughSubject<([Bookmark]), Never>()
+    static let defaultTitle = L10n.bookmarkDefaultTitle
+
+    /// Called when a bookmark is created
+    let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
+
+    /// Called when one or more bookmarks are deleted
+    let onBookmarksDeleted = PassthroughSubject<Event.Deleted, Never>()
+
+    /// Called when a value of the bookmark changes
+    let onBookmarkChanged = PassthroughSubject<Event.Changed, Never>()
 
     init(dataManager: BookmarkDataManager = DataManager.sharedManager.bookmarks) {
         self.dataManager = dataManager
