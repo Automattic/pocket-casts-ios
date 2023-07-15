@@ -62,6 +62,14 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         let success = await dataManager.remove(bookmarks: bookmarks)
+    /// Updates the bookmark with the given title, emits `onBookmarkChanged` on success
+    @discardableResult
+    func update(title: String, for bookmark: Bookmark) async -> Bool {
+        await dataManager.update(title: title, for: bookmark).when(true) {
+            onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(title)))
+        }
+    }
+
     // MARK: - Named Events
 
     enum Event {
