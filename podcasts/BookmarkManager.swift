@@ -67,7 +67,11 @@ class BookmarkManager {
 
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
-        let success = await dataManager.remove(bookmarks: bookmarks)
+        await dataManager.remove(bookmarks: bookmarks).when(true) {
+            onBookmarksDeleted.send(.init(uuids: bookmarks.map(\.uuid)))
+        }
+    }
+
     /// Updates the bookmark with the given title, emits `onBookmarkChanged` on success
     @discardableResult
     func update(title: String, for bookmark: Bookmark) async -> Bool {
