@@ -70,6 +70,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         guard let bookmark = selectedItems.first else { return }
 
         router?.bookmarkEdit(bookmark)
+        toggleMultiSelection()
     }
 
     func deleteSelectedBookmarks() {
@@ -79,6 +80,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)
+            self?.toggleMultiSelection()
         }
     }
 }
