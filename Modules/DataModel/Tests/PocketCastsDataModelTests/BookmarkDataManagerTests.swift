@@ -43,10 +43,10 @@ final class BookmarkDataManagerTests: XCTestCase {
     }
 
     func testAddingExistingBookmarkIsNotAdded() {
-        let firstUuid = addBookmark()
-        let secondUuid = addBookmark()
+        dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", title: "Title", time: 1)
 
-        XCTAssertEqual(firstUuid, secondUuid)
+        let second = dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", title: "Title", time: 1)
+        XCTAssertNil(second)
     }
 
     // MARK: - Retrieving
