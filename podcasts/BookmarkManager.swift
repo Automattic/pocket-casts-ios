@@ -55,13 +55,37 @@ class BookmarkManager {
     /// Removes an array of bookmarks
     func remove(_ bookmarks: [Bookmark]) async -> Bool {
         let success = await dataManager.remove(bookmarks: bookmarks)
+    // MARK: - Named Events
 
-        // Inform any listeners
-        if success {
-            onBookmarksDeleted.send(bookmarks)
+    enum Event {
+        struct Created {
+            /// The uuid of the newly created bookmark
+            let uuid: String
+
+            /// The uuid of the episode the bookmark was added to
+            let episode: String
+
+            /// The uuid of the podcast the bookmark was added to, if available
+            let podcast: String?
         }
 
-        return success
+        struct Changed {
+            /// The uuid of the changed bookmark
+            let uuid: String
+
+            /// The type of change
+            let change: Change
+
+            enum Change {
+                /// The title of the bookmark was changed
+                /// The new value is passed as a value
+                case title(String)
+            }
+        }
+
+        struct Deleted {
+            let uuids: [String]
+        }
     }
 }
 
