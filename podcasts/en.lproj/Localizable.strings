@@ -3796,3 +3796,15 @@
 
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
+
+/* The title of a view where the user can edit their bookmark title */
+"change_bookmark_title" = "Change title";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"change_bookmark_subtitle" = "Change the title that identifies this bookmark";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"add_bookmark_subtitle" = "Add an optional title to identify this bookmark";
+
+/* Title of a button that allows the user to save their changes */
+"save_bookmark" = "Save Bookmark";

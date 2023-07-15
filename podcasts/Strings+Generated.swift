@@ -146,6 +146,8 @@ internal enum L10n {
   internal static var accountWelcomePlus: String { return L10n.tr("Localizable", "account_welcome_plus") }
   /// Add Bookmark
   internal static var addBookmark: String { return L10n.tr("Localizable", "add_bookmark") }
+  /// Add an optional title to identify this bookmark
+  internal static var addBookmarkSubtitle: String { return L10n.tr("Localizable", "add_bookmark_subtitle") }
   /// Add to Up Next
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
@@ -314,6 +316,10 @@ internal enum L10n {
   internal static var carplayUpNextQueue: String { return L10n.tr("Localizable", "carplay_up_next_queue") }
   /// Change App Icon
   internal static var changeAppIcon: String { return L10n.tr("Localizable", "change_app_icon") }
+  /// Change the title that identifies this bookmark
+  internal static var changeBookmarkSubtitle: String { return L10n.tr("Localizable", "change_bookmark_subtitle") }
+  /// Change title
+  internal static var changeBookmarkTitle: String { return L10n.tr("Localizable", "change_bookmark_title") }
   /// Change Email Address
   internal static var changeEmail: String { return L10n.tr("Localizable", "change_email") }
   /// Email Address Changed
@@ -2038,6 +2044,8 @@ internal enum L10n {
   internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
+  /// Save Bookmark
+  internal static var saveBookmark: String { return L10n.tr("Localizable", "save_bookmark") }
   /// Search
   internal static var search: String { return L10n.tr("Localizable", "search") }
   /// Search podcasts or add RSS URL
