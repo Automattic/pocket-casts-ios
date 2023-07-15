@@ -2,8 +2,7 @@ import SwiftUI
 import PocketCastsUtils
 import PocketCastsDataModel
 
-struct BookmarkRow: View {
-    @EnvironmentObject var theme: Theme
+struct BookmarkRow<Style: BookmarksStyle>: View {
     @EnvironmentObject var viewModel: BookmarkListViewModel
 
     private let bookmark: Bookmark
@@ -12,10 +11,13 @@ struct BookmarkRow: View {
     private let subtitle: String
     private let playButton: String
 
+    @ObservedObject private var style: Style
+
     @State private var highlighted = false
 
-    init(bookmark: Bookmark) {
+    init(bookmark: Bookmark, style: Style) {
         self.bookmark = bookmark
+        self.style = style
 
         self.title = bookmark.title
         self.playButton = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
@@ -27,7 +29,7 @@ struct BookmarkRow: View {
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
-            HStack(spacing: Constants.padding) {
+            HStack(spacing: RowConstants.padding) {
                 detailsView
                 playButtonView
             }
@@ -36,12 +38,16 @@ struct BookmarkRow: View {
                 viewModel.toggleSelected(bookmark)
             }
         }
-        .selectButtonStyle(tintColor: theme.playerContrast01, checkColor: theme.playerBackground01)
-        .padding(Constants.padding)
-        // Display a highlight when tapped, or the row is selected
-        .background((highlighted || selected) ? theme.playerContrast05 : nil)
-        .animation(.linear, value: highlighted)
+        .selectButtonStyle(tintColor: style.selectButton, checkColor: style.selectCheck, strokeColor: style.selectButtonStroke)
+        .padding(RowConstants.padding)
         .animation(.default, value: viewModel.isMultiSelecting)
+
+        // Display a highlight when tapped, or the row is selected
+        .background((!selected && highlighted) ? style.rowHighlight : nil)
+        .animation(.linear, value: highlighted)
+
+        .background(selected ? style.rowSelected : nil)
+        .animation(.linear, value: selected)
     }
 
     /// Displays a title and subtitle
@@ -49,11 +55,11 @@ struct BookmarkRow: View {
         NonBlockingLongPressView {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)
-                    .foregroundStyle(theme.playerContrast01)
+                    .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
 
                 Text(subtitle)
-                    .foregroundStyle(theme.playerContrast02)
+                    .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -70,7 +76,7 @@ struct BookmarkRow: View {
 
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
-        PlayButton(title: playButton).buttonize {
+        PlayButton(title: playButton, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label
@@ -82,10 +88,9 @@ struct BookmarkRow: View {
     }
 
     // MARK: - Play Button View
-    private struct PlayButton: View {
-        @EnvironmentObject var theme: Theme
-
+    private struct PlayButton<Style: BookmarksStyle>: View {
         let title: String
+        @ObservedObject var style: Style
 
         var body: some View {
             HStack(spacing: 10) {
@@ -96,16 +101,23 @@ struct BookmarkRow: View {
                 Image("bookmarks-icon-play")
                     .renderingMode(.template)
             }
-            .foregroundStyle(theme.playerBackground01)
-            .padding(.horizontal, Constants.padding)
-            .padding(.vertical, Constants.playButtonVerticalPadding)
-            .background(theme.playerContrast01)
+            .foregroundStyle(style.playButtonText)
+            .padding(.horizontal, RowConstants.padding)
+            .padding(.vertical, RowConstants.playButtonVerticalPadding)
+            .background(style.playButtonBackground)
             .cornerRadius(.infinity) // Always rounded
+            .overlay(
+                style.playButtonStroke.map {
+                    RoundedRectangle(cornerRadius: .infinity, style: .continuous)
+                        .inset(by: 1)
+                        .stroke($0, lineWidth: 2)
+                }
+            )
         }
     }
+}
 
-    private enum Constants {
-        static let padding = 16.0
-        static let playButtonVerticalPadding = 8.0
-    }
+private enum RowConstants {
+    static let padding = 16.0
+    static let playButtonVerticalPadding = 8.0
 }
