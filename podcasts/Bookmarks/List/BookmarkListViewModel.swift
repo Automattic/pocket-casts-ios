@@ -30,6 +30,12 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
     }
 
     private func listenForAddedBookmarks() {
+    /// Reload a single item from the list
+    func refresh(bookmark: Bookmark) {
+        guard let index = items.firstIndex(of: bookmark) else { return }
+
+        items.replaceSubrange(index...index, with: [bookmark])
+    }
         bookmarkManager.onBookmarkCreated
             .filter { [weak self] episode, _ in
                 self?.episode?.uuid == episode.uuid
