@@ -21,3 +21,13 @@ public struct Bookmark: Hashable {
 extension Bookmark: Identifiable {
     public var id: String { uuid }
 }
+
+extension Bookmark {
+    public static let preview = Bookmark(uuid: "bookmark",
+                                         title: "Interesting Part",
+                                         time: 3600,
+                                         created: Date(),
+                                         modified: Date(),
+                                         episodeUuid: "episode",
+                                         podcastUuid: "podcast")
+}
