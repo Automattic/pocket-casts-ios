@@ -20,8 +20,8 @@ public struct BookmarkDataManager {
     @discardableResult
     public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date()) -> String? {
         // Prevent adding more than 1 bookmark at the same place
-        if let existing = existingBookmark(forEpisode: episodeUuid, time: time) {
-            return existing.uuid
+        guard existingBookmark(forEpisode: episodeUuid, time: time) == nil else {
+            return nil
         }
 
         var bookmarkUuid: String? = nil
