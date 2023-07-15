@@ -1429,6 +1429,7 @@
 		C7318EA42A61E40800EAFA9C /* BookmarkEditTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA32A61E40800EAFA9C /* BookmarkEditTitleView.swift */; };
 		C7318EA82A622AD000EAFA9C /* BookmarkEditTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA72A622AD000EAFA9C /* BookmarkEditTitleViewController.swift */; };
 		C7318EAA2A624CB400EAFA9C /* BookmarkEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA92A624CB400EAFA9C /* BookmarkEditViewModel.swift */; };
+		C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */; };
 		C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */; };
 		C734A88E2938308F005E5B98 /* CommonStoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C734A88D2938308F005E5B98 /* CommonStoryViews.swift */; };
 		C7360CB82A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
@@ -3153,6 +3154,7 @@
 		C7318EA32A61E40800EAFA9C /* BookmarkEditTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditTitleView.swift; sourceTree = "<group>"; };
 		C7318EA72A622AD000EAFA9C /* BookmarkEditTitleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditTitleViewController.swift; sourceTree = "<group>"; };
 		C7318EA92A624CB400EAFA9C /* BookmarkEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditViewModel.swift; sourceTree = "<group>"; };
+		C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTheme.swift; sourceTree = "<group>"; };
 		C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseModal.swift; sourceTree = "<group>"; };
 		C734A88D2938308F005E5B98 /* CommonStoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStoryViews.swift; sourceTree = "<group>"; };
 		C7360CB72A42128300456930 /* Bookmarks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Bookmarks.xcassets; sourceTree = "<group>"; };
@@ -6321,6 +6323,7 @@
 				C7318EA22A61E3FC00EAFA9C /* Editing */,
 				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
+				C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */,
 			);
 			path = Bookmarks;
 			sourceTree = "<group>";
@@ -8960,6 +8963,7 @@
 				BD56102D200DA4BC002F2D53 /* Podcast+Formatting.swift in Sources */,
 				BD5294291B564417007A0B1D /* PlaybackItem.swift in Sources */,
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
+				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
