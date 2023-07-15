@@ -35,16 +35,20 @@ class BookmarkManager {
     }()
 
     /// Adds a new bookmark for an episode at the given time
-    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle) {
+    @discardableResult
+    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = BookmarkManager.defaultTitle) -> Bookmark? {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
-        let uuid = dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, title: title, time: time)
+        return dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, title: title, time: time).flatMap {
+            FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
 
-        // Inform the subscribers a bookmark was added
-        uuid.flatMap { dataManager.bookmark(for: $0) }.map {
-            onBookmarkCreated.send((episode, $0))
+            // Inform the subscribers a bookmark was added
+            onBookmarkCreated.send(.init(uuid: $0, episode: episode.uuid, podcast: podcastUuid))
+
+            return dataManager.bookmark(for: $0)
         }
+    }
 
         FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
     }
