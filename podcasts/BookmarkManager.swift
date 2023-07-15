@@ -4,8 +4,6 @@ import PocketCastsUtils
 import Combine
 
 class BookmarkManager {
-    typealias SortOption = BookmarkDataManager.SortOption
-
     private let dataManager: BookmarkDataManager
 
     /// Called when a bookmark is created
@@ -56,13 +54,13 @@ class BookmarkManager {
     }
 
     /// Retrieves all the bookmarks for a episode
-    func bookmarks(for episode: BaseEpisode, sorted: SortOption = .newestToOldest) -> [Bookmark] {
-        dataManager.bookmarks(forEpisode: episode.uuid, sorted: sorted)
+    func bookmarks(for episode: BaseEpisode, sorted: BookmarkSortOption = .newestToOldest) -> [Bookmark] {
+        dataManager.bookmarks(forEpisode: episode.uuid, sorted: sorted.dataSortOption)
     }
 
     /// Retrieves all the bookmarks for a podcast
-    func bookmarks(for podcast: Podcast, sorted: SortOption = .newestToOldest) -> [Bookmark] {
-        dataManager.bookmarks(forEpisode: podcast.uuid, sorted: sorted)
+    func bookmarks(for podcast: Podcast, sorted: BookmarkSortOption = .newestToOldest) -> [Bookmark] {
+        dataManager.bookmarks(forEpisode: podcast.uuid, sorted: sorted.dataSortOption)
     }
 
     /// Removes an array of bookmarks
@@ -124,5 +122,18 @@ extension BookmarkManager {
 
         // Play
         tonePlayer?.play()
+    }
+}
+
+private extension BookmarkSortOption {
+    var dataSortOption: BookmarkDataManager.SortOption {
+        switch self {
+        case .newestToOldest:
+            return .newestToOldest
+        case .oldestToNewest:
+            return .oldestToNewest
+        case .timestamp:
+            return .timestamp
+        }
     }
 }
