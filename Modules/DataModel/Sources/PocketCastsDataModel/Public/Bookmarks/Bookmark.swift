@@ -11,6 +11,10 @@ public struct Bookmark: Hashable {
 
     public let episodeUuid: String
     public let podcastUuid: String?
+
+    public static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
+        lhs.uuid == rhs.uuid
+    }
 }
 
 // MARK: - Identifiable
