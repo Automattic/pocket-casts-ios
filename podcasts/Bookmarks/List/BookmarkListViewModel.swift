@@ -36,7 +36,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
     }
 
     func reload() {
-        items = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
+        items = episode.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption) } ?? []
     }
 
     /// Reload a single item from the list
