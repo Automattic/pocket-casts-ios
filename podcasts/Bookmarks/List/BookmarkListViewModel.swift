@@ -45,6 +45,19 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
                 self?.reload()
             }
             .store(in: &cancellables)
+
+        bookmarkManager.onBookmarkChanged
+            .filter { [weak self] event in
+                self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
+            }
+            .compactMap { [weak self] event in
+                self?.bookmarkManager.bookmark(for: event.uuid)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bookmark in
+                self?.refresh(bookmark: bookmark)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - View Methods
