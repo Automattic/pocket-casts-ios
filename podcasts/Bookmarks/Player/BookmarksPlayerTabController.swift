@@ -14,7 +14,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     init(bookmarkManager: BookmarkManager, playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         self.bookmarkManager = bookmarkManager
-        let viewModel = BookmarkListViewModel(bookmarkManager: bookmarkManager)
+        let viewModel = BookmarkListViewModel(bookmarkManager: bookmarkManager, sortOption: Constants.UserDefaults.bookmarks.playerSort)
         self.viewModel = viewModel
         self.controller = ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
 
