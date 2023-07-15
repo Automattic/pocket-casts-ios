@@ -6,8 +6,6 @@ import Combine
 class BookmarkManager {
     private let dataManager: BookmarkDataManager
 
-    static let defaultTitle = L10n.bookmarkDefaultTitle
-
     /// Called when a bookmark is created
     let onBookmarkCreated = PassthroughSubject<Event.Created, Never>()
 
@@ -36,7 +34,7 @@ class BookmarkManager {
 
     /// Adds a new bookmark for an episode at the given time
     @discardableResult
-    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = BookmarkManager.defaultTitle) -> Bookmark? {
+    func add(to episode: BaseEpisode, at time: TimeInterval, title: String = L10n.bookmarkDefaultTitle) -> Bookmark? {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
