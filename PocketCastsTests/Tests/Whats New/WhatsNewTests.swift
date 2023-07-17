@@ -97,6 +97,20 @@ class WhatsNewtests: XCTestCase {
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
 
+    // If the current What's New was shown, never show it again
+    // In theory, this setup should never happen, but we have
+    // reports of the popup appearing for every new beta
+    func testDontShowWhatsNewForSameBeta() {
+        let whatsNew = WhatsNew(
+            announcements: [announcement(version: 7.43)],
+            previousOpenedVersion: "7.42.0.0",
+            currentVersion: "7.44.0.0",
+            lastWhatsNewShown: 7.43
+        )
+
+        XCTAssertNil(whatsNew.viewControllerToShow())
+    }
+
     private func announcement(version: Double) -> WhatsNew.Announcement {
         return .init(version: version, header: { AnyView(EmptyView()) }, title: "", message: "", buttonTitle: "", action: {})
     }
