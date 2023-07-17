@@ -27,7 +27,6 @@
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
 		2F9099112A4F88B10044FC55 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */; };
-		2F9099152A4F88B10044FC55 /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */; };
 		3FB8643028896539003A86BE /* BuildkiteTestCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB8642F28896539003A86BE /* BuildkiteTestCollector */; };
 		4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */; };
@@ -1544,13 +1543,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2F9099132A4F88B10044FC55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
-			remoteInfo = "Share Extension";
-		};
 		403B5B2321813FFA00821A54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1687,7 +1679,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed App Extensions */,
-				2F9099152A4F88B10044FC55 /* Share Extension.appex in Embed App Extensions */,
 				4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed App Extensions */,
 				BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed App Extensions */,
 				403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed App Extensions */,
@@ -7160,7 +7151,6 @@
 				403B5B2421813FFA00821A54 /* PBXTargetDependency */,
 				403B5B2721813FFA00821A54 /* PBXTargetDependency */,
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
-				2F9099142A4F88B10044FC55 /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -9203,11 +9193,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2F9099142A4F88B10044FC55 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
-			targetProxy = 2F9099132A4F88B10044FC55 /* PBXContainerItemProxy */;
-		};
 		403B5B2421813FFA00821A54 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 403B5B1821813FFA00821A54 /* PodcastsIntentsUI */;
