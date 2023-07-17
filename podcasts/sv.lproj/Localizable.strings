@@ -135,6 +135,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Lägg till i Nästa</string>
     <key>after_playing</key>
     <string>Efter uppspelning</string>
+    <key>announcement_autoplay_description</key>
+    <string>Om din Nästa-kö är tom och du börjar lyssna på ett avsnitt kommer Spela upp automatiskt att fortsätta spela upp avsnitt från den aktuella showen eller listan.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Spela upp automatiskt är här.</string>
     <key>app_badge</key>
     <string>Appmärke</string>
     <key>app_icon_classic</key>
@@ -607,6 +611,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Stoppa alla nedladdningar</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>enable_it_now</key>
+    <string>Aktivera det nu</string>
     <key>eoy_card_description</key>
     <string>Se dina favoritpodcasts och -kategorier, lyssningsstatistik med mera.</string>
     <key>eoy_create_account_to_see</key>
@@ -1895,6 +1901,10 @@ gratis provperiod på %1$@</string>
     <string>Nya sedan appen öppnades</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totalt antal ospelade</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Bekräftelseljud för bokmärke</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Spela upp ett bekräftelseljud när ett bokmärke har skapats med dina hörlurar.</string>
     <key>settings_collect_information</key>
     <string>Samla information</string>
     <key>settings_collect_information_additional_information</key>
@@ -1973,6 +1983,10 @@ gratis provperiod på %1$@</string>
     <string>Vill du ändra till %1$@ arkiverade avsnitt för alla dina befintliga podcasts?</string>
     <key>settings_general_auto_open_player</key>
     <string>Öppna spelaren automatiskt</string>
+    <key>settings_general_autoplay</key>
+    <string>Spela upp automatiskt</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Om din Nästa-kö är tom kommer vi att spela upp avsnitt från den podcast eller lista som du för närvarande lyssnar på.</string>
     <key>settings_general_defaults_header</key>
     <string>STANDARD</string>
     <key>settings_general_episode_groups</key>
@@ -2029,6 +2043,10 @@ gratis provperiod på %1$@</string>
     <string>Om du trycker på ett avsnitt i Nästa så spelas avsnittet. Ett långtryck visar en lista av Åtgärder. Inaktivera för att vända på dem.</string>
     <key>settings_global_settings</key>
     <string>Globala inställningar</string>
+    <key>settings_headphone_controls</key>
+    <string>Hörlurskontroller</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Anpassa åtgärder som utförs med de vanligaste hörlurskontrollerna.</string>
     <key>settings_help</key>
     <string>Hjälp och feedback</string>
     <key>settings_import_export</key>
@@ -2041,6 +2059,8 @@ gratis provperiod på %1$@</string>
     <string>I MENY</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktiva avsnitt är avsnitt som du inte har spelat upp eller laddat ner under den ovan angivna tidsperioden. Nedladdningar tas bort när avsnittet arkiveras.</string>
+    <key>settings_next_action</key>
+    <string>Nästa åtgärd</string>
     <key>settings_not_in_filters</key>
     <string>Ingår inte i några filter</string>
     <key>settings_notifications</key>
@@ -2055,6 +2075,8 @@ gratis provperiod på %1$@</string>
     <string>Uppspelningshastighet</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ per månad/%2$@ per år</string>
+    <key>settings_previous_action</key>
+    <string>Föregående åtgärd</string>
     <key>settings_privacy</key>
     <string>Integritet</string>
     <key>settings_queue_position</key>
