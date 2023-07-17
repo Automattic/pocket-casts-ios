@@ -90,6 +90,9 @@ public class DataManager {
         let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
 
         // this extra step is to make sure we return the episodes in the order they are in the up next list, which they won't be if there's both Episodes and UserEpisodes in Up Next
+        if userEpisodes.isEmpty {
+            return episodes
+        }
         var convertedEpisodes = [BaseEpisode]()
         var episodeIndex = 0
         var userEpisodeIndex = 0
