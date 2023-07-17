@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 /// A bookmark that represents a position in time within an episode
 public struct Bookmark: Hashable {
@@ -18,16 +19,21 @@ public struct Bookmark: Hashable {
 }
 
 // MARK: - Identifiable
+
 extension Bookmark: Identifiable {
     public var id: String { uuid }
 }
 
-extension Bookmark {
-    public static let preview = Bookmark(uuid: "bookmark",
-                                         title: "Interesting Part",
-                                         time: 3600,
-                                         created: Date(),
-                                         modified: Date(),
-                                         episodeUuid: "episode",
-                                         podcastUuid: "podcast")
+// MARK: - Preview Data
+
+extension PreviewProvider {
+    public func previewBookmark(title: String, time: TimeInterval, created: Date) -> Bookmark {
+        Bookmark(uuid: UUID().uuidString,
+                 title: title,
+                 time: time,
+                 created: created,
+                 modified: Date(),
+                 episodeUuid: "episode",
+                 podcastUuid: "podcast")
+    }
 }
