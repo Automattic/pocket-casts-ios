@@ -551,13 +551,13 @@ class Settings: NSObject {
 
 
     private static let lastWhatsNewShownKey = "LastWhatsNewShown"
-    class var lastWhatsNewShown: Double? {
+    class var lastWhatsNewShown: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: lastWhatsNewShownKey)
         }
 
         get {
-            UserDefaults.standard.value(forKey: lastWhatsNewShownKey) as? Double
+            UserDefaults.standard.string(forKey: lastWhatsNewShownKey)
         }
     }
 

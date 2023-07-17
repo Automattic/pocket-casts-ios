@@ -105,7 +105,7 @@ class WhatsNewtests: XCTestCase {
             announcements: [announcement(version: 7.43)],
             previousOpenedVersion: "7.42.0.0",
             currentVersion: "7.44.0.0",
-            lastWhatsNewShown: 7.43
+            lastWhatsNewShown: "7.43"
         )
 
         XCTAssertNil(whatsNew.viewControllerToShow())

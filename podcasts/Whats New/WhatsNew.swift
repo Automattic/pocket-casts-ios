@@ -14,9 +14,9 @@ class WhatsNew {
     let announcements: [Announcement]
     let currentVersion: Double
     let previousOpenedVersion: Double?
-    let lastWhatsNewShown: Double?
+    let lastWhatsNewShown: String?
 
-    init(announcements: [Announcement] = Announcements().announcements, previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion), currentVersion: String = Settings.appVersion(), lastWhatsNewShown: Double? = Settings.lastWhatsNewShown) {
+    init(announcements: [Announcement] = Announcements().announcements, previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion), currentVersion: String = Settings.appVersion(), lastWhatsNewShown: String? = Settings.lastWhatsNewShown) {
         self.announcements = announcements
         self.previousOpenedVersion = previousOpenedVersion?.toDouble()
         self.currentVersion = currentVersion.toDouble()
@@ -27,7 +27,7 @@ class WhatsNew {
         guard let previousOpenedVersion,
               previousOpenedVersion != currentVersion,
               let announcement = announcements.last(where: { $0.version > previousOpenedVersion && $0.version <= currentVersion }),
-              announcement.version != lastWhatsNewShown else {
+              "\(announcement.version)" != lastWhatsNewShown else {
             return nil
         }
 
