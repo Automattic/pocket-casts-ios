@@ -7,7 +7,7 @@ struct Announcements {
     // there were two announcements, the last one will be picked.
     var announcements: [WhatsNew.Announcement] = [
         .init(
-            version: 7.43,
+            version: "7.43",
             header: {
                 AnyView(AutoplayWhatsNewHeader())
             },
