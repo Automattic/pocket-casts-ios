@@ -135,6 +135,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Adicionar aos Próximos</string>
     <key>after_playing</key>
     <string>Depois de reproduzir</string>
+    <key>announcement_autoplay_description</key>
+    <string>Se você começar a ouvir um episódio e a fila de Próximos estiver vazia, os episódios desse programa ou lista vão ser reproduzidos automaticamente.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Chegou a reprodução automática</string>
     <key>app_badge</key>
     <string>Selo do app</string>
     <key>app_icon_classic</key>
@@ -607,6 +611,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Parar todos os downloads</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>enable_it_now</key>
+    <string>Ativar agora</string>
     <key>eoy_card_description</key>
     <string>Veja seus principais podcasts, categorias, estatísticas de reprodução e muito mais.</string>
     <key>eoy_create_account_to_see</key>
@@ -1895,6 +1901,10 @@ teste gratuito de %1$@</string>
     <string>Novo desde que o app foi aberto</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total não reproduzido</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Som de confirmação de favorito</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Reproduz um som de confirmação após a criação de um favorito com seus fones de ouvido.</string>
     <key>settings_collect_information</key>
     <string>Coletar informações</string>
     <key>settings_collect_information_additional_information</key>
@@ -1973,6 +1983,10 @@ teste gratuito de %1$@</string>
     <string>Quer mudar todos os seus podcasts para %1$@ episódios arquivados?</string>
     <key>settings_general_auto_open_player</key>
     <string>Abrir reprodutor automaticamente</string>
+    <key>settings_general_autoplay</key>
+    <string>Reprodução automática</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Se a fila de Próximos estiver vazia, vamos reproduzir os episódios do mesmo podcast ou da lista que você está ouvindo.</string>
     <key>settings_general_defaults_header</key>
     <string>PADRÃO</string>
     <key>settings_general_episode_groups</key>
@@ -2029,6 +2043,10 @@ teste gratuito de %1$@</string>
     <string>Toque em um episódio na lista de Próximos para reproduzi-lo. Mantenha pressionado para ver as opções do episódio. Desative para inverter essas opções.</string>
     <key>settings_global_settings</key>
     <string>Configurações gerais</string>
+    <key>settings_headphone_controls</key>
+    <string>Controles do fone</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personaliza as ações dos controles de fone mais comuns.</string>
     <key>settings_help</key>
     <string>Ajuda e feedback</string>
     <key>settings_import_export</key>
@@ -2041,6 +2059,8 @@ teste gratuito de %1$@</string>
     <string>NO MENU</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Episódios inativos são aqueles dos quais você não fez download nem reproduziu no tempo especificado acima. O download é removido quando o episódio é arquivado.</string>
+    <key>settings_next_action</key>
+    <string>Próxima ação</string>
     <key>settings_not_in_filters</key>
     <string>Não incluso em nenhum filtro</string>
     <key>settings_notifications</key>
@@ -2055,6 +2075,8 @@ teste gratuito de %1$@</string>
     <string>Velocidade de reprodução</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ por mês / %2$@ por ano</string>
+    <key>settings_previous_action</key>
+    <string>Ação anterior</string>
     <key>settings_privacy</key>
     <string>Privacidade</string>
     <key>settings_queue_position</key>

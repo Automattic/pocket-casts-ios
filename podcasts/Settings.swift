@@ -549,6 +549,18 @@ class Settings: NSObject {
         UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
     }
 
+
+    private static let lastWhatsNewShownKey = "LastWhatsNewShown"
+    class var lastWhatsNewShown: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: lastWhatsNewShownKey)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: lastWhatsNewShownKey)
+        }
+    }
+
     class func setShouldFollowSystemTheme(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
