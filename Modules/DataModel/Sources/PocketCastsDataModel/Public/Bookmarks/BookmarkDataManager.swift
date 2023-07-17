@@ -18,7 +18,7 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(episodeUuid: String, podcastUuid: String?, time: TimeInterval) -> String? {
+    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date()) -> String? {
         // Prevent adding more than 1 bookmark at the same place
         if let existing = existingBookmark(forEpisode: episodeUuid, time: time) {
             return existing.uuid
@@ -28,11 +28,16 @@ public struct BookmarkDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let uuid = UUID().uuidString.lowercased()
-                let now = Date().timeIntervalSince1970
+                let uuid = uuid ?? UUID().uuidString.lowercased()
+                let created = dateCreated.timeIntervalSince1970
 
-                let columns = Column.insertColumns
-                let values: [Any?] = [uuid, now, episodeUuid, podcastUuid, time]
+                let columns: [Column] = [
+                    .uuid, .title, .time,
+                    .createdDate, .modifiedDate,
+                    .episode, .podcast
+                ]
+
+                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
@@ -43,6 +48,27 @@ public struct BookmarkDataManager {
         }
 
         return bookmarkUuid
+    }
+
+    // MARK: - Updating
+    @discardableResult
+    public func update(title: String, for bookmark: Bookmark, modified: Date = Date()) async -> Bool {
+        let query = """
+                UPDATE \(Self.tableName)
+                SET \(Column.title) = ?, \(Column.modifiedDate) = ?
+                WHERE \(Column.uuid) = ?
+                LIMIT 1
+                """
+
+        let result = await dbQueue.executeUpdate(query, values: [title, modified.timeIntervalSince1970, bookmark.uuid])
+
+        switch result {
+        case .success:
+            return true
+        case .failure(let failure):
+            FileLog.shared.addMessage("BookmarkManager.update failed: \(failure)")
+            return false
+        }
     }
 
     // MARK: - Retrieving
@@ -71,7 +97,7 @@ public struct BookmarkDataManager {
     }
 
     /// Returns all the bookmarks in the database and optionally can also return deleted items
-    public func allBookmarks(includeDeleted: Bool) -> [Bookmark] {
+    public func allBookmarks(includeDeleted: Bool = false) -> [Bookmark] {
         selectBookmarks(where: [.deleted], values: [includeDeleted])
     }
 
@@ -79,24 +105,22 @@ public struct BookmarkDataManager {
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database
     public func remove(bookmarks: [Bookmark]) async -> Bool {
-        await withCheckedContinuation { continuation in
-            let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
+        let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
-            let query = """
-            UPDATE \(Self.tableName)
-            SET \(Column.deleted) = 1
-            WHERE \(Column.uuid) IN (\(uuids))
-            """
+        let query = """
+        UPDATE \(Self.tableName)
+        SET \(Column.deleted) = 1
+        WHERE \(Column.uuid) IN (\(uuids))
+        """
 
-            dbQueue.inDatabase { db in
-                do {
-                    try db.executeUpdate(query, values: nil)
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
-                    continuation.resume(returning: false)
-                }
-            }
+        let result = await dbQueue.executeUpdate(query)
+
+        switch result {
+        case .success:
+            return true
+        case .failure(let error):
+            FileLog.shared.addMessage("BookmarkManager.remove failed: \(error)")
+            return false
         }
     }
 
@@ -124,18 +148,15 @@ public struct BookmarkDataManager {
 
     enum Column: String, CaseIterable, CustomStringConvertible {
         case uuid
+        case title
         case createdDate = "date_added"
+        case modifiedDate = "date_modified"
         case episode = "episode_uuid"
         case podcast = "podcast_uuid"
         case time
         case deleted
 
         var description: String { rawValue }
-
-        /// The columns used when inserting a new row into the database
-        static let insertColumns: [Column] = [
-            .uuid, .createdDate, .episode, .podcast, .time
-        ]
     }
 }
 
@@ -194,10 +215,12 @@ extension BookmarkDataManager {
         try db.executeUpdate("""
             CREATE TABLE IF NOT EXISTS \(Self.tableName) (
                 \(Column.uuid) varchar(40) NOT NULL,
+                \(Column.title) varchar(100) NOT NULL,
                 \(Column.episode) varchar(40) NOT NULL,
                 \(Column.podcast) varchar(40),
                 \(Column.time) real NOT NULL,
                 \(Column.createdDate) INTEGER NOT NULL,
+                \(Column.modifiedDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
                 PRIMARY KEY (\(Column.uuid))
             );
@@ -215,31 +238,30 @@ private extension Bookmark {
     init?(from resultSet: FMResultSet) {
         guard
             let uuid = resultSet.string(for: .uuid),
+            let title = resultSet.string(for: .title),
             let createdDate = resultSet.date(for: .createdDate),
+            let modified = resultSet.date(for: .modifiedDate),
             let episode = resultSet.string(for: .episode),
             let time = resultSet.double(for: .time)
         else {
             return nil
         }
 
-        let title: String? = nil
         let podcast = resultSet.string(for: .podcast)
 
         self.init(uuid: uuid,
-                  createdDate: createdDate,
-                  time: time,
                   title: title,
+                  time: time,
+                  created: createdDate,
+                  modified: modified,
                   episodeUuid: episode,
                   podcastUuid: podcast)
     }
 }
 
 // MARK: - BookmarkDataManager.Column: FMResultSet Extension
-private extension FMResultSet {
-    func object(for column: BookmarkDataManager.Column) -> Any? {
-        object(forColumn: column.rawValue)
-    }
 
+private extension FMResultSet {
     func string(for column: BookmarkDataManager.Column) -> String? {
         string(forColumn: column.rawValue)
     }
