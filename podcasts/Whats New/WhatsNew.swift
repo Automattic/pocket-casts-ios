@@ -27,7 +27,7 @@ class WhatsNew {
         guard let previousOpenedVersion,
               previousOpenedVersion != currentVersion,
               let announcement = announcements.last(where: { $0.version > previousOpenedVersion && $0.version <= currentVersion }),
-              "\(announcement.version)" != lastWhatsNewShown else {
+              announcement.version != lastWhatsNewShown else {
             return nil
         }
 

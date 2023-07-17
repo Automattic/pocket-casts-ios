@@ -44,7 +44,7 @@ struct WhatsNewView: View {
         .padding()
         .onAppear {
             track(.whatsnewShown)
-            Settings.lastWhatsNewShown = "\(announcement.version)"
+            Settings.lastWhatsNewShown = announcement.version
         }
     }
 
