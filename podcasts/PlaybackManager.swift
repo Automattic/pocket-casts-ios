@@ -1906,8 +1906,15 @@ extension PlaybackManager {
             return
         }
 
+        #if DEBUG
+        // For testing only, will be removed.
+        Toast.show("Bookmark 'Hello World' added", actions: [.init(title: "View", action: {
+            print("View Action")
+        })], theme: .playerTheme)
+        #else
         let currentTime = currentTime()
 
         bookmarkManager.add(to: episode, at: currentTime)
+        #endif
     }
 }
