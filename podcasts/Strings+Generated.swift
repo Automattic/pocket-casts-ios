@@ -2076,6 +2076,8 @@ internal enum L10n {
   internal static var selectAllAbove: String { return L10n.tr("Localizable", "select_all_above") }
   /// Select all below
   internal static var selectAllBelow: String { return L10n.tr("Localizable", "select_all_below") }
+  /// Select Bookmarks
+  internal static var selectBookmarks: String { return L10n.tr("Localizable", "select_bookmarks") }
   /// Select Episodes
   internal static var selectEpisodes: String { return L10n.tr("Localizable", "select_episodes") }
   /// %1$@ selected
@@ -2664,6 +2666,8 @@ internal enum L10n {
   internal static var sortBy: String { return L10n.tr("Localizable", "sort_by") }
   /// Sort Episodes
   internal static var sortEpisodes: String { return L10n.tr("Localizable", "sort_episodes") }
+  /// Timestamp
+  internal static var sortOptionTimestamp: String { return L10n.tr("Localizable", "sort_option_timestamp") }
   /// Speed
   internal static var speed: String { return L10n.tr("Localizable", "speed") }
   /// Star Episode

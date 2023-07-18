@@ -168,6 +168,8 @@ struct Constants {
 
         enum bookmarks {
             static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
+
+            static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
     }
 
@@ -414,4 +416,10 @@ enum HeadphoneControlAction: JSONCodable {
 
     /// Create a new bookmark for the currently playing episode
     case addBookmark
+}
+
+// MARK: - Bookmark Sorting
+
+enum BookmarkSortOption: JSONCodable {
+    case newestToOldest, oldestToNewest, timestamp
 }

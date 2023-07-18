@@ -41,6 +41,7 @@ struct BookmarkRow: View {
         // Display a highlight when tapped, or the row is selected
         .background((highlighted || selected) ? theme.playerContrast05 : nil)
         .animation(.linear, value: highlighted)
+        .animation(.default, value: viewModel.isMultiSelecting)
     }
 
     /// Displays a title and subtitle

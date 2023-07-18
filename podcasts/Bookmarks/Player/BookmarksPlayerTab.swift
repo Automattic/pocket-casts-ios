@@ -37,7 +37,9 @@ struct BookmarksPlayerTab: View {
 
                 Spacer()
 
-                Image("more").foregroundStyle(theme.playerContrast01)
+                Image("more").foregroundStyle(theme.playerContrast01).buttonize {
+                    viewModel.showMoreOptions()
+                }
             }
             .opacity(viewModel.isMultiSelecting ? 0 : 1)
             .offset(y: viewModel.isMultiSelecting ? Constants.headerTransitionOffset : 0)
@@ -141,7 +143,7 @@ struct BookmarksPlayerTab: View {
 
 struct BookmarksPlayerTab_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksPlayerTab(viewModel: .init(bookmarkManager: .init()))
+        BookmarksPlayerTab(viewModel: .init(bookmarkManager: .init(), sortOption: .init("", defaultValue: .newestToOldest)))
             .setupDefaultEnvironment()
     }
 }

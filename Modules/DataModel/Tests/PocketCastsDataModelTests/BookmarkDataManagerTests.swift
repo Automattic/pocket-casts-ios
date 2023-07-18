@@ -172,6 +172,43 @@ final class BookmarkDataManagerTests: XCTestCase {
 
         XCTAssertTrue(dataManager.allBookmarks(includeDeleted: true).isEmpty)
     }
+
+    // MARK: - Sorting
+    func testNewestToOldestSorting() {
+        let episode = "episode"
+
+        let ordered = [(0, 0), (1, 10), (2, 20), (3, 30)].map { values in
+            addBookmark(episodeUuid: episode, time: values.0, created: .init(timeIntervalSince1970: values.1))
+        }
+
+        let bookmarks = dataManager.bookmarks(forEpisode: episode, sorted: .newestToOldest)
+
+        XCTAssertEqual(ordered.reversed(), bookmarks)
+    }
+
+    func testOldestToNewestSorting() {
+        let episode = "episode"
+
+        let ordered = [(0, 0), (1, 10), (2, 20), (3, 30)].map { values in
+            addBookmark(episodeUuid: episode, time: values.0, created: .init(timeIntervalSince1970: values.1))
+        }
+
+        let bookmarks = dataManager.bookmarks(forEpisode: episode, sorted: .oldestToNewest)
+
+        XCTAssertEqual(ordered, bookmarks)
+    }
+
+    func testTimestampSorting() {
+        let episode = "episode"
+
+        let ordered = [(0, 24), (3600, 1), (7200, 123), (86400, 321)].map { values in
+            addBookmark(episodeUuid: episode, time: values.0, created: .init(timeIntervalSince1970: values.1))
+        }
+
+        let bookmarks = dataManager.bookmarks(forEpisode: episode, sorted: .timestamp)
+
+        XCTAssertEqual(ordered, bookmarks)
+    }
 }
 
 private extension BookmarkDataManagerTests {

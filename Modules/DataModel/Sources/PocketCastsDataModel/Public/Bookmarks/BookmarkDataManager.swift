@@ -79,12 +79,12 @@ public struct BookmarkDataManager {
     }
 
     /// Retrieves all the Bookmarks for an episode
-    public func bookmarks(forEpisode episodeUuid: String) -> [Bookmark] {
-        selectBookmarks(where: [.episode], values: [episodeUuid])
+    public func bookmarks(forEpisode episodeUuid: String, sorted: SortOption = .newestToOldest) -> [Bookmark] {
+        selectBookmarks(where: [.episode], values: [episodeUuid], sorted: sorted)
     }
 
     /// Retrieves all the bookmarks for a podcast, and optionally a specific episode of that podcast
-    public func bookmarks(forPodcast podcastUuid: String, episodeUuid: String? = nil) -> [Bookmark] {
+    public func bookmarks(forPodcast podcastUuid: String, episodeUuid: String? = nil, sorted: SortOption = .newestToOldest) -> [Bookmark] {
         var values = [podcastUuid]
         var whereColumns = [Column.podcast]
 
@@ -93,12 +93,12 @@ public struct BookmarkDataManager {
             values.append(episodeUuid)
         }
 
-        return selectBookmarks(where: whereColumns, values: values)
+        return selectBookmarks(where: whereColumns, values: values, sorted: sorted)
     }
 
     /// Returns all the bookmarks in the database and optionally can also return deleted items
-    public func allBookmarks(includeDeleted: Bool = false) -> [Bookmark] {
-        selectBookmarks(where: [.deleted], values: [includeDeleted])
+    public func allBookmarks(includeDeleted: Bool = false, sorted: SortOption = .newestToOldest) -> [Bookmark] {
+        selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
     }
 
     // MARK: - Deleting
@@ -146,6 +146,25 @@ public struct BookmarkDataManager {
         }
     }
 
+    // MARK: - Sortings
+
+    public enum SortOption {
+        case newestToOldest, oldestToNewest, timestamp
+
+        var queryString: String {
+            switch self {
+            case .newestToOldest:
+                return "ORDER BY \(Column.createdDate) DESC"
+            case .oldestToNewest:
+                return "ORDER BY \(Column.createdDate) ASC"
+            case .timestamp:
+                return "ORDER BY \(Column.time) ASC"
+            }
+        }
+    }
+
+    // MARK: - Columns
+
     enum Column: String, CaseIterable, CustomStringConvertible {
         case uuid
         case title
@@ -170,7 +189,7 @@ private extension BookmarkDataManager {
                         limit: 1).first
     }
 
-    func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0) -> [Bookmark] {
+    func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0, sorted: SortOption = .newestToOldest) -> [Bookmark] {
         let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
 
         let selectColumns = Column.allCases.map { $0.rawValue }
@@ -188,7 +207,7 @@ private extension BookmarkDataManager {
                     FROM \(Self.tableName)
                     WHERE \(whereString)
                     \(deleteString)
-                    ORDER BY \(Column.createdDate) DESC
+                    \(sorted.queryString)
                     \(limitQuery)
                 """
 

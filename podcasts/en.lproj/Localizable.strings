@@ -3808,3 +3808,9 @@
 
 /* Title of a button that allows the user to save their changes */
 "save_bookmark" = "Save Bookmark";
+
+/* Title of a menu prompt */
+"select_bookmarks" = "Select Bookmarks";
+
+/* Title of an option in a menu prompt */
+"sort_option_timestamp" = "Timestamp";
