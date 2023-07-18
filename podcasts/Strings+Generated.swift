@@ -254,6 +254,14 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Bookmark added
+  internal static var bookmarkAdded: String { return L10n.tr("Localizable", "bookmark_added") }
+  /// View
+  internal static var bookmarkAddedButtonTitle: String { return L10n.tr("Localizable", "bookmark_added_button_title") }
+  /// Bookmark "%1$@" added
+  internal static func bookmarkAddedNotification(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_added_notification", String(describing: p1))
+  }
   /// Bookmark
   internal static var bookmarkDefaultTitle: String { return L10n.tr("Localizable", "bookmark_default_title") }
   /// Are you sure you want to delete these bookmarks, there’s no way to undo it!
