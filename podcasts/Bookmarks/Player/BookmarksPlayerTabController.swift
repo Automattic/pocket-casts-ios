@@ -5,6 +5,7 @@ import PocketCastsDataModel
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
 class BookmarksPlayerTabController: PlayerItemViewController {
     private let playbackManager: PlaybackManager
+    private let bookmarkManager: BookmarkManager
     private let viewModel: BookmarkListViewModel
     private let controller: ThemedHostingController<BookmarksPlayerTab>
 
@@ -12,6 +13,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
     init(bookmarkManager: BookmarkManager, playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
+        self.bookmarkManager = bookmarkManager
         let viewModel = BookmarkListViewModel(bookmarkManager: bookmarkManager)
         self.viewModel = viewModel
         self.controller = ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
@@ -36,6 +38,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         addChild(controller)
     }
 
+    // MARK: - Player Events
+
     override func willBeAddedToPlayer() {
         updateCurrentEpisode()
 
@@ -43,16 +47,41 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         Constants.Notifications.playbackTrackChanged.publisher().sink { [weak self] _ in
             self?.updateCurrentEpisode()
         }.store(in: &cancellables)
+
+        bookmarkManager.onBookmarkCreated
+            .receive(on: RunLoop.main)
+            .filter { [weak self] event in
+                self?.viewModel.episode?.uuid == event.episode
+            }
+            .compactMap { [weak self] event in
+                self?.bookmarkManager.bookmark(for: event.uuid)
+            }
+            .sink { [weak self] bookmark in
+                self?.handleBookmarkCreated(bookmark: bookmark)
+            }
+            .store(in: &cancellables)
     }
 
     override func willBeRemovedFromPlayer() {
         viewModel.episode = nil
     }
 
+    // MARK: - Notification Handlers
+
     private func updateCurrentEpisode() {
         viewModel.episode = playbackManager.currentEpisode()
     }
 
+    private func handleBookmarkCreated(bookmark: Bookmark) {
+        showBookmarkEdit(isNew: true, bookmark: bookmark)
+    }
+
+    private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating)
+        present(controller, animated: true)
+    }
+
+    // MARK: - Coder....
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
