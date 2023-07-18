@@ -94,7 +94,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
             self?.showBookmarksTab()
         }
 
-        Toast.show(message, actions: [action])
+        Toast.show(message, actions: [action], theme: .playerTheme)
     }
 
     private func showBookmarksTab() {
