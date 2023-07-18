@@ -27,7 +27,7 @@ struct BookmarkRow: View {
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
-            HStack {
+            HStack(spacing: Constants.padding) {
                 detailsView
                 playButtonView
             }

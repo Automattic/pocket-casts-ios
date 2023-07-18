@@ -1,13 +1,13 @@
 import Combine
 import PocketCastsDataModel
 
-// MARK: - BookmarkListRouter
-protocol BookmarkListRouter {
+protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark)
+    func bookmarkEdit(_ bookmark: Bookmark)
 }
 
 class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
-    var router: BookmarkListRouter?
+    weak var router: BookmarkListRouter?
 
     private let bookmarkManager: BookmarkManager
     private var cancellables = Set<AnyCancellable>()
@@ -22,14 +22,21 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         self.bookmarkManager = bookmarkManager
         super.init()
 
-        listenForAddedBookmarks()
+        addListeners()
     }
 
     func reload() {
         items = episode.map { bookmarkManager.bookmarks(for: $0) } ?? []
     }
 
-    private func listenForAddedBookmarks() {
+    /// Reload a single item from the list
+    func refresh(bookmark: Bookmark) {
+        guard let index = items.firstIndex(of: bookmark) else { return }
+
+        items.replaceSubrange(index...index, with: [bookmark])
+    }
+
+    private func addListeners() {
         bookmarkManager.onBookmarkCreated
             .filter { [weak self] event in
                 self?.episode?.uuid == event.episode
@@ -37,6 +44,19 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.reload()
+            }
+            .store(in: &cancellables)
+
+        bookmarkManager.onBookmarkChanged
+            .filter { [weak self] event in
+                self?.items.contains(where: { $0.uuid == event.uuid }) ?? false
+            }
+            .compactMap { [weak self] event in
+                self?.bookmarkManager.bookmark(for: event.uuid)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bookmark in
+                self?.refresh(bookmark: bookmark)
             }
             .store(in: &cancellables)
     }
@@ -50,7 +70,8 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
     func editSelectedBookmarks() {
         guard let bookmark = selectedItems.first else { return }
 
-        print("TODO \(bookmark)")
+        router?.bookmarkEdit(bookmark)
+        toggleMultiSelection()
     }
 
     func deleteSelectedBookmarks() {
@@ -60,6 +81,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 
         confirmDeletion { [weak self] in
             self?.actuallyDelete(items)
+            self?.toggleMultiSelection()
         }
     }
 }
