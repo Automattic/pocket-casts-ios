@@ -4,7 +4,6 @@ import PocketCastsDataModel
 class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitleView> {
     private let viewModel: BookmarkEditViewModel
     let onDismiss: (String) -> Void
-    let bookmark: Bookmark
 
     init(manager: BookmarkManager,
          bookmark: Bookmark,
@@ -12,7 +11,6 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
          onDismiss: @escaping (String) -> Void) {
         let viewModel = BookmarkEditViewModel(manager: manager, bookmark: bookmark, state: state)
         self.viewModel = viewModel
-        self.bookmark = bookmark
         self.onDismiss = onDismiss
 
         super.init(rootView: .init(viewModel: viewModel))
@@ -34,7 +32,7 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
 extension BookmarkEditTitleViewController: BookmarkEditRouter {
     func dismiss() {
         dismiss(animated: true)
-        onDismiss(bookmark.title)
+        onDismiss(viewModel.originalTitle)
     }
 
     func titleUpdated(title: String) {
