@@ -332,6 +332,21 @@ extension AppDelegate {
             })
             return true
         }
+
+        // Import OMPL extension
+        JLRoutes.global().addRoute("/import-opml/*") { [weak self] parameters -> Bool in
+            guard let strongSelf = self, let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
+
+            let opmlURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-opml/", with: "")
+
+            guard let url = URL(string: opmlURLString) else {
+                return true
+            }
+
+            PodcastManager.shared.importPodcastsFromOpml(url)
+
+            return true
+        }
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
