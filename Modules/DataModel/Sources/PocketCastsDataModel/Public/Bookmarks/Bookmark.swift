@@ -27,7 +27,7 @@ extension Bookmark: Identifiable {
 // MARK: - Preview Data
 
 extension PreviewProvider {
-    public func previewBookmark(title: String, time: TimeInterval, created: Date) -> Bookmark {
+    public static func previewBookmark(title: String, time: TimeInterval, created: Date) -> Bookmark {
         Bookmark(uuid: UUID().uuidString,
                  title: title,
                  time: time,
