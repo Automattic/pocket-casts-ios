@@ -184,7 +184,8 @@ private extension View {
 
 struct BookmarkEditTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkEditTitleView(viewModel: .init(manager: .init(), bookmark: .preview, state: .adding))
-            .setupDefaultEnvironment()
+        BookmarkEditTitleView(viewModel: .init(manager: .init(),
+                                               bookmark: Self.previewBookmark(title: "Hello", time: 3600, created: .now),
+                                               state: .adding)).setupDefaultEnvironment()
     }
 }
