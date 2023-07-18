@@ -9,10 +9,14 @@ protocol BookmarkEditRouter: AnyObject {
 class BookmarkEditViewModel: ObservableObject {
     weak var router: BookmarkEditRouter?
 
+    let editState: EditState
     let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
     let originalTitle: String
+
+    /// Localized Strings
+    let headerTitle: String
+    let headerSubTitle: String
     let placeholder: String = L10n.bookmarkDefaultTitle
-    let editState: EditState
 
     @Published var didAppear = false
 
@@ -24,6 +28,15 @@ class BookmarkEditViewModel: ObservableObject {
         self.bookmark = bookmark
         self.originalTitle = bookmark.title
         self.editState = state
+
+        switch editState {
+        case .adding:
+            headerTitle = L10n.addBookmark
+            headerSubTitle = L10n.addBookmarkSubtitle
+        case .updating:
+            headerTitle = L10n.changeBookmarkTitle
+            headerSubTitle = L10n.changeBookmarkSubtitle
+        }
     }
 
     func viewDidAppear() {
