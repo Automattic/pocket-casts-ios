@@ -1907,10 +1907,12 @@ extension PlaybackManager {
         }
 
         #if DEBUG
+        #if !os(watchOS)
         // For testing only, will be removed.
         Toast.show("Bookmark 'Hello World' added", actions: [.init(title: "View", action: {
             print("View Action")
         })], theme: .playerTheme)
+        #endif
         #else
         let currentTime = currentTime()
 
