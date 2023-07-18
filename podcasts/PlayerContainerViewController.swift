@@ -137,6 +137,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         mainScrollView.scrollRectToVisible(scrollRect, animated: true)
     }
 
+    func scrollToBookmarks() {
+        guard let index = tabsView.tabs.firstIndex(of: .bookmarks) else { return }
+
+        tabsView.currentTab = index
+        let scrollRect = CGRect(x: CGFloat(index) * mainScrollView.frame.width, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
+        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {

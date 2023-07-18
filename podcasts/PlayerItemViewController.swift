@@ -3,6 +3,7 @@ import UIKit
 protocol PlayerItemContainerDelegate: AnyObject {
     func scrollToCurrentChapter()
     func scrollToNowPlaying()
+    func scrollToBookmarks()
 }
 
 class PlayerItemViewController: SimpleNotificationsViewController {
