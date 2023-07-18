@@ -192,6 +192,8 @@ struct Constants {
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
         public static let freeTrialDefaultValue = true
+
+        static let bookmarkMaxTitleLength = 100
     }
 
     enum Limits {
