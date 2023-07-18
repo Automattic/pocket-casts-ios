@@ -573,15 +573,17 @@ class Settings: NSObject {
 
     private static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
+        let defaultActions = PlayerAction.allCases.filter { $0.isAvailable }
+
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return PlayerAction.allCases.filter { $0.isAvailable }
+            return defaultActions
         }
 
         let playerActions = savedInts
             .compactMap { PlayerAction(rawValue: $0) }
             .filter { $0.isAvailable }
 
-        return playerActions
+        return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
