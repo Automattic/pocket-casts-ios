@@ -1071,6 +1071,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>標記為已播放</string>
     <key>mark_unplayed_short</key>
     <string>標記為未播放</string>
+    <key>maybe_later</key>
+    <string>稍後再說</string>
     <key>mini_player_close</key>
     <string>關閉並清除「接下來播放」</string>
     <key>minute_listened</key>

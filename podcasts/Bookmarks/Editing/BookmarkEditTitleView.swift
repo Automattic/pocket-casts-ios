@@ -11,24 +11,9 @@ struct BookmarkEditTitleView: View {
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
-    let placeholder: String
-    let headerTitle: String
-    let headerSubTitle: String
-
     init(viewModel: BookmarkEditViewModel) {
         self.viewModel = viewModel
-
-        placeholder = viewModel.placeholder
         _bookmarkTitle = .init(initialValue: viewModel.originalTitle)
-
-        switch viewModel.editState {
-        case .adding:
-            headerTitle = L10n.addBookmark
-            headerSubTitle = L10n.addBookmarkSubtitle
-        case .updating:
-            headerTitle = L10n.changeBookmarkTitle
-            headerSubTitle = L10n.changeBookmarkSubtitle
-        }
     }
 
     var body: some View {
@@ -67,11 +52,11 @@ struct BookmarkEditTitleView: View {
     /// The title and subtitle views
     @ViewBuilder
     private var headerView: some View {
-        Text(headerTitle)
+        Text(viewModel.headerTitle)
             .foregroundStyle(theme.playerContrast01)
             .font(size: 19, style: .title3, weight: .bold)
 
-        Text(headerSubTitle)
+        Text(viewModel.headerSubTitle)
             .foregroundStyle(theme.playerContrast02)
             .font(style: .callout)
     }
@@ -103,7 +88,7 @@ struct BookmarkEditTitleView: View {
 
     @ViewBuilder
     private var textField: some View {
-        let prompt = Text(placeholder).foregroundColor(theme.playerContrast05)
+        let prompt = Text(viewModel.placeholder).foregroundColor(theme.playerContrast05)
 
         ZStack {
             /// This looks really bad and I bet you may have questions...
@@ -124,7 +109,7 @@ struct BookmarkEditTitleView: View {
             ///
             ContentSizeReader(contentSize: $textFieldSize) {
                 // Invisible text view just for calculating size
-                Text(bookmarkTitle.isEmpty ? placeholder : bookmarkTitle)
+                Text(bookmarkTitle.isEmpty ? viewModel.placeholder : bookmarkTitle)
                     .applyTextStyle()
                     .foregroundStyle(.clear)
                     .frame(maxWidth: .infinity)
@@ -133,7 +118,7 @@ struct BookmarkEditTitleView: View {
                     .background(textFieldUnderline)
             }
 
-            TextField(placeholder, text: $bookmarkTitle, prompt: prompt)
+            TextField(viewModel.placeholder, text: $bookmarkTitle, prompt: prompt)
                 .selectAllOnFocus()
                 .focused($focusedField, equals: .title)
                 .textFieldStyle(.plain)
@@ -199,7 +184,8 @@ private extension View {
 
 struct BookmarkEditTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkEditTitleView(viewModel: .init(manager: .init(), bookmark: .preview, state: .adding))
-            .setupDefaultEnvironment()
+        BookmarkEditTitleView(viewModel: .init(manager: .init(),
+                                               bookmark: Self.previewBookmark(title: "Hello", time: 3600, created: .now),
+                                               state: .adding)).setupDefaultEnvironment()
     }
 }

@@ -1071,6 +1071,8 @@ Podcasts mit</string>
     <string>Als angehört markieren</string>
     <key>mark_unplayed_short</key>
     <string>Als nicht angehört markieren</string>
+    <key>maybe_later</key>
+    <string>Vielleicht später</string>
     <key>mini_player_close</key>
     <string>Schließen und Warteschlange löschen</string>
     <key>minute_listened</key>

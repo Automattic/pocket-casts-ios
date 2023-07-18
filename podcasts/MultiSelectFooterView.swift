@@ -64,6 +64,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
     private var rightAction: MultiSelectAction?
     private var leftAction: MultiSelectAction?
+    private var numberOfEpisodes = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +103,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             return
         }
 
+        numberOfEpisodes = count
         isHidden = false
         selectedCountLabel.text = L10n.selectedCountFormat(count)
         selectedCountLabel.isHidden = false
@@ -145,12 +147,12 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
     @IBAction func rightActionTapped(_ sender: Any) {
         guard let delegate = delegate, let rightAction = rightAction else { return }
-        MultiSelectHelper.performAction(rightAction, actionDelegate: delegate)
+        MultiSelectHelper.performAction(rightAction, actionDelegate: delegate, view: rightActionButton)
     }
 
     @IBAction func leftActionTapped(_ sender: Any) {
         guard let delegate = delegate, let leftAction = leftAction else { return }
-        MultiSelectHelper.performAction(leftAction, actionDelegate: delegate)
+        MultiSelectHelper.performAction(leftAction, actionDelegate: delegate, view: leftActionButton)
     }
 
     @objc func handleThemeDidChange() {
@@ -167,8 +169,12 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
     }
 
     private func loadActions() {
-        let actions = getActionsFunc()
+        var actions = getActionsFunc()
         guard actions.count > 1, let actionDelegate = delegate else { return }
+
+        if numberOfEpisodes > 1 {
+            actions = actions.filter { $0 != .share }
+        }
 
         let newLeftAction = MultiSelectHelper.invertActionIfRequired(action: actions[0], actionDelegate: actionDelegate)
         if leftAction != newLeftAction {

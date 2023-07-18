@@ -32,7 +32,8 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension',
   'au.com.shiftyjelly.podcasts.PodcastsIntents',
   'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
-  'au.com.shiftyjelly.podcasts.WidgetExtension'
+  'au.com.shiftyjelly.podcasts.WidgetExtension',
+  'au.com.shiftyjelly.podcasts.Share-Extension'
 ].freeze
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
