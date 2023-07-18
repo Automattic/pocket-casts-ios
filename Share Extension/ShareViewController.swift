@@ -17,27 +17,24 @@ class ShareViewController: UIViewController {
 
             attachment.loadItem(forTypeIdentifier: UTType.data.identifier, options: nil) { [weak self] data, error in
                 guard let url = data as? URL else {
+                    self?.close()
                     return
                 }
 
-                let fileManager = FileManager.default
-                guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.au.com.shiftyjelly.pocketcasts") else {
+                guard let opmlData = try? Data(contentsOf: url) else {
+                    self?.close()
                     return
                 }
-
-                let destURL = container.appendingPathComponent("opml.opml")
-
-                do { try FileManager.default.copyItem(at: url, to: destURL) } catch { }
 
                 self?.close()
 
-                self?.redirectToHostApp(destURL.absoluteString)
+                self?.redirectToHostApp(opmlData.base64EncodedString())
             }
         }
     }
 
-    func redirectToHostApp(_ url: String) {
-        guard let url = URL(string: "pktc://import-opml/\(url)") else {
+    func redirectToHostApp(_ encodedOPML: String) {
+        guard let url = URL(string: "pktc://import-opml/\(encodedOPML)") else {
             return
         }
 
