@@ -30,9 +30,15 @@ class Toast {
         let controller = ThemedHostingController(rootView: view)
 
         let window = ToastWindow(windowScene: scene, viewModel: viewModel, controller: controller)
-
         window.makeKeyAndVisible()
+
         shared.window = window
+    }
+
+    /// Dismisses any visible toasts
+    static func dismiss() {
+        shared.window?.resignKey()
+        shared.window = nil
     }
 
     struct Action: Identifiable {
@@ -47,8 +53,7 @@ class Toast {
 
 extension Toast: ToastCoordinator {
     func toastDismissed() {
-        Self.shared.window?.resignKey()
-        Self.shared.window = nil
+        Self.dismiss()
     }
 }
 
