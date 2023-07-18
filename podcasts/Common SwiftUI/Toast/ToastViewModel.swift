@@ -1,12 +1,12 @@
 import Foundation
 
-protocol ToastCoordinator {
+protocol ToastCoordinator: AnyObject {
     /// Called after the toast has been visibly dismissed.
     func toastDismissed()
 }
 
 class ToastViewModel: ObservableObject {
-    var coordinator: ToastCoordinator
+    weak var coordinator: ToastCoordinator?
 
     private var frame: CGRect? = nil
     private var autoDismissTimer: Timer? = nil
@@ -62,7 +62,7 @@ class ToastViewModel: ObservableObject {
 
     // Once the toast is fully dismissed, inform the coordinator to do cleanup
     func didDismiss() {
-        coordinator.toastDismissed()
+        coordinator?.toastDismissed()
     }
 
     private func handleAutoDismiss() {
