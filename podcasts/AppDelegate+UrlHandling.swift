@@ -335,17 +335,21 @@ extension AppDelegate {
 
         // Import OMPL extension
         JLRoutes.global().addRoute("/import-opml/*") { [weak self] parameters -> Bool in
-            guard let strongSelf = self, let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
+            guard let self,
+                  let rootViewController = SceneHelper.rootViewController(),
+                  let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+                  let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
 
-            let opmlURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-opml/", with: "")
+            let encodedOPML = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-opml/", with: "")
 
-            guard let url = URL(string: opmlURLString) else {
+            guard let opmlData = Data(base64Encoded: encodedOPML) else {
                 return true
             }
 
-            PodcastManager.shared.importPodcastsFromOpml(url)
+            let fileURL = documentsURL.appendingPathComponent("import.opml")
+            try? opmlData.write(to: fileURL, options: .atomic)
 
-            return true
+            return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
         }
     }
 
