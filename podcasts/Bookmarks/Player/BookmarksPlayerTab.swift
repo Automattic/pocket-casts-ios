@@ -4,7 +4,7 @@ import PocketCastsUtils
 
 struct BookmarksPlayerTab: View {
     @ObservedObject var viewModel: BookmarkListViewModel
-    @EnvironmentObject var theme: Theme
+    @ObservedObject var style: BookmarksPlayerTabStyle = .init()
 
     @State private var showShadow = false
 
@@ -23,7 +23,7 @@ struct BookmarksPlayerTab: View {
         }
         .environmentObject(viewModel)
         .padding(.bottom)
-        .background(theme.playerBackground01.ignoresSafeArea())
+        .background(style.background.ignoresSafeArea())
     }
 
     /// A static header view that displays the number of bookmarks and a ... more button
@@ -32,12 +32,12 @@ struct BookmarksPlayerTab: View {
         ZStack {
             HStack {
                 Text(L10n.bookmarkCount(viewModel.numberOfItems))
-                    .foregroundStyle(theme.playerContrast02)
+                    .foregroundStyle(style.secondaryText)
                     .font(size: 14, style: .subheadline)
 
                 Spacer()
 
-                Image("more").foregroundStyle(theme.playerContrast01).buttonize {
+                Image("more").foregroundStyle(style.primaryText).buttonize {
                     viewModel.showMoreOptions()
                 }
             }
@@ -66,7 +66,7 @@ struct BookmarksPlayerTab: View {
             }
         }
         .font(style: .body)
-        .foregroundStyle(theme.playerContrast01)
+        .foregroundStyle(style.primaryText)
         .opacity(viewModel.isMultiSelecting ? 1 : 0)
         .offset(y: viewModel.isMultiSelecting ? 0 : -Constants.headerTransitionOffset)
     }
@@ -76,7 +76,7 @@ struct BookmarksPlayerTab: View {
             ScrollViewWithContentOffset {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.items) { bookmark in
-                        BookmarkRow(bookmark: bookmark)
+                        BookmarkRow(bookmark: bookmark, style: style)
 
                         if !viewModel.isLast(item: bookmark) {
                             divider
@@ -103,7 +103,7 @@ struct BookmarksPlayerTab: View {
         let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
         let editVisible = viewModel.numberOfSelectedItems == 1
 
-        ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: .player, content: {
+        ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
             content()
         }, actions: [
             .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
@@ -127,7 +127,7 @@ struct BookmarksPlayerTab: View {
 
     /// Styled divider view
     private var divider: some View {
-        Divider().background(theme.playerContrast05)
+        Divider().background(style.divider)
     }
 
     private enum Constants {

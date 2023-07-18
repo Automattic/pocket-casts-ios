@@ -37,9 +37,10 @@ struct MultiSelectRow<Content: View>: View {
     }
 
     /// Customizes the selection button colors
-    func selectButtonStyle(tintColor: Color, checkColor: Color) -> Self {
+    func selectButtonStyle(tintColor: Color, checkColor: Color, strokeColor: Color) -> Self {
         style.tint = tintColor
         style.check = checkColor
+        style.stroke = strokeColor
         return self
     }
 
@@ -48,8 +49,8 @@ struct MultiSelectRow<Content: View>: View {
     /// The unselected select button
     private var buttonView: some View {
         Circle()
-            .stroke(lineWidth: 2)
-            .fill(style.tint)
+            .inset(by: 1)
+            .stroke(style.stroke, lineWidth: 2)
             .frame(width: multiSelectButtonSize, height: multiSelectButtonSize)
             .overlay(selectedView)
     }
@@ -72,6 +73,7 @@ struct MultiSelectRow<Content: View>: View {
     private class Style {
         var tint: Color = .white
         var check: Color = .black
+        var stroke: Color = .white
     }
 }
 
@@ -107,7 +109,7 @@ struct MultiSelectRow_Previews: PreviewProvider {
                         selected.toggle()
                     }
                 }
-                .selectButtonStyle(tintColor: .black, checkColor: .white)
+                .selectButtonStyle(tintColor: .black, checkColor: .white, strokeColor: .black)
                 .padding()
                 .background(Color.blue)
 

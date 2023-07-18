@@ -38,7 +38,8 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
 protocol ActionBarStyle {
     var backgroundTint: Color { get }
     var buttonColor: Color { get }
-    var foregroundColor: Color { get }
+    var titleColor: Color { get }
+    var iconColor: Color { get }
 }
 
 // MARK: - ActionBarView
@@ -73,7 +74,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
                 }
             }
         }
-        .foregroundStyle(style.foregroundColor)
+        .foregroundStyle(style.titleColor)
         // Inner Padding
         .padding(.vertical, ActionBarConstants.barPaddingVertical)
         .padding(.horizontal, ActionBarConstants.barPaddingHorizontal)
@@ -114,6 +115,7 @@ struct ActionBarView<Style: ActionBarStyle>: View {
                 .padding(.horizontal, ActionBarConstants.buttonPaddingHorizontal)
                 .background(style.buttonColor)
                 .cornerRadius(.infinity)
+                .foregroundColor(style.iconColor)
         }
         .accessibilityLabel(action.title)
         .opacity(action.visible ? 1 : 0)
@@ -181,6 +183,7 @@ struct ActionBarOverlayView_Previews: PreviewProvider {
     private struct PreviewStyle: ActionBarStyle {
         var backgroundTint: Color { .secondary }
         var buttonColor: Color { .accentColor }
-        var foregroundColor: Color { .primary }
+        var titleColor: Color { .primary }
+        var iconColor: Color { .primary }
     }
 }
