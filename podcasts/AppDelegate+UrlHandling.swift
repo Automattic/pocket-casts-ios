@@ -332,6 +332,25 @@ extension AppDelegate {
             })
             return true
         }
+
+        // Import OMPL extension
+        JLRoutes.global().addRoute("/import-opml/*") { [weak self] parameters -> Bool in
+            guard let self,
+                  let rootViewController = SceneHelper.rootViewController(),
+                  let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+                  let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
+
+            let encodedOPML = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-opml/", with: "")
+
+            guard let opmlData = Data(base64Encoded: encodedOPML) else {
+                return true
+            }
+
+            let fileURL = documentsURL.appendingPathComponent("import.opml")
+            try? opmlData.write(to: fileURL, options: .atomic)
+
+            return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
+        }
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {

@@ -444,6 +444,7 @@
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		4A3C19F543779593E98EDA3C /* libPods-Pocket Casts Watch App Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C2391BA608F0CAB6E1D038 /* libPods-Pocket Casts Watch App Extension.a */; };
 		8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0125672912A7AB00EC427A /* StoryShareableText.swift */; };
+		8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
 		8B087FCB29DE08460027EAE5 /* UpgradeLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */; };
 		8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EEDDF29003E8D00075772 /* ListeningTimeStory.swift */; };
@@ -1606,6 +1607,20 @@
 			remoteGlobalIDString = 462EE0C02702532E003D67DC;
 			remoteInfo = GenerateCredentials;
 		};
+		8B0845912A66C86500742C2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD3A210C1E6CFC2400F42241;
+			remoteInfo = NotificationExtension;
+		};
+		8B0845942A66C86D00742C2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
+			remoteInfo = "Share Extension";
+		};
 		BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1679,6 +1694,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				BDEFBA211E6D3C2300B9024B /* NotificationContent.appex in Embed App Extensions */,
+				8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */,
 				4090975B25235DFC00CED68C /* WidgetExtension.appex in Embed App Extensions */,
 				BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed App Extensions */,
 				403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed App Extensions */,
@@ -7151,6 +7167,8 @@
 				403B5B2421813FFA00821A54 /* PBXTargetDependency */,
 				403B5B2721813FFA00821A54 /* PBXTargetDependency */,
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
+				8B0845922A66C86500742C2F /* PBXTargetDependency */,
+				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -9237,6 +9255,16 @@
 			isa = PBXTargetDependency;
 			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
 			targetProxy = 46DB228A274EB52A0057D3DD /* PBXContainerItemProxy */;
+		};
+		8B0845922A66C86500742C2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
+			targetProxy = 8B0845912A66C86500742C2F /* PBXContainerItemProxy */;
+		};
+		8B0845952A66C86D00742C2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
+			targetProxy = 8B0845942A66C86D00742C2F /* PBXContainerItemProxy */;
 		};
 		BD3A21131E6CFC2400F42241 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
