@@ -3823,3 +3823,12 @@
 
 /* Title of a button that allows the user to view their bookmarks */
 "bookmark_added_button_title" = "View";
+
+/* Title of a message informing the user they don't have any bookmarks yet */
+"no_bookmarks_title" = "No bookmarks yet";
+
+/* Subtitle of a message explaining how to add new bookmarks */
+"no_bookmarks_message" = "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.";
+
+/* Title of a button that takes the user to the headphone settings */
+"no_bookmarks_button_title" = "Headphone settings";

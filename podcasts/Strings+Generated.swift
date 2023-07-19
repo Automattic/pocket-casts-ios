@@ -1360,6 +1360,12 @@ internal enum L10n {
   internal static func nextPaymentFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "next_payment_format", String(describing: p1))
   }
+  /// Headphone settings
+  internal static var noBookmarksButtonTitle: String { return L10n.tr("Localizable", "no_bookmarks_button_title") }
+  /// You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.
+  internal static var noBookmarksMessage: String { return L10n.tr("Localizable", "no_bookmarks_message") }
+  /// No bookmarks yet
+  internal static var noBookmarksTitle: String { return L10n.tr("Localizable", "no_bookmarks_title") }
   /// None
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
