@@ -51,7 +51,7 @@ class Toast {
 
 // MARK: - ToastCoordinator
 
-extension Toast: ToastCoordinator {
+extension Toast: ToastDelegate {
     func toastDismissed() {
         Self.dismiss()
     }

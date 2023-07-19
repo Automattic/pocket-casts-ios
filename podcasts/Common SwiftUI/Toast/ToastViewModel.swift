@@ -1,12 +1,12 @@
 import Foundation
 
-protocol ToastCoordinator: AnyObject {
+protocol ToastDelegate: AnyObject {
     /// Called after the toast has been visibly dismissed.
     func toastDismissed()
 }
 
 class ToastViewModel: ObservableObject {
-    weak var coordinator: ToastCoordinator?
+    weak var coordinator: ToastDelegate?
 
     private var frame: CGRect? = nil
     private var autoDismissTimer: Timer? = nil
@@ -23,7 +23,7 @@ class ToastViewModel: ObservableObject {
     /// When this is true the view should animate out and call `didDismiss`
     @Published var didAutoDismiss = false
 
-    init(coordinator: ToastCoordinator, title: String, actions: [Toast.Action]?, dismissTime: TimeInterval) {
+    init(coordinator: ToastDelegate, title: String, actions: [Toast.Action]?, dismissTime: TimeInterval) {
         self.coordinator = coordinator
         self.title = title
         self.actions = actions ?? []
