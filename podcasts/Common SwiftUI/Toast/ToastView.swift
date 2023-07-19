@@ -197,7 +197,7 @@ struct ToastView_Previews: PreviewProvider {
             })], dismissTime: .infinity), style: .defaultTheme)
     }
 
-    private class PreviewCoordinator: ToastCoordinator {
+    private class PreviewCoordinator: ToastDelegate {
         func toastDismissed() {
             print("Dismissed")
         }
