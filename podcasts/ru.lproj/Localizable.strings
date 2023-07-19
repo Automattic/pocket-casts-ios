@@ -135,6 +135,10 @@
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
     <string>После прослушивания</string>
+    <key>announcement_autoplay_description</key>
+    <string>Если в очереди «Следующие» ничего нет, после выпуска, который вы слушаете, автоматически запустится другой из этого шоу или списка.</string>
+    <key>announcement_autoplay_title</key>
+    <string>А вот и автовоспроизведение!</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
     <key>app_icon_classic</key>
@@ -607,6 +611,8 @@
     <string>Остановить все скачивания</string>
     <key>edit</key>
     <string>Править</string>
+    <key>enable_it_now</key>
+    <string>Включить</string>
     <key>eoy_card_description</key>
     <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели.</string>
     <key>eoy_create_account_to_see</key>
@@ -1895,6 +1901,10 @@
     <string>Новые выпуски с момента открытия</string>
     <key>settings_badge_total_unplayed</key>
     <string>Всего не прослушано</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Звук добавления в закладки</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Звук подтверждения при создании закладки с помощью наушников.</string>
     <key>settings_collect_information</key>
     <string>Сбор информации</string>
     <key>settings_collect_information_additional_information</key>
@@ -1973,6 +1983,10 @@
     <string>Хотите заменить все существующие подкасты на %1$@ архивированных выпусков?</string>
     <key>settings_general_auto_open_player</key>
     <string>Открывать плеер автоматически</string>
+    <key>settings_general_autoplay</key>
+    <string>Автовоспроизведение</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Если в очереди «Следующие» ничего нет, запустится другой выпуск из подкаста или списка, который вы слушаете.</string>
     <key>settings_general_defaults_header</key>
     <string>ПО УМОЛЧАНИЮ</string>
     <key>settings_general_episode_groups</key>
@@ -2029,6 +2043,10 @@
     <string>При нажатии на выпуск в списке «Следующие» начнется его воспроизведение. При долгом нажатии появятся настройки выпуска. Выключите, чтобы поменять действия местами.</string>
     <key>settings_global_settings</key>
     <string>Глобальные настройки</string>
+    <key>settings_headphone_controls</key>
+    <string>Элементы управления наушников</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Настройте действия для основных элементов управления наушников.</string>
     <key>settings_help</key>
     <string>Помощь и отзывы</string>
     <key>settings_import_export</key>
@@ -2041,6 +2059,8 @@
     <string>В МЕНЮ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Неактивные выпуски — это выпуски, которые вы не прослушивали и не скачивали в течение указанного выше времени. При архивировании выпуска скачивания удаляются.</string>
+    <key>settings_next_action</key>
+    <string>Следующее действие</string>
     <key>settings_not_in_filters</key>
     <string>Не включен ни в один фильтр</string>
     <key>settings_notifications</key>
@@ -2055,6 +2075,8 @@
     <string>Скорость воспроизведения</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ в месяц/%2$@ в год</string>
+    <key>settings_previous_action</key>
+    <string>Предыдущее действие</string>
     <key>settings_privacy</key>
     <string>Политика конфиденциальности</string>
     <key>settings_queue_position</key>
