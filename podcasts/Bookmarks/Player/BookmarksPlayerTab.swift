@@ -14,11 +14,16 @@ struct BookmarksPlayerTab: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            headerView
-            divider
+            if viewModel.items.isEmpty {
+                BookmarksEmptyStateView(style: .playerStyle)
+                Spacer()
+            } else {
+                headerView
+                divider
 
-            actionBarView {
-                scrollView
+                actionBarView {
+                    scrollView
+                }
             }
         }
         .environmentObject(viewModel)
