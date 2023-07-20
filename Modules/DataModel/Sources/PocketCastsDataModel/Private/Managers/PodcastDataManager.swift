@@ -316,6 +316,9 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
+        // Get the existing podcast to compare if folder is being changed
+        let existentPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
+
         dbQueue.inDatabase { db in
             do {
                 if podcast.id == 0 {
@@ -324,6 +327,11 @@ class PodcastDataManager {
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
+
+                    // If changing folder, log it
+                    if podcast.folderUuid != existentPodcast?.folderUuid {
+                        FileLog.shared.foldersIssue("PodcastDataManager: update \(podcast.title ?? "") folder from \(existentPodcast?.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
+                    }
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
