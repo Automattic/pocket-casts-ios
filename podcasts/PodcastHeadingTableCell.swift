@@ -157,7 +157,28 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
-    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate) {
+    @IBOutlet var bookmarkTabsView: UIStackView!
+    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+
+    private func addBookmarksTabViewIfNeeded(parentController: UIViewController) {
+        guard FeatureFlag.bookmarks.enabled else {
+            bookmarkTabsView.removeAllSubviews()
+            return
+        }
+
+        guard tabsViewController == nil else { return }
+
+        bookmarkTabsView.removeAllSubviews()
+        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+
+        bookmarkTabsView.addArrangedSubview(controller.view)
+        parentController.addChild(controller)
+        controller.didMove(toParent: parentController)
+
+        tabsViewController = controller
+    }
+
+    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate, parentController: UIViewController) {
         self.delegate = delegate
 
         guard let podcast = delegate.displayedPodcast() else { return }
@@ -173,6 +194,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
+
+        addBookmarksTabViewIfNeeded(parentController: parentController)
 
         if podcast.isPaid {
             supporterView.isHidden = false
