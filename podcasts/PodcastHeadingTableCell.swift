@@ -343,10 +343,22 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         contentView.removeConstraint(contentViewBottomConstraint)
-        if expanded {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
+
+        // When bookmarks are enabled we need to align to the tabs view with different values
+        if FeatureFlag.bookmarks.enabled {
+            if let bookmarkTabsView {
+                if expanded {
+                    contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 16)
+                } else {
+                    contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -1)
+                }
+            }
         } else {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
+            if expanded {
+                contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
+            } else {
+                contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
+            }
         }
         contentView.addConstraint(contentViewBottomConstraint)
 
