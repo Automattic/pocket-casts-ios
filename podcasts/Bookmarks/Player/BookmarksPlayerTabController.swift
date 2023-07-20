@@ -77,8 +77,28 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating)
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title in
+            self?.handleEditDismissed(isNew: isNew, title: title)
+        })
+
         present(controller, animated: true)
+    }
+
+    func handleEditDismissed(isNew: Bool, title: String) {
+        guard isNew else { return }
+
+        // If the title is still the default, we'll just show a 'Bookmark Added' message instead of displaying 'Bookmark "Bookmark" Added'.
+        let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
+
+        let action = Toast.Action(title: L10n.bookmarkAddedButtonTitle) { [weak self] in
+            self?.showBookmarksTab()
+        }
+
+        Toast.show(message, actions: [action], theme: .playerTheme)
+    }
+
+    private func showBookmarksTab() {
+        containerDelegate?.scrollToBookmarks()
     }
 
     // MARK: - Coder....
