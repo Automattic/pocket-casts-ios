@@ -62,7 +62,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == PodcastViewController.headerSection {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.headerCellId, for: indexPath) as! PodcastHeadingTableCell
-            cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self)
+            cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
             cell.buttonsEnabled = !isMultiSelectEnabled
             return cell
         }
