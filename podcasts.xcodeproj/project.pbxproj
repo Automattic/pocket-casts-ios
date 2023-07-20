@@ -1534,6 +1534,10 @@
 		C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
+		C7DC401E2A67026800883D03 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC401D2A67026800883D03 /* Toast.swift */; };
+		C7DC40202A6702A600883D03 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC401F2A6702A600883D03 /* ToastView.swift */; };
+		C7DC40222A6702BF00883D03 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC40212A6702BF00883D03 /* ToastViewModel.swift */; };
+		C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC40232A67054000883D03 /* ToastTheme.swift */; };
 		C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */; };
 		C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */; };
 		C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */; };
@@ -3263,6 +3267,10 @@
 		C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarStyles.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
+		C7DC401D2A67026800883D03 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		C7DC401F2A6702A600883D03 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		C7DC40212A6702BF00883D03 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
+		C7DC40232A67054000883D03 /* ToastTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTheme.swift; sourceTree = "<group>"; };
 		C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTabController.swift; sourceTree = "<group>"; };
 		C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
 		C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRow.swift; sourceTree = "<group>"; };
@@ -6996,6 +7004,17 @@
 			path = "Account Prompt";
 			sourceTree = "<group>";
 		};
+		C7DC401C2A67025D00883D03 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				C7DC401D2A67026800883D03 /* Toast.swift */,
+				C7DC40232A67054000883D03 /* ToastTheme.swift */,
+				C7DC401F2A6702A600883D03 /* ToastView.swift */,
+				C7DC40212A6702BF00883D03 /* ToastViewModel.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		C7E99EF62A5C803B00E7CBAF /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -7008,6 +7027,7 @@
 		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				C7DC401C2A67025D00883D03 /* Toast */,
 				C7E99F072A5E103A00E7CBAF /* List View */,
 			);
 			path = "Common SwiftUI";
@@ -8492,6 +8512,7 @@
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
 				4084262D2134CBCD0076D82E /* LargeListCell.swift in Sources */,
 				401EBA6923725C6400899F93 /* UpNextNowPlayingCell.swift in Sources */,
+				C7DC40202A6702A600883D03 /* ToastView.swift in Sources */,
 				C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */,
 				409BF82524906EC10015097B /* PodcastViewController+MultiSelect.swift in Sources */,
 				C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */,
@@ -8865,6 +8886,7 @@
 				BD9A7FEB201EF5E000E3287B /* PodcastEpisodesRefreshOperation.swift in Sources */,
 				46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */,
 				BD2F3BA62366C17500416633 /* PlayerContainerViewController+Scroll.swift in Sources */,
+				C7DC401E2A67026800883D03 /* Toast.swift in Sources */,
 				BD07B92823583FC900B06FFF /* SettingsTableHeader.swift in Sources */,
 				BDFB26E71CD08B3C00787B7E /* ImportExportViewController.swift in Sources */,
 				BD14E793214642B80082FD5F /* VideoViewController.swift in Sources */,
@@ -8872,6 +8894,7 @@
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
+				C7DC40222A6702BF00883D03 /* ToastViewModel.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
 				C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */,
 				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
@@ -9059,6 +9082,7 @@
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
 				BD240C3F231E8BE000FB2CDD /* PCSearchBarController.swift in Sources */,
 				8B0EEDE2290065C100075772 /* ListenedCategoriesStory.swift in Sources */,
+				C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */,
 				BD9FF61C1B8EDDBB009F075E /* NetworkCell.swift in Sources */,
 				C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */,
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
