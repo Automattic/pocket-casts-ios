@@ -14,21 +14,29 @@ struct BookmarksPlayerTab: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if viewModel.items.isEmpty {
-                BookmarksEmptyStateView(style: .playerStyle)
-                Spacer()
-            } else {
-                headerView
-                divider
-
-                actionBarView {
-                    scrollView
-                }
-            }
+            viewModel.items.isEmpty ? emptyView : listView
         }
         .environmentObject(viewModel)
         .padding(.bottom)
         .background(style.background.ignoresSafeArea())
+    }
+
+    /// An empty state view that displays instructions
+    @ViewBuilder
+    private var emptyView: some View {
+        BookmarksEmptyStateView(style: .playerStyle)
+        Spacer()
+    }
+
+    /// The main content view that displays a list of bookmarks
+    @ViewBuilder
+    private var listView: some View {
+        headerView
+        divider
+
+        actionBarView {
+            scrollView
+        }
     }
 
     /// A static header view that displays the number of bookmarks and a ... more button
