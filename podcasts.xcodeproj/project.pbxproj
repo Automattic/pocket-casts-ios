@@ -1455,6 +1455,7 @@
 		C76400552A0EDFB90092A74B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76400542A0EDFB90092A74B /* UserInfo.swift */; };
 		C76ECAC22A67612F00D9DB9E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */; };
 		C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */; };
+		C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */; };
 		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
 		C784DE7D2A590866004D03E7 /* View+Buttonize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7C2A590866004D03E7 /* View+Buttonize.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
@@ -3189,6 +3190,7 @@
 		C76400542A0EDFB90092A74B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksEmptyStateView.swift; sourceTree = "<group>"; };
+		C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksListView.swift; sourceTree = "<group>"; };
 		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
 		C784DE7C2A590866004D03E7 /* View+Buttonize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Buttonize.swift"; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -6363,10 +6365,10 @@
 		C75274DF2A3252180004DD15 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
+				C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */,
 				C7318EA22A61E3FC00EAFA9C /* Editing */,
 				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
-				C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */,
 			);
 			path = Bookmarks;
 			sourceTree = "<group>";
@@ -6374,9 +6376,9 @@
 		C75274E02A3252180004DD15 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */,
 				C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */,
 				C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */,
-				C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -7009,6 +7011,7 @@
 			children = (
 				C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */,
 				C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */,
+				C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -8632,6 +8635,7 @@
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
+				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
 				40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */,
 				4086511B23B1CE8400D7585A /* CreateSiriShortcutCell.swift in Sources */,
