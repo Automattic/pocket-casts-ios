@@ -118,7 +118,7 @@ extension SyncTask {
         if podcastItem.hasFolderUuid {
             let folderUuid = podcastItem.folderUuid.value
 
-            FileLog.shared.addMessage("SyncTask importItem: \(podcast.title ?? "") folder to \(((folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid) ?? "nil")")
+            FileLog.shared.foldersIssue("SyncTask importItem: \(podcast.title ?? "") folder to \(((folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid) ?? "nil")")
 
             podcast.folderUuid = (folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid
         }
