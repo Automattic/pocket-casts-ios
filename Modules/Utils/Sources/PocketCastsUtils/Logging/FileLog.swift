@@ -50,6 +50,16 @@ public class FileLog {
         appendStringToLog("\(dateFormatter.string(from: Date())) \(message)\n")
     }
 
+    // Just a shortcut for `addMessage` to be used specifically for
+    // the podcasts out of folders issue
+    // By doing so it will be easier to delete those logs once the issue is
+    // sorted.
+    //
+    // See: https://github.com/Automattic/pocket-casts-ios/issues/791
+    public func foldersIssue(_ message: String?) {
+        addMessage(message)
+    }
+
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
         logQueue.async { [weak self] in
             guard let self = self else { return }
