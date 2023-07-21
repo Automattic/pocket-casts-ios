@@ -10,6 +10,10 @@ struct ApiCredentials {
     ///
     static let zendeskUrl = "%{zendesk_url}"
 
+    /// Zendesk New URL
+    ///
+    static let zendeskNewUrl = "%{zendesk_new_url}"
+
     /// WordPress.com Secret
     ///
     static let dotcomSecret = "%{dotcom_secret}"
