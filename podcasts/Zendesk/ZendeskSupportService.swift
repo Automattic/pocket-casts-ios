@@ -16,10 +16,10 @@ class ZendeskSupportService {
         self.config = config
     }
 
-    func submitSupportRequest(_ supportRequest: ZDSupportRequest) -> AnyPublisher<String, Error> {
+    func submitSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool = false) -> AnyPublisher<String, Error> {
         let request: URLRequest
         do {
-            request = try generateSupportRequest(supportRequest)
+            request = try generateSupportRequest(supportRequest, isRetrying: isRetrying)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
@@ -38,8 +38,8 @@ class ZendeskSupportService {
             .eraseToAnyPublisher()
     }
 
-    private func generateSupportRequest(_ supportRequest: ZDSupportRequest) throws -> URLRequest {
-        guard let url = config.url(for: .requests),
+    private func generateSupportRequest(_ supportRequest: ZDSupportRequest, isRetrying: Bool = false) throws -> URLRequest {
+        guard let url = config.url(for: .requests, newURL: isRetrying),
               let authToken = config.authToken(forEmail: supportRequest.requester.email)
         else { throw SupportRequestError.badRequest }
 
