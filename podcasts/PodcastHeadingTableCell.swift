@@ -166,7 +166,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             return
         }
 
-        guard tabsViewController == nil else { return }
+        // Make sure the view reappears
+        if let tabsViewController {
+            tabsViewController.removeFromParent()
+            tabsViewController.didMove(toParent: parentController)
+            return
+        }
 
         bookmarkTabsView.removeAllSubviews()
         let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
@@ -194,8 +199,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
-
-        addBookmarksTabViewIfNeeded(parentController: parentController)
 
         if podcast.isPaid {
             supporterView.isHidden = false
@@ -259,6 +262,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
             addRatingIfNeeded()
         }
+
+        addBookmarksTabViewIfNeeded(parentController: parentController)
     }
 
     private lazy var ratingView: UIView? = {
