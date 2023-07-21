@@ -46,6 +46,7 @@ extension ZDCustomField {
 struct SupportConfig: ZDConfig {
     let apiKey = ApiCredentials.zendeskAPIKey
     let baseURL = ApiCredentials.zendeskUrl
+    let newBaseURL = ApiCredentials.zendeskNewUrl
     let isFeedback: Bool
     private let maxCharacterCount = 65000
     private let logsOptedOutMessage = "No log file uploaded: User opted out"
