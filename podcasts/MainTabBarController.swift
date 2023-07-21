@@ -355,6 +355,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showHeadphoneSettings() {
+        switchToTab(.profile)
+        if let navController = selectedViewController as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            navController.pushViewController(SettingsViewController(), animated: false)
+            navController.pushViewController(HeadphoneSettingsViewController(), animated: true)
+        }
+    }
+
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController
