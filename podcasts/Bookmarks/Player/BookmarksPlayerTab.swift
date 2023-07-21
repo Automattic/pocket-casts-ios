@@ -14,7 +14,11 @@ struct BookmarksPlayerTab: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            viewModel.items.isEmpty ? emptyView : listView
+            if viewModel.items.isEmpty {
+                emptyView
+            } else {
+                listView
+            }
         }
         .environmentObject(viewModel)
         .padding(.bottom)
