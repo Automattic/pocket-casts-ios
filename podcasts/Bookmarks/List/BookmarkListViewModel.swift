@@ -11,22 +11,16 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 
     weak var router: BookmarkListRouter?
 
-    private let bookmarkManager: BookmarkManager
-    private var cancellables = Set<AnyCancellable>()
+    let bookmarkManager: BookmarkManager
 
-    private var sortOption: BookmarkSortOption {
+    var sortOption: BookmarkSortOption {
         didSet {
             sortSettingValue.save(sortOption)
         }
     }
 
+    var cancellables = Set<AnyCancellable>()
     private let sortSettingValue: SortSetting
-
-    weak var episode: BaseEpisode? = nil {
-        didSet {
-            reload()
-        }
-    }
 
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
@@ -38,9 +32,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         addListeners()
     }
 
-    func reload() {
-        items = episode.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption) } ?? []
-    }
+    func reload() { }
 
     /// Reload a single item from the list
     func refresh(bookmark: Bookmark) {
@@ -49,17 +41,7 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         items.replaceSubrange(index...index, with: [bookmark])
     }
 
-    private func addListeners() {
-        bookmarkManager.onBookmarkCreated
-            .filter { [weak self] event in
-                self?.episode?.uuid == event.episode
-            }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.reload()
-            }
-            .store(in: &cancellables)
-
+    func addListeners() {
         bookmarkManager.onBookmarkChanged
             .filter { [weak self] event in
                 self?.items.contains(where: { $0.uuid == event.uuid }) ?? false

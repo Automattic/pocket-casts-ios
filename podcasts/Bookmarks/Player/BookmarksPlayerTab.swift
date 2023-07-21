@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 struct BookmarksPlayerTab: View {
-    @ObservedObject var viewModel: BookmarkListViewModel
+    @ObservedObject var viewModel: BookmarkEpisodeListViewModel
 
     var body: some View {
         BookmarksListView(viewModel: viewModel, style: BookmarksPlayerTabStyle())
