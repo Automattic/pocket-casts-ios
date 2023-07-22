@@ -881,7 +881,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showBookmarks() {
-        let controller = ThemedHostingController(rootView: BookmarksPodcastListView())
+        guard let podcast else { return }
+
+        let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
     }
 
