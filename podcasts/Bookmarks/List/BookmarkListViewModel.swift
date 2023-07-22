@@ -24,6 +24,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
         }
     }
 
+    var bookmarks: [Bookmark] {
+        isSearching ? filteredItems : items
+    }
+
+    var bookmarkCount: Int {
+        isSearching ? numberOfFilteredItems : numberOfItems
+    }
+
     var cancellables = Set<AnyCancellable>()
     private let sortSettingValue: SortSetting
 
