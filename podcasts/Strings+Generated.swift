@@ -268,6 +268,10 @@ internal enum L10n {
   internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body") }
   /// Delete Bookmarks?
   internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title") }
+  /// No bookmarks were found for this search.
+  internal static var bookmarkSearchNoResultsMessage: String { return L10n.tr("Localizable", "bookmark_search_no_results_message") }
+  /// No bookmarks found
+  internal static var bookmarkSearchNoResultsTitle: String { return L10n.tr("Localizable", "bookmark_search_no_results_title") }
   /// Bookmarks
   internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
   /// %1$@ bookmarks
@@ -366,6 +370,8 @@ internal enum L10n {
   internal static var cleanUp: String { return L10n.tr("Localizable", "clean_up") }
   /// Clear
   internal static var clear: String { return L10n.tr("Localizable", "clear") }
+  /// Clear Search
+  internal static var clearSearch: String { return L10n.tr("Localizable", "clear_search") }
   /// Clear Up Next
   internal static var clearUpNext: String { return L10n.tr("Localizable", "clear_up_next") }
   /// Are you sure you want to clear your Up Next queue?
