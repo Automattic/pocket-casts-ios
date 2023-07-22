@@ -108,6 +108,12 @@ class BookmarkManager {
         #endif
     }
 
+
+    /// Gets the `BaseEpisode` for the given bookmark
+    func episode(for bookmark: Bookmark) -> BaseEpisode? {
+        generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
+    }
+
     // MARK: - Named Events
 
     enum Event {

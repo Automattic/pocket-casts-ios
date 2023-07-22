@@ -18,6 +18,14 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
         items = podcast.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption).includeEpisodes() } ?? []
     }
 
+    override func refresh(bookmark: Bookmark) {
+        // Update the bookmark with the episode
+        var episodeBookmark = bookmark
+        episodeBookmark.episode = bookmarkManager.episode(for: bookmark)
+
+        super.refresh(bookmark: episodeBookmark)
+    }
+
     override func addListeners() {
         super.addListeners()
 
