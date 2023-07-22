@@ -33,6 +33,10 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
 // MARK: - BookmarkListRouter
 
 extension BookmarksPodcastListController: BookmarkListRouter {
+    var alertController: UIViewController? {
+        self
+    }
+
     func bookmarkPlay(_ bookmark: Bookmark) {
         bookmarkManager.play(bookmark)
         dismiss(animated: true)

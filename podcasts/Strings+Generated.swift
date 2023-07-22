@@ -268,7 +268,7 @@ internal enum L10n {
   internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body") }
   /// Delete Bookmarks?
   internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title") }
-  /// We couldn't find any bookmark for that search.
+  /// We couldn't find any bookmarks for that search.
   internal static var bookmarkSearchNoResultsMessage: String { return L10n.tr("Localizable", "bookmark_search_no_results_message") }
   /// No bookmarks found
   internal static var bookmarkSearchNoResultsTitle: String { return L10n.tr("Localizable", "bookmark_search_no_results_title") }

@@ -5,10 +5,14 @@ protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark)
     func bookmarkEdit(_ bookmark: Bookmark)
     func dismissBookmarksList()
+
+    var alertController: UIViewController? { get }
 }
 
 extension BookmarkListRouter {
     func dismissBookmarksList() { }
+
+    var alertController: UIViewController? { SceneHelper.rootViewController() }
 }
 
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
@@ -141,7 +145,7 @@ extension BookmarkListViewModel {
 
 private extension BookmarkListViewModel {
     func confirmDeletion(_ delete: @escaping () -> Void) {
-        guard let controller = SceneHelper.rootViewController() else { return }
+        guard let controller = router?.alertController else { return }
 
         let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
                                       message: L10n.bookmarkDeleteWarningBody,
