@@ -3837,7 +3837,7 @@
 "bookmark_search_no_results_title" = "No bookmarks found";
 
 /* Body of a message when no search results appear */
-"bookmark_search_no_results_message" = "No bookmarks were found for this search.";
+"bookmark_search_no_results_message" = "We couldn't find any bookmarks for that search.";
 
 /* Title of a button the clears the current search text */
 "clear_search" = "Clear Search";

@@ -43,7 +43,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private var noSearchResultsView: some View {
         BookmarksEmptyStateView(style: .defaultStyle,
                                 title: L10n.bookmarkSearchNoResultsTitle,
-                                message: L10n.bookmarkSearchNoResultsTitle,
+                                message: L10n.bookmarkSearchNoResultsMessage,
                                 actionTitle: L10n.clearSearch) {
             viewModel.cancelSearch()
         }
