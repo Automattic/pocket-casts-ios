@@ -51,6 +51,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private var headerView: some View {
         // Using a ZStack here to prevent the header from changing height when switching between modes
         ZStack {
+            let isMultiSelecting = showMultiSelectInHeader && viewModel.isMultiSelecting
+
             HStack {
                 Text(L10n.bookmarkCount(viewModel.bookmarkCount))
                     .foregroundStyle(style.secondaryText)
@@ -62,34 +64,13 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                     viewModel.showMoreOptions()
                 }
             }
-            .opacity(viewModel.isMultiSelecting ? 0 : 1)
-            .offset(y: viewModel.isMultiSelecting ? Constants.headerTransitionOffset : 0)
+            .opacity(isMultiSelecting ? 0 : 1)
+            .offset(y: isMultiSelecting ? BookmarkListConstants.headerTransitionOffset : 0)
 
-            multiSelectionHeaderView
-        }
-        .padding(.horizontal, Constants.padding)
-        .padding(.bottom, Constants.headerPadding)
-    }
-
-    /// A header view that appears when we're in the multi selection mode
-    private var multiSelectionHeaderView: some View {
-        HStack {
-            Button(viewModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll) {
-                viewModel.toggleSelectAll()
-            }
-
-            Spacer()
-
-            Button(L10n.cancel) {
-                withAnimation {
-                    viewModel.toggleMultiSelection()
-                }
+            if showMultiSelectInHeader {
+                BookmarkListMultiSelectHeaderView(viewModel: viewModel, style: style)
             }
         }
-        .font(style: .body)
-        .foregroundStyle(style.primaryText)
-        .opacity(viewModel.isMultiSelecting ? 1 : 0)
-        .offset(y: viewModel.isMultiSelecting ? 0 : -Constants.headerTransitionOffset)
         .padding(.horizontal, BookmarkListConstants.padding)
         .padding(.bottom, BookmarkListConstants.headerPadding)
     }
@@ -152,7 +133,31 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private var divider: some View {
         Divider().background(style.divider)
     }
+}
 
+/// A header view that appears when we're in the multi selection mode
+struct BookmarkListMultiSelectHeaderView<HeaderStyle: BookmarksStyle>: View {
+    @ObservedObject var viewModel: BookmarkListViewModel
+    @ObservedObject var style: HeaderStyle
+
+    var body: some View {
+        HStack {
+            Button(viewModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll) {
+                viewModel.toggleSelectAll()
+            }
+
+            Spacer()
+
+            Button(L10n.cancel) {
+                withAnimation {
+                    viewModel.toggleMultiSelection()
+                }
+            }
+        }
+        .font(style: .body)
+        .foregroundStyle(style.primaryText)
+        .opacity(viewModel.isMultiSelecting ? 1 : 0)
+        .offset(y: viewModel.isMultiSelecting ? 0 : -BookmarkListConstants.headerTransitionOffset)
     }
 }
 
