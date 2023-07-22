@@ -170,6 +170,7 @@ struct Constants {
             static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
 
             static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
+            static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
     }
 
