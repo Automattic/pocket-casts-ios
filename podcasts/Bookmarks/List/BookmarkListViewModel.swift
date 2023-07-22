@@ -7,11 +7,11 @@ protocol BookmarkListRouter: AnyObject {
     func dismissBookmarksList()
 }
 
-class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
 extension BookmarkListRouter {
     func dismissBookmarksList() { }
 }
 
+class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
