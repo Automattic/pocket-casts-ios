@@ -32,8 +32,22 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// An empty state view that displays instructions
     @ViewBuilder
     private var emptyView: some View {
-        BookmarksEmptyStateView(style: .playerStyle)
+        if !viewModel.isSearching {
+            BookmarksEmptyStateView(style: style.emptyStyle)
+        } else {
+            noSearchResultsView
+        }
+
         Spacer()
+    }
+
+    private var noSearchResultsView: some View {
+        BookmarksEmptyStateView(style: .defaultStyle,
+                                title: L10n.bookmarkSearchNoResultsTitle,
+                                message: L10n.bookmarkSearchNoResultsTitle,
+                                actionTitle: L10n.clearSearch) {
+            viewModel.cancelSearch()
+        }
     }
 
     /// The main content view that displays a list of bookmarks
