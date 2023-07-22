@@ -60,7 +60,7 @@ class BookmarkManager {
 
     /// Retrieves all the bookmarks for a podcast
     func bookmarks(for podcast: Podcast, sorted: BookmarkSortOption = .newestToOldest) -> [Bookmark] {
-        dataManager.bookmarks(forEpisode: podcast.uuid, sorted: sorted.dataSortOption)
+        dataManager.bookmarks(forPodcast: podcast.uuid, sorted: sorted.dataSortOption)
     }
 
     /// Removes an array of bookmarks
