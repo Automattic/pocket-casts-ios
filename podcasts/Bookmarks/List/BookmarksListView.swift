@@ -2,9 +2,9 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct BookmarksListView: View {
+struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ObservedObject var viewModel: BookmarkListViewModel
-    @ObservedObject var style: BookmarksPlayerTabStyle = .init()
+    @ObservedObject var style: ListStyle
 
     @State private var showShadow = false
 
@@ -86,6 +86,8 @@ struct BookmarksListView: View {
         .foregroundStyle(style.primaryText)
         .opacity(viewModel.isMultiSelecting ? 1 : 0)
         .offset(y: viewModel.isMultiSelecting ? 0 : -Constants.headerTransitionOffset)
+        .padding(.horizontal, BookmarkListConstants.padding)
+        .padding(.bottom, BookmarkListConstants.headerPadding)
     }
 
     private var scrollView: some View {
@@ -102,7 +104,7 @@ struct BookmarksListView: View {
 
                     // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
                     if actionBarVisible {
-                        Spacer(minLength: Constants.multiSelectionBottompadding)
+                        Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
                     }
                 }
             }
@@ -137,7 +139,7 @@ struct BookmarksListView: View {
     /// A shadow view that adds depth between the scroll view and the static header
     private var shadowView: some View {
         LinearGradient(colors: [.black.opacity(0.2), .black.opacity(0)], startPoint: .top, endPoint: .bottom)
-            .frame(maxWidth: .infinity, maxHeight: Constants.shadowHeight)
+            .frame(maxWidth: .infinity, maxHeight: BookmarkListConstants.shadowHeight)
             .opacity(showShadow ? 1 : 0)
             .animation(.linear(duration: 0.2), value: showShadow)
     }
@@ -147,20 +149,22 @@ struct BookmarksListView: View {
         Divider().background(style.divider)
     }
 
-    private enum Constants {
-        static let shadowHeight = 20.0
-        static let padding = 16.0
-        static let headerPadding = 12.0
-        static let headerTransitionOffset = 10.0
-        static let multiSelectionBottompadding = 70.0
     }
+}
+
+enum BookmarkListConstants {
+    static let shadowHeight = 20.0
+    static let padding = 16.0
+    static let headerPadding = 12.0
+    static let headerTransitionOffset = 10.0
+    static let multiSelectionBottomPadding = 70.0
 }
 
 // MARK: - Previews
 
 struct BookmarksListView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksListView(viewModel: .init(bookmarkManager: .init(), sortOption: .init("", defaultValue: .newestToOldest)))
+        BookmarksListView(viewModel: .init(bookmarkManager: .init(), sortOption: .init("", defaultValue: .newestToOldest)), style: BookmarksPlayerTabStyle())
             .setupDefaultEnvironment()
     }
 }
