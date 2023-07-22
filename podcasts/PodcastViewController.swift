@@ -37,6 +37,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func enableMultiSelect()
 
     var podcastRatingViewModel: PodcastRatingViewModel { get }
+    func showBookmarks()
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -877,6 +878,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
 
         present(hostingController, animated: true, completion: nil)
+    }
+
+    func showBookmarks() {
+        let controller = ThemedHostingController(rootView: BookmarksPodcastListView())
+        present(controller, animated: true)
     }
 
     // MARK: - Long press actions

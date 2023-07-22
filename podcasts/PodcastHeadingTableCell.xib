@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22138.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22113"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -371,6 +371,19 @@
                             </stackView>
                         </subviews>
                     </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="xfv-Do-H5F">
+                        <rect key="frame" x="16" y="486" width="362" height="34"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DoX-hV-o5P">
+                                <rect key="frame" x="0.0" y="0.0" width="362" height="34"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="ATk-yp-3C3"/>
+                        </constraints>
+                    </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsF-Lm-vdp">
                         <rect key="frame" x="0.0" y="-400" width="394" height="400"/>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -384,6 +397,7 @@
                     <constraint firstItem="CHK-bP-kvy" firstAttribute="top" secondItem="Ypx-au-SZl" secondAttribute="top" constant="-1" id="1tc-5M-dSk"/>
                     <constraint firstItem="wsF-Lm-vdp" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="top" id="2dG-uE-lim"/>
                     <constraint firstAttribute="bottom" secondItem="TeM-KI-UI1" secondAttribute="bottom" constant="20" symbolic="YES" id="2yS-PS-SWG"/>
+                    <constraint firstItem="xfv-Do-H5F" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="3zp-hz-mvr"/>
                     <constraint firstItem="wsF-Lm-vdp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6vs-0u-f4Y"/>
                     <constraint firstAttribute="trailing" secondItem="6JF-62-6gD" secondAttribute="trailing" id="9Jv-G8-Era"/>
                     <constraint firstAttribute="trailing" secondItem="sd5-XC-dXM" secondAttribute="trailing" id="GUJ-1l-6Uk"/>
@@ -395,7 +409,9 @@
                     <constraint firstItem="sd5-XC-dXM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="VCV-mi-83g"/>
                     <constraint firstAttribute="trailing" secondItem="wsF-Lm-vdp" secondAttribute="trailing" id="aMd-TM-fXj"/>
                     <constraint firstItem="jf0-QS-TJi" firstAttribute="centerY" secondItem="6JF-62-6gD" secondAttribute="centerY" id="b59-OP-gRA"/>
+                    <constraint firstAttribute="bottom" secondItem="xfv-Do-H5F" secondAttribute="bottom" constant="6" id="bBU-Qa-Zaa"/>
                     <constraint firstItem="5S4-8c-Ssa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bhl-hO-mdd"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="xfv-Do-H5F" secondAttribute="trailing" id="dQp-hQ-LdM"/>
                     <constraint firstItem="6JF-62-6gD" firstAttribute="bottom" secondItem="sd5-XC-dXM" secondAttribute="bottom" id="jpI-F1-Zhq"/>
                     <constraint firstItem="CHK-bP-kvy" firstAttribute="bottom" secondItem="Ypx-au-SZl" secondAttribute="bottom" constant="-1" id="kd8-Nr-Cur"/>
                     <constraint firstItem="TeM-KI-UI1" firstAttribute="top" secondItem="5S4-8c-Ssa" secondAttribute="bottom" id="nel-K1-cL3"/>
@@ -409,6 +425,7 @@
             <connections>
                 <outlet property="author" destination="k55-Wk-FMM" id="tNR-lH-xgT"/>
                 <outlet property="authorView" destination="v18-FN-11C" id="faS-yl-UZU"/>
+                <outlet property="bookmarkTabsView" destination="xfv-Do-H5F" id="EyA-yR-0cF"/>
                 <outlet property="bottomAuthorSpacer" destination="d5Y-gS-EgE" id="KBI-Fm-Fsr"/>
                 <outlet property="categoryDescriptionSpacer" destination="SGH-Lz-9LI" id="VmT-TR-elg"/>
                 <outlet property="contentViewBottomConstraint" destination="2yS-PS-SWG" id="dJC-uS-1Bg"/>
@@ -452,7 +469,7 @@
                 <outlet property="topSectionHeightConstraint" destination="Uzk-YX-q2W" id="wZr-U0-VlD"/>
                 <outlet property="topSectionView" destination="5S4-8c-Ssa" id="pjS-pW-Y38"/>
             </connections>
-            <point key="canvasLocation" x="-3651" y="-1120"/>
+            <point key="canvasLocation" x="-3592" y="-1116"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -468,10 +485,10 @@
         <image name="support-heart-outline" width="24" height="24"/>
         <image name="supporter-heart-large" width="19" height="16"/>
         <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

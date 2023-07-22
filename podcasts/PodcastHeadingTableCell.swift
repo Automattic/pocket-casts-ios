@@ -157,7 +157,33 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
-    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate) {
+    @IBOutlet var bookmarkTabsView: UIStackView!
+    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+
+    private func addBookmarksTabViewIfNeeded(parentController: UIViewController) {
+        guard FeatureFlag.bookmarks.enabled else {
+            bookmarkTabsView.removeAllSubviews()
+            return
+        }
+
+        // Make sure the view reappears
+        if let tabsViewController {
+            tabsViewController.removeFromParent()
+            tabsViewController.didMove(toParent: parentController)
+            return
+        }
+
+        bookmarkTabsView.removeAllSubviews()
+        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+
+        bookmarkTabsView.addArrangedSubview(controller.view)
+        parentController.addChild(controller)
+        controller.didMove(toParent: parentController)
+
+        tabsViewController = controller
+    }
+
+    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate, parentController: UIViewController) {
         self.delegate = delegate
 
         guard let podcast = delegate.displayedPodcast() else { return }
@@ -236,6 +262,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
             addRatingIfNeeded()
         }
+
+        addBookmarksTabViewIfNeeded(parentController: parentController)
     }
 
     private lazy var ratingView: UIView? = {
@@ -320,10 +348,22 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         contentView.removeConstraint(contentViewBottomConstraint)
-        if expanded {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
+
+        // When bookmarks are enabled we need to align to the tabs view with different values
+        if FeatureFlag.bookmarks.enabled {
+            if let bookmarkTabsView {
+                if expanded {
+                    contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 16)
+                } else {
+                    contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -1)
+                }
+            }
         } else {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
+            if expanded {
+                contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
+            } else {
+                contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
+            }
         }
         contentView.addConstraint(contentViewBottomConstraint)
 
