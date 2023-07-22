@@ -99,6 +99,11 @@ extension BookmarkListViewModel {
             self?.toggleMultiSelection()
         }
     }
+
+    func openHeadphoneSettings() {
+        router?.dismissBookmarksList()
+        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
+    }
 }
 
 // MARK: - More Menu
