@@ -1,5 +1,27 @@
 import SwiftUI
 
+/// A SwiftUI TextField that mimics the functionality of a UISearchTextField
+/// SwiftUI has the [`.searchable(text:)`](https://developer.apple.com/documentation/swiftui/adding-a-search-interface-to-your-app) modifier
+/// but unfortunately that only works if your view is wrapped in a `NavigationStack` or `NavigationSplitView`.
+///
+/// You can use the [`disabled(_:)`](https://developer.apple.com/documentation/swiftui/view/disabled(_:)) modifier to disable the field
+///
+/// Usage:
+///
+///     struct MyView: View {
+///         @State var text: String = ""
+///
+///         var body: View {
+///             VStack {
+///                 SearchField($text)
+///                 TheRestOfTheOwl()
+///             }
+///             .padding()
+///         }
+///     }
+///
+/// The colors of the `SearchField` can be customized by subclassing the `SearchTheme` and passing it in
+///
 struct SearchField: View {
     @ObservedObject var theme: SearchTheme = .init()
 
@@ -111,6 +133,8 @@ private enum SearchFieldConstants {
     static let padding = 8.0
     static let cornerRadius = 8.0
 }
+
+// MARK: - Previews
 
 struct SearchFieldView_Preview: PreviewProvider {
     static var previews: some View {
