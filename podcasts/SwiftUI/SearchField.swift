@@ -111,3 +111,18 @@ private enum SearchFieldConstants {
     static let padding = 8.0
     static let cornerRadius = 8.0
 }
+
+struct SearchFieldView_Preview: PreviewProvider {
+    static var previews: some View {
+        PreviewView()
+            .setupDefaultEnvironment()
+    }
+
+    private struct PreviewView: View {
+        @State var title: String = ""
+
+        var body: some View {
+            SearchField(text: $title).padding()
+        }
+    }
+}
