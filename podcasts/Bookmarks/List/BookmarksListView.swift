@@ -14,7 +14,7 @@ struct BookmarksListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if viewModel.items.isEmpty {
+            if viewModel.bookmarks.isEmpty {
                 emptyView
             } else {
                 listView
@@ -48,7 +48,7 @@ struct BookmarksListView: View {
         // Using a ZStack here to prevent the header from changing height when switching between modes
         ZStack {
             HStack {
-                Text(L10n.bookmarkCount(viewModel.numberOfItems))
+                Text(L10n.bookmarkCount(viewModel.bookmarkCount))
                     .foregroundStyle(style.secondaryText)
                     .font(size: 14, style: .subheadline)
 
@@ -92,7 +92,7 @@ struct BookmarksListView: View {
         ZStack(alignment: .top) {
             ScrollViewWithContentOffset {
                 LazyVStack(spacing: 0) {
-                    ForEach(viewModel.items) { bookmark in
+                    ForEach(viewModel.bookmarks) { bookmark in
                         BookmarkRow(bookmark: bookmark, style: style)
 
                         if !viewModel.isLast(item: bookmark) {
