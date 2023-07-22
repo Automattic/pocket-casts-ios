@@ -1459,6 +1459,7 @@
 		C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */; };
 		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
 		C784DE7D2A590866004D03E7 /* View+Buttonize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7C2A590866004D03E7 /* View+Buttonize.swift */; };
+		C7891DC82A6AFE26009DA661 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DC72A6AFE26009DA661 /* SearchField.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */; };
@@ -3197,6 +3198,7 @@
 		C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBookmarksTabsView.swift; sourceTree = "<group>"; };
 		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
 		C784DE7C2A590866004D03E7 /* View+Buttonize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Buttonize.swift"; sourceTree = "<group>"; };
+		C7891DC72A6AFE26009DA661 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
@@ -6365,6 +6367,7 @@
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 				C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */,
 				C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */,
+				C7891DC72A6AFE26009DA661 /* SearchField.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -8881,6 +8884,7 @@
 				BD9D923C21342CC50070D4FD /* ListEpisode.swift in Sources */,
 				BDF4D30F2175AA830086463E /* StarredViewController+Table.swift in Sources */,
 				C73CCBC929C590100075EFFD /* View+UIView.swift in Sources */,
+				C7891DC82A6AFE26009DA661 /* SearchField.swift in Sources */,
 				C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDE292E423680D6100A4EEAE /* EffectsViewController.swift in Sources */,
 				BD907DAE21537B51004D7C02 /* SiriSettingsViewController.swift in Sources */,
