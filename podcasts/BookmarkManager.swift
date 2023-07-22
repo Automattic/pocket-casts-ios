@@ -155,6 +155,8 @@ extension BookmarkManager {
     }
 }
 
+// MARK: - BookmarkSortOption
+
 private extension BookmarkSortOption {
     var dataSortOption: BookmarkDataManager.SortOption {
         switch self {
@@ -165,5 +167,32 @@ private extension BookmarkSortOption {
         case .timestamp:
             return .timestamp
         }
+    }
+}
+
+
+// MARK: - Bookmarks Array Extension
+
+extension Array where Element == Bookmark {
+    /// Updates an array of Bookmarks and sets the `episode` property to the `BaseEpisode` from the `episodeUuid`
+    /// This tries to be efficient by only fetching the unique episodes from the database
+    func includeEpisodes(using dataManager: DataManager = .sharedManager) -> [Element] {
+        guard count > 0 else { return [] }
+
+        let episodes = uniqueEpisodes(using: dataManager)
+
+        return map {
+            var item = $0
+            item.episode = episodes[item.episodeUuid]
+            return item
+        }
+    }
+
+    /// Gets the unique episodeUuid's from the bookmarks, then converts them to `BaseEpisode`'s
+    /// which are then mapped to a dictionary where the key is the episodeUuid and the value is the episode
+    private func uniqueEpisodes(using dataManager: DataManager = .sharedManager) -> [String: BaseEpisode] {
+        Dictionary(uniqueKeysWithValues: Set(map(\.episodeUuid)).compactMap {
+            dataManager.findBaseEpisode(uuid: $0)
+        }.map { ($0.uuid, $0) })
     }
 }
