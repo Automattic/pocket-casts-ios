@@ -2,7 +2,8 @@ import SwiftUI
 import Combine
 
 protocol BookmarksStyle: ObservableObject {
-    associatedtype ActionStyle = ActionBarStyle
+    associatedtype ActionStyle: ActionBarStyle
+    associatedtype EmptyStyle: EmptyStateViewStyle
 
     var background: Color { get }
     var primaryText: Color { get }
@@ -18,6 +19,7 @@ protocol BookmarksStyle: ObservableObject {
     var playButtonBackground: Color? { get }
     var playButtonStroke: Color? { get }
     var actionBarStyle: ActionStyle { get }
+    var emptyStyle: EmptyStyle { get }
 }
 
 // MARK: - ThemeObserver
@@ -53,6 +55,7 @@ class BookmarksPlayerTabStyle: ThemeObserver, BookmarksStyle {
     var playButtonBackground: Color? { theme.playerContrast01 }
     var playButtonStroke: Color? = nil
     var actionBarStyle = PlayerActionBarStyle()
+    var emptyStyle = PlayerEmptyStateStyle()
 }
 
 // MARK: - Default Themed Style
@@ -72,4 +75,5 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var playButtonBackground: Color? { theme.primaryUi01 }
     var playButtonStroke: Color? { theme.primaryText01 }
     var actionBarStyle = ThemedActionBarStyle()
+    var emptyStyle = DefaultEmptyStateStyle()
 }
