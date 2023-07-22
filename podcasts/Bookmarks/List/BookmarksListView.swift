@@ -6,6 +6,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ObservedObject var viewModel: BookmarkListViewModel
     @ObservedObject var style: ListStyle
 
+    /// When true, when entering multiselect the select all/cancel buttons will appear over the heading view
+    /// Set this to false to implement custom handling
+    var showMultiSelectInHeader: Bool = true
+
     @State private var showShadow = false
 
     private var actionBarVisible: Bool {
