@@ -24,11 +24,11 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
 
             if actionBarVisible {
                 ActionBarView(title: title, style: style, actions: actions)
+                    .padding(.bottom)
             }
         }
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
-        .padding(.bottom)
     }
 }
 

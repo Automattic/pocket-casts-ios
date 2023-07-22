@@ -25,7 +25,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             }
         }
         .environmentObject(viewModel)
-        .padding(.bottom)
         .background(style.background.ignoresSafeArea())
     }
 
