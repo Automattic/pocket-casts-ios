@@ -4,9 +4,14 @@ import PocketCastsDataModel
 protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark)
     func bookmarkEdit(_ bookmark: Bookmark)
+    func dismissBookmarksList()
 }
 
 class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
+extension BookmarkListRouter {
+    func dismissBookmarksList() { }
+}
+
     typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
