@@ -165,3 +165,9 @@ private extension BookmarkSortOption {
         }
     }
 }
+
+extension Bookmark: SearchableDataModel {
+    var searchField: String {
+        [title, episode?.title].compactMap { $0 }.joined()
+    }
+}
