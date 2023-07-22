@@ -13,6 +13,19 @@ public struct Bookmark: Hashable {
     public let episodeUuid: String
     public let podcastUuid: String?
 
+    public var episode: BaseEpisode? = nil
+    public var podcast: Podcast? = nil
+
+    // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
+        hasher.combine(title)
+        hasher.combine(time)
+        hasher.combine(created)
+        hasher.combine(episodeUuid)
+        hasher.combine(podcastUuid)
+    }
+
     public static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
         lhs.uuid == rhs.uuid
     }
