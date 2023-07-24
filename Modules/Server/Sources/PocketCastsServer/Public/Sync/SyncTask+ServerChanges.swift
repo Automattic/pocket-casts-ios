@@ -204,6 +204,7 @@ extension SyncTask {
         // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
         if folderItem.isDeleted {
             DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
+            FileLog.shared.foldersIssue("SyncTask importFolder: delete folder \(folderUuid)")
 
             return
         }
