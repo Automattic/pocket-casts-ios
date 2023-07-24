@@ -4,6 +4,7 @@ import Foundation
 protocol ZDConfig {
     var apiKey: String { get }
     var baseURL: String { get }
+    var newBaseURL: String { get }
     var subject: String { get }
     var isFeedback: Bool { get }
     var tags: [String] { get }
@@ -20,8 +21,8 @@ extension ZDConfig {
         Result.Publisher([]).eraseToAnyPublisher()
     }
 
-    func url(for request: ZenDeskAPI) -> URL? {
-        URL(string: baseURL)?.appendingPathComponent(request.rawValue)
+    func url(for request: ZenDeskAPI, newURL: Bool = false) -> URL? {
+        URL(string: newURL ? newBaseURL : baseURL)?.appendingPathComponent(request.rawValue)
     }
 
     func authToken(forEmail email: String) -> String? {

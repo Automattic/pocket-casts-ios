@@ -1,7 +1,7 @@
 {
   "project_name": "pocketcasts-ios",
   "branch": "trunk",
-  "pinned_hash": "953f945276a887a9595e23cb55a809080a574947",
+  "pinned_hash": "27f45d7677514d3aec8ff9aa178b68e695f05f8d",
   "files_to_copy": [
     {
       "file": "iOS/app_store_connect_fastlane_api_key.json",
