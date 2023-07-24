@@ -17,6 +17,7 @@ extension PodcastManager {
                 EpisodeManager.deleteDownloadedFiles(episode: episode)
             }
 
+            FileLog.shared.foldersIssue("PodcastManager delete: setting \(podcast.title ?? "") folder to nil")
             podcast.folderUuid = nil
             podcast.subscribed = 0
             podcast.autoArchiveEpisodeLimit = 0

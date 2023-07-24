@@ -92,6 +92,8 @@ class SyncTask: ApiBaseTask {
 
                     // If server's folderUuid is `nil` then we don't change
                     if podcast.folderUuid?.isEmpty == false {
+                        FileLog.shared.foldersIssue("SyncTask performHomeGridRefresh: changing \(localPodcast.title ?? "") folder from \(localPodcast.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
+
                         localPodcast.folderUuid = podcast.folderUuid
                     }
 
