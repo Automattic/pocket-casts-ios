@@ -84,31 +84,6 @@ class BookmarkManager {
         }
     }
 
-    // MARK: - Playback
-
-    /// Play the bookmark
-    func play(_ bookmark: Bookmark) {
-        // If we're already the now playing episode, then just seek to the bookmark time
-        if playbackManager.isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
-            playbackManager.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
-            return
-        }
-
-        // Get the bookmark's BaseEpisode so we can load it
-        guard let episode = bookmark.episode ?? generalManager.findBaseEpisode(uuid: bookmark.episodeUuid) else {
-            return
-        }
-
-        #if !os(watchOS)
-        // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
-        generalManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
-
-        // Start the play process
-        PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
-        #endif
-    }
-
-
     /// Gets the `BaseEpisode` for the given bookmark
     func episode(for bookmark: Bookmark) -> BaseEpisode? {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)
