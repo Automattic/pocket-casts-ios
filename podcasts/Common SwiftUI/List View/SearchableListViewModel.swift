@@ -67,7 +67,7 @@ class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewMo
         isSearching = true
 
         // Filter the items by the search field
-        filteredItems = items.filter { $0.searchField.localizedCaseInsensitiveContains(search) }
+        filteredItems = items.filter { $0.searchableContent.localizedCaseInsensitiveContains(search) }
     }
 
     // Listen for debounced changes the the `searchText` property
