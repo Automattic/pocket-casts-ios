@@ -135,6 +135,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Aggiungi a Successivo</string>
     <key>after_playing</key>
     <string>Dopo la riproduzione</string>
+    <key>announcement_autoplay_description</key>
+    <string>Se la coda Successivo è vuota e inizi ad ascoltare un episodio, l'opzione Riproduzione automatica continuerà a riprodurre le puntate di quel programma o quell'elenco.</string>
+    <key>announcement_autoplay_title</key>
+    <string>La riproduzione automatica è qui.</string>
     <key>app_badge</key>
     <string>Badge app</string>
     <key>app_icon_classic</key>
@@ -607,6 +611,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Interrompi tutti i download</string>
     <key>edit</key>
     <string>Modifica</string>
+    <key>enable_it_now</key>
+    <string>Attiva ora</string>
     <key>eoy_card_description</key>
     <string>Visualizza i tuoi podcast principali, le categorie, le statistiche di ascolto e molto altro ancora.</string>
     <key>eoy_create_account_to_see</key>
@@ -1895,6 +1901,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Nuovo dall'apertura dell'app</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totale non riprodotto</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Suono di conferma del segnalibro</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Riproduci un suono di conferma dopo aver creato un segnalibro con le cuffie.</string>
     <key>settings_collect_information</key>
     <string>Raccogli informazioni</string>
     <key>settings_collect_information_additional_information</key>
@@ -1973,6 +1983,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Vuoi modificare tutti i tuoi podcast esistenti a %1$@ episodi archiviati?</string>
     <key>settings_general_auto_open_player</key>
     <string>Apri automaticamente il lettore</string>
+    <key>settings_general_autoplay</key>
+    <string>Riproduzione automatica</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Se la coda Successivo è vuota, riprodurremo gli episodi dello stesso podcast o dell'elenco che stai ascoltando.</string>
     <key>settings_general_defaults_header</key>
     <string>PREDEFINITI</string>
     <key>settings_general_episode_groups</key>
@@ -2029,6 +2043,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Toccando un episodio in Successivo, questo verrà riprodotto. Tramite la pressione prolungata vengono visualizzate le opzioni dell'episodio. Disattivali per cambiarli di posto.</string>
     <key>settings_global_settings</key>
     <string>Impostazioni globali</string>
+    <key>settings_headphone_controls</key>
+    <string>Controlli delle cuffie</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personalizza le azioni eseguite dai controlli delle cuffie più comuni.</string>
     <key>settings_help</key>
     <string>Supporto e feedback</string>
     <key>settings_import_export</key>
@@ -2041,6 +2059,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>NEL MENU</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Gli episodi inattivi sono episodi che non hai riprodotto o scaricato nel periodo specificato sopra. I download vengono rimossi quando l'episodio viene archiviato.</string>
+    <key>settings_next_action</key>
+    <string>Azione successiva</string>
     <key>settings_not_in_filters</key>
     <string>Non incluso in alcun filtro</string>
     <key>settings_notifications</key>
@@ -2055,6 +2075,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Velocità di riproduzione</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ al mese/%2$@ all'anno</string>
+    <key>settings_previous_action</key>
+    <string>Azione precedente</string>
     <key>settings_privacy</key>
     <string>Privacy</string>
     <key>settings_queue_position</key>
