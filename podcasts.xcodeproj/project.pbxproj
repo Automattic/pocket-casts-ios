@@ -554,6 +554,7 @@
 		8BC7FF55290FF92400017779 /* StoriesProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */; };
 		8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */; };
 		8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B328F48282001A0315 /* EndOfYear.swift */; };
+		8BD256D22A5C7090006648BE /* SharingHelper+swipeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD256D12A5C7090006648BE /* SharingHelper+swipeButton.swift */; };
 		8BD5A4E42A1E844D00F473C6 /* StatusPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */; };
 		8BD5A4FF2A1F96C200F473C6 /* AppIcon-Pride76x76@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4EE2A1F96BD00F473C6 /* AppIcon-Pride76x76@2x~ipad.png */; };
 		8BD5A5002A1F96C200F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4EF2A1F96BD00F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png */; };
@@ -1429,6 +1430,10 @@
 		C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
 		C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = C72CED33289DA28B0017883A /* AutomatticTracks */; };
 		C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */; };
+		C7318EA42A61E40800EAFA9C /* BookmarkEditTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA32A61E40800EAFA9C /* BookmarkEditTitleView.swift */; };
+		C7318EA82A622AD000EAFA9C /* BookmarkEditTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA72A622AD000EAFA9C /* BookmarkEditTitleViewController.swift */; };
+		C7318EAA2A624CB400EAFA9C /* BookmarkEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EA92A624CB400EAFA9C /* BookmarkEditViewModel.swift */; };
+		C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */; };
 		C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */; };
 		C734A88E2938308F005E5B98 /* CommonStoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C734A88D2938308F005E5B98 /* CommonStoryViews.swift */; };
 		C7360CB82A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
@@ -1449,6 +1454,12 @@
 		C761300B28E4CA4F0044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */; };
 		C76400552A0EDFB90092A74B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76400542A0EDFB90092A74B /* UserInfo.swift */; };
+		C76ECAC22A67612F00D9DB9E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */; };
+		C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */; };
+		C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */; };
+		C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */; };
+		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
+		C784DE7D2A590866004D03E7 /* View+Buttonize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7C2A590866004D03E7 /* View+Buttonize.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */; };
@@ -1521,13 +1532,30 @@
 		C7D813A92A0D575E007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
 		C7D813AA2A0D57C2007F715F /* AlternateAppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */; };
 		C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */; };
+		C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */; };
+		C7D8AE5D2A6056C900C9EBAF /* ListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */; };
+		C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */; };
+		C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */; };
 		C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */; };
 		C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */; };
+		C7DC401E2A67026800883D03 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC401D2A67026800883D03 /* Toast.swift */; };
+		C7DC40202A6702A600883D03 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC401F2A6702A600883D03 /* ToastView.swift */; };
+		C7DC40222A6702BF00883D03 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC40212A6702BF00883D03 /* ToastViewModel.swift */; };
+		C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC40232A67054000883D03 /* ToastTheme.swift */; };
+		C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */; };
+		C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */; };
+		C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */; };
+		C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */; };
+		C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */; };
+		C7E99F042A5E0FAB00E7CBAF /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */; };
+		C7E99F092A5E105600E7CBAF /* MultiSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E99F082A5E105600E7CBAF /* MultiSelectRow.swift */; };
 		C7F0EEE7291D9A770007C148 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */; };
 		C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */; };
 		C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */; };
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
+		C7F605112A69C5AB00795F3C /* BookmarksPodcastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */; };
+		C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */; };
 		C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */; };
 		C7FAFF5D2941844C00329B40 /* CancelConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5C2941844C00329B40 /* CancelConfirmationViewModel.swift */; };
 		C7FAFF6A2942E78A00329B40 /* HighlightedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF682942E6A400329B40 /* HighlightedText.swift */; };
@@ -2291,6 +2319,7 @@
 		8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesProgressModel.swift; sourceTree = "<group>"; };
 		8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearModal.swift; sourceTree = "<group>"; };
 		8BCB22B328F48282001A0315 /* EndOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear.swift; sourceTree = "<group>"; };
+		8BD256D12A5C7090006648BE /* SharingHelper+swipeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharingHelper+swipeButton.swift"; sourceTree = "<group>"; };
 		8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageView.swift; sourceTree = "<group>"; };
 		8BD5A4EE2A1F96BD00F473C6 /* AppIcon-Pride76x76@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride76x76@2x~ipad.png"; sourceTree = "<group>"; };
 		8BD5A4EF2A1F96BD00F473C6 /* AppIcon-Pride83.5x83.5@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride83.5x83.5@2x~ipad.png"; sourceTree = "<group>"; };
@@ -3157,6 +3186,10 @@
 		C72CED2E289DA1650017883A /* String+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Analytics.swift"; sourceTree = "<group>"; };
 		C72CED31289DA1900017883A /* TracksAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksAdapter.swift; sourceTree = "<group>"; };
 		C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Analytics.swift"; sourceTree = "<group>"; };
+		C7318EA32A61E40800EAFA9C /* BookmarkEditTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditTitleView.swift; sourceTree = "<group>"; };
+		C7318EA72A622AD000EAFA9C /* BookmarkEditTitleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditTitleViewController.swift; sourceTree = "<group>"; };
+		C7318EA92A624CB400EAFA9C /* BookmarkEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditViewModel.swift; sourceTree = "<group>"; };
+		C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTheme.swift; sourceTree = "<group>"; };
 		C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseModal.swift; sourceTree = "<group>"; };
 		C734A88D2938308F005E5B98 /* CommonStoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStoryViews.swift; sourceTree = "<group>"; };
 		C7360CB72A42128300456930 /* Bookmarks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Bookmarks.xcassets; sourceTree = "<group>"; };
@@ -3174,6 +3207,12 @@
 		C7612FFE28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEpisodeHelper.swift; sourceTree = "<group>"; };
 		C761300A28E4CA4E0044C6C2 /* AnalyticsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinator.swift; sourceTree = "<group>"; };
 		C76400542A0EDFB90092A74B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksEmptyStateView.swift; sourceTree = "<group>"; };
+		C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksListView.swift; sourceTree = "<group>"; };
+		C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBookmarksTabsView.swift; sourceTree = "<group>"; };
+		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
+		C784DE7C2A590866004D03E7 /* View+Buttonize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Buttonize.swift"; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
@@ -3232,13 +3271,30 @@
 		C7D8139F2A0D4BEE007F715F /* AppIcon-Patron-Dark-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Dark-ipad-pro.png"; sourceTree = "<group>"; };
 		C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AlternateAppIcons.xcassets; sourceTree = "<group>"; };
 		C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecyleAnalyticsTests.swift; sourceTree = "<group>"; };
+		C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarOverlayView.swift; sourceTree = "<group>"; };
+		C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTests.swift; sourceTree = "<group>"; };
+		C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutliSelectListViewModel.swift; sourceTree = "<group>"; };
+		C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBarStyles.swift; sourceTree = "<group>"; };
 		C7DA8D262923DA4500C1B08B /* PlusPricingInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPricingInfoModel.swift; sourceTree = "<group>"; };
 		C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptTableCell.swift; sourceTree = "<group>"; };
+		C7DC401D2A67026800883D03 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		C7DC401F2A6702A600883D03 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		C7DC40212A6702BF00883D03 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
+		C7DC40232A67054000883D03 /* ToastTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTheme.swift; sourceTree = "<group>"; };
+		C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPlayerTabController.swift; sourceTree = "<group>"; };
+		C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
+		C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRow.swift; sourceTree = "<group>"; };
+		C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonBlockingLongPressView.swift; sourceTree = "<group>"; };
+		C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectListViewModel.swift; sourceTree = "<group>"; };
+		C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		C7E99F082A5E105600E7CBAF /* MultiSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectRow.swift; sourceTree = "<group>"; };
 		C7F0EEE6291D9A770007C148 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		C7F2257E29145988001E4547 /* ShareableMetadataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableMetadataProvider.swift; sourceTree = "<group>"; };
 		C7F4BAB428DA6BBB001C9785 /* BackgroundSignOutListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListener.swift; sourceTree = "<group>"; };
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
+		C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListView.swift; sourceTree = "<group>"; };
+		C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEpisodeListViewModel.swift; sourceTree = "<group>"; };
 		C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+FontStyle.swift"; sourceTree = "<group>"; };
 		C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelConfirmationView.swift; sourceTree = "<group>"; };
 		C7FAFF5C2941844C00329B40 /* CancelConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelConfirmationViewModel.swift; sourceTree = "<group>"; };
@@ -4104,6 +4160,7 @@
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */,
 				E3665F552936CD33001C8372 /* Playback */,
 				C7BF5E4829083B3F00733C1E /* Discover */,
 				8B2E054E28F8577200C2DBDE /* End of Year */,
@@ -4568,6 +4625,7 @@
 		BD2A49EE1701AA8500C2F192 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */,
 				C75274DF2A3252180004DD15 /* Bookmarks */,
 				C752F28829D5F8DA00681C33 /* Ratings */,
 				C7B3C618291AD03400054145 /* Onboarding */,
@@ -5101,6 +5159,7 @@
 				BD47E7F91DD57F7B00C18EE7 /* ShowNotesFormatter.swift */,
 				45ECEF8727E9253900C65030 /* ShowNotesFormatterUtils.swift */,
 				BD7BCF101F6A4F110006E008 /* SharingHelper.swift */,
+				8BD256D12A5C7090006648BE /* SharingHelper+swipeButton.swift */,
 				BD7BCF121F6A4F920006E008 /* SharingItemProvider.swift */,
 				BDCE1D601FBC1C4100100A86 /* UrlHelper.swift */,
 				BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */,
@@ -5194,16 +5253,16 @@
 		BD6D417B200C555000CA8993 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */,
-				BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */,
-				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
-				BD0B68732203EFCC002CCE3F /* EpisodeLimitCell.xib */,
 				409C793522387C0500386495 /* AllArchivedCell.swift */,
 				409C793622387C0500386495 /* AllArchivedCell.xib */,
-				BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */,
-				BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */,
 				4086511923B1CE8400D7585A /* CreateSiriShortcutCell.swift */,
 				4086511A23B1CE8400D7585A /* CreateSiriShortcutCell.xib */,
+				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
+				BD0B68732203EFCC002CCE3F /* EpisodeLimitCell.xib */,
+				BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */,
+				BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */,
+				BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */,
+				BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -5359,6 +5418,7 @@
 				BD3311A0202171EF00863A15 /* EpisodeListSearchController.xib */,
 				40AE73B321F00DFA00F77ACE /* SubscribeButton.swift */,
 				40AE73B121F00AFD00F77ACE /* SubscribeButton.xib */,
+				C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */,
 			);
 			name = "Podcast Page";
 			sourceTree = "<group>";
@@ -6286,6 +6346,16 @@
 			path = Adapters;
 			sourceTree = "<group>";
 		};
+		C7318EA22A61E3FC00EAFA9C /* Editing */ = {
+			isa = PBXGroup;
+			children = (
+				C7318EA32A61E40800EAFA9C /* BookmarkEditTitleView.swift */,
+				C7318EA72A622AD000EAFA9C /* BookmarkEditTitleViewController.swift */,
+				C7318EA92A624CB400EAFA9C /* BookmarkEditViewModel.swift */,
+			);
+			path = Editing;
+			sourceTree = "<group>";
+		};
 		C74887782919DC7B00EBC926 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -6301,11 +6371,16 @@
 				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
 				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
 				C7FF7716291D50880082A464 /* Motion.swift */,
+				C7E99EFD2A5C918900E7CBAF /* NonBlockingLongPressView.swift */,
 				8B205C8029E84B6B0069BAF9 /* PageIndicatorView.swift */,
 				C7FF76BF291B4F430082A464 /* ProportionalValue.swift */,
 				C7B3C6092919DCB700054145 /* ScrollViewIfNeeded.swift */,
+				C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */,
 				C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */,
+				C784DE7C2A590866004D03E7 /* View+Buttonize.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
+				C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */,
+				C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -6313,7 +6388,11 @@
 		C75274DF2A3252180004DD15 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
+				C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */,
+				C7318EA22A61E3FC00EAFA9C /* Editing */,
+				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
+				C7F6050F2A69C59000795F3C /* Podcast */,
 			);
 			path = Bookmarks;
 			sourceTree = "<group>";
@@ -6321,7 +6400,9 @@
 		C75274E02A3252180004DD15 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				C7D8AE622A60818600C9EBAF /* ActionBarStyles.swift */,
 				C75274E12A3252180004DD15 /* BookmarksPlayerTab.swift */,
+				C7E99EF72A5C807A00E7CBAF /* BookmarksPlayerTabController.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -6902,6 +6983,23 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8AE5B2A6056B700C9EBAF /* List View Model */,
+			);
+			path = "Common SwiftUI";
+			sourceTree = "<group>";
+		};
+		C7D8AE5B2A6056B700C9EBAF /* List View Model */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8AE5C2A6056C900C9EBAF /* ListViewModelTests.swift */,
+				C7D8AE5E2A6056DA00C9EBAF /* MutliSelectListViewModel.swift */,
+			);
+			path = "List View Model";
+			sourceTree = "<group>";
+		};
 		C7DA8D252923DA3000C1B08B /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -6919,6 +7017,56 @@
 				C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */,
 			);
 			path = "Account Prompt";
+			sourceTree = "<group>";
+		};
+		C7DC401C2A67025D00883D03 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				C7DC401D2A67026800883D03 /* Toast.swift */,
+				C7DC40232A67054000883D03 /* ToastTheme.swift */,
+				C7DC401F2A6702A600883D03 /* ToastView.swift */,
+				C7DC40212A6702BF00883D03 /* ToastViewModel.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		C7E99EF62A5C803B00E7CBAF /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */,
+				C7E99EF92A5C80B900E7CBAF /* BookmarkListViewModel.swift */,
+				C7E99EFB2A5C856400E7CBAF /* BookmarkRow.swift */,
+				C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C7DC401C2A67025D00883D03 /* Toast */,
+				C7E99F072A5E103A00E7CBAF /* List View */,
+				C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */,
+			);
+			path = "Common SwiftUI";
+			sourceTree = "<group>";
+		};
+		C7E99F072A5E103A00E7CBAF /* List View */ = {
+			isa = PBXGroup;
+			children = (
+				C7E99F032A5E0FAB00E7CBAF /* ListViewModel.swift */,
+				C7E99F082A5E105600E7CBAF /* MultiSelectRow.swift */,
+				C7E99EFF2A5E099100E7CBAF /* MultiSelectListViewModel.swift */,
+			);
+			path = "List View";
+			sourceTree = "<group>";
+		};
+		C7F6050F2A69C59000795F3C /* Podcast */ = {
+			isa = PBXGroup;
+			children = (
+				C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */,
+			);
+			path = Podcast;
 			sourceTree = "<group>";
 		};
 		C7FAFF592941839A00329B40 /* Cancel */ = {
@@ -8261,6 +8409,7 @@
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
+				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
 				8B484EFB28D25719001AFA97 /* Double+Ext.swift in Sources */,
 				8BF0BBD228918B49006BBECF /* HomeGridDataHelperTests.swift in Sources */,
@@ -8271,6 +8420,7 @@
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
 				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
+				C7D8AE5D2A6056C900C9EBAF /* ListViewModelTests.swift in Sources */,
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
@@ -8326,6 +8476,8 @@
 			files = (
 				BD424B0B2575F30800C9447B /* PodcastDisclosureCell.swift in Sources */,
 				4029E3E42293AD410003BEEB /* ChangePasswordViewController.swift in Sources */,
+				C7318EAA2A624CB400EAFA9C /* BookmarkEditViewModel.swift in Sources */,
+				C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */,
 				BDED92F4251DC3E2000BF622 /* CarPlaySceneDelegate.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
 				BD9CF8C2281FC6970000F29A /* AboutViewModel.swift in Sources */,
@@ -8386,6 +8538,7 @@
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
 				4084262D2134CBCD0076D82E /* LargeListCell.swift in Sources */,
 				401EBA6923725C6400899F93 /* UpNextNowPlayingCell.swift in Sources */,
+				C7DC40202A6702A600883D03 /* ToastView.swift in Sources */,
 				C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */,
 				409BF82524906EC10015097B /* PodcastViewController+MultiSelect.swift in Sources */,
 				C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */,
@@ -8465,12 +8618,14 @@
 				BDAA3CF321228A0D00649F81 /* ExpandCollapseButton.swift in Sources */,
 				407B9B72238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift in Sources */,
 				40422D96251AF10500C80BE4 /* BundlePodcastCell.swift in Sources */,
+				C76ECAC22A67612F00D9DB9E /* EmptyStateView.swift in Sources */,
 				8B317BA028906A8900A26A13 /* main.swift in Sources */,
 				BDC86830238251B0004C998F /* NowPlayingPlayerItemViewController+UpNextPan.swift in Sources */,
 				BD7BCF131F6A4F920006E008 /* SharingItemProvider.swift in Sources */,
 				BD21D4A722DEDAE700D5888B /* ThemeableCollectionView.swift in Sources */,
 				8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */,
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
+				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
 				BD240C43231F46F400FB2CDD /* PCSearchBarController+TextFieldDelegate.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
@@ -8493,6 +8648,7 @@
 				BD26AFD427BDFD18008CC973 /* Folder+Formatting.swift in Sources */,
 				BDB0C5C6231F97D60071FBA2 /* PodcastListSearchResultsController.swift in Sources */,
 				40F0DE8922E42AD2001DAA52 /* PlusLockedInfoView.swift in Sources */,
+				C7318EA42A61E40800EAFA9C /* BookmarkEditTitleView.swift in Sources */,
 				BDF4D30B2175A9E90086463E /* StarredViewController.swift in Sources */,
 				C75BB06829B954B100F2DF63 /* EpisodeLoadingController.swift in Sources */,
 				40B118EB2153B8CA000932C9 /* RadioButtonCell.swift in Sources */,
@@ -8514,11 +8670,13 @@
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
+				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
 				40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */,
 				4086511B23B1CE8400D7585A /* CreateSiriShortcutCell.swift in Sources */,
 				8B68C1CF2942134300CF25C5 /* BetaMenu.swift in Sources */,
 				4053CE092159E477001C92B1 /* CreateFilterViewController.swift in Sources */,
+				C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */,
 				BD86D94B217EB5060010FA1B /* FilterSelectionViewController.swift in Sources */,
 				40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */,
 				BD92323123629E1900C1E118 /* PlayerContainerViewController.swift in Sources */,
@@ -8573,6 +8731,7 @@
 				C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */,
 				8B087FCB29DE08460027EAE5 /* UpgradeLandingView.swift in Sources */,
 				C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */,
+				C784DE7D2A590866004D03E7 /* View+Buttonize.swift in Sources */,
 				BDC8CDDE203C02F600D88313 /* PodcastListViewController+Search.swift in Sources */,
 				BD27B8C72756F4C9007A0EA7 /* Styles.swift in Sources */,
 				8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */,
@@ -8632,10 +8791,12 @@
 				BD69EBBC1CD1D383007F273B /* SocialsHelper.swift in Sources */,
 				BDEDCF7124627F02005910C1 /* CustomSegmentedControl.swift in Sources */,
 				BD2F592A20468C6700AD3767 /* CustomObserver.swift in Sources */,
+				C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */,
 				BDD62979200ECCBB00168DF7 /* EpisodeDetailViewController+ShowNotes.swift in Sources */,
 				BDD832AF214B8A8B0013D692 /* PCGoogleCastButton.swift in Sources */,
 				8B3295402A5333C900BDFA11 /* WhatsNew.swift in Sources */,
 				4573899A285BBAD500D4FE6C /* ColorSelectRow.swift in Sources */,
+				C7318EA82A622AD000EAFA9C /* BookmarkEditTitleViewController.swift in Sources */,
 				BD1C46D927B9DD8C00B1D8BB /* FolderGridCell.swift in Sources */,
 				BDD84CE327CC8EDE001C078B /* ChoosePodcastFolderView.swift in Sources */,
 				408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */,
@@ -8675,6 +8836,7 @@
 				4041FE8D218A7DA60089D4A1 /* SiriShortcutEnabledCell.swift in Sources */,
 				BD5C39541B5E0A2A00C3A499 /* ShiftyLoadingAlert.swift in Sources */,
 				BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */,
+				C7E99F092A5E105600E7CBAF /* MultiSelectRow.swift in Sources */,
 				40164A5E23CC028D0043907B /* TourSpotlight.swift in Sources */,
 				8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */,
 				BDA681AB220D03930053BEEE /* UserEpisodeManager.swift in Sources */,
@@ -8745,6 +8907,7 @@
 				C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */,
 				C7A110F9291F66C700887A90 /* Confetti.swift in Sources */,
 				BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */,
+				C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */,
 				BD585C1D204785EF00AC842C /* AppDelegate.swift in Sources */,
 				BD93246F2398BAE3004F19A1 /* TourStep.swift in Sources */,
 				BDDAE72C27F2E76B003741A1 /* FileTypeUtil.swift in Sources */,
@@ -8752,6 +8915,7 @@
 				BD9A7FEB201EF5E000E3287B /* PodcastEpisodesRefreshOperation.swift in Sources */,
 				46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */,
 				BD2F3BA62366C17500416633 /* PlayerContainerViewController+Scroll.swift in Sources */,
+				C7DC401E2A67026800883D03 /* Toast.swift in Sources */,
 				BD07B92823583FC900B06FFF /* SettingsTableHeader.swift in Sources */,
 				BDFB26E71CD08B3C00787B7E /* ImportExportViewController.swift in Sources */,
 				BD14E793214642B80082FD5F /* VideoViewController.swift in Sources */,
@@ -8759,7 +8923,9 @@
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
+				C7DC40222A6702BF00883D03 /* ToastViewModel.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
+				C7E99EF82A5C807A00E7CBAF /* BookmarksPlayerTabController.swift in Sources */,
 				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
 				BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */,
 				C72223D4292C918F006B3B55 /* OnboardingModel.swift in Sources */,
@@ -8815,6 +8981,7 @@
 				404BB868231361A6006FE8A9 /* WhatsNewLinkButton.swift in Sources */,
 				BDBA7F2C1DA51B440080EBAC /* NotificationsHelper.swift in Sources */,
 				BD907DA621533243004D7C02 /* PodcastEffectsViewController.swift in Sources */,
+				C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */,
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
 				BDF7BDD21CA2248E0045AB6D /* StatsTopCell.swift in Sources */,
@@ -8834,6 +9001,7 @@
 				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
 				408529A3247C9A53007FE8AA /* PodcastSupporterCell.swift in Sources */,
+				8BD256D22A5C7090006648BE /* SharingHelper+swipeButton.swift in Sources */,
 				BDCD1E82244D636D00B83602 /* LenticularFilter.swift in Sources */,
 				8B9DEFD829071AD200075EAB /* MDCSwiftUIWrapper.swift in Sources */,
 				4006E31423AC453700174DEB /* ExpandedCollectionViewController+CollectionView.swift in Sources */,
@@ -8841,6 +9009,7 @@
 				BD27B8C92756FA20007A0EA7 /* ModalCloseButton.swift in Sources */,
 				8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */,
 				8B5AB488290188F30018C637 /* IntroStory.swift in Sources */,
+				C7E99F042A5E0FAB00E7CBAF /* ListViewModel.swift in Sources */,
 				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,
 				BD92323823629FAA00C1E118 /* ShowNotesPlayerItemViewController.swift in Sources */,
@@ -8859,10 +9028,12 @@
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
+				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,
 				BD1C46DD27B9DD9C00B1D8BB /* FolderListCell.swift in Sources */,
 				BD998AD127B25A3300B38857 /* PodcastPickerModel.swift in Sources */,
 				BDD6297F200EE26200168DF7 /* PlaybackActionHelper.swift in Sources */,
 				8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */,
+				C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */,
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
 				BD27B8C52756F486007A0EA7 /* UIColor+SwiftUI.swift in Sources */,
@@ -8885,6 +9056,7 @@
 				BD78A1D71FBACD4800048EB2 /* SmartInvertImageView.swift in Sources */,
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				BD340FC521AF897400EAB091 /* PodcastArchiveViewController.swift in Sources */,
+				C7F605112A69C5AB00795F3C /* BookmarksPodcastListView.swift in Sources */,
 				BD9657582468FAA600873BB5 /* CastToViewController.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
@@ -8931,6 +9103,7 @@
 				BD56102D200DA4BC002F2D53 /* Podcast+Formatting.swift in Sources */,
 				BD5294291B564417007A0B1D /* PlaybackItem.swift in Sources */,
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
+				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
@@ -8940,12 +9113,14 @@
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
 				BD240C3F231E8BE000FB2CDD /* PCSearchBarController.swift in Sources */,
 				8B0EEDE2290065C100075772 /* ListenedCategoriesStory.swift in Sources */,
+				C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */,
 				BD9FF61C1B8EDDBB009F075E /* NetworkCell.swift in Sources */,
 				C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */,
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
 				BD93134F1D795628007A70FC /* SharePodcastsViewController.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */,
+				C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */,
 				8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */,
 				C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
@@ -8963,6 +9138,7 @@
 				403B5B02217D5F1500821A54 /* TitleViewWithCollapseButton.swift in Sources */,
 				C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */,
 				4084262B2134CBCD0076D82E /* LargeListSummaryViewController.swift in Sources */,
+				C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */,
 				BDF0D4B523EBF1190034129E /* MNAVChapterReader.m in Sources */,
 				BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */,
 				BDF7BDCE1CA2247F0045AB6D /* StatsCell.swift in Sources */,

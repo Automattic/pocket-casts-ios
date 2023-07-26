@@ -53,6 +53,7 @@ class NavigationManager {
 
     static let settingsAppearanceKey = "appearancePage"
     static let settingsProfileKey = "profilePage"
+    static let settingsHeadphoneKey = "headphoneSettings"
 
     static let endOfYearStories = "endOfYearStories"
     static let onboardingFlow = "onboardingFlow"
@@ -75,7 +76,7 @@ class NavigationManager {
 
     // MARK: - Navigation
 
-    func navigateTo(_ place: String, data: NSDictionary?) {
+    func navigateTo(_ place: String, data: NSDictionary? = nil) {
         performNavigation(place, data: data, animated: true)
     }
 
@@ -164,7 +165,11 @@ class NavigationManager {
             mainController?.showSettingsAppearance()
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
-        } else if place == NavigationManager.showPromotionPageKey {
+        }
+        else if place == NavigationManager.settingsHeadphoneKey {
+            mainController?.showHeadphoneSettings()
+        }
+        else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
             if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {
                 promoCode = promoString

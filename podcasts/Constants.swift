@@ -168,6 +168,8 @@ struct Constants {
 
         enum bookmarks {
             static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
+
+            static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
     }
 
@@ -192,6 +194,8 @@ struct Constants {
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
         public static let freeTrialDefaultValue = true
+
+        static let bookmarkMaxTitleLength = 100
     }
 
     enum Limits {
@@ -412,4 +416,10 @@ enum HeadphoneControlAction: JSONCodable {
 
     /// Create a new bookmark for the currently playing episode
     case addBookmark
+}
+
+// MARK: - Bookmark Sorting
+
+enum BookmarkSortOption: JSONCodable {
+    case newestToOldest, oldestToNewest, timestamp
 }

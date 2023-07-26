@@ -573,15 +573,17 @@ class Settings: NSObject {
 
     private static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
+        let defaultActions = PlayerAction.allCases.filter { $0.isAvailable }
+
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return PlayerAction.allCases.filter { $0.isAvailable }
+            return defaultActions
         }
 
         let playerActions = savedInts
             .compactMap { PlayerAction(rawValue: $0) }
             .filter { $0.isAvailable }
 
-        return playerActions
+        return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
@@ -609,13 +611,15 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
-            return [.playNext, .playLast, .download, .archive, .markAsPlayed, .star]
+            return defaultActions
         }
 
         let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
 
-        return actions
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
     }
 
     class func updateMultiSelectActions(_ actions: [MultiSelectAction]) {

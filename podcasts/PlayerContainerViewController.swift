@@ -52,9 +52,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }()
 
     lazy var bookmarksItem: BookmarksPlayerTabController = {
-        let item = BookmarksPlayerTabController()
-        item.view.translatesAutoresizingMaskIntoConstraints = false
+        let playbackManager = PlaybackManager.shared
+        let bookmarkManager = playbackManager.bookmarkManager
+        let item = BookmarksPlayerTabController(bookmarkManager: bookmarkManager,
+                                                playbackManager: playbackManager)
 
+        item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.containerDelegate = self
         return item
     }()
 
@@ -130,6 +134,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     func scrollToNowPlaying() {
         tabsView.currentTab = 0
         let scrollRect = CGRect(x: 0, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
+        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+    }
+
+    func scrollToBookmarks() {
+        guard let index = tabsView.tabs.firstIndex(of: .bookmarks) else { return }
+
+        tabsView.currentTab = index
+        let scrollRect = CGRect(x: CGFloat(index) * mainScrollView.frame.width, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
         mainScrollView.scrollRectToVisible(scrollRect, animated: true)
     }
 

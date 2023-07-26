@@ -44,4 +44,6 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func archivingRemovesFromList() -> Bool {
         true
     }
+
+    func share(episode: Episode, at: IndexPath) { }
 }

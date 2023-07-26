@@ -146,6 +146,8 @@ internal enum L10n {
   internal static var accountWelcomePlus: String { return L10n.tr("Localizable", "account_welcome_plus") }
   /// Add Bookmark
   internal static var addBookmark: String { return L10n.tr("Localizable", "add_bookmark") }
+  /// Add an optional title to identify this bookmark
+  internal static var addBookmarkSubtitle: String { return L10n.tr("Localizable", "add_bookmark_subtitle") }
   /// Add to Up Next
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
@@ -252,8 +254,28 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Bookmark added
+  internal static var bookmarkAdded: String { return L10n.tr("Localizable", "bookmark_added") }
+  /// View
+  internal static var bookmarkAddedButtonTitle: String { return L10n.tr("Localizable", "bookmark_added_button_title") }
+  /// Bookmark "%1$@" added
+  internal static func bookmarkAddedNotification(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_added_notification", String(describing: p1))
+  }
+  /// Bookmark
+  internal static var bookmarkDefaultTitle: String { return L10n.tr("Localizable", "bookmark_default_title") }
+  /// Are you sure you want to delete these bookmarks, there’s no way to undo it!
+  internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body") }
+  /// Delete Bookmarks?
+  internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title") }
   /// Bookmarks
   internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
+  /// %1$@ bookmarks
+  internal static func bookmarksCountPlural(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_count_plural", String(describing: p1))
+  }
+  /// 1 bookmark
+  internal static var bookmarksCountSingular: String { return L10n.tr("Localizable", "bookmarks_count_singular") }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.
@@ -302,6 +324,10 @@ internal enum L10n {
   internal static var carplayUpNextQueue: String { return L10n.tr("Localizable", "carplay_up_next_queue") }
   /// Change App Icon
   internal static var changeAppIcon: String { return L10n.tr("Localizable", "change_app_icon") }
+  /// Change the title that identifies this bookmark
+  internal static var changeBookmarkSubtitle: String { return L10n.tr("Localizable", "change_bookmark_subtitle") }
+  /// Change title
+  internal static var changeBookmarkTitle: String { return L10n.tr("Localizable", "change_bookmark_title") }
   /// Change Email Address
   internal static var changeEmail: String { return L10n.tr("Localizable", "change_email") }
   /// Email Address Changed
@@ -1334,6 +1360,12 @@ internal enum L10n {
   internal static func nextPaymentFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "next_payment_format", String(describing: p1))
   }
+  /// Headphone settings
+  internal static var noBookmarksButtonTitle: String { return L10n.tr("Localizable", "no_bookmarks_button_title") }
+  /// You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.
+  internal static var noBookmarksMessage: String { return L10n.tr("Localizable", "no_bookmarks_message") }
+  /// No bookmarks yet
+  internal static var noBookmarksTitle: String { return L10n.tr("Localizable", "no_bookmarks_title") }
   /// None
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
@@ -2026,6 +2058,8 @@ internal enum L10n {
   internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
+  /// Save Bookmark
+  internal static var saveBookmark: String { return L10n.tr("Localizable", "save_bookmark") }
   /// Search
   internal static var search: String { return L10n.tr("Localizable", "search") }
   /// Search podcasts or add RSS URL
@@ -2056,6 +2090,8 @@ internal enum L10n {
   internal static var selectAllAbove: String { return L10n.tr("Localizable", "select_all_above") }
   /// Select all below
   internal static var selectAllBelow: String { return L10n.tr("Localizable", "select_all_below") }
+  /// Select Bookmarks
+  internal static var selectBookmarks: String { return L10n.tr("Localizable", "select_bookmarks") }
   /// Select Episodes
   internal static var selectEpisodes: String { return L10n.tr("Localizable", "select_episodes") }
   /// %1$@ selected
@@ -2644,6 +2680,8 @@ internal enum L10n {
   internal static var sortBy: String { return L10n.tr("Localizable", "sort_by") }
   /// Sort Episodes
   internal static var sortEpisodes: String { return L10n.tr("Localizable", "sort_episodes") }
+  /// Timestamp
+  internal static var sortOptionTimestamp: String { return L10n.tr("Localizable", "sort_option_timestamp") }
   /// Speed
   internal static var speed: String { return L10n.tr("Localizable", "speed") }
   /// Star Episode
