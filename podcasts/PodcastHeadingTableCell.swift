@@ -163,6 +163,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     private func addBookmarksTabViewIfNeeded(parentController: UIViewController) {
         guard FeatureFlag.bookmarks.enabled else {
             bookmarkTabsView.removeAllSubviews()
+            bookmarkTabsView.isHidden = true
             return
         }
 
@@ -181,6 +182,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         controller.didMove(toParent: parentController)
 
         tabsViewController = controller
+        bookmarkTabsView.isHidden = false
     }
 
     func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate, parentController: UIViewController) {
