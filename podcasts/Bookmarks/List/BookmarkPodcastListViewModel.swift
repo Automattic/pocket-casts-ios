@@ -2,7 +2,7 @@ import Combine
 import PocketCastsDataModel
 
 class BookmarkPodcastListViewModel: BookmarkListViewModel {
-    weak var podcast: Podcast?
+    var podcast: Podcast?
 
     init(podcast: Podcast, bookmarkManager: BookmarkManager, sortOption: BookmarkListViewModel.SortSetting) {
         self.podcast = podcast
