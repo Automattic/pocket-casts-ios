@@ -184,7 +184,8 @@ private extension BookmarkSortOption {
 }
 
 extension Bookmark: SearchableDataModel {
+    /// Allows bookmarks to be searched by their title or the episode title
     var searchableContent: String {
-        [title, episode?.title].compactMap { $0 }.joined()
+        [title, episode?.title].compactMap { $0 }.joined(separator: " ")
     }
 }
