@@ -5,7 +5,7 @@ import PocketCastsUtils
 protocol SearchableDataModel: Hashable {
     /// Defines a field that the search text should match against
     /// This should contain all keywords for the model
-    var searchField: String { get }
+    var searchableContent: String { get }
 }
 
 /// A generic list view model that allows the user to filter the items using the given `searchText`.
