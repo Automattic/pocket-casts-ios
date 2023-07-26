@@ -65,6 +65,6 @@ final class SearchableListViewModelTests: XCTestCase {
     private struct TestableModel: SearchableDataModel {
         let title: String
 
-        var searchField: String { title }
+        var searchableContent: String { title }
     }
 }

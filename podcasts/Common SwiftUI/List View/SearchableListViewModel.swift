@@ -5,7 +5,7 @@ import PocketCastsUtils
 protocol SearchableDataModel: Hashable {
     /// Defines a field that the search text should match against
     /// This should contain all keywords for the model
-    var searchField: String { get }
+    var searchableContent: String { get }
 }
 
 /// A generic list view model that allows the user to filter the items using the given `searchText`.
@@ -67,7 +67,7 @@ class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewMo
         isSearching = true
 
         // Filter the items by the search field
-        filteredItems = items.filter { $0.searchField.localizedCaseInsensitiveContains(search) }
+        filteredItems = items.filter { $0.searchableContent.localizedCaseInsensitiveContains(search) }
     }
 
     // Listen for debounced changes the the `searchText` property
