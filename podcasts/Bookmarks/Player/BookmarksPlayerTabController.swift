@@ -110,10 +110,6 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 // MARK: - BookmarkListRouter
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
-    var alertController: UIViewController? {
-        self
-    }
-
     func bookmarkPlay(_ bookmark: Bookmark) {
         containerDelegate?.scrollToNowPlaying()
 

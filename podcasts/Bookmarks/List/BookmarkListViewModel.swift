@@ -1,20 +1,6 @@
 import Combine
 import PocketCastsDataModel
 
-protocol BookmarkListRouter: AnyObject {
-    func bookmarkPlay(_ bookmark: Bookmark)
-    func bookmarkEdit(_ bookmark: Bookmark)
-    func dismissBookmarksList()
-
-    var alertController: UIViewController? { get }
-}
-
-extension BookmarkListRouter {
-    func dismissBookmarksList() { }
-
-    var alertController: UIViewController? { SceneHelper.rootViewController() }
-}
-
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
 
@@ -145,7 +131,7 @@ extension BookmarkListViewModel {
 
 private extension BookmarkListViewModel {
     func confirmDeletion(_ delete: @escaping () -> Void) {
-        guard let controller = router?.alertController else { return }
+        guard let router else { return }
 
         let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
                                       message: L10n.bookmarkDeleteWarningBody,
@@ -156,7 +142,7 @@ private extension BookmarkListViewModel {
             delete()
         }))
 
-        controller.present(alert, animated: true, completion: nil)
+        router.presentBookmarkController(alert)
     }
 
     func actuallyDelete(_ items: [Bookmark]) {
