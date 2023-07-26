@@ -45,9 +45,8 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     }
 
     private var imageView: some View {
-        rowModel.episodeImage.map {
-            Image(uiImage: $0)
-                .resizable()
+        rowModel.episode.map {
+            EpisodeImage(episode: $0)
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
         }

@@ -1426,6 +1426,7 @@
 		C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
 		C7252863299B353A00A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
 		C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7252E112A718AD600E7D3C0 /* BookmarkListRouter.swift */; };
+		C7252E142A71950500E7D3C0 /* EpisodeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7252E132A71950500E7D3C0 /* EpisodeImage.swift */; };
 		C72CED2D289DA14F0017883A /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
 		C72CED2F289DA1650017883A /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
 		C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
@@ -3175,6 +3176,7 @@
 		C722245A2936C8FA006B3B55 /* StoryLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryLogoView.swift; sourceTree = "<group>"; };
 		C725285E299B315000A582C3 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		C7252E112A718AD600E7D3C0 /* BookmarkListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListRouter.swift; sourceTree = "<group>"; };
+		C7252E132A71950500E7D3C0 /* EpisodeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeImage.swift; sourceTree = "<group>"; };
 		C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		C72CED2E289DA1650017883A /* String+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Analytics.swift"; sourceTree = "<group>"; };
 		C72CED31289DA1900017883A /* TracksAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksAdapter.swift; sourceTree = "<group>"; };
@@ -7050,6 +7052,7 @@
 				C7DC401C2A67025D00883D03 /* Toast */,
 				C7E99F072A5E103A00E7CBAF /* List View */,
 				C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */,
+				C7252E132A71950500E7D3C0 /* EpisodeImage.swift */,
 			);
 			path = "Common SwiftUI";
 			sourceTree = "<group>";
@@ -9027,6 +9030,7 @@
 				40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */,
 				BD35BB6C1CF697650018D63E /* AudioUtils.swift in Sources */,
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
+				C7252E142A71950500E7D3C0 /* EpisodeImage.swift in Sources */,
 				BDA9668F2189805F00DF9370 /* UITableView+MiniPlayer.swift in Sources */,
 				BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */,
 				BD9313531D7970F1007A70FC /* SelectPodcastCell.swift in Sources */,
