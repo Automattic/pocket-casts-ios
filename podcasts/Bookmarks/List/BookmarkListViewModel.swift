@@ -184,7 +184,7 @@ private extension BookmarkSortOption {
 }
 
 extension Bookmark: SearchableDataModel {
-    var searchField: String {
+    var searchableContent: String {
         [title, episode?.title].compactMap { $0 }.joined()
     }
 }
