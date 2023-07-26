@@ -93,6 +93,7 @@ struct MessageSupportView_Previews: PreviewProvider {
     struct PreviewConfig: ZDConfig {
         let apiKey = "1234567"
         let baseURL = "https://example.com"
+        let newBaseURL = "https://example.com"
         let subject = "For Previews"
         let isFeedback = true
     }

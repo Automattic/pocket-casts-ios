@@ -241,13 +241,7 @@ class PlaybackQueue: NSObject {
     }
 
     func contains(episodeUuid: String) -> Bool {
-        let allEpisodes = DataManager.sharedManager.allUpNextPlaylistEpisodes()
-
-        for playlistEpisode in allEpisodes {
-            if playlistEpisode.episodeUuid == episodeUuid { return true }
-        }
-
-        return false
+        DataManager.sharedManager.upNextPlayListContains(episodeUuid: episodeUuid)
     }
 
     func allEpisodes(includeNowPlaying: Bool = true) -> [BaseEpisode] {

@@ -131,6 +131,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Välkommen till Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Lägg till bokmärke</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Lägg till en valfri rubrik för att identifiera detta bokmärke</string>
     <key>add_to_up_next</key>
     <string>Lägg till i Nästa</string>
     <key>after_playing</key>
@@ -233,8 +235,22 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>De första</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>bookmark_added</key>
+    <string>Bokmärke tillagt</string>
+    <key>bookmark_added_notification</key>
+    <string>Bokmärke ”%1$@” tillagt</string>
+    <key>bookmark_default_title</key>
+    <string>Bokmärk</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Ta bort bokmärken?</string>
     <key>bookmarks</key>
     <string>Bokmärken</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ bokmärken</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 bokmärke</string>
     <key>bottom</key>
     <string>Längst ner</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +287,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Nästa-kö</string>
     <key>change_app_icon</key>
     <string>Ändra appikon</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Ändra rubriken som identifierar detta bokmärke</string>
+    <key>change_bookmark_title</key>
+    <string>Ändra rubrik</string>
     <key>change_email</key>
     <string>Ändra e-postadress</string>
     <key>change_email_conf</key>
@@ -1165,6 +1185,12 @@ podcasts med dig</string>
     <string>Nästa avsnitt</string>
     <key>next_payment_format</key>
     <string>Nästa betalning: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Hörlursinställningar</string>
+    <key>no_bookmarks_message</key>
+    <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
+    <key>no_bookmarks_title</key>
+    <string>Inga bokmärken än</string>
     <key>none</key>
     <string>Ingen</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1777,8 @@ gratis provperiod på %1$@</string>
     <string>Förnya din prenumeration</string>
     <key>retry</key>
     <string>Försök igen</string>
+    <key>save_bookmark</key>
+    <string>Spara bokmärke</string>
     <key>search</key>
     <string>Sök</string>
     <key>search_label</key>
@@ -1777,6 +1805,8 @@ gratis provperiod på %1$@</string>
     <string>Välj alla ovan</string>
     <key>select_all_below</key>
     <string>Välj alla nedan</string>
+    <key>select_bookmarks</key>
+    <string>Välj bokmärken</string>
     <key>select_episodes</key>
     <string>Välj avsnitt</string>
     <key>selected_count_format</key>
@@ -2313,6 +2343,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Sortera efter</string>
     <key>sort_episodes</key>
     <string>Sortera avsnitt</string>
+    <key>sort_option_timestamp</key>
+    <string>Tidsstämpel</string>
     <key>speed</key>
     <string>Hastighet</string>
     <key>star_episode</key>

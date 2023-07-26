@@ -135,6 +135,10 @@
     <string>Afegir a la llista 'Tot seguit'</string>
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
+    <key>announcement_autoplay_description</key>
+    <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Ja pots gaudir de la reproducció automàtica!</string>
     <key>app_badge</key>
     <string>Insígnia de l'aplicació</string>
     <key>app_icon_classic</key>
@@ -607,6 +611,8 @@
     <string>Aturar totes les descàrregues</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>enable_it_now</key>
+    <string>Activar-ho ara</string>
     <key>eoy_card_description</key>
     <string>Consulta quins han estat els podcasts i les categories que més has escoltat, les estadístiques d'escolta i molt més.</string>
     <key>eoy_create_account_to_see</key>
@@ -1066,6 +1072,8 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Marca-ho a com a reproduït</string>
     <key>mark_unplayed_short</key>
     <string>Marcar com a no reproduït</string>
+    <key>maybe_later</key>
+    <string>Potser després</string>
     <key>mini_player_close</key>
     <string>Tancar i esborrar 'Tot seguit'</string>
     <key>minute_listened</key>
@@ -1886,6 +1894,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Nous episodis des que s'ha obert l'aplicació</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total d'episodis sense reproduir</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>So de confirmació de marcadors</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Reprodueix un so de confirmació en crear un marcador amb els auriculars.</string>
     <key>settings_collect_information</key>
     <string>Recopilar la informació</string>
     <key>settings_collect_information_additional_information</key>
@@ -1964,6 +1976,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Vols canviar tots els teus podcasts actuals per %1$@ episodis arxivats?</string>
     <key>settings_general_auto_open_player</key>
     <string>Obrir el reproductor automàticament</string>
+    <key>settings_general_autoplay</key>
+    <string>Reproducció automàtica</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Si no tens cap episodi a la cua, es reproduirà els del podcast o llista que estiguis escoltant en aquell moment.</string>
     <key>settings_general_defaults_header</key>
     <string>PREDETERMINATS</string>
     <key>settings_general_episode_groups</key>
@@ -2020,6 +2036,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Quan toquis un episodi de la llista 'Tot seguit' aquest es reproduirà. Quan premis de forma perllongada s'ensenyaran les opcions dels episodis. Per canviar una per l'altra, desactiva aquesta opció</string>
     <key>settings_global_settings</key>
     <string>Configuració general</string>
+    <key>settings_headphone_controls</key>
+    <string>Controls dels auriculars</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personalitza les accions que duen a terme els controls més habituals dels auriculars.</string>
     <key>settings_help</key>
     <string>Ajuda i comentaris</string>
     <key>settings_import_export</key>
@@ -2032,6 +2052,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>AL MENÚ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Els episodis inactius són aquells que no has reproduit o descarregat en el temps que vas especificar anteriorment. Les descàrregues s'eliminen quan l'episodi s'arxiva</string>
+    <key>settings_next_action</key>
+    <string>Acció següent</string>
     <key>settings_not_in_filters</key>
     <string>No està inclòs a cap filtre</string>
     <key>settings_notifications</key>
@@ -2046,6 +2068,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Velocitat de reproducció</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ al mes / %2$@ a l'any</string>
+    <key>settings_previous_action</key>
+    <string>Acció anterior</string>
     <key>settings_privacy</key>
     <string>Privacitat</string>
     <key>settings_queue_position</key>

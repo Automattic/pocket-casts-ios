@@ -6,18 +6,21 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
-			<key>NSExtensionActivationRule</key>
-			<dict>
-				<key>NSExtensionActivationAttachmentAttribute</key>
-				<dict>
-					<key>NSExtensionActivationAttachmentFileExtensions</key>
-					<array>
-						<string>opml</string>
-					</array>
-				</dict>
-				<key>NSExtensionActivationSupportsAttachmentsWithMaxCount</key>
-				<integer>1</integer>
-			</dict>
+            <key>NSExtensionActivationRule</key>
+            <string>SUBQUERY (
+                extensionItems,
+                $extensionItem,
+                SUBQUERY (
+                $extensionItem.attachments,
+                $attachment,
+                (
+                ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "unofficial.opml"
+                || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.opml"
+                || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.opml.opml"
+                )
+                ).@count == 1
+                ).@count == 1
+            </string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>

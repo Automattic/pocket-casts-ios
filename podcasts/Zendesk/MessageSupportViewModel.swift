@@ -44,6 +44,10 @@ class MessageSupportViewModel: ObservableObject {
     let attachedLogsView: SupportLogsView
     let config: ZDConfig
 
+    // MARK: Retry
+
+    private var isRetrying = false
+
     // MARK: Private vars
 
     private var cancellables = Set<AnyCancellable>()
@@ -145,7 +149,7 @@ class MessageSupportViewModel: ObservableObject {
                                                          customFields: customFields,
                                                          tags: self.config.tags)
 
-                    return self.supportService.submitSupportRequest(requestObject)
+                    return self.supportService.submitSupportRequest(requestObject, isRetrying: isRetrying)
                 }
             }
             .receive(on: DispatchQueue.main)
@@ -153,9 +157,16 @@ class MessageSupportViewModel: ObservableObject {
                 isWorking.toggle()
                 switch completion {
                 case let .failure(error):
-                    self.completion = .failure(error: error)
+                    if self.isRetrying {
+                        self.isRetrying = false
+                        self.completion = .failure(error: error)
+                    } else {
+                        self.isRetrying = true
+                        self.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
+                    }
                 case .finished:
                     self.completion = .success
+                    self.isRetrying = false
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)

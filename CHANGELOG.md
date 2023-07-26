@@ -1,6 +1,11 @@
+7.45
+-----
+
+
 7.44
 -----
 - Add a share action from the episode row [#966]
+- Speed up checking if a podcast is in UpNext, slightly improving app responsiveness [#951]
 
 7.43
 -----
