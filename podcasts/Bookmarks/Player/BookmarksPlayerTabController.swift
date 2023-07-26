@@ -117,7 +117,7 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
         containerDelegate?.scrollToNowPlaying()
 
-        bookmarkManager.play(bookmark)
+        playbackManager.playBookmark(bookmark)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

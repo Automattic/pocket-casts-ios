@@ -38,7 +38,7 @@ extension BookmarksPodcastListController: BookmarkListRouter {
     }
 
     func bookmarkPlay(_ bookmark: Bookmark) {
-        bookmarkManager.play(bookmark)
+        playbackManager.playBookmark(bookmark)
         dismiss(animated: true)
     }
 
