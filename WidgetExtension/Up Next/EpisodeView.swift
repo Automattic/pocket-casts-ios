@@ -31,7 +31,7 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episode: EpisodeEntity(id: UUID(uuidString: episode.episodeUuid)!), play: !isPlaying)) {
+                Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid, play: !isPlaying)) {
                     SmallArtworkView(imageData: episode.imageData)
                 }
                 .toggleStyle(WidgetPlayToggleStyle())

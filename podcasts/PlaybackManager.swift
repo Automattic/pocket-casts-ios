@@ -1876,19 +1876,15 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 
     @objc private func handlePlaybackRequested(_ notification: Notification) {
-        if notification.object != nil {
-            print("notification has object")
-        }
         guard let episodeUuid = (notification.object as? String)?.lowercased() else {
-            print("❌ playback guard failed")
+            print("❌ episodeUuid was not provided or is not a string")
             return
         }
-        print("🤞 handle playback!")
-
-        print(episodeUuid)
+        print("🤞 handle playback for \(episodeUuid)!")
 
         var podcastEpisode: BaseEpisode? = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
 
+        // is this necessary, or is `findEpisode` enough. Need more detail on finding episodes.
         if podcastEpisode == nil {
             podcastEpisode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid)
         }
@@ -1909,7 +1905,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             self.pause()
         } else {
             self.switchTo(episodeToPlay: podcastEpisode, moveExistingToUpNext: true, autoPlay: true) {
-                print("🔥 episode started playing... do I need to update the widget?")
+                print("🔥 episode started playing")
             }
         }
     }
