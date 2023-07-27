@@ -1903,8 +1903,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        self.switchTo(episodeToPlay: podcastEpisode, moveExistingToUpNext: true, autoPlay: true) {
-            print("🔥 episode started playing... do I need to update the widget?")
+        let current = currentEpisode()
+
+        if playing() && current?.uuid == podcastEpisode.uuid {
+            self.pause()
+        } else {
+            self.switchTo(episodeToPlay: podcastEpisode, moveExistingToUpNext: true, autoPlay: true) {
+                print("🔥 episode started playing... do I need to update the widget?")
+            }
         }
     }
 }
