@@ -3,7 +3,7 @@ import WidgetKit
 import os
 import PocketCastsDataModel
 
-struct PlayEpisodeIntent: AppIntent {
+struct PlayEpisodeIntent: AudioPlaybackIntent {
     static var title: LocalizedStringResource = "Play episode"
     static var isDiscoverable = false // for now only to be used in the Now Playing widget
 
