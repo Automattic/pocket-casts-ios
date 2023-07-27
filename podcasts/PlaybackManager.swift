@@ -79,6 +79,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePlaybackRequested), name: Constants.Notifications.playbackRequested, object: nil)
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
         DispatchQueue.global().async {
             self.updateAllNowPlayingData()
@@ -1873,6 +1874,39 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+
+    @objc private func handlePlaybackRequested(_ notification: Notification) {
+        if notification.object != nil {
+            print("notification has object")
+        }
+        guard let episodeUuid = (notification.object as? String)?.lowercased() else {
+            print("❌ playback guard failed")
+            return
+        }
+        print("🤞 handle playback!")
+
+        print(episodeUuid)
+
+        var podcastEpisode: BaseEpisode? = DataManager.sharedManager.findEpisode(uuid: episodeUuid)
+
+        if podcastEpisode == nil {
+            podcastEpisode = DataManager.sharedManager.findUserEpisode(uuid: episodeUuid)
+        }
+
+//        // is this necessary, or is `findEpisode` enough. Need more detail on finding episodes.
+//        if podcastEpisode == nil {
+//            podcastEpisode = DataManager.sharedManager.findPlaylistEpisode(uuid: episodeUuid)
+//        }
+
+        guard let podcastEpisode else {
+            print("❌ episode doesn't exist")
+            return
+        }
+
+        self.switchTo(episodeToPlay: podcastEpisode, moveExistingToUpNext: true, autoPlay: true) {
+            print("🔥 episode started playing... do I need to update the widget?")
+        }
+    }
 }
 
 extension PlaybackManager {

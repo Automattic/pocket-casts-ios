@@ -31,7 +31,8 @@ struct PlayEpisodeIntent: AppIntent {
 
         // TODO: HOW TO DO THIS WITHOUT ADDING ALL THE NECESSARY DEPENDENCIES???
         // can I fire some "notification" to trigger it? Media Playback Intent?
-        let podcastEpisode = DataManager.sharedManager.findEpisode(uuid: episode.id.uuidString)
+//        let podcastEpisode = DataManager.sharedManager.findEpisode(uuid: episode.id.uuidString)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackRequested, object: episode.id.uuidString)
 
 //        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.id.uuidString) {
 //            PlaybackActionHelper.playPause()
