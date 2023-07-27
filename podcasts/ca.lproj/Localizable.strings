@@ -129,10 +129,16 @@
     <string>Benvigut a Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Benvingut a Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Afegeix un favorit</string>
     <key>add_to_up_next</key>
     <string>Afegir a la llista 'Tot seguit'</string>
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
+    <key>announcement_autoplay_description</key>
+    <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Ja pots gaudir de la reproducció automàtica!</string>
     <key>app_badge</key>
     <string>Insígnia de l'aplicació</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@
     <string>Primer</string>
     <key>back</key>
     <string>Enrere</string>
+    <key>bookmarks</key>
+    <string>Favorits</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -261,6 +269,8 @@
     <string>Velocitat de reproducció</string>
     <key>carplay_up_next_queue</key>
     <string>Llista 'Tot seguit'</string>
+    <key>change_app_icon</key>
+    <string>Canvia la icona de l'app</string>
     <key>change_email</key>
     <string>Canviar l'adreça de correu electrònic</string>
     <key>change_email_conf</key>
@@ -311,6 +321,8 @@
     <string>Confirmar la novca contrasenya</string>
     <key>continue</key>
     <string>Segueix</string>
+    <key>copy</key>
+    <string>Copiar</string>
     <key>create_account</key>
     <string>Crear un compte</string>
     <key>create_account_app_store_error_message</key>
@@ -599,6 +611,8 @@
     <string>Aturar totes les descàrregues</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>enable_it_now</key>
+    <string>Activar-ho ara</string>
     <key>eoy_card_description</key>
     <string>Consulta quins han estat els podcasts i les categories que més has escoltat, les estadístiques d'escolta i molt més.</string>
     <key>eoy_create_account_to_see</key>
@@ -1058,6 +1072,8 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Marca-ho a com a reproduït</string>
     <key>mark_unplayed_short</key>
     <string>Marcar com a no reproduït</string>
+    <key>maybe_later</key>
+    <string>Potser després</string>
     <key>mini_player_close</key>
     <string>Tancar i esborrar 'Tot seguit'</string>
     <key>minute_listened</key>
@@ -1223,6 +1239,16 @@ ACTUALITZACIONS</string>
     <string>Converteix-te en membre Patron i gaudeix de totes les funcions de Pocket Casts</string>
     <key>patron_subscribe_to</key>
     <string>Subscriu-te a Patron</string>
+    <key>patron_thank_you</key>
+    <string>Gràcies per la teva ajuda!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Manteniu premut el botó de desbloqueig que hi ha a continuació per rebre algunes mostres del nostre agraïment.</string>
+    <key>patron_unlock_release</key>
+    <string>Prem per desbloquejar</string>
+    <key>patron_unlock_word</key>
+    <string>desbloquejar</string>
+    <key>patron_unlocking</key>
+    <string>Desbloquejant</string>
     <key>pause</key>
     <string>Pausa</string>
     <key>phone</key>
@@ -1297,6 +1323,8 @@ ACTUALITZACIONS</string>
     <string>Selector de la ruta</string>
     <key>player_share_header</key>
     <string>COMPARTEIX L'ENLLAÇ A</string>
+    <key>player_show_notes_title</key>
+    <string>Descripció</string>
     <key>player_user_episode_download_error</key>
     <string>Error de la descàrrega</string>
     <key>player_user_episode_playback_error</key>
@@ -1866,6 +1894,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Nous episodis des que s'ha obert l'aplicació</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total d'episodis sense reproduir</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>So de confirmació de marcadors</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Reprodueix un so de confirmació en crear un marcador amb els auriculars.</string>
     <key>settings_collect_information</key>
     <string>Recopilar la informació</string>
     <key>settings_collect_information_additional_information</key>
@@ -1944,6 +1976,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Vols canviar tots els teus podcasts actuals per %1$@ episodis arxivats?</string>
     <key>settings_general_auto_open_player</key>
     <string>Obrir el reproductor automàticament</string>
+    <key>settings_general_autoplay</key>
+    <string>Reproducció automàtica</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Si no tens cap episodi a la cua, es reproduirà els del podcast o llista que estiguis escoltant en aquell moment.</string>
     <key>settings_general_defaults_header</key>
     <string>PREDETERMINATS</string>
     <key>settings_general_episode_groups</key>
@@ -2000,6 +2036,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Quan toquis un episodi de la llista 'Tot seguit' aquest es reproduirà. Quan premis de forma perllongada s'ensenyaran les opcions dels episodis. Per canviar una per l'altra, desactiva aquesta opció</string>
     <key>settings_global_settings</key>
     <string>Configuració general</string>
+    <key>settings_headphone_controls</key>
+    <string>Controls dels auriculars</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personalitza les accions que duen a terme els controls més habituals dels auriculars.</string>
     <key>settings_help</key>
     <string>Ajuda i comentaris</string>
     <key>settings_import_export</key>
@@ -2012,6 +2052,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>AL MENÚ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Els episodis inactius són aquells que no has reproduit o descarregat en el temps que vas especificar anteriorment. Les descàrregues s'eliminen quan l'episodi s'arxiva</string>
+    <key>settings_next_action</key>
+    <string>Acció següent</string>
     <key>settings_not_in_filters</key>
     <string>No està inclòs a cap filtre</string>
     <key>settings_notifications</key>
@@ -2026,6 +2068,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Velocitat de reproducció</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ al mes / %2$@ a l'any</string>
+    <key>settings_previous_action</key>
+    <string>Acció anterior</string>
     <key>settings_privacy</key>
     <string>Privacitat</string>
     <key>settings_queue_position</key>
@@ -2064,6 +2108,38 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Salta't la música de la introducció i del final com a bon usuari experimentat que ets.</string>
     <key>settings_stats</key>
     <string>Estadístiques</string>
+    <key>settings_status_account_service</key>
+    <string>Servei del compte</string>
+    <key>settings_status_account_service_description</key>
+    <string>El servei es fa servir per emmagatzemar el progrés dels episodis, les subscripcions, els filtres, etc.</string>
+    <key>settings_status_description</key>
+    <string>Comprova la teva connexió amb serveis importants. Us ajudem a diagnosticar problemes de xarxes, proxies, VPN, bloquejadors de publicitat i aplicacions de seguretat.</string>
+    <key>settings_status_discover</key>
+    <string>Descobrir i cercar</string>
+    <key>settings_status_discover_description</key>
+    <string>La secció Descobrir l'aplicació i la cerca de podcast.</string>
+    <key>settings_status_host</key>
+    <string>Proveïdors d'allotjament més comuns de podcasts</string>
+    <key>settings_status_host_description</key>
+    <string>Els autors de podcast allotgen fitxers d'episodi en diversos proveïdors d'allotjament no gestionats per Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>La causa més comuna és que teniu un bloquejador d'anuncis configurat al vostre telèfon o xarxa. Haureu de desbloquejar aquest domini per baixar podcasts. Tingueu en compte que Pocket Casts no allotja ni tria on s'allotgen els podcasts, això depèn de l'autor del programa i està fora del nostre control.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Comprova l'estat de la xarxa.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>No és possible connectar-se a Internet. Prova de connectar a una xarxa diferent, per exemple a les dades mòbils.</string>
+    <key>settings_status_page</key>
+    <string>Pàgina d'estat</string>
+    <key>settings_status_refresh_service</key>
+    <string>Servei d'actualizació</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>Aquest servei s'empra per cercar episodis nous.</string>
+    <key>settings_status_run</key>
+    <string>Executar ara</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>La causa més comuna és que teniu un bloquejador d'anuncis configurat al vostre telèfon o xarxa. Haureu de desbloquejar el domini %1$@</string>
     <key>settings_storage</key>
     <string>Emmagatzematge i ús de dades</string>
     <key>settings_storage_data_warning</key>
@@ -2293,6 +2369,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Expira el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
+    <key>support_watch_help_message</key>
+    <string>Si tens problemes amb l'aplicació Pocket Casts Watch, podem enviar-vos els vostres registres de portàtils per ajudar-vos millor. Per fer-ho, obriu Pocket Casts al vostre rellotge.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>He obert l'app al Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Envia sense els logs del Watch</string>
+    <key>support_watch_help_title</key>
+    <string>Busques ajuda per a l'aplicació Watch?</string>
     <key>supporter</key>
     <string>Col·laborador</string>
     <key>supporter_contributions</key>

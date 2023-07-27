@@ -129,10 +129,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>歡迎使用 Pocket Casts！</string>
     <key>account_welcome_plus</key>
     <string>歡迎使用 Pocket Casts Plus！</string>
+    <key>add_bookmark</key>
+    <string>新增書籤</string>
     <key>add_to_up_next</key>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>
     <string>播放後</string>
+    <key>announcement_autoplay_description</key>
+    <string>如果「接下來播放」佇列是空的，而你開始聆聽某一單集，自動播放功能會繼續播放同一個節目或清單的單集。</string>
+    <key>announcement_autoplay_title</key>
+    <string>我們推出自動播放功能了！</string>
     <key>app_badge</key>
     <string>應用程式徽章</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>頂端</string>
     <key>back</key>
     <string>上一步</string>
+    <key>bookmarks</key>
+    <string>書籤</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>確認新密碼</string>
     <key>continue</key>
     <string>繼續</string>
+    <key>copy</key>
+    <string>複製</string>
     <key>create_account</key>
     <string>建立帳號</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>停止所有下載項目</string>
     <key>edit</key>
     <string>編輯</string>
+    <key>enable_it_now</key>
+    <string>立即啟用</string>
     <key>eoy_card_description</key>
     <string>查看你最熱門的 Podcast、分類、收聽統計等資料。</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>標記為已播放</string>
     <key>mark_unplayed_short</key>
     <string>標記為未播放</string>
+    <key>maybe_later</key>
+    <string>稍後再說</string>
     <key>mini_player_close</key>
     <string>關閉並清除「接下來播放」</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>路徑選取器</string>
     <key>player_share_header</key>
     <string>分享連結</string>
+    <key>player_show_notes_title</key>
+    <string>說明</string>
     <key>player_user_episode_download_error</key>
     <string>下載錯誤</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>應用程式開啟以來的新單集</string>
     <key>settings_badge_total_unplayed</key>
     <string>未播放總單集</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>書籤確認音效</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>在透過耳機建立書籤後播放確認音效。</string>
     <key>settings_collect_information</key>
     <string>收集資訊</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你想將所有現有 Podcast 節目改為%1$@封存的單集嗎？</string>
     <key>settings_general_auto_open_player</key>
     <string>自動開啟播放器</string>
+    <key>settings_general_autoplay</key>
+    <string>自動播放</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>如果「接下來播放」佇列是空的，我們會播放你正在聆聽的同一個 Podcast 或清單內的單集。</string>
     <key>settings_general_defaults_header</key>
     <string>預設</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>點選「接下來播放」中的單集就會播放。長按會顯示單集選項。關閉以切換這些選項。</string>
     <key>settings_global_settings</key>
     <string>全域設定</string>
+    <key>settings_headphone_controls</key>
+    <string>耳機控制項</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>自訂由最常見耳機控制項完成的動作。</string>
     <key>settings_help</key>
     <string>說明與意見回饋</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在選單中</string>
     <key>settings_inactive_episodes_msg</key>
     <string>未收聽單集是指：在上方指定時間內未播放或下載的單集。單集封存後，就會移除下載項目。</string>
+    <key>settings_next_action</key>
+    <string>下一個動作</string>
     <key>settings_not_in_filters</key>
     <string>未包含在任何篩選器中</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>播放速度</string>
     <key>settings_plus_pricing_format</key>
     <string>每月 %1$@/每年 %2$@</string>
+    <key>settings_previous_action</key>
+    <string>上一個動作</string>
     <key>settings_privacy</key>
     <string>隱私權</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@後到期</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
+    <key>support_watch_help_message</key>
+    <string>如果 Pocket Casts Watch 應用程式發生問題，我們可以傳送你的穿戴記錄給你以提供協助。 若要進行此操作，請在 Watch 上開啟 Pocket Casts。</string>
+    <key>support_watch_help_opened_app</key>
+    <string>我已開啟 Watch 應用程式</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>不附加 Watch 記錄並傳送</string>
+    <key>support_watch_help_title</key>
+    <string>需要 Watch 應用程式的相關協助嗎？</string>
     <key>supporter</key>
     <string>支持者</string>
     <key>supporter_contributions</key>

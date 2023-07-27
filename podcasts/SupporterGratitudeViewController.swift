@@ -68,7 +68,7 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
 
     func signingProcessCompleted() {
         dismiss(animated: true, completion: {
-            var uuid: String? = self.bundleUuid ?? nil
+            var uuid: String? = self.bundleUuid
             if self.bundleUuid == nil, let podcastUuid = self.podcastInfo?.uuid, let containerBundle = SubscriptionHelper.bundleSubscriptionForPodcast(podcastUuid: podcastUuid) {
                 uuid = containerBundle.bundleUuid
             }

@@ -62,7 +62,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == PodcastViewController.headerSection {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.headerCellId, for: indexPath) as! PodcastHeadingTableCell
-            cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self)
+            cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
             cell.buttonsEnabled = !isMultiSelectEnabled
             return cell
         }
@@ -71,6 +71,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         if let listEpisode = itemAtRow as? ListEpisode {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.episodeCellId, for: indexPath) as! EpisodeCell
             cell.hidesArtwork = true
+
+            if let podcast {
+                cell.playlist = .podcast(uuid: podcast.uuid)
+            }
+
             cell.delegate = self
             cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
             cell.shouldShowSelect = isMultiSelectEnabled
@@ -150,7 +155,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             } else if indexPath.section == PodcastViewController.allEpisodesSection {
                 guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
-                let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen)
+                let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen, playlist: .podcast(uuid: podcast.uuid))
                 episodeController.modalPresentationStyle = .formSheet
                 present(episodeController, animated: true, completion: nil)
             }

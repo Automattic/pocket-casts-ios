@@ -129,10 +129,16 @@
     <string>Pocket Casts へようこそ !</string>
     <key>account_welcome_plus</key>
     <string>Pocket Casts Plus へようこそ !</string>
+    <key>add_bookmark</key>
+    <string>ブックマークを追加</string>
     <key>add_to_up_next</key>
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
     <string>再生後</string>
+    <key>announcement_autoplay_description</key>
+    <string>「次のエピソード」の待機リストが空の場合にエピソードの視聴を開始すると、自動再生機能により表示またはリストされているエピソードの再生が続行します。</string>
+    <key>announcement_autoplay_title</key>
+    <string>自動再生機能が登場</string>
     <key>app_badge</key>
     <string>アプリバッジ</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@
     <string>最初</string>
     <key>back</key>
     <string>戻る</string>
+    <key>bookmarks</key>
+    <string>ブックマーク</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@
     <string>新しいパスワードを確認</string>
     <key>continue</key>
     <string>次へ</string>
+    <key>copy</key>
+    <string>コピー</string>
     <key>create_account</key>
     <string>アカウントを作成</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@
     <string>すべてのダウンロードを停止</string>
     <key>edit</key>
     <string>編集する</string>
+    <key>enable_it_now</key>
+    <string>すぐに有効化</string>
     <key>eoy_card_description</key>
     <string>人気のポッドキャスト、カテゴリー、視聴統計などを確認します。</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>再生済みとしてマーク</string>
     <key>mark_unplayed_short</key>
     <string>未再生としてマーク</string>
+    <key>maybe_later</key>
+    <string>後で確認する</string>
     <key>mini_player_close</key>
     <string>ミニプレイヤーを閉じて次のエピソードをクリア</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ルーティング端末セレクタ</string>
     <key>player_share_header</key>
     <string>リンクを共有</string>
+    <key>player_show_notes_title</key>
+    <string>説明</string>
     <key>player_user_episode_download_error</key>
     <string>ダウンロードエラー</string>
     <key>player_user_episode_playback_error</key>
@@ -1884,6 +1900,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アプリ開始後の新エピソード</string>
     <key>settings_badge_total_unplayed</key>
     <string>合計未再生数</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>確認音声をブックマーク</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>ヘッドフォンでブックマークを作成したら、確認音声を再生します。</string>
     <key>settings_collect_information</key>
     <string>情報を収集</string>
     <key>settings_collect_information_additional_information</key>
@@ -1962,6 +1982,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>すべての既存ポッドキャストで、アーカイブ済みエピソードを%1$@に変更しますか ?</string>
     <key>settings_general_auto_open_player</key>
     <string>プレーヤーを自動的に開く</string>
+    <key>settings_general_autoplay</key>
+    <string>自動再生</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>「次のエピソード」の待機リストが空の場合、現在視聴中のものと同じポッドキャストまたはリストからのエピソードが再生されます。</string>
     <key>settings_general_defaults_header</key>
     <string>デフォルト</string>
     <key>settings_general_episode_groups</key>
@@ -2018,6 +2042,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードでエピソード項目をタップすると、その項目が再生されます。 長押しすると、エピソードオプションが表示されます。 オフにすると逆になります。</string>
     <key>settings_global_settings</key>
     <string>グローバル設定</string>
+    <key>settings_headphone_controls</key>
+    <string>ヘッドフォン操作</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>よく使用されるヘッドフォン操作で実行されるアクションをカスタマイズします。</string>
     <key>settings_help</key>
     <string>ヘルプ &amp; フィードバック</string>
     <key>settings_import_export</key>
@@ -2030,6 +2058,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューに表示</string>
     <key>settings_inactive_episodes_msg</key>
     <string>非アクティブエピソードとは上記指定時間に再生またはダウンロードされていないエピソードです。 エピソードがアーカイブされるとダウンロードファイルは削除されます。</string>
+    <key>settings_next_action</key>
+    <string>次のアクション</string>
     <key>settings_not_in_filters</key>
     <string>どのフィルターにも含まれていません</string>
     <key>settings_notifications</key>
@@ -2044,6 +2074,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>再生速度</string>
     <key>settings_plus_pricing_format</key>
     <string>月額%1$@ / 年額%2$@</string>
+    <key>settings_previous_action</key>
+    <string>前のアクション</string>
     <key>settings_privacy</key>
     <string>プライバシー</string>
     <key>settings_queue_position</key>
@@ -2344,6 +2376,14 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
+    <key>support_watch_help_message</key>
+    <string>Pocket Casts Watch アプリで問題が発生した場合は、ウェアラブルログを送信するとサポートの際に役立ちます。 これを行うには、Watch で Pocket Cast を開いてください。</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Watch アプリを開きました</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Watch ログなしで送信</string>
+    <key>support_watch_help_title</key>
+    <string>Watch アプリのヘルプをお探しですか ?</string>
     <key>supporter</key>
     <string>サポーター</string>
     <key>supporter_contributions</key>

@@ -14,6 +14,11 @@ struct ContentSizeGeometryReader<Content: View>: View {
 
     @State private var contentSize: CGSize = .zero
 
+    init(@ViewBuilder content: @escaping (GeometryProxy) -> Content, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
+        self.content = content
+        self.contentSizeUpdated = contentSizeUpdated
+    }
+
     var body: some View {
         GeometryReader { proxy in
             ContentSizeReader(contentSize: $contentSize) {

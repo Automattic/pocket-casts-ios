@@ -129,10 +129,16 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Willkommen bei Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Willkommen bei Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Lesezeichen hinzufügen</string>
     <key>add_to_up_next</key>
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>
     <string>Nach der Wiedergabe</string>
+    <key>announcement_autoplay_description</key>
+    <string>Wenn deine „Als Nächstes“-Warteschlange leer ist und du anfängst, eine Folge zu hören, spielt Autoplay weiter Folgen aus dieser Show oder Liste ab.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Autoplay ist da!</string>
     <key>app_badge</key>
     <string>App-Badge</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Erste</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>bookmarks</key>
+    <string>Lesezeichen</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Neues Passwort bestätigen</string>
     <key>continue</key>
     <string>Fortsetzen</string>
+    <key>copy</key>
+    <string>Kopieren</string>
     <key>create_account</key>
     <string>Konto erstellen</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Alle Downloads anhalten</string>
     <key>edit</key>
     <string>Bearbeiten</string>
+    <key>enable_it_now</key>
+    <string>Jetzt aktivieren</string>
     <key>eoy_card_description</key>
     <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an.</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ Podcasts mit</string>
     <string>Als angehört markieren</string>
     <key>mark_unplayed_short</key>
     <string>Als nicht angehört markieren</string>
+    <key>maybe_later</key>
+    <string>Vielleicht später</string>
     <key>mini_player_close</key>
     <string>Schließen und Warteschlange löschen</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Weiterleitungsauswahl</string>
     <key>player_share_header</key>
     <string>LINK TEILEN MIT</string>
+    <key>player_show_notes_title</key>
+    <string>Beschreibung</string>
     <key>player_user_episode_download_error</key>
     <string>Downloadfehler</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@ Gratis-Test für %1$@</string>
     <string>Neu seit Öffnen der App</string>
     <key>settings_badge_total_unplayed</key>
     <string>Anzahl nicht angehörter Titel</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Bestätigungston für Lesezeichen</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Spiele einen Bestätigungston, nachdem du ein Lesezeichen mit deinen Kopfhörern erstellt hast.</string>
     <key>settings_collect_information</key>
     <string>Informationen erfassen</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@ Gratis-Test für %1$@</string>
     <string>Sollen archivierte Folgen für alle deine vorhandenen Podcasts %1$@ werden?</string>
     <key>settings_general_auto_open_player</key>
     <string>Player automatisch öffnen</string>
+    <key>settings_general_autoplay</key>
+    <string>Autoplay</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Wenn deine „Als Nächstes“-Warteschlange leer ist, spielen wir Folgen aus dem Podcast oder der Liste, die du dir gerade anhörst.</string>
     <key>settings_general_defaults_header</key>
     <string>STANDARD</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@ Gratis-Test für %1$@</string>
     <string>Wenn du eine Folge in der Warteschlange antippst, wird sie abgespielt. Durch Gedrückthalten werden Optionen für die Folgen angezeigt. Wenn du diese Option deaktivierst, ist es umgekehrt.</string>
     <key>settings_global_settings</key>
     <string>Allgemeine Einstellungen</string>
+    <key>settings_headphone_controls</key>
+    <string>Kopfhörersteuerungen</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Passe die Aktionen der gängigsten Kopfhörersteuerungen an.</string>
     <key>settings_help</key>
     <string>Hilfe &amp; Feedback</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@ Gratis-Test für %1$@</string>
     <string>IM MENÜ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktive Folgen sind Folgen, die du in der oben angegebenen Zeit nicht angehört oder heruntergeladen hast. Downloads werden entfernt, wenn die Folge archiviert wird.</string>
+    <key>settings_next_action</key>
+    <string>Nächste Aktion</string>
     <key>settings_not_in_filters</key>
     <string>In keinem Filter enthalten</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@ Gratis-Test für %1$@</string>
     <string>Wiedergabegeschwindigkeit</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ pro Monat / %2$@ pro Jahr</string>
+    <key>settings_previous_action</key>
+    <string>Vorherige Aktion</string>
     <key>settings_privacy</key>
     <string>Datenschutz</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Läuft ab in: %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
+    <key>support_watch_help_message</key>
+    <string>Wenn du Probleme mit Pocket Casts in der Watch-App hast, können wir dir Wearable-Protokolle senden, um dich besser zu unterstützen. Öffne dafür Pocket Casts auf deiner Watch.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ich habe die Watch-App geöffnet</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Ohne Watch-Protokolle senden</string>
+    <key>support_watch_help_title</key>
+    <string>Du brauchst Unterstützung bei der Watch-App?</string>
     <key>supporter</key>
     <string>Unterstützer</string>
     <key>supporter_contributions</key>

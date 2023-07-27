@@ -123,7 +123,7 @@ public class ServerSettings {
     }
 
     public class func lastClearHistoryDate() -> Date? {
-        UserDefaults.standard.value(forKey: ServerConstants.UserDefaults.lastClearHistoryDate) as? Date ?? nil
+        UserDefaults.standard.value(forKey: ServerConstants.UserDefaults.lastClearHistoryDate) as? Date
     }
 
     // MARK: Marketing Opt In
@@ -153,7 +153,7 @@ public class ServerSettings {
     }
 
     public class func iapUnverifiedPurchaseReceiptDate() -> Date? {
-        UserDefaults.standard.object(forKey: iapUnverifiedPurchaseReceipDatetKey) as? Date ?? nil
+        UserDefaults.standard.object(forKey: iapUnverifiedPurchaseReceipDatetKey) as? Date
     }
 
     // MARK: Files last modified

@@ -2477,11 +2477,17 @@
 /* Setting toggle to modify how a tap is handled in the up next queue. */
 "settings_general_up_next_tap" = "Play Up Next On Tap";
 
+/* Setting toggle to modify if a new episode is played after the current one ends. In most languages we believe Autoplay is understandable and might not need a translation. */
+"settings_general_autoplay" = "Autoplay";
+
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is off. */
 "settings_general_up_next_tap_off_subtitle" = "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.";
 
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is on. */
 "settings_general_up_next_tap_on_subtitle" = "Tapping an episode in Up Next will play it. Long press shows episode options. Turn off to switch these around.";
+
+/* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
+"settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
@@ -3725,6 +3731,111 @@
 
 /* A button label that informs the user to release a button press to finish */
 "patron_unlock_release" = "Release to Unlock";
+
+/* The string for the act of Copy (from Copy & Paste) */
+"copy" = "Copy";
+
+/* Title of an alert shown to the user */
+"support_watch_help_title" = "Looking for Watch app help?";
+
+/* Description of an alert shown to the user */
+"support_watch_help_message" = "If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.";
+
+/* Button that the user can press if they opened the Watch app */
+"support_watch_help_opened_app" = "I've opened the Watch app";
+
+/* Button that the user can press if they want to request help without the Apple Watch logs */
+"support_watch_help_send_without_log" = "Send without Watch logs";
+
+/* Title of a tab in the player that shows the episode description (show notes). */
+"player_show_notes_title" = "Description";
+
+/* The plural name of a feature called Bookmarks, used in various places in the app */
+"bookmarks" = "Bookmarks";
+
+/* Title for an action that allows a user to create a new bookmark */
+"add_bookmark" = "Add Bookmark";
+
+/* Autoplay feature announcement title */
+"announcement_autoplay_title" = "Autoplay is here!";
+
+/* Autoplay feature announcement description */
+"announcement_autoplay_description" = "If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.";
+
+/* Button label for a feature that the user can enable */
+"enable_it_now" = "Enable it now";
+
+/* An action that the user want to postpone and maybe do later */
+"maybe_later" = "Maybe later";
+
+/* Label for a settings menu that allows the user to customize headphone action. */
+"settings_headphone_controls" = "Headphone Controls";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip next action. */
+"settings_next_action" = "Next Action";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip back action. */
+"settings_previous_action" = "Previous Action";
+
+/* Settings section subtitle that explains what the section does . */
+"settings_headphone_controls_footer" = "Customise the actions done by the most common headphone controls.";
+
+/* Settings section subtitle that explains what the bookmark sound section does . */
+"settings_bookmark_sound_footer" = "Play a confirmation sound after creating a bookmark with your headphones.";
+
+/* Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark . */
+"settings_bookmark_confirmation_sound" = "Bookmark Confirmation Sound";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is equal to one */
+"bookmarks_count_singular" = "1 bookmark";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is more than one */
+"bookmarks_count_plural" = "%1$@ bookmarks";
+
+/* The title of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_title" = "Delete Bookmarks?";
+
+/* The body of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_body" = "Are you sure you want to delete these bookmarks, there’s no way to undo it!";
+
+/* The default title to use for a bookmark */
+"bookmark_default_title" = "Bookmark";
+
+/* The title of a view where the user can edit their bookmark title */
+"change_bookmark_title" = "Change title";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"change_bookmark_subtitle" = "Change the title that identifies this bookmark";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"add_bookmark_subtitle" = "Add an optional title to identify this bookmark";
+
+/* Title of a button that allows the user to save their changes */
+"save_bookmark" = "Save Bookmark";
+
+/* Title of a menu prompt */
+"select_bookmarks" = "Select Bookmarks";
+
+/* Title of an option in a menu prompt */
+"sort_option_timestamp" = "Timestamp";
+
+/* A message that appears after the user created a bookmark and %1$@ displays the title they choose for it. */
+"bookmark_added_notification" = "Bookmark \"%1$@\" added";
+
+/* A message that appears to inform the user their bookmark is added */
+"bookmark_added" = "Bookmark added";
+
+/* Title of a button that allows the user to view their bookmarks */
+"bookmark_added_button_title" = "View";
+
+/* Title of a message informing the user they don't have any bookmarks yet */
+"no_bookmarks_title" = "No bookmarks yet";
+
+/* Subtitle of a message explaining how to add new bookmarks */
+"no_bookmarks_message" = "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.";
+
+/* Title of a button that takes the user to the headphone settings */
+"no_bookmarks_button_title" = "Headphone settings";
 
 /* MARK: - InfoPlist.strings */
 

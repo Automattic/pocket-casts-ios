@@ -129,10 +129,16 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Te damos la bienvenida a Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>¡Te damos la bienvenida a Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Añadir marcador</string>
     <key>add_to_up_next</key>
     <string>Añadir a la lista de A continuación</string>
     <key>after_playing</key>
     <string>Después de reproducirlo</string>
+    <key>announcement_autoplay_description</key>
+    <string>Si empiezas a escuchar un episodio y no tienes más en cola, la reproducción automática seguirá reproduciendo episodios de ese programa o lista.</string>
+    <key>announcement_autoplay_title</key>
+    <string>¡Ya puedes disfrutar de la reproducción automática!</string>
     <key>app_badge</key>
     <string>Insignia de la aplicación</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Primero</string>
     <key>back</key>
     <string>Volver</string>
+    <key>bookmarks</key>
+    <string>Marcadores</string>
     <key>bottom</key>
     <string>Abajo</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Confirmar nueva contraseña</string>
     <key>continue</key>
     <string>Continuar</string>
+    <key>copy</key>
+    <string>Copiar</string>
     <key>create_account</key>
     <string>Crear cuenta</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Detener todas las descargas</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>enable_it_now</key>
+    <string>Activar esta opción ahora</string>
     <key>eoy_card_description</key>
     <string>Consulta cuáles han sido los pódcast y las categorías que más has escuchado, las estadísticas de escucha y mucho más.</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ pódcast contigo</string>
     <string>Marcar como reproducido</string>
     <key>mark_unplayed_short</key>
     <string>Marcar como no reproducido</string>
+    <key>maybe_later</key>
+    <string>Quizá más tarde</string>
     <key>mini_player_close</key>
     <string>Cerrar y borrar A continuación</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ ACTUALIZACIONES</string>
     <string>Selector de ruta</string>
     <key>player_share_header</key>
     <string>COMPARTIR ENLACE DE</string>
+    <key>player_show_notes_title</key>
+    <string>Descripción</string>
     <key>player_user_episode_download_error</key>
     <string>Error de descarga</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@ prueba gratuita de %1$@</string>
     <string>Nuevos episodios desde que se abrió la aplicación</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total de episodios no reproducidos</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Sonido de confirmación para marcadores</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Reproduce un sonido de confirmación al crear un marcador con los auriculares.</string>
     <key>settings_collect_information</key>
     <string>Recopilar información</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@ prueba gratuita de %1$@</string>
     <string>¿Quieres cambiar todos tus podcasts actuales por %1$@ episodios archivados?</string>
     <key>settings_general_auto_open_player</key>
     <string>Abrir reproductor automáticamente</string>
+    <key>settings_general_autoplay</key>
+    <string>Reproducción automática</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Si no tienes ningún episodio en cola, reproduciremos los del pódcast o lista que estés escuchando en ese momento.</string>
     <key>settings_general_defaults_header</key>
     <string>POR DEFECTO</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@ prueba gratuita de %1$@</string>
     <string>Pulsar en un episodio de la lista de A continuación hará que empiece la reproducción. Al mantener pulsado se mostrarán las opciones del episodio. Para cambiar una por la otra, desactiva esta opción.</string>
     <key>settings_global_settings</key>
     <string>Configuración Global</string>
+    <key>settings_headphone_controls</key>
+    <string>Controles de los auriculares</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personaliza las acciones que llevan a cabo los controles más habituales de los auriculares.</string>
     <key>settings_help</key>
     <string>Ayuda y comentarios</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@ prueba gratuita de %1$@</string>
     <string>EN EL MENÚ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Los episodios inactivos son aquellos que no has reproducido o descargado en el tiempo que especificaste anteriormente. Las descargas se eliminan cuando el episodio se archiva.</string>
+    <key>settings_next_action</key>
+    <string>Acción siguiente</string>
     <key>settings_not_in_filters</key>
     <string>No se incluyen en ningún filtro</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@ prueba gratuita de %1$@</string>
     <string>Velocidad de reproducción</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ al mes / %2$@ al año</string>
+    <key>settings_previous_action</key>
+    <string>Acción anterior</string>
     <key>settings_privacy</key>
     <string>Privacidad</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Caduca el %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
+    <key>support_watch_help_message</key>
+    <string>Si tienes problemas con la aplicación para el Apple Watch de Pocket Casts, podemos enviar los registros de tu dispositivo para proporcionarte una mejor asistencia. Para ello, abre Pocket Casts en tu Apple Watch.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>He abierto la aplicación para el Apple Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Enviar sin los registros del Apple Watch</string>
+    <key>support_watch_help_title</key>
+    <string>¿Necesitas ayuda con la aplicación para el Apple Watch?</string>
     <key>supporter</key>
     <string>Seguidor</string>
     <key>supporter_contributions</key>

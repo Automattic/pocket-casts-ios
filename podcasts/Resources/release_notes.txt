@@ -1,2 +1,3 @@
-- Add a Status Page so the user can check their connection to our services
+- Add a share action from the episode row [#966]
+- Speed up checking if a podcast is in UpNext, slightly improving app responsiveness [#951]
 

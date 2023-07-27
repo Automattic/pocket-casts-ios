@@ -141,6 +141,11 @@ extension L10n {
             return L10n.episodeShorthandFormat(episodeNumber.localized())
         }
     }
+
+    /// `1 bookmark` or `N bookmarks`
+    static func bookmarkCount(_ count: Int) -> String {
+        count == 1 ? L10n.bookmarksCountSingular : L10n.bookmarksCountPlural(count)
+    }
 }
 
 extension L10n {

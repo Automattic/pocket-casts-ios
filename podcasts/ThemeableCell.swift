@@ -1,6 +1,6 @@
 import UIKit
 
-class ThemeableCell: UITableViewCell {
+class ThemeableCell: UITableViewCell, ReusableTableCell {
     var style: ThemeStyle = .primaryUi02 {
         didSet {
             updateColor()

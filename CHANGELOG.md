@@ -1,3 +1,23 @@
+7.45
+-----
+
+
+7.44
+-----
+- Add a share action from the episode row [#966]
+- Speed up checking if a podcast is in UpNext, slightly improving app responsiveness [#951]
+
+7.43
+-----
+- The search bar on the podcasts tab is now visible by default [#929]
+- Fix spacing for the search bar when creating/editing a folder [#912]
+- Adds Autoplay, if user's Up Next is empty the app will keep playing episodes from the same list [#957]
+
+
+7.42
+-----
+
+
 7.41
 -----
 - Improve support section to help the user to send Apple Watch logs

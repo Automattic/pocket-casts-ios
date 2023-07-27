@@ -108,7 +108,7 @@ struct EpisodeView: View {
 }
 
 struct EpisodeView_Previews: PreviewProvider {
-    static let testViewModel = EpisodeDetailsViewModel(episode: Episode())
+    static let testViewModel = EpisodeDetailsViewModel(episode: Episode(), playlist: nil)
     static var previews: some View {
         ForEach(PreviewDevice.previewDevices, id: \.rawValue) { device in
             EpisodeView(viewModel: testViewModel, listTitle: "Test")

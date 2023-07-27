@@ -63,6 +63,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         endOfYear.showPromptBasedOnState(in: self)
         showInitialOnboardingIfNeeded()
+        showWhatsNewIfNeeded()
     }
 
     private func showInitialOnboardingIfNeeded() {
@@ -354,6 +355,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showHeadphoneSettings() {
+        switchToTab(.profile)
+        if let navController = selectedViewController as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            navController.pushViewController(SettingsViewController(), animated: false)
+            navController.pushViewController(HeadphoneSettingsViewController(), animated: true)
+        }
+    }
+
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController
@@ -559,6 +569,16 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let giftDays = SubscriptionHelper.subscriptionGiftDays()
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
+        }
+    }
+
+    // MARK: - What's New
+
+    func showWhatsNewIfNeeded() {
+        guard let controller = view.window?.rootViewController else { return }
+
+        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+            controller.present(whatsNewViewController, animated: true)
         }
     }
 }

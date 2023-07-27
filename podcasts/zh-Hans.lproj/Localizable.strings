@@ -129,10 +129,16 @@
     <string>欢迎使用 Pocket Casts！</string>
     <key>account_welcome_plus</key>
     <string>欢迎使用 Pocket Casts Plus！</string>
+    <key>add_bookmark</key>
+    <string>添加书签</string>
     <key>add_to_up_next</key>
     <string>添加到“接下来播放”</string>
     <key>after_playing</key>
     <string>播放后</string>
+    <key>announcement_autoplay_description</key>
+    <string>如果您的“接下来播放”队列为空，在您开始听节目时，自动播放会继续播放该节目或列表中的剧集。</string>
+    <key>announcement_autoplay_title</key>
+    <string>自动播放功能现已推出！</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@
     <string>首先</string>
     <key>back</key>
     <string>返回</string>
+    <key>bookmarks</key>
+    <string>书签</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@
     <string>确认新密码</string>
     <key>continue</key>
     <string>继续</string>
+    <key>copy</key>
+    <string>复制</string>
     <key>create_account</key>
     <string>创建账户</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@
     <string>停止所有下载</string>
     <key>edit</key>
     <string>编辑</string>
+    <key>enable_it_now</key>
+    <string>立即启用</string>
     <key>eoy_card_description</key>
     <string>查看您的热门播客、分类、收听统计数据等。</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@
     <string>标记为已播放</string>
     <key>mark_unplayed_short</key>
     <string>标记为未播放</string>
+    <key>maybe_later</key>
+    <string>稍后再说</string>
     <key>mini_player_close</key>
     <string>关闭并清除“接下来播放”</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@
     <string>路线选择器</string>
     <key>player_share_header</key>
     <string>将链接分享至</string>
+    <key>player_show_notes_title</key>
+    <string>描述</string>
     <key>player_user_episode_download_error</key>
     <string>下载错误</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@
     <string>自应用程序打开以来的新剧集</string>
     <key>settings_badge_total_unplayed</key>
     <string>未播放总数</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>书签确认声</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>在使用耳机创建书签后播放确认声。</string>
     <key>settings_collect_information</key>
     <string>收集信息</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@
     <string>是否要将所有现有播客更改为%1$@已存档的剧集？</string>
     <key>settings_general_auto_open_player</key>
     <string>自动打开播放器</string>
+    <key>settings_general_autoplay</key>
+    <string>自动播放</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>如果您的“接下来播放”队列为空，我们会播放您目前正在收听的同一播客或列表中的剧集。</string>
     <key>settings_general_defaults_header</key>
     <string>默认值</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@
     <string>轻点“接下来播放”中的剧集后，系统将播放该剧集。 长按可显示剧集选项。 关闭以进行切换。</string>
     <key>settings_global_settings</key>
     <string>全局设置</string>
+    <key>settings_headphone_controls</key>
+    <string>耳机控件</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>自定义由常见的耳机控件完成的操作。</string>
     <key>settings_help</key>
     <string>帮助和反馈</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@
     <string>在菜单中</string>
     <key>settings_inactive_episodes_msg</key>
     <string>非活动剧集是指您在上述指定时间内尚未播放或下载的剧集。 系统将在剧集存档后删除下载。</string>
+    <key>settings_next_action</key>
+    <string>下一步操作</string>
     <key>settings_not_in_filters</key>
     <string>不包括在任何过滤器中</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@
     <string>播放速度</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@/月或 %2$@/年</string>
+    <key>settings_previous_action</key>
+    <string>上一步操作</string>
     <key>settings_privacy</key>
     <string>隐私</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@
     <string>到期日期：%1$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
+    <key>support_watch_help_message</key>
+    <string>如果您在使用 Pocket Casts Watch 应用时遇到问题，我们可以发送您的可穿戴日志以更好地帮助您。 为此，请在您的 Watch 上打开 Pocket Casts。</string>
+    <key>support_watch_help_opened_app</key>
+    <string>我已打开 Watch 应用</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>直接发送，不包括 Watch 日志</string>
+    <key>support_watch_help_title</key>
+    <string>需要 Watch 应用方面的帮助？</string>
     <key>supporter</key>
     <string>支持者</string>
     <key>supporter_contributions</key>

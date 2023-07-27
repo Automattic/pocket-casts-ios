@@ -549,6 +549,18 @@ class Settings: NSObject {
         UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
     }
 
+
+    private static let lastWhatsNewShownKey = "LastWhatsNewShown"
+    class var lastWhatsNewShown: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: lastWhatsNewShownKey)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: lastWhatsNewShownKey)
+        }
+    }
+
     class func setShouldFollowSystemTheme(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
@@ -561,13 +573,17 @@ class Settings: NSObject {
 
     private static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
+        let defaultActions = PlayerAction.allCases.filter { $0.isAvailable }
+
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return PlayerAction.allCases
+            return defaultActions
         }
 
-        let playerActions = savedInts.compactMap { PlayerAction(rawValue: $0) }
+        let playerActions = savedInts
+            .compactMap { PlayerAction(rawValue: $0) }
+            .filter { $0.isAvailable }
 
-        return playerActions
+        return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
@@ -595,13 +611,15 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
-            return [.playNext, .playLast, .download, .archive, .markAsPlayed, .star]
+            return defaultActions
         }
 
         let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
 
-        return actions
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
     }
 
     class func updateMultiSelectActions(_ actions: [MultiSelectAction]) {
@@ -781,6 +799,54 @@ class Settings: NSObject {
     static var loadEmbeddedImages: Bool {
         get {
             UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+        }
+    }
+
+    // MARK: - Autoplay
+
+    static var autoplay: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
+        }
+        get {
+            guard FeatureFlag.autoplay.enabled else {
+                return false
+            }
+
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+        }
+    }
+
+
+    // MARK: - Headphone Controls
+
+    static var headphonesPreviousAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.previousAction.value
+        }
+
+        set {
+            Constants.UserDefaults.headphones.previousAction.save(newValue)
+        }
+    }
+
+    static var headphonesNextAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.nextAction.value
+        }
+
+        set {
+            Constants.UserDefaults.headphones.nextAction.save(newValue)
+        }
+    }
+
+    static var playBookmarkCreationSound: Bool {
+        get {
+            Constants.UserDefaults.bookmarks.creationSound.value
+        }
+
+        set {
+            Constants.UserDefaults.bookmarks.creationSound.save(newValue)
         }
     }
 

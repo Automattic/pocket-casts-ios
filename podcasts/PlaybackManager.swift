@@ -58,7 +58,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private let bookmarkManager = BookmarkManager()
+    let bookmarkManager = BookmarkManager()
 
     init() {
         queue = PlaybackQueue()
@@ -887,6 +887,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // handle the episode that just finished, marking it as played, etc
         if let episode = currentEpisode() {
+            autoplayIfNeeded()
+
             FileLog.shared.addMessage("Finished playing \(episode.displayableTitle())")
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
@@ -1871,6 +1873,26 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
     }
 
+    // MARK: - Autoplay
+
+    /// Autoplay the next episode
+    private func autoplayIfNeeded() {
+        #if !os(watchOS)
+        // If Autoplay is enabled we check if there's another episode to play
+        if Settings.autoplay,
+           queue.upNextCount() == 0,
+           let episode = currentEpisode(),
+           let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
+            FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
+            queue.add(episode: nextEpisode, fireNotification: false)
+            Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
+        } else {
+            // Reset the latest played from
+            AutoplayHelper.shared.playedFrom(playlist: nil)
+        }
+        #endif
+    }
+
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
@@ -1921,7 +1943,6 @@ extension PlaybackManager {
         }
 
         let currentTime = currentTime()
-
         bookmarkManager.add(to: episode, at: currentTime)
     }
 }

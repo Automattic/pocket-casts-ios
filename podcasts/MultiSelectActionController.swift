@@ -60,6 +60,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         }
     }
 
+    private var originalActions: [MultiSelectAction]
     private var orderedActions: [MultiSelectAction]
     private var delegate: MultiSelectActionOrderDelegate
     private var actionDelegate: MultiSelectActionDelegate
@@ -71,12 +72,14 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     init(actions: [MultiSelectAction], delegate: MultiSelectActionOrderDelegate, actionDelegate: MultiSelectActionDelegate, numSelectedEpisodes: Int, setActionsFunc: @escaping (([MultiSelectAction]) -> Void), themeOverride: Theme.ThemeType?) {
         orderedActions = actions
+        originalActions = actions
         self.delegate = delegate
         self.actionDelegate = actionDelegate
         self.numSelectedEpisodes = numSelectedEpisodes
         self.setActionsFunc = setActionsFunc
         self.themeOverride = themeOverride
         super.init(nibName: "MultiSelectActionController", bundle: nil)
+        filterUnavailableActions()
     }
 
     @available(*, unavailable)
@@ -130,8 +133,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedAction = actionAt(indexPath: indexPath, isEditing: actionsTable.isEditing)
-        MultiSelectHelper.performAction(selectedAction, actionDelegate: actionDelegate)
         dismiss(animated: true, completion: nil)
+        MultiSelectHelper.performAction(selectedAction, actionDelegate: actionDelegate)
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -216,6 +219,8 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     @IBAction func editTapped(_ sender: UIButton) {
+        showAllActions()
+
         actionsTable.isEditing = true
         actionsTable.reloadData()
 
@@ -232,6 +237,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     @IBAction func doneTapped(_ sender: UIButton) {
         setActionsFunc(orderedActions)
+        filterUnavailableActions()
         delegate.actionOrderChanged()
         dismiss(animated: true, completion: nil)
         Analytics.track(.multiSelectViewOverflowMenuRearrangeFinished, properties: ["source": actionDelegate.multiSelectViewSource])
@@ -263,5 +269,24 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     func updateColors() {
         doneButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
         editButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
+    }
+
+    private func filterUnavailableActions() {
+        let episodes = actionDelegate.multiSelectedBaseEpisodes()
+        orderedActions = orderedActions.filter { $0.isVisible(with: episodes) }
+    }
+
+    private func showAllActions() {
+        orderedActions = originalActions
+        let hasOnlyShareableEpisodes = actionDelegate
+            .multiSelectedBaseEpisodes()
+            .allSatisfy({ $0 is Episode })
+
+        // If a user already saved the actions, share will be
+        // missing since was added later to the app.
+        // This ensures it's displayed except for user's files.
+        if !orderedActions.contains(.share) && hasOnlyShareableEpisodes {
+            orderedActions.append(.share)
+        }
     }
 }

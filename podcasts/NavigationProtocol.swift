@@ -31,6 +31,7 @@ protocol NavigationProtocol: AnyObject {
     func showPromotionPage(promoCode: String?)
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
+    func showHeadphoneSettings()
 
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)

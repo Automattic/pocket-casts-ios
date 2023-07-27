@@ -129,10 +129,16 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Benvenuto su Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Benvenuto su Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Aggiungi segnalibro</string>
     <key>add_to_up_next</key>
     <string>Aggiungi a Successivo</string>
     <key>after_playing</key>
     <string>Dopo la riproduzione</string>
+    <key>announcement_autoplay_description</key>
+    <string>Se la coda Successivo è vuota e inizi ad ascoltare un episodio, l'opzione Riproduzione automatica continuerà a riprodurre le puntate di quel programma o quell'elenco.</string>
+    <key>announcement_autoplay_title</key>
+    <string>La riproduzione automatica è qui.</string>
     <key>app_badge</key>
     <string>Badge app</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Primo</string>
     <key>back</key>
     <string>Indietro</string>
+    <key>bookmarks</key>
+    <string>Segnalibri</string>
     <key>bottom</key>
     <string>In basso</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Conferma nuova password</string>
     <key>continue</key>
     <string>Continua</string>
+    <key>copy</key>
+    <string>Copia</string>
     <key>create_account</key>
     <string>Crea un account</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Interrompi tutti i download</string>
     <key>edit</key>
     <string>Modifica</string>
+    <key>enable_it_now</key>
+    <string>Attiva ora</string>
     <key>eoy_card_description</key>
     <string>Visualizza i tuoi podcast principali, le categorie, le statistiche di ascolto e molto altro ancora.</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ pocast con te</string>
     <string>Contrassegna Riprodotto</string>
     <key>mark_unplayed_short</key>
     <string>Contrassegna Non riprodotto</string>
+    <key>maybe_later</key>
+    <string>Forse dopo</string>
     <key>mini_player_close</key>
     <string>Chiudi e cancella Successivo</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ AGGIORNAMENTI</string>
     <string>Selettore del percorso</string>
     <key>player_share_header</key>
     <string>CONDIVIDI IL LINK SU</string>
+    <key>player_show_notes_title</key>
+    <string>Descrizione</string>
     <key>player_user_episode_download_error</key>
     <string>Errore di download</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Nuovo dall'apertura dell'app</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totale non riprodotto</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Suono di conferma del segnalibro</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Riproduci un suono di conferma dopo aver creato un segnalibro con le cuffie.</string>
     <key>settings_collect_information</key>
     <string>Raccogli informazioni</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Vuoi modificare tutti i tuoi podcast esistenti a %1$@ episodi archiviati?</string>
     <key>settings_general_auto_open_player</key>
     <string>Apri automaticamente il lettore</string>
+    <key>settings_general_autoplay</key>
+    <string>Riproduzione automatica</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Se la coda Successivo è vuota, riprodurremo gli episodi dello stesso podcast o dell'elenco che stai ascoltando.</string>
     <key>settings_general_defaults_header</key>
     <string>PREDEFINITI</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Toccando un episodio in Successivo, questo verrà riprodotto. Tramite la pressione prolungata vengono visualizzate le opzioni dell'episodio. Disattivali per cambiarli di posto.</string>
     <key>settings_global_settings</key>
     <string>Impostazioni globali</string>
+    <key>settings_headphone_controls</key>
+    <string>Controlli delle cuffie</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personalizza le azioni eseguite dai controlli delle cuffie più comuni.</string>
     <key>settings_help</key>
     <string>Supporto e feedback</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>NEL MENU</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Gli episodi inattivi sono episodi che non hai riprodotto o scaricato nel periodo specificato sopra. I download vengono rimossi quando l'episodio viene archiviato.</string>
+    <key>settings_next_action</key>
+    <string>Azione successiva</string>
     <key>settings_not_in_filters</key>
     <string>Non incluso in alcun filtro</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Velocità di riproduzione</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ al mese/%2$@ all'anno</string>
+    <key>settings_previous_action</key>
+    <string>Azione precedente</string>
     <key>settings_privacy</key>
     <string>Privacy</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Scade tra %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Grazie per il supporto.</string>
+    <key>support_watch_help_message</key>
+    <string>Se riscontri problemi con l'app Pocket Casts Watch, possiamo inviare i log del tuo dispositivo indossabile per supportarti meglio. A tal fine, apri Pocket Casts sul tuo orologio.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ho aperto l'app Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Invia senza log di Watch</string>
+    <key>support_watch_help_title</key>
+    <string>Sei alla ricerca di aiuto per l'app Watch?</string>
     <key>supporter</key>
     <string>Promotore</string>
     <key>supporter_contributions</key>

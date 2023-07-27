@@ -129,10 +129,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Bienvenue à Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Bienvenue à Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Ajouter un signet</string>
     <key>add_to_up_next</key>
     <string>Ajouter à la file d’attente Prochains épisodes</string>
     <key>after_playing</key>
     <string>Après la lecture</string>
+    <key>announcement_autoplay_description</key>
+    <string>Si votre file d’attente À écouter ensuite est vide et que vous commencez à écouter un épisode, l’option Lecture automatique continuera à lire les épisodes de cette émission ou de cette liste.</string>
+    <key>announcement_autoplay_title</key>
+    <string>La lecture automatique est disponible !</string>
     <key>app_badge</key>
     <string>Badge de l’application</string>
     <key>app_icon_classic</key>
@@ -227,6 +233,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Premiers</string>
     <key>back</key>
     <string>Revenir</string>
+    <key>bookmarks</key>
+    <string>Favoris</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
@@ -313,6 +321,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Confirmer le nouveau mot de passe</string>
     <key>continue</key>
     <string>Continuer</string>
+    <key>copy</key>
+    <string>Copier</string>
     <key>create_account</key>
     <string>Créer un compte</string>
     <key>create_account_app_store_error_message</key>
@@ -601,6 +611,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Arrêter tous les téléchargements</string>
     <key>edit</key>
     <string>Modifier</string>
+    <key>enable_it_now</key>
+    <string>Activez-la maintenant</string>
     <key>eoy_card_description</key>
     <string>Retrouvez vos meilleurs podcasts, catégories, statistiques d’écoute, et plus encore.</string>
     <key>eoy_create_account_to_see</key>
@@ -1065,6 +1077,8 @@ podcasts partout avec</string>
     <string>Marquer lu(s)</string>
     <key>mark_unplayed_short</key>
     <string>Marquer non lu(s)</string>
+    <key>maybe_later</key>
+    <string>Peut-être plus tard</string>
     <key>mini_player_close</key>
     <string>Fermer et effacer la file d’attente Prochains épisodes</string>
     <key>minute_listened</key>
@@ -1314,6 +1328,8 @@ MISES À JOUR</string>
     <string>Sélecteur de chemin</string>
     <key>player_share_header</key>
     <string>PARTAGER LE LIEN DANS</string>
+    <key>player_show_notes_title</key>
+    <string>Description</string>
     <key>player_user_episode_download_error</key>
     <string>Erreur lors du téléchargement</string>
     <key>player_user_episode_playback_error</key>
@@ -1885,6 +1901,10 @@ essai gratuit de %1$@</string>
     <string>Nouveau depuis l’ouverture de l’application</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total non lus</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Son de confirmation lors de l’ajout d’un signet</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Émettez un son de confirmation dans votre casque après la création d’un signet.</string>
     <key>settings_collect_information</key>
     <string>Collecter des informations</string>
     <key>settings_collect_information_additional_information</key>
@@ -1963,6 +1983,10 @@ essai gratuit de %1$@</string>
     <string>Voulez-vous changer tous vos balados existants par %1$@ épisodes archivés?</string>
     <key>settings_general_auto_open_player</key>
     <string>Ouvrir automatiquement le lecteur</string>
+    <key>settings_general_autoplay</key>
+    <string>Lecture automatique</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Si votre file d’attente À écouter ensuite est vide, nous diffuserons les épisodes du même podcast ou de la même liste que ceux que vous écoutez actuellement.</string>
     <key>settings_general_defaults_header</key>
     <string>PAR DÉFAUT</string>
     <key>settings_general_episode_groups</key>
@@ -2019,6 +2043,10 @@ essai gratuit de %1$@</string>
     <string>Appuyer sur un épisode dans Prochains épisodes le fera démarrer. Les options de l’épisode sont affichées lorsque vous appuyez longuement. Désactivez cette fonctionnalité pour les changer de place.</string>
     <key>settings_global_settings</key>
     <string>Paramètres généraux</string>
+    <key>settings_headphone_controls</key>
+    <string>Commandes du casque</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Personnalisez les actions effectuées par les principales commandes du casque.</string>
     <key>settings_help</key>
     <string>Aide et commentaires</string>
     <key>settings_import_export</key>
@@ -2031,6 +2059,8 @@ essai gratuit de %1$@</string>
     <string>DANS LE MENU</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Des épisodes inactifs sont des épisodes que vous n’avez pas écoutés ni téléchargés dans le délai que vous spécifiez ci-dessus. Les téléchargements sont retirés lorsque l’épisode est archivé.</string>
+    <key>settings_next_action</key>
+    <string>Action suivante</string>
     <key>settings_not_in_filters</key>
     <string>Non inclus dans aucun filtre</string>
     <key>settings_notifications</key>
@@ -2045,6 +2075,8 @@ essai gratuit de %1$@</string>
     <string>Vitesse de lecture</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ par mois ou %2$@ par année</string>
+    <key>settings_previous_action</key>
+    <string>Action précédente</string>
     <key>settings_privacy</key>
     <string>Confidentialité</string>
     <key>settings_queue_position</key>
@@ -2345,6 +2377,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Expire dans %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
+    <key>support_watch_help_message</key>
+    <string>Si vous rencontrez des difficultés avec l’application Pocket Casts Watch, nous pouvons vous envoyer les journaux de votre montre afin de mieux vous aider. Pour ce faire, ouvrez Pocket Casts sur votre montre.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>J’ai ouvert l’application Watch</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Envoyer sans les journaux de la montre</string>
+    <key>support_watch_help_title</key>
+    <string>Besoin d’aide pour utiliser l’application Watch ?</string>
     <key>supporter</key>
     <string>Partisan</string>
     <key>supporter_contributions</key>
