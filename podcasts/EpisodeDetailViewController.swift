@@ -6,6 +6,8 @@ import UIKit
 import WebKit
 
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
+    @IBOutlet var containerScrollView: UIScrollView!
+
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var episodeName: ThemeableLabel!
 
