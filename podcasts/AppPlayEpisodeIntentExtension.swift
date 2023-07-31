@@ -11,6 +11,7 @@ extension PlayEpisodeIntent {
 
         let current = PlaybackManager.shared.currentEpisode()
 
+        // NOTE: may want to use functions in PlaybackActionHelper instead, incase calling these directly bypasses something we need?
         if PlaybackManager.shared.playing() && current?.uuid == podcastEpisode.uuid {
             PlaybackManager.shared.pause()
         } else {
