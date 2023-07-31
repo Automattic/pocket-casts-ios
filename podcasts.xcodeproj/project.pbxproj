@@ -326,6 +326,8 @@
 		40FFCDBB2300E5AD00395CA5 /* UpgradeRequiredViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40FFCDB92300E5AD00395CA5 /* UpgradeRequiredViewController.xib */; };
 		40FFCDBD2304E7ED00395CA5 /* ThemeableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FFCDBC2304E7EC00395CA5 /* ThemeableImageView.swift */; };
 		4573899A285BBAD500D4FE6C /* ColorSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45738999285BBAD500D4FE6C /* ColorSelectRow.swift */; };
+		45E5EE952A77E87C00FA4A15 /* AppPlayEpisodeIntentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E5EE942A77E87C00FA4A15 /* AppPlayEpisodeIntentExtension.swift */; };
+		45E5EE992A77E8CD00FA4A15 /* WidgetPlayEpisodeIntentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E5EE982A77E8CD00FA4A15 /* WidgetPlayEpisodeIntentExtension.swift */; };
 		45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */; };
 		45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45ECEF8727E9253900C65030 /* ShowNotesFormatterUtils.swift */; };
 		45F19AA42A3BAD7600F214A8 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 45F19AA32A3BAD7600F214A8 /* PocketCastsDataModel */; };
@@ -2095,6 +2097,8 @@
 		40FFCDB92300E5AD00395CA5 /* UpgradeRequiredViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpgradeRequiredViewController.xib; sourceTree = "<group>"; };
 		40FFCDBC2304E7EC00395CA5 /* ThemeableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableImageView.swift; sourceTree = "<group>"; };
 		45738999285BBAD500D4FE6C /* ColorSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectRow.swift; sourceTree = "<group>"; };
+		45E5EE942A77E87C00FA4A15 /* AppPlayEpisodeIntentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPlayEpisodeIntentExtension.swift; sourceTree = "<group>"; };
+		45E5EE982A77E8CD00FA4A15 /* WidgetPlayEpisodeIntentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPlayEpisodeIntentExtension.swift; sourceTree = "<group>"; };
 		45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtilsTests.swift; sourceTree = "<group>"; };
 		45ECEF8727E9253900C65030 /* ShowNotesFormatterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtils.swift; sourceTree = "<group>"; };
@@ -4466,6 +4470,8 @@
 				45FB77D12A43A28D00ECD808 /* PlayEpisodeIntent.swift */,
 				BD054A791E3EDEB300D9195B /* SharedConstants.swift */,
 				40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */,
+				45E5EE942A77E87C00FA4A15 /* AppPlayEpisodeIntentExtension.swift */,
+				45E5EE982A77E8CD00FA4A15 /* WidgetPlayEpisodeIntentExtension.swift */,
 			);
 			name = "Shared with Extension";
 			sourceTree = "<group>";
@@ -7438,7 +7444,6 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SJ;
-				LastSwiftUpdateCheck = 1500;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Shifty Jelly";
@@ -8424,6 +8429,7 @@
 				4036B06725240C2800AE08E6 /* NowPlayingWidget.swift in Sources */,
 				BD422ED426841C340078B799 /* UpNextStyles.swift in Sources */,
 				8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */,
+				45E5EE992A77E8CD00FA4A15 /* WidgetPlayEpisodeIntentExtension.swift in Sources */,
 				BD422EC6268415830078B799 /* UpNextProvider.swift in Sources */,
 				BD422ECC268419820078B799 /* UpNextMediumWidgetView.swift in Sources */,
 				4036B05A25240C2200AE08E6 /* UpNextWidget.swift in Sources */,
@@ -9187,6 +9193,7 @@
 				BD74F1B621F0133B002EF774 /* MPFeedbackCommand+Title.swift in Sources */,
 				C72CED2D289DA14F0017883A /* AnalyticsEvent.swift in Sources */,
 				BD874EF71C9A428B00F5B2A5 /* GeneralSettingsViewController.swift in Sources */,
+				45E5EE952A77E87C00FA4A15 /* AppPlayEpisodeIntentExtension.swift in Sources */,
 				C7A110F7291F65FB00887A90 /* WelcomeView.swift in Sources */,
 				BD98C54B1BA802AA00E85D3B /* DiscoverDisclosureCell.swift in Sources */,
 				4065143E2485EB8E00B7E789 /* LastSupporterPodcastCell.swift in Sources */,

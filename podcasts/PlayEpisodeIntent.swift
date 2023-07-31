@@ -31,7 +31,10 @@ struct PlayEpisodeIntent: AudioPlaybackIntent {
             print("PAUSE episode \(episodeUuid)")
         }
 
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackRequested, object: episodeUuid)
+        // commented out for now while testing / demonstrating Extension idea
+        //        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackRequested, object: episodeUuid)
+
+        intentPlayback(episodeUuid)
 
         return .result()
     }
