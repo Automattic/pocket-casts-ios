@@ -36,11 +36,11 @@ struct ThemedActionBarStyle: ActionBarStyle {
     @ObservedObject private var theme: Theme = .sharedTheme
 
     var backgroundTint: Color {
-        theme.secondaryUi01
+        theme.primaryUi01
     }
 
     var buttonColor: Color {
-        theme.primaryInteractive01
+        theme.primaryText01
     }
 
     var titleColor: Color {
@@ -48,7 +48,7 @@ struct ThemedActionBarStyle: ActionBarStyle {
     }
 
     var iconColor: Color {
-        theme.primaryInteractive02
+        theme.primaryUi01
     }
 }
 

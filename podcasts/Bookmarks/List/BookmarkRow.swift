@@ -4,32 +4,26 @@ import PocketCastsDataModel
 
 struct BookmarkRow<Style: BookmarksStyle>: View {
     @EnvironmentObject var viewModel: BookmarkListViewModel
+    @ObservedObject var rowModel: BookmarkRowViewModel
 
     private let bookmark: Bookmark
 
-    private let title: String
-    private let subtitle: String
-    private let playButton: String
-
     @ObservedObject private var style: Style
-
     @State private var highlighted = false
 
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 56
+
     init(bookmark: Bookmark, style: Style) {
+        self.rowModel = .init(bookmark: bookmark)
         self.bookmark = bookmark
         self.style = style
-
-        self.title = bookmark.title
-        self.playButton = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
-        self.subtitle = DateFormatter.localizedString(from: bookmark.created,
-                                                      dateStyle: .medium,
-                                                      timeStyle: .short)
     }
 
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
             HStack(spacing: RowConstants.padding) {
+                imageView
                 detailsView
                 playButtonView
             }
@@ -50,15 +44,29 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         .animation(.linear, value: selected)
     }
 
+    private var imageView: some View {
+        rowModel.episode.map {
+            EpisodeImage(episode: $0)
+                .frame(width: imageSize, height: imageSize)
+                .cornerRadius(8)
+        }
+    }
+
     /// Displays a title and subtitle
     private var detailsView: some View {
         NonBlockingLongPressView {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(title)
+            VStack(alignment: .leading, spacing: rowModel.heading != nil ? 4 : 8) {
+                rowModel.heading.map {
+                    Text($0)
+                        .foregroundStyle(style.tertiaryText)
+                        .font(style: .caption, weight: .semibold)
+                }
+
+                Text(rowModel.title)
                     .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
 
-                Text(subtitle)
+                Text(rowModel.subtitle)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
             }
@@ -76,7 +84,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 
     /// Displays the play button view, and adds the action to it
     private var playButtonView: some View {
-        PlayButton(title: playButton, style: style).buttonize {
+        PlayButton(title: rowModel.playButton, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
             config.label

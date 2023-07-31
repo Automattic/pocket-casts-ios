@@ -112,7 +112,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 extension BookmarksPlayerTabController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
         containerDelegate?.scrollToNowPlaying()
-        playbackManager.seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
+
+        playbackManager.playBookmark(bookmark)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

@@ -2,14 +2,23 @@ import SwiftUI
 
 /// Displays the empty state view for the bookmarks
 struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
+    @EnvironmentObject var viewModel: BookmarkListViewModel
     @ObservedObject var style: Style
 
+    var title: String = L10n.noBookmarksTitle
+    var message: String = L10n.noBookmarksMessage
+    var actionTitle: String = L10n.noBookmarksButtonTitle
+    var action: (() -> Void)? = nil
+
     var body: some View {
-        EmptyStateView(title: L10n.noBookmarksTitle, message: L10n.noBookmarksMessage, actions: [
-            .init(title: L10n.noBookmarksButtonTitle, action: {
+        EmptyStateView(title: title, message: message, actions: [
+            .init(title: actionTitle, action: {
+                guard let action else {
+                    viewModel.openHeadphoneSettings()
+                    return
+                }
 
-                NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
-
+                action()
             })
         ], style: style)
     }

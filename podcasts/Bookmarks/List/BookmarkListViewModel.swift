@@ -1,12 +1,7 @@
 import Combine
 import PocketCastsDataModel
 
-protocol BookmarkListRouter: AnyObject {
-    func bookmarkPlay(_ bookmark: Bookmark)
-    func bookmarkEdit(_ bookmark: Bookmark)
-}
-
-class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
+class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
@@ -17,6 +12,14 @@ class BookmarkListViewModel: MultiSelectListViewModel<Bookmark> {
         didSet {
             sortSettingValue.save(sortOption)
         }
+    }
+
+    var bookmarks: [Bookmark] {
+        isSearching ? filteredItems : items
+    }
+
+    var bookmarkCount: Int {
+        isSearching ? numberOfFilteredItems : numberOfItems
     }
 
     var cancellables = Set<AnyCancellable>()
@@ -86,6 +89,11 @@ extension BookmarkListViewModel {
             self?.toggleMultiSelection()
         }
     }
+
+    func openHeadphoneSettings() {
+        router?.dismissBookmarksList()
+        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
+    }
 }
 
 // MARK: - More Menu
@@ -123,7 +131,7 @@ extension BookmarkListViewModel {
 
 private extension BookmarkListViewModel {
     func confirmDeletion(_ delete: @escaping () -> Void) {
-        guard let controller = SceneHelper.rootViewController() else { return }
+        guard let router else { return }
 
         let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
                                       message: L10n.bookmarkDeleteWarningBody,
@@ -134,7 +142,7 @@ private extension BookmarkListViewModel {
             delete()
         }))
 
-        controller.present(alert, animated: true, completion: nil)
+        router.presentBookmarkController(alert)
     }
 
     func actuallyDelete(_ items: [Bookmark]) {
@@ -158,5 +166,12 @@ private extension BookmarkSortOption {
         case .timestamp:
             return L10n.sortOptionTimestamp
         }
+    }
+}
+
+extension Bookmark: SearchableDataModel {
+    /// Allows bookmarks to be searched by their title or the episode title
+    var searchableContent: String {
+        [title, episode?.title].compactMap { $0 }.joined(separator: " ")
     }
 }

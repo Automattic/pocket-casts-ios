@@ -58,7 +58,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    let bookmarkManager = BookmarkManager()
+    lazy var bookmarkManager: BookmarkManager = {
+        BookmarkManager(playbackManager: self)
+    }()
 
     init() {
         queue = PlaybackQueue()
@@ -1897,6 +1899,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
 }
 
+// MARK: - Bookmarks
+
 extension PlaybackManager {
     func bookmark() {
         guard
@@ -1908,5 +1912,31 @@ extension PlaybackManager {
 
         let currentTime = currentTime()
         bookmarkManager.add(to: episode, at: currentTime)
+    }
+
+    /// Plays the given bookmark
+    /// - if the episode is not currently playing we'll load it and then play at the bookmark time
+    /// - if the episode is playing, we trigger a seek to the bookmark time
+    func playBookmark(_ bookmark: Bookmark) {
+        // If we're already the now playing episode, then just seek to the bookmark time
+        if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
+            seekTo(time: bookmark.time, startPlaybackAfterSeek: true)
+            return
+        }
+
+        let dataManager = DataManager.sharedManager
+
+        // Get the bookmark's BaseEpisode so we can load it
+        guard let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) else {
+            return
+        }
+
+        #if !os(watchOS)
+        // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
+        dataManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
+
+        // Start the play process
+        PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
+        #endif
     }
 }
