@@ -8,6 +8,13 @@ import WebKit
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
     @IBOutlet var containerScrollView: UIScrollView!
 
+    private var cancellables = Set<AnyCancellable>()
+
+    // Tabs
+    private var tabContainerView: UIView? = nil
+    private var tabContainerTrailingAnchor: NSLayoutConstraint? = nil
+    private var tabViewModel: EpisodeTabsViewModel? = nil
+
     private lazy var bookmarksController: BookmarkEpisodeListController? = {
         guard FeatureFlag.bookmarks.enabled else { return nil }
 
