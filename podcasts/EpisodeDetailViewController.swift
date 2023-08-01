@@ -557,7 +557,7 @@ extension EpisodeDetailViewController: AnalyticsSourceProvider {
 
 // MARK: - Bookmark Tabs
 private extension EpisodeDetailViewController {
-    private func addBookmarksTabIfNeeded() {
+    func addBookmarksTabIfNeeded() {
         containerScrollView.addPageView(mainScrollView)
 
         guard let bookmarksController, let bookmarksView = bookmarksController.view else {
@@ -588,6 +588,59 @@ private extension EpisodeDetailViewController {
                 self?.updateRightButtons()
             }
             .store(in: &cancellables)
+
+        addTabs()
+    }
+
+    private func addTabs() {
+        let tabContainerView = UIView()
+        tabContainerView.backgroundColor = .clear
+        tabContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        fakeNavView.addSubview(tabContainerView)
+
+        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: fakeNavView.trailingAnchor)
+        NSLayoutConstraint.activate([
+            tabContainerView.leadingAnchor.constraint(equalTo: backBtn.trailingAnchor),
+            trailingAnchor,
+            tabContainerView.topAnchor.constraint(equalTo: backBtn.topAnchor),
+            tabContainerView.bottomAnchor.constraint(equalTo: backBtn.bottomAnchor)
+        ])
+
+        self.tabContainerView = tabContainerView
+        self.tabContainerTrailingAnchor = trailingAnchor
+
+        let viewModel = EpisodeTabsViewModel(tabs: [
+            .init(title: L10n.episodeDetailsTitle),
+            .init(title: L10n.bookmarks)
+        ])
+
+        let controller = ThemedHostingController(rootView: EpisodeDetailTabView(viewModel: viewModel))
+
+        tabContainerView.addSubview(controller.view)
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        controller.view.anchorToAllSidesOf(view: tabContainerView)
+        addChild(controller)
+        controller.didMove(toParent: self)
+
+        tabViewModel = viewModel
+
+        // Listen for if the user taps the tab button directly
+        viewModel.$selectedTab
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.selectedTabDidChange()
+            }
+            .store(in: &cancellables)
+    }
+
+    func selectedTabDidChange() {
+        guard let index = tabViewModel?.selectedIndex, let tab = Tab(rawValue: index), tab != currentTab else {
+            return
+        }
+
+        containerScrollView.scrollToPage(index)
+    }
 
     private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
         currentTab = tab
