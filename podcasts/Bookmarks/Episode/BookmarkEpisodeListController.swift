@@ -5,7 +5,7 @@ import SwiftUI
 class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeListView> {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
-    private let viewModel: BookmarkEpisodeListViewModel
+    let viewModel: BookmarkEpisodeListViewModel
 
     private var cancellables = Set<AnyCancellable>()
 
