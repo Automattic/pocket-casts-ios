@@ -279,6 +279,24 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateDisplayedData()
     }
 
+    // MARK: - Scroll View Delegate
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // If we're not changing pages, then forward the event to the fake nav bar
+        guard scrollView == containerScrollView else {
+            super.scrollViewDidScroll(scrollView)
+            return
+        }
+
+        // If we're swiping to the first page, then allow the navbar shadow to be shown, or hide it if not
+        if scrollView.currentPage == .details {
+            super.scrollViewDidScroll(mainScrollView)
+        } else {
+            setShadowVisible(false)
+        }
+
+    }
+
     // MARK: - Update Display
 
     func updateDisplayedData(reloadingEpisode: Bool = true) {
