@@ -178,8 +178,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
         navTitle = episode.title
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
 
         setupWebView()
         updateMessageView()
@@ -187,6 +185,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         hideErrorMessage(hide: true)
         Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
+
+        didSwitchToTab(.details, animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -354,10 +354,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         episodeInfo.text = episode.displayableTimeLeft()
 
-        let starImageName = episode.keepEpisode ? "star_filled" : "star_empty"
-        starButton?.setImage(UIImage(named: starImageName), for: .normal)
-        starButton?.accessibilityLabel = episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
-        starButton?.accessibilityHint = episode.keepEpisode ? L10n.accessibilityHintUnstar : L10n.accessibilityHintStar
+        updateStar()
 
         updateButtonStates()
         updateProgress()
@@ -370,6 +367,15 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     override func handleThemeChanged() {
         updateColors()
+    }
+
+    func updateStar() {
+        guard let starButton else { return }
+
+        let starImageName = episode.keepEpisode ? "star_filled" : "star_empty"
+        starButton.setImage(UIImage(named: starImageName), for: .normal)
+        starButton.accessibilityLabel = episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
+        starButton.accessibilityHint = episode.keepEpisode ? L10n.accessibilityHintUnstar : L10n.accessibilityHintStar
     }
 
     func updateColors() {
