@@ -501,6 +501,40 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
     var analyticsDescription: String { rawValue }
 }
 
+// MARK: - UIScrollView Extension
+
+private extension UIScrollView {
+    /// Adds the view to the scroll view and sets its constraints
+    /// If `after` is specify the `view` will be aligned horizontally after the `after` view
+    func addPageView(_ view: UIView, after: UIView? = nil) {
+        if view.superview == nil {
+            addSubview(view)
+        }
+
+        // If this is the first view, pin to all edges
+        guard let after else {
+            NSLayoutConstraint.activate([
+                view.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+                view.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
+                view.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+                view.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor),
+                view.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
+            ])
+
+            return
+        }
+
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor, constant: EpisodeDetailConstants.topPadding),
+            view.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            view.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor),
+
+            view.leadingAnchor.constraint(equalTo: after.trailingAnchor),
+            view.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+        ])
+    }
+}
+
 // MARK: - Constants
 private enum EpisodeDetailConstants {
     /// The amount of padding to apply to the top of the view
