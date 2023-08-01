@@ -4,9 +4,9 @@ import UIKit
 class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private static let navBarBaseHeight: CGFloat = 45
 
-    private var fakeNavView: UIView!
-    private var backBtn: UIButton!
-    private var rightActionButtons = [UIButton]()
+    private(set) var fakeNavView: UIView!
+    private(set) var backBtn: UIButton!
+    private(set) var rightActionButtons = [UIButton]()
     private var fakeNavHeight: NSLayoutConstraint!
     private var fakeNavTitle: UILabel!
 
@@ -160,6 +160,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             ])
         }
         rightActionButtons.append(button)
+    }
+
+    /// Removes all the right button actions from the view
+    func removeAllButtons() {
+        for button in rightActionButtons {
+            button.removeFromSuperview()
+        }
+
+        rightActionButtons = []
     }
 
     func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor) {
