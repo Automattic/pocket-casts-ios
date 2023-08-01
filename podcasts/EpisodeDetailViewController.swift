@@ -183,8 +183,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         modalPresentationCapturesStatusBarAppearance = true
         presentationController?.delegate = self
 
-        scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
-        navTitle = episode.title
+        // Hide the scroll title if the tabs are visible
+        if tabContainerView == nil {
+            scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+            navTitle = episode.title
+        }
 
         setupWebView()
         updateMessageView()
@@ -245,7 +248,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+        // Hide the scroll title if the tabs are visible
+        if tabContainerView == nil {
+            scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+        }
 
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
