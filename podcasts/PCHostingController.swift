@@ -35,9 +35,6 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
 /// }
 class ThemedHostingController<Content>: ModifedHostingController<Content, ThemedEnvironment> where Content: View {
 
-    /// Hides the navigation bar when set to true
-    var navBarHidden: Bool = false
-
     init(rootView: Content, theme: Theme = Theme.sharedTheme) {
         super.init(rootView: rootView, modifier: ThemedEnvironment(theme: theme))
     }
@@ -45,16 +42,6 @@ class ThemedHostingController<Content>: ModifedHostingController<Content, Themed
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // We don't set this if the flag isn't true because there's a weird bug that
-        // will hide the nav bar even if this is false.
-        guard navBarHidden else { return }
-
-        navigationController?.navigationBar.isHidden = true
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
