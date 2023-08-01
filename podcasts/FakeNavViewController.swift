@@ -85,6 +85,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if !navigationTitleSetOnScroll { fakeNavTitle.text = navTitle }
     }
 
+    override func addChild(_ childController: UIViewController) {
+        super.addChild(childController)
+
+        /// Hide the child nav bar on the next run loop since this doesn't have any effect if called immediately
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            childController.navigationController?.setNavigationBarHidden(true, animated: false)
+        }
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
