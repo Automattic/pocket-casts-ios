@@ -6,7 +6,7 @@ import UIKit
 import WebKit
 
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
-    @IBOutlet var containerScrollView: UIScrollView!
+    @IBOutlet var containerScrollView: PagedUIScrollView!
 
     private lazy var bookmarksController: BookmarkEpisodeListController? = {
         guard FeatureFlag.bookmarks.enabled else { return nil }
