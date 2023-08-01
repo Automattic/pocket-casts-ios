@@ -52,8 +52,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var playersToCleanUp = [AnyHashable]()
     private let playerCleanupQueue: DispatchQueue
 
-    private let playerCreateDestroyLock = NSObject()
-
     private let catchUpHelper = PlaybackCatchUpHelper()
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
@@ -130,9 +128,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
-        objc_sync_enter(playerCreateDestroyLock)
-        defer { objc_sync_exit(playerCreateDestroyLock) }
-
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay)")
 
         let episodeIsChanging = episode.uuid != currentEpisode()?.uuid
@@ -519,9 +514,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let nextEpisode = queue.episodeAt(index: 0) else { return }
 
         FileLog.shared.addMessage("Play Next Episode \(nextEpisode.displayableTitle())")
-
-        objc_sync_enter(playerCreateDestroyLock)
-        defer { objc_sync_exit(playerCreateDestroyLock) }
 
         queue.removeTopEpisode(fireNotification: false)
         chapterManager.clearChapterInfo()
@@ -1081,9 +1073,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func cleanupCurrentPlayer(permanent: Bool) {
-        objc_sync_enter(playerCreateDestroyLock)
-        defer { objc_sync_exit(playerCreateDestroyLock) }
-
         haveCalledPlayerLoad = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
