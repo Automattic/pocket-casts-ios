@@ -50,6 +50,8 @@ class ThemedHostingController<Content>: ModifedHostingController<Content, Themed
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        // We don't set this if the flag isn't true because there's a weird bug that
+        // will hide the nav bar even if this is false.
         guard navBarHidden else { return }
 
         navigationController?.navigationBar.isHidden = true
