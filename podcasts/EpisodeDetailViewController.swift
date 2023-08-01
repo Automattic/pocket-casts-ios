@@ -625,12 +625,27 @@ private extension EpisodeDetailViewController {
             break
         }
 
+        adjustTabContainer()
         updateColors()
     }
 
     @objc private func showBookmarksMore(_ sender: UIButton) {
         bookmarksController?.viewModel.showMoreOptions()
     }
+
+    func adjustTabContainer() {
+        guard let tabContainerView, let tabContainerTrailingAnchor else {
+            return
+        }
+
+        tabContainerTrailingAnchor.isActive = false
+
+        let anchor = rightActionButtons.last?.leadingAnchor ?? fakeNavView.trailingAnchor
+        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: anchor)
+
+        trailingAnchor.isActive = true
+
+        self.tabContainerTrailingAnchor = trailingAnchor
     }
 }
 
