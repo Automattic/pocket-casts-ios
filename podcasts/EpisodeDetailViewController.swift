@@ -295,6 +295,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             setShadowVisible(false)
         }
 
+        // Hides the vertical scroll indicators when changing pages
+        mainScrollView.hideVerticalScrollIndicator()
     }
 
     // MARK: - Update Display
