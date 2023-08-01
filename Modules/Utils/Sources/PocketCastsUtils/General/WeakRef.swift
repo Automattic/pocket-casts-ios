@@ -9,4 +9,3 @@ public final class WeakRef<Obj: AnyObject> {
         self.object = object
     }
 }
-
