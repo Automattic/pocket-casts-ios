@@ -500,3 +500,10 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
 
     var analyticsDescription: String { rawValue }
 }
+
+// MARK: - Constants
+private enum EpisodeDetailConstants {
+    /// The amount of padding to apply to the top of the view
+    /// This allows it to clear the fake nav bar
+    static let topPadding = 56.0
+}
