@@ -21,7 +21,7 @@ public extension UIScrollView {
         setContentOffset(offset, animated: animated)
     }
 
-    /// Returns the width of the view for use when paging
+    /// Returns the the width of the content that's adjusted to be used in calculating the current page / x offset.
     private var contentOffsetWidth: Double {
         contentSize.width * 0.5
     }
