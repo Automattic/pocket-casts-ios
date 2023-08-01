@@ -8,6 +8,13 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
         }
     }
 
+    convenience init(episode: BaseEpisode, bookmarkManager: BookmarkManager, sortOption: SortSetting) {
+        self.init(bookmarkManager: bookmarkManager, sortOption: sortOption)
+
+        self.episode = episode
+        reload()
+    }
+
     override func reload() {
         items = episode.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption) } ?? []
     }
