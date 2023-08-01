@@ -1402,6 +1402,7 @@
 		BDFF77301C9929660086282A /* NavigationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFF772F1C9929660086282A /* NavigationProtocol.swift */; };
 		BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */; };
 		BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */; };
+		C700A8702A78BCD60091F895 /* EpisodeDetailTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C700A86F2A78BCD60091F895 /* EpisodeDetailTabView.swift */; };
 		C7080C082922DB5F00D7A432 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */; };
 		C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */; };
 		C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */; };
@@ -3170,6 +3171,7 @@
 		BDFF772F1C9929660086282A /* NavigationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationProtocol.swift; sourceTree = "<group>"; };
 		BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCRoutePickerView.swift; sourceTree = "<group>"; };
 		BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoViewController+Seek.swift"; sourceTree = "<group>"; };
+		C700A86F2A78BCD60091F895 /* EpisodeDetailTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailTabView.swift; sourceTree = "<group>"; };
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusAccountUpgradePrompt.swift; sourceTree = "<group>"; };
 		C7080C5E29233BA000D7A432 /* PlusAccountPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccountPromptViewModel.swift; sourceTree = "<group>"; };
@@ -6582,6 +6584,7 @@
 			children = (
 				C7C4F8802A71E14E002139B2 /* BookmarkEpisodeListView.swift */,
 				C7C4F8822A71E1B7002139B2 /* BookmarkEpisodeListController.swift */,
+				C700A86F2A78BCD60091F895 /* EpisodeDetailTabView.swift */,
 			);
 			path = Episode;
 			sourceTree = "<group>";
@@ -8810,6 +8813,7 @@
 				BD8032D52123F0AF00BFBB03 /* SleepTimerButton.swift in Sources */,
 				8B208A5329C933D300AEF951 /* MiniPlayerPaddingModifier.swift in Sources */,
 				BD1F97821FD7C64600F89CCD /* PlaylistViewController+TableData.swift in Sources */,
+				C700A8702A78BCD60091F895 /* EpisodeDetailTabView.swift in Sources */,
 				408971AD2512EE1F00783253 /* PodcastBundleCountView.swift in Sources */,
 				8B205C8129E84B6B0069BAF9 /* PageIndicatorView.swift in Sources */,
 				BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */,
