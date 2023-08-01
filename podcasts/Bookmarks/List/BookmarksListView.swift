@@ -10,6 +10,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// Set this to false to implement custom handling
     var showMultiSelectInHeader: Bool = true
 
+    var showMoreInHeader: Bool = true
+
     @State private var showShadow = false
 
     private var actionBarVisible: Bool {
@@ -73,8 +75,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
                 Spacer()
 
-                Image("more").foregroundStyle(style.primaryText).buttonize {
-                    viewModel.showMoreOptions()
+                if showMoreInHeader {
+                    Image("more").foregroundStyle(style.primaryText).buttonize {
+                        viewModel.showMoreOptions()
+                    }
                 }
             }
             .opacity(isMultiSelecting ? 0 : 1)
