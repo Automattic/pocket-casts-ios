@@ -170,6 +170,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         // Make sure the view reappears
         if let tabsViewController {
             tabsViewController.removeFromParent()
+            parentController.addChild(tabsViewController)
             tabsViewController.didMove(toParent: parentController)
             return
         }
