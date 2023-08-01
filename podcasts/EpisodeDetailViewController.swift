@@ -304,8 +304,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             return
         }
 
+        let currentPage = containerScrollView.currentPage
+
         // If we're swiping to the first page, then allow the navbar shadow to be shown, or hide it if not
-        if containerScrollView.currentPage == .details {
+        if currentPage == .details {
             super.scrollViewDidScroll(mainScrollView)
         } else {
             setShadowVisible(false)
@@ -314,7 +316,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         // Hides the vertical scroll indicators when changing pages
         mainScrollView.hideVerticalScrollIndicator()
 
-        guard let tab = Tab(rawValue: scrollView.currentPage), tab != currentTab else {
+        guard let tab = Tab(rawValue: currentPage), tab != currentTab else {
             return
         }
 
