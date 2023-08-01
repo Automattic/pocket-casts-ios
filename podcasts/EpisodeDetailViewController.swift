@@ -560,6 +560,48 @@ private extension EpisodeDetailViewController {
 
         addChild(bookmarksController)
         bookmarksController.didMove(toParent: self)
+    private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
+        currentTab = tab
+        tabViewModel?.selectTabIndex(tab.rawValue)
+
+        guard animated else {
+            updateRightButtons()
+            return
+        }
+
+        UIView.animate(withDuration: 0.2) {
+            for button in self.rightActionButtons {
+                button.alpha = 0
+            }
+        } completion: { _ in
+            self.updateRightButtons()
+        }
+    }
+
+    private func updateRightButtons() {
+        removeAllButtons()
+
+        switch currentTab {
+        case .details:
+            addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
+            starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
+            updateStar()
+        case .bookmarks:
+            if bookmarksController?.viewModel.numberOfItems != 0 {
+                addRightAction(image: UIImage(named: "more"),
+                               accessibilityLabel: L10n.accessibilityMoreActions,
+                               action: #selector(showBookmarksMore(_:)))
+            }
+
+            break
+        }
+
+        updateColors()
+    }
+
+    @objc private func showBookmarksMore(_ sender: UIButton) {
+        bookmarksController?.viewModel.showMoreOptions()
+    }
     }
 }
 
