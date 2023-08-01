@@ -116,6 +116,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     let fromPlaylist: AutoplayHelper.Playlist?
 
+    private var currentTab: Tab = .details
+
     // MARK: - Init
 
     init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
@@ -297,6 +299,12 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         // Hides the vertical scroll indicators when changing pages
         mainScrollView.hideVerticalScrollIndicator()
+
+        guard let tab = Tab(rawValue: scrollView.currentPage), tab != currentTab else {
+            return
+        }
+
+        didSwitchToTab(tab)
     }
 
     // MARK: - Update Display
