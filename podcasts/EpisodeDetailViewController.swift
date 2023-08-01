@@ -8,6 +8,12 @@ import WebKit
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
     @IBOutlet var containerScrollView: UIScrollView!
 
+    private lazy var bookmarksController: BookmarkEpisodeListController? = {
+        guard FeatureFlag.bookmarks.enabled else { return nil }
+
+        return BookmarkEpisodeListController(episode: episode)
+    }()
+
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var episodeName: ThemeableLabel!
 
@@ -156,6 +162,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         displayMode = .card
         super.viewDidLoad()
 
+        addBookmarksTabIfNeeded()
+
         closeTapped = { [weak self] in
             guard let self else { return }
 
@@ -190,6 +198,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         super.viewDidAppear(animated)
 
         loadShowNotes()
+
+        bookmarksController?.view.isHidden = false
 
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(playbackEventDidFire))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackEventDidFire))
@@ -485,6 +495,34 @@ extension EpisodeDetailViewController: UIAdaptivePresentationControllerDelegate 
 extension EpisodeDetailViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .episodeDetail
+    }
+}
+
+// MARK: - Bookmark Tabs
+private extension EpisodeDetailViewController {
+    private func addBookmarksTabIfNeeded() {
+        containerScrollView.addPageView(mainScrollView)
+
+        guard let bookmarksController, let bookmarksView = bookmarksController.view else {
+            return
+        }
+
+        bookmarksView.translatesAutoresizingMaskIntoConstraints = false
+
+        // This fixes a bug where the view oddly animates into position when the view is added.
+        // in viewDidAppear we mark this to false
+        bookmarksView.isHidden = true
+
+        containerScrollView.addPageView(bookmarksView, after: mainScrollView)
+
+        containerScrollView.isPagingEnabled = true
+        containerScrollView.isDirectionalLockEnabled = true
+        containerScrollView.delegate = self
+
+        mainScrollView.isDirectionalLockEnabled = true
+
+        addChild(bookmarksController)
+        bookmarksController.didMove(toParent: self)
     }
 }
 
