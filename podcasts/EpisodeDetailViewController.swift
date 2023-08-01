@@ -480,6 +480,15 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private func didDismiss() {
         Analytics.track(.episodeDetailDismissed, properties: ["source": viewSource])
     }
+
+    private enum Tab: Int {
+        case details, bookmarks
+
+        // Allow comparing against a raw int to the enum
+        static func == (lhs: Int, rhs: Self) -> Bool {
+            Tab(rawValue: lhs) == rhs
+        }
+    }
 }
 
 // MARK: - UIAdaptivePresentationControllerDelegate
