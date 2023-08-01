@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -579,6 +580,15 @@ private extension EpisodeDetailViewController {
 
         addChild(bookmarksController)
         bookmarksController.didMove(toParent: self)
+
+        // Listen for changes to the items so we can hide the more button if needed
+        bookmarksController.viewModel.$numberOfItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateRightButtons()
+            }
+            .store(in: &cancellables)
+
     private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
         currentTab = tab
         tabViewModel?.selectTabIndex(tab.rawValue)
