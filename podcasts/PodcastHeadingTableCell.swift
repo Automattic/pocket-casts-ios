@@ -177,6 +177,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         bookmarkTabsView.removeAllSubviews()
         let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
 
+        // on iOS 15 there is a bug that shows the nav bar when the controller is added as a child
+        // This prevents that from happening.
+        controller.navBarHidden = true
         bookmarkTabsView.addArrangedSubview(controller.view)
         parentController.addChild(controller)
         controller.didMove(toParent: parentController)
