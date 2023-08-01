@@ -289,7 +289,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
 
         // If we're swiping to the first page, then allow the navbar shadow to be shown, or hide it if not
-        if scrollView.currentPage == .details {
+        if containerScrollView.currentPage == .details {
             super.scrollViewDidScroll(mainScrollView)
         } else {
             setShadowVisible(false)
@@ -530,7 +530,7 @@ extension EpisodeDetailViewController: AnalyticsSourceProvider {
 // MARK: - Bookmark Tabs
 private extension EpisodeDetailViewController {
     private func addBookmarksTabIfNeeded() {
-        containerScrollView.addPageView(mainScrollView)
+        containerScrollView.addPage(mainScrollView)
 
         guard let bookmarksController, let bookmarksView = bookmarksController.view else {
             return
@@ -542,8 +542,7 @@ private extension EpisodeDetailViewController {
         // in viewDidAppear we mark this to false
         bookmarksView.isHidden = true
 
-        containerScrollView.addPageView(bookmarksView, after: mainScrollView)
-
+        containerScrollView.addPage(bookmarksView, padding: .init(top: EpisodeDetailConstants.topPadding, left: 0, bottom: 0, right: 0))
         containerScrollView.isPagingEnabled = true
         containerScrollView.isDirectionalLockEnabled = true
         containerScrollView.delegate = self
@@ -566,40 +565,6 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
     case upNext = "up_next"
 
     var analyticsDescription: String { rawValue }
-}
-
-// MARK: - UIScrollView Extension
-
-private extension UIScrollView {
-    /// Adds the view to the scroll view and sets its constraints
-    /// If `after` is specify the `view` will be aligned horizontally after the `after` view
-    func addPageView(_ view: UIView, after: UIView? = nil) {
-        if view.superview == nil {
-            addSubview(view)
-        }
-
-        // If this is the first view, pin to all edges
-        guard let after else {
-            NSLayoutConstraint.activate([
-                view.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
-                view.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
-                view.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
-                view.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor),
-                view.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
-            ])
-
-            return
-        }
-
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor, constant: EpisodeDetailConstants.topPadding),
-            view.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
-            view.widthAnchor.constraint(equalTo: frameLayoutGuide.widthAnchor),
-
-            view.leadingAnchor.constraint(equalTo: after.trailingAnchor),
-            view.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
-        ])
-    }
 }
 
 // MARK: - Constants
