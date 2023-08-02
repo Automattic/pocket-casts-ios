@@ -97,6 +97,35 @@ final class BookmarkDataManagerTests: XCTestCase {
         XCTAssertEqual(dataManager.bookmarkCount(forEpisode: "episode"), count)
     }
 
+    func testDeletedBookmarksAreExcludedFromCount() async {
+        let count = 10
+
+        let deletedBookmark = addBookmark(episodeUuid: "episode", time: 1234)
+
+        for i in 0..<count {
+            addBookmark(episodeUuid: "episode", time: Double(i))
+        }
+
+        _ = await dataManager.remove(bookmarks: [deletedBookmark])
+
+        XCTAssertEqual(dataManager.bookmarkCount(forEpisode: "episode"), count)
+    }
+
+    func testBookmarkCountCanIncludeDeletedItems() async {
+        let count = 10
+
+        let deletedBookmark = addBookmark(episodeUuid: "episode", time: 1234)
+
+        for i in 0..<count {
+            addBookmark(episodeUuid: "episode", time: Double(i))
+        }
+
+        _ = await dataManager.remove(bookmarks: [deletedBookmark])
+
+
+        XCTAssertEqual(dataManager.bookmarkCount(forEpisode: "episode", includeDeleted: true), count + 1)
+    }
+
     // MARK: - Data Validation
 
     func testBookmarkReturnsCorrectValues() {
