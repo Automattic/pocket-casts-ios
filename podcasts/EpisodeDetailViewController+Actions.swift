@@ -144,7 +144,6 @@ extension EpisodeDetailViewController {
         if progressWidthConstraint.multiplier != progress {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
                 self.progressWidthConstraint = self.progressWidthConstraint.cloneWithMultipler(progress)
-                self.view.layoutIfNeeded()
             })
         }
     }

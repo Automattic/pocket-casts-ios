@@ -21,6 +21,7 @@
                 <outlet property="episodeDate" destination="ytP-Wg-gNG" id="RHp-pu-2AQ"/>
                 <outlet property="episodeInfo" destination="i6O-79-oUy" id="L5o-Hb-L6r"/>
                 <outlet property="episodeName" destination="dsg-ff-pnB" id="21O-XU-QDv"/>
+                <outlet property="episodeSpacer" destination="bui-ho-GkT" id="I3V-fJ-25T"/>
                 <outlet property="failedToLoadLabel" destination="Gye-vZ-4Rq" id="7lV-t8-PgR"/>
                 <outlet property="loadingIndicator" destination="bTC-FT-bUv" id="BUh-qL-mST"/>
                 <outlet property="mainScrollView" destination="Ffa-0D-OU4" id="fdv-nX-GrV"/>
@@ -55,7 +56,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYi-ag-GDK" userLabel="Top Section">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="522"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="546"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4IP-4N-SIa" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                                             <rect key="frame" x="100" y="12" width="175" height="175"/>
@@ -65,22 +66,45 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Episode Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-ff-pnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="16" y="207" width="343" height="26.5"/>
+                                            <rect key="frame" x="16" y="231" width="343" height="26.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="akC-zS-r4u">
+                                            <rect key="frame" x="91.5" y="203" width="192" height="18"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 December 2019" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytP-Wg-gNG" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="122.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="·" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bui-ho-GkT" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                    <rect key="frame" x="127.5" y="0.0" width="4.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 mins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6O-79-oUy" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                    <rect key="frame" x="137" y="0.0" width="55" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqv-46-8ea">
-                                            <rect key="frame" x="146" y="241.5" width="73.5" height="19.5"/>
+                                            <rect key="frame" x="146" y="265.5" width="73.5" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="episode-chevron" translatesAutoresizingMaskIntoConstraints="NO" id="sEv-1n-DxV">
-                                            <rect key="frame" x="221.5" y="243.5" width="16" height="16"/>
+                                            <rect key="frame" x="221.5" y="267.5" width="16" height="16"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mhS-eS-X3U" userLabel="Buttons View">
-                                            <rect key="frame" x="0.0" y="281" width="375" height="235"/>
+                                            <rect key="frame" x="0.0" y="305" width="375" height="235"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhA-bj-I2z" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="40" width="375" height="1"/>
@@ -265,10 +289,12 @@
                                         <constraint firstItem="dsg-ff-pnB" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="16" id="68d-Oz-Mgl"/>
                                         <constraint firstItem="sEv-1n-DxV" firstAttribute="centerY" secondItem="mqv-46-8ea" secondAttribute="centerY" id="8FF-D7-oYB"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mqv-46-8ea" secondAttribute="trailing" constant="40" id="Cu8-Sf-4MD"/>
-                                        <constraint firstItem="dsg-ff-pnB" firstAttribute="top" secondItem="4IP-4N-SIa" secondAttribute="bottom" constant="20" id="GLy-9A-UJJ"/>
+                                        <constraint firstItem="dsg-ff-pnB" firstAttribute="top" secondItem="akC-zS-r4u" secondAttribute="bottom" constant="10" id="GLy-9A-UJJ"/>
                                         <constraint firstItem="4IP-4N-SIa" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="100" id="NRp-t8-OKj"/>
                                         <constraint firstAttribute="trailing" secondItem="dsg-ff-pnB" secondAttribute="trailing" constant="16" id="UjW-5V-YVv"/>
                                         <constraint firstItem="mhS-eS-X3U" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" id="V1O-Po-PXt"/>
+                                        <constraint firstItem="akC-zS-r4u" firstAttribute="centerX" secondItem="SYi-ag-GDK" secondAttribute="centerX" id="VoY-ug-v6h"/>
+                                        <constraint firstItem="akC-zS-r4u" firstAttribute="top" secondItem="4IP-4N-SIa" secondAttribute="bottom" constant="16" id="Wzy-w9-Ed9"/>
                                         <constraint firstItem="sEv-1n-DxV" firstAttribute="leading" secondItem="mqv-46-8ea" secondAttribute="trailing" constant="2" id="Zso-1u-hEY"/>
                                         <constraint firstItem="mhS-eS-X3U" firstAttribute="top" secondItem="mqv-46-8ea" secondAttribute="bottom" constant="20" id="jJ0-EI-286"/>
                                         <constraint firstItem="Fv5-YL-ggw" firstAttribute="width" secondItem="SYi-ag-GDK" secondAttribute="width" multiplier="0.01" id="lXv-7B-jbA"/>
@@ -282,31 +308,19 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XID-El-uKH">
-                                    <rect key="frame" x="0.0" y="522" width="375" height="334"/>
+                                    <rect key="frame" x="0.0" y="546" width="375" height="334"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 December 2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytP-Wg-gNG" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="17" y="10" width="122.5" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 mins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6O-79-oUy" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="302" y="10" width="55" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-FT-bUv">
                                             <rect key="frame" x="177.5" y="40" width="20" height="20"/>
                                         </activityIndicatorView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to find show notes for this episode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gye-vZ-4Rq" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="16" y="58" width="343" height="19.5"/>
+                                            <rect key="frame" x="16" y="20" width="343" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X1H-6J-Cmx" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                                            <rect key="frame" x="150" y="88" width="75" height="29"/>
+                                            <rect key="frame" x="150" y="50" width="75" height="29"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                             <state key="normal" title="TRY AGAIN"/>
                                             <connections>
@@ -317,14 +331,10 @@
                                     <constraints>
                                         <constraint firstItem="bTC-FT-bUv" firstAttribute="centerX" secondItem="XID-El-uKH" secondAttribute="centerX" id="4uS-HB-pBk"/>
                                         <constraint firstItem="Gye-vZ-4Rq" firstAttribute="leading" secondItem="XID-El-uKH" secondAttribute="leading" constant="16" id="CKA-7o-CaF"/>
-                                        <constraint firstItem="Gye-vZ-4Rq" firstAttribute="top" secondItem="ytP-Wg-gNG" secondAttribute="bottom" constant="30" id="GRZ-GS-Ath"/>
                                         <constraint firstItem="Gye-vZ-4Rq" firstAttribute="centerX" secondItem="X1H-6J-Cmx" secondAttribute="centerX" id="OQb-AJ-ktF"/>
-                                        <constraint firstAttribute="trailing" secondItem="i6O-79-oUy" secondAttribute="trailing" constant="18" id="PmQ-wm-sgR"/>
+                                        <constraint firstItem="Gye-vZ-4Rq" firstAttribute="top" secondItem="XID-El-uKH" secondAttribute="top" constant="20" id="PL2-Yd-iGe"/>
                                         <constraint firstAttribute="trailing" secondItem="Gye-vZ-4Rq" secondAttribute="trailing" constant="16" id="XhN-FS-LyS"/>
                                         <constraint firstItem="X1H-6J-Cmx" firstAttribute="top" secondItem="Gye-vZ-4Rq" secondAttribute="top" constant="30" id="Y1j-DO-KYY"/>
-                                        <constraint firstItem="ytP-Wg-gNG" firstAttribute="leading" secondItem="XID-El-uKH" secondAttribute="leading" constant="17" id="Zro-rG-sWc"/>
-                                        <constraint firstItem="ytP-Wg-gNG" firstAttribute="top" secondItem="XID-El-uKH" secondAttribute="top" constant="10" id="aLM-26-nom"/>
-                                        <constraint firstItem="i6O-79-oUy" firstAttribute="top" secondItem="XID-El-uKH" secondAttribute="top" constant="10" id="ksd-dm-WMK"/>
                                         <constraint firstItem="X1H-6J-Cmx" firstAttribute="centerX" secondItem="XID-El-uKH" secondAttribute="centerX" id="m8e-BG-Anf"/>
                                         <constraint firstAttribute="height" constant="334" id="mcc-50-BWR"/>
                                         <constraint firstItem="bTC-FT-bUv" firstAttribute="top" secondItem="XID-El-uKH" secondAttribute="top" constant="40" id="z4f-GP-4KF"/>
@@ -364,7 +374,7 @@
                 <constraint firstItem="tmT-f0-kSM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fNc-TF-gju"/>
                 <constraint firstItem="tmT-f0-kSM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="imU-Jb-2bf"/>
             </constraints>
-            <point key="canvasLocation" x="-2982" y="-788"/>
+            <point key="canvasLocation" x="-3066" y="-794"/>
         </view>
     </objects>
     <resources>
