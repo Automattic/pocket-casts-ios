@@ -1,7 +1,7 @@
 #if !os(watchOS)
 import UIKit
 
-/// A UIScrollView subclass that provides additional functionality for adding and manging horizontal pages.
+/// A UIScrollView subclass that provides additional functionality for adding and managing horizontal pages.
 public class PagedUIScrollView: UIScrollView {
     private var pageViews: [WeakRef<UIView>] = []
 
