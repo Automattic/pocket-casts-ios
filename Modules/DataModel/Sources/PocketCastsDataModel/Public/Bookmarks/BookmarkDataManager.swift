@@ -101,6 +101,28 @@ public struct BookmarkDataManager {
         selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
     }
 
+    /// Returns the total number of undeleted bookmarks for the episode
+    public func bookmarkCount(forEpisode episodeUuid: String) -> Int {
+        let query = """
+        SELECT COUNT(*) FROM \(Self.tableName)
+        WHERE \(Column.deleted) = 0 AND \(Column.episode) = ?
+        """
+
+        var count = 0
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: [episodeUuid])
+                resultSet.next()
+                count = resultSet.long(forColumnIndex: 0)
+                resultSet.close()
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.bookmarkCount failed: \(error)")
+            }
+        }
+
+        return count
+    }
+
     // MARK: - Deleting
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database

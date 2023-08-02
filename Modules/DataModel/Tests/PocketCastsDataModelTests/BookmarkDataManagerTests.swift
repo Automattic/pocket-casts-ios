@@ -86,6 +86,17 @@ final class BookmarkDataManagerTests: XCTestCase {
         XCTAssertEqual(bookmarks.count, 2)
     }
 
+    // MARK: - Counts
+    func testBookmarkReturnsCorrectly() {
+        let count = 10
+
+        for i in 0..<count {
+            addBookmark(episodeUuid: "episode", time: Double(i))
+        }
+
+        XCTAssertEqual(dataManager.bookmarkCount(forEpisode: "episode"), count)
+    }
+
     // MARK: - Data Validation
 
     func testBookmarkReturnsCorrectValues() {
