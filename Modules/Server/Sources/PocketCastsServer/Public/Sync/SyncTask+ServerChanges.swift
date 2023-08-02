@@ -21,6 +21,9 @@ extension SyncTask {
                 filtersToImport.append(item.playlist)
             case .folder:
                 foldersToImport.append(item.folder)
+            case .bookmark:
+                #warning("TODO")
+                continue
             case .device:
                 continue // we aren't expecting the server to send us devices
             }
