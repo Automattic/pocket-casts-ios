@@ -10,6 +10,13 @@ protocol UserEpisodeDetailProtocol: AnyObject {
     func showBookmarks(userEpisode: UserEpisode)
 }
 
+extension UserEpisodeDetailProtocol where Self: UIViewController {
+    func showBookmarks(userEpisode: UserEpisode) {
+        let controller = BookmarkEpisodeListController(episode: userEpisode, displayMode: .standalone)
+        present(controller, animated: true)
+    }
+}
+
 class UserEpisodeDetailViewController: UIViewController {
     @IBOutlet var containerView: ThemeableView! {
         didSet {
