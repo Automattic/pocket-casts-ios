@@ -76,6 +76,12 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
     }
 
+    @IBOutlet var episodeSpacer: ThemeableLabel! {
+        didSet {
+            episodeSpacer.style = .primaryText02
+        }
+    }
+
     var themeOverride: Theme.ThemeType?
 
     @IBOutlet var progressView: UIView!
@@ -396,6 +402,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     func updateColors() {
         episodeDate.themeOverride = themeOverride
+        episodeSpacer.themeOverride = themeOverride
         episodeInfo.themeOverride = themeOverride
         topDivider.themeOverride = themeOverride
         bottomDivider.themeOverride = themeOverride
