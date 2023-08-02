@@ -16,7 +16,7 @@ struct BookmarksPodcastListView: View {
     private var headerView: some View {
         VStack(spacing: Constants.padding) {
             ZStack {
-                titleView
+                BookmarkCardTitleView(viewModel: viewModel, style: style)
                 BookmarkListMultiSelectHeaderView(viewModel: viewModel, style: style)
             }
             .animation(.linear(duration: 0.2), value: viewModel.isMultiSelecting)
@@ -25,30 +25,6 @@ struct BookmarksPodcastListView: View {
         }
         .padding(.top, Constants.padding)
         .padding(.horizontal, BookmarkListConstants.padding)
-    }
-
-    /// Shows the faux navigation bar with the dismiss button and title
-    private var titleView: some View {
-        ZStack(alignment: .leading) {
-            HStack {
-                Spacer()
-
-                Text(L10n.bookmarks)
-                    .font(style: .headline, weight: .semibold)
-
-                Spacer()
-            }
-
-            Image("episode-close")
-                .renderingMode(.template)
-                .padding(5)
-                .buttonize {
-                    viewModel.dismiss()
-                }
-        }
-        .foregroundStyle(style.primaryText)
-        .opacity(viewModel.isMultiSelecting ? 0 : 1)
-        .offset(y: viewModel.isMultiSelecting ? BookmarkListConstants.headerTransitionOffset : 0)
     }
 
     @ViewBuilder

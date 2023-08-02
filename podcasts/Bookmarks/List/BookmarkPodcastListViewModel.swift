@@ -39,8 +39,4 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
             }
             .store(in: &cancellables)
     }
-
-    func dismiss() {
-        router?.dismissBookmarksList()
-    }
 }

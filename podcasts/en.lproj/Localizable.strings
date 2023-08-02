@@ -3841,3 +3841,6 @@
 
 /* Title of a button the clears the current search text */
 "clear_search" = "Clear Search";
+
+/* Title of a button the clears the current search text */
+"episode_details_title" = "Details";

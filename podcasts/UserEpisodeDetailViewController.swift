@@ -7,6 +7,14 @@ protocol UserEpisodeDetailProtocol: AnyObject {
     func showDeleteConfirmation(userEpisode: UserEpisode)
     func showUpgradeRequired()
     func userEpisodeDetailClosed()
+    func showBookmarks(userEpisode: UserEpisode)
+}
+
+extension UserEpisodeDetailProtocol where Self: UIViewController {
+    func showBookmarks(userEpisode: UserEpisode) {
+        let controller = BookmarkEpisodeListController(episode: userEpisode, displayMode: .standalone)
+        present(controller, animated: true)
+    }
 }
 
 class UserEpisodeDetailViewController: UIViewController {
@@ -91,9 +99,9 @@ class UserEpisodeDetailViewController: UIViewController {
 
     private var window: UIWindow?
     private static let containerHeightWithError: CGFloat = 534
-    private static let containerHeightWithoutError: CGFloat = 410
+    private static let containerHeightWithoutError: CGFloat = 430
 
-    enum TableRow { case download, removeFromCloud, upload, upNext, markAsPlayed, editDetails, delete, cancelUpload, cancelDownload }
+    enum TableRow { case download, bookmarks, removeFromCloud, upload, upNext, markAsPlayed, editDetails, delete, cancelUpload, cancelDownload }
     let actionCellId = "UserEpisodeActionCell"
 
     // MARK: - Init

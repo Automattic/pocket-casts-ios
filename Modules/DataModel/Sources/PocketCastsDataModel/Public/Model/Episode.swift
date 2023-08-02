@@ -43,6 +43,10 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
 
+    public var hasBookmarks: Bool {
+        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+    }
+
     override public init() {}
 
     public func displayableTitle() -> String {

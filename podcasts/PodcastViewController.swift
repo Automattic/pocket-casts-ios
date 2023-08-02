@@ -1,3 +1,4 @@
+import Combine
 import DifferenceKit
 import PocketCastsDataModel
 import PocketCastsServer
@@ -183,6 +184,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     static let allEpisodesSection = 1
 
     private var isSearching = false
+    private var cancellables = Set<AnyCancellable>()
 
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -242,6 +244,34 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
+
+        listenForBookmarkChanges()
+    }
+
+    private func listenForBookmarkChanges() {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+
+        // Refresh when a bookmark is added to our podcast
+        bookmarkManager.onBookmarkCreated
+            .filter({ [weak self] event in
+                event.podcast == self?.podcast?.uuid
+            })
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.upNextChanged()
+            })
+            .store(in: &cancellables)
+
+        // Reload when a bookmark is deleted
+        bookmarkManager.onBookmarksDeleted
+            .filter({ [weak self] event in
+                event.items.contains(where: { $0.podcast == self?.podcast?.uuid })
+            })
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.upNextChanged()
+            })
+            .store(in: &cancellables)
     }
 
     private func updateTopConstraintForiPhone14Pro() {

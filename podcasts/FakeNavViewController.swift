@@ -4,9 +4,9 @@ import UIKit
 class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private static let navBarBaseHeight: CGFloat = 45
 
-    private var fakeNavView: UIView!
-    private var backBtn: UIButton!
-    private var rightActionButtons = [UIButton]()
+    private(set) var fakeNavView: UIView!
+    private(set) var backBtn: UIButton!
+    private(set) var rightActionButtons = [UIButton]()
     private var fakeNavHeight: NSLayoutConstraint!
     private var fakeNavTitle: UILabel!
 
@@ -171,6 +171,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         rightActionButtons.append(button)
     }
 
+    /// Removes all the right button actions from the view
+    func removeAllButtons() {
+        for button in rightActionButtons {
+            button.removeFromSuperview()
+        }
+
+        rightActionButtons = []
+    }
+
     func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor) {
         fakeNavView.backgroundColor = bgColor
         fakeNavTitle.textColor = titleColor
@@ -194,10 +203,14 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             }
         }
 
-        let shadowOpacity: Float = scrolledToY > 9 ? 0.2 : 0
-        if shadowOpacity != fakeNavView.layer.shadowOpacity {
-            fakeNavView.layer.shadowOpacity = shadowOpacity
-        }
+        setShadowVisible(scrolledToY > 9)
+    }
+
+    func setShadowVisible(_ visible: Bool) {
+        let opacity: Float = visible ? 0.2 : 0
+        guard opacity != fakeNavView.layer.shadowOpacity else { return }
+
+        fakeNavView.layer.shadowOpacity = opacity
     }
 
     private func changeTitleAnimated(_ newTitle: String?) {

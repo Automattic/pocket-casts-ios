@@ -37,6 +37,10 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     func reload() { }
 
+    func dismiss() {
+        router?.dismissBookmarksList()
+    }
+
     /// Reload a single item from the list
     func refresh(bookmark: Bookmark) {
         guard let index = items.firstIndex(of: bookmark) else { return }

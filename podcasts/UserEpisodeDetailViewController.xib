@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,7 +51,7 @@
                     <rect key="frame" x="0.0" y="257" width="375" height="410"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5vT-2y-mAd" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="-84" width="343" height="100"/>
+                            <rect key="frame" x="16" y="-108" width="343" height="100"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yield" translatesAutoresizingMaskIntoConstraints="NO" id="UDO-V9-Plg">
                                     <rect key="frame" x="13" y="14" width="24" height="24"/>
@@ -87,13 +87,13 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A user episode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mS3-CC-CaQ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="88" y="40" width="271" height="21.5"/>
+                            <rect key="frame" x="88" y="16" width="271" height="21.5"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3MH-20-muf">
-                            <rect key="frame" x="88" y="66.5" width="271" height="17"/>
+                            <rect key="frame" x="88" y="42.5" width="271" height="17"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upnext" translatesAutoresizingMaskIntoConstraints="NO" id="Ov1-M8-SNF">
                                     <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -149,10 +149,10 @@
                             </subviews>
                         </stackView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="none" rowHeight="52" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="blI-8r-cU7" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="114" width="375" height="296"/>
+                            <rect key="frame" x="0.0" y="90" width="375" height="320"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="296" id="iV3-Ps-eju"/>
+                                <constraint firstAttribute="height" constant="320" id="iV3-Ps-eju"/>
                             </constraints>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="iu4-Su-7sV"/>
@@ -160,7 +160,7 @@
                             </connections>
                         </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9yI-6F-r4n" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="40" width="56" height="56"/>
+                            <rect key="frame" x="16" y="16" width="56" height="56"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="e8l-gA-y6B"/>
@@ -168,14 +168,14 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-qJ-KlQ" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="112" width="375" height="1"/>
+                            <rect key="frame" x="0.0" y="88" width="375" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="sLD-9L-gBG"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LuC-fC-pKT" customClass="PlayPauseButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="295" y="80.5" width="64" height="64"/>
+                            <rect key="frame" x="295" y="56.5" width="64" height="64"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="64" id="bzQ-fR-GYs"/>
                                 <constraint firstAttribute="height" constant="64" id="gNn-RO-knN"/>
@@ -219,6 +219,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="rPk-NC-Zbc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4af-x7-FjX"/>
@@ -230,7 +231,6 @@
                 <constraint firstItem="rPk-NC-Zbc" firstAttribute="bottom" secondItem="blI-8r-cU7" secondAttribute="bottom" id="i7y-Cs-8Mg"/>
                 <constraint firstAttribute="trailing" secondItem="bbX-qh-cTr" secondAttribute="trailing" id="tBD-i1-T7e"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="138" y="153"/>
         </view>
     </objects>
