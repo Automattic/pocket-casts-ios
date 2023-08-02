@@ -55,4 +55,6 @@ import Foundation
 
     func videoPodcast() -> Bool
     func mayContainChapters() -> Bool
+
+    var hasBookmarks: Bool { get }
 }
