@@ -16,7 +16,7 @@ struct BookmarksPodcastListView: View {
     private var headerView: some View {
         VStack(spacing: Constants.padding) {
             ZStack {
-                titleView
+                BookmarkCardTitleView(viewModel: viewModel, style: style)
                 BookmarkListMultiSelectHeaderView(viewModel: viewModel, style: style)
             }
             .animation(.linear(duration: 0.2), value: viewModel.isMultiSelecting)
