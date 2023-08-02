@@ -1512,6 +1512,8 @@
 		C7C4CAEB28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
 		C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */; };
 		C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
+		C7C4F8812A71E14E002139B2 /* BookmarkEpisodeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F8802A71E14E002139B2 /* BookmarkEpisodeListView.swift */; };
+		C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F8822A71E1B7002139B2 /* BookmarkEpisodeListController.swift */; };
 		C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */; };
 		C7C4F9BF2A4CC359002822DD /* PCTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */; };
 		C7CA0559293E8918000E41BD /* HolographicEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CA0558293E8918000E41BD /* HolographicEffect.swift */; };
@@ -3265,6 +3267,8 @@
 		C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsLoggingAdapter.swift; sourceTree = "<group>"; };
 		C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksSubscriptionData.swift; sourceTree = "<group>"; };
 		C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C7C4F8802A71E14E002139B2 /* BookmarkEpisodeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEpisodeListView.swift; sourceTree = "<group>"; };
+		C7C4F8822A71E1B7002139B2 /* BookmarkEpisodeListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEpisodeListController.swift; sourceTree = "<group>"; };
 		C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneSettingsViewController.swift; sourceTree = "<group>"; };
 		C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCTableViewController.swift; sourceTree = "<group>"; };
 		C7CA0558293E8918000E41BD /* HolographicEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolographicEffect.swift; sourceTree = "<group>"; };
@@ -6407,6 +6411,7 @@
 			children = (
 				C7318EB62A62D75E00EAFA9C /* BookmarksTheme.swift */,
 				C7318EA22A61E3FC00EAFA9C /* Editing */,
+				C7C4F87F2A71E13F002139B2 /* Episode */,
 				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
 				C7F6050F2A69C59000795F3C /* Podcast */,
@@ -6570,6 +6575,15 @@
 				C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */,
 			);
 			path = Tracks;
+			sourceTree = "<group>";
+		};
+		C7C4F87F2A71E13F002139B2 /* Episode */ = {
+			isa = PBXGroup;
+			children = (
+				C7C4F8802A71E14E002139B2 /* BookmarkEpisodeListView.swift */,
+				C7C4F8822A71E1B7002139B2 /* BookmarkEpisodeListController.swift */,
+			);
+			path = Episode;
 			sourceTree = "<group>";
 		};
 		C7C4F9AE2A4BA4BF002822DD /* Bookmarks */ = {
@@ -9089,6 +9103,7 @@
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				BD340FC521AF897400EAB091 /* PodcastArchiveViewController.swift in Sources */,
 				C7F605112A69C5AB00795F3C /* BookmarksPodcastListView.swift in Sources */,
+				C7C4F8812A71E14E002139B2 /* BookmarkEpisodeListView.swift in Sources */,
 				BD9657582468FAA600873BB5 /* CastToViewController.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
@@ -9192,6 +9207,7 @@
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,
 				BD65E51C1CD9BDE000B90A67 /* OnlineSupportController.swift in Sources */,
 				BDCF60EA22EFECA60051EDB3 /* ThemeableCell.swift in Sources */,
+				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
 				463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */,
 				40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */,

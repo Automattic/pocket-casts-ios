@@ -185,10 +185,14 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             }
         }
 
-        let shadowOpacity: Float = scrolledToY > 9 ? 0.2 : 0
-        if shadowOpacity != fakeNavView.layer.shadowOpacity {
-            fakeNavView.layer.shadowOpacity = shadowOpacity
-        }
+        setShadowVisible(scrolledToY > 9)
+    }
+
+    func setShadowVisible(_ visible: Bool) {
+        let opacity: Float = visible ? 0.2 : 0
+        guard opacity != fakeNavView.layer.shadowOpacity else { return }
+
+        fakeNavView.layer.shadowOpacity = opacity
     }
 
     private func changeTitleAnimated(_ newTitle: String?) {

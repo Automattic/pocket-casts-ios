@@ -6,7 +6,13 @@ import UIKit
 import WebKit
 
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
-    @IBOutlet var containerScrollView: UIScrollView!
+    @IBOutlet var containerScrollView: PagedUIScrollView!
+
+    private lazy var bookmarksController: BookmarkEpisodeListController? = {
+        guard FeatureFlag.bookmarks.enabled else { return nil }
+
+        return BookmarkEpisodeListController(episode: episode)
+    }()
 
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var episodeName: ThemeableLabel!
@@ -38,7 +44,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var mainScrollView: UIScrollView! {
         didSet {
-            mainScrollView.contentInset = UIEdgeInsets(top: 56, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+            mainScrollView.contentInset = UIEdgeInsets(top: EpisodeDetailConstants.topPadding, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
             mainScrollView.delegate = self
         }
     }
@@ -156,6 +162,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         displayMode = .card
         super.viewDidLoad()
 
+        addBookmarksTabIfNeeded()
+
         closeTapped = { [weak self] in
             guard let self else { return }
 
@@ -190,6 +198,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         super.viewDidAppear(animated)
 
         loadShowNotes()
+
+        bookmarksController?.view.isHidden = false
 
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(playbackEventDidFire))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackEventDidFire))
@@ -267,6 +277,26 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @objc private func generalEpisodeEventDidFire() {
         updateDisplayedData()
+    }
+
+    // MARK: - Scroll View Delegate
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // If we're not changing pages, then forward the event to the fake nav bar
+        guard scrollView == containerScrollView else {
+            super.scrollViewDidScroll(scrollView)
+            return
+        }
+
+        // If we're swiping to the first page, then allow the navbar shadow to be shown, or hide it if not
+        if containerScrollView.currentPage == .details {
+            super.scrollViewDidScroll(mainScrollView)
+        } else {
+            setShadowVisible(false)
+        }
+
+        // Hides the vertical scroll indicators when changing pages
+        mainScrollView.hideVerticalScrollIndicator()
     }
 
     // MARK: - Update Display
@@ -470,6 +500,15 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private func didDismiss() {
         Analytics.track(.episodeDetailDismissed, properties: ["source": viewSource])
     }
+
+    private enum Tab: Int {
+        case details, bookmarks
+
+        // Allow comparing against a raw int to the enum
+        static func == (lhs: Int, rhs: Self) -> Bool {
+            Tab(rawValue: lhs) == rhs
+        }
+    }
 }
 
 // MARK: - UIAdaptivePresentationControllerDelegate
@@ -488,6 +527,33 @@ extension EpisodeDetailViewController: AnalyticsSourceProvider {
     }
 }
 
+// MARK: - Bookmark Tabs
+private extension EpisodeDetailViewController {
+    private func addBookmarksTabIfNeeded() {
+        containerScrollView.addPage(mainScrollView)
+
+        guard let bookmarksController, let bookmarksView = bookmarksController.view else {
+            return
+        }
+
+        bookmarksView.translatesAutoresizingMaskIntoConstraints = false
+
+        // This fixes a bug where the view oddly animates into position when the view is added.
+        // in viewDidAppear we mark this to false
+        bookmarksView.isHidden = true
+
+        containerScrollView.addPage(bookmarksView, padding: .init(top: EpisodeDetailConstants.topPadding, left: 0, bottom: 0, right: 0))
+        containerScrollView.isPagingEnabled = true
+        containerScrollView.isDirectionalLockEnabled = true
+        containerScrollView.delegate = self
+
+        mainScrollView.isDirectionalLockEnabled = true
+
+        addChild(bookmarksController)
+        bookmarksController.didMove(toParent: self)
+    }
+}
+
 enum EpisodeDetailViewSource: String, AnalyticsDescribable {
     case discover
     case downloads
@@ -499,4 +565,11 @@ enum EpisodeDetailViewSource: String, AnalyticsDescribable {
     case upNext = "up_next"
 
     var analyticsDescription: String { rawValue }
+}
+
+// MARK: - Constants
+private enum EpisodeDetailConstants {
+    /// The amount of padding to apply to the top of the view
+    /// This allows it to clear the fake nav bar
+    static let topPadding = 56.0
 }
