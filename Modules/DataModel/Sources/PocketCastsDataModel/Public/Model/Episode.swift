@@ -44,7 +44,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var excludeFromEpisodeLimit = false
 
     public var hasBookmarks: Bool {
-        return DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
     }
 
     override public init() {}

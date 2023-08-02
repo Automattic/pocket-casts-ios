@@ -179,8 +179,13 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             videoIndicator.tintColor = ThemeColor.support01()
             upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
             upNextIndicator.tintColor = ThemeColor.support01()
-            bookmarkIcon.tintColor = mainTintColor
-            bookmarkIcon.isHidden = !episode.hasBookmarks
+
+            if FeatureFlag.bookmarks.enabled {
+                bookmarkIcon.tintColor = mainTintColor
+                bookmarkIcon.isHidden = !episode.hasBookmarks
+            } else {
+                bookmarkIcon.isHidden = true
+            }
 
             var uploadFailed = false
             if let userEpisode = episode as? UserEpisode {
