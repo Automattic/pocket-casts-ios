@@ -139,25 +139,25 @@
                                                     <constraint firstAttribute="height" constant="16" id="yVP-NN-BEG"/>
                                                 </constraints>
                                             </view>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bookmark-icon-episode" translatesAutoresizingMaskIntoConstraints="NO" id="dgh-1x-Q2P">
-                                                <rect key="frame" x="21" y="0.0" width="16" height="16"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="16" id="Lr8-id-ZZI"/>
-                                                    <constraint firstAttribute="width" constant="16" id="sch-Oh-jHC"/>
-                                                </constraints>
-                                            </imageView>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_downloaded" translatesAutoresizingMaskIntoConstraints="NO" id="G7K-3G-zGx" userLabel="Status Indicator">
-                                                <rect key="frame" x="39.5" y="0.0" width="16" height="16"/>
+                                                <rect key="frame" x="18.5" y="0.0" width="16" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="O1v-9M-01B"/>
                                                     <constraint firstAttribute="width" constant="16" id="cXQ-gy-xBS"/>
                                                 </constraints>
                                             </imageView>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud-gold" translatesAutoresizingMaskIntoConstraints="NO" id="AFe-mm-Nlh" userLabel="Status Indicator">
-                                                <rect key="frame" x="39.5" y="0.0" width="16" height="16"/>
+                                                <rect key="frame" x="18.5" y="0.0" width="16" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="aEA-vy-1ZF"/>
                                                     <constraint firstAttribute="width" constant="16" id="aao-5L-9wZ"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bookmark-icon-episode" translatesAutoresizingMaskIntoConstraints="NO" id="dgh-1x-Q2P">
+                                                <rect key="frame" x="21" y="0.0" width="16" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="Lr8-id-ZZI"/>
+                                                    <constraint firstAttribute="width" constant="16" id="sch-Oh-jHC"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYh-rx-5sN" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
@@ -225,7 +225,7 @@
                 <outlet property="uploadStatusIndicator" destination="AFe-mm-Nlh" id="Xbz-aP-WCc"/>
                 <outlet property="videoIndicator" destination="coq-Rq-4hS" id="DxW-dA-PC4"/>
             </connections>
-            <point key="canvasLocation" x="-1397" y="-591"/>
+            <point key="canvasLocation" x="-1438" y="-602"/>
         </tableViewCell>
     </objects>
     <resources>

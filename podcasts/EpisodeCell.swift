@@ -181,6 +181,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             upNextIndicator.tintColor = ThemeColor.support01()
 
             if FeatureFlag.bookmarks.enabled {
+                bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
                 bookmarkIcon.tintColor = mainTintColor
                 bookmarkIcon.isHidden = !episode.hasBookmarks
             } else {
@@ -203,7 +204,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
                 } else {
-                    statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    if FeatureFlag.bookmarks.enabled {
+                        statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
+                        bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else {
+                        statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    }
                 }
                 statusIndicator.image = statusImage
             }
