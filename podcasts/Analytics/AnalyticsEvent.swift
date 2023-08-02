@@ -215,6 +215,7 @@ enum AnalyticsEvent: String {
 
     case playbackPlay
     case playbackPause
+    case playbackFailed
     case playbackSkipBack
     case playbackSkipForward
     case playbackSeek

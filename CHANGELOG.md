@@ -21,6 +21,7 @@
 7.41
 -----
 - Improve support section to help the user to send Apple Watch logs
+- Fixed a crash that could occur when playing some downloaded episodes (#901)
 
 7.40
 -----

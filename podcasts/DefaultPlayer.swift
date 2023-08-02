@@ -228,7 +228,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private func playerStatusDidChange() {
         if player?.currentItem?.status == .failed {
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+            // Attempt to provide more specific information about the error if its available
+            // This only returns the domain and code to help normalize it across different languages
+            let message = (player?.currentItem?.error as? NSError).map { "Domain: \($0.domain) - Code: \($0.code)"}
+            PlaybackManager.shared.playbackDidFail(logMessage: message ?? "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
 
             return
         }

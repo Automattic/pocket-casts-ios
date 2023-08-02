@@ -98,6 +98,15 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     // we haven't cached a frame count for this episode, do that now
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
+
+                    // Throw an error if the frame count is 0
+                    // `cachedFrameCount` is used to calculate the duration of the episode and a 0 value
+                    // will result in the episode immediately being marked as played or can cause Inf/NaN issues.
+                    //
+                    // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/900
+                    if strongSelf.cachedFrameCount == 0 {
+                        throw PlaybackError.effectsPlayerFrameCountZero
+                    }
                 }
             } catch {
                 objc_sync_exit(strongSelf.playerLock)

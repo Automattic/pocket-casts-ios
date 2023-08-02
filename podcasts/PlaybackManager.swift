@@ -816,7 +816,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func playbackDidFail(logMessage: String?, userMessage: String?) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
-        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
+
+        // If there is no current analytics source, then use the previous one
+        // This helps prevent an `unknown` from being used if this is called right after another event, such as playbackPlay
+        analyticsPlaybackHelper.fallbackToPreviousSourceIfNeeded()
 
         guard let episode = currentEpisode() else {
             endPlayback()
@@ -830,7 +833,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         // - Is the duration actually reasonable?
         // if either of these is false, flag it as an error, otherwise we got close enough to the end
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
-            pause()
+            analyticsPlaybackHelper.playbackFailed(errorMessage: logMessage ?? "Unknown",
+                                                   episodeUuid: episode.uuid,
+                                                   player: player)
+
+            pause(userInitiated: false)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
 
             if episode.downloaded(pathFinder: DownloadManager.shared) {
@@ -843,7 +850,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackFailed)
-
             return
         }
 
