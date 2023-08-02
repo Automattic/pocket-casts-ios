@@ -9,7 +9,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(episode: BaseEpisode,
+    init(episode: BaseEpisode, displayMode: BookmarkEpisodeListView.DisplayMode = .list,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,
          playbackManager: PlaybackManager = .shared) {
 
@@ -20,7 +20,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
                                                       bookmarkManager: bookmarkManager,
                                                       sortOption: Constants.UserDefaults.bookmarks.podcastSort)
 
-        super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel))
+        super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel, displayMode: displayMode))
 
         viewModel.router = self
     }

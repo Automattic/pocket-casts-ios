@@ -1471,6 +1471,7 @@
 		C7891DCE2A6B2C0F009DA661 /* SearchableListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
+		C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */; };
 		C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */; };
 		C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */; };
 		C7A110E6291EF2DF00887A90 /* PlusLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */; };
@@ -3234,6 +3235,7 @@
 		C7891DC92A6B080F009DA661 /* BookmarksPodcastListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListController.swift; sourceTree = "<group>"; };
 		C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModel.swift; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardTitleView.swift; sourceTree = "<group>"; };
 		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
 		C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeViewSourceTests.swift; sourceTree = "<group>"; };
 		C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLandingViewModel.swift; sourceTree = "<group>"; };
@@ -7075,6 +7077,7 @@
 				C7221A672A6AD80B004AAE00 /* BookmarkPodcastListViewModel.swift */,
 				C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */,
 				C7252E112A718AD600E7D3C0 /* BookmarkListRouter.swift */,
+				C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -8910,6 +8913,7 @@
 				BDD62981200EEA6700168DF7 /* SimpleNotificationsViewController.swift in Sources */,
 				BD4BBFA41D223AA9001BEE4D /* Settings.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
+				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,
