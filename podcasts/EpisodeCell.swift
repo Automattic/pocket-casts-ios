@@ -22,6 +22,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             downloadingIndicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         }
     }
+    @IBOutlet var bookmarkIcon: UIImageView!
 
     @IBOutlet var informationLabel: ThemeableLabel! {
         didSet {
@@ -179,6 +180,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
             upNextIndicator.tintColor = ThemeColor.support01()
 
+            if FeatureFlag.bookmarks.enabled {
+                bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
+                bookmarkIcon.tintColor = mainTintColor
+                bookmarkIcon.isHidden = !episode.hasBookmarks
+            } else {
+                bookmarkIcon.isHidden = true
+            }
+
             var uploadFailed = false
             if let userEpisode = episode as? UserEpisode {
                 uploadStatusIndicator.isHidden = !userEpisode.uploaded()
@@ -195,7 +204,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
                 } else {
-                    statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    if FeatureFlag.bookmarks.enabled {
+                        statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
+                        bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else {
+                        statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    }
                 }
                 statusIndicator.image = statusImage
             }

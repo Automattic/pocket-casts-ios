@@ -35,6 +35,10 @@ public class UserEpisode: NSObject, BaseEpisode {
     public var archived = false
     public var keepEpisode = false
 
+    public var hasBookmarks: Bool {
+        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+    }
+
     override public init() {}
 
     public func displayableTitle() -> String {
