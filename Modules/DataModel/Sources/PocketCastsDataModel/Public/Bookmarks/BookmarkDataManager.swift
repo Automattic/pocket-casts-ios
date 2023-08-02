@@ -101,7 +101,7 @@ public struct BookmarkDataManager {
         selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
     }
 
-    /// Returns the number of bookmarks for the given episode and can optionally return the count including any deleted items
+    /// Returns the number of bookmarks for the given episode and can optionally include deleted items in the count
     public func bookmarkCount(forEpisode episodeUuid: String, includeDeleted: Bool = false) -> Int {
         let deletedWhere: String? = includeDeleted ? nil : "\(Column.deleted) = 0"
 
