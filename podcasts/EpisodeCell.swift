@@ -22,6 +22,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             downloadingIndicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         }
     }
+    @IBOutlet var bookmarkIcon: UIImageView!
 
     @IBOutlet var informationLabel: ThemeableLabel! {
         didSet {
@@ -178,6 +179,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             videoIndicator.tintColor = ThemeColor.support01()
             upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
             upNextIndicator.tintColor = ThemeColor.support01()
+            bookmarkIcon.tintColor = mainTintColor
+            bookmarkIcon.isHidden = !episode.hasBookmarks
 
             var uploadFailed = false
             if let userEpisode = episode as? UserEpisode {
