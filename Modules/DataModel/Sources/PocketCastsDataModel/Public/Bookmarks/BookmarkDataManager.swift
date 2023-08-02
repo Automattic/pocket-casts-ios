@@ -101,12 +101,14 @@ public struct BookmarkDataManager {
         selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
     }
 
-    /// Returns the total number of undeleted bookmarks for the episode
-    public func bookmarkCount(forEpisode episodeUuid: String) -> Int {
-        let query = """
-        SELECT COUNT(*) FROM \(Self.tableName)
-        WHERE \(Column.deleted) = 0 AND \(Column.episode) = ?
-        """
+    /// Returns the number of bookmarks for the given episode and can optionally return the count including any deleted items
+    public func bookmarkCount(forEpisode episodeUuid: String, includeDeleted: Bool = false) -> Int {
+        let deletedWhere: String? = includeDeleted ? nil : "\(Column.deleted) = 0"
+
+        let whereString = [deletedWhere, "\(Column.episode) = ?"]
+            .compactMap { $0 }.joined(separator: " AND ")
+
+        let query = "SELECT COUNT(*) FROM \(Self.tableName) WHERE \(whereString)"
 
         var count = 0
         dbQueue.inDatabase { db in
