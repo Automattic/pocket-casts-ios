@@ -1,6 +1,6 @@
 7.45
 -----
-
+- Attempt to fix a crash when switching episodes [1019]
 
 7.44
 -----
