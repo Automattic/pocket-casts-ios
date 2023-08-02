@@ -68,6 +68,12 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             cell.titleLabel.style = .primaryText01
             cell.actionImage?.image = UIImage(named: "cancel")
             cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
+
+        case .bookmarks:
+            cell.titleLabel.text = L10n.bookmarks
+            cell.titleLabel.style = .primaryText01
+            cell.actionImage?.image = UIImage(named: "bookmarks-shelf-overflow-icon")
+            cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
         }
         return cell
     }
@@ -76,6 +82,10 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         let tableRow = tableData()[indexPath.row]
 
         switch tableRow {
+        case .bookmarks:
+            delegate?.showBookmarks(userEpisode: episode)
+            animateOut()
+
         case .download:
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "download"])
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
@@ -147,6 +157,10 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
 
     private func tableData() -> [TableRow] {
         var data: [TableRow] = [.upNext, .markAsPlayed, .editDetails, .delete]
+
+        if FeatureFlag.bookmarks.enabled {
+            data.insert(.bookmarks, at: 2)
+        }
 
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             data.insert(.cancelDownload, at: 3)
