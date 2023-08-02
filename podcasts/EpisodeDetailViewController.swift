@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -7,6 +8,13 @@ import WebKit
 
 class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
     @IBOutlet var containerScrollView: PagedUIScrollView!
+
+    private var cancellables = Set<AnyCancellable>()
+
+    // Tabs
+    private var tabContainerView: UIView? = nil
+    private var tabContainerTrailingAnchor: NSLayoutConstraint? = nil
+    private var tabViewModel: EpisodeTabsViewModel? = nil
 
     private lazy var bookmarksController: BookmarkEpisodeListController? = {
         guard FeatureFlag.bookmarks.enabled else { return nil }
@@ -116,6 +124,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     let fromPlaylist: AutoplayHelper.Playlist?
 
+    private var currentTab: Tab = .details
+
     // MARK: - Init
 
     init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
@@ -174,10 +184,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         modalPresentationCapturesStatusBarAppearance = true
         presentationController?.delegate = self
 
-        scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
-        navTitle = episode.title
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
+        // Hide the scroll title if the tabs are visible
+        if tabContainerView == nil {
+            scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+            navTitle = episode.title
+        }
 
         setupWebView()
         updateMessageView()
@@ -185,6 +196,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         hideErrorMessage(hide: true)
         Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
+
+        didSwitchToTab(.details, animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -236,7 +249,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+        // Hide the scroll title if the tabs are visible
+        if tabContainerView == nil {
+            scrollPointToChangeTitle = episodeName.frame.origin.y + episodeName.bounds.height
+        }
 
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
@@ -288,8 +304,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             return
         }
 
+        let currentPage = containerScrollView.currentPage
+
         // If we're swiping to the first page, then allow the navbar shadow to be shown, or hide it if not
-        if containerScrollView.currentPage == .details {
+        if currentPage == .details {
             super.scrollViewDidScroll(mainScrollView)
         } else {
             setShadowVisible(false)
@@ -297,6 +315,12 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         // Hides the vertical scroll indicators when changing pages
         mainScrollView.hideVerticalScrollIndicator()
+
+        guard let tab = Tab(rawValue: currentPage), tab != currentTab else {
+            return
+        }
+
+        didSwitchToTab(tab)
     }
 
     // MARK: - Update Display
@@ -346,10 +370,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         episodeInfo.text = episode.displayableTimeLeft()
 
-        let starImageName = episode.keepEpisode ? "star_filled" : "star_empty"
-        starButton?.setImage(UIImage(named: starImageName), for: .normal)
-        starButton?.accessibilityLabel = episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
-        starButton?.accessibilityHint = episode.keepEpisode ? L10n.accessibilityHintUnstar : L10n.accessibilityHintStar
+        updateStar()
 
         updateButtonStates()
         updateProgress()
@@ -362,6 +383,15 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     override func handleThemeChanged() {
         updateColors()
+    }
+
+    func updateStar() {
+        guard let starButton else { return }
+
+        let starImageName = episode.keepEpisode ? "star_filled" : "star_empty"
+        starButton.setImage(UIImage(named: starImageName), for: .normal)
+        starButton.accessibilityLabel = episode.keepEpisode ? L10n.statusStarred : L10n.statusNotStarred
+        starButton.accessibilityHint = episode.keepEpisode ? L10n.accessibilityHintUnstar : L10n.accessibilityHintStar
     }
 
     func updateColors() {
@@ -551,6 +581,125 @@ private extension EpisodeDetailViewController {
 
         addChild(bookmarksController)
         bookmarksController.didMove(toParent: self)
+
+        // Listen for changes to the items so we can hide the more button if needed
+        bookmarksController.viewModel.$numberOfItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateRightButtons()
+            }
+            .store(in: &cancellables)
+
+        addTabs()
+    }
+
+    private func addTabs() {
+        let tabContainerView = UIView()
+        tabContainerView.backgroundColor = .clear
+        tabContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        fakeNavView.addSubview(tabContainerView)
+
+        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: fakeNavView.trailingAnchor)
+        NSLayoutConstraint.activate([
+            tabContainerView.leadingAnchor.constraint(equalTo: backBtn.trailingAnchor),
+            trailingAnchor,
+            tabContainerView.topAnchor.constraint(equalTo: backBtn.topAnchor),
+            tabContainerView.bottomAnchor.constraint(equalTo: backBtn.bottomAnchor)
+        ])
+
+        self.tabContainerView = tabContainerView
+        self.tabContainerTrailingAnchor = trailingAnchor
+
+        let viewModel = EpisodeTabsViewModel(tabs: [
+            .init(title: L10n.episodeDetailsTitle),
+            .init(title: L10n.bookmarks)
+        ])
+
+        let controller = ThemedHostingController(rootView: EpisodeDetailTabView(viewModel: viewModel))
+
+        tabContainerView.addSubview(controller.view)
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        controller.view.anchorToAllSidesOf(view: tabContainerView)
+        addChild(controller)
+        controller.didMove(toParent: self)
+
+        tabViewModel = viewModel
+
+        // Listen for if the user taps the tab button directly
+        viewModel.$selectedTab
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.selectedTabDidChange()
+            }
+            .store(in: &cancellables)
+    }
+
+    func selectedTabDidChange() {
+        guard let index = tabViewModel?.selectedIndex, let tab = Tab(rawValue: index), tab != currentTab else {
+            return
+        }
+
+        containerScrollView.scrollToPage(index)
+    }
+
+    private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
+        currentTab = tab
+        tabViewModel?.selectTabIndex(tab.rawValue)
+
+        guard animated else {
+            updateRightButtons()
+            return
+        }
+
+        UIView.animate(withDuration: 0.2) {
+            for button in self.rightActionButtons {
+                button.alpha = 0
+            }
+        } completion: { _ in
+            self.updateRightButtons()
+        }
+    }
+
+    private func updateRightButtons() {
+        removeAllButtons()
+
+        switch currentTab {
+        case .details:
+            addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
+            starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
+            updateStar()
+        case .bookmarks:
+            if bookmarksController?.viewModel.numberOfItems != 0 {
+                addRightAction(image: UIImage(named: "more"),
+                               accessibilityLabel: L10n.accessibilityMoreActions,
+                               action: #selector(showBookmarksMore(_:)))
+            }
+
+            break
+        }
+
+        adjustTabContainer()
+        updateColors()
+    }
+
+    @objc private func showBookmarksMore(_ sender: UIButton) {
+        bookmarksController?.viewModel.showMoreOptions()
+    }
+
+    func adjustTabContainer() {
+        guard let tabContainerView, let tabContainerTrailingAnchor else {
+            return
+        }
+
+        tabContainerTrailingAnchor.isActive = false
+
+        let anchor = rightActionButtons.last?.leadingAnchor ?? fakeNavView.trailingAnchor
+        let trailingAnchor = tabContainerView.trailingAnchor.constraint(equalTo: anchor)
+
+        trailingAnchor.isActive = true
+
+        self.tabContainerTrailingAnchor = trailingAnchor
     }
 }
 
