@@ -29,16 +29,26 @@ public class DataManager {
 
     public static let sharedManager = DataManager()
 
-    public init() {
+    public convenience init() {
         DataManager.ensureDbFolderExists()
 
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+        let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+
+        self.init(dbQueue: dbQueue)
+    }
+
+    public init(dbQueue: FMDatabaseQueue, closeQueue: Bool = true) {
+        self.dbQueue = dbQueue
+
         dbQueue.inDatabase { db in
             DatabaseHelper.setup(db: db)
         }
-        // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
-        dbQueue.close()
+
+        if closeQueue {
+            // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
+            dbQueue.close()
+        }
 
         // closing it above won't affect these calls, since they will re-open it
         podcastManager.setup(dbQueue: dbQueue)
