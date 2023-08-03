@@ -553,7 +553,8 @@ class Settings: NSObject {
     private static let lastWhatsNewShownKey = "LastWhatsNewShown"
     class var lastWhatsNewShown: String? {
         set {
-            UserDefaults.standard.set(newValue, forKey: lastWhatsNewShownKey)
+            UserDefaults.standard.setValue(newValue, forKey: lastWhatsNewShownKey)
+            UserDefaults.standard.synchronize()
         }
 
         get {
