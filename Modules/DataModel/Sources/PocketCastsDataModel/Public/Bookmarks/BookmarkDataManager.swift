@@ -52,15 +52,30 @@ public struct BookmarkDataManager {
 
     // MARK: - Updating
     @discardableResult
-    public func update(title: String, for bookmark: Bookmark, modified: Date = Date()) async -> Bool {
+    public func update(bookmark: Bookmark, title: String, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date()) async -> Bool {
+        let updateColumns = [
+            "\(Column.title) = ?",
+            time.map { _ in "\(Column.time) = ?" },
+            created.map { _ in "\(Column.createdDate) = ?" },
+            modified.map { _ in "\(Column.modifiedDate) = ?" },
+        ].compactMap { $0 }
+
+        let values: [Any?] = [
+            title,
+            time,
+            created,
+            modified,
+            bookmark.uuid
+        ]
+
         let query = """
                 UPDATE \(Self.tableName)
-                SET \(Column.title) = ?, \(Column.modifiedDate) = ?
+                SET \(updateColumns.columnString)
                 WHERE \(Column.uuid) = ?
                 LIMIT 1
                 """
 
-        let result = await dbQueue.executeUpdate(query, values: [title, modified.timeIntervalSince1970, bookmark.uuid])
+        let result = await dbQueue.executeUpdate(query, values: values.compactMap { $0 })
 
         switch result {
         case .success:
