@@ -131,6 +131,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Welkom bij Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Bladwijzer toevoegen</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Voeg een optionele titel toe om deze bladwijzer eenvoudig te identificeren</string>
     <key>add_to_up_next</key>
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Eerste</string>
     <key>back</key>
     <string>Terug</string>
+    <key>bookmark_added</key>
+    <string>Bladwijzer toegevoegd</string>
+    <key>bookmark_added_button_title</key>
+    <string>Weergave</string>
+    <key>bookmark_added_notification</key>
+    <string>Bladwijzer %1$@ toegoevoegd</string>
+    <key>bookmark_default_title</key>
+    <string>Bladwijzer</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Bladwijzers verwijderen?</string>
     <key>bookmarks</key>
     <string>Bladwijzers</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ bladwijzers</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 bladwijzer</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Wachtrij Hierna</string>
     <key>change_app_icon</key>
     <string>App-pictogram veranderen</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Wijzig de titel die deze bladwijzer identificeert</string>
+    <key>change_bookmark_title</key>
+    <string>Titel wijzigen</string>
     <key>change_email</key>
     <string>Verander e-mailadres</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ podcasts mee</string>
     <string>Nieuwe aflevering</string>
     <key>next_payment_format</key>
     <string>Volgende betaling: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Instellingen koptelefoon</string>
+    <key>no_bookmarks_message</key>
+    <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
+    <key>no_bookmarks_title</key>
+    <string>Nog geen bladwijzers</string>
     <key>none</key>
     <string>Geen</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verleng je abonnement</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
+    <key>save_bookmark</key>
+    <string>Bladwijzer opslaan</string>
     <key>search</key>
     <string>Zoeken</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alles hierboven selecteren</string>
     <key>select_all_below</key>
     <string>Alles hieronder selecteren</string>
+    <key>select_bookmarks</key>
+    <string>Bladwijzers selecteren</string>
     <key>select_episodes</key>
     <string>Afleveringen selecteren</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Sorteren op</string>
     <key>sort_episodes</key>
     <string>Afleveringen sorteren</string>
+    <key>sort_option_timestamp</key>
+    <string>Tijdstempel</string>
     <key>speed</key>
     <string>Snelheid</string>
     <key>star_episode</key>

@@ -237,6 +237,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tillbaka</string>
     <key>bookmark_added</key>
     <string>Bokmärke tillagt</string>
+    <key>bookmark_added_button_title</key>
+    <string>Visa</string>
     <key>bookmark_added_notification</key>
     <string>Bokmärke ”%1$@” tillagt</string>
     <key>bookmark_default_title</key>

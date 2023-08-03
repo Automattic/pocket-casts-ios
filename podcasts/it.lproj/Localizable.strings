@@ -131,6 +131,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Benvenuto su Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Aggiungi segnalibro</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Aggiungi un titolo opzionale per identificare questo segnalibro</string>
     <key>add_to_up_next</key>
     <string>Aggiungi a Successivo</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Primo</string>
     <key>back</key>
     <string>Indietro</string>
+    <key>bookmark_added</key>
+    <string>Segnalibro aggiunto</string>
+    <key>bookmark_added_button_title</key>
+    <string>Visualizza</string>
+    <key>bookmark_added_notification</key>
+    <string>Segnalibro "%1$@" aggiunto</string>
+    <key>bookmark_default_title</key>
+    <string>Segnalibro</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Desideri eliminare questi segnalibri? Non c'è modo di annullare l'azione.</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Elimina i segnalibri?</string>
     <key>bookmarks</key>
     <string>Segnalibri</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ segnalibri</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 segnalibro</string>
     <key>bottom</key>
     <string>In basso</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Coda Successivo</string>
     <key>change_app_icon</key>
     <string>Modifica icona app</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Modifica il titolo che identifica questo segnalibro</string>
+    <key>change_bookmark_title</key>
+    <string>Modifica il titolo</string>
     <key>change_email</key>
     <string>Modifica l'indirizzo mail</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ pocast con te</string>
     <string>Prossimo episodio</string>
     <key>next_payment_format</key>
     <string>Prossimo pagamento: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Impostazioni delle cuffie</string>
+    <key>no_bookmarks_message</key>
+    <string>Puoi salvare data e ora degli episodi dal menu delle azioni nel lettore o configurando un'azione con le cuffie.</string>
+    <key>no_bookmarks_title</key>
+    <string>Ancora nessun segnalibro</string>
     <key>none</key>
     <string>Nessuna</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Rinnova il tuo abbonamento</string>
     <key>retry</key>
     <string>Riprova</string>
+    <key>save_bookmark</key>
+    <string>Salva il segnalibro</string>
     <key>search</key>
     <string>Ricerca</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Seleziona tutti gli elementi sopra</string>
     <key>select_all_below</key>
     <string>Seleziona tutti gli elementi di seguito</string>
+    <key>select_bookmarks</key>
+    <string>Seleziona segnalibri</string>
     <key>select_episodes</key>
     <string>Seleziona episodi</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Ordina per</string>
     <key>sort_episodes</key>
     <string>Ordina episodi</string>
+    <key>sort_option_timestamp</key>
+    <string>Data e ora</string>
     <key>speed</key>
     <string>Velocità</string>
     <key>star_episode</key>

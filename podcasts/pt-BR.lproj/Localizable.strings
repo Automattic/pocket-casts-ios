@@ -131,6 +131,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Boas-vindas ao Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Adicionar favorito</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Adicione um título opcional para identificar este favorito</string>
     <key>add_to_up_next</key>
     <string>Adicionar aos Próximos</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Primeiro</string>
     <key>back</key>
     <string>Voltar</string>
+    <key>bookmark_added</key>
+    <string>Favorito adicionado</string>
+    <key>bookmark_added_button_title</key>
+    <string>Visualizar</string>
+    <key>bookmark_added_notification</key>
+    <string>Favorito "%1$@" adicionado</string>
+    <key>bookmark_default_title</key>
+    <string>Favorito</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Tem certeza de que deseja excluir esses favoritos? Essa ação não pode ser desfeita.</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Excluir favoritos?</string>
     <key>bookmarks</key>
     <string>Favoritos</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ favoritos</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 favorito</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Fila de Próximos</string>
     <key>change_app_icon</key>
     <string>Alterar ícone do aplicativo</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Altere o título que identifica este favorito</string>
+    <key>change_bookmark_title</key>
+    <string>Alterar título</string>
     <key>change_email</key>
     <string>Alterar endereço de e-mail</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ podcasts com você</string>
     <string>Próximo episódio</string>
     <key>next_payment_format</key>
     <string>Próximo pagamento: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Configurações do headset</string>
+    <key>no_bookmarks_message</key>
+    <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
+    <key>no_bookmarks_title</key>
+    <string>Ainda sem favoritos</string>
     <key>none</key>
     <string>Nenhum</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ teste gratuito de %1$@</string>
     <string>Renove sua assinatura</string>
     <key>retry</key>
     <string>Tentar novamente</string>
+    <key>save_bookmark</key>
+    <string>Salvar favorito</string>
     <key>search</key>
     <string>Pesquisar</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ teste gratuito de %1$@</string>
     <string>Selecionar todos acima</string>
     <key>select_all_below</key>
     <string>Selecionar todos abaixo</string>
+    <key>select_bookmarks</key>
+    <string>Selecionar favoritos</string>
     <key>select_episodes</key>
     <string>Selecionar episódios</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Ordenar por</string>
     <key>sort_episodes</key>
     <string>Ordenar episódios</string>
+    <key>sort_option_timestamp</key>
+    <string>Data/hora</string>
     <key>speed</key>
     <string>Velocidade</string>
     <key>star_episode</key>

@@ -131,6 +131,8 @@
     <string>Pocket Casts Plus へようこそ !</string>
     <key>add_bookmark</key>
     <string>ブックマークを追加</string>
+    <key>add_bookmark_subtitle</key>
+    <string>任意のタイトルを追加してこのブックマークを特定</string>
     <key>add_to_up_next</key>
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@
     <string>最初</string>
     <key>back</key>
     <string>戻る</string>
+    <key>bookmark_added</key>
+    <string>ブックマークを追加しました</string>
+    <key>bookmark_added_button_title</key>
+    <string>表示</string>
+    <key>bookmark_added_notification</key>
+    <string>ブックマーク「%1$@」を追加しました</string>
+    <key>bookmark_default_title</key>
+    <string>ブックマーク</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>これらのブックマークを削除してもよろしいですか。元に戻すことはできません。</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>ブックマークを削除しますか ?</string>
     <key>bookmarks</key>
     <string>ブックマーク</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@件のブックマーク</string>
+    <key>bookmarks_count_singular</key>
+    <string>1件のブックマーク</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@
     <string>次のエピソード待機リスト</string>
     <key>change_app_icon</key>
     <string>アプリアイコンを変更</string>
+    <key>change_bookmark_subtitle</key>
+    <string>このブックマークを特定するタイトルを変更します</string>
+    <key>change_bookmark_title</key>
+    <string>タイトルを変更</string>
     <key>change_email</key>
     <string>メールアドレスを変更</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソード</string>
     <key>next_payment_format</key>
     <string>次の支払い日: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>ヘッドフォン設定</string>
+    <key>no_bookmarks_message</key>
+    <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
+    <key>no_bookmarks_title</key>
+    <string>まだブックマークはありません</string>
     <key>none</key>
     <string>なし</string>
     <key>not_on_wifi</key>
@@ -1750,6 +1778,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サブスクリプションを更新</string>
     <key>retry</key>
     <string>再試行</string>
+    <key>save_bookmark</key>
+    <string>ブックマークを保存</string>
     <key>search</key>
     <string>検索</string>
     <key>search_label</key>
@@ -1776,6 +1806,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>上記のすべてを選択</string>
     <key>select_all_below</key>
     <string>以下のすべてを選択</string>
+    <key>select_bookmarks</key>
+    <string>ブックマークを選択</string>
     <key>select_episodes</key>
     <string>エピソードを選択</string>
     <key>selected_count_format</key>
@@ -2312,6 +2344,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>並び替えオプション</string>
     <key>sort_episodes</key>
     <string>エピソードを並び替え</string>
+    <key>sort_option_timestamp</key>
+    <string>タイムスタンプ</string>
     <key>speed</key>
     <string>スピード</string>
     <key>star_episode</key>

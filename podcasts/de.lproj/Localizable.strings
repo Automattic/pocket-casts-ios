@@ -131,6 +131,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Willkommen bei Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Lesezeichen hinzufügen</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Füge einen optionalen Titel hinzu, um dieses Lesezeichen zu beschreiben</string>
     <key>add_to_up_next</key>
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Erste</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>bookmark_added</key>
+    <string>Lesezeichen hinzugefügt</string>
+    <key>bookmark_added_button_title</key>
+    <string>Anzeigen</string>
+    <key>bookmark_added_notification</key>
+    <string>Lesezeichen „%1$@“ hinzugefügt</string>
+    <key>bookmark_default_title</key>
+    <string>Lesezeichen</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Bist du sicher, dass du diese Lesezeichen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Lesezeichen löschen?</string>
     <key>bookmarks</key>
     <string>Lesezeichen</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ Lesezeichen</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 Lesezeichen</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Warteschlange</string>
     <key>change_app_icon</key>
     <string>App-Icon ändern</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Ändere den Titel, der das Lesezeichen beschreibt</string>
+    <key>change_bookmark_title</key>
+    <string>Titel ändern</string>
     <key>change_email</key>
     <string>E-Mail-Adresse ändern</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ Podcasts mit</string>
     <string>Nächste Folge</string>
     <key>next_payment_format</key>
     <string>Nächste Zahlung: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Kopfhörereinstellungen</string>
+    <key>no_bookmarks_message</key>
+    <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
+    <key>no_bookmarks_title</key>
+    <string>Noch keine Lesezeichen</string>
     <key>none</key>
     <string>Nichts</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ Gratis-Test für %1$@</string>
     <string>Abonnement verlängern</string>
     <key>retry</key>
     <string>Erneut versuchen</string>
+    <key>save_bookmark</key>
+    <string>Lesezeichen speichern</string>
     <key>search</key>
     <string>Suche</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ Gratis-Test für %1$@</string>
     <string>Alle darüber auswählen</string>
     <key>select_all_below</key>
     <string>Alle darunter auswählen</string>
+    <key>select_bookmarks</key>
+    <string>Lesezeichen auswählen</string>
     <key>select_episodes</key>
     <string>Folgen auswählen</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Sortieren nach</string>
     <key>sort_episodes</key>
     <string>Folgen sortieren</string>
+    <key>sort_option_timestamp</key>
+    <string>Zeitstempel</string>
     <key>speed</key>
     <string>Geschwindigkeit</string>
     <key>star_episode</key>

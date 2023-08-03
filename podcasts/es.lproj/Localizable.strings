@@ -131,6 +131,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Te damos la bienvenida a Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Añadir marcador</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Añade un título opcional para identificar este marcador</string>
     <key>add_to_up_next</key>
     <string>Añadir a la lista de A continuación</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Primero</string>
     <key>back</key>
     <string>Volver</string>
+    <key>bookmark_added</key>
+    <string>Se ha añadido un marcador</string>
+    <key>bookmark_added_button_title</key>
+    <string>Ver</string>
+    <key>bookmark_added_notification</key>
+    <string>Se ha añadido el marcador "%1$@"</string>
+    <key>bookmark_default_title</key>
+    <string>Marcador</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>¿Seguro que quieres eliminar estos marcadores? Esta acción no se puede deshacer.</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>¿Eliminar marcadores?</string>
     <key>bookmarks</key>
     <string>Marcadores</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ marcadores</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 marcador</string>
     <key>bottom</key>
     <string>Abajo</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Lista de A continuación</string>
     <key>change_app_icon</key>
     <string>Cambiar icono de la aplicación</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Cambia el título que identifica a este marcador</string>
+    <key>change_bookmark_title</key>
+    <string>Cambiar título</string>
     <key>change_email</key>
     <string>Cambiar dirección de correo electrónico</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ pódcast contigo</string>
     <string>Siguiente episodio</string>
     <key>next_payment_format</key>
     <string>Siguiente pago: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Ajustes de los auriculares</string>
+    <key>no_bookmarks_message</key>
+    <string>Para guardar las marcas de tiempo de los episodios, ve al menú de acciones del reproductor o configura una acción con los auriculares.</string>
+    <key>no_bookmarks_title</key>
+    <string>Todavía no hay marcadores</string>
     <key>none</key>
     <string>Ninguno</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ prueba gratuita de %1$@</string>
     <string>Renovar la suscripción</string>
     <key>retry</key>
     <string>Reintentar</string>
+    <key>save_bookmark</key>
+    <string>Guardar marcador</string>
     <key>search</key>
     <string>Buscar</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ prueba gratuita de %1$@</string>
     <string>Seleccionar todo lo anterior</string>
     <key>select_all_below</key>
     <string>Seleccionar todo lo siguiente</string>
+    <key>select_bookmarks</key>
+    <string>Elegir marcadores</string>
     <key>select_episodes</key>
     <string>Seleccionar episodios</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Ordenar por</string>
     <key>sort_episodes</key>
     <string>Ordenar episodios</string>
+    <key>sort_option_timestamp</key>
+    <string>Marca temporal</string>
     <key>speed</key>
     <string>Velocidad</string>
     <key>star_episode</key>

@@ -131,6 +131,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>歡迎使用 Pocket Casts Plus！</string>
     <key>add_bookmark</key>
     <string>新增書籤</string>
+    <key>add_bookmark_subtitle</key>
+    <string>新增選用式名稱以識別此書籤</string>
     <key>add_to_up_next</key>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>頂端</string>
     <key>back</key>
     <string>上一步</string>
+    <key>bookmark_added</key>
+    <string>已新增書籤</string>
+    <key>bookmark_added_button_title</key>
+    <string>檢視</string>
+    <key>bookmark_added_notification</key>
+    <string>已新增書籤「%1$@」</string>
+    <key>bookmark_default_title</key>
+    <string>書籤</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>你確定要刪除這些書籤嗎？這個動作無法復原！</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>要刪除書籤嗎？</string>
     <key>bookmarks</key>
     <string>書籤</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ 個書籤</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 個書籤</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>「接下來播放」佇列</string>
     <key>change_app_icon</key>
     <string>變更應用程式圖示</string>
+    <key>change_bookmark_subtitle</key>
+    <string>變更識別此書籤的名稱</string>
+    <key>change_bookmark_title</key>
+    <string>變更名稱</string>
     <key>change_email</key>
     <string>變更電子郵件地址</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>下一集</string>
     <key>next_payment_format</key>
     <string>下次付款時間：%1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>耳機設定</string>
+    <key>no_bookmarks_message</key>
+    <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
+    <key>no_bookmarks_title</key>
+    <string>目前還沒有書籤</string>
     <key>none</key>
     <string>無</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>續訂</string>
     <key>retry</key>
     <string>重試</string>
+    <key>save_bookmark</key>
+    <string>儲存書籤</string>
     <key>search</key>
     <string>搜尋</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>選取上方全部</string>
     <key>select_all_below</key>
     <string>選取下方全部</string>
+    <key>select_bookmarks</key>
+    <string>選取書籤</string>
     <key>select_episodes</key>
     <string>選取單集</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>排序依據</string>
     <key>sort_episodes</key>
     <string>為單集排序</string>
+    <key>sort_option_timestamp</key>
+    <string>時間戳記</string>
     <key>speed</key>
     <string>速度</string>
     <key>star_episode</key>
