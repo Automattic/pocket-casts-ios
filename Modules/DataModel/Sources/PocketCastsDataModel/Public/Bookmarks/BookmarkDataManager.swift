@@ -145,16 +145,18 @@ public struct BookmarkDataManager {
     // MARK: - Deleting
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database
-    public func remove(bookmarks: [Bookmark]) async -> Bool {
+    @discardableResult
+    public func remove(bookmarks: [Bookmark], syncStatus: SyncStatus = .notSynced) async -> Bool {
         let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
         let query = """
         UPDATE \(Self.tableName)
-        SET \(Column.deleted) = 1
+        SET \(Column.deleted) = 1, \(Column.deletedModifiedDate) = ?, \(Column.syncStatus) = ?
         WHERE \(Column.uuid) IN (\(uuids))
+        LIMIT \(uuids.count)
         """
 
-        let result = await dbQueue.executeUpdate(query)
+        let result = await dbQueue.executeUpdate(query, values: [Date(), syncStatus.rawValue])
 
         switch result {
         case .success:
@@ -210,11 +212,15 @@ public struct BookmarkDataManager {
         case uuid
         case title
         case createdDate = "date_added"
-        case modifiedDate = "date_modified"
         case episode = "episode_uuid"
         case podcast = "podcast_uuid"
         case time
         case deleted
+
+        // For Syncing
+        case titleModifiedDate = "title_modified_date"
+        case deletedModifiedDate = "deleted_modified_date"
+        case syncStatus = "sync_status"
 
         var description: String { rawValue }
     }
