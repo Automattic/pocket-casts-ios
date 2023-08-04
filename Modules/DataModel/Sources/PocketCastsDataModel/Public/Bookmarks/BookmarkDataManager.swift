@@ -274,12 +274,14 @@ extension BookmarkDataManager {
             CREATE TABLE IF NOT EXISTS \(Self.tableName) (
                 \(Column.uuid) varchar(40) NOT NULL,
                 \(Column.title) varchar(100) NOT NULL,
+                \(Column.titleModifiedDate) INTEGER,
                 \(Column.episode) varchar(40) NOT NULL,
                 \(Column.podcast) varchar(40),
                 \(Column.time) real NOT NULL,
                 \(Column.createdDate) INTEGER NOT NULL,
-                \(Column.modifiedDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
+                \(Column.deletedModifiedDate) INTEGER,
+                \(Column.syncStatus) int NOT NULL DEFAULT 0,
                 PRIMARY KEY (\(Column.uuid))
             );
         """, values: nil)
@@ -306,14 +308,17 @@ private extension Bookmark {
         }
 
         let podcast = resultSet.string(for: .podcast)
+        let titleModified = resultSet.date(for: .titleModifiedDate)
+        let deletedModified = resultSet.date(for: .deletedModifiedDate)
 
         self.init(uuid: uuid,
                   title: title,
                   time: time,
                   created: createdDate,
-                  modified: modified,
                   episodeUuid: episode,
-                  podcastUuid: podcast)
+                  podcastUuid: podcast,
+                  titleModified: titleModified,
+                  deletedModified: deletedModified)
     }
 }
 
