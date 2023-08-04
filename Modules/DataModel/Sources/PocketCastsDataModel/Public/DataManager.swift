@@ -25,6 +25,11 @@ public class DataManager {
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
 
+    /// Internal feature flag the app can set because the modules don't have access
+    /// to FeatureFlag.
+    /// TODO: Remove this after the flag is enabled
+    public var bookmarksEnabled: Bool = false
+
     private let dbQueue: FMDatabaseQueue
 
     public static let sharedManager = DataManager()
