@@ -29,6 +29,7 @@ public class DataManager {
 
     public static let sharedManager = DataManager()
 
+    /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
@@ -38,14 +39,16 @@ public class DataManager {
         self.init(dbQueue: dbQueue)
     }
 
-    public init(dbQueue: FMDatabaseQueue, closeQueue: Bool = true) {
+    /// Creates a DataManager using the given `FMDatabaseQueue`.
+    /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
+    public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
 
         dbQueue.inDatabase { db in
             DatabaseHelper.setup(db: db)
         }
 
-        if closeQueue {
+        if shouldCloseQueueAfterSetup {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
             dbQueue.close()
         }

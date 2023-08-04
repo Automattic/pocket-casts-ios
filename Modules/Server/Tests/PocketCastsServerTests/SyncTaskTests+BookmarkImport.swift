@@ -9,7 +9,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
-        dataManager = DataManager(dbQueue: FMDatabaseQueue(), closeQueue: false)
+        dataManager = DataManager(dbQueue: FMDatabaseQueue(), shouldCloseQueueAfterSetup: false)
         bookmarkManager = dataManager.bookmarks
         syncTask = SyncTask(dataManager: dataManager)
     }
