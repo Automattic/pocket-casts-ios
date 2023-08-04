@@ -341,7 +341,8 @@ extension SyncTask {
                                                     podcastUuid: apiBookmark.podcastUuid,
                                                     title: apiBookmark.title.value,
                                                     time: Double(apiBookmark.time.value),
-                                                    dateCreated: apiBookmark.createdAt.date)
+                                                    dateCreated: apiBookmark.createdAt.date,
+                                                    syncStatus: .synced)
 
                 if addedUuid == nil {
                     FileLog.shared.foldersIssue("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
@@ -369,7 +370,7 @@ extension SyncTask {
             return
         }
 
-        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created).when(false) {
+        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
             FileLog.shared.foldersIssue("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
         }
     }
