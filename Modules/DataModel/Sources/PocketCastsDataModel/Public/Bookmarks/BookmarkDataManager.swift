@@ -115,7 +115,7 @@ public struct BookmarkDataManager {
 
     /// Returns all the bookmarks in the database and optionally can also return deleted items
     public func allBookmarks(includeDeleted: Bool = false, sorted: SortOption = .newestToOldest) -> [Bookmark] {
-        selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
+        selectBookmarks(sorted: sorted, allowDeleted: includeDeleted)
     }
 
     /// Returns the number of bookmarks for the given episode and can optionally include deleted items in the count
@@ -236,14 +236,19 @@ private extension BookmarkDataManager {
                         limit: 1).first
     }
 
-    func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0, sorted: SortOption = .newestToOldest) -> [Bookmark] {
+    func selectBookmarks(where whereColumns: [Column] = [], values: [Any] = [], limit: Int = 0, sorted: SortOption = .newestToOldest, allowDeleted: Bool = false) -> [Bookmark] {
         let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
 
         let selectColumns = Column.allCases.map { $0.rawValue }
-        let whereString = whereColumns.map { "\($0.rawValue) = ?" }.joined(separator: " AND ")
 
         // If the deleted column isn't specified, then by default exclude deleted items
-        let deleteString = whereColumns.contains(.deleted) ? "" : "AND \(Column.deleted) = 0"
+        let deleteString = allowDeleted ? "" : "\(Column.deleted) = 0"
+
+        let whereValues = (whereColumns.map { "\($0.rawValue) = ?" } + [deleteString])
+            .filter { !$0.isEmpty }
+            .joined(separator: " AND ")
+
+        let whereString = whereColumns.isEmpty ? "" : "WHERE \(whereValues)"
 
         var results: [Bookmark] = []
 
@@ -252,8 +257,7 @@ private extension BookmarkDataManager {
                 let query = """
                     SELECT \(selectColumns.columnString)
                     FROM \(Self.tableName)
-                    WHERE \(whereString)
-                    \(deleteString)
+                    \(whereString)
                     \(sorted.queryString)
                     \(limitQuery)
                 """
