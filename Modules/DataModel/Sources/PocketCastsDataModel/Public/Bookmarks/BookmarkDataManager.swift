@@ -18,7 +18,7 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date()) -> String? {
+    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
         // Prevent adding more than 1 bookmark at the same place
         guard existingBookmark(forEpisode: episodeUuid, time: time) == nil else {
             return nil
@@ -33,11 +33,11 @@ public struct BookmarkDataManager {
 
                 let columns: [Column] = [
                     .uuid, .title, .time,
-                    .createdDate, .modifiedDate,
-                    .episode, .podcast
+                    .createdDate, .titleModifiedDate,
+                    .episode, .podcast, .syncStatus
                 ]
 
-                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid]
+                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid, syncStatus.rawValue]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
