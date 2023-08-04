@@ -68,17 +68,21 @@ extension SyncTask {
             }
         }
 
-        for bookmark in bookmarksToImport {
-            importQueue.addOperation { [weak self] in
-                guard let strongSelf = self else { return }
-                let semaphore = DispatchSemaphore(value: 0)
+        if dataManager.bookmarksEnabled {
+            FileLog.shared.addMessage("SyncTask: Found \(bookmarksToImport.count) bookmarks to import")
 
-                Task {
-                    await strongSelf.importBookmark(bookmark)
-                    semaphore.signal()
+            for bookmark in bookmarksToImport {
+                importQueue.addOperation { [weak self] in
+                    guard let strongSelf = self else { return }
+                    let semaphore = DispatchSemaphore(value: 0)
+
+                    Task {
+                        await strongSelf.importBookmark(bookmark)
+                        semaphore.signal()
+                    }
+
+                    semaphore.wait()
                 }
-
-                semaphore.wait()
             }
         }
 
@@ -345,7 +349,7 @@ extension SyncTask {
                                                     syncStatus: .synced)
 
                 if addedUuid == nil {
-                    FileLog.shared.foldersIssue("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
+                    FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
                 }
             }
             return
@@ -355,7 +359,7 @@ extension SyncTask {
         // Using an if to make it more explicit
         if apiBookmark.shouldDelete {
             await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false, {
-                FileLog.shared.foldersIssue("SyncTask: Import Bookmark Failed: Could not delete uuid: \(existingBookmark.uuid). API Data: \(apiBookmark.logDescription)")
+                FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not delete uuid: \(existingBookmark.uuid). API Data: \(apiBookmark.logDescription)")
             })
             return
         }
@@ -366,12 +370,12 @@ extension SyncTask {
             let time = apiBookmark.bookmarkTime,
             let created = apiBookmark.created
         else {
-            FileLog.shared.foldersIssue("SyncTask: Import Bookmark Failed: Did not update bookmark because its missing required fields. API Data: \(apiBookmark.logDescription)")
+            FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Did not update bookmark because its missing required fields. API Data: \(apiBookmark.logDescription)")
             return
         }
 
         await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
-            FileLog.shared.foldersIssue("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
+            FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
         }
     }
 }
