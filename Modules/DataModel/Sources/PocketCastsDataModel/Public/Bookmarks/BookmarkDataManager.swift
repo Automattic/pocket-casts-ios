@@ -317,7 +317,6 @@ private extension Bookmark {
             let uuid = resultSet.string(for: .uuid),
             let title = resultSet.string(for: .title),
             let createdDate = resultSet.date(for: .createdDate),
-            let modified = resultSet.date(for: .modifiedDate),
             let episode = resultSet.string(for: .episode),
             let time = resultSet.double(for: .time)
         else {
