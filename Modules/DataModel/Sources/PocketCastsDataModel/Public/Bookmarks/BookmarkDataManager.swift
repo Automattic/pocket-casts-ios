@@ -52,19 +52,21 @@ public struct BookmarkDataManager {
 
     // MARK: - Updating
     @discardableResult
-    public func update(bookmark: Bookmark, title: String, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date()) async -> Bool {
+    public func update(bookmark: Bookmark, title: String, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date(), syncStatus: SyncStatus = .notSynced) async -> Bool {
         let updateColumns = [
             "\(Column.title) = ?",
             time.map { _ in "\(Column.time) = ?" },
             created.map { _ in "\(Column.createdDate) = ?" },
-            modified.map { _ in "\(Column.modifiedDate) = ?" },
+            "\(Column.titleModifiedDate) = ?",
+            "\(Column.syncStatus) = ?",
         ].compactMap { $0 }
 
         let values: [Any?] = [
             title,
             time,
             created,
-            modified,
+            modified ?? Date(),
+            syncStatus.rawValue,
             bookmark.uuid
         ]
 
