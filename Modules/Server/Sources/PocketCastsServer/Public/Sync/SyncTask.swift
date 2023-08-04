@@ -245,6 +245,7 @@ class SyncTask: ApiBaseTask {
         }
         if let statsChanges = changedStats() {
             records.append(statsChanges)
+        }
 
         if dataManager.bookmarksEnabled, let bookmarks = changedBookmarks() {
             records += bookmarks
