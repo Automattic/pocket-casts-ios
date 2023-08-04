@@ -132,6 +132,13 @@ extension SyncTask {
         return filterRecords
     }
 
+    /// Retrieve any bookmarks that need to be sent to the server
+    func changedBookmarks() -> [Api_Record]? {
+        dataManager.bookmarks.bookmarksToSync()
+            .map { .init(bookmark: $0) }
+            .nilIfEmpty()
+    }
+
     func changedStats() -> Api_Record? {
         let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed())
         let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime())
