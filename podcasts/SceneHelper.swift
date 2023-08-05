@@ -9,6 +9,12 @@ class SceneHelper {
         }.first
     }
 
+    static var isConnectedToCarPlay: Bool {
+        UIApplication.shared.connectedScenes.contains(where: {
+            $0 is CPTemplateApplicationScene
+        })
+    }
+
     class func newMainScreenWindow() -> UIWindow {
         if let scene = connectedScene() {
             return UIWindow(windowScene: scene)
