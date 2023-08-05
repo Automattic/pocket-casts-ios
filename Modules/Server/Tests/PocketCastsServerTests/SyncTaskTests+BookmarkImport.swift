@@ -123,6 +123,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
     }
 
     // MARK: - Full Sync
+
     func testFullSyncMarksAllAsSynced() {
         let bookmarks = [
             addBookmark(time: 1),
