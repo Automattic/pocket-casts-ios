@@ -165,6 +165,9 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
 private extension HeadphoneSettingsViewController {
     private func showPicker(_ title: String, _ options: [HeadphoneControlAction], currentValue: HeadphoneControlAction, onChange: @escaping ((HeadphoneControlAction) -> Void)) {
+        // Hide the add bookmark item if the flag is off
+        let options = FeatureFlag.bookmarks.enabled ? options : options.filter { $0 != .addBookmark }
+
         let picker = OptionsPicker(title: title)
         picker.addActions(options.map { option in
             OptionAction(label: option.displayableTitle, icon: option.iconName, selected: currentValue == option) {
