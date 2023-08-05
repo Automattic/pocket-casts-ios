@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import SafariServices
 import UIKit
+import Combine
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
     enum Tab { case podcasts, filter, discover, profile }
@@ -51,7 +52,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
 
         observersForEndOfYearStats()
+        addBookmarkCreatedToastHandler()
     }
+
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -579,6 +583,62 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
             controller.present(whatsNewViewController, animated: true)
+        }
+    }
+}
+
+// MARK: - Bookmarks
+
+private extension MainTabBarController {
+    // Shows a toast notification when a bookmark is created and we're not in the full screen player
+    func addBookmarkCreatedToastHandler() {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+        bookmarkManager.onBookmarkCreated
+            .receive(on: RunLoop.main)
+            .filter { event in
+                UIApplication.shared.applicationState == .active
+                && !SceneHelper.isConnectedToCarPlay
+                && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
+            }
+            .compactMap { event in
+                PlaybackManager.shared.bookmarkManager.bookmark(for: event.uuid)
+            }
+            .sink { [weak self] bookmark in
+                self?.showToast(for: bookmark)
+            }
+            .store(in: &cancellables)
+    }
+
+    func showToast(for bookmark: Bookmark) {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+
+        let title = bookmark.title
+        let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
+
+        let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle in
+                guard title != updatedTitle else { return }
+
+                self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
+            })
+
+            self?.present(controller, animated: true)
+        }
+
+        Toast.show(message, actions: [action], theme: .playerTheme)
+    }
+
+    func handleBookmarkTitleUpdated(updatedTitle: String) {
+        Toast.show(L10n.bookmarkUpdatedNotification(updatedTitle), actions: [
+            .init(title: L10n.bookmarkAddedButtonTitle, action: { [weak self] in
+                self?.showBookmarksInPlayer()
+            })
+        ], theme: .playerTheme)
+    }
+
+    func showBookmarksInPlayer() {
+        NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer {
+            NavigationManager.sharedManager.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
         }
     }
 }
