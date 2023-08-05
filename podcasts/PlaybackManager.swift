@@ -1466,22 +1466,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipBack(amount: skipEvent.interval)
             } else {
-                if let previousChapter = strongSelf.chapterManager.previousVisibleChapter(), Settings.remoteSkipShouldSkipChapters() {
-                    FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
-                    strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
-                } else {
-                    if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-                        if FeatureFlag.bookmarks.enabled {
-                            // TODO: Add detecting of a setting let the user choose to not override this
-                            strongSelf.bookmark()
-                        } else {
-                            strongSelf.lastSeekTime = Date()
-                            strongSelf.skipBack()
-                        }
-                    } else {
-                        FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
-                    }
-                }
+                strongSelf.handleRemoteAction(Settings.headphonesPreviousAction)
             }
 
             return .success
@@ -1496,17 +1481,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipForward(amount: skipEvent.interval)
             } else {
-                if let nextChapter = strongSelf.chapterManager.nextVisibleChapter(), Settings.remoteSkipShouldSkipChapters() {
-                    FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
-                    strongSelf.seekTo(time: ceil(nextChapter.startTime.seconds))
-                } else {
-                    if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-                        strongSelf.lastSeekTime = Date()
-                        strongSelf.skipForward()
-                    } else {
-                        FileLog.shared.addMessage("Remote control: nextTrackCommand ignored, too soon since previous command")
-                    }
-                }
+                strongSelf.handleRemoteAction(Settings.headphonesNextAction)
             }
 
             return .success
@@ -1607,8 +1582,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
         if addTarget {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount) { event -> MPRemoteCommandHandlerStatus in
+                let skipChapters = Settings.headphonesPreviousAction == .previousChapter
+
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let previousChapter = self.chapterManager.previousVisibleChapter() {
+                if skipChapters, let previousChapter = self.chapterManager.previousVisibleChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipBackTime())
                     if Int(interval) == ServerSettings.skipBackTime() {
                         FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
@@ -1635,8 +1612,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         let skipFwdAmount = TimeInterval(ServerSettings.skipForwardTime())
         if addTarget {
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount) { event -> MPRemoteCommandHandlerStatus in
+                let skipChapters = Settings.headphonesNextAction == .nextChapter
+
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let nextChapter = self.chapterManager.nextVisibleChapter() {
+                if skipChapters, let nextChapter = self.chapterManager.nextVisibleChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipForwardTime())
                     if Int(interval) == ServerSettings.skipForwardTime() {
                         FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
@@ -1897,6 +1876,42 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+}
+
+private extension PlaybackManager {
+    func handleRemoteAction(_ action: HeadphoneControlAction) {
+        switch action {
+        case .addBookmark:
+            bookmark()
+
+        case .previousChapter:
+            guard let chapter = chapterManager.previousVisibleChapter() else { fallthrough }
+            FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
+            seekTo(time: ceil(chapter.startTime.seconds))
+
+        case .skipBack:
+            skipFromRemote(isBack: true)
+
+        case .nextChapter:
+            guard let chapter = chapterManager.nextVisibleChapter() else { fallthrough }
+            FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
+            seekTo(time: ceil(chapter.startTime.seconds))
+
+        case .skipForward:
+            skipFromRemote(isBack: false)
+        }
+    }
+
+    func skipFromRemote(isBack: Bool) {
+        guard fabs(lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips else {
+            let command = isBack ? "previousTrackCommand" : "nextTrackCommand"
+            FileLog.shared.addMessage("Remote control: \(command) ignored, too soon since previous command")
+            return
+        }
+
+        lastSeekTime = Date()
+        isBack ? skipBack() : skipForward()
+    }
 }
 
 // MARK: - Bookmarks
