@@ -1,5 +1,6 @@
 import PocketCastsUtils
 import UIKit
+import CarPlay
 
 class SceneHelper {
     class func connectedScene() -> UIWindowScene? {
