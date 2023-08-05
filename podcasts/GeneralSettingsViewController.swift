@@ -9,8 +9,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, remoteSkipChapters, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.remoteSkipChapters], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
+    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -112,16 +112,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
                     Settings.trackValueChanged(.settingsGeneralSkipBackChanged, value: value)
                 }
             }
-
-            return cell
-        case .remoteSkipChapters:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-
-            cell.cellLabel.text = L10n.settingsGeneralRemoteSkipsChapters
-            cell.cellSwitch.isOn = Settings.remoteSkipShouldSkipChapters()
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(remoteSkipChanged(_:)), for: .valueChanged)
 
             return cell
         case .keepScreenAwake:
@@ -385,8 +375,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralSmartPlaybackSubtitle
         case .playUpNextOnTap:
             return Settings.playUpNextOnTap() ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
-        case .remoteSkipChapters:
-            return L10n.settingsGeneralRemoteSkipsChaptersSubtitle
         case .extraMediaActions:
             return L10n.settingsGeneralPlayBackActionsSubtitle
         case .legacyBluetooth:
@@ -461,10 +449,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     @objc private func extraMediaSessionActionsToggled(_ sender: UISwitch) {
         Settings.setExtraMediaSessionActionsEnabled(sender.isOn)
-    }
-
-    @objc private func remoteSkipChanged(_ sender: UISwitch) {
-        Settings.setRemoteSkipShouldSkipChapters(sender.isOn)
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
