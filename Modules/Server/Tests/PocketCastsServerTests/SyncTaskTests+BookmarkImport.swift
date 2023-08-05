@@ -10,6 +10,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
 
     override func setUp() {
         dataManager = DataManager(dbQueue: FMDatabaseQueue(), shouldCloseQueueAfterSetup: false)
+        dataManager.bookmarksEnabled = true
         bookmarkManager = dataManager.bookmarks
         syncTask = SyncTask(dataManager: dataManager)
     }
@@ -112,6 +113,13 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         syncTask.processServerData(response: .bookmarkResponse(count: count, deletedCount: deletedCount))
 
         XCTAssertEqual(bookmarkManager.allBookmarks().count, count - deletedCount)
+    }
+
+    func testBookmarksArentSyncedIfFeatureFlagIsOff() {
+        dataManager.bookmarksEnabled = false
+        syncTask.processServerData(response: .bookmarkResponse(count: 20, deletedCount: 4))
+
+        XCTAssertEqual(bookmarkManager.allBookmarks().count, 0)
     }
 
     // MARK: - Full Sync
