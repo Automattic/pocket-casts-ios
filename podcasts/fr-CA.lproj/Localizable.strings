@@ -131,6 +131,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Bienvenue à Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Ajouter un signet</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Ajouter éventuellement un titre pour identifier ce signet</string>
     <key>add_to_up_next</key>
     <string>Ajouter à la file d’attente Prochains épisodes</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Premiers</string>
     <key>back</key>
     <string>Revenir</string>
+    <key>bookmark_added</key>
+    <string>Signet ajouté</string>
+    <key>bookmark_added_button_title</key>
+    <string>Voir</string>
+    <key>bookmark_added_notification</key>
+    <string>Signet « %1$@ » ajouté</string>
+    <key>bookmark_default_title</key>
+    <string>Signet</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Voulez-vous vraiment supprimer ces signets ? Cette opération est irréversible !</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Supprimer les signets ?</string>
     <key>bookmarks</key>
     <string>Favoris</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ signets</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 signet</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>File d’attente Prochains épisodes</string>
     <key>change_app_icon</key>
     <string>Icône Changer d’application</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Modifier le titre qui identifie ce signet</string>
+    <key>change_bookmark_title</key>
+    <string>Modifier le titre</string>
     <key>change_email</key>
     <string>Changer d’adresse courriel</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@ podcasts partout avec</string>
     <string>Prochain épisode</string>
     <key>next_payment_format</key>
     <string>Prochain paiement : %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Réglages des écouteurs</string>
+    <key>no_bookmarks_message</key>
+    <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
+    <key>no_bookmarks_title</key>
+    <string>Aucun signet pour l’instant</string>
     <key>none</key>
     <string>Aucun</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@ essai gratuit de %1$@</string>
     <string>Renouveler votre abonnement</string>
     <key>retry</key>
     <string>Réessayer</string>
+    <key>save_bookmark</key>
+    <string>Sauvegarder le signet</string>
     <key>search</key>
     <string>Rechercher</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@ essai gratuit de %1$@</string>
     <string>Sélectionner tout ci-dessus</string>
     <key>select_all_below</key>
     <string>Sélectionner tout ci-dessous</string>
+    <key>select_bookmarks</key>
+    <string>Sélectionner des signets</string>
     <key>select_episodes</key>
     <string>Sélectionner des épisodes</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Trier par</string>
     <key>sort_episodes</key>
     <string>Trier les épisodes</string>
+    <key>sort_option_timestamp</key>
+    <string>Horodatage</string>
     <key>speed</key>
     <string>Vitesse</string>
     <key>star_episode</key>

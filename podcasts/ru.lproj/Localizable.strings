@@ -131,6 +131,8 @@
     <string>Добро пожаловать в Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Добавить закладку</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Добавьте название, чтобы отличать эту закладку от других</string>
     <key>add_to_up_next</key>
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@
     <string>Первый</string>
     <key>back</key>
     <string>Назад</string>
+    <key>bookmark_added</key>
+    <string>Закладка добавлена</string>
+    <key>bookmark_added_button_title</key>
+    <string>Просмотреть</string>
+    <key>bookmark_added_notification</key>
+    <string>Закладка «%1$@» добавлена</string>
+    <key>bookmark_default_title</key>
+    <string>Закладка</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Удалить закладки?</string>
     <key>bookmarks</key>
     <string>Закладки</string>
+    <key>bookmarks_count_plural</key>
+    <string>Закладки: %1$@</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 закладка</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@
     <string>Очередь «Следующие»</string>
     <key>change_app_icon</key>
     <string>Изменить значок приложения</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Измените название этой закладки</string>
+    <key>change_bookmark_title</key>
+    <string>Изменение названия</string>
     <key>change_email</key>
     <string>Изменить электронный адрес</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@
     <string>Следующий выпуск</string>
     <key>next_payment_format</key>
     <string>Следующий платеж: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Настройки наушников</string>
+    <key>no_bookmarks_message</key>
+    <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
+    <key>no_bookmarks_title</key>
+    <string>Пока нет закладок</string>
     <key>none</key>
     <string>Пусто</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@
     <string>Продлить подписку</string>
     <key>retry</key>
     <string>Повторить попытку</string>
+    <key>save_bookmark</key>
+    <string>Сохранить закладку</string>
     <key>search</key>
     <string>Поиск</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@
     <string>Выбрать все выше</string>
     <key>select_all_below</key>
     <string>Выбрать все ниже</string>
+    <key>select_bookmarks</key>
+    <string>Выбрать закладки</string>
     <key>select_episodes</key>
     <string>Выбрать выпуски</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@
     <string>Приоритет сортировки</string>
     <key>sort_episodes</key>
     <string>Упорядочить выпуски</string>
+    <key>sort_option_timestamp</key>
+    <string>Отметка времени</string>
     <key>speed</key>
     <string>Скорость</string>
     <key>star_episode</key>

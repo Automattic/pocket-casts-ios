@@ -131,6 +131,8 @@
     <string>欢迎使用 Pocket Casts Plus！</string>
     <key>add_bookmark</key>
     <string>添加书签</string>
+    <key>add_bookmark_subtitle</key>
+    <string>添加可选标题以识别此书签</string>
     <key>add_to_up_next</key>
     <string>添加到“接下来播放”</string>
     <key>after_playing</key>
@@ -233,8 +235,24 @@
     <string>首先</string>
     <key>back</key>
     <string>返回</string>
+    <key>bookmark_added</key>
+    <string>已添加书签</string>
+    <key>bookmark_added_button_title</key>
+    <string>查看</string>
+    <key>bookmark_added_notification</key>
+    <string>已添加书签“%1$@”</string>
+    <key>bookmark_default_title</key>
+    <string>书签</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>确定删除这些书签？书签一经删除不可恢复！</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>删除书签？</string>
     <key>bookmarks</key>
     <string>书签</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ 个书签</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 个书签</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +289,10 @@
     <string>“接下来播放”队列</string>
     <key>change_app_icon</key>
     <string>更改应用图标</string>
+    <key>change_bookmark_subtitle</key>
+    <string>更改识别此书签的标题</string>
+    <key>change_bookmark_title</key>
+    <string>更改标题</string>
     <key>change_email</key>
     <string>更改电子邮件地址</string>
     <key>change_email_conf</key>
@@ -1165,6 +1187,12 @@
     <string>下一集</string>
     <key>next_payment_format</key>
     <string>下次付款日期：%1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>耳机设置</string>
+    <key>no_bookmarks_message</key>
+    <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
+    <key>no_bookmarks_title</key>
+    <string>尚无书签</string>
     <key>none</key>
     <string>无</string>
     <key>not_on_wifi</key>
@@ -1751,6 +1779,8 @@
     <string>续订您的订阅</string>
     <key>retry</key>
     <string>重试</string>
+    <key>save_bookmark</key>
+    <string>保存书签</string>
     <key>search</key>
     <string>搜索</string>
     <key>search_label</key>
@@ -1777,6 +1807,8 @@
     <string>选择以上全部</string>
     <key>select_all_below</key>
     <string>选择以下全部</string>
+    <key>select_bookmarks</key>
+    <string>选择书签</string>
     <key>select_episodes</key>
     <string>选择剧集</string>
     <key>selected_count_format</key>
@@ -2313,6 +2345,8 @@
     <string>排序方式</string>
     <key>sort_episodes</key>
     <string>排列剧集</string>
+    <key>sort_option_timestamp</key>
+    <string>时间戳</string>
     <key>speed</key>
     <string>速度</string>
     <key>star_episode</key>
