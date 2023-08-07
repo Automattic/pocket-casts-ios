@@ -3837,6 +3837,18 @@
 /* Title of a button that takes the user to the headphone settings */
 "no_bookmarks_button_title" = "Headphone settings";
 
+/* Title of a message when no search results appear */
+"bookmark_search_no_results_title" = "No bookmarks found";
+
+/* Body of a message when no search results appear */
+"bookmark_search_no_results_message" = "We couldn't find any bookmarks for that search.";
+
+/* Title of a button the clears the current search text */
+"clear_search" = "Clear Search";
+
+/* Title of a button the clears the current search text */
+"episode_details_title" = "Details";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
