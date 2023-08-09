@@ -60,6 +60,11 @@ public class CacheServerHandler {
     // MARK: - Episode Artwork
 
     public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        guard Self.newShowNotesEndpoint else {
+            completion?(nil)
+            return
+        }
+
         episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
     }
 
