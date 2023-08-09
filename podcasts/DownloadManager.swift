@@ -18,6 +18,12 @@ class DownloadManager: NSObject, FilePathProtocol {
         var pendingWatchBackgroundTask: WKURLSessionRefreshBackgroundTask?
     #endif
 
+    #if !os(watchOS)
+         private lazy var episodeArtwork: EpisodeArtwork = {
+             EpisodeArtwork()
+         }()
+    #endif
+
     lazy var wifiOnlyBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
         config.allowsCellularAccess = false
@@ -163,6 +169,11 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // try and cache the show notes for this episode
         ShowNotesUpdater.updateShowNotesInBackground(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+
+        // try and cache the episode embedded artwork
+        #if !os(watchOS)
+        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        #endif
 
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
