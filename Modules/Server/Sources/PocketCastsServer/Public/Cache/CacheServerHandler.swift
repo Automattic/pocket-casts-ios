@@ -11,6 +11,10 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
+    private lazy var episodeInfoHandler = EpisodeInfoHandler()
+
+    public static var newShowNotesEndpoint: Bool = false
+
     public init() {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")

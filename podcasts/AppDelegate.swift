@@ -53,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
+        CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
+
         setupRoutes()
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
