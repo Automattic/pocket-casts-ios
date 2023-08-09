@@ -57,6 +57,12 @@ public class CacheServerHandler {
         }
     }
 
+    // MARK: - Episode Artwork
+
+    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
+    }
+
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
         let url = ServerHelper.colorUrl(podcastUuid: podcastUuid)
         var request = URLRequest(url: url)
