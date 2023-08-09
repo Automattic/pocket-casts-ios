@@ -29,6 +29,10 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    public var biggestPodcastImageSize: Int {
+        availablePodcastImageSizes.max()!
+    }
+
     private let availablePodcastImageSizes = [130, 210, 280, 340, 400, 420, 680, 960]
 
     // we store failed embed lookups in memory, just to stop us constantly parsing a file with no artwork for artwork
@@ -215,6 +219,11 @@ class ImageManager {
             return false
         }
 
+        if subscribedPodcastsCache.isCached(forKey: episode.uuid) {
+            loadEmbeddedArtwork(forKey: episode.uuid, into: imageView, completion: completion)
+            return true
+        }
+
         // loading episode artwork from downloaded files can be an expensive operation, so check to see if it's previously failed for this episode
         if episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
             if let embeddedImage = SJMediaMetadataHelper.embeddedImageForFile(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)) {
@@ -227,21 +236,19 @@ class ImageManager {
             }
         }
 
-        if subscribedPodcastsCache.isCached(forKey: episode.uuid) {
-            subscribedPodcastsCache.retrieveImage(forKey: episode.uuid, options: .none) { result in
-                switch result {
-                case .success(let imageCache):
-                    imageView?.image = imageCache.image
-                    completion?(imageCache.image)
-                default:
-                    break
-                }
-            }
-
-            return true
-        }
-
         return false
+    }
+
+    private func loadEmbeddedArtwork(forKey key: String, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) {
+        subscribedPodcastsCache.retrieveImage(forKey: key, options: .none) { result in
+            switch result {
+            case .success(let imageCache):
+                imageView?.image = imageCache.image
+                completion?(imageCache.image)
+            default:
+                break
+            }
+        }
     }
 
     // MARK: - UserEpisode Images
