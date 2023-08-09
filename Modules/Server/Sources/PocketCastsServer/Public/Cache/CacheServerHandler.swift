@@ -23,6 +23,11 @@ public class CacheServerHandler {
     // MARK: - Show Notes
 
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+        guard !Self.newShowNotesEndpoint else {
+            episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cached: cached, completion: completion)
+            return
+        }
+
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
         let request = URLRequest(url: url)
 
