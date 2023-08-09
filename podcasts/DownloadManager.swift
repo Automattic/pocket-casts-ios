@@ -162,7 +162,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         if downloadingToStream, episode.bufferedForStreaming() { return }
 
         // try and cache the show notes for this episode
-        ShowNotesUpdater.updateShowNotesInBackground(episodeUuid: episode.uuid)
+        ShowNotesUpdater.updateShowNotesInBackground(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
 
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
